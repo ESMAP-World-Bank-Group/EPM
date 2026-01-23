@@ -116,6 +116,7 @@ KEYS_RESULTS = {
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
     'pNetImport',
+    'pExtTransferLimit', 'pTradePrice',
     # 7. Emissions
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics
@@ -770,11 +771,17 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         from .single_country import generate_single_country_inputs
         log_info(f"Generating single-country inputs for: {focus_country}", logger=active_logger)
         hourly_price_df = epm_results.get('pHourlyPrice')
+        transmission_capacity_df = epm_results.get('pTransmissionCapacity')
+        ext_transfer_limit_df = epm_results.get('pExtTransferLimit')
+        trade_price_df = epm_results.get('pTradePrice')
         generate_single_country_inputs(
             folder_input=Path(folder_input),
             folder_output=Path(RESULTS_FOLDER),
             country=focus_country,
             hourly_price_df=hourly_price_df,
+            transmission_capacity_df=transmission_capacity_df,
+            ext_transfer_limit_df=ext_transfer_limit_df,
+            trade_price_df=trade_price_df,
             scenario_reference=scenario_reference
         )
         log_info(f"Single-country inputs generated for: {focus_country}", logger=active_logger)
