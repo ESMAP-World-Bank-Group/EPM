@@ -552,7 +552,7 @@ $onEmbeddedCode Connect:
     file: %pTransferLimit%
     name: pTransferLimit
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
@@ -616,6 +616,7 @@ $onEmbeddedCode Connect:
     file: %pMaxGenerationByFuel%
     name: pMaxGenerationByFuel
     indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
     header: [1]
     type: par

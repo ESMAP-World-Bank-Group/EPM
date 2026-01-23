@@ -67,7 +67,7 @@ from postprocessing.postprocessing import postprocess_output
 
 PATH_GAMS = {
     'path_main_file': 'main.gms',
-    'path_base_file': 'base.gms',
+    'path_base_file': 'base_phaseout.gms',
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
     'path_demand_file': 'generate_demand.gms',
@@ -75,7 +75,7 @@ PATH_GAMS = {
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_FILE_PATH = Path(BASE_DIR) / f"epm_{datetime.datetime.now().strftime("%H_%M_%S")}.log"
+LOG_FILE_PATH = Path(BASE_DIR) / "epm.log"
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 _ENV_FLAG = "EPM_LOG_INITIALIZED"
 

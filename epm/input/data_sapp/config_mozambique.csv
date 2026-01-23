@@ -3,7 +3,7 @@ modeltype type (MIP or RMIP),modeltype,RMIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,GENERAL,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
-Planning horizon years (Unit: year),y,y_alt.csv
+Planning horizon years (Unit: year),y,y.csv
 Mapping between model zones and countries (Unit: unitless),zcmap,single_country_mozambique/zcmap_mozambique.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,LOAD,
@@ -33,6 +33,7 @@ System-wide spinning reserve requirement (Unit: MW),pSpinningReserveReqSystem,re
 System-level annual emissions cap (Unit: tCO2),pEmissionsTotal,constraint/pEmissionsTotal.csv
 Country-level annual emissions caps (Unit: tCO2),pEmissionsCountry,constraint/pEmissionsCountry.csv
 Maximum fuel consumption limits by zone and fuel (Unit: MMBtu),pMaxFuellimit,constraint/pMaxFuellimit.csv
+Maximum generation by zone-tech-fuel for phase-out scenarios (Unit: GWh),pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv
 Carbon pricing trajectory (Unit: USD/tCO2),pCarbonPrice,constraint/pCarbonPrice.csv
 ,TRADE,
 External trading zones (Unit: unitless),zext,single_country_mozambique/zext_mozambique.csv
