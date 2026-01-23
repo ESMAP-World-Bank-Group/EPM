@@ -77,7 +77,7 @@ RENAME_COLUMNS_MAP = {
 CUMULATIVE_FILES = [
     ('pNewCapacityTechFuel', 'pNewCapacityTechFuelCumulated'),
     ('pCapexInvestmentComponent', 'pCapexInvestmentComponentCumulated'),
-    ('pYearlyDiscountedWeightedCostsZone', 'pYearlyDiscountedWeightedCostsZoneCumulated'),
+    ('pDiscountedWeightedCosts', 'pDiscountedWeightedCostsCumulated'),
 ]
 
 # Files to fill with all (tech, fuel) combinations and add Processing column
