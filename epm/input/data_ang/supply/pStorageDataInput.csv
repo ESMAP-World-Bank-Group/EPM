@@ -1,0 +1,2 @@
+﻿g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+New_BESS_AGO,Angola,Storage,Battery,,3,2027,2047,,4000,,100,20000000,,0.9,,,,,180,,,,,,,,,,,,,,,
