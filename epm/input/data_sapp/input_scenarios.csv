@@ -1,4 +1,4 @@
-paramNames,baseline,delayedHydro,delayedTransmission,EarlyCoalPhaseout_SA,HighRECapex,delHydro_CoalPhaseOut,delayedTrans_CoalPhaseOut
+paramNames,baseline,delayedHydro,delayedTransmission,EarlyCoalPhaseout_SA,HighRECapex,delHydro_CoalPhaseOut,delTrans_CoalPhaseOut
 modeltype,MIP,MIP,MIP,MIP,MIP,MIP,MIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
 pSettings,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv
