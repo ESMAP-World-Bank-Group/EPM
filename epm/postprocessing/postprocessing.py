@@ -774,6 +774,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         transmission_capacity_df = epm_results.get('pTransmissionCapacity')
         ext_transfer_limit_df = epm_results.get('pExtTransferLimit')
         trade_price_df = epm_results.get('pTradePrice')
+        zone_country_df = epm_results.get('pZoneCountry')
         generate_single_country_inputs(
             folder_input=Path(folder_input),
             folder_output=Path(RESULTS_FOLDER),
@@ -782,6 +783,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             transmission_capacity_df=transmission_capacity_df,
             ext_transfer_limit_df=ext_transfer_limit_df,
             trade_price_df=trade_price_df,
+            zone_country_df=zone_country_df,
             scenario_reference=scenario_reference
         )
         log_info(f"Single-country inputs generated for: {focus_country}", logger=active_logger)
