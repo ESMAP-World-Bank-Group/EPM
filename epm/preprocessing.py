@@ -432,7 +432,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                     param = 'pAvailabilityDefault'
                     availability_default = pd.read_csv(s[name][param], index_col=[0, 1, 2]).copy()
                     # availability_default.columns = availability_default.columns.astype(float)
-                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
+                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'f']]
                     tech_list = ['ROR', 'ReservoirHydro']
                     if 'ALL' in affected_zones:
                         mask = availability_default.index.get_level_values('tech').isin(tech_list)
@@ -451,11 +451,11 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                     availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
 
                     gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
-                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
+                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'f']]
                     availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
-                    availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
+                    availability_custom.set_index(['gen', 'zone', 'tech', 'f'], inplace=True)
 
-                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
+                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'f']]
                     if 'ALL' in affected_zones:
                         mask = availability_custom.index.get_level_values('tech').isin(tech_list)
 
@@ -464,7 +464,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                                (availability_custom.index.get_level_values('tech').isin(tech_list))
 
                     availability_custom.loc[mask, cols] *= (1 + val)
-                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'f'], axis=0)
 
                     save_new_dataframe(availability_custom, scenarios_montecarlo, param, val, name=name_scenario)
 
@@ -565,7 +565,7 @@ def perform_sensitivity(sensitivity, s):
             for fuel in fuels_to_remove:
                 df = pd.read_csv(s[scenario]['pGenDataInput'])
                 # For fuel that matches (case-insensitive) and Status is 2 or 3, set Status to 0 (candidate generators become unavailable)
-                mask = (df['fuel'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
+                mask = (df['f'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
                 df.loc[mask, 'Status'] = 0
 
                 scenario_name = _with_assessment_suffix(scenario, f"No{fuel}")
@@ -684,7 +684,7 @@ def perform_sensitivity(sensitivity, s):
         for scenario in base_scenarios:
             for val in trade_price_sensi:
                 df = pd.read_csv(s[scenario]['pTradePrice'])
-                cols = [c for c in df.columns if c not in ['zext', 'q', 'daytype', 'y']]
+                cols = [c for c in df.columns if c not in ['zext', 'q', 'd', 'y']]
                 df[cols] = df[cols].astype(float)
                 df.loc[:, cols] *= (1 + val)
 
@@ -720,8 +720,8 @@ def perform_sensitivity(sensitivity, s):
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            df.loc[df['fuel'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
-                                                                              i not in ['zone', 'tech', 'fuel']]] = val
+            df.loc[df['f'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
+                                                                              i not in ['zone', 'tech', 'f']]] = val
 
             val_name = str(val).replace('.', '')
             scenario_name = f'baseline~{param}~{val_name}'
@@ -737,7 +737,7 @@ def perform_sensitivity(sensitivity, s):
 
         df = pd.read_csv(s['baseline'][param])
 
-        cols = [i for i in df.columns if i not in ['zone', 'tech', 'fuel']]
+        cols = [i for i in df.columns if i not in ['zone', 'tech', 'f']]
         df.loc[:, cols] = 1
 
         scenario_name = f'baseline~{param}~flat'
@@ -755,7 +755,7 @@ def perform_sensitivity(sensitivity, s):
         for val in fuel_price_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            cols = [i for i in df.columns if i not in ['c', 'fuel']]
+            cols = [i for i in df.columns if i not in ['c', 'f']]
             df.loc[:, cols] *= (1 + val)
 
             val_name = str(val).replace('.', '')
@@ -774,7 +774,7 @@ def perform_sensitivity(sensitivity, s):
         for val in reslimshare_sensi:
 
             df = pd.read_csv(s['baseline'][parameter])
-            df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
+            df.loc[df['f'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
 
             val_name = str(val).replace('.', '')
             scenario_name = f'baseline~{parameter}~{param}~{val_name}'
@@ -804,7 +804,7 @@ def perform_sensitivity(sensitivity, s):
         # For gen with Candidate name, status 3, fuel Solar, Wind, Battery, divide the BuildLimitperYear by 2
         df = pd.read_csv(s['baseline'][parameter])
 
-        df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['fuel'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
+        df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['f'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
 
         scenario_name = f'baseline~{parameter}~{param}~reduced'
         path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_reduced')
@@ -818,7 +818,7 @@ def perform_sensitivity(sensitivity, s):
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of delayed hydro projects
         df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
-        df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
+        df.loc[(df['f'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
 
         scenario_name = f'baseline~{param}~5years'
         path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_5years')
@@ -877,41 +877,108 @@ def perform_assessment(generator_assessment, s):
     return s
 
 
+def _merge_input_files(baseline_path: Path, project_path: Path, output_path: Path) -> Path:
+    """
+    Merge a project delta file into a baseline input file.
+    Works for both pGenDataInput and pStorageDataInput.
+
+    - Existing records (matching g,z,tech,f): overwritten with project values
+    - New records: added
+
+    Parameters
+    ----------
+    baseline_path : Path
+        Path to the baseline CSV file
+    project_path : Path
+        Path to the project delta CSV file
+    output_path : Path
+        Path where the merged file will be written
+
+    Returns
+    -------
+    Path
+        Path to the merged output file
+    """
+    baseline_df = pd.read_csv(baseline_path)
+    project_df = pd.read_csv(project_path)
+
+    # Handle column name variations (g vs gen)
+    g_col = 'g' if 'g' in baseline_df.columns else 'gen'
+    if g_col not in project_df.columns:
+        alt_col = 'gen' if g_col == 'g' else 'g'
+        if alt_col in project_df.columns:
+            project_df = project_df.rename(columns={alt_col: g_col})
+
+    # Primary key for matching
+    key_cols = [g_col, 'z', 'tech', 'f']
+
+    merged = pd.concat([baseline_df, project_df], ignore_index=True)
+    merged = merged.drop_duplicates(subset=key_cols, keep='last')
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    merged.to_csv(output_path, index=False)
+    return output_path
+
+
 def perform_project_assessment(project_assessment, s):
     """
-    Build assessment scenarios using an existing pGenDataInput variant (suffix or filename).
-    Always looks for the project file relative to baseline's pGenDataInput location.
+    Build assessment scenarios using delta project files.
+
+    Supports multiple projects (space-separated):
+        --project_assessment "ers epbih ephzhb"
+
+    For each project, merges:
+        - pGenDataInput_{project}.csv into baseline pGenDataInput
+        - pStorageDataInput_{project}.csv into baseline pStorageDataInput (if exists)
+
+    Parameters
+    ----------
+    project_assessment : str
+        Space-separated list of project names (suffixes).
+        Example: "ers epbih ephzhb"
+    s : dict
+        Scenario dictionary
+
+    Returns
+    -------
+    dict
+        Updated scenario dictionary with new project assessment scenarios
     """
-    try:
-        new_s = {}
-        # Always use baseline path to find the project assessment file
-        baseline_path = Path(s['baseline']['pGenDataInput'])
-        baseline_dir = baseline_path.parent
+    new_s = {}
+    baseline_path = Path(s['baseline']['pGenDataInput'])
+    baseline_dir = baseline_path.parent
+    assessment_folder = _get_assessment_folder(baseline_path)
 
-        if Path(project_assessment).is_absolute():
-            candidate = Path(project_assessment)
-        else:
-            if project_assessment.endswith(".csv"):
-                candidate = baseline_dir / project_assessment
-            else:
-                suffix = project_assessment
-                if not suffix.startswith('_'):
-                    suffix = f"_{suffix}"
-                candidate_name = f"{baseline_path.stem}{suffix}{baseline_path.suffix}"
-                candidate = baseline_dir / candidate_name
+    # Support multiple projects (space-separated)
+    projects = project_assessment.split()
 
-        if not candidate.exists():
-            raise FileNotFoundError(f"Project assessment file {candidate.resolve()} not found.")
+    for project in projects:
+        suffix = project if project.startswith('_') else f"_{project}"
+        label = project.strip('_') or "project"
 
-        label = candidate.stem.replace('pGenDataInput', '').strip('_') or "project"
+        # Find delta files
+        gen_project = baseline_dir / f"pGenDataInput{suffix}.csv"
+        storage_project = baseline_dir / f"pStorageDataInput{suffix}.csv"
+
+        if not gen_project.exists():
+            raise FileNotFoundError(f"Project file {gen_project.resolve()} not found.")
 
         for scenario in list(s.keys()):
             scenario_name = f"{scenario}@{label}"
             new_s[scenario_name] = s[scenario].copy()
-            new_s[scenario_name]['pGenDataInput'] = str(candidate)
 
-    except Exception:
-        raise KeyError('Error in project_assessment features')
+            # Merge pGenDataInput
+            current_gen = Path(s[scenario]['pGenDataInput'])
+            merged_gen = assessment_folder / f"pGenDataInput_merged_{label}.csv"
+            _merge_input_files(current_gen, gen_project, merged_gen)
+            new_s[scenario_name]['pGenDataInput'] = str(merged_gen)
+
+            # Merge pStorageDataInput (if delta exists)
+            if storage_project.exists() and 'pStorageDataInput' in s[scenario]:
+                current_storage = Path(s[scenario]['pStorageDataInput'])
+                merged_storage = assessment_folder / f"pStorageDataInput_merged_{label}.csv"
+                _merge_input_files(current_storage, storage_project, merged_storage)
+                new_s[scenario_name]['pStorageDataInput'] = str(merged_storage)
 
     s.update(new_s)
     return s

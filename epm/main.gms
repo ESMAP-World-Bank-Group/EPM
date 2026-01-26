@@ -185,6 +185,7 @@ Parameter
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
+   pMaxGenerationByFuel(z,tech,f,y)                      'Max annual generation by zone-tech-fuel [GWh]'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
 * Storage and transmission
@@ -266,10 +267,12 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+
+
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -362,8 +365,7 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 $gdxunload input_treated.gdx 
+$gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 
@@ -469,6 +471,7 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
+fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
@@ -582,7 +585,7 @@ stp(g) = gtechmap(g,"STOPV");
 stg(g) = gtechmap(g,"Storage");
 
 * Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
-st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage");
+st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage") or  gtechmap(g,"Storage1H") or  gtechmap(g,"Storage2H") or  gtechmap(g,"Storage3H") or  gtechmap(g,"Storage4H") or  gtechmap(g,"Storage5H") or  gtechmap(g,"Storage6H");
 
 * Define generators with capex trajectory data
 dc(g)  = sum(y, pCapexTrajectories(g,y));
@@ -714,7 +717,15 @@ vCap.up(g,y) = pGenData(g,"Capacity");
 vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 
 * Set the upper limit for new generation builds per year, accounting for the annual build limit and year weighting
-vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+* Exclude committed generators - they use Capacity directly, not BuildLimitperYear
+vBuild.up(ng,y)$(not gstatusmap(ng,'committed')) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+
+* Force committed generators (status=2) to be built at their start year.
+* Unlike candidates, committed generators are not optional - they must be built.
+* They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
+* Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
+vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
+vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");

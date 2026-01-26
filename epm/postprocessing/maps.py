@@ -1193,7 +1193,7 @@ def make_interconnection_map(zone_map, df, centers, column='value', color_col=No
     Parameters:
     - zone_map: pd.DataFrame
     GeoDataFrame containing the map regions.
-    - pAnnualTransmissionCapacity: pd.DataFrame
+    - pTransmissionCapacity: pd.DataFrame
      Dataframe containing transmission capacities (zone_from, zone_to, value).
     - centers: dict
     Dictionary mapping zones to their center coordinates.
@@ -1610,9 +1610,9 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
         return df_sum
  
     if selected_scenarios is None:
-        selected_scenarios = list(epm_results['pAnnualTransmissionCapacity'].scenario.unique())
+        selected_scenarios = list(epm_results['pTransmissionCapacity'].scenario.unique())
 
-    years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
+    years = epm_results['pTransmissionCapacity']['year'].unique()
 
     def _is_enabled(name):
         if figure_is_active is not None:
@@ -1635,7 +1635,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                 'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
             raise  # Re-raise the exception for debuggings
 
-        capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+        capa_transmission = epm_results['pTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
         utilization_transmission['value'] = utilization_transmission['value'] * 100  # percentage
         # We sum utilization across both directions, and keep the direction with the maximum utilization (for arrows on graph)

@@ -135,7 +135,7 @@ NAME_COLUMNS = {
     'pDispatchTechFuel': 'fuel',
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
-    'pYearlyCostsZone': 'attribute',
+    'pCosts': 'attribute',
     'pCapacityTechFuel': 'fuel',
     'pEnergyTechFuel': 'fuel',
     'pDispatchReserve':'attribute',
@@ -653,7 +653,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
     # Remove unused technologies/plants that are lower to simplify plots
-    list_keys = ['pReserveSpinningPlantCountry', 'pPlantReserve', 'pCapacityPlant']
+    list_keys = ['pPlantReserve', 'pCapacityPlant']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -679,16 +679,12 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     # Align naming across every fuel-based output now shipped with EPM
     tech_fuel_outputs = [
         'pEnergyTechFuel',
-        'pEnergyTechFuelCountry',
         'pEnergyTechFuelComplete',
         'pCapacityTechFuel',
-        'pCapacityTechFuelCountry',
         'pNewCapacityTechFuel',
-        'pNewCapacityTechFuelCountry',
         'pUtilizationTechFuel',
         'pDispatchTechFuel',
         'pGeneratorTechFuel'
-        
     ]
     # Transform tech-fuel in one column
     for key in tech_fuel_outputs:
@@ -754,100 +750,108 @@ def generate_summary(epm_results, folder):
     """
 
     summary = {}
-    
+
+    # Get zone-to-country mapping for later use
+    zcmap = epm_results['pZoneCountry'].set_index('zone')['country'].to_dict()
+
+    # Helper function to ensure all required columns exist
+    def ensure_columns(df, source_type='zone'):
+        """Ensure dataframe has all required columns: scenario, country, zone, attribute, resolution, year, value"""
+        required_cols = ['scenario', 'country', 'zone', 'attribute', 'resolution', 'year', 'value']
+
+        # Add missing columns with appropriate defaults
+        if 'country' not in df.columns:
+            if source_type == 'system':
+                df['country'] = 'System'
+            elif 'zone' in df.columns:
+                df['country'] = df['zone'].map(zcmap)
+            else:
+                df['country'] = ''
+
+        if 'zone' not in df.columns:
+            if source_type == 'system':
+                df['zone'] = 'System'
+            else:
+                df['zone'] = ''
+
+        if 'resolution' not in df.columns:
+            df['resolution'] = ''
+
+        if 'year' not in df.columns:
+            df['year'] = ''
+
+        return df[required_cols]
+
     # 1. Costs
-        
-    if 'pCostsSystem' in epm_results.keys():
-        t = epm_results['pCostsSystem'].copy()
-        summary.update({'pCostsSystem': t})
+
+    if 'pNetPresentCostSystem' in epm_results.keys():
+        t = epm_results['pNetPresentCostSystem'].copy()
+        t = ensure_columns(t, source_type='system')
+        summary.update({'pNetPresentCostSystem': t})
     else:
-        log_warning('No pCostsSystem in epm_results')
-        
-    if 'pCostsSystemPerMWh' in epm_results.keys():
-        t = epm_results['pCostsSystemPerMWh'].copy()
+        log_warning('No pNetPresentCostSystem in epm_results')
+
+    if 'pNetPresentCostSystemPerMWh' in epm_results.keys():
+        t = epm_results['pNetPresentCostSystemPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
-        summary.update({'pCostsSystemPerMWh': t})
+        t = ensure_columns(t, source_type='system')
+        summary.update({'pNetPresentCostSystemPerMWh': t})
     else:
-        log_warning('No pCostsZonePerMWh in epm_results')
+        log_warning('No pNetPresentCostSystemPerMWh in epm_results')
 
-    if 'pCostsZonePerMWh' in epm_results.keys():
-        t = epm_results['pCostsZonePerMWh'].copy()
+    if 'pNetPresentCostPerMWh' in epm_results.keys():
+        t = epm_results['pNetPresentCostPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
-        summary.update({'pCostsZonePerMWh': t})
+        t = ensure_columns(t)
+        summary.update({'pNetPresentCostPerMWh': t})
     else:
-        log_warning('No pCostsZonePerMWh in epm_results')
+        log_warning('No pNetPresentCostPerMWh in epm_results')
 
-    if 'pCostsCountryPerMWh' in epm_results.keys():
-        t = epm_results['pCostsCountryPerMWh'].copy()
-        t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
-        summary.update({'pCostsCountryPerMWh': t})
-    else:
-        log_warning('No pCostsCountryPerMWh in epm_results')
-
-    if 'pYearlyCostsCountry' in epm_results.keys():
-        t = epm_results['pYearlyCostsCountry'].copy()
-        summary.update({'pYearlyCostsCountry': t})
-    else:
-        log_warning('No pYearlyCostsCountry in epm_results')
-
-    if 'pYearlyCostsZone' in epm_results.keys():
-        t = epm_results['pYearlyCostsZone'].copy()
+    if 'pCosts' in epm_results.keys():
+        t = epm_results['pCosts'].copy()
         t = t[t['value'] > 1e-2]
-        summary.update({'pYearlyCostsZone': t})
+        t = ensure_columns(t)
+        summary.update({'pCosts': t})
     else:
-        log_warning('No pYearlyCostsZone in epm_results')
+        log_warning('No pCosts in epm_results')
 
     # 2. Capacity
-    
+
     if 'pCapacityTechFuel' in epm_results.keys():
         t = epm_results['pCapacityTechFuel'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
+        t = ensure_columns(t)
         summary.update({'pCapacityTechFuel': t})
     else:
         log_warning('No pCapacityTechFuel in epm_results')
-
-    if 'pCapacityTechFuelCountry' in epm_results.keys():
-        t = epm_results['pCapacityTechFuelCountry'].copy()
-        t['attribute'] = 'Capacity: MW'
-        t.rename(columns={'fuel': 'resolution'}, inplace=True)
-        t = t[t['value'] > 1e-2]
-        summary.update({'pCapacityTechFuelCountry': t})
-    else:
-        log_warning('No pCapacityTechFuelCountry in epm_results')
 
     if 'pNewCapacityTechFuel' in epm_results.keys():
         t = epm_results['pNewCapacityTechFuel'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
+        t = ensure_columns(t)
         summary.update({'pNewCapacityTechFuel': t})
     else:
         log_warning('No pNewCapacityTechFuel in epm_results')
 
-    if 'pNewCapacityTechFuelCountry' in epm_results.keys():
-        t = epm_results['pNewCapacityTechFuelCountry'].copy()
-        t['attribute'] = 'New Capacity: MW'
-        t.rename(columns={'fuel': 'resolution'}, inplace=True)
-        t = t[t['value'] > 1e-2]
-        summary.update({'pNewCapacityTechFuelCountry': t})
-    else:
-        log_warning('No pNewCapacityTechFuelCountry in epm_results')
-
-    if 'pAnnualTransmissionCapacity' in epm_results.keys():
-        t = epm_results['pAnnualTransmissionCapacity'].copy()
-        t['attribute'] = 'Annual Transmission Capacity: MW'
+    if 'pTransmissionCapacity' in epm_results.keys():
+        t = epm_results['pTransmissionCapacity'].copy()
+        t['attribute'] = 'Transmission Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
-        summary.update({'pAnnualTransmissionCapacity': t})
+        t = ensure_columns(t)
+        summary.update({'pTransmissionCapacity': t})
     else:
-        log_warning('No pAnnualTransmissionCapacity in epm_results')
-        
+        log_warning('No pTransmissionCapacity in epm_results')
+
     if 'pNewTransmissionCapacity' in epm_results.keys():
         t = epm_results['pNewTransmissionCapacity'].copy()
         t['attribute'] = 'New Transmission Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
+        t = ensure_columns(t)
         summary.update({'pNewTransmissionCapacity': t})
     else:
         log_warning('No pNewTransmissionCapacity in epm_results')
@@ -858,6 +862,7 @@ def generate_summary(epm_results, folder):
         t = epm_results['pEnergyBalance'].copy()
         t = t[t['value'] > 1e-2]
         t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
+        t = ensure_columns(t)
         summary.update({'pEnergyBalance': t})
     else:
         log_warning('No pEnergyBalance in epm_results')
@@ -867,58 +872,55 @@ def generate_summary(epm_results, folder):
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
+        t = ensure_columns(t)
         summary.update({'pEnergyTechFuel': t})
     else:
         log_warning('No pEnergyTechFuel in epm_results')
-    
-    if 'pEnergyTechFuelCountry' in epm_results.keys():
-        t = epm_results['pEnergyTechFuelCountry'].copy()
-        t['attribute'] = 'Energy: GWh'
-        t.rename(columns={'fuel': 'resolution'}, inplace=True)
-        t = t[t['value'] > 1e-2]
-        summary.update({'pEnergyTechFuelCountry': t})
-    else:
-        log_warning('No pEnergyTechFuelCountry in epm_results')
-       
+
     # 5. Reserves
-    
+
     if 'pReserveSpinningPlantZone' in epm_results.keys():
         t = epm_results['pReserveSpinningPlantZone'].copy()
         t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
         t['attribute'] = 'Spinning Reserve: GWh'
+        t = ensure_columns(t)
         summary.update({'pReserveSpinningPlantZone': t})
     else:
         log_warning('No pReserveSpinningPlantZone in epm_results')
 
-    if 'pReserveMarginCountry' in epm_results.keys():
-        t = epm_results['pReserveMarginCountry'].copy()
+    if 'pReserveMargin' in epm_results.keys():
+        t = epm_results['pReserveMargin'].copy()
         t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
-        summary.update({'pReserveMarginResCountry': t})
+        t = ensure_columns(t)
+        summary.update({'pReserveMargin': t})
     else:
-        log_warning('No pReserveMarginCountry in epm_results')
+        log_warning('No pReserveMargin in epm_results')
 
     # 6. Interconnections
-    
+
     if 'pInterchange' in epm_results.keys():
         t = epm_results['pInterchange'].copy()
         t['attribute'] = 'Annual Energy Exchanges: GWh'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
         summary.update({'pInterchange': t})
     else:
         log_warning('No pInterchange in epm_results')
-            
+
     if 'pInterchangeExternalExports' in epm_results.keys():
         t = epm_results['pInterchangeExternalExports'].copy()
         t['attribute'] = 'Annual Energy Exports External: GWh'
         t.rename(columns={'zext': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
         summary.update({'pInterchangeExternalExports': t})
     else:
         log_warning('No pInterchangeExternalExports in epm_results')
-        
+
     if 'pInterchangeExternalImports' in epm_results.keys():
         t = epm_results['pInterchangeExternalImports'].copy()
         t['attribute'] = 'Annual Energy Imports External: GWh'
         t.rename(columns={'zext': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
         summary.update({'pInterchangeExternalImports': t})
     else:
         log_warning('No pInterchangeExternalImports in epm_results')
@@ -928,6 +930,7 @@ def generate_summary(epm_results, folder):
     if 'pEmissionsZone' in epm_results.keys():
         t = epm_results['pEmissionsZone'].copy()
         t['attribute'] = 'Emissions: MtCO2'
+        t = ensure_columns(t)
         summary.update({'pEmissionsZone': t})
     else:
         log_warning('No pEmissionsZone in epm_results')
@@ -935,18 +938,20 @@ def generate_summary(epm_results, folder):
     if 'pEmissionsIntensityZone' in epm_results.keys():
         t = epm_results['pEmissionsIntensityZone'].copy()
         t['attribute'] = 'Emissions: tCO2/GWh'
+        t = ensure_columns(t)
         summary.update({'pEmissionsIntensityZone': t})
     else:
         log_warning('No pEmissionsIntensityZone in epm_results')
 
     # 8. Prices
-    
-    if 'pYearlyPrice' in epm_results.keys():
-        t = epm_results['pYearlyPrice'].copy()
+
+    if 'pPrice' in epm_results.keys():
+        t = epm_results['pPrice'].copy()
         t['attribute'] = 'Price: $/MWh'
-        summary.update({'pYearlyPrice': t})
+        t = ensure_columns(t)
+        summary.update({'pPrice': t})
     else:
-        log_warning('No pYearlyPrice in epm_results')
+        log_warning('No pPrice in epm_results')
 
 
     # Concatenate all dataframes in the summary dictionary
@@ -994,15 +999,12 @@ def generate_summary(epm_results, folder):
     summary.reset_index(drop=True, inplace=True)
     summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
     summary.reset_index(inplace=True)
-    #summary = summary.sort_values()
-    
+
     if False:
         # Create a mapping of attributes to their position in the list
         order_dict = {attr: index for index, attr in enumerate(order)}
         summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
 
-    zone_to_country = epm_results['pZoneCountry'].set_index('zone')['country'].to_dict()    
-    summary['country'] = summary['country'].fillna(summary['zone'].map(zone_to_country))
     # Remove duplicates
     
     def drop_redundant_country_rows(df):

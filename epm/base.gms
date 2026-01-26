@@ -203,6 +203,7 @@ Parameters
    fEnableCapacityExpansion
    fApplyRampConstraint           'Enable ramping constraints'
    fApplyFuelConstraint           'Enable fuel availability limits'
+   fApplyGenerationPhaseout       'Enable max generation by fuel constraint (phase-out)'
    fApplyCapitalConstraint        'Enable total capital constraint'
    fEnableCSP                     'Enable CSP features'
    fEnableStorage                 'Enable storage operations'
@@ -418,6 +419,7 @@ Equations
 * ------------------------------
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
+   eMaxGenerationByFuel(z,tech,f,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
 
 * ------------------------------
 * Ramp and reserve constraints
@@ -477,6 +479,7 @@ Equations
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
+   eStorageFixedDuration(g,y)          'Fixed storage duration when specified'
    eStorageHourTransition
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
    eStorageSOCInitDispatch
@@ -777,6 +780,10 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
+* Phase-out constraint: limits annual generation by zone-technology-fuel combination
+eMaxGenerationByFuel(z,tech,f,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
+   sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))/1e3 =l= pMaxGenerationByFuel(z,tech,f,y);
+
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
     sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinGenShareAllHours");
@@ -978,6 +985,10 @@ eSOCUpperBound(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 * Prevents storage being used to meet reserves only
 eStorageCapMinConstraint(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vCapStor(st,y) =g= vCap(st,y);
+
+* Enforces fixed storage duration when StorageDuration parameter is specified
+eStorageFixedDuration(st,y)$(fEnableStorage and pStorageData(st,"StorageDuration"))..
+   vCapStor(st,y) =e= vCap(st,y) * pStorageData(st,"StorageDuration");
 
 * Charging power ≤ power capacity
 eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
@@ -1210,6 +1221,7 @@ Model PA /
    
    eVREProfile
    eFuelLimit
+   eMaxGenerationByFuel
    eCapitalConstraint
    eZonalEmissions
    eEmissionsCountry
@@ -1235,6 +1247,7 @@ Model PA /
    
    eSOCUpperBound
    eStorageCapMinConstraint
+   eStorageFixedDuration
    eChargeCapacityLimit
    eChargeLimitWithPVProfile
    eChargeRampDownLimit

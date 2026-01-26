@@ -32,8 +32,7 @@ $if not set TRACE $set TRACE 0
 
 * Shared resources folder (headers and lookup tables - constant across all input folders)
 * Use modeldir (set in main.gms) to ensure correct path regardless of working directory
-$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
-
+$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "C:\Users\user\Dropbox\A_ConsultingProjects\Bangladesh\EPM\epm\resources"
 * Define by default path
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
@@ -103,6 +102,7 @@ $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPric
 $if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/pEmissionsCountry.csv
 $if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
 $if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
+$if not set pMaxGenerationByFuel $set pMaxGenerationByFuel %FOLDER_INPUT%/constraint/pMaxGenerationByFuel.csv
 
 * H2 RELATED
 $if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
@@ -607,6 +607,15 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxGenerationByFuel%
+    name: pMaxGenerationByFuel
+    indexSubstitutions: {.nan: ""}
+    indexColumns: [1, 2, 3]
     header: [1]
     type: par
 
