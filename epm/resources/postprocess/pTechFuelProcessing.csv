@@ -3,17 +3,22 @@ tech,fuel,Processing,Color
 Nuclear,Uranium,Nuclear,pink
 CCGT,Gas,CCGT-Gas,lightcoral
 CCGT,LNG,CCGT-LNG,indianred
+CCGT,Diesel,CCGT-Diesel ,darkolivegreen
 ST,Coal,ST-Coal,dimgray
 ST,DomesticCoal,ST-DomesticCoal,dimgray
 ST,ImportedCoal,ST-ImportedCoal,silver
 ST,Geothermal,ST-Geothermal,mediumturquoise
 ST,Lignite,ST-Lignite,lightgray
+ST,Gas,ST-Gas,indianred
+ST,HFO,ST-HFO,dimgray
 OCGT,Diesel,GT-Diesel,darksalmon
 OCGT,Gas,GT-Gas,firebrick
 OCGT,LNG,GT-LNG,darkgoldenrod
 OCGT,HFO,GT-HFO,saddlebrown
 ICE,Diesel,ICE-Diesel,lightsalmon
 ICE,HFO,ICE-HFO,sandybrown
+ICE,Gas,ICE-Gas,peru
+ICE,LNG,ICE-LNG,goldenrod
 BiomassPlant,Biomass,Biomass,green
 ReservoirHydro,Water,Reservoir,darkblue
 ROR,Water,ROR,lightskyblue
