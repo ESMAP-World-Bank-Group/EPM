@@ -1,0 +1,15 @@
+﻿parameter,sensitivity
+pSettings,
+y,
+pDemandForecast,0.1&-0.1
+TradePrice,
+pDemandProfile,
+pAvailabilityDefault,
+pCapexTrajectoriesDefault,
+pFuelPrice,
+ResLimShare,
+BuildLimitperYear,
+pVREProfile,
+interco,
+ExternalExchange,
+RemoveGenericTechnologies,

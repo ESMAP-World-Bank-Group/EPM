@@ -1,0 +1,489 @@
+﻿g,dry,wet
+23 MWp Solar PV,1,1
+250 MW gas-fired combined-cycle power plant,0.85,0.85
+8MWh_4h_Gambia,1,1
+Abatta1,0.85,0.85
+Abatta2,0.85,0.85
+Abatta3,0.85,0.85
+Aboisso,0.85,0.85
+Aboisso(Biokala),0.85,0.85
+Adjarala,0.25,0.3
+AFAM TTP,0.85,0.85
+AFAM TTP_Part2,0.85,0.85
+AGADEZ,0.85,0.85
+agadezpv,1,1
+Aggreko_cot_IPP,0.85,0.85
+Aggreko_ext_cot,0.85,0.85
+AGGREKO_ngr_IPP,0.85,0.85
+Akosombo,0.6,0.6
+Akpakpa1,0.85,0.85
+Akpakpa2,0.85,0.85
+AKSA_IPP,0.85,0.85
+AKSA_IPP_Conv,0.85,0.85
+Alaoji TPP,0.85,0.85
+Albatros,0.85,0.85
+Amandi_IPP,0.85,0.85
+Amaria,0.412,0.579
+AMERI_4units_IPP,0.85,0.85
+AMERI_6units_IPP,0.85,0.85
+Arafat Rehab (2 gr),0.85,0.85
+Aska Balkou,0.85,0.85
+Atinkou -  TAV,0.85,0.85
+Atinkou - TAG,0.85,0.85
+Ayame1,0.466,0.541
+Ayame2,0.31,0.361
+Azito_IPP,0.85,0.85
+AzitoIV1_IPP,0.85,0.85
+AzitoIV2_IPP,0.85,0.85
+Azura-Edo IPP,0.85,0.85
+Baghan,0.108,0.352
+BAGRE,0.061,0.061
+BagreII,0.06,0.06
+Balingue,0.85,0.85
+Balingue Deutz,0.85,0.85
+BalingueBID,0.85,0.85
+Baneah,0.4,0.6
+BEKONGOR-III_HY,0.06,0.49
+Bel-airTAG4,0.85,0.85
+Beni Naji,0.85,0.85
+BESS AKUO 3h,1,1
+BESS axian de Tankanto 3h,1,1
+BESS DIASS  1h,1,1
+BESS Dioudoubou 3h,1,1
+BESS KIAT 1h,1,1
+BESS nexentury 1h,1,1
+BESS NIAKHAR STORAGE 3h,1,1
+BESS Serengeti 3h,1,1
+BESS TAMBACOUNDA 2h,1,1
+BESS Walo Storage 2h,1,1
+BESS Yekepa / Buchanan 15 /60,1,1
+Beterou,0.348,0.489
+Bissau_Bafata_Cacheu,1,1
+BLACKHALL ROAD NEW_IC_HFO,0.85,0.85
+Blitta Extension,1,1
+Blitta Solar Power Station,1,1
+BOBOII,0.85,0.85
+Bonkon-Diaria,0.211,0.455
+Bontioli,0.102,0.152
+Bor(BOAD),0.85,0.85
+Boulenouar,1,1
+Boulenouar II,1,1
+Boureya,0.266,0.186
+Boutoubre,0.463,0.628
+Boutoute (G805-806-807),1,1
+Boutoute Ext (G805-806-807),1,1
+Boutoute G831_836,1,1
+Brikama,0.85,0.85
+Brikama3,0.85,0.85
+Brou Attakro,0.25,0.7
+BUI (BXC solar)_IPP,1,1
+Bui_IPP,0.21,0.21
+BUMBUNA-I_HY,0.05,0.56
+BUMBUNA-II_HY,0.05,0.55
+Bushrod,0.85,0.85
+Buyo,0.448,0.612
+C6_BelAir,0.934,0.934
+CALABAR/Odukpami,0.85,0.85
+CALABAR_Part2,0.85,0.85
+CAND_GT_HFO,0.85,0.85
+CAND_IC_Diesel,0.85,0.85
+Cap-des-BichesTAG2,0.9,0.9
+CC_GAS_CAND_MAU,0.85,0.85
+CC_GAS_COT,0.85,0.85
+CC_GAS_LNG_BEN,0.85,0.85
+CC_GAS_LNG_GHA,0.85,0.85
+CC_GAS_LNG_TOG,0.85,0.85
+CCGT Saint Louis,0.881,0.881
+CCGT Saint Louis - Extension,0.866,0.866
+CCGT Saint Louis - ST,0.84,0.84
+CCGT WAE,0.775,0.775
+CCGT WAE Cap des Biches - LNG,0.745,0.745
+CCGT WAE Cap des Biches Ext- Dual,0.745,0.745
+CCGT_TOG,0.85,0.85
+CENIT_IPP,0.85,0.85
+CENPOWER_IPP,0.85,0.85
+CENPOWER2_IPP,0.85,0.85
+Centrale BID Sirakoro (100 MW),0.85,0.85
+Centrale d'appoint 2023,0.85,0.85
+Centrale Solaire de Bondoukou - AMEA POWER,1,1
+Centrale Solaire de Boundiali Phase 1,1,1
+Centrale Solaire de Ferke II SHIBA ENERGY,1,1
+Centrale Solaire de Ferkessedougou PFO ENERGIE,1,1
+Centrale Solaire de Katiola JC-MONFORT,1,1
+Centrale Solaire de Kong  AFRICA VIA,1,1
+Centrale Solaire de Laboa - SCALING SOLAR,1,1
+Centrale Solaire de Mankono TECMON ENERGY,1,1
+Centrale Solaire de Odienne PFO ENERGIE,1,1
+Centrale Solaire de Serebou - CI-ENERGIES,1,1
+Centrale Solaire de Soubre CI-ENERGIES,1,1
+Centrale Solaire de Tengrela - EKDS,1,1
+Centrale Solaire de Tongon - EKDS,1,1
+Centrale Solaire de Touba SCALING SOLAR,1,1
+Centrale thermique AKSA Taboth - TAG 1,0.85,0.85
+Centrale thermique AKSA Taboth TAG 2,0.85,0.85
+Centrale thermique AKSA Taboth_TAV,0.85,0.85
+Centrale thermique Publique TAG,0.85,0.85
+Centrale thermique Publique TAV,0.85,0.85
+CICAD_Diamiadio,1,1
+CICAD_Diamiadio II,1,1
+CIII_Vapeur,0.85,0.85
+Ciprel1_IPP,0.85,0.85
+Ciprel2_IPP,0.85,0.85
+Ciprel3_IPP,0.85,0.85
+Ciprel4_IPP,0.85,0.85
+Ciprel5_IPP,0.85,0.85
+CIV_Diesel_E,1,1
+CIV_Diesel_E_Glo,1,1
+Contour Global_IPP,0.963,0.963
+CONTOURGLGlo-Dual,0.963,0.963
+ContourGlobal_IPP,0.85,0.85
+CVI- Dual,0.934,0.934
+Daboitie,0.244,0.637
+Daboya,0.52,0.52
+Dadin Mando,0.1,0.18
+Dapaong RESPITE,1,1
+Darsalam,0.85,0.85
+DEDOUGOU,0.85,0.85
+DELTA,0.85,0.85
+Diallol,0.32,0.446
+Diareguela,0.248,0.216
+Diass,1,1
+DIESEL_HFO,0.85,0.85
+DIFFA,0.85,0.85
+Digan,0.2,0.201
+Djenne,0.181,0.299
+DO_Tamba,0.85,0.85
+Donkea,0.64,0.803
+DORI,0.85,0.85
+DUALE Gaz,0.85,0.85
+DualFuel_CAND_Gambia,0.85,0.85
+EarlyPower_U1_IPP,0.85,0.85
+EarlyPower_U2_IPP,0.85,0.85
+EGBIN,0.85,0.85
+EGBIN_Part2,0.85,0.85
+Eolien sarreole,1,1
+EPC CCGT GTI2_Domestic Gas- Dual,0.913,0.913
+EPC CCGT GTI2_GNL ELTON,0.913,0.913
+Existing_gen_lib,0.85,0.85
+Extension de la Centrale de Boundiali - CI-ENERGIES,1,1
+FADA,0.85,0.85
+FADA2,0.85,0.85
+Farankonedou,0.193,0.369
+Faye,0.002,0.006
+Fello Sounga,0.299,0.355
+FELOU_MAL,0.5,0.5
+Felou_MAU,0.61,0.64
+FELOU_SEN,0.533,0.755
+Fetore,0.161,0.448
+FIESS,0.85,0.85
+Folonzo,0.112,0.167
+Fomi,0.39,0.327
+Former Agoe-Nyive landfill site,1,1
+Gambou,0.01,0.18
+GAOUA,0.85,0.85
+Garafiri,0.412,0.437
+GAYA1,0.85,0.85
+GAYA2,0.85,0.85
+Gbegamey,0.85,0.85
+GDE_IPP,0.85,0.85
+Generic Gas Plant CCGT,0.85,0.85
+Generic Gas Plant GT,0.85,0.85
+Genser,0.85,0.85
+GEREGU TTP,0.85,0.85
+Ghana_PV,1,1
+Gongourou,0.157,0.234
+GOROUBANDA,0.85,0.85
+GorouBanda1,1,1
+GOROUBANDA2,0.85,0.85
+GOUDEL1,0.85,0.85
+GOUDEL2,0.85,0.85
+Gouina_Water,0.31,0.57
+Gouina_mali,0.5,0.5
+Gouina_SEN,0.43,0.61
+Gourbassi_MAU,0.31,0.57
+Grand Chutes,0.591,0.76
+Grand Kinkon,0.125,0.519
+Gribo-Popoli,0.457,0.632
+Groupes secours SBEE,1,1
+Groupes supplementaires,0.85,0.85
+Groupes supplementaires HFO,0.85,0.85
+GT_Benin,0.85,0.85
+GT_Burkina,0.85,0.85
+GT_CAND_MAU,0.85,0.85
+GT_Ghana,0.85,0.85
+GT_Mali,0.85,0.85
+GT_Niger,0.85,0.85
+GT_Togo,0.85,0.85
+GTA_MAU,0.85,0.85
+Guozoguezia,0.549,0.505
+Gurara,0.18,0.67
+Hakkunde-Mitti,0.249,0.431
+Hemang,0.167,0.53
+HFO IPP_Contour Global_GNL ELTON,0.963,0.963
+HFO IPP_Malicounda_GNL ELTON,0.87,0.87
+HFO IPP_Tobene Power_GNL ELTON,0.976,0.976
+HFO Senelec_C-4_Ext_GNL ELTON,1,1
+HFO Senelec_C-6_GNL ELTON,0.934,0.934
+HFO/GAS Karpower 125 MW ,0.91,0.91
+HFO/GAS Karpower 220 MW,0.957,0.957
+HFO_NEW_Burkina,0.85,0.85
+HFO_NEW_Gambia,0.85,0.85
+HFO_NEW_GuineaBissau,0.85,0.85
+HFO_NEW_Liberia,0.85,0.85
+HFO_NEW_Niger,0.85,0.85
+HFO_NEW_SierraLeone,0.85,0.85
+HYD_CAND_BEN,0.342,0.482
+HYD_CAND_BUR,0.155,0.231
+HYD_CAND_GHA,0.33,0.43
+HYD_CAND_MAL,0.4,0.5
+HYD_CAND_NGR,0.3,0.3
+Ibom TPP,0.85,0.85
+IHOVBOR NIP,0.85,0.85
+IPP 50 mW,1,1
+JBSWindpowerplant_IPP,1,1
+JEBBA_North,0.04,0.25
+Juale,0.096,0.431
+Kahone,0.85,0.85
+Kahoune _ CVII_Diesel,0.888,0.888
+Kahoune _HFO Senelec_C-7_Domestic Gas,0.888,0.888
+Kahoune _HFO Senelec_C-7_GNL ELTON,0.888,0.888
+KAINJI_North,0.18,0.18
+KAINJI_North_Part2,0.163,0.333
+Kaleo,1,1
+Kaleta,0.502,0.593
+Kaloum1_IPP,0.85,0.85
+Kaloum2_IPP,0.85,0.85
+Kaloum3_IPP,0.85,0.85
+Kaloum5,0.85,0.85
+Kandadji,0.6,0.4
+Kara,1,1
+Karpower 125 MW,0.917,0.917
+Karpower 220 MW,0.917,0.917
+Karpower_IPP,0.85,0.85
+KarPower_IPP_Cot,0.85,0.85
+KARPOWERIII_IPP,0.85,0.85
+KARPOWERSHIP_IC_IPP,0.85,0.85
+Karpowership_IPP,0.85,0.85
+Kassa,0.209,0.203
+Kekeli Thermal Power Station,1,1
+Ketou,0.194,0.42
+Kipe_IPP,0.85,0.85
+Kodeni_PV,1,1
+Kogebedou,0.338,0.258
+Kokumno,0.25,0.7
+KOMPIENGA,0.1,0.1
+KOMSILGA,0.85,0.85
+Korafindi,0.415,0.467
+KORHOGO_IPP,1,1
+KOSSODO1,0.85,0.85
+KOSSODO2,0.85,0.85
+Kossou,0.115,0.081
+Koukoutamba,0.188,0.157
+Koukoutamba + Boureya,0.31,0.57
+Kounoune_IPP,0.85,0.85
+Kouravel,0.217,0.458
+Kpessi,0.182,0.298
+Kpong,0.48,0.52
+KTPP1_IPP,0.85,0.85
+Kulpawn,0.169,0.169
+Lawra,1,1
+Loc. AKSA Sirakoro - 30 MW,0.85,0.85
+Loc. BDK Kati,0.85,0.85
+Lome1,0.85,0.85
+Lome2,0.85,0.85
+Louga 1,0.23,0.7
+Louga 2,0.23,0.7
+Mabon,0.195,0.297
+MALBAZA,0.85,0.85
+Malicounda - Dual,0.87,0.87
+Malicounda_IPP_HFO,0.87,0.87
+Mambila,0.43,0.43
+MANANTALI_mali,0.45,0.45
+Manantali_MAU,0.31,0.57
+MANANTALI_Sen,0.375,0.531
+MARADI,0.85,0.85
+MariaGleta,0.85,0.85
+MariaGleta2_IPP,0.85,0.85
+MariaGleta3,0.85,0.85
+Mboro_IPP_AESA,1,1
+Mboro_IPP_AESA - Ext,1,1
+Meinenergy_IPP,1,1
+Morisanako,0.334,0.347
+MountCoffeeReservoir,0.4,0.72
+MTCoffee_ext,0.4,0.72
+Nagreongo,1,1
+Nangbeto,0.22,0.28
+Natitingou,0.85,0.85
+Navrongo,1,1
+N'dieliesso,0.25,0.7
+New_HFO,0.85,0.85
+Niagara,0.178,0.155
+NIAMEY,0.85,0.85
+NIOFILA,0.095,0.364
+Nouadhibou_New_Plant,0.85,0.85
+Nouakchott_Dual_Power,0.85,0.85
+Nouakchott_Est_Solar,1,1
+Nouakchott_Wharf_Plant,0.85,0.85
+Nouakchott_Wind_Plant,1,1
+Nouakchott_Zayed_Solar,1,1
+Nzebela,0.388,0.426
+OFSHORE_WIND_GHA,0.85,1
+OFSHORE_WIND_COT,0.85,1
+OFSHORE_WIND_GAM,0.85,1
+OFSHORE_WIND_GBI,0.85,1
+OFSHORE_WIND_LIB,0.85,1
+OFSHORE_WIND_MAU,0.85,1
+OFSHORE_WIND_NGA,0.85,1
+OFSHORE_WIND_SIL,0.85,1
+OFSHORE_WIND_TOG,0.85,1
+OKPAI TTP,0.85,0.85
+Olorunsogo I TPP,0.85,0.85
+Olorunsogo NIPP,0.85,0.85
+Omoku TPP,0.85,0.85
+OMOTOSHO TTP,0.85,0.85
+ONSHORE_WIND_BEN,1,1
+ONSHORE_WIND_GHA,1,1
+Ouaga NO,1,1
+OUAGAI,0.85,0.85
+OUAGAII,0.85,0.85
+Ouaga-NordOuest,0.85,0.85
+OUAHIGOUYA,0.85,0.85
+Ouessa,0.155,0.231
+Oulougbe,0.348,0.489
+Pa_PV,1,1
+Parakou1,0.85,0.85
+POROPOWER_IPP,1,1
+Porto-Novo,0.85,0.85
+Poudalde,0.323,0.558
+Powership1_IPP,0.85,0.85
+Powership2_IPP,0.85,0.85
+Projet BESS 2030,1,1
+Projets types de 100 MW,0.85,0.85
+Projets types de 40 MW,0.85,0.85
+PV_Akuo,1,1
+PV_CAND_Benin,1,1
+PV_CAND_Burkina,1,1
+PV_CAND_Gambia,1,1
+PV_CAND_Ghana,1,1
+PV_CAND_Guinea,1,1
+PV_CAND_GuineaBissau,1,1
+PV_CAND_IvoryCoast,1,1
+PV_CAND_Liberia,1,1
+PV_CAND_Mali,1,1
+PV_CAND_Mauritania_grid,1,1
+PV_CAND_Niger,1,1
+PV_CAND_Nigeria,1,1
+PV_CAND_SierraLeone,1,1
+PV_CAND_Togo,1,1
+Pwalugu,0.44,0.44
+Rehab Arafat 4 gr,0.85,0.85
+Rehab Wharf,0.85,0.85
+RemainingNigerCapacity,0.85,0.85
+Reserve Akjoujt,0.85,0.85
+Respite_PV,1,1
+Respite_PV_SR,1,1
+RIVERS IPP TTP,0.85,0.85
+SALKADAMNAphase1,0.85,0.85
+SALKADAMNAphase2,0.85,0.85
+SALKADAMNAphase3,0.85,0.85
+Saltinho,0.03,0.49
+Sambangalou_SEN_IPP,0.341,0.483
+Samendini,0.22,0.22
+SanPedroI1,0.85,0.85
+SanPedroI2,0.85,0.85
+Sapele TPP,0.85,0.85
+Sarakawa,0.181,0.297
+SELINGUE,0.14,0.5
+Sendou1,0.92,0.92
+SES Darsalam - 10 MW,0.85,0.85
+SES(Lafia_Badala),0.85,0.85
+SHIRORO_North,0.32,0.7
+Singrobo,0.239,0.623
+SNIM Zouerate,0.85,0.85
+Sokode,0.85,0.85
+Sokode PV,1,1
+Solaire IPP 1,1,1
+Solaire IPP 2,1,1
+Solaire IPP 3,1,1
+Solaire IPP 4,1,1
+Solaire SNIM (15 MWc),1,1
+Solaire_Pobe,1,1
+Solaire_Pobe_ext,1,1
+Solar Kiffa 50 MWc,1,1
+Solar Nema 50 MWc,1,1
+Solar Yekepa / Buchanan,1,1
+SOLEN_GloDjigb,1,1
+Songon1,0.85,0.85
+Songon2,0.85,0.85
+Songon3,0.85,0.85
+SONICHAR Phase I,0.85,0.85
+SONICHAR Phase II,0.85,0.85
+SONICHAR2,0.85,0.85
+Sotuba,0.596,0.421
+Souapiti,0.484,0.54
+Soubre,0.405,0.565
+SP2_150,0.42,0.79
+SP2_161,0.42,0.83
+Storage_CAND_2026_Senegal,1,1
+Storage_CAND_2027_Benin,1,1
+Storage_CAND_2027_Burkina,1,1
+Storage_CAND_2027_Gambia,1,1
+Storage_CAND_2027_Ghana,1,1
+Storage_CAND_2027_Guinea,1,1
+Storage_CAND_2027_GuineaBissau,1,1
+Storage_CAND_2027_IvoryCoast,1,1
+Storage_CAND_2027_Liberia,1,1
+Storage_CAND_2027_Mali,1,1
+Storage_CAND_2027_Mauritania_grid,1,1
+Storage_CAND_2027_Niger,1,1
+Storage_CAND_2027_Nigeria,1,1
+Storage_CAND_2027_SierraLeone,1,1
+Storage_CAND_2027_Togo,1,1
+Storage_Pobe,1,1
+Sunbird Bioenergy,0.85,0.85
+SUNSONASOGLI_IPP,0.85,0.85
+SUNSONASOGLI2_IPP,0.85,0.85
+Taabo,0.202,0.548
+TAHOUA1,0.85,0.85
+TAHOUA2,0.85,0.85
+TAPCO_IPP,0.85,0.85
+TAPCO_T3,0.85,0.85
+Tayaboui,0.177,0.684
+Te_IPP,0.85,0.85
+Tetetou,0.3,0.37
+Tiassale,0.148,0.594
+Tiboto/Cavally,0.21,0.661
+TICO,0.85,0.85
+Tiopo,0.585,0.366
+Titira,0.12,0.3
+Tobene - Dual,0.976,0.976
+Tobene_IPP,0.976,0.976
+TOURNI,0.03,0.15
+TRANSAMADI,0.85,0.85
+TT1PP,0.85,0.85
+TT2PP,0.85,0.85
+Vossa,0.348,0.489
+Vridi,0.85,0.85
+Water_Kaleta_viaGuinea,0.46,0.46
+Water_Koukoutamba,0.29,0.29
+Water_Souapiti_viaGuinea,0.51,0.51
+Wawa,0.185,0.303
+Wind 120 MW,1,1
+WIND_CAND_BUR,1,1
+WIND_CAND_COT,1,1
+WIND_CAND_GAM,1,1
+WIND_CAND_GBI,1,1
+WIND_CAND_MAL,1,1
+WIND_CAND_MAU,1,1
+WIND_CAND_NGA,1,1
+WIND_CAND_NGR,1,1
+WIND_CAND_TOG,1,1
+Winneba (BXC solar)_IPP,1,1
+WND_CAND_22_SIL,1,1
+Yeripao,0.469,0.522
+Zagtouli,1,1
+Zano,1,1
+Ziga,1,1
+Ziga/Gaoua,1,1
+Zina Solaire,1,1
+ZINDER,0.85,0.85
