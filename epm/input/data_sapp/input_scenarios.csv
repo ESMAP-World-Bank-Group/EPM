@@ -1,5 +1,5 @@
 paramNames,baseline,delayedHydro,delayedTransmission,EarlyCoalPhaseout_SA,HighRECapex,delHydro_CoalPhaseOut,delTrans_CoalPhaseOut
-modeltype,MIP,MIP,MIP,MIP,MIP,MIP,MIP
+modeltype,RMIP,RMIP,RMIP,RMIP,RMIP,RMIP,RMIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
 pSettings,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv
 y,y.csv,y.csv,y.csv,y.csv,y.csv,y.csv,y.csv
@@ -35,7 +35,7 @@ pLossFactorInternal,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,
 pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv
 pMinImport,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv
 pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel_CoalSA.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel_CoalSA.csv,constraint/pMaxGenerationByFuel_CoalSA.csv
-pNewTransmission,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/sensitivity/delayedTransmission.csv,trade/pNewTransmission.csv,trade/sensitivity/delayedTransmission.csv,trade/pNewTransmission.csv,trade/sensitivity/delayedTransmission.csv
+pNewTransmission,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/sensitivity/delayedTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/sensitivity/delayedTransmission.csv
 pTradePrice,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv
 pTransferLimit,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv
 pH2DataExcel,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv
