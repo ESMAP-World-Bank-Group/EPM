@@ -229,28 +229,30 @@ Geographic mapping for visualization. Maps EPM zone names to GeoJSON identifiers
 ### Format
 
 ```csv
-EPM,Geojson,region,division
+epm_zone,source_name,subregion,split
 ```
 
 | Column | Required | Description |
 |--------|----------|-------------|
-| `EPM` | Yes | Zone name in your model |
-| `Geojson` | Yes | Zone/country name in GeoJSON file (matches ADMIN field) |
-| `region` | No | For split zones: north, south, east, west, center |
-| `division` | No | Split pattern: NS (North-South), EW (East-West), NSE (3-way), NCS (3 bands) |
+| `epm_zone` | Yes | Zone name in your EPM model |
+| `source_name` | Yes | Zone/country name in GeoJSON file (matches ADMIN field) |
+| `subregion` | No | For split zones: north, south, east, west, center |
+| `split` | No | Split pattern: NS (North-South), EW (East-West), NSE (3-way), NCS (3 bands) |
 
 ### Examples
 
 **Simple zones (no splitting):**
+
 ```csv
-EPM,Geojson,region,division
+epm_zone,source_name,subregion,split
 Angola,Angola,,
 Kenya,Kenya,,
 ```
 
 **Split zones (dividing a country into sub-regions):**
+
 ```csv
-EPM,Geojson,region,division
+epm_zone,source_name,subregion,split
 DRC,Democratic Republic of the Congo,north,NSE
 DRC_South,Democratic Republic of the Congo,south,NSE
 DRC_East,Democratic Republic of the Congo,east,NSE
