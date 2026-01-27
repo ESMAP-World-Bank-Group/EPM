@@ -15,7 +15,7 @@ This dashboard directly uses the CSV files exported during EPM runs. No manual d
 
 The folder structure should look like this:
 ```plaintext
-├── ESMAP_Tableau.twb
+├── EPM_Report.twb
 ├── ESMAP_logo.png
 ├── linestring_countries.geojson
 ├── Page de garde.png
@@ -35,7 +35,7 @@ Drag and drop your simulation results into the `scenarios/` folder. Each scenari
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
-The `ESMAP_Tableau.twb` file can be downloaded from [here](https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/main/docs/dwld/ESMAP_Tableau.twb)
+The `EPM_Report.twb` file can be downloaded from [here](https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/main/docs/dwld/EPM_Report.twb)
 
 ## 2. Generate `linestring_countries.geojson` and add to the directory
 

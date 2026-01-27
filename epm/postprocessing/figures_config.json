@@ -14,8 +14,8 @@
         "CapacityMixEvolutionZone": true,
         "CapacityMixZoneScenarios": true,
         "CapacityMixZoneScenariosRelative": true,
-        "NewCapacityZoneInstalledTimeline": true,
-        "NewCapacitySystemInstalledTimeline": true
+        "NewCapacityZoneInstalledTimeline": false,
+        "NewCapacitySystemInstalledTimeline": false
       }
     },
     "costs": {
@@ -76,10 +76,10 @@
     "maps": {
       "enabled": true,
       "figures": {
-        "TransmissionCapacityMap": false,
-        "TransmissionCapacityMapEvolution": false,
-        "TransmissionUtilizationMap": false,
-        "TransmissionUtilizationMapEvolution": false,
+        "TransmissionCapacityMap": true,
+        "TransmissionCapacityMapEvolution": true,
+        "TransmissionUtilizationMap": true,
+        "TransmissionUtilizationMapEvolution": true,
         "NetExportsMap": true,
         "InteractiveMap": true
       }

@@ -46,7 +46,7 @@ from pathlib import Path
 
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Point
 
 # Suppress warning about centroid on geographic CRS - acceptable for visualization
 warnings.filterwarnings('ignore', message=".*Geometry is in a geographic CRS.*", category=UserWarning)
@@ -60,6 +60,7 @@ if str(REPO_ROOT) not in sys.path:
 
 # Importing utility functions for data processing using the package path
 from epm.postprocessing.maps import get_json_data, create_zonemap
+from epm.postprocessing.utils import log_warning, log_info
 
 
 def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
@@ -165,15 +166,36 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
 
     zone_map_gdf, centers = create_zonemap(zone_map_gdf, map_geojson_to_epm=geojson_to_epm_dict)
 
-    # Processing for Tableau use
-    countries_shapefile = zone_map_gdf.copy()
-    countries_shapefile['geometry'] = countries_shapefile.centroid
-    countries_shapefile = countries_shapefile.set_index('ADMIN')
+    # Zone mapping diagnostics - only warn if there are issues
+    zones_with_geometry = list(centers.keys())
+    zones_missing_geometry = [z for z in selected_zones if z not in centers]
 
-    # Assign EPM zone names to geometries using the mapping
-    # geojson_to_epm_dict is {epm_name: geojson_name}, we need reverse mapping
-    geojson_to_epm_reverse = {v: k for k, v in geojson_to_epm_dict.items()}
-    countries_shapefile['z'] = countries_shapefile.index.map(geojson_to_epm_reverse)
+    if zones_missing_geometry:
+        log_warning(
+            f"Linestring GeoJSON: {len(zones_missing_geometry)} zones missing map geometry:\n"
+            f"  {zones_missing_geometry}\n"
+            f"  To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
+        )
+
+    # Determine output file path (needed for empty case)
+    if output_path is not None:
+        output_file = os.path.join(output_path, 'linestring_countries.geojson')
+    else:
+        output_file = os.path.join('..', 'output', folder, 'linestring_countries.geojson')
+
+    if not centers:
+        log_warning(f"No zones have map geometry - creating empty linestring GeoJSON.")
+        empty_gdf = gpd.GeoDataFrame(geometry=[], crs="EPSG:4326")
+        empty_gdf.to_file(output_file, driver='GeoJSON')
+        return empty_gdf
+
+    # Build GeoDataFrame from centers (already has EPM zone names as keys)
+    countries_shapefile = gpd.GeoDataFrame(
+        {'z': list(centers.keys())},
+        geometry=[Point(coords) for coords in centers.values()],
+        crs="EPSG:4326"
+    )
+
     countries_shapefile = countries_shapefile.reset_index(drop=True)
 
     # Create pairwise combinations (excluding self) to generate lines between all zones
@@ -227,11 +249,7 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     result_df = result_df.reset_index().set_index('z_other')
     result_df['c2'] = zcmap_df[country_col]
 
-    # Determine output file path
-    if output_path is not None:
-        output_file = os.path.join(output_path, 'linestring_countries.geojson')
-    else:
-        output_file = os.path.join('..', 'output', folder, 'linestring_countries.geojson')
+    # output_file was already determined earlier in the function
 
     result_df.to_file(output_file, driver='GeoJSON')
     return result_df

@@ -47,12 +47,19 @@ from .utils import *
 from .plots import subplot_pie, make_fuel_dispatchplot
 
 
-_GEOJSON_HEADER = "Geojson,EPM,region,country,division"
+# Required CSV format for zone-to-GeoJSON mapping
+_GEOJSON_HEADER = "epm_zone,source_name,subregion,split"
 
 
 def _read_geojson_mapping(path):
     """
-    Read a GeoJSON-to-EPM mapping CSV while normalizing repeated header rows.
+    Read a GeoJSON-to-EPM mapping CSV.
+
+    Required format: epm_zone,source_name,subregion,split
+    - epm_zone: Zone name in the EPM model (required)
+    - source_name: Zone/country name in GeoJSON file matching ADMIN field (required)
+    - subregion: For split zones only - north/south/east/west/center
+    - split: For split zones only - NS/EW/NSE/NCS
 
     Some exported CSVs append the header again without a newline, causing pandas
     to fail when parsing. This helper inserts the missing newline and removes
@@ -61,8 +68,17 @@ def _read_geojson_mapping(path):
     with open(path, encoding='utf-8-sig') as fp:
         raw_text = fp.read()
 
+    # Check for required header format
     if _GEOJSON_HEADER not in raw_text:
-        return pd.read_csv(path)
+        raise ValueError(
+            f"Invalid geojson_to_epm.csv format in {path}\n"
+            f"  Required header: {_GEOJSON_HEADER}\n"
+            f"  Columns:\n"
+            f"    - epm_zone: Zone name in your EPM model\n"
+            f"    - source_name: Zone name in GeoJSON file (matches ADMIN field)\n"
+            f"    - subregion: Optional, for split zones (north/south/east/west/center)\n"
+            f"    - split: Optional, split pattern (NS/EW/NSE/NCS)"
+        )
 
     pattern = r'(?<=.)(?<![\r\n])' + re.escape(_GEOJSON_HEADER)
     normalized_text = re.sub(pattern, '\n' + _GEOJSON_HEADER, raw_text)
@@ -112,9 +128,79 @@ def create_zonemap(zone_map, map_geojson_to_epm):
         for _, row in zone_map.iterrows()
     }
 
+    # Report unmapped zones
+    all_geojson_zones = set(centers.keys())
+    mapped_zones = set(map_geojson_to_epm.keys())
+    unmapped = all_geojson_zones - mapped_zones
+
+    if unmapped:
+        log_warning(f"Zones in GeoJSON but not in mapping (will be skipped): {list(unmapped)}")
+
     centers = {map_geojson_to_epm[c]: v for c, v in centers.items() if c in map_geojson_to_epm}
 
+    if not centers:
+        log_warning(
+            f"No zone centers could be extracted. Map visualization will be empty.\n"
+            f"  - GeoJSON zones available: {list(all_geojson_zones)}\n"
+            f"  - Mapping expects: {list(map_geojson_to_epm.keys())}"
+        )
+
     return zone_map, centers
+
+
+def create_zone_map_context(epm_results, dict_specs):
+    """
+    Create a validated ZoneMapContext from model results.
+
+    Uses pZoneCountry as the single source of truth for which zones to include.
+    This function centralizes all zone validation logic to ensure consistent
+    handling across all map generation functions.
+
+    Parameters
+    ----------
+    epm_results : dict
+        Dictionary containing EPM results, must include 'pZoneCountry'.
+    dict_specs : dict
+        Dictionary with mapping specifications from read_plot_specs().
+
+    Returns
+    -------
+    ZoneMapContext
+        A validated context object containing:
+        - model_zones: zones from pZoneCountry (source of truth)
+        - zones_with_geometry: zones that have GeoJSON boundaries
+        - zones_mapped: successfully mapped zones
+        - zones_missing_geometry: zones that cannot be visualized
+        - zone_map: filtered GeoDataFrame
+        - centers: zone centroid coordinates
+        - geojson_to_epm: mapping dictionary
+    """
+    # Source of truth: zones from the actual model run
+    model_zones = list(epm_results['pZoneCountry']['zone'].unique())
+
+    # Get zone geometries filtered to model zones only
+    zone_map, geojson_to_epm = get_json_data(
+        selected_zones=model_zones,
+        dict_specs=dict_specs
+    )
+
+    # Extract centroids (create_zonemap also does validation)
+    zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+
+    # Compute diagnostic sets
+    zones_with_geometry = list(centers.keys())
+    zones_missing_geometry = [z for z in model_zones if z not in centers]
+    zones_mapped = [z for z in model_zones if z in centers]
+
+    return ZoneMapContext(
+        model_zones=model_zones,
+        zones_with_geometry=zones_with_geometry,
+        zones_mapped=zones_mapped,
+        zones_missing_geometry=zones_missing_geometry,
+        zone_map=zone_map,
+        centers=centers,
+        geojson_to_epm=geojson_to_epm
+    )
 
 
 def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
@@ -150,18 +236,20 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         if not os.path.exists(geojson_to_epm):
             raise FileNotFoundError(f"GeoJSON to EPM mapping file not found: {os.path.abspath(geojson_to_epm)}")
         geojson_to_epm = _read_geojson_mapping(geojson_to_epm)
-    epm_to_geojson = {v: k for k, v in
-                      geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
-    geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
-    geojson_complete = geojson_to_epm.loc[~geojson_to_epm.region.notna()]
+    # Build reverse mapping: epm_zone -> source_name
+    epm_to_source = {v: k for k, v in
+                     geojson_to_epm.set_index('source_name')['epm_zone'].to_dict().items()}
+    # Separate zones that need splitting from complete zones
+    zones_to_split = geojson_to_epm.loc[geojson_to_epm.subregion.notna()]
+    zones_complete = geojson_to_epm.loc[~geojson_to_epm.subregion.notna()]
     if selected_zones is None:
-        selected_zones_epm = geojson_to_epm['EPM'].unique()
+        selected_zones_epm = geojson_to_epm['epm_zone'].unique()
     else:
         selected_zones_epm = selected_zones
-    selected_zones_to_divide = [e for e in selected_zones_epm if e in geojson_to_divide['EPM'].values]
-    selected_countries_geojson = [
-        epm_to_geojson[key] for key in selected_zones_epm if
-        ((key not in selected_zones_to_divide) and (key in epm_to_geojson))
+    selected_zones_to_split = [z for z in selected_zones_epm if z in zones_to_split['epm_zone'].values]
+    selected_sources = [
+        epm_to_source[key] for key in selected_zones_epm if
+        ((key not in selected_zones_to_split) and (key in epm_to_source))
     ]
 
     if zone_map is None:
@@ -169,31 +257,47 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     else:
         zone_map = gpd.read_file(zone_map)
 
-    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
+    zone_map = zone_map[zone_map['ADMIN'].isin(selected_sources)]
 
     if geo_add is not None:
         zone_map_add = gpd.read_file(geo_add)
         zone_map = pd.concat([zone_map, zone_map_add])
 
     divided_parts = []
-    for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
-        # Apply division function
-        divided_parts.append(divide(dict_specs['map_zones'], country, division))
+    # Filter zones_to_split to only include zones that are actually selected
+    zones_to_split_selected = zones_to_split[zones_to_split['epm_zone'].isin(selected_zones_to_split)]
+    # source_name column contains the polygon name (matches ADMIN in world GeoJSON)
+    for (source_name, split_type), subset in zones_to_split_selected.groupby(['source_name', 'split']):
+        # Apply division function to split the polygon
+        divided_parts.append(divide(dict_specs['map_zones'], source_name, split_type))
 
     if divided_parts:
         zone_map_divide = pd.concat(divided_parts)
 
-        zone_map_divide = \
-        geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
-            ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
-        zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
+        # Merge divided parts with mapping info
+        # Use source_name as ADMIN for the merge (matches divide() output)
+        merge_df = zones_to_split_selected.copy()
+        merge_df['ADMIN'] = merge_df['source_name']
+        # divide() returns 'region' column, so rename subregion to match
+        merge_df = merge_df.rename(columns={'subregion': 'region'})
+        zone_map_divide = merge_df.merge(zone_map_divide, on=['region', 'ADMIN'])[
+            ['epm_zone', 'ISO_A3', 'ISO_A2', 'geometry']]
+        # Use epm_zone as the final ADMIN (unique identifier for each zone)
+        zone_map_divide = zone_map_divide.rename(columns={'epm_zone': 'ADMIN'})
         # Convert zone_map_divide back to a GeoDataFrame
         zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
 
         # Ensure final zone_map is in EPSG:4326
         zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
-    geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
-    return zone_map, geojson_to_epm
+
+    # Build the mapping dict for create_zonemap()
+    # For complete zones: source_name -> epm_zone
+    # For split zones: epm_zone -> epm_zone (identity, since ADMIN is now the epm_zone name)
+    geojson_to_epm_dict = zones_complete.set_index('source_name')['epm_zone'].to_dict()
+    for epm_zone in zones_to_split_selected['epm_zone'].values:
+        geojson_to_epm_dict[epm_zone] = epm_zone
+
+    return zone_map, geojson_to_epm_dict
 
 
 def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):
@@ -323,7 +427,7 @@ def divide(geodf, country, division):
 
 
 def plot_zone_map_on_ax(ax, zone_map):
-    zone_map.plot(ax=ax, color='white', edgecolor='black')
+    zone_map.plot(ax=ax, color='white', edgecolor='none')
 
     # Adjusting the limits to better center the zone_map on the region
     ax.set_xlim(zone_map.bounds.minx.min() - 1, zone_map.bounds.maxx.max() + 1)
@@ -385,15 +489,15 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
-            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:  # plot_colored_countries is a list of countries
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map['color'] = zone_map['ADMIN'].apply(
             lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
         )
-        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
 
     handles, labels = [], []
     # Plot pie charts for each zone
@@ -408,7 +512,10 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -501,7 +608,10 @@ def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, yea
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -644,7 +754,7 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.show()
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
     df1 = pCapacityTechFuel.copy()
@@ -668,7 +778,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
     df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
     df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
 
-    df_price = pPrice.copy()
+    df_price = pHourlyPrice.copy()
 
     dfs_to_plot_area = {
         'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
@@ -689,8 +799,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
         'pNetExchange': net_exchange,
     }
 
-    seasons = pDispatchPlant.season.unique()
-    days = pDispatchPlant.day.unique()
+    seasons = pDispatchPlant['season'].unique()
+    days = pDispatchPlant['day'].unique()
 
     select_time = {'season': seasons, 'day': days}
 
@@ -1007,9 +1117,9 @@ def _plot_interconnection_map_on_axis(
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map_plot = zone_map.assign(color=zone_map['ADMIN'].map(predefined_colors))
-            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map_plot = zone_map.assign(
@@ -1017,7 +1127,7 @@ def _plot_interconnection_map_on_axis(
                 lambda c: predefined_colors.get(c, 'white') if c in plot_colored_countries else 'white'
             )
         )
-        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
 
     ax.set_aspect('equal')
     ax.set_axis_off()
@@ -1055,10 +1165,14 @@ def _plot_interconnection_map_on_axis(
     if transmission_data.empty:
         return
 
+    # Track skipped lines for reporting
+    skipped_lines = []
+
     for _, row in transmission_data.iterrows():
         zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
 
         if zone_from not in centers or zone_to not in centers:
+            skipped_lines.append((zone_from, zone_to))
             continue
 
         coord_from, coord_to = centers[zone_from], centers[zone_to]
@@ -1158,6 +1272,14 @@ def _plot_interconnection_map_on_axis(
                     fontweight='bold',
                     color='black'
                 )
+
+    # Report skipped transmission lines at end of function
+    if skipped_lines:
+        unique_skipped = list(set(skipped_lines))
+        log_warning(
+            f"Skipped {len(unique_skipped)} transmission lines - zones without map geometry:\n"
+            f"  {unique_skipped[:5]}{'...' if len(unique_skipped) > 5 else ''}"
+        )
 
 
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
@@ -1490,7 +1612,7 @@ def get_extended_pastel_palette(n):
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
+                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -1514,7 +1636,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
     # Add country zones
     folium.GeoJson(zone_map, style_function=lambda feature: {
-        'fillColor': '#ffffff', 'color': '#000000', 'weight': 1, 'fillOpacity': 0.3
+        'fillColor': '#ffffff', 'color': 'none', 'weight': 0, 'fillOpacity': 0.3
     }).add_to(energy_map)
 
     # Plotting transmission information
@@ -1555,6 +1677,17 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
                     tooltip=tooltip_text
                 ).add_to(energy_map)
 
+    # Track zones with data but no coordinates
+    zones_in_data = set(energy_data['zone'].unique())
+    zones_in_centers = set(centers.keys())
+    missing_zones = zones_in_data - zones_in_centers
+
+    if missing_zones:
+        log_warning(
+            f"Interactive map: {len(missing_zones)} zones have data but no map geometry:\n"
+            f"  {list(missing_zones)}"
+        )
+
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
         if zone in energy_data['zone'].unique():
@@ -1569,7 +1702,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
             # Generate and embed capacity mix and dispatch plots
             popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch,
-                                                pDispatchPlant, pPrice, scale_factor=0.8)
+                                                pDispatchPlant, pHourlyPrice, scale_factor=0.8)
 
             folium.Marker(
                 location=coords,
@@ -1621,19 +1754,31 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
 
     # One figure per scenario
     for selected_scenario in selected_scenarios:
-        log_info(f'Generating map for scenario {selected_scenario}')
+        log_info(f'  Scenario: {selected_scenario}')
         # Select first and last years
         #years = [min(years), max(years)]
         years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
-            zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
-            zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+            # Create validated zone context (pZoneCountry is source of truth)
+            ctx = create_zone_map_context(epm_results, dict_specs)
+            ctx.log_diagnostics()
+
+            if not ctx.is_valid:
+                log_warning(f"Skipping map generation for scenario {selected_scenario} - no zones have map geometry.")
+                continue
+
+            # Use context values
+            zone_map = ctx.zone_map
+            centers = ctx.centers
 
         except Exception as e:
             log_error(
-                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
-            raise  # Re-raise the exception for debuggings
+                f"Error creating zone map for scenario {selected_scenario}:\n"
+                f"  {str(e)}\n"
+                f"  - Check geojson_to_epm.csv mappings match your model zone names."
+            )
+            raise  # Re-raise the exception for debugging
 
         capa_transmission = epm_results['pTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
@@ -1644,6 +1789,9 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             utilization_transmission_max.rename
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+
+        # Validate transmission zones using context
+        ctx.validate_transmission_zones(transmission_data)
 
         figure_name = 'TransmissionCapacityMapEvolution'
         if _is_enabled(figure_name):
@@ -1659,7 +1807,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             make_interconnection_map_faceted(zone_map, df, centers, title=title, column='capacity',
                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                     min_display_value=50, filename=filename, subplotcolumn='year', col_wrap=3)
-            log_info(f'Saved transmission capacity map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         figure_name = 'TransmissionUtilizationMapEvolution'
         if _is_enabled(figure_name):
@@ -1677,7 +1825,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                     min_display_value=10, filename=filename, subplotcolumn='year', col_wrap=3,
                                     format_y=lambda y, _: '{:.0f} %'.format(y), show_arrows=True, arrow_offset_ratio=0.4,
                                     arrow_size=25)
-            log_info(f'Saved transmission utilization map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         
         
@@ -1699,7 +1847,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                             min_display_value=50, filename=filename)
-                    log_info(f'Saved transmission capacity map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
                 figure_name = 'TransmissionUtilizationMap'
                 if _is_enabled(figure_name):
@@ -1712,7 +1860,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                             format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
                                             title=title, show_arrows=True, arrow_offset_ratio=0.4,
                                             arrow_size=25, plot_colored_countries=True)
-                    log_info(f'Saved transmission utilization map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
              
                 figure_name = 'NetExportsMap'
                 if _is_enabled(figure_name):
@@ -1735,14 +1883,12 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                     make_interconnection_map(zone_map, df_net, centers, filename=filename,
-                                            title=title,
+                                            title=title, column='value',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
-                                            plot_colored_countries=True,
-                                            min_display_value=100, column='value', plot_lines=False,
-                                            format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
-                                            min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
-                                            color_col='congestion')
-                    log_info(f'Saved net exports map: {filename}')
+                                            plot_colored_countries=True, min_display_value=100,
+                                            format_y=lambda y, _: '{:.0f} GWh'.format(y),
+                                            show_arrows=True, arrow_offset_ratio=0.4, arrow_size=25)
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     
@@ -1760,5 +1906,5 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
-                        log_info(f'Saved interactive map: {filename}')
+                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pHourlyPrice'])
+                        log_info(f'    Saved {os.path.basename(filename)}')
