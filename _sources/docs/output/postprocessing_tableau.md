@@ -2,8 +2,8 @@
 
 Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
 
-Example: 
-- _[SAPP modeling](https://public.tableau.com/app/profile/celia.escribe/viz/Tableaudemonstration-SAPPexample/Home?publish=yes)_
+Example:
+- _[SAPP modeling](https://public.tableau.com/app/profile/lucas.vivier4911/viz/SAPP_Report/Home)_
 
 This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
 
@@ -35,7 +35,7 @@ Drag and drop your simulation results into the `scenarios/` folder. Each scenari
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
-The `EPM_Report.twb` file can be downloaded from [here](https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/main/docs/dwld/EPM_Report.twb)
+Download the [EPM_Report.twb](../dwld/EPM_Report.twb) template file.
 
 ## 2. Generate `linestring_countries.geojson` and add to the directory
 
