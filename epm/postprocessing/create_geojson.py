@@ -60,6 +60,7 @@ if str(REPO_ROOT) not in sys.path:
 
 # Importing utility functions for data processing using the package path
 from epm.postprocessing.maps import get_json_data, create_zonemap
+from epm.postprocessing.utils import log_warning, log_info
 
 
 def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
@@ -174,6 +175,40 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     # geojson_to_epm_dict is {epm_name: geojson_name}, we need reverse mapping
     geojson_to_epm_reverse = {v: k for k, v in geojson_to_epm_dict.items()}
     countries_shapefile['z'] = countries_shapefile.index.map(geojson_to_epm_reverse)
+
+    # Validate zone mappings
+    mapped_zones = countries_shapefile[countries_shapefile['z'].notna()]['z'].tolist()
+    unmapped_geojson = countries_shapefile[countries_shapefile['z'].isna()].index.tolist()
+
+    if unmapped_geojson:
+        log_warning(
+            f"GeoJSON countries not in EPM zone mapping: {unmapped_geojson}. "
+            f"These will be excluded from linestring_countries.geojson."
+        )
+
+    # Filter to only mapped zones
+    countries_shapefile = countries_shapefile[countries_shapefile['z'].notna()]
+
+    # Determine output file path (needed for empty case)
+    if output_path is not None:
+        output_file = os.path.join(output_path, 'linestring_countries.geojson')
+    else:
+        output_file = os.path.join('..', 'output', folder, 'linestring_countries.geojson')
+
+    if len(countries_shapefile) == 0:
+        log_warning(
+            f"No zones have map geometry - cannot create linestring GeoJSON.\n"
+            f"  - Model zones requested: {selected_zones}\n"
+            f"  - To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
+        )
+        # Create empty GeoJSON
+        log_info(f"Created empty linestring_countries.geojson")
+        empty_gdf = gpd.GeoDataFrame(geometry=[], crs="EPSG:4326")
+        empty_gdf.to_file(output_file, driver='GeoJSON')
+        return empty_gdf
+
+    log_info(f"Creating linestring GeoJSON with {len(countries_shapefile)} zones with map geometry: {mapped_zones}")
+
     countries_shapefile = countries_shapefile.reset_index(drop=True)
 
     # Create pairwise combinations (excluding self) to generate lines between all zones
@@ -227,11 +262,7 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     result_df = result_df.reset_index().set_index('z_other')
     result_df['c2'] = zcmap_df[country_col]
 
-    # Determine output file path
-    if output_path is not None:
-        output_file = os.path.join(output_path, 'linestring_countries.geojson')
-    else:
-        output_file = os.path.join('..', 'output', folder, 'linestring_countries.geojson')
+    # output_file was already determined earlier in the function
 
     result_df.to_file(output_file, driver='GeoJSON')
     return result_df

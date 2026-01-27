@@ -112,9 +112,80 @@ def create_zonemap(zone_map, map_geojson_to_epm):
         for _, row in zone_map.iterrows()
     }
 
+    # Report unmapped zones
+    all_geojson_zones = set(centers.keys())
+    mapped_zones = set(map_geojson_to_epm.keys())
+    unmapped = all_geojson_zones - mapped_zones
+
+    if unmapped:
+        log_warning(f"Zones in GeoJSON but not in mapping (will be skipped): {list(unmapped)}")
+
     centers = {map_geojson_to_epm[c]: v for c, v in centers.items() if c in map_geojson_to_epm}
 
+    if not centers:
+        log_warning(
+            f"No zones have map geometry. Map visualization will be empty.\n"
+            f"  - GeoJSON zones available: {list(all_geojson_zones)}\n"
+            f"  - EPM zone mapping expects: {list(map_geojson_to_epm.keys())}\n"
+            f"  - To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
+        )
+
     return zone_map, centers
+
+
+def create_zone_map_context(epm_results, dict_specs):
+    """
+    Create a validated ZoneMapContext from model results.
+
+    Uses pZoneCountry as the single source of truth for which zones to include.
+    This function centralizes all zone validation logic to ensure consistent
+    handling across all map generation functions.
+
+    Parameters
+    ----------
+    epm_results : dict
+        Dictionary containing EPM results, must include 'pZoneCountry'.
+    dict_specs : dict
+        Dictionary with mapping specifications from read_plot_specs().
+
+    Returns
+    -------
+    ZoneMapContext
+        A validated context object containing:
+        - model_zones: zones from pZoneCountry (source of truth)
+        - zones_with_geometry: zones that have GeoJSON boundaries
+        - zones_mapped: successfully mapped zones
+        - zones_missing_geometry: zones that cannot be visualized
+        - zone_map: filtered GeoDataFrame
+        - centers: zone centroid coordinates
+        - geojson_to_epm: mapping dictionary
+    """
+    # Source of truth: zones from the actual model run
+    model_zones = list(epm_results['pZoneCountry']['zone'].unique())
+
+    # Get zone geometries filtered to model zones only
+    zone_map, geojson_to_epm = get_json_data(
+        selected_zones=model_zones,
+        dict_specs=dict_specs
+    )
+
+    # Extract centroids (create_zonemap also does validation)
+    zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+
+    # Compute diagnostic sets
+    zones_with_geometry = list(centers.keys())
+    zones_missing_geometry = [z for z in model_zones if z not in centers]
+    zones_mapped = [z for z in model_zones if z in centers]
+
+    return ZoneMapContext(
+        model_zones=model_zones,
+        zones_with_geometry=zones_with_geometry,
+        zones_mapped=zones_mapped,
+        zones_missing_geometry=zones_missing_geometry,
+        zone_map=zone_map,
+        centers=centers,
+        geojson_to_epm=geojson_to_epm
+    )
 
 
 def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
@@ -408,7 +479,10 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -501,7 +575,10 @@ def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, yea
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -1055,10 +1132,14 @@ def _plot_interconnection_map_on_axis(
     if transmission_data.empty:
         return
 
+    # Track skipped lines for reporting
+    skipped_lines = []
+
     for _, row in transmission_data.iterrows():
         zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
 
         if zone_from not in centers or zone_to not in centers:
+            skipped_lines.append((zone_from, zone_to))
             continue
 
         coord_from, coord_to = centers[zone_from], centers[zone_to]
@@ -1158,6 +1239,14 @@ def _plot_interconnection_map_on_axis(
                     fontweight='bold',
                     color='black'
                 )
+
+    # Report skipped transmission lines at end of function
+    if skipped_lines:
+        unique_skipped = list(set(skipped_lines))
+        log_warning(
+            f"Skipped {len(unique_skipped)} transmission lines - zones without map geometry:\n"
+            f"  {unique_skipped[:5]}{'...' if len(unique_skipped) > 5 else ''}"
+        )
 
 
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
@@ -1555,6 +1644,17 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
                     tooltip=tooltip_text
                 ).add_to(energy_map)
 
+    # Track zones with data but no coordinates
+    zones_in_data = set(energy_data['zone'].unique())
+    zones_in_centers = set(centers.keys())
+    missing_zones = zones_in_data - zones_in_centers
+
+    if missing_zones:
+        log_warning(
+            f"Interactive map: {len(missing_zones)} zones have data but no map geometry:\n"
+            f"  {list(missing_zones)}"
+        )
+
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
         if zone in energy_data['zone'].unique():
@@ -1627,13 +1727,25 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
         years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
-            zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
-            zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+            # Create validated zone context (pZoneCountry is source of truth)
+            ctx = create_zone_map_context(epm_results, dict_specs)
+            ctx.log_diagnostics()
+
+            if not ctx.is_valid:
+                log_warning(f"Skipping map generation for scenario {selected_scenario} - no zones have map geometry.")
+                continue
+
+            # Use context values
+            zone_map = ctx.zone_map
+            centers = ctx.centers
 
         except Exception as e:
             log_error(
-                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
-            raise  # Re-raise the exception for debuggings
+                f"Error creating zone map for scenario {selected_scenario}:\n"
+                f"  {str(e)}\n"
+                f"  - Check geojson_to_epm.csv mappings match your model zone names."
+            )
+            raise  # Re-raise the exception for debugging
 
         capa_transmission = epm_results['pTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
@@ -1644,6 +1756,9 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             utilization_transmission_max.rename
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+
+        # Validate transmission zones using context
+        ctx.validate_transmission_zones(transmission_data)
 
         figure_name = 'TransmissionCapacityMapEvolution'
         if _is_enabled(figure_name):

@@ -54,7 +54,8 @@ import re
 import shutil
 from io import BytesIO
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional
+from dataclasses import dataclass
 import colorsys
 
 import gams.transfer as gt
@@ -119,6 +120,132 @@ _log_warning = log_warning
 _log_error = log_error
 
 
+# =============================================================================
+# Zone Map Context - Centralized zone validation and diagnostics
+# =============================================================================
+
+@dataclass
+class ZoneMapContext:
+    """
+    Centralized zone mapping validation and diagnostics.
+
+    This class provides a single source of truth for zone validation,
+    ensuring consistent handling across all map generation functions.
+
+    Attributes
+    ----------
+    model_zones : list
+        Zones from pZoneCountry (the source of truth from epmresults.gdx)
+    zones_with_geometry : list
+        Zones that have GeoJSON polygon boundaries available
+    zones_mapped : list
+        Zones successfully mapped (intersection of model_zones and zones_with_geometry)
+    zones_missing_geometry : list
+        Zones in model but without GeoJSON boundary (cannot be visualized)
+    zone_map : gpd.GeoDataFrame
+        Filtered GeoDataFrame containing only mapped zone geometries
+    centers : dict
+        EPM zone name -> [longitude, latitude] centroid coordinates
+    geojson_to_epm : dict
+        Mapping from EPM zone names to GeoJSON country names
+    """
+    model_zones: List[str]
+    zones_with_geometry: List[str]
+    zones_mapped: List[str]
+    zones_missing_geometry: List[str]
+    zone_map: gpd.GeoDataFrame
+    centers: Dict[str, List[float]]
+    geojson_to_epm: Dict[str, str]
+
+    @property
+    def is_valid(self) -> bool:
+        """True if at least one zone can be visualized."""
+        return len(self.zones_mapped) > 0
+
+    def log_diagnostics(self):
+        """Log standardized diagnostic information about zone mapping."""
+        log_info(f"Zone mapping diagnostics:")
+        log_info(f"  - Model zones (from pZoneCountry): {self.model_zones}")
+        log_info(f"  - Zones with map geometry: {self.zones_with_geometry}")
+        log_info(f"  - Successfully mapped: {self.zones_mapped}")
+
+        if self.zones_missing_geometry:
+            log_warning(
+                f"Zones in model but missing map geometry (no GeoJSON boundary):\n"
+                f"  {self.zones_missing_geometry}\n"
+                f"  To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
+            )
+
+    def validate_transmission_zones(self, transmission_df, zone_col='zone_from', zone2_col='zone_to'):
+        """
+        Check which transmission line zones are missing geometry.
+
+        Parameters
+        ----------
+        transmission_df : pd.DataFrame
+            DataFrame containing transmission data with zone columns
+        zone_col : str
+            Name of the column containing the 'from' zone
+        zone2_col : str
+            Name of the column containing the 'to' zone
+
+        Returns
+        -------
+        tuple
+            (valid_zones, missing_zones) - lists of zone names
+        """
+        if transmission_df.empty:
+            return [], []
+
+        trans_zones = set(transmission_df[zone_col].unique()) | set(transmission_df[zone2_col].unique())
+        missing = trans_zones - set(self.centers.keys())
+        valid = trans_zones & set(self.centers.keys())
+
+        if missing:
+            log_warning(
+                f"Transmission data references zones without map geometry:\n"
+                f"  Missing: {list(missing)}\n"
+                f"  These transmission lines will not be drawn."
+            )
+
+        return list(valid), list(missing)
+
+    def validate_data_zones(self, data_df, zone_col='zone', data_description='data'):
+        """
+        Check which zones in a data DataFrame are missing geometry.
+
+        Parameters
+        ----------
+        data_df : pd.DataFrame
+            DataFrame containing zone-level data
+        zone_col : str
+            Name of the column containing zone names
+        data_description : str
+            Description for the warning message (e.g., 'capacity', 'energy')
+
+        Returns
+        -------
+        tuple
+            (valid_zones, missing_zones) - lists of zone names
+        """
+        if data_df.empty:
+            return [], []
+
+        data_zones = set(data_df[zone_col].unique())
+        missing = data_zones - set(self.centers.keys())
+        valid = data_zones & set(self.centers.keys())
+
+        if missing:
+            log_warning(
+                f"{data_description.capitalize()} data references zones without map geometry:\n"
+                f"  Missing: {list(missing)}\n"
+                f"  These zones will not appear on the map."
+            )
+
+        return list(valid), list(missing)
+
+
+# =============================================================================
 # Resources directory (relative to epm/ folder)
 _EPM_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _RESOURCES_DIR = os.path.join(_EPM_DIR, 'resources')
