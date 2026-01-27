@@ -1354,6 +1354,18 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#geojson-to-epm-csv">
    geojson_to_epm.csv
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#format">
+     Format
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examples">
+     Examples
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#how-resources-are-loaded">
@@ -1836,13 +1848,55 @@ title="Print to PDF"
 </section>
 <section id="geojson-to-epm-csv">
 <h2>geojson_to_epm.csv<a class="headerlink" href="#geojson-to-epm-csv" title="Permalink to this heading">#</a></h2>
-<p>Geographic mapping for visualization.</p>
-<p>Maps EPM zone names to GeoJSON identifiers for:</p>
-<ul class="simple">
-<li><p>Map visualizations</p></li>
-<li><p>Regional aggregation</p></li>
-<li><p>Geographic analysis</p></li>
-</ul>
+<p>Geographic mapping for visualization. Maps EPM zone names to GeoJSON identifiers for map generation.</p>
+<section id="format">
+<h3>Format<a class="headerlink" href="#format" title="Permalink to this heading">#</a></h3>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>epm_zone,source_name,subregion,split
+</pre></div>
+</div>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">epm_zone</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Zone name in your EPM model</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">source_name</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Zone/country name in GeoJSON file (matches ADMIN field)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">subregion</span></code></p></td>
+<td><p>No</p></td>
+<td><p>For split zones: north, south, east, west, center</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">split</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Split pattern: NS (North-South), EW (East-West), NSE (3-way), NCS (3 bands)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
+<p><strong>Simple zones (no splitting):</strong></p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>epm_zone,source_name,subregion,split
+Angola,Angola,,
+Kenya,Kenya,,
+</pre></div>
+</div>
+<p><strong>Split zones (dividing a country into sub-regions):</strong></p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>epm_zone,source_name,subregion,split
+DRC,Democratic Republic of the Congo,north,NSE
+DRC_South,Democratic Republic of the Congo,south,NSE
+DRC_East,Democratic Republic of the Congo,east,NSE
+</pre></div>
+</div>
+</section>
 </section>
 <section id="how-resources-are-loaded">
 <h2>How Resources Are Loaded<a class="headerlink" href="#how-resources-are-loaded" title="Permalink to this heading">#</a></h2>
@@ -2051,6 +2105,18 @@ $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelC
   <a class="reference internal nav-link" href="#geojson-to-epm-csv">
    geojson_to_epm.csv
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#format">
+     Format
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#examples">
+     Examples
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#how-resources-are-loaded">
