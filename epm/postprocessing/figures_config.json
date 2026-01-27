@@ -7,19 +7,19 @@
       }
     },
     "capacity": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "CapacityMixSystemEvolutionScenarios": true,
         "CapacityMixSystemEvolutionScenariosRelative": true,
         "CapacityMixEvolutionZone": true,
         "CapacityMixZoneScenarios": true,
         "CapacityMixZoneScenariosRelative": true,
-        "NewCapacityZoneInstalledTimeline": true,
-        "NewCapacitySystemInstalledTimeline": true
+        "NewCapacityZoneInstalledTimeline": false,
+        "NewCapacitySystemInstalledTimeline": false
       }
     },
     "costs": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "NPVCostSystemScenarios": true,
         "NPVCostSystemScenariosRelative": true,
@@ -43,7 +43,7 @@
       }
     },
     "energy": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "EnergyMixSystemEvolutionScenarios": true,
         "EnergyMixSystemEvolutionScenariosRelative": true,
@@ -54,7 +54,7 @@
       }
     },
     "dispatch": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "DispatchZoneMaxLoadDay": false,
         "DispatchZoneMaxLoadSeason": false,
@@ -74,12 +74,12 @@
       }
     },
     "maps": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
-        "TransmissionCapacityMap": false,
-        "TransmissionCapacityMapEvolution": false,
-        "TransmissionUtilizationMap": false,
-        "TransmissionUtilizationMapEvolution": false,
+        "TransmissionCapacityMap": true,
+        "TransmissionCapacityMapEvolution": true,
+        "TransmissionUtilizationMap": true,
+        "TransmissionUtilizationMapEvolution": true,
         "NetExportsMap": true,
         "InteractiveMap": true
       }
