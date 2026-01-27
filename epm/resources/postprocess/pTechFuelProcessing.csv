@@ -14,7 +14,9 @@ OCGT,LNG,GT-LNG,darkgoldenrod
 OCGT,HFO,GT-HFO,saddlebrown
 ICE,Diesel,ICE-Diesel,lightsalmon
 ICE,HFO,ICE-HFO,sandybrown
+ICE,Gas,ICE-Gas,navajowhite
 BiomassPlant,Biomass,Biomass,green
+ST,Biomass,ST-Biomass,forestgreen
 ReservoirHydro,Water,Reservoir,darkblue
 ROR,Water,ROR,lightskyblue
 CSPPlant,CSP,CSP,darkorange

@@ -1477,6 +1477,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
+      pExtTransferLimit, pTradePrice,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone,
 * 8. METRICS
@@ -1525,6 +1526,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
       pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
       pNetImport,
+      pExtTransferLimit, pTradePrice,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
       pEmissionMarginalCosts, pEmissionMarginalCostsCountry,

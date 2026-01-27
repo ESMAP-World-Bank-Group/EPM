@@ -920,6 +920,47 @@ def _merge_input_files(baseline_path: Path, project_path: Path, output_path: Pat
     return output_path
 
 
+def _merge_multiple_input_files(
+    baseline_path: Path,
+    project_paths: list,
+    output_path: Path
+) -> Path:
+    """
+    Merge multiple project delta files into a baseline input file.
+    Projects are merged sequentially; later projects override earlier ones on conflicts.
+
+    Parameters
+    ----------
+    baseline_path : Path
+        Path to the baseline CSV file
+    project_paths : list
+        List of project delta CSV files to merge (in order)
+    output_path : Path
+        Path where the merged file will be written
+
+    Returns
+    -------
+    Path
+        Path to the merged output file
+    """
+    merged_df = pd.read_csv(baseline_path)
+    g_col = 'g' if 'g' in merged_df.columns else 'gen'
+    key_cols = [g_col, 'z', 'tech', 'f']
+
+    for project_path in project_paths:
+        project_df = pd.read_csv(project_path)
+        if g_col not in project_df.columns:
+            alt_col = 'gen' if g_col == 'g' else 'g'
+            if alt_col in project_df.columns:
+                project_df = project_df.rename(columns={alt_col: g_col})
+        merged_df = pd.concat([merged_df, project_df], ignore_index=True)
+        merged_df = merged_df.drop_duplicates(subset=key_cols, keep='last')
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    merged_df.to_csv(output_path, index=False)
+    return output_path
+
+
 def perform_project_assessment(project_assessment, s):
     """
     Build assessment scenarios using delta project files.
@@ -930,6 +971,9 @@ def perform_project_assessment(project_assessment, s):
     For each project, merges:
         - pGenDataInput_{project}.csv into baseline pGenDataInput
         - pStorageDataInput_{project}.csv into baseline pStorageDataInput (if exists)
+
+    When multiple projects are specified, also creates a combined scenario
+    with all projects merged together (baseline@all).
 
     Parameters
     ----------
@@ -952,6 +996,10 @@ def perform_project_assessment(project_assessment, s):
     # Support multiple projects (space-separated)
     projects = project_assessment.split()
 
+    # Collect project file paths for combined scenario
+    gen_project_paths = []
+    storage_project_paths = []
+
     for project in projects:
         suffix = project if project.startswith('_') else f"_{project}"
         label = project.strip('_') or "project"
@@ -962,6 +1010,11 @@ def perform_project_assessment(project_assessment, s):
 
         if not gen_project.exists():
             raise FileNotFoundError(f"Project file {gen_project.resolve()} not found.")
+
+        # Collect paths for combined scenario
+        gen_project_paths.append(gen_project)
+        if storage_project.exists():
+            storage_project_paths.append(storage_project)
 
         for scenario in list(s.keys()):
             scenario_name = f"{scenario}@{label}"
@@ -978,6 +1031,27 @@ def perform_project_assessment(project_assessment, s):
                 current_storage = Path(s[scenario]['pStorageDataInput'])
                 merged_storage = assessment_folder / f"pStorageDataInput_merged_{label}.csv"
                 _merge_input_files(current_storage, storage_project, merged_storage)
+                new_s[scenario_name]['pStorageDataInput'] = str(merged_storage)
+
+    # Create combined scenario when multiple projects specified
+    if len(projects) > 1:
+        combined_label = "all_combined" if "all" in [p.strip('_') for p in projects] else "all"
+
+        for scenario in list(s.keys()):
+            scenario_name = f"{scenario}@{combined_label}"
+            new_s[scenario_name] = s[scenario].copy()
+
+            # Merge all pGenDataInput files
+            current_gen = Path(s[scenario]['pGenDataInput'])
+            merged_gen = assessment_folder / f"pGenDataInput_merged_{combined_label}.csv"
+            _merge_multiple_input_files(current_gen, gen_project_paths, merged_gen)
+            new_s[scenario_name]['pGenDataInput'] = str(merged_gen)
+
+            # Merge all pStorageDataInput files (if any exist)
+            if storage_project_paths and 'pStorageDataInput' in s[scenario]:
+                current_storage = Path(s[scenario]['pStorageDataInput'])
+                merged_storage = assessment_folder / f"pStorageDataInput_merged_{combined_label}.csv"
+                _merge_multiple_input_files(current_storage, storage_project_paths, merged_storage)
                 new_s[scenario_name]['pStorageDataInput'] = str(merged_storage)
 
     s.update(new_s)

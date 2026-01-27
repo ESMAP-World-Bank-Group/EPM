@@ -16,53 +16,84 @@ Usage:
         - pTransferLimit_<country>.csv: Internal transmission only
 """
 
+import logging
 import pandas as pd
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+
+def _filter_to_scenario(df: pd.DataFrame, scenario_reference: str) -> pd.DataFrame:
+    """Filter DataFrame to reference scenario if scenario column exists."""
+    if df is None or df.empty:
+        return df
+    if 'scenario' not in df.columns:
+        return df
+
+    scenarios = df['scenario'].unique()
+    if scenario_reference in scenarios:
+        return df[df['scenario'] == scenario_reference].copy()
+    elif len(scenarios) > 0:
+        return df[df['scenario'] == scenarios[0]].copy()
+    return df
 
 
 def identify_country_zones(zcmap_df: pd.DataFrame, country: str) -> list:
     """Get list of zones belonging to a country (a country can have multiple zones)."""
-    return zcmap_df[zcmap_df['c'] == country]['z'].tolist()
+    return zcmap_df[zcmap_df['country'] == country]['zone'].tolist()
 
 
-def identify_neighbors(folder_input: Path, country_zones: list) -> list:
+def _convert_zone_country_to_zcmap(zone_country_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Identify neighboring zones from both pTransferLimit AND pNewTransmission.
+    Convert pZoneCountry GDX data to zcmap format.
 
-    A neighbor is a zone that has a transmission link (existing or planned)
-    to a country zone but is not itself a country zone.
+    pZoneCountry from GDX has columns: z, c, value (where value=1 indicates mapping)
+    zcmap format needs: z, c
+    """
+    df = zone_country_df.copy()
+
+    # Filter to rows where value=1 (the mapping exists)
+    if 'value' in df.columns:
+        df = df[df['value'] == 1]
+
+    # Return only z and c columns
+    return df[['zone', 'country']].drop_duplicates().reset_index(drop=True)
+
+
+def identify_neighbors_from_gdx(
+    transmission_capacity_df: pd.DataFrame,
+    country_zones: list,
+    scenario_reference: str = 'baseline'
+) -> list:
+    """
+    Identify neighboring zones from pTransmissionCapacity (GDX results).
+
+    A neighbor is a zone that has a transmission link to a country zone
+    but is not itself a country zone. Using pTransmissionCapacity ensures
+    we capture both existing and new (committed/candidate) transmission.
 
     Args:
-        folder_input: Path to input folder containing trade/ subfolder
+        transmission_capacity_df: DataFrame with pTransmissionCapacity from GDX
         country_zones: List of zones belonging to the focus country
+        scenario_reference: Scenario to filter on
 
     Returns:
         List of neighboring zone names
     """
+    if transmission_capacity_df is None or transmission_capacity_df.empty:
+        return []
+
+    df = _filter_to_scenario(transmission_capacity_df, scenario_reference)
+
     neighbors = set()
-
-    # Helper function to extract neighbors from a dataframe
-    def extract_neighbors_from_df(df: pd.DataFrame, from_col: str, to_col: str):
-        for _, row in df.iterrows():
-            from_zone = row[from_col]
-            to_zone = row[to_col]
-            # If one side is in country and the other is not, it's a neighbor
-            if from_zone in country_zones and to_zone not in country_zones:
-                neighbors.add(to_zone)
-            elif to_zone in country_zones and from_zone not in country_zones:
-                neighbors.add(from_zone)
-
-    # Check pTransferLimit (existing transmission)
-    transfer_path = folder_input / "trade" / "pTransferLimit.csv"
-    if transfer_path.exists():
-        transfer_df = pd.read_csv(transfer_path)
-        extract_neighbors_from_df(transfer_df, 'From', 'To')
-
-    # Check pNewTransmission (candidate/committed new lines)
-    new_trans_path = folder_input / "trade" / "pNewTransmission.csv"
-    if new_trans_path.exists():
-        new_trans_df = pd.read_csv(new_trans_path)
-        extract_neighbors_from_df(new_trans_df, 'From', 'To')
+    for _, row in df.iterrows():
+        from_zone = row['zone']
+        to_zone = row['z2']
+        # If one side is in country and the other is not, it's a neighbor
+        if from_zone in country_zones and to_zone not in country_zones:
+            neighbors.add(to_zone)
+        elif to_zone in country_zones and from_zone not in country_zones:
+            neighbors.add(from_zone)
 
     return list(neighbors)
 
@@ -72,6 +103,10 @@ def generate_single_country_inputs(
     folder_output: Path,
     country: str,
     hourly_price_df: pd.DataFrame = None,
+    transmission_capacity_df: pd.DataFrame = None,
+    ext_transfer_limit_df: pd.DataFrame = None,
+    trade_price_df: pd.DataFrame = None,
+    zone_country_df: pd.DataFrame = None,
     scenario_reference: str = 'baseline'
 ) -> None:
     """
@@ -81,29 +116,39 @@ def generate_single_country_inputs(
         folder_input: Path to the regional input folder
         folder_output: Path to the regional output folder (with pHourlyPrice)
         country: Focus country code (e.g., 'DRC')
-        hourly_price_df: Optional DataFrame with pHourlyPrice data (if already loaded)
+        hourly_price_df: DataFrame with pHourlyPrice data from GDX (for neighbor zones)
+        transmission_capacity_df: DataFrame with pTransmissionCapacity from GDX
+        ext_transfer_limit_df: DataFrame with pExtTransferLimit from GDX
+        trade_price_df: DataFrame with pTradePrice from GDX (for existing external zones)
+        zone_country_df: DataFrame with pZoneCountry from GDX (zone to country mapping)
         scenario_reference: Reference scenario to use for prices (default: 'baseline')
     """
     country_lower = country.lower()
     single_country_dir = folder_input / f"single_country_{country_lower}"
     single_country_dir.mkdir(exist_ok=True)
 
-    # Read source files
-    zcmap_df = pd.read_csv(folder_input / "zcmap.csv")
-    transfer_limit_path = folder_input / "trade" / "pTransferLimit.csv"
-    transfer_limit_df = pd.read_csv(transfer_limit_path) if transfer_limit_path.exists() else pd.DataFrame()
+    # Get zone-country mapping from GDX (source of truth)
+    if zone_country_df is None or zone_country_df.empty:
+        raise ValueError("pZoneCountry data from GDX is required")
 
-    # Identify country zones and neighbors
+    zcmap_df = _convert_zone_country_to_zcmap(zone_country_df)
+
+    # Identify country zones
     country_zones = identify_country_zones(zcmap_df, country)
     if not country_zones:
         raise ValueError(f"No zones found for country '{country}' in zcmap.csv")
 
-    neighbors = identify_neighbors(folder_input, country_zones)
-    print(f"Country zones for {country}: {country_zones}")
-    print(f"Neighboring zones: {neighbors}")
+    # Identify neighbors from GDX transmission capacity data
+    neighbors = identify_neighbors_from_gdx(
+        transmission_capacity_df, country_zones, scenario_reference
+    )
+    logger.info(f"Country zones for {country}: {country_zones}")
+    logger.info(f"Neighboring zones (from pTransmissionCapacity): {neighbors}")
 
     # 1. Generate zcmap_<country>.csv - all zones belonging to focus country
-    zcmap_country = zcmap_df[zcmap_df['c'] == country]
+    zcmap_country = zcmap_df[zcmap_df['country'] == country].copy()
+    # Rename to output format (short names for GAMS input)
+    zcmap_country = zcmap_country.rename(columns={'zone': 'z', 'country': 'c'})
     zcmap_country.to_csv(
         single_country_dir / f"zcmap_{country_lower}.csv",
         index=False
@@ -112,233 +157,399 @@ def generate_single_country_inputs(
     # 2. Generate zext_<country>.csv - neighbors + existing external zones
     existing_zext_path = folder_input / "trade" / "zext.csv"
     if existing_zext_path.exists():
-        existing_zext = pd.read_csv(existing_zext_path)['z'].tolist()
+        existing_zext_df = pd.read_csv(existing_zext_path)
+        # Handle both 'z' (legacy) and 'zext' (correct) column names
+        col = 'zext' if 'zext' in existing_zext_df.columns else 'z'
+        existing_zext = existing_zext_df[col].tolist()
     else:
         existing_zext = []
 
     all_zext = list(set(neighbors + existing_zext))
-    zext_df = pd.DataFrame({'z': all_zext})
+    zext_df = pd.DataFrame({'zext': all_zext})
     zext_df.to_csv(
         single_country_dir / f"zext_{country_lower}.csv",
         index=False
     )
 
     # 3. Generate pTransferLimit_<country>.csv - internal transmission only
-    if not transfer_limit_df.empty:
-        internal_transfer = transfer_limit_df[
-            (transfer_limit_df['From'].isin(country_zones)) &
-            (transfer_limit_df['To'].isin(country_zones))
-        ]
-        internal_transfer.to_csv(
-            single_country_dir / f"pTransferLimit_{country_lower}.csv",
-            index=False
-        )
-
-    # 4. Generate pExtTransferLimit_<country>.csv - border capacities
-    _generate_ext_transfer_limit(
-        folder_input, country_zones, single_country_dir, country_lower
+    _generate_internal_transfer_limit(
+        transmission_capacity_df, country_zones, single_country_dir, country_lower, scenario_reference
     )
 
-    # 5. Generate pTradePrice_<country>.csv from pHourlyPrice
-    _generate_trade_price(folder_output, neighbors, single_country_dir, country_lower, hourly_price_df, scenario_reference)
+    # 4. Generate pExtTransferLimit_<country>.csv - border capacities
+    _generate_ext_transfer_limit_from_gdx(
+        transmission_capacity_df,
+        ext_transfer_limit_df,
+        hourly_price_df,
+        country_zones,
+        single_country_dir,
+        country_lower,
+        scenario_reference
+    )
+
+    # 5. Generate pTradePrice_<country>.csv
+    # - Use pHourlyPrice for neighbors (zones that were internal in regional model)
+    # - Use pTradePrice for existing external zones (like SAPP)
+    _generate_trade_price(
+        folder_output, neighbors, existing_zext, single_country_dir, country_lower,
+        hourly_price_df, trade_price_df, scenario_reference
+    )
 
     # 6. Generate config_<country>.csv
     _generate_config(folder_input, single_country_dir, country_lower)
 
-    print(f"Single-country inputs generated in: {single_country_dir}")
-    print(f"Config file: {folder_input / f'config_{country_lower}.csv'}")
+    logger.info(f"Single-country inputs generated in: {single_country_dir}")
+    logger.info(f"Config file: {folder_input / f'config_{country_lower}.csv'}")
 
 
-def _generate_ext_transfer_limit(
-    folder_input: Path,
+def _generate_internal_transfer_limit(
+    transmission_capacity_df: pd.DataFrame,
     country_zones: list,
     output_dir: Path,
-    country_lower: str
+    country_lower: str,
+    scenario_reference: str = 'baseline'
 ) -> None:
-    """Generate pExtTransferLimit from cross-border pTransferLimit entries."""
-    transfer_limit_path = folder_input / "trade" / "pTransferLimit.csv"
-    if not transfer_limit_path.exists():
-        print("Warning: pTransferLimit.csv not found. pExtTransferLimit not generated.")
-        return
-
-    transfer_limit_df = pd.read_csv(transfer_limit_path)
-
-    # Extract cross-border transmission
-    cross_border = transfer_limit_df[
-        ((transfer_limit_df['From'].isin(country_zones)) & (~transfer_limit_df['To'].isin(country_zones))) |
-        ((~transfer_limit_df['From'].isin(country_zones)) & (transfer_limit_df['To'].isin(country_zones)))
-    ]
-
-    if cross_border.empty:
-        print("Warning: No cross-border transmission found.")
-        # Create empty file with headers
-        pd.DataFrame(columns=['Internal zone', 'External zone', 'Seasons', 'Import-Export']).to_csv(
-            output_dir / f"pExtTransferLimit_{country_lower}.csv",
+    """Generate pTransferLimit for internal transmission only (within country zones)."""
+    if transmission_capacity_df is None or transmission_capacity_df.empty:
+        pd.DataFrame(columns=['z', 'z2', 'q']).to_csv(
+            output_dir / f"pTransferLimit_{country_lower}.csv",
             index=False
         )
         return
 
+    df = _filter_to_scenario(transmission_capacity_df, scenario_reference)
+
+    # Filter to internal links only (both zones in country)
+    internal = df[
+        (df['zone'].isin(country_zones)) &
+        (df['z2'].isin(country_zones))
+    ].copy()
+
+    if internal.empty:
+        pd.DataFrame(columns=['z', 'z2', 'q']).to_csv(
+            output_dir / f"pTransferLimit_{country_lower}.csv",
+            index=False
+        )
+        return
+
+    # pTransmissionCapacity is (zone, z2, year) - need to pivot to wide format with year columns
+    pivoted = internal.pivot_table(
+        index=['zone', 'z2'],
+        columns='year',
+        values='value',
+        aggfunc='first',
+        observed=True
+    ).reset_index()
+
+    # Add season column - use 'q1' as placeholder (capacity is constant across seasons)
+    pivoted['q'] = 'q1'
+
+    # Rename to output format (short names for GAMS input)
+    pivoted = pivoted.rename(columns={'zone': 'z'})
+
+    # Reorder columns
+    year_cols = [c for c in pivoted.columns if c not in ['z', 'z2', 'q']]
+    pivoted = pivoted[['z', 'z2', 'q'] + year_cols]
+
+    pivoted.to_csv(
+        output_dir / f"pTransferLimit_{country_lower}.csv",
+        index=False
+    )
+
+
+def _generate_ext_transfer_limit_from_gdx(
+    transmission_capacity_df: pd.DataFrame,
+    ext_transfer_limit_df: pd.DataFrame,
+    hourly_price_df: pd.DataFrame,
+    country_zones: list,
+    output_dir: Path,
+    country_lower: str,
+    scenario_reference: str = 'baseline'
+) -> None:
+    """
+    Generate pExtTransferLimit from GDX data.
+
+    Combines two sources:
+    1. pTransmissionCapacity - for cross-border internal transmission (z to z2)
+    2. pExtTransferLimit - for existing external zone connections (z to zext)
+    """
     ext_transfer_rows = []
-    year_cols = [c for c in cross_border.columns if c not in ['From', 'To', 'q']]
 
-    for _, row in cross_border.iterrows():
-        from_zone = row['From']
-        to_zone = row['To']
-        season = row['q']
+    # Extract seasons from pHourlyPrice
+    if hourly_price_df is None or hourly_price_df.empty or 'season' not in hourly_price_df.columns:
+        raise ValueError("pHourlyPrice data with 'season' column is required to extract seasons")
+    seasons = sorted(hourly_price_df['season'].unique().tolist())
 
-        if from_zone in country_zones:
-            # Export from country zone to neighbor
-            internal_zone = from_zone
-            external_zone = to_zone
-            direction = 'Export'
-        else:
-            # Import to country zone from neighbor
-            internal_zone = to_zone
-            external_zone = from_zone
-            direction = 'Import'
+    # 1. Process cross-border internal transmission from pTransmissionCapacity
+    if transmission_capacity_df is not None and not transmission_capacity_df.empty:
+        df = _filter_to_scenario(transmission_capacity_df, scenario_reference)
 
-        ext_row = {
-            'Internal zone': internal_zone,
-            'External zone': external_zone,
-            'Seasons': season,
-            'Import-Export': direction
-        }
-        for yr in year_cols:
-            ext_row[yr] = row[yr]
+        # Extract cross-border links (one zone in country, one not)
+        cross_border = df[
+            ((df['zone'].isin(country_zones)) & (~df['z2'].isin(country_zones))) |
+            ((~df['zone'].isin(country_zones)) & (df['z2'].isin(country_zones)))
+        ]
 
-        ext_transfer_rows.append(ext_row)
+        # Pivot to get year columns
+        if not cross_border.empty:
+            pivoted = cross_border.pivot_table(
+                index=['zone', 'z2'],
+                columns='year',
+                values='value',
+                aggfunc='first',
+                observed=True
+            ).reset_index()
+
+            year_cols = [c for c in pivoted.columns if c not in ['zone', 'z2']]
+
+            for _, row in pivoted.iterrows():
+                from_zone = row['zone']
+                to_zone = row['z2']
+
+                if from_zone in country_zones:
+                    # Export: from country zone to neighbor
+                    internal_zone = from_zone
+                    external_zone = to_zone
+                    direction = 'Export'
+                else:
+                    # Import: from neighbor to country zone
+                    internal_zone = to_zone
+                    external_zone = from_zone
+                    direction = 'Import'
+
+                # pTransmissionCapacity is yearly - replicate for all seasons
+                for season in seasons:
+                    ext_row = {
+                        'z': internal_zone,
+                        'zext': external_zone,
+                        'q': season,
+                        'type': direction
+                    }
+                    for yr in year_cols:
+                        ext_row[yr] = row[yr]
+
+                    ext_transfer_rows.append(ext_row)
+
+    # 2. Process existing external zone connections from pExtTransferLimit
+    if ext_transfer_limit_df is not None and not ext_transfer_limit_df.empty:
+        df = _filter_to_scenario(ext_transfer_limit_df, scenario_reference)
+
+        # Find the direction column (could be 'attribute', 'uni_0', etc.)
+        direction_col = None
+        for col in ['attribute', 'uni_0', 'Import-Export', 'direction', 'type']:
+            if col in df.columns:
+                direction_col = col
+                break
+
+        # Filter to links connected to country zones
+        country_ext = df[df['zone'].isin(country_zones)]
+
+        if not country_ext.empty:
+            # GDX data is in long format - need to pivot to wide format with year columns
+            # Group by zone, zext, season, direction and pivot on year
+            pivot_cols = ['zone', 'zext', 'season']
+            if direction_col:
+                pivot_cols.append(direction_col)
+
+            pivoted = country_ext.pivot_table(
+                index=pivot_cols,
+                columns='year',
+                values='value',
+                aggfunc='first',
+                observed=True
+            ).reset_index()
+
+            year_cols = [c for c in pivoted.columns if c not in pivot_cols]
+
+            for _, row in pivoted.iterrows():
+                ext_row = {
+                    'z': row['zone'],
+                    'zext': row['zext'],
+                    'q': row['season'],
+                    'type': row[direction_col] if direction_col else 'Import'
+                }
+                for yr in year_cols:
+                    ext_row[yr] = row[yr]
+
+                ext_transfer_rows.append(ext_row)
+
+    # Write output
+    if not ext_transfer_rows:
+        logger.warning("No cross-border transmission found for pExtTransferLimit.")
+        pd.DataFrame(columns=['z', 'zext', 'q', 'type']).to_csv(
+            output_dir / f"pExtTransferLimit_{country_lower}.csv",
+            index=False
+        )
+        return
 
     ext_transfer_df = pd.DataFrame(ext_transfer_rows)
     ext_transfer_df.to_csv(
         output_dir / f"pExtTransferLimit_{country_lower}.csv",
         index=False
     )
+    logger.info(f"Generated pExtTransferLimit with {len(ext_transfer_df)} rows")
 
 
 def _generate_trade_price(
     folder_output: Path,
     neighbors: list,
+    existing_zext: list,
     output_dir: Path,
     country_lower: str,
     hourly_price_df: pd.DataFrame = None,
+    trade_price_df: pd.DataFrame = None,
     scenario_reference: str = 'baseline'
 ) -> None:
     """
-    Convert pHourlyPrice to pTradePrice format for neighbor zones.
+    Generate pTradePrice for the single-country model.
 
-    pHourlyPrice format (from GDX): zone,season,day,hour,year,value (long format)
-    pTradePrice format: zext,q,d,y,t1,t2,...,t24 (wide format)
+    Combines two sources:
+    1. pHourlyPrice - for neighbors (zones that were internal in regional model)
+    2. pTradePrice - for existing external zones (like SAPP)
 
     Args:
         folder_output: Path to output folder (used if hourly_price_df not provided)
-        neighbors: List of neighbor zone names
+        neighbors: List of neighbor zone names (from pTransmissionCapacity)
+        existing_zext: List of existing external zones (from zext.csv)
         output_dir: Directory to write the output file
         country_lower: Lowercase country name for file naming
-        hourly_price_df: Optional DataFrame with pHourlyPrice (if already loaded from GDX)
+        hourly_price_df: DataFrame with pHourlyPrice from GDX (for neighbor zones)
+        trade_price_df: DataFrame with pTradePrice from GDX (for existing external zones)
         scenario_reference: Reference scenario to use for prices (default: 'baseline')
     """
-    # Use provided DataFrame or try to read from CSV
-    if hourly_price_df is None:
-        possible_paths = [
-            folder_output / "pHourlyPrice.csv",
-            folder_output / "csv" / "pHourlyPrice.csv",
-            folder_output / "output_csv" / "pHourlyPrice.csv",
-        ]
+    result_dfs = []
 
-        hourly_price_path = None
-        for path in possible_paths:
-            if path.exists():
-                hourly_price_path = path
-                break
+    # 1. Process neighbors from pHourlyPrice
+    if neighbors and hourly_price_df is not None and not hourly_price_df.empty:
+        neighbor_df = _process_hourly_price_for_neighbors(
+            hourly_price_df, neighbors, scenario_reference
+        )
+        if neighbor_df is not None:
+            result_dfs.append(neighbor_df)
 
-        if hourly_price_path is None:
-            print(f"Warning: pHourlyPrice.csv not found in {folder_output}. pTradePrice not generated.")
-            return
+    # 2. Process existing external zones from pTradePrice
+    if existing_zext and trade_price_df is not None and not trade_price_df.empty:
+        existing_df = _process_trade_price_for_existing_zext(
+            trade_price_df, existing_zext, scenario_reference
+        )
+        if existing_df is not None:
+            result_dfs.append(existing_df)
 
-        hourly_price_df = pd.read_csv(hourly_price_path)
-
-    # Check the structure of the file
-    print(f"pHourlyPrice columns: {hourly_price_df.columns.tolist()}")
-
-    # Determine zone column name (could be 'z' or 'zone')
-    zone_col = 'zone' if 'zone' in hourly_price_df.columns else 'z'
-    if zone_col not in hourly_price_df.columns:
-        print(f"Warning: zone column not found in pHourlyPrice. Columns: {hourly_price_df.columns.tolist()}")
+    # Combine and write output
+    if not result_dfs:
+        logger.warning("No trade prices found for any external zones")
+        pd.DataFrame(columns=['zext', 'q', 'd', 'y']).to_csv(
+            output_dir / f"pTradePrice_{country_lower}.csv",
+            index=False
+        )
         return
 
-    # Determine other column names (could vary between 'q'/'season', 'd'/'day', 'y'/'year')
-    season_col = 'season' if 'season' in hourly_price_df.columns else 'q'
-    day_col = 'day' if 'day' in hourly_price_df.columns else 'd'
-    year_col = 'year' if 'year' in hourly_price_df.columns else 'y'
+    combined_df = pd.concat(result_dfs, ignore_index=True)
+    combined_df.to_csv(
+        output_dir / f"pTradePrice_{country_lower}.csv",
+        index=False
+    )
+    logger.info(f"Generated pTradePrice with {len(combined_df)} rows")
 
-    # Filter to scenario_reference (or first scenario if not found)
-    if 'scenario' in hourly_price_df.columns:
-        scenarios = hourly_price_df['scenario'].unique()
-        if scenario_reference in scenarios:
-            hourly_price_df = hourly_price_df[hourly_price_df['scenario'] == scenario_reference]
-            print(f"Filtered to '{scenario_reference}' scenario")
-        else:
-            first_scenario = scenarios[0]
-            hourly_price_df = hourly_price_df[hourly_price_df['scenario'] == first_scenario]
-            print(f"'{scenario_reference}' not found, using first scenario: '{first_scenario}'")
 
-    # Filter to only neighbor zones
-    neighbor_prices = hourly_price_df[hourly_price_df[zone_col].isin(neighbors)].copy()
+def _process_hourly_price_for_neighbors(
+    hourly_price_df: pd.DataFrame,
+    neighbors: list,
+    scenario_reference: str
+) -> pd.DataFrame:
+    """Convert pHourlyPrice to pTradePrice format for neighbor zones."""
+    df = _filter_to_scenario(hourly_price_df, scenario_reference)
+
+    # Filter to neighbor zones
+    neighbor_prices = df[df['zone'].isin(neighbors)].copy()
 
     if neighbor_prices.empty:
-        print(f"Warning: No hourly prices found for neighbors {neighbors}")
-        return
+        logger.warning(f"No hourly prices found for neighbors {neighbors}")
+        return None
 
-    # Pivot from long format to wide format
-    # Input columns: zone, season, day, t, year, value
-    # Output columns: zext, q, d, y, t1, t2, ..., t24
     try:
-        # Pivot the data
+        # Pivot to wide format
         pivoted = neighbor_prices.pivot_table(
-            index=[zone_col, season_col, day_col, year_col],
+            index=['zone', 'season', 'day', 'year'],
             columns='t',
             values='value',
-            aggfunc='first'
+            aggfunc='first',
+            observed=True
         ).reset_index()
 
-        # Rename columns to match pTradePrice format
-        col_rename = {
-            zone_col: 'zext',
-            season_col: 'q',
-            day_col: 'd',
-            year_col: 'y'
-        }
-        # Handle t columns (already t1, t2, etc.)
+        # Rename to output format (short names for GAMS input)
+        pivoted = pivoted.rename(columns={'zone': 'zext', 'season': 'q', 'day': 'd', 'year': 'y'})
+
+        # Ensure t columns have 't' prefix
+        col_rename = {}
         for col in pivoted.columns:
-            if col not in [zone_col, season_col, day_col, year_col, 'zext', 'q', 'd', 'y']:
-                if str(col).startswith('t'):
-                    col_rename[col] = col
-                else:
+            if col not in ['zext', 'q', 'd', 'y']:
+                if not str(col).startswith('t'):
                     col_rename[col] = f't{col}'
+        if col_rename:
+            pivoted = pivoted.rename(columns=col_rename)
 
-        pivoted = pivoted.rename(columns=col_rename)
-
-        # Reorder columns to match pTradePrice format
+        # Reorder columns
         base_cols = ['zext', 'q', 'd', 'y']
         t_cols = sorted(
             [c for c in pivoted.columns if str(c).startswith('t')],
             key=lambda x: int(str(x)[1:])
         )
-        pivoted = pivoted[base_cols + t_cols]
-
-        pivoted.to_csv(
-            output_dir / f"pTradePrice_{country_lower}.csv",
-            index=False
-        )
-        print(f"Generated pTradePrice with {len(pivoted)} rows for neighbors: {neighbors}")
+        return pivoted[base_cols + t_cols]
 
     except Exception as e:
-        print(f"Warning: Could not pivot pHourlyPrice to pTradePrice format: {e}")
-        print("Saving raw filtered data instead.")
-        neighbor_prices.to_csv(
-            output_dir / f"pTradePrice_{country_lower}.csv",
-            index=False
+        logger.warning(f"Could not process pHourlyPrice for neighbors: {e}")
+        return None
+
+
+def _process_trade_price_for_existing_zext(
+    trade_price_df: pd.DataFrame,
+    existing_zext: list,
+    scenario_reference: str
+) -> pd.DataFrame:
+    """Extract pTradePrice entries for existing external zones."""
+    df = _filter_to_scenario(trade_price_df, scenario_reference)
+
+    # Filter to existing external zones
+    existing_prices = df[df['zext'].isin(existing_zext)].copy()
+
+    if existing_prices.empty:
+        logger.warning(f"No trade prices found for existing zext {existing_zext}")
+        return None
+
+    try:
+        # Pivot to wide format (same as pHourlyPrice)
+        pivoted = existing_prices.pivot_table(
+            index=['zext', 'season', 'day', 'year'],
+            columns='t',
+            values='value',
+            aggfunc='first',
+            observed=True
+        ).reset_index()
+
+        # Rename to output format (short names for GAMS input)
+        pivoted = pivoted.rename(columns={'season': 'q', 'day': 'd', 'year': 'y'})
+
+        # Ensure t columns have 't' prefix
+        col_rename = {}
+        for col in pivoted.columns:
+            if col not in ['zext', 'q', 'd', 'y']:
+                if not str(col).startswith('t'):
+                    col_rename[col] = f't{col}'
+        if col_rename:
+            pivoted = pivoted.rename(columns=col_rename)
+
+        # Reorder columns
+        base_cols = ['zext', 'q', 'd', 'y']
+        t_cols = sorted(
+            [c for c in pivoted.columns if str(c).startswith('t')],
+            key=lambda x: int(str(x)[1:])
         )
+        return pivoted[base_cols + t_cols]
+
+    except Exception as e:
+        logger.warning(f"Could not process pTradePrice for existing zext: {e}")
+        return None
 
 
 def _generate_config(
@@ -380,10 +591,13 @@ if __name__ == "__main__":
     if len(sys.argv) < 4:
         print("Usage: python single_country.py <folder_input> <folder_output> <country>")
         print("Example: python single_country.py epm/input/data_test epm/output/data_test DRC")
+        print("\nNote: This script now expects GDX data to be passed programmatically.")
+        print("For standalone testing, use the postprocessing module with --focus_country.")
         sys.exit(1)
 
     folder_input = Path(sys.argv[1])
     folder_output = Path(sys.argv[2])
     country = sys.argv[3]
 
+    # Note: For standalone use, GDX data would need to be loaded separately
     generate_single_country_inputs(folder_input, folder_output, country)
