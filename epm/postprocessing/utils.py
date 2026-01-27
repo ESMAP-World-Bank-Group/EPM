@@ -163,15 +163,10 @@ class ZoneMapContext:
         return len(self.zones_mapped) > 0
 
     def log_diagnostics(self):
-        """Log standardized diagnostic information about zone mapping."""
-        log_info(f"Zone mapping diagnostics:")
-        log_info(f"  - Model zones (from pZoneCountry): {self.model_zones}")
-        log_info(f"  - Zones with map geometry: {self.zones_with_geometry}")
-        log_info(f"  - Successfully mapped: {self.zones_mapped}")
-
+        """Log diagnostic information - only warns if zones are missing geometry."""
         if self.zones_missing_geometry:
             log_warning(
-                f"Zones in model but missing map geometry (no GeoJSON boundary):\n"
+                f"Map generation: {len(self.zones_missing_geometry)} zones missing map geometry:\n"
                 f"  {self.zones_missing_geometry}\n"
                 f"  To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
             )
