@@ -7,7 +7,7 @@
       }
     },
     "capacity": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "CapacityMixSystemEvolutionScenarios": true,
         "CapacityMixSystemEvolutionScenariosRelative": true,
@@ -74,7 +74,7 @@
       }
     },
     "maps": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "TransmissionCapacityMap": false,
         "TransmissionCapacityMapEvolution": false,
