@@ -352,10 +352,10 @@ def select_time_period(df, select_time):
     """
     temp = ''
     if 'season' in select_time.keys():
-        df = df.loc[df.season.isin(select_time['season'])]
+        df = df.loc[df['season'].isin(select_time['season'])]
         temp += '_'.join(select_time['season'])
     if 'day' in select_time.keys():
-        df = df.loc[df.day.isin(select_time['day'])]
+        df = df.loc[df['day'].isin(select_time['day'])]
         temp += '_'.join(select_time['day'])
     return df, temp
 
@@ -1263,7 +1263,7 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
 
         Example
         -------
-        df = epm_dict['FuelDispatch']
+        df = epm_dict['Dispatch']
         column_stacked = 'fuel'
         select_time = {'season': ['m1'], 'day': ['d21', 'd22', 'd23', 'd24', 'd25', 'd26', 'd27', 'd28', 'd29', 'd30']}
         df = prepare_hourly_dataframe(df, zone='Liberia', year=2025, scenario='Baseline', column_stacked='fuel', fuel_grouping=None, select_time=select_time)
@@ -1274,6 +1274,12 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
         else:
             df = df[(df['year'] == year) & (df['scenario'] == scenario)]
             df = df.drop(columns=['year', 'scenario'])
+
+        # Handle empty dataframe - return empty df with correct structure for concat
+        if df.empty:
+            empty_df = pd.DataFrame()
+            empty_df.index = pd.MultiIndex.from_tuples([], names=['season', 'day', 't'])
+            return empty_df, None
 
         if column_stacked == 'fuel':
             if fuel_grouping is not None:

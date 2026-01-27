@@ -124,10 +124,9 @@ def create_zonemap(zone_map, map_geojson_to_epm):
 
     if not centers:
         log_warning(
-            f"No zones have map geometry. Map visualization will be empty.\n"
+            f"No zone centers could be extracted. Map visualization will be empty.\n"
             f"  - GeoJSON zones available: {list(all_geojson_zones)}\n"
-            f"  - EPM zone mapping expects: {list(map_geojson_to_epm.keys())}\n"
-            f"  - To fix: Add entries to epm/resources/postprocess/geojson_to_epm.csv"
+            f"  - Mapping expects: {list(map_geojson_to_epm.keys())}"
         )
 
     return zone_map, centers
@@ -721,7 +720,7 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.show()
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
     df1 = pCapacityTechFuel.copy()
@@ -745,7 +744,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
     df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
     df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
 
-    df_price = pPrice.copy()
+    df_price = pHourlyPrice.copy()
 
     dfs_to_plot_area = {
         'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
@@ -766,8 +765,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
         'pNetExchange': net_exchange,
     }
 
-    seasons = pDispatchPlant.season.unique()
-    days = pDispatchPlant.day.unique()
+    seasons = pDispatchPlant['season'].unique()
+    days = pDispatchPlant['day'].unique()
 
     select_time = {'season': seasons, 'day': days}
 
@@ -1579,7 +1578,7 @@ def get_extended_pastel_palette(n):
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
+                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -1669,7 +1668,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
             # Generate and embed capacity mix and dispatch plots
             popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch,
-                                                pDispatchPlant, pPrice, scale_factor=0.8)
+                                                pDispatchPlant, pHourlyPrice, scale_factor=0.8)
 
             folium.Marker(
                 location=coords,
@@ -1721,7 +1720,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
 
     # One figure per scenario
     for selected_scenario in selected_scenarios:
-        log_info(f'Generating map for scenario {selected_scenario}')
+        log_info(f'  Scenario: {selected_scenario}')
         # Select first and last years
         #years = [min(years), max(years)]
         years = [y for y in [2025, 2030, 2035, 2040] if y in years]
@@ -1774,7 +1773,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             make_interconnection_map_faceted(zone_map, df, centers, title=title, column='capacity',
                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                     min_display_value=50, filename=filename, subplotcolumn='year', col_wrap=3)
-            log_info(f'Saved transmission capacity map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         figure_name = 'TransmissionUtilizationMapEvolution'
         if _is_enabled(figure_name):
@@ -1792,7 +1791,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                     min_display_value=10, filename=filename, subplotcolumn='year', col_wrap=3,
                                     format_y=lambda y, _: '{:.0f} %'.format(y), show_arrows=True, arrow_offset_ratio=0.4,
                                     arrow_size=25)
-            log_info(f'Saved transmission utilization map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         
         
@@ -1814,7 +1813,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                             min_display_value=50, filename=filename)
-                    log_info(f'Saved transmission capacity map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
                 figure_name = 'TransmissionUtilizationMap'
                 if _is_enabled(figure_name):
@@ -1827,7 +1826,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                             format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
                                             title=title, show_arrows=True, arrow_offset_ratio=0.4,
                                             arrow_size=25, plot_colored_countries=True)
-                    log_info(f'Saved transmission utilization map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
              
                 figure_name = 'NetExportsMap'
                 if _is_enabled(figure_name):
@@ -1850,14 +1849,12 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                     make_interconnection_map(zone_map, df_net, centers, filename=filename,
-                                            title=title,
+                                            title=title, column='value',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
-                                            plot_colored_countries=True,
-                                            min_display_value=100, column='value', plot_lines=False,
-                                            format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
-                                            min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
-                                            color_col='congestion')
-                    log_info(f'Saved net exports map: {filename}')
+                                            plot_colored_countries=True, min_display_value=100,
+                                            format_y=lambda y, _: '{:.0f} GWh'.format(y),
+                                            show_arrows=True, arrow_offset_ratio=0.4, arrow_size=25)
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     
@@ -1875,5 +1872,5 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
-                        log_info(f'Saved interactive map: {filename}')
+                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pHourlyPrice'])
+                        log_info(f'    Saved {os.path.basename(filename)}')
