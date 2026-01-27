@@ -264,8 +264,10 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         zone_map = pd.concat([zone_map, zone_map_add])
 
     divided_parts = []
+    # Filter zones_to_split to only include zones that are actually selected
+    zones_to_split_selected = zones_to_split[zones_to_split['epm_zone'].isin(selected_zones_to_split)]
     # source_name column contains the polygon name (matches ADMIN in world GeoJSON)
-    for (source_name, split_type), subset in zones_to_split.groupby(['source_name', 'split']):
+    for (source_name, split_type), subset in zones_to_split_selected.groupby(['source_name', 'split']):
         # Apply division function to split the polygon
         divided_parts.append(divide(dict_specs['map_zones'], source_name, split_type))
 
@@ -274,7 +276,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
 
         # Merge divided parts with mapping info
         # Use source_name as ADMIN for the merge (matches divide() output)
-        merge_df = zones_to_split.copy()
+        merge_df = zones_to_split_selected.copy()
         merge_df['ADMIN'] = merge_df['source_name']
         # divide() returns 'region' column, so rename subregion to match
         merge_df = merge_df.rename(columns={'subregion': 'region'})
@@ -292,7 +294,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     # For complete zones: source_name -> epm_zone
     # For split zones: epm_zone -> epm_zone (identity, since ADMIN is now the epm_zone name)
     geojson_to_epm_dict = zones_complete.set_index('source_name')['epm_zone'].to_dict()
-    for epm_zone in zones_to_split['epm_zone'].values:
+    for epm_zone in zones_to_split_selected['epm_zone'].values:
         geojson_to_epm_dict[epm_zone] = epm_zone
 
     return zone_map, geojson_to_epm_dict

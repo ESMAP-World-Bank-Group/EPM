@@ -407,6 +407,13 @@ def read_plot_specs():
     all_colors = {**base_colors, **techfuel_colors}
 
     zones = gpd.read_file(GEOJSON)
+
+    # Auto-merge custom zones if zones_custom.geojson exists
+    zones_custom_path = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
+    if os.path.exists(zones_custom_path):
+        zones_custom = gpd.read_file(zones_custom_path)
+        zones = pd.concat([zones, zones_custom], ignore_index=True)
+
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
     dict_specs = {
