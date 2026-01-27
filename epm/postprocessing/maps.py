@@ -47,12 +47,19 @@ from .utils import *
 from .plots import subplot_pie, make_fuel_dispatchplot
 
 
-_GEOJSON_HEADER = "Geojson,EPM,region,country,division"
+# Required CSV format: EPM,Geojson,region,division
+_GEOJSON_HEADER = "EPM,Geojson,region,division"
 
 
 def _read_geojson_mapping(path):
     """
-    Read a GeoJSON-to-EPM mapping CSV while normalizing repeated header rows.
+    Read a GeoJSON-to-EPM mapping CSV.
+
+    Required format: EPM,Geojson,region,division
+    - EPM: Zone name in the model (required)
+    - Geojson: Zone/country name in GeoJSON file matching ADMIN field (required)
+    - region: For divided zones only - north/south/east/west/center
+    - division: For divided zones only - NS/EW/NSE/NCS
 
     Some exported CSVs append the header again without a newline, causing pandas
     to fail when parsing. This helper inserts the missing newline and removes
@@ -61,8 +68,25 @@ def _read_geojson_mapping(path):
     with open(path, encoding='utf-8-sig') as fp:
         raw_text = fp.read()
 
+    # Check for required header format
     if _GEOJSON_HEADER not in raw_text:
-        return pd.read_csv(path)
+        # Check for common issues
+        if 'country' in raw_text.lower():
+            raise ValueError(
+                f"Invalid geojson_to_epm.csv format in {path}\n"
+                f"  Found deprecated 'country' column.\n"
+                f"  Required format: {_GEOJSON_HEADER}\n"
+                f"  The 'country' column is no longer needed - use 'Geojson' column for the source polygon name."
+            )
+        raise ValueError(
+            f"Invalid geojson_to_epm.csv format in {path}\n"
+            f"  Required header: {_GEOJSON_HEADER}\n"
+            f"  Columns:\n"
+            f"    - EPM: Zone name in your model\n"
+            f"    - Geojson: Zone name in GeoJSON file (matches ADMIN field)\n"
+            f"    - region: Optional, for split zones (north/south/east/west/center)\n"
+            f"    - division: Optional, split type (NS/EW/NSE/NCS)"
+        )
 
     pattern = r'(?<=.)(?<![\r\n])' + re.escape(_GEOJSON_HEADER)
     normalized_text = re.sub(pattern, '\n' + _GEOJSON_HEADER, raw_text)
@@ -246,24 +270,37 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         zone_map = pd.concat([zone_map, zone_map_add])
 
     divided_parts = []
-    for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
-        # Apply division function
-        divided_parts.append(divide(dict_specs['map_zones'], country, division))
+    # New format: EPM,Geojson,region,division
+    # Geojson column contains the source polygon name (matches ADMIN in world GeoJSON)
+    for (geojson_name, division), subset in geojson_to_divide.groupby(['Geojson', 'division']):
+        # Apply division function to split the polygon
+        divided_parts.append(divide(dict_specs['map_zones'], geojson_name, division))
 
     if divided_parts:
         zone_map_divide = pd.concat(divided_parts)
 
-        zone_map_divide = \
-        geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
-            ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
-        zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
+        # Merge divided parts with mapping info
+        # Use Geojson as ADMIN for the merge (matches divide() output)
+        merge_df = geojson_to_divide.copy()
+        merge_df['ADMIN'] = merge_df['Geojson']
+        zone_map_divide = merge_df.merge(zone_map_divide, on=['region', 'ADMIN'])[
+            ['EPM', 'ISO_A3', 'ISO_A2', 'geometry']]
+        # Use EPM as the final ADMIN (unique identifier for each zone)
+        zone_map_divide = zone_map_divide.rename(columns={'EPM': 'ADMIN'})
         # Convert zone_map_divide back to a GeoDataFrame
         zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
 
         # Ensure final zone_map is in EPSG:4326
         zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
-    geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
-    return zone_map, geojson_to_epm
+
+    # Build the mapping dict
+    # For complete zones: Geojson -> EPM
+    # For divided zones: EPM -> EPM (identity, since ADMIN is now the EPM name)
+    geojson_to_epm_dict = geojson_complete.set_index('Geojson')['EPM'].to_dict()
+    for epm_name in geojson_to_divide['EPM'].values:
+        geojson_to_epm_dict[epm_name] = epm_name
+
+    return zone_map, geojson_to_epm_dict
 
 
 def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):

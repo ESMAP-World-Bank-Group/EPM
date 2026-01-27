@@ -224,12 +224,37 @@ Maps technologies and fuels to hex color codes for:
 
 ## geojson_to_epm.csv
 
-Geographic mapping for visualization.
+Geographic mapping for visualization. Maps EPM zone names to GeoJSON identifiers for map generation.
 
-Maps EPM zone names to GeoJSON identifiers for:
-- Map visualizations
-- Regional aggregation
-- Geographic analysis
+### Format
+
+```csv
+EPM,Geojson,region,division
+```
+
+| Column | Required | Description |
+|--------|----------|-------------|
+| `EPM` | Yes | Zone name in your model |
+| `Geojson` | Yes | Zone/country name in GeoJSON file (matches ADMIN field) |
+| `region` | No | For split zones: north, south, east, west, center |
+| `division` | No | Split pattern: NS (North-South), EW (East-West), NSE (3-way), NCS (3 bands) |
+
+### Examples
+
+**Simple zones (no splitting):**
+```csv
+EPM,Geojson,region,division
+Angola,Angola,,
+Kenya,Kenya,,
+```
+
+**Split zones (dividing a country into sub-regions):**
+```csv
+EPM,Geojson,region,division
+DRC,Democratic Republic of the Congo,north,NSE
+DRC_South,Democratic Republic of the Congo,south,NSE
+DRC_East,Democratic Republic of the Congo,east,NSE
+```
 
 ## How Resources Are Loaded
 
