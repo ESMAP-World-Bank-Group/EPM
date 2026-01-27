@@ -42,6 +42,7 @@ import os
 import json
 import logging
 import re
+import traceback
 from pathlib import Path
 from functools import wraps
 import pandas as pd
@@ -67,10 +68,16 @@ def _wrap_plot_function(func):
         try:
             return func(*args, **kwargs)
         except Exception as err:
-            label = kwargs.get('filename')
-            if label is None:
-                label = kwargs.get('title')
-            log_warning(f'Failed to generate {label}: {err.args[0]}')
+            label = kwargs.get('filename') or kwargs.get('title') or func.__name__
+            # Find last frame in user code (exclude site-packages/external libraries)
+            tb = traceback.extract_tb(err.__traceback__)
+            user_frames = [f for f in tb if 'site-packages' not in f.filename]
+            if user_frames:
+                frame = user_frames[-1]
+                location = f"{os.path.basename(frame.filename)}:{frame.lineno} in {frame.name}"
+            else:
+                location = "unknown"
+            log_warning(f'Failed to generate {label}: {err}\n  Location: {location}')
     return wrapper
 
 
@@ -181,6 +188,21 @@ def is_figure_active(figure_name: str) -> bool:
     if category and not FIGURE_CATEGORY_ENABLED.get(category, True):
         return False
     return FIGURES_ACTIVATED.get(figure_name, False)
+
+
+def is_category_enabled(category_name: str) -> bool:
+    """Return True when the category is enabled."""
+    return FIGURE_CATEGORY_ENABLED.get(category_name, True)
+
+
+def _log_section(name, category=None, logger=None):
+    """Log section header with separator, or skip message if disabled."""
+    if category and not is_category_enabled(category):
+        log_info(f"Skipping {name} (disabled in figures_config.json)", logger=logger)
+        return False
+    log_info("─" * 50, logger=logger)
+    log_info(f"Generating {name}...", logger=logger)
+    return True
 
 
 TRADE_ATTRS = [
@@ -841,7 +863,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             selected_scenarios = selected_scenario
 
         # Generate summary
-        log_info('Generating summary...', logger=active_logger)
+        _log_section('summary', category='summary', logger=active_logger)
         generate_summary(epm_results, RESULTS_FOLDER)
 
         # Generate detailed by plant to debug
@@ -852,7 +874,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------
 
             # Generate a detailed summary by Power Plant
-            log_info('Generating detailed summary by Power Plant...', logger=active_logger)
+            log_info('  Generating detailed summary by Power Plant...', logger=active_logger)
             try:
                 generate_plants_summary(epm_results, RESULTS_FOLDER)
             except Exception as err:
@@ -860,8 +882,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             # ------------------------------------------------------------------------------------
 
-            # Generate a heatmap summary 
-            log_info('Generating heatmap summary...', logger=active_logger)
+            # Generate a heatmap summary
+            log_info('  Generating heatmap summary...', logger=active_logger)
             if len(selected_scenarios) < scenarios_threshold:
                 figure_name = 'SummaryHeatmap'
                 if is_figure_active(figure_name):
@@ -893,7 +915,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 1. Capacity figures
             # ------------------------------------------------------------------------------------
 
-            log_info('Generating capacity figures...', logger=active_logger)
+            _log_section('capacity figures', category='capacity', logger=active_logger)
                         
             # 1.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
@@ -1221,7 +1243,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 2. Cost figures
             # ------------------------------------------------------------------------------------
 
-            log_info('Generating cost figures...', logger=active_logger)
+            _log_section('cost figures', category='costs', logger=active_logger)
              
             figure_name = 'PriceBaselineByZone'
             if is_figure_active(figure_name):
@@ -1725,7 +1747,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 3. Energy figures
             # ------------------------------------------------------------------------------------
 
-            log_info('Generating energy figures...', logger=active_logger)
+            _log_section('energy figures', category='energy', logger=active_logger)
             
             # Use pEnergyTechFuelComplete which already includes all energy data
             # (tech-fuel combinations + balance components like Imports, Exports, UnmetDemand)
@@ -1892,7 +1914,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario_reference}.pdf')
                 df_energyplant = epm_results['pEnergyPlant'].copy()
                 if nbr_zones == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
-                    log_info('Generating energy figures for single zone by generators... (not tested yet)', logger=active_logger)
+                    log_info('  Generating energy figures for single zone by generators... (not tested yet)', logger=active_logger)
                     temp = df_energyplant[df_energyplant['scenario'] == scenario_reference]
                     make_stacked_areaplot(
                         temp,
@@ -1910,10 +1932,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                        
             # ------------------------------------------------------------------------------------
             # 4. Dispatch
-            # ------------------------------------------------------------------------------------                  
-                        
+            # ------------------------------------------------------------------------------------
+
             if plot_dispatch:
-                log_info('Generating energy dispatch figures...', logger=active_logger)
+                _log_section('dispatch figures', category='dispatch', logger=active_logger)
                 # Perform automatic Energy DispatchFigures
                 try:
                     make_automatic_dispatch(
@@ -1927,11 +1949,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     log_warning(f'Failed to generate dispatch figures: {err}', logger=active_logger)
             
             # ------------------------------------------------------------------------------------
-            # 5. Interconnection Heamap
+            # 5. Interconnection Heatmap
             # ------------------------------------------------------------------------------------
-            
+
             if nbr_zones > 1:
-                log_info('Generating interconnection figures...', logger=active_logger)
+                _log_section('interconnection figures', category='interconnection', logger=active_logger)
                 
                 # 4.1 Net exchange heatmap [GWh and %] evolution
                 figure_name = 'NetImportsZoneEvolution'
@@ -2131,7 +2153,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     and epm_results['pTransmissionCapacity'].zone.nunique() > 0
                 ):
 
-                        log_info('Generating interactive map figures...', logger=active_logger)
+                        _log_section('maps', category='maps', logger=active_logger)
                         make_automatic_map(
                             epm_results,
                             dict_specs,
@@ -2144,7 +2166,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             #----------------------- Project Economic Assessment -----------------------
             # Difference between scenarios with and without a project
-            log_info('Generating project economic assessment figures...', logger=active_logger)
+            _log_section('project economic assessment', logger=active_logger)
 
             # Identify scenario pairs: base scenarios have no underscore, counterfactuals start with base name + '_'
             all_scenarios = df['scenario'].unique()
