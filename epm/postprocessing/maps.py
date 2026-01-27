@@ -427,7 +427,7 @@ def divide(geodf, country, division):
 
 
 def plot_zone_map_on_ax(ax, zone_map):
-    zone_map.plot(ax=ax, color='white', edgecolor='black')
+    zone_map.plot(ax=ax, color='white', edgecolor='none')
 
     # Adjusting the limits to better center the zone_map on the region
     ax.set_xlim(zone_map.bounds.minx.min() - 1, zone_map.bounds.maxx.max() + 1)
@@ -489,15 +489,15 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
-            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:  # plot_colored_countries is a list of countries
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map['color'] = zone_map['ADMIN'].apply(
             lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
         )
-        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
 
     handles, labels = [], []
     # Plot pie charts for each zone
@@ -1117,9 +1117,9 @@ def _plot_interconnection_map_on_axis(
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map_plot = zone_map.assign(color=zone_map['ADMIN'].map(predefined_colors))
-            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map_plot = zone_map.assign(
@@ -1127,7 +1127,7 @@ def _plot_interconnection_map_on_axis(
                 lambda c: predefined_colors.get(c, 'white') if c in plot_colored_countries else 'white'
             )
         )
-        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
 
     ax.set_aspect('equal')
     ax.set_axis_off()
@@ -1636,7 +1636,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
     # Add country zones
     folium.GeoJson(zone_map, style_function=lambda feature: {
-        'fillColor': '#ffffff', 'color': '#000000', 'weight': 1, 'fillOpacity': 0.3
+        'fillColor': '#ffffff', 'color': 'none', 'weight': 0, 'fillOpacity': 0.3
     }).add_to(energy_map)
 
     # Plotting transmission information
