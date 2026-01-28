@@ -94,6 +94,8 @@ pre-analysis/**/output/*
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
+!epm/input/data_capp/
+!epm/input/data_capp/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py

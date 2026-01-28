@@ -1,0 +1,209 @@
+﻿zone,tech,fuel,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
+Angola,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Angola,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Angola,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Angola,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Angola,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Angola,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Angola,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Angola,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Angola,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Angola,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Angola,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Angola,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Angola,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Burundi,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Burundi,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Burundi,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Burundi,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Burundi,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Burundi,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Burundi,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Burundi,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Burundi,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Burundi,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Burundi,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Burundi,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Burundi,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Cameroon,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Cameroon,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Cameroon,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Cameroon,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Cameroon,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Cameroon,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Cameroon,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Cameroon,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Cameroon,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Cameroon,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Cameroon,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Cameroon,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Cameroon,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+CAR,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+CAR,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+CAR,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+CAR,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+CAR,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+CAR,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+CAR,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+CAR,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+CAR,PV,Solar,0,,,,,,15000,0,0,0.8,25
+CAR,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+CAR,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+CAR,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+CAR,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Chad,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Chad,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Chad,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Chad,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Chad,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Chad,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Chad,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Chad,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Chad,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Chad,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Chad,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Chad,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Chad,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Congo,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Congo,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Congo,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Congo,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Congo,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Congo,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Congo,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Congo,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Congo,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Congo,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Congo,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Congo,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Congo,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+DRC,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+DRC,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+DRC,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+DRC,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+DRC,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+DRC,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+DRC,PV,Solar,0,,,,,,15000,0,0,0.8,25
+DRC,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+DRC,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+DRC,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+DRC,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+EquatorialGuinea,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+EquatorialGuinea,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+EquatorialGuinea,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+EquatorialGuinea,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+EquatorialGuinea,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+EquatorialGuinea,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+EquatorialGuinea,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+EquatorialGuinea,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+EquatorialGuinea,PV,Solar,0,,,,,,15000,0,0,0.8,25
+EquatorialGuinea,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+EquatorialGuinea,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+EquatorialGuinea,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+EquatorialGuinea,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Gabon,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Gabon,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Gabon,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Gabon,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Gabon,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Gabon,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Gabon,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Gabon,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Gabon,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Gabon,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Gabon,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Gabon,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Gabon,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Rwanda,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+Rwanda,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+Rwanda,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+Rwanda,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Rwanda,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+Rwanda,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+Rwanda,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+Rwanda,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+Rwanda,PV,Solar,0,,,,,,15000,0,0,0.8,25
+Rwanda,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+Rwanda,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+Rwanda,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+Rwanda,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+STP,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+STP,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+STP,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+STP,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+STP,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+STP,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+STP,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+STP,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+STP,PV,Solar,0,,,,,,15000,0,0,0.8,25
+STP,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+STP,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+STP,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+STP,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+DRC_South,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+DRC_South,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+DRC_South,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+DRC_South,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_South,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_South,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+DRC_South,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+DRC_South,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+DRC_South,PV,Solar,0,,,,,,15000,0,0,0.8,25
+DRC_South,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+DRC_South,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+DRC_South,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+DRC_South,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+DRC_East,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+DRC_East,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+DRC_East,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+DRC_East,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_East,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_East,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+DRC_East,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+DRC_East,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+DRC_East,PV,Solar,0,,,,,,15000,0,0,0.8,25
+DRC_East,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+DRC_East,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+DRC_East,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+DRC_East,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+Angola,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Burundi,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Cameroon,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+CAR,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Chad,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Congo,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+EquatorialGuinea,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Gabon,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Rwanda,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+STP,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_South,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_East,ICE,Gas,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Angola,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Burundi,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Cameroon,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+CAR,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Chad,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Congo,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+EquatorialGuinea,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Gabon,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Rwanda,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+STP,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_South,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_East,ICE,HFO,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Angola,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Burundi,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Cameroon,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+CAR,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Chad,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Congo,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+EquatorialGuinea,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Gabon,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+Rwanda,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+STP,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_South,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
+DRC_East,ICE,Diesel,0,9,1,1,0,0.2,36000,7.5,0,1.2,25
