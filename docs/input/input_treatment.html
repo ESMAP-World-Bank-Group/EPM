@@ -396,7 +396,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../model/model_overview.html">
-                        Mathematical Formulation
+                        Model Overview
                       </a>
                     </li>
                 
@@ -439,6 +439,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_issues.html">
+                        Reporting Issues and Requesting Features
                       </a>
                     </li>
                 
@@ -830,7 +837,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../model/model_overview.html">
-                        Mathematical Formulation
+                        Model Overview
                       </a>
                     </li>
                 
@@ -873,6 +880,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_issues.html">
+                        Reporting Issues and Requesting Features
                       </a>
                     </li>
                 
@@ -1052,7 +1066,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Model Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_description.html">Model Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_notations.html">Notations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_formulation.html">Model Formulation</a></li>
@@ -1065,6 +1079,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_issues.html">Reporting Issues and Requesting Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_code.html">Contributing to the code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_docs.html">Contributing to the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_postprocess.html">Contributing postprocess</a></li>
@@ -1250,6 +1265,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#overview">
    Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#processing-pipeline">
+   Processing Pipeline
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1594,6 +1614,68 @@ title="Print to PDF"
 <li><p>Availability expansion across years</p></li>
 </ol>
 </section>
+<section id="processing-pipeline">
+<h2>Processing Pipeline<a class="headerlink" href="#processing-pipeline" title="Permalink to this heading">#</a></h2>
+<p>The diagram below shows the complete input treatment pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────────────────┐
+│                        INPUT TREATMENT PIPELINE                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌──────────────┐                                                          │
+│   │ Raw Input    │                                                          │
+│   │ CSV Files    │                                                          │
+│   └──────┬───────┘                                                          │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  1. Zone Filtering          Filter to zones in zcmap.csv        │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  2. Generator Status        Set Capacity=0 for invalid Status   │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  3. Transmission Status     Validate transmission corridors     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  4. Time Series Interpolation   Fill all model years            │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  5-6. Hydro Checks          Availability &amp; Capex monitoring     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  7-8. Default Filling       Fill NaN from defaults + StYr       │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  9-12. Availability         Expand, fill, evolve over years     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  13. Capex Trajectories     Fill from defaults                  │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────┐                                                          │
+│   │ Treated      │                                                          │
+│   │ Input GDX    │                                                          │
+│   └──────────────┘                                                          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
+</section>
 <section id="processing-steps">
 <h2>Processing Steps<a class="headerlink" href="#processing-steps" title="Permalink to this heading">#</a></h2>
 <p>The input treatment runs these steps in order:</p>
@@ -1616,6 +1698,23 @@ title="Print to PDF"
 <section id="step-1-zone-filtering">
 <h2>Step 1: Zone Filtering<a class="headerlink" href="#step-1-zone-filtering" title="Permalink to this heading">#</a></h2>
 <p>Removes rows from input parameters whose zones are not defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────────────────┐
+│                            ZONE FILTERING                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   zcmap.csv                         pGenDataInput.csv                       │
+│   ┌──────────────┐                  ┌────────────────────────────────┐      │
+│   │ zone,country │                  │ generator, zone, ...           │      │
+│   │ ZoneA, USA   │                  │ Gen1, ZoneA, ...    ✓ Keep     │      │
+│   │ ZoneB, USA   │      ───►        │ Gen2, ZoneB, ...    ✓ Keep     │      │
+│   │ ZoneC, MEX   │                  │ Gen3, ZoneX, ...    ✗ Remove   │      │
+│   └──────────────┘                  └────────────────────────────────┘      │
+│                                                                             │
+│   Result: Only data for zones defined in zcmap.csv is kept                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
 <section id="affected-parameters">
 <h3>Affected Parameters<a class="headerlink" href="#affected-parameters" title="Permalink to this heading">#</a></h3>
 <table class="table">
@@ -1733,6 +1832,29 @@ title="Print to PDF"
 <section id="step-4-time-series-interpolation">
 <h2>Step 4: Time Series Interpolation<a class="headerlink" href="#step-4-time-series-interpolation" title="Permalink to this heading">#</a></h2>
 <p>Linearly interpolates yearly parameters to match all model years in <code class="docutils literal notranslate"><span class="pre">y.csv</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────────────────┐
+│                       TIME SERIES INTERPOLATION                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Input: Sparse yearly data              Model years (y.csv):               │
+│   ┌────────────────────────┐             2025, 2030, 2035, 2040, 2050       │
+│   │ y=2025: 100            │                                                │
+│   │ y=2035: 150            │                                                │
+│   └────────────────────────┘                                                │
+│              │                                                              │
+│              ▼                                                              │
+│   Output: Interpolated &amp; Extrapolated                                       │
+│   ┌────────────────────────────────────────────────────────┐                │
+│   │ y=2025: 100.0   (original)                             │                │
+│   │ y=2030: 125.0   (interpolated)                         │                │
+│   │ y=2035: 150.0   (original)                             │                │
+│   │ y=2040: 150.0   (extrapolated using last known value)  │                │
+│   │ y=2050: 150.0   (extrapolated using last known value)  │                │
+│   └────────────────────────────────────────────────────────┘                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
 <section id="interpolated-parameters">
 <h3>Interpolated Parameters<a class="headerlink" href="#interpolated-parameters" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
@@ -1759,16 +1881,16 @@ ZoneA,2035,150
 </pre></div>
 </div>
 <p>And <code class="docutils literal notranslate"><span class="pre">y.csv</span></code> contains 2025, 2030, 2035:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Interpolated</span> <span class="n">result</span><span class="p">:</span>
-<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2025</span><span class="p">,</span><span class="mf">100.0</span>
-<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2030</span><span class="p">,</span><span class="mf">125.0</span>  <span class="c1"># interpolated</span>
-<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2035</span><span class="p">,</span><span class="mf">150.0</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Interpolated result:
+ZoneA,2025,100.0
+ZoneA,2030,125.0  # interpolated
+ZoneA,2035,150.0
 </pre></div>
 </div>
 </section>
 <section id="id6">
 <h3>Example Log Output<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">input_treatment</span><span class="p">][</span><span class="n">interpolate</span><span class="p">]</span> <span class="n">Linear</span> <span class="n">interpolation</span> <span class="n">performed</span> <span class="n">on</span> <span class="n">pDemandForecast</span> <span class="n">to</span> <span class="n">match</span> <span class="n">model</span> <span class="n">years</span> <span class="mi">2025</span><span class="o">-</span><span class="mf">2050.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[input_treatment][interpolate] Linear interpolation performed on pDemandForecast to match model years 2025-2050.
 </pre></div>
 </div>
 </section>
@@ -1776,6 +1898,30 @@ ZoneA,2035,150
 <section id="step-5-hydro-availability-monitoring">
 <h2>Step 5: Hydro Availability Monitoring<a class="headerlink" href="#step-5-hydro-availability-monitoring" title="Permalink to this heading">#</a></h2>
 <p>Checks that hydro generators (ReservoirHydro, ROR) have availability data.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────────────────┐
+│                     HYDRO AVAILABILITY AUTO-FILL                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Missing ReservoirHydro availability for generator G:                      │
+│                                                                             │
+│   ┌─────────────────────────────────────────────────────────────────┐       │
+│   │ 1. Same zone ReservoirHydro generators exist with availability? │       │
+│   │    YES → Use mean of their availability                         │       │
+│   │    NO  ↓                                                        │       │
+│   ├─────────────────────────────────────────────────────────────────┤       │
+│   │ 2. Global ReservoirHydro availability exists?                   │       │
+│   │    YES → Use global mean                                        │       │
+│   │    NO  ↓                                                        │       │
+│   ├─────────────────────────────────────────────────────────────────┤       │
+│   │ 3. WARNING: No availability data found                          │       │
+│   │    Generator will have availability = 0 (won&#39;t dispatch)        │       │
+│   └─────────────────────────────────────────────────────────────────┘       │
+│                                                                             │
+│   Note: Auto-fill only runs when EPM_FILL_HYDRO_AVAILABILITY=1              │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
 <section id="reservoirhydro-check">
 <h3>ReservoirHydro Check<a class="headerlink" href="#reservoirhydro-check" title="Permalink to this heading">#</a></h3>
 <p>Verifies each ReservoirHydro generator has entries in <code class="docutils literal notranslate"><span class="pre">pAvailability</span></code>.</p>
@@ -1810,14 +1956,14 @@ EPM_FILL_HYDRO_AVAILABILITY,1
 </section>
 <section id="id7">
 <h3>Example Log Output<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Reservoir</span> <span class="n">hydro</span> <span class="n">availability</span> <span class="n">check</span><span class="p">:</span> <span class="nb">all</span> <span class="mi">15</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">defined</span> <span class="ow">in</span> <span class="n">pGenDataInput</span> <span class="n">have</span> <span class="n">entries</span> <span class="ow">in</span> <span class="n">pAvailability</span><span class="o">.</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Reservoir hydro availability check: all 15 generator(s) defined in pGenDataInput have entries in pAvailability.
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">input_treatment</span><span class="p">][</span><span class="n">hydro_avail</span><span class="p">]</span> <span class="n">Reservoir</span> <span class="n">hydro</span> <span class="n">warning</span><span class="p">:</span> <span class="mi">3</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">lack</span> <span class="n">entries</span> <span class="ow">in</span> <span class="n">pAvailability</span><span class="o">.</span>
-  <span class="n">Missing</span> <span class="n">reservoir</span> <span class="n">capacity</span><span class="o">-</span><span class="n">factor</span> <span class="n">rows</span> <span class="n">by</span> <span class="n">zone</span><span class="p">:</span>
-    <span class="n">zone</span> <span class="n">ZoneA</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Hydro1&#39;</span><span class="p">,</span> <span class="s1">&#39;Hydro2&#39;</span><span class="p">]</span>
-    <span class="n">zone</span> <span class="n">ZoneB</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Hydro3&#39;</span><span class="p">]</span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[input_treatment][hydro_avail] Reservoir hydro warning: 3 generator(s) lack entries in pAvailability.
+  Missing reservoir capacity-factor rows by zone:
+    zone ZoneA: [&#39;Hydro1&#39;, &#39;Hydro2&#39;]
+    zone ZoneB: [&#39;Hydro3&#39;]
 </pre></div>
 </div>
 </section>
@@ -1869,6 +2015,32 @@ EPM_FILL_HYDRO_CAPEX,1
 <section id="step-7-default-value-filling-pgendatainput">
 <h2>Step 7: Default Value Filling (pGenDataInput)<a class="headerlink" href="#step-7-default-value-filling-pgendatainput" title="Permalink to this heading">#</a></h2>
 <p>Fills missing values in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> using <code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────────────────────────────────────┐
+│                        DEFAULT VALUE FILLING                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Priority: Custom Input  &gt;  Zone Defaults  &gt;  Generic Defaults             │
+│                                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInput          │ ◄─── Has value? Use it (highest priority)     │
+│   │ (Custom)               │                                                │
+│   └───────────┬────────────┘                                                │
+│               │ NaN?                                                        │
+│               ▼                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInputDefault   │ ◄─── Match by (zone, tech, fuel)              │
+│   │ (Zone-specific)        │                                                │
+│   └───────────┬────────────┘                                                │
+│               │ Still NaN?                                                  │
+│               ▼                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInputGeneric   │ ◄─── Match by (tech, fuel) only               │
+│   │ (from resources/)      │                                                │
+│   └────────────────────────┘                                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
 <section id="how-it-works">
 <h3>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this heading">#</a></h3>
 <ol class="arabic simple">
@@ -2177,6 +2349,11 @@ python<span class="w"> </span>input_treatment.py
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#overview">
    Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#processing-pipeline">
+   Processing Pipeline
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -2525,7 +2702,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Jan 30, 2026.<br>
+Last updated on Feb 02, 2026.<br>
 </p>
   </div>
   

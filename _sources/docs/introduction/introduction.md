@@ -29,7 +29,7 @@ The practical deployment of EPM consists of a 7-step process, which is illustrat
 
 ## Archive 
 
-The EPM Zenodo archive contains the previous versions of the model, which are no longer actively maintained. The archive is available at <https://zenodo.org/account/settings/github/repository/ESMAP-World-Bank-Group/EPM>.
+The EPM Zenodo archive contains the previous versions of the model, which are no longer actively maintained. The archive is available at <https://zenodo.org/communities/esmap-epm>.
 
 ---
 

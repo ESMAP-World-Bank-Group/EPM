@@ -396,7 +396,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../model/model_overview.html">
-                        Mathematical Formulation
+                        Model Overview
                       </a>
                     </li>
                 
@@ -439,6 +439,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_issues.html">
+                        Reporting Issues and Requesting Features
                       </a>
                     </li>
                 
@@ -830,7 +837,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../model/model_overview.html">
-                        Mathematical Formulation
+                        Model Overview
                       </a>
                     </li>
                 
@@ -873,6 +880,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_issues.html">
+                        Reporting Issues and Requesting Features
                       </a>
                     </li>
                 
@@ -1052,7 +1066,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Model Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_description.html">Model Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_notations.html">Notations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/model_formulation.html">Model Formulation</a></li>
@@ -1065,6 +1079,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_issues.html">Reporting Issues and Requesting Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_code.html">Contributing to the code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_docs.html">Contributing to the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_postprocess.html">Contributing postprocess</a></li>
@@ -1252,6 +1267,11 @@ title="Print to PDF"
    Scenario and Sensitivity Files
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-package-schema-datapackage-json">
+   Data Package Schema (datapackage.json)
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -1353,6 +1373,41 @@ title="Print to PDF"
 <li><p><code class="docutils literal notranslate"><span class="pre">sensitivity.csv</span></code>: Points to alternative data sources (e.g., reduced year sets) contained in the <code class="docutils literal notranslate"><span class="pre">sensitivity/</span></code> directories at the dataset root or within specific subfolders such as <code class="docutils literal notranslate"><span class="pre">supply/sensitivity/</span></code>.</p></li>
 </ul>
 </section>
+<section id="data-package-schema-datapackage-json">
+<h2>Data Package Schema (datapackage.json)<a class="headerlink" href="#data-package-schema-datapackage-json" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">epm/input/datapackage.json</span></code> file defines the canonical schema for all EPM input datasets following the <a class="reference external" href="https://specs.frictionlessdata.io/data-package/">Frictionless Data Package</a> specification. This file:</p>
+<ul class="simple">
+<li><p>Describes the structure and types of each input CSV file</p></li>
+<li><p>Defines foreign key relationships between resources (e.g., zones reference <code class="docutils literal notranslate"><span class="pre">zcmap.z</span></code>)</p></li>
+<li><p>Specifies whether data is stored in “wide” or “long” format</p></li>
+<li><p>Documents the expected columns, data types, and units for each parameter</p></li>
+</ul>
+<p>This schema is useful for:</p>
+<ul class="simple">
+<li><p><strong>Validation</strong>: Ensuring input data conforms to expected structure</p></li>
+<li><p><strong>Documentation</strong>: Understanding relationships between input files</p></li>
+<li><p><strong>Tooling</strong>: Building automated data pipelines that read EPM inputs</p></li>
+</ul>
+<p>Example resource definition from <code class="docutils literal notranslate"><span class="pre">datapackage.json</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pDemandForecast&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;load/pDemandForecast.csv&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;csv&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;z&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;year&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="p">},</span>
+<span class="w">      </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;value&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;foreignKeys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;reference&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zcmap&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]}}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1418,6 +1473,11 @@ title="Print to PDF"
    Scenario and Sensitivity Files
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-package-schema-datapackage-json">
+   Data Package Schema (datapackage.json)
+  </a>
+ </li>
 </ul>
 
 </nav>
@@ -1446,7 +1506,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Jan 30, 2026.<br>
+Last updated on Feb 02, 2026.<br>
 </p>
   </div>
   
