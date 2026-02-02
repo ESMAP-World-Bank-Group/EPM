@@ -212,7 +212,7 @@ All resource files are now located in `epm/resources/headers/` and are shared ac
 
 - 2 columns:
   1. Fuel
-  2. Carbon content in gCO₂/MWh
+  2. Carbon content in gCO₂/mmbtu
 - Location: `epm/resources/headers/pFuelCarbonContent.csv`
 
 ---
