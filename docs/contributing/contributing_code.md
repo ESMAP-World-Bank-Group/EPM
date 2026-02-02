@@ -2,6 +2,14 @@
 
 We welcome contributions to both the codebase and the documentation. Below are a few guidelines to help you get started.
 
+## Reporting Bugs or Requesting Features
+
+Before starting a contribution, check if an issue already exists or open a new one.
+
+**[How to report issues](contributing_issues.md)**
+
+## Code Contributions
+
 If you would like to modify or improve the code, please follow these principles:
 
 - Use your own branch for custom modifications that are specific to your case study or data. These include small changes that don’t need to be integrated across all models.

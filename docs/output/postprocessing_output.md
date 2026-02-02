@@ -47,7 +47,61 @@ simulations_run_<timestamp>/
 
 ---
 
-## Ouput Workflows
+## Figures Configuration (figures_config.json)
+
+The postprocessing figures are controlled by the configuration file at `epm/postprocessing/figures_config.json`. This file allows you to enable or disable specific figure categories and individual plots.
+
+### Structure
+
+The configuration is organized by category, each with an `enabled` flag and a list of individual figures:
+
+```json
+{
+  "categories": {
+    "capacity": {
+      "enabled": true,
+      "figures": {
+        "CapacityMixSystemEvolutionScenarios": true,
+        "CapacityMixZoneScenarios": true,
+        "NewCapacityZoneInstalledTimeline": false
+      }
+    },
+    "costs": {
+      "enabled": true,
+      "figures": {
+        "NPVCostSystemScenarios": true,
+        "CostSystemEvolutionScenarios": true
+      }
+    }
+  }
+}
+```
+
+### Available Categories
+
+| Category | Description |
+|----------|-------------|
+| `summary` | Summary heatmaps and overview figures |
+| `capacity` | Installed capacity mix by zone, system, and scenario |
+| `costs` | NPV costs, cost evolution, and cost breakdowns |
+| `energy` | Energy mix and generation by technology |
+| `dispatch` | Hourly dispatch plots by zone and season |
+| `interconnection` | Net imports, exchange heatmaps, and utilization |
+| `maps` | Geographic visualizations of transmission and flows |
+
+### Customizing Figures
+
+To disable a category entirely, set `"enabled": false`. To disable individual figures within an enabled category, set the specific figure to `false`.
+
+This is useful for:
+
+- **Speeding up postprocessing** by disabling unused figures
+- **Reducing memory usage** for large Monte Carlo runs
+- **Focusing output** on specific analysis areas
+
+---
+
+## Output Workflows
 
 There are two main workflows for visualizing EPM model results:
 

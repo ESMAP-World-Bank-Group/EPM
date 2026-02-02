@@ -1,5 +1,4 @@
-
-# Mathematical Formulation
+# Model Overview
 
 ## Introduction
 

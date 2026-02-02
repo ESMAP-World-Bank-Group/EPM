@@ -94,3 +94,39 @@ data_test/
 
 - `scenarios.csv`: Lists the core scenario names and the specific files that each scenario should pull from the dataset.
 - `sensitivity.csv`: Points to alternative data sources (e.g., reduced year sets) contained in the `sensitivity/` directories at the dataset root or within specific subfolders such as `supply/sensitivity/`.
+
+### Data Package Schema (datapackage.json)
+
+The `epm/input/datapackage.json` file defines the canonical schema for all EPM input datasets following the [Frictionless Data Package](https://specs.frictionlessdata.io/data-package/) specification. This file:
+
+- Describes the structure and types of each input CSV file
+- Defines foreign key relationships between resources (e.g., zones reference `zcmap.z`)
+- Specifies whether data is stored in "wide" or "long" format
+- Documents the expected columns, data types, and units for each parameter
+
+This schema is useful for:
+
+- **Validation**: Ensuring input data conforms to expected structure
+- **Documentation**: Understanding relationships between input files
+- **Tooling**: Building automated data pipelines that read EPM inputs
+
+Example resource definition from `datapackage.json`:
+
+```json
+{
+  "name": "pDemandForecast",
+  "path": "load/pDemandForecast.csv",
+  "format": "csv",
+  "schema": {
+    "fields": [
+      {"name": "z", "type": "string"},
+      {"name": "type", "type": "string"},
+      {"name": "year", "type": "integer"},
+      {"name": "value", "type": "number"}
+    ],
+    "foreignKeys": [
+      {"fields": ["z"], "reference": {"resource": "zcmap", "fields": ["z"]}}
+    ]
+  }
+}
+```
