@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>EPM Folder structure &#8212; Energy Planning Model</title>
+    <title>EPM Folder Structure &#8212; Energy Planning Model</title>
   
   
   
@@ -153,7 +153,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        EPM Folder structure
+                        EPM Folder Structure
                       </a>
                     </li>
                 
@@ -594,7 +594,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        EPM Folder structure
+                        EPM Folder Structure
                       </a>
                     </li>
                 
@@ -1020,7 +1020,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">EPM Folder structure</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">EPM Folder Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_gams_studio.html">Run EPM from GAMS Studio</a></li>
@@ -1252,7 +1252,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>EPM Folder structure</h1>
+    <h1>EPM Folder Structure</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1263,46 +1263,64 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#input-folder">
-   1. Input folder
+  <a class="reference internal nav-link" href="#repository-structure">
+   Repository Structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-directory-epm">
+   Model Directory (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     epm/
+    </span>
+   </code>
+   )
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#general-configuration-files">
-     General configuration files
+    <a class="reference internal nav-link" href="#input-folder">
+     Input Folder
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#general-configuration-files">
+       General Configuration Files
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#data-folders">
+       Data Folders
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#post-processing-folder">
+     Post-processing Folder
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#data-folders">
-     Data folders
+    <a class="reference internal nav-link" href="#gams-model-files">
+     GAMS Model Files
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solver-configuration">
+     Solver Configuration
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-scripts">
+     Python Scripts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-folder">
+     Output Folder
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#post-processing-folder">
-   2. Post-processing folder
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#gams-model-files">
-   3. GAMS model files
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modeltype-configuration">
-   4. modeltype configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#execution-scripts">
-   5. Execution scripts
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#output-folder">
-   6. Output folder
-  </a>
  </li>
 </ul>
 
@@ -1314,50 +1332,83 @@ title="Print to PDF"
             <article class="bd-article" role="main">
               
   <section class="tex2jax_ignore mathjax_ignore" id="epm-folder-structure">
-<h1>EPM Folder structure<a class="headerlink" href="#epm-folder-structure" title="Permalink to this heading">#</a></h1>
-<p>The following structure outlines the key components of the EPM repository:</p>
-<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>EPM/
+<h1>EPM Folder Structure<a class="headerlink" href="#epm-folder-structure" title="Permalink to this heading">#</a></h1>
+<p>This page describes the folder structure of the EPM repository and the GAMS model directory.</p>
+<section id="repository-structure">
+<h2>Repository Structure<a class="headerlink" href="#repository-structure" title="Permalink to this heading">#</a></h2>
+<p>The GitHub repository contains the full EPM project including documentation, tools, and the core model:</p>
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>EPM/                                # Repository root
 │
-├── input/                          # Contains input data files required for the model
+├── docs/                           # Jupyter Book documentation source
+├── config/                         # Configuration templates
+├── pre-analysis/                   # Data preprocessing pipelines
+├── tools/                          # Utility scripts
+│
+├── epm/                            # Core model directory (see below)
+│
+├── requirements.txt                # Python dependencies
+├── Makefile                        # Documentation build commands
+└── README.md                       # Project readme
+</pre></div>
+</div>
+</section>
+<section id="model-directory-epm">
+<h2>Model Directory (<code class="docutils literal notranslate"><span class="pre">epm/</span></code>)<a class="headerlink" href="#model-directory-epm" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">epm/</span></code> folder contains all GAMS model files, Python orchestration scripts, and input/output data. This is the working directory when running the model:</p>
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>epm/
+│
+├── input/                          # Contains input data folders
+│   ├── data_test/                  # Test dataset
+│   │   └── config.csv              # Configuration settings for input processing
 │   ├── data_eapp/                  # Input data specific to the EAPP region
-       ├── config.csv                  # Configuration settings for input processing
+│   │   └── config.csv              # Configuration settings for input processing
 │   ├── data_gambia/                # Input data specific to Gambia
-       ├── config.csv                  # Configuration settings for input processing
-│   ├── data_test_region/           # Input data specific to the SAPP region
-       ├── config.csv                  # Configuration settings for input processing
+│   │   └── config.csv              # Configuration settings for input processing
+│   └── datapackage.json            # Frictionless Data Package schema for validation
 │
-│
-├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
+├── postprocessing/                 # Scripts and tools for processing model outputs
 │   ├── static/                     # Static resources used in post-processing
-│   └── utils.py                    # Utility functions for post-processing tasks
+│   ├── figures_config.json         # Configuration for enabling/disabling figures
+│   └── *.py                        # Plotting and analysis modules
 │
-├── engine_base.gms                 # Defines engine run
-├── base.gms                        # Specifies base configurations and parameters
-├── cplex.opt                       # Options for the CPLEX modeltype
-├── credentials_engine.json         # Stores credentials for engine access
+├── resources/                      # Shared default parameters and headers
+│   └── headers/                    # Column definitions and lookup tables
+│
+├── output/                         # Generated results (created after running)
+│
+├── main.gms                        # Main GAMS script orchestrating execution
+├── base.gms                        # Core model equations and constraints
 ├── generate_demand.gms             # Script for generating demand data
 ├── generate_report.gms             # Generates reports from model outputs
 ├── input_readers.gms               # Handles reading and importing input data
-├── input_treatment.gms             # Processes and treats input data
-├── input_verification.gms          # Verifies the integrity of input data
-├── main.gms                        # Main script orchestrating execution
-├── output_verification.gms         # Verifies and validates model outputs
-└── run_epm.py                      # Python script to execute the model
+├── hydrogen_module.gms             # Hydrogen module equations
+│
+├── epm.py                          # Python orchestrator script
+├── input_treatment.py              # Python input processing and validation
+├── input_verification.py           # Python input data checks
+├── output_treatment.py             # Python output processing
+├── preprocessing.py                # Python data preprocessing
+│
+└── cplex.opt                       # CPLEX solver options
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When running EPM from the command line, you execute <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm.py</span></code> from the repository root. The script automatically manages paths to the <code class="docutils literal notranslate"><span class="pre">epm/</span></code> directory.</p>
+</div>
 <section id="input-folder">
-<h2>1. Input folder<a class="headerlink" href="#input-folder" title="Permalink to this heading">#</a></h2>
+<h3>Input Folder<a class="headerlink" href="#input-folder" title="Permalink to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">input/</span></code> directory contains all the necessary data and configuration files required to run the model. It is structured into:</p>
 <section id="general-configuration-files">
-<h3>General configuration files<a class="headerlink" href="#general-configuration-files" title="Permalink to this heading">#</a></h3>
+<h4>General Configuration Files<a class="headerlink" href="#general-configuration-files" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">config.csv</span></code></strong>: Defines global configuration parameters for the model.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code></strong>: Specifies different scenario configurations that can be run.</p></li>
 </ul>
 </section>
 <section id="data-folders">
-<h3>Data folders<a class="headerlink" href="#data-folders" title="Permalink to this heading">#</a></h3>
-<p>The model input data is organized into <code class="docutils literal notranslate"><span class="pre">data/</span></code> folders. For example, <code class="docutils literal notranslate"><span class="pre">data_eapp/</span></code> contains input data for the Eastern Africa Power Pool and <code class="docutils literal notranslate"><span class="pre">data_gambia/</span></code> contains input data specific to Gambia.</p>
+<h4>Data Folders<a class="headerlink" href="#data-folders" title="Permalink to this heading">#</a></h4>
+<p>The model input data is organized into <code class="docutils literal notranslate"><span class="pre">data_*/</span></code> folders. For example, <code class="docutils literal notranslate"><span class="pre">data_eapp/</span></code> contains input data for the Eastern Africa Power Pool and <code class="docutils literal notranslate"><span class="pre">data_gambia/</span></code> contains input data specific to Gambia.</p>
 <p>Each of these folders contains CSV files grouped by data type, including:</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">constraint/</span></code></strong>: Defines various constraints applied in the model.</p></li>
@@ -1368,7 +1419,7 @@ title="Print to PDF"
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">trade/</span></code></strong>: Contains parameters related to cross-border electricity trade.</p></li>
 </ul>
 <p>Note: Header files and lookup tables (such as <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">pFuelCarbonContent.csv</span></code>, and column header definitions) are now centralized in <code class="docutils literal notranslate"><span class="pre">epm/resources/headers/</span></code> and shared across all input folders.</p>
-<p>Some files are located directly in the <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory and contain key parameters that are not grouped within a specific subdirectory:</p>
+<p>Some files are located directly in the <code class="docutils literal notranslate"><span class="pre">data_*/</span></code> directory and contain key parameters that are not grouped within a specific subdirectory:</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code></strong>: Defines the hourly resolution of the model.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code></strong>: Contains general model settings and configuration values.</p></li>
@@ -1376,14 +1427,14 @@ title="Print to PDF"
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></strong>: Provides zone and country mapping.</p></li>
 </ul>
 <p>A more detailed description of these parameters and their contents is provided in the <strong>Input</strong> section.</p>
+</section>
+</section>
 <hr class="docutils" />
-</section>
-</section>
 <section id="post-processing-folder">
-<h2>2. Post-processing folder<a class="headerlink" href="#post-processing-folder" title="Permalink to this heading">#</a></h2>
+<h3>Post-processing Folder<a class="headerlink" href="#post-processing-folder" title="Permalink to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">postprocessing/</span></code> directory contains scripts and data files used to process and visualize the model outputs.</p>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">utils.py</span></code></strong>: The core Python package for post-processing results. It includes functions for generating various graphs and visualizations. The functions available in this package are detailed in the <strong>Post-Processing</strong> section.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">figures_config.json</span></code></strong>: Configuration file to enable/disable specific figure categories and individual plots.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">static/</span></code></strong>: Contains CSV files that define characteristics for visualizations, such as:</p>
 <ul>
 <li><p><strong>Color schemes</strong></p></li>
@@ -1393,41 +1444,43 @@ title="Print to PDF"
 </li>
 </ul>
 <p>For more details on the available functions and configuration options, refer to the <strong>Postprocessing</strong> section.</p>
-<hr class="docutils" />
 </section>
+<hr class="docutils" />
 <section id="gams-model-files">
-<h2>3. GAMS model files<a class="headerlink" href="#gams-model-files" title="Permalink to this heading">#</a></h2>
+<h3>GAMS Model Files<a class="headerlink" href="#gams-model-files" title="Permalink to this heading">#</a></h3>
 <p>These files define and execute the core GAMS model:</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">main.gms</span></code></strong>: The main file that runs the model.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">base.gms</span></code></strong>: Defines the fundamental model structure.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">Engine_Base.gms</span></code></strong>: Used when running the model via GAMS Engine.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">generate_demand.gms</span></code></strong>: Generates demand scenarios.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">generate_report.gms</span></code></strong>: Creates summary reports from simulation results.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">input_readers.gms</span></code></strong>: Reads and formats input files.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_treatment.gms</span></code></strong>: Processes input data before execution.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_verification.gms</span></code></strong>: Checks input data consistency.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">output_verification.gms</span></code></strong>: Validates model outputs.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">hydrogen_module.gms</span></code></strong>: Hydrogen module equations.</p></li>
 </ul>
-<hr class="docutils" />
 </section>
-<section id="modeltype-configuration">
-<h2>4. modeltype configuration<a class="headerlink" href="#modeltype-configuration" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<section id="solver-configuration">
+<h3>Solver Configuration<a class="headerlink" href="#solver-configuration" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></strong>: Defines modeltype settings for CPLEX.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></strong>: Defines solver settings for CPLEX.</p></li>
 </ul>
-<hr class="docutils" />
 </section>
-<section id="execution-scripts">
-<h2>5. Execution scripts<a class="headerlink" href="#execution-scripts" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<section id="python-scripts">
+<h3>Python Scripts<a class="headerlink" href="#python-scripts" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code></strong>: Python script to launch EPM from a command line or an external script.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">epm.py</span></code></strong>: Main Python orchestrator to launch EPM from command line.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_treatment.py</span></code></strong>: Processes and validates input data before execution.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">input_verification.py</span></code></strong>: Checks input data consistency.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">output_treatment.py</span></code></strong>: Processes model outputs.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">preprocessing.py</span></code></strong>: Data preprocessing utilities.</p></li>
 </ul>
-<hr class="docutils" />
 </section>
+<hr class="docutils" />
 <section id="output-folder">
-<h2>6. Output folder<a class="headerlink" href="#output-folder" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">output/</span></code> directory is not present initially but is generated automatically when simulations are run. Results are stored in subdirectories following this pattern: <code class="docutils literal notranslate"><span class="pre">output/scenario_name/simulations_run_date_hour</span></code></p>
+<h3>Output Folder<a class="headerlink" href="#output-folder" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">output/</span></code> directory is not present initially but is generated automatically when simulations are run. Results are stored in subdirectories following this pattern: <code class="docutils literal notranslate"><span class="pre">output/simulations_run_&lt;timestamp&gt;/</span></code></p>
+</section>
 </section>
 </section>
 
@@ -1490,46 +1543,64 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#input-folder">
-   1. Input folder
+  <a class="reference internal nav-link" href="#repository-structure">
+   Repository Structure
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-directory-epm">
+   Model Directory (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     epm/
+    </span>
+   </code>
+   )
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#general-configuration-files">
-     General configuration files
+    <a class="reference internal nav-link" href="#input-folder">
+     Input Folder
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#general-configuration-files">
+       General Configuration Files
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#data-folders">
+       Data Folders
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#post-processing-folder">
+     Post-processing Folder
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#data-folders">
-     Data folders
+    <a class="reference internal nav-link" href="#gams-model-files">
+     GAMS Model Files
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solver-configuration">
+     Solver Configuration
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-scripts">
+     Python Scripts
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-folder">
+     Output Folder
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#post-processing-folder">
-   2. Post-processing folder
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#gams-model-files">
-   3. GAMS model files
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modeltype-configuration">
-   4. modeltype configuration
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#execution-scripts">
-   5. Execution scripts
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#output-folder">
-   6. Output folder
-  </a>
  </li>
 </ul>
 
