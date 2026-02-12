@@ -91,93 +91,6 @@ def _beautify_scenario_name(name: str) -> str:
     return name
 
 
-def _get_model_year_weights(epm_results: dict, scenario: str = "baseline") -> dict:
-    """
-    Extract year weights (pWeightYear) from EPM results.
-
-    Returns a dict mapping year -> weight (number of years each milestone represents).
-    """
-    year_weights = {}
-    if "pWeightYear" in epm_results:
-        weight_df = epm_results["pWeightYear"].copy()
-        year_col = "y" if "y" in weight_df.columns else "year"
-        if "scenario" in weight_df.columns:
-            weight_df = weight_df[weight_df["scenario"] == scenario]
-        for _, row in weight_df.iterrows():
-            year_weights[int(row[year_col])] = row["value"]
-    return year_weights
-
-
-def _get_model_discount_factors(epm_results: dict, scenario: str = "baseline") -> dict:
-    """
-    Extract discount factors (pRR) from EPM results.
-
-    Returns a dict mapping year -> discount factor.
-    """
-    discount_factors = {}
-    if "pRR" in epm_results:
-        discount_df = epm_results["pRR"].copy()
-        year_col = "y" if "y" in discount_df.columns else "year"
-        if "scenario" in discount_df.columns:
-            discount_df = discount_df[discount_df["scenario"] == scenario]
-        for _, row in discount_df.iterrows():
-            discount_factors[int(row[year_col])] = row["value"]
-    return discount_factors
-
-
-def _derive_discount_rate(
-    milestone_years: list,
-    year_weights: dict,
-    discount_factors: dict,
-) -> float | None:
-    """
-    Derive discount rate (DR) from pRR values using ratio of consecutive years.
-
-    Uses 2nd and 3rd milestone years (first year has pRR=1.0 as special case).
-    Formula: pRR(y2)/pRR(y3) = (1+DR)^((w2+w3)/2)
-             => DR = (pRR(y2)/pRR(y3))^(2/(w2+w3)) - 1
-
-    Returns the derived discount rate or None if it cannot be computed.
-    """
-    sorted_milestones = sorted(milestone_years)
-    if len(sorted_milestones) >= 3 and discount_factors:
-        y2, y3 = sorted_milestones[1], sorted_milestones[2]
-        pRR_y2 = discount_factors.get(y2)
-        pRR_y3 = discount_factors.get(y3)
-        w2 = year_weights.get(y2, 1)
-        w3 = year_weights.get(y3, 1)
-        if pRR_y2 and pRR_y3 and pRR_y3 > 0 and (w2 + w3) > 0:
-            return (pRR_y2 / pRR_y3) ** (2.0 / (w2 + w3)) - 1
-    return None
-
-
-def _load_carbon_prices() -> tuple[dict, dict]:
-    """
-    Load carbon price projections from resources files.
-
-    Returns a tuple of (carbon_price_low, carbon_price_high) dicts mapping year -> price ($/tCO2).
-    """
-    resources_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources')
-    carbon_price_high = {}
-    carbon_price_low = {}
-
-    try:
-        df_high = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_high.csv'))
-        for _, row in df_high.iterrows():
-            carbon_price_high[int(row['y'])] = row['value']
-    except FileNotFoundError:
-        pass
-
-    try:
-        df_low = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_low.csv'))
-        for _, row in df_low.iterrows():
-            carbon_price_low[int(row['y'])] = row['value']
-    except FileNotFoundError:
-        pass
-
-    return carbon_price_low, carbon_price_high
-
-
 def _compute_pairwise_differences(
     df: pd.DataFrame,
     scenario_pairs: dict[str, Iterable[str]],
@@ -204,16 +117,14 @@ def _compute_pairwise_differences(
             df_merged["value_cf"] = df_merged["value_cf"].fillna(0)
             # Project minus counterfactual (positive = project adds value)
             df_merged["value"] = df_merged["value_cf"] - df_merged["value_base"]
-            # Add both labels for flexibility in downstream plotting
-            # Sensitivity label: beautified name from before @ (e.g., "baseline~NoBiomass" -> "NoBiomass")
+            # Simplified label: base scenario name (before @) for display
+            # e.g., "baseline@rehabilitation" -> "baseline", "baseline_NoBiomass@rehabilitation" -> "NoBiomass"
             raw_label = scenario_cf.split('@')[0] if '@' in scenario_cf else scenario_cf
-            df_merged["sensitivity"] = _beautify_scenario_name(raw_label)
-            # Project label: name after @ (e.g., "baseline@jayce2" -> "jayce2")
-            df_merged["project"] = scenario_cf.split('@')[1] if '@' in scenario_cf else scenario_cf
-            all_diffs.append(df_merged[merge_cols + ["sensitivity", "project", "value"]])
+            df_merged["scenario"] = _beautify_scenario_name(raw_label)
+            all_diffs.append(df_merged[merge_cols + ["scenario", "value"]])
 
     if not all_diffs:
-        return pd.DataFrame(columns=merge_cols + ["sensitivity", "project", "value"])
+        return pd.DataFrame(columns=merge_cols + ["scenario", "value"])
 
     return pd.concat(all_diffs, ignore_index=True)
 
@@ -236,20 +147,20 @@ def _plot_assessment_diffs(
     if df_all_diffs.empty:
         return
 
-    # Detect what dimensions we have
-    has_sensitivities = len(set(df_all_diffs["sensitivity"])) > 1
-    has_multiple_projects = len(set(df_all_diffs["project"])) > 1
+    multiple_pairs = len(scenario_pairs) > 1 or any(
+        len(counterfactuals) > 1 for counterfactuals in scenario_pairs.values()
+    )
 
-    # BySensitivity figure - compare sensitivity scenarios (x-axis: sensitivity labels)
-    if has_sensitivities:
-        filename = os.path.join(folder, f"{filename_prefix}_BySensitivity.pdf")
+    # Figure with subplots by year, all scenarios on same axes
+    if multiple_pairs:
+        filename = os.path.join(folder, f"{filename_prefix}_AllPairs.pdf")
         make_stacked_barplot(
             df_all_diffs,
             filename,
             dict_specs["colors"],
             column_stacked=stacked_column,
             column_subplot=x_column,
-            column_xaxis="sensitivity",
+            column_xaxis="scenario",
             column_value="value",
             format_y=format_y,
             rotation=45,
@@ -258,38 +169,20 @@ def _plot_assessment_diffs(
             show_total=True,
         )
 
-    # ByProject figure - compare different projects (subplot per project, baseline only)
-    if has_multiple_projects:
-        # Filter to baseline sensitivity only for project comparison
-        df_baseline_only = df_all_diffs[df_all_diffs["sensitivity"] == "baseline"]
-        if not df_baseline_only.empty:
-            filename = os.path.join(folder, f"{filename_prefix}_ByProject.pdf")
-            make_stacked_barplot(
-                df_baseline_only,
-                filename,
-                dict_specs["colors"],
-                column_stacked=stacked_column,
-                column_subplot="project",
-                column_xaxis=x_column,
-                column_value="value",
-                format_y=format_y,
-                rotation=45,
-                annotate=annotate,
-                title=f"{title_prefix} (Project - Counterfactual)",
-                show_total=True,
-            )
-
-    # Individual figure for each baseline project (no sensitivity scenarios)
+    # Individual figure only for baseline pair (no sensitivity scenarios)
     if "baseline" in scenario_pairs:
         for scenario_cf in scenario_pairs["baseline"]:
-            # Use project name to match the project column
-            project_name = scenario_cf.split('@')[1] if '@' in scenario_cf else scenario_cf
+            # Scenario label is the base name (before @), beautified
+            raw_label = scenario_cf.split('@')[0] if '@' in scenario_cf else scenario_cf
+            scenario_label = _beautify_scenario_name(raw_label)
             df_pair = df_all_diffs[
-                (df_all_diffs["project"] == project_name) &
-                (df_all_diffs["sensitivity"] == "baseline")
+                df_all_diffs["scenario"] == scenario_label
             ]
             if df_pair.empty:
                 continue
+
+            # Extract project name from counterfactual (after @)
+            project_name = scenario_cf.split('@')[1] if '@' in scenario_cf else scenario_cf
             filename = os.path.join(
                 folder, f"{filename_prefix}_{project_name}.pdf"
             )
@@ -307,6 +200,24 @@ def _plot_assessment_diffs(
                 title=f"{title_prefix} (Project - Counterfactual)",
                 show_total=show_total_single,
             )
+
+    # Figure with subplots per scenario pair (shows evolution over years for each pair)
+    if multiple_pairs:
+        filename = os.path.join(folder, f"{filename_prefix}_ByPair.pdf")
+        make_stacked_barplot(
+            df_all_diffs,
+            filename,
+            dict_specs["colors"],
+            column_stacked=stacked_column,
+            column_subplot="scenario",
+            column_xaxis=x_column,
+            column_value="value",
+            format_y=format_y,
+            rotation=45,
+            annotate=annotate,
+            title=f"{title_prefix} (Project - Counterfactual)",
+            show_total=True,
+        )
 
 
 def _simplify_attributes(df: pd.DataFrame, new_label: str, attributes: Iterable[str]):
@@ -416,61 +327,42 @@ def make_assessment_npv_comparison(
     if df_all_diffs.empty:
         return
 
-    # Detect what dimensions we have
-    has_sensitivities = len(set(df_all_diffs["sensitivity"])) > 1
-    has_multiple_projects = len(set(df_all_diffs["project"])) > 1
+    # Check if we have sensitivity scenarios
+    multiple_pairs = len(scenario_pairs) > 1 or any(
+        len(counterfactuals) > 1 for counterfactuals in scenario_pairs.values()
+    )
 
-    # BySensitivity figure - compare sensitivity scenarios
-    if has_sensitivities:
-        filename = os.path.join(folder, "AssessmentNPVComparison_BySensitivity.pdf")
+    # Figure 1: All pairs (only if there are multiple pairs including sensitivities)
+    if multiple_pairs:
+        filename = os.path.join(folder, "AssessmentNPVComparison_AllPairs.pdf")
         make_stacked_barplot(
             df_all_diffs,
             filename,
             dict_specs["colors"],
             column_stacked="attribute",
             column_subplot=None,
-            column_xaxis="sensitivity",
+            column_xaxis="scenario",
             column_value="value",
             format_y=make_auto_yaxis_formatter("m$"),
             rotation=45,
             annotate=False,
-            title="NPV of System Cost: Project - Counterfactual (By Sensitivity)",
+            title="NPV of System Cost: Project - Counterfactual (All Pairs)",
             show_total=True,
         )
 
-    # ByProject figure - compare different projects (baseline only)
-    if has_multiple_projects:
-        df_baseline_only = df_all_diffs[df_all_diffs["sensitivity"] == "baseline"]
-        if not df_baseline_only.empty:
-            filename = os.path.join(folder, "AssessmentNPVComparison_ByProject.pdf")
-            make_stacked_barplot(
-                df_baseline_only,
-                filename,
-                dict_specs["colors"],
-                column_stacked="attribute",
-                column_subplot=None,
-                column_xaxis="project",
-                column_value="value",
-                format_y=make_auto_yaxis_formatter("m$"),
-                rotation=45,
-                annotate=False,
-                title="NPV of System Cost: Project - Counterfactual (By Project)",
-                show_total=True,
-            )
-
-    # Individual figure for each baseline project
+    # Figure 2: Baseline pairs only (one per project)
     if "baseline" in scenario_pairs:
         for scenario_cf in scenario_pairs["baseline"]:
-            # Extract project name for filtering and filename
-            project_name = scenario_cf.split("@")[1] if "@" in scenario_cf else scenario_cf
+            # Get the beautified label for this pair
+            raw_label = scenario_cf.split("@")[0] if "@" in scenario_cf else scenario_cf
+            scenario_label = _beautify_scenario_name(raw_label)
 
-            df_pair = df_all_diffs[
-                (df_all_diffs["project"] == project_name) &
-                (df_all_diffs["sensitivity"] == "baseline")
-            ]
+            df_pair = df_all_diffs[df_all_diffs["scenario"] == scenario_label]
             if df_pair.empty:
                 continue
 
+            # Extract project name for filename
+            project_name = scenario_cf.split("@")[1] if "@" in scenario_cf else scenario_cf
             filename = os.path.join(folder, f"AssessmentNPVComparison_{project_name}.pdf")
 
             make_stacked_barplot(
@@ -479,7 +371,7 @@ def make_assessment_npv_comparison(
                 dict_specs["colors"],
                 column_stacked="attribute",
                 column_subplot=None,
-                column_xaxis="sensitivity",
+                column_xaxis="scenario",
                 column_value="value",
                 format_y=make_auto_yaxis_formatter("m$"),
                 rotation=0,
@@ -488,51 +380,23 @@ def make_assessment_npv_comparison(
                 show_total=True,
             )
 
-
-def _interpolate_years_forward_fill(
-    df_wide: pd.DataFrame,
-    milestone_years: list,
-    all_years: list,
-) -> pd.DataFrame:
-    """
-    Expand milestone years to individual years using forward-fill logic.
-
-    For milestone years 2025, 2029:
-    - 2025 gets value from 2025
-    - 2026, 2027, 2028 get values from 2029
-    - 2029 gets value from 2029
-
-    Parameters
-    ----------
-    df_wide : pd.DataFrame
-        DataFrame with years as columns, categories as index
-    milestone_years : list
-        Original milestone years from the model
-    all_years : list
-        Full range of years to interpolate to
-
-    Returns
-    -------
-    pd.DataFrame
-        Expanded DataFrame with all years as columns
-    """
-    result = pd.DataFrame(index=df_wide.index)
-    sorted_milestones = sorted(milestone_years)
-
-    for year in all_years:
-        # Find the next milestone year (or same if exact match)
-        next_milestone = next(
-            (my for my in sorted_milestones if my >= year),
-            sorted_milestones[-1]  # fallback to last milestone
+    # Figure 3: Subplots per scenario pair (one subplot per pair)
+    if multiple_pairs:
+        filename = os.path.join(folder, "AssessmentNPVComparison_ByPair.pdf")
+        make_stacked_barplot(
+            df_all_diffs,
+            filename,
+            dict_specs["colors"],
+            column_stacked="attribute",
+            column_subplot="scenario",
+            column_xaxis=None,
+            column_value="value",
+            format_y=make_auto_yaxis_formatter("m$"),
+            rotation=0,
+            annotate=False,
+            title="NPV of System Cost: Project - Counterfactual",
+            show_total=True,
         )
-
-        # Assign value from the next milestone year
-        if next_milestone in df_wide.columns:
-            result[year] = df_wide[next_milestone]
-        else:
-            result[year] = 0
-
-    return result
 
 
 def make_assessment_cost_template_csv(
@@ -542,7 +406,6 @@ def make_assessment_cost_template_csv(
     dict_specs=None,
     trade_attrs=None,
     reserve_attrs=None,
-    interpolate_years: bool = False,
 ):
     """
     Export a single cost assessment CSV in wide format for investment analysis.
@@ -577,9 +440,6 @@ def make_assessment_cost_template_csv(
     if "pCostsSystem" not in epm_results:
         log_warning("pCostsSystem not found in results; skipping assessment CSV export.")
         return
-
-    # Load carbon price projections from resources for carbon cost calculations
-    carbon_price_low, carbon_price_high = _load_carbon_prices()
 
     # Define cost category order and mapping for cleaner names
     cost_category_order = [
@@ -700,25 +560,14 @@ def make_assessment_cost_template_csv(
         )
 
         # Ensure both have the same columns (years)
-        milestone_years = sorted(set(df_base_wide.columns) | set(df_cf_wide.columns))
-        for yr in milestone_years:
+        all_years = sorted(set(df_base_wide.columns) | set(df_cf_wide.columns))
+        for yr in all_years:
             if yr not in df_base_wide.columns:
                 df_base_wide[yr] = 0
             if yr not in df_cf_wide.columns:
                 df_cf_wide[yr] = 0
-        df_base_wide = df_base_wide[milestone_years]
-        df_cf_wide = df_cf_wide[milestone_years]
-
-        # Interpolate years if requested (forward-fill from next milestone)
-        if interpolate_years and len(milestone_years) > 1:
-            start_year = min(milestone_years)
-            end_year = max(milestone_years)
-            all_years = list(range(start_year, end_year + 1))
-
-            df_base_wide = _interpolate_years_forward_fill(df_base_wide, milestone_years, all_years)
-            df_cf_wide = _interpolate_years_forward_fill(df_cf_wide, milestone_years, all_years)
-        else:
-            all_years = milestone_years
+        df_base_wide = df_base_wide[all_years]
+        df_cf_wide = df_cf_wide[all_years]
 
         # Reindex to standard category order (only include categories present in data)
         all_categories = [c for c in cost_category_order if c in df_base_wide.index or c in df_cf_wide.index]
@@ -741,8 +590,15 @@ def make_assessment_cost_template_csv(
             df_cf_wide["NPV"] = df_cf_wide.index.map(lambda x: npv_cf_dict.get(x, 0))
             df_diff_wide["NPV"] = df_cf_wide["NPV"] - df_base_wide["NPV"]
 
-        # Add total row including all costs
+        # Add total rows to each section: one excluding carbon, one including
+        carbon_row = "Carbon costs"
         all_cost_rows = list(df_base_wide.index)  # Capture before adding totals
+        non_carbon_rows = [idx for idx in all_cost_rows if idx != carbon_row]
+
+        # TOTAL (excl. Carbon) - sum all rows except Carbon costs
+        df_base_wide.loc["TOTAL (excl. Carbon)"] = df_base_wide.loc[non_carbon_rows].sum()
+        df_cf_wide.loc["TOTAL (excl. Carbon)"] = df_cf_wide.loc[non_carbon_rows].sum()
+        df_diff_wide.loc["TOTAL (excl. Carbon)"] = df_diff_wide.loc[non_carbon_rows].sum()
 
         # TOTAL - sum all cost rows including carbon
         df_base_wide.loc["TOTAL"] = df_base_wide.loc[all_cost_rows].sum()
@@ -846,50 +702,36 @@ def make_assessment_cost_template_csv(
             "#",
         ]
 
-        # Add interpolation info to metadata if enabled
-        if interpolate_years and len(milestone_years) > 1:
-            metadata_lines.extend([
-                "# Year Interpolation: ENABLED",
-                f"#   Milestone years actually simulated: {' '.join(map(str, sorted(milestone_years)))}",
-                "#   Intermediate years use FORWARD-FILL from next milestone year",
-                "#   Yearly values are for inspection only",
-                "#   NPV column uses model's original discount factors (unchanged)",
-                "#",
-            ])
+        # Get year weights from EPM results (pWeightYear) if available
+        # Otherwise fall back to computing from year differences
+        year_weights = {}
+        if "pWeightYear" in epm_results:
+            weight_df = epm_results["pWeightYear"].copy()
+            year_col = "y" if "y" in weight_df.columns else "year"
+            # Select baseline scenario (same across all scenarios)
+            if "scenario" in weight_df.columns:
+                weight_df = weight_df[weight_df["scenario"] == "baseline"]
+            for _, row in weight_df.iterrows():
+                year_weights[int(row[year_col])] = row["value"]
 
-        # Get year weights and discount factors from EPM results
-        milestone_year_weights = _get_model_year_weights(epm_results)
-        milestone_discount_factors = _get_model_discount_factors(epm_results)
-
-        # Fallback: compute weights from year differences for milestone years
-        if not milestone_year_weights:
-            for i, y in enumerate(milestone_years):
-                if i < len(milestone_years) - 1:
-                    milestone_year_weights[y] = milestone_years[i + 1] - y
+        # Fallback: compute weights from year differences
+        if not year_weights:
+            for i, y in enumerate(all_years):
+                if i < len(all_years) - 1:
+                    year_weights[y] = all_years[i + 1] - y
                 else:
-                    milestone_year_weights[y] = milestone_years[-1] - milestone_years[-2] if len(milestone_years) > 1 else 1
+                    year_weights[y] = all_years[-1] - all_years[-2] if len(all_years) > 1 else 1
 
-        # Derive discount rate from pRR values
-        derived_discount_rate = _derive_discount_rate(
-            milestone_years, milestone_year_weights, milestone_discount_factors
-        )
-
-        # For interpolated years, expand weights and discount factors
-        if interpolate_years and len(milestone_years) > 1:
-            # Each interpolated year gets weight=1 (informational)
-            year_weights = {yr: 1 for yr in all_years}
-            # Discount factors: use the reference milestone's pRR (forward-fill)
-            discount_factors = {}
-            sorted_milestones = sorted(milestone_years)
-            for yr in all_years:
-                next_milestone = next(
-                    (my for my in sorted_milestones if my >= yr),
-                    sorted_milestones[-1]
-                )
-                discount_factors[yr] = milestone_discount_factors.get(next_milestone, 1.0)
-        else:
-            year_weights = milestone_year_weights
-            discount_factors = milestone_discount_factors
+        # Get discount factors from EPM results (pRR) if available
+        discount_factors = {}
+        if "pRR" in epm_results:
+            discount_df = epm_results["pRR"].copy()
+            year_col = "y" if "y" in discount_df.columns else "year"
+            # Select baseline scenario (same across all scenarios)
+            if "scenario" in discount_df.columns:
+                discount_df = discount_df[discount_df["scenario"] == "baseline"]
+            for _, row in discount_df.iterrows():
+                discount_factors[int(row[year_col])] = row["value"]
 
         # --- Compute GHG Emissions rows to add below TOTAL ---
         em_base_row = None
@@ -909,34 +751,21 @@ def make_assessment_cost_template_csv(
             em_cf = df_emissions[df_emissions["scenario"] == scenario_cf].copy()
 
             if not em_base.empty and not em_cf.empty:
-                # Pivot to get emissions by milestone year
-                em_base_by_milestone = em_base.groupby("year")["value"].sum().to_dict()
-                em_cf_by_milestone = em_cf.groupby("year")["value"].sum().to_dict()
+                # Pivot to get emissions by year
+                em_base_by_year = em_base.groupby("year")["value"].sum().to_dict()
+                em_cf_by_year = em_cf.groupby("year")["value"].sum().to_dict()
 
-                # Forward-fill emissions for interpolated years
-                em_base_by_year = {}
-                em_cf_by_year = {}
-                sorted_milestones = sorted(milestone_years)
-                for yr in all_years:
-                    next_milestone = next(
-                        (my for my in sorted_milestones if my >= yr),
-                        sorted_milestones[-1]
-                    )
-                    em_base_by_year[yr] = em_base_by_milestone.get(next_milestone, 0)
-                    em_cf_by_year[yr] = em_cf_by_milestone.get(next_milestone, 0)
-
-                # Compute cumulative emissions (weighted sum using milestone weights)
-                # Use milestone year weights for cumulative calculation to match model NPV
-                def _compute_cumulative(emissions_by_milestone_year):
+                # Compute cumulative emissions (weighted sum)
+                def _compute_cumulative(emissions_by_year):
                     total = 0.0
-                    for y in milestone_years:
-                        val = emissions_by_milestone_year.get(y, 0)
-                        weight = milestone_year_weights.get(y, 1)
+                    for y in all_years:
+                        val = emissions_by_year.get(y, 0)
+                        weight = year_weights.get(y, 1)
                         total += val * weight
                     return total
 
-                cum_base = _compute_cumulative(em_base_by_milestone)
-                cum_cf = _compute_cumulative(em_cf_by_milestone)
+                cum_base = _compute_cumulative(em_base_by_year)
+                cum_cf = _compute_cumulative(em_cf_by_year)
 
                 # Build emission rows (same structure as cost rows)
                 em_base_row = {"Scenario": "BASELINE", "Cost Category (M$)": "GHG Emissions (Mt CO2)"}
@@ -953,83 +782,12 @@ def make_assessment_cost_template_csv(
                 em_cf_row["NPV"] = cum_cf
                 em_diff_row["NPV"] = cum_cf - cum_base
 
-        # --- Compute Carbon Cost rows (GHG Emissions * Carbon Price) ---
-        carbon_cost_low_base_row = None
-        carbon_cost_low_cf_row = None
-        carbon_cost_low_diff_row = None
-        carbon_cost_high_base_row = None
-        carbon_cost_high_cf_row = None
-        carbon_cost_high_diff_row = None
-
-        if em_base_row is not None and carbon_price_high and carbon_price_low:
-            # Carbon Cost Low
-            carbon_cost_low_base_row = {"Scenario": "BASELINE", "Cost Category (M$)": "Carbon Cost Low (M$)"}
-            carbon_cost_low_cf_row = {"Scenario": "PROJECT", "Cost Category (M$)": "Carbon Cost Low (M$)"}
-            carbon_cost_low_diff_row = {"Scenario": "DIFFERENCE", "Cost Category (M$)": "Carbon Cost Low (M$)"}
-
-            # Carbon Cost High
-            carbon_cost_high_base_row = {"Scenario": "BASELINE", "Cost Category (M$)": "Carbon Cost High (M$)"}
-            carbon_cost_high_cf_row = {"Scenario": "PROJECT", "Cost Category (M$)": "Carbon Cost High (M$)"}
-            carbon_cost_high_diff_row = {"Scenario": "DIFFERENCE", "Cost Category (M$)": "Carbon Cost High (M$)"}
-
-            # Build yearly carbon cost values for all years (including interpolated)
-            for yr in all_years:
-                em_base_val = em_base_by_year.get(yr, 0)  # Mt CO2
-                em_cf_val = em_cf_by_year.get(yr, 0)  # Mt CO2
-                price_low = carbon_price_low.get(yr, 0)  # $/tCO2
-                price_high = carbon_price_high.get(yr, 0)  # $/tCO2
-
-                # Carbon cost = Emissions (Mt) * Price ($/t) = M$
-                carbon_cost_low_base_row[yr] = em_base_val * price_low
-                carbon_cost_low_cf_row[yr] = em_cf_val * price_low
-                carbon_cost_low_diff_row[yr] = (em_cf_val - em_base_val) * price_low
-
-                carbon_cost_high_base_row[yr] = em_base_val * price_high
-                carbon_cost_high_cf_row[yr] = em_cf_val * price_high
-                carbon_cost_high_diff_row[yr] = (em_cf_val - em_base_val) * price_high
-
-            # Compute discounted NPV using year weights and discount factors
-            # Works for both interpolation mode (weight=1 per year) and milestone mode
-            cum_low_base = 0.0
-            cum_low_cf = 0.0
-            cum_high_base = 0.0
-            cum_high_cf = 0.0
-
-            for yr in all_years:
-                em_base_val = em_base_by_year.get(yr, 0)  # Mt CO2
-                em_cf_val = em_cf_by_year.get(yr, 0)  # Mt CO2
-                weight = year_weights.get(yr, 1)
-                discount = discount_factors.get(yr, 1.0)
-                price_low = carbon_price_low.get(yr, 0)  # $/tCO2
-                price_high = carbon_price_high.get(yr, 0)  # $/tCO2
-
-                # Carbon cost = Emissions (Mt) * Price ($/t) = M$
-                cost_low_base = em_base_val * price_low
-                cost_low_cf = em_cf_val * price_low
-                cost_high_base = em_base_val * price_high
-                cost_high_cf = em_cf_val * price_high
-
-                # Discounted NPV: value * year weight * discount factor
-                cum_low_base += cost_low_base * weight * discount
-                cum_low_cf += cost_low_cf * weight * discount
-                cum_high_base += cost_high_base * weight * discount
-                cum_high_cf += cost_high_cf * weight * discount
-
-            # Add NPV column
-            carbon_cost_low_base_row["NPV"] = cum_low_base
-            carbon_cost_low_cf_row["NPV"] = cum_low_cf
-            carbon_cost_low_diff_row["NPV"] = cum_low_cf - cum_low_base
-
-            carbon_cost_high_base_row["NPV"] = cum_high_base
-            carbon_cost_high_cf_row["NPV"] = cum_high_cf
-            carbon_cost_high_diff_row["NPV"] = cum_high_cf - cum_high_base
-
-        # Insert emissions and carbon cost rows after TOTAL in each section
+        # Insert emissions rows after TOTAL in each section
         if em_base_row is not None:
             # Find TOTAL row indices and insert emissions after each
             cols = df_combined.columns.tolist()
 
-            # Rebuild df_combined with emissions and carbon costs after each TOTAL
+            # Rebuild df_combined with emissions after each TOTAL
             rows_list = df_combined.to_dict('records')
             new_rows = []
             for row in rows_list:
@@ -1038,22 +796,10 @@ def make_assessment_cost_template_csv(
                     scenario = row.get("Scenario")
                     if scenario == "BASELINE":
                         new_rows.append(em_base_row)
-                        if carbon_cost_low_base_row is not None:
-                            new_rows.append(carbon_cost_low_base_row)
-                        if carbon_cost_high_base_row is not None:
-                            new_rows.append(carbon_cost_high_base_row)
                     elif scenario == "PROJECT":
                         new_rows.append(em_cf_row)
-                        if carbon_cost_low_cf_row is not None:
-                            new_rows.append(carbon_cost_low_cf_row)
-                        if carbon_cost_high_cf_row is not None:
-                            new_rows.append(carbon_cost_high_cf_row)
                     elif scenario == "DIFFERENCE":
                         new_rows.append(em_diff_row)
-                        if carbon_cost_low_diff_row is not None:
-                            new_rows.append(carbon_cost_low_diff_row)
-                        if carbon_cost_high_diff_row is not None:
-                            new_rows.append(carbon_cost_high_diff_row)
 
             df_combined = pd.DataFrame(new_rows, columns=cols)
 
@@ -1064,58 +810,28 @@ def make_assessment_cost_template_csv(
             for line in metadata_lines:
                 f.write(line + "\n")
 
-            # Write year weights and discount factors first (aligned with years)
+            # Write year weights and NPV weights first (aligned with years)
             f.write("# Model Parameters\n")
-            if derived_discount_rate is not None:
-                f.write(f"# Discount Rate (DR) = {derived_discount_rate*100:.1f}%\n")
-            f.write("# Year Weight (pWeightYear) - number of years each milestone year represents\n")
-            f.write("# Discount Factor (pRR) - discounts to mid-point of each year's period\n")
-            # Add simple example for the second milestone year
-            if len(sorted_milestones) >= 2 and derived_discount_rate is not None:
-                y1, y2 = sorted_milestones[0], sorted_milestones[1]
-                w1 = milestone_year_weights.get(y1, 1)
-                w2 = milestone_year_weights.get(y2, 1)
-                pRR_y2 = milestone_discount_factors.get(y2)
-                if pRR_y2:
-                    # Years from base = cumulative years before + half of current weight
-                    years_before = w1
-                    exponent = years_before - 1 + w2 / 2
-                    f.write(f"#   Example: pRR({y2}) = 1 / 1.{int(derived_discount_rate*100):02d}^{exponent:.1f} = {pRR_y2:.2f}\n")
-            f.write("#   For interpolated years the discount factor of the representative milestone is used\n")
-            f.write("# NPV calculation uses: value * pWeightYear * pRR\n")
-            f.write("# GHG Emissions use cumulative sum (yearly value * year weight) not discounted NPV\n")
+            f.write("# Year Weight (pWeightYear) - number of years each model year represents\n")
+            f.write("# NPV Weight (pRR) - discount factor × year weight for NPV calculation\n")
+            f.write("# GHG Emissions use cumulative sum (yearly value × year weight), not discounted NPV\n")
             f.write("#\n")
 
             # Build parameters table with same column structure
             params_rows = []
             # Year weights row
-            weight_row = {"Scenario": "", "Cost Category (M$)": "Year Weight (pWeightYear)"}
+            weight_row = {"Scenario": "", "Cost Category (M$)": "Year Weight"}
             for yr in all_years:
                 weight_row[yr] = year_weights.get(yr, "")
             weight_row["NPV"] = ""
             params_rows.append(weight_row)
 
-            # Discount factor row (pRR only, NOT multiplied by year weight)
-            discount_row = {"Scenario": "", "Cost Category (M$)": "Discount Factor (pRR)"}
+            # NPV weight row (discount factor × year weight, always include even if empty)
+            npv_weight_row = {"Scenario": "", "Cost Category (M$)": "NPV Weight"}
             for yr in all_years:
-                discount_row[yr] = discount_factors.get(yr, "")
-            discount_row["NPV"] = ""
-            params_rows.append(discount_row)
-
-            # Carbon price rows ($/tCO2) for external carbon cost calculations
-            if carbon_price_low:
-                carbon_low_row = {"Scenario": "", "Cost Category (M$)": "Carbon Price Low ($/tCO2)"}
-                for yr in all_years:
-                    carbon_low_row[yr] = carbon_price_low.get(yr, "")
-                carbon_low_row["NPV"] = ""
-                params_rows.append(carbon_low_row)
-
-            if carbon_price_high:
-                carbon_high_row = {"Scenario": "", "Cost Category (M$)": "Carbon Price High ($/tCO2)"}
-                for yr in all_years:
-                    carbon_high_row[yr] = carbon_price_high.get(yr, "")
-                carbon_high_row["NPV"] = ""
-                params_rows.append(carbon_high_row)
+                npv_weight_row[yr] = discount_factors.get(yr, "")
+            npv_weight_row["NPV"] = ""
+            params_rows.append(npv_weight_row)
 
             df_params = pd.DataFrame(params_rows, columns=df_combined.columns.tolist())
             df_params.to_csv(f, index=False)
@@ -1144,8 +860,8 @@ def _make_cost_diff_stacked_bar(df_diff, dict_specs, folder, project_name):
     Positive bars (above zero) = project increases costs
     Negative bars (below zero) = project reduces costs (savings)
     """
-    # Exclude TOTAL row
-    df_plot = df_diff[df_diff["Cost Category (M$)"] != "TOTAL"].copy()
+    # Exclude TOTAL rows
+    df_plot = df_diff[~df_diff["Cost Category (M$)"].isin(["TOTAL", "TOTAL (excl. Carbon)"])].copy()
 
     if df_plot.empty:
         return
@@ -1269,25 +985,24 @@ def make_assessment_capacity_diff(
 
     # Cumulative evolution over time (running sum by pair)
     if not df_all_diffs.empty:
-        # Create complete grid of sensitivity/project/fuel/year to ensure cumsum carries forward
-        all_sensitivities = df_all_diffs["sensitivity"].unique()
-        all_projects = df_all_diffs["project"].unique()
+        # Create complete grid of scenario/fuel/year to ensure cumsum carries forward
+        all_scenarios = df_all_diffs["scenario"].unique()
         all_fuels = df_all_diffs["fuel"].unique()
         all_years = sorted(df_all_diffs["year"].unique())
 
         full_index = pd.MultiIndex.from_product(
-            [all_sensitivities, all_projects, all_fuels, all_years],
-            names=["sensitivity", "project", "fuel", "year"]
+            [all_scenarios, all_fuels, all_years],
+            names=["scenario", "fuel", "year"]
         )
         df_full = (
-            df_all_diffs.set_index(["sensitivity", "project", "fuel", "year"])
+            df_all_diffs.set_index(["scenario", "fuel", "year"])
             .reindex(full_index, fill_value=0)
             .reset_index()
         )
 
         df_cumulative_year = (
             df_full.sort_values("year")
-            .groupby(["sensitivity", "project", "fuel"], observed=False)
+            .groupby(["scenario", "fuel"], observed=False)
             .apply(lambda grp: grp.assign(value=grp["value"].cumsum()))
             .reset_index(drop=True)
         )
@@ -1427,40 +1142,20 @@ def make_assessment_heatmap(
         val_cf = df_cf['value'].sum() if not df_cf.empty else 0
         return (val_cf - val_base) * scale
 
-    # Build lists of scenario pairs with appropriate labels
-    # Separate into sensitivity pairs (different sensitivities) and project pairs (different projects)
-    sensitivity_labels = []
-    sensitivity_info = []  # (base, counterfactual)
-    project_labels = []
-    project_info = []  # (base, counterfactual)
-
+    # Build list of scenario pairs with simplified labels
+    pair_labels = []
+    pair_info = []  # (base, counterfactual)
     for scenario_base, counterfactuals in scenario_pairs.items():
         for scenario_cf in counterfactuals:
-            # Sensitivity label: beautified name from before @
+            # Label is the base scenario name (before @), beautified
             raw_label = scenario_cf.split('@')[0] if '@' in scenario_cf else scenario_cf
-            sensitivity_label = _beautify_scenario_name(raw_label)
-            # Project label: name after @
-            project_label = scenario_cf.split('@')[1] if '@' in scenario_cf else scenario_cf
+            label = _beautify_scenario_name(raw_label)
+            pair_labels.append(label)
+            pair_info.append((scenario_base, scenario_cf))
 
-            sensitivity_labels.append(sensitivity_label)
-            sensitivity_info.append((scenario_base, scenario_cf))
-
-            # Only add to project comparison if it's a baseline scenario (not sensitivity)
-            if scenario_base == 'baseline':
-                project_labels.append(project_label)
-                project_info.append((scenario_base, scenario_cf))
-
-    if not sensitivity_info:
+    if not pair_info:
         log_warning("No scenario pairs found for assessment heatmap.")
         return
-
-    # Detect what dimensions we have
-    has_sensitivities = len(set(sensitivity_labels)) > 1
-    has_multiple_projects = len(set(project_labels)) > 1
-
-    # Use sensitivity_info for computing all diffs (backwards compatible)
-    pair_info = sensitivity_info
-    pair_labels = sensitivity_labels
 
     rows = []
 
@@ -1585,189 +1280,139 @@ def make_assessment_heatmap(
                 diffs = [_compute_pair_diff(comp_df, base, cf, scale=1e-6) for base, cf in pair_info]
                 rows.append((f'CAPEX - {comp} (M$)', diffs))
 
-    # 7. Cumulative CO2 emissions (weighted by pWeightYear)
+    # 7. Cumulative CO2 emissions
     emissions_all = _get_dataframe('pEmissionsZone')
     if emissions_all is not None:
         emissions_year = _resolve_year(emissions_all)
         emissions = _filter_zone(emissions_all)
         emissions_cum = emissions[emissions['year'] <= emissions_year]
-
-        # Get model year weights for proper cumulative calculation
-        year_weights = _get_model_year_weights(epm_results)
-        discount_factors = _get_model_discount_factors(epm_results)
-
-        # Fallback: compute weights from year differences if not available
-        milestone_years = sorted(emissions_cum['year'].unique())
-        if not year_weights:
-            for i, y in enumerate(milestone_years):
-                if i < len(milestone_years) - 1:
-                    year_weights[int(y)] = int(milestone_years[i + 1] - y)
-                else:
-                    year_weights[int(y)] = int(milestone_years[-1] - milestone_years[-2]) if len(milestone_years) > 1 else 1
-
-        def _compute_weighted_emission_diff(df: pd.DataFrame, base: str, cf: str) -> float:
-            """Compute weighted cumulative emission difference between scenarios."""
-            df_base = df[df['scenario'] == base].copy()
-            df_cf = df[df['scenario'] == cf].copy()
-
-            base_by_year = df_base.groupby('year')['value'].sum() if not df_base.empty else pd.Series(dtype=float)
-            cf_by_year = df_cf.groupby('year')['value'].sum() if not df_cf.empty else pd.Series(dtype=float)
-
-            all_years = sorted(set(base_by_year.index) | set(cf_by_year.index))
-            total = 0.0
-            for y in all_years:
-                val_base = base_by_year.get(y, 0)
-                val_cf = cf_by_year.get(y, 0)
-                weight = year_weights.get(int(y), 1)
-                total += (val_cf - val_base) * weight
-            return total
-
-        diffs = [_compute_weighted_emission_diff(emissions_cum, base, cf) for base, cf in pair_info]
+        diffs = [_compute_pair_diff(emissions_cum, base, cf) for base, cf in pair_info]
         rows.append((f'Cumulative CO2 emissions {emissions_year} (Mt)', diffs))
 
-        # 8. NPV of carbon cost using model's pWeightYear and pRR
-        # Load carbon prices from resources (same as cost template)
-        carbon_price_low, carbon_price_high = _load_carbon_prices()
+        # 8. NPV of emission value at $75/tCO2 with 5% discount rate
+        # Compute year-by-year differences and apply NPV discounting
+        discount_rate = 0.05
+        carbon_price = 75  # $/tCO2
 
-        # Derive discount rate for label
-        derived_dr = _derive_discount_rate(milestone_years, year_weights, discount_factors)
-        dr_label = f"{derived_dr*100:.0f}%" if derived_dr else "model DR"
-
-        def _compute_npv_carbon_cost(df: pd.DataFrame, base: str, cf: str, carbon_prices: dict) -> float:
-            """Compute NPV of carbon cost difference using model's pWeightYear and pRR."""
+        def _compute_npv_emission_value(df: pd.DataFrame, base: str, cf: str) -> float:
+            """Compute NPV of emission difference between scenarios."""
             df_base = df[df['scenario'] == base].copy()
             df_cf = df[df['scenario'] == cf].copy()
 
             if df_base.empty and df_cf.empty:
                 return 0.0
 
+            # Aggregate by year
             base_by_year = df_base.groupby('year')['value'].sum() if not df_base.empty else pd.Series(dtype=float)
             cf_by_year = df_cf.groupby('year')['value'].sum() if not df_cf.empty else pd.Series(dtype=float)
 
+            # Get all years and sort
             all_years = sorted(set(base_by_year.index) | set(cf_by_year.index))
+            if not all_years:
+                return 0.0
+
+            start_year = min(all_years)
+
+            # Compute year weights (years each model year represents)
+            year_weights = {}
+            for i, y in enumerate(all_years):
+                if i < len(all_years) - 1:
+                    year_weights[y] = all_years[i + 1] - y
+                else:
+                    year_weights[y] = all_years[-1] - all_years[-2] if len(all_years) > 1 else 1
+
             npv = 0.0
             for y in all_years:
-                val_base = base_by_year.get(y, 0)  # Mt CO2
-                val_cf = cf_by_year.get(y, 0)  # Mt CO2
+                val_base = base_by_year.get(y, 0)
+                val_cf = cf_by_year.get(y, 0)
                 diff = val_cf - val_base  # Mt CO2
 
-                weight = year_weights.get(int(y), 1)
-                discount = discount_factors.get(int(y), 1.0)
-                price = carbon_prices.get(int(y), 0)  # $/tCO2
+                # Value in M$ (Mt * $/t = M$)
+                value = diff * carbon_price
 
-                # Carbon cost = Emissions (Mt) * Price ($/t) = M$
-                # NPV = cost * weight * discount
-                npv += diff * price * weight * discount
+                # Apply discounting for each year in the period
+                weight = year_weights[y]
+                for offset in range(weight):
+                    discount_factor = 1 / ((1 + discount_rate) ** (y - start_year + offset))
+                    npv += value * discount_factor / weight
 
             return npv
 
-        # Add carbon cost rows using low and high prices
-        if carbon_price_low:
-            diffs_low = [_compute_npv_carbon_cost(emissions, base, cf, carbon_price_low) for base, cf in pair_info]
-            rows.append((f'NPV Carbon Cost Low (M$ {dr_label})', diffs_low))
-
-        if carbon_price_high:
-            diffs_high = [_compute_npv_carbon_cost(emissions, base, cf, carbon_price_high) for base, cf in pair_info]
-            rows.append((f'NPV Carbon Cost High (M$ {dr_label})', diffs_high))
+        diffs_npv = [_compute_npv_emission_value(emissions, base, cf) for base, cf in pair_info]
+        rows.append(('NPV Emission value (M$, $75/tCO2, 5%)', diffs_npv))
 
     if not rows:
         log_warning("No data available to build the assessment heatmap.")
         return
 
-    # Helper function to create and save a heatmap
-    def _create_heatmap(data: pd.DataFrame, filename: str, title: str):
-        if data.empty or len(data.columns) == 0:
-            return
+    # Build DataFrame
+    data = pd.DataFrame(
+        {label: [row[1][i] for row in rows] for i, label in enumerate(pair_labels)},
+        index=[row[0] for row in rows]
+    )
 
-        fig, ax = plt.subplots(figsize=(max(8, len(data.columns) * 2), max(6, len(data) * 0.4)))
+    # Create heatmap
+    fig, ax = plt.subplots(figsize=(max(8, len(pair_labels) * 2), max(6, len(rows) * 0.4)))
 
-        # Normalize colors per row for better visualization
-        data_normalized = data.copy()
-        for idx in data.index:
-            row = data.loc[idx]
-            row_min, row_max = row.min(), row.max()
-            if not np.isclose(row_max, row_min):
-                data_normalized.loc[idx] = (row - row_min) / (row_max - row_min)
-            else:
-                data_normalized.loc[idx] = 0.5
+    # Normalize colors per row for better visualization
+    data_normalized = data.copy()
+    for idx in data.index:
+        row = data.loc[idx]
+        row_min, row_max = row.min(), row.max()
+        if not np.isclose(row_max, row_min):
+            data_normalized.loc[idx] = (row - row_min) / (row_max - row_min)
+        else:
+            data_normalized.loc[idx] = 0.5
 
-        # Create annotations with formatted values
-        def _format_value(x):
-            if x == 0 or np.isclose(x, 0):
-                return "0"
-            elif abs(x) < 10:
-                return f"{x:+,.1f}"
-            else:
-                return f"{x:+,.0f}"
-        annotations = data.map(_format_value)
+    # Create annotations with formatted values
+    def _format_value(x):
+        if x == 0 or np.isclose(x, 0):
+            return "0"
+        elif abs(x) < 10:
+            return f"{x:+,.1f}"
+        else:
+            return f"{x:+,.0f}"
+    annotations = data.map(_format_value)
 
-        sns.heatmap(
-            data_normalized,
-            cmap=sns.diverging_palette(220, 20, as_cmap=True),
-            annot=annotations,
-            fmt="",
-            linewidths=0.5,
-            ax=ax,
-            cbar=False,
-            center=0.5
-        )
+    sns.heatmap(
+        data_normalized,
+        cmap=sns.diverging_palette(220, 20, as_cmap=True),
+        annot=annotations,
+        fmt="",
+        linewidths=0.5,
+        ax=ax,
+        cbar=False,
+        center=0.5
+    )
 
-        ax.set_title(title, fontsize=12, fontweight='bold')
-        ax.xaxis.set_label_position('top')
-        ax.xaxis.tick_top()
-        ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='left', fontsize=9)
-        ax.set_yticklabels(ax.get_yticklabels(), rotation=0, fontsize=9)
+    ax.set_title("Assessment: Project - Counterfactual", fontsize=12, fontweight='bold')
+    ax.xaxis.set_label_position('top')
+    ax.xaxis.tick_top()
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='left', fontsize=9)
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0, fontsize=9)
 
-        # Bold important rows (totals and key metrics)
-        bold_markers = (
-            'NPV of system cost',
-            'Capacity - Total',
-            'New capacity - Total',
-            'Transmission capacity',
-            'New transmission capacity',
-            'Cumulative CAPEX - Total',
-            'Cumulative CO2 emissions',
-            'NPV Emission value',
-        )
-        for label in ax.get_yticklabels():
-            text = label.get_text()
-            if any(marker in text for marker in bold_markers):
-                label.set_fontweight('bold')
+    # Bold important rows (totals and key metrics)
+    bold_markers = (
+        'NPV of system cost',
+        'Capacity - Total',
+        'New capacity - Total',
+        'Transmission capacity',
+        'New transmission capacity',
+        'Cumulative CAPEX - Total',
+        'Cumulative CO2 emissions',
+        'NPV Emission value',
+    )
+    for label in ax.get_yticklabels():
+        text = label.get_text()
+        if any(marker in text for marker in bold_markers):
+            label.set_fontweight('bold')
 
-        ax.set_xlabel("")
-        ax.set_ylabel("")
+    ax.set_xlabel("")
+    ax.set_ylabel("")
 
-        plt.savefig(filename, bbox_inches='tight')
-        plt.close()
-
-    # BySensitivity heatmap - compare sensitivity scenarios (if multiple sensitivities exist)
-    if has_sensitivities:
-        data_sensitivity = pd.DataFrame(
-            {label: [row[1][i] for row in rows] for i, label in enumerate(sensitivity_labels)},
-            index=[row[0] for row in rows]
-        )
-        filename = os.path.join(folder, "AssessmentHeatmap_BySensitivity.pdf")
-        _create_heatmap(data_sensitivity, filename, "Assessment by Sensitivity: Project - Counterfactual")
-
-    # ByProject heatmap - compare different projects (if multiple projects exist)
-    if has_multiple_projects:
-        # Get indices of baseline-only pairs
-        baseline_indices = [i for i, (base, _) in enumerate(sensitivity_info) if base == 'baseline']
-        data_project = pd.DataFrame(
-            {project_labels[j]: [row[1][baseline_indices[j]] for row in rows] for j in range(len(project_labels))},
-            index=[row[0] for row in rows]
-        )
-        filename = os.path.join(folder, "AssessmentHeatmap_ByProject.pdf")
-        _create_heatmap(data_project, filename, "Assessment by Project: Project - Counterfactual")
-
-    # Single heatmap for simple cases (single project, no/single sensitivity)
-    if not has_sensitivities and not has_multiple_projects:
-        data = pd.DataFrame(
-            {label: [row[1][i] for row in rows] for i, label in enumerate(sensitivity_labels)},
-            index=[row[0] for row in rows]
-        )
-        filename = os.path.join(folder, "AssessmentHeatmap.pdf")
-        _create_heatmap(data, filename, "Assessment: Project - Counterfactual")
+    filename = os.path.join(folder, "AssessmentHeatmap.pdf")
+    plt.savefig(filename, bbox_inches='tight')
+    plt.close()
 
 
 def make_assessment_dispatch_diff(epm_results, dict_specs, folder, scenario_base, scenario_cf):

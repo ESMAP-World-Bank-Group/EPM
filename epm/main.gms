@@ -271,6 +271,8 @@ $load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVRE
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+
+
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -583,7 +585,7 @@ stp(g) = gtechmap(g,"STOPV");
 stg(g) = gtechmap(g,"Storage");
 
 * Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
-st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage");
+st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage") or  gtechmap(g,"Storage1H") or  gtechmap(g,"Storage2H") or  gtechmap(g,"Storage3H") or  gtechmap(g,"Storage4H") or  gtechmap(g,"Storage5H") or  gtechmap(g,"Storage6H");
 
 * Define generators with capex trajectory data
 dc(g)  = sum(y, pCapexTrajectories(g,y));

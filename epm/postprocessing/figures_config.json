@@ -14,8 +14,8 @@
         "CapacityMixEvolutionZone": true,
         "CapacityMixZoneScenarios": true,
         "CapacityMixZoneScenariosRelative": true,
-        "NewCapacityZoneInstalledTimeline": false,
-        "NewCapacitySystemInstalledTimeline": false
+        "NewCapacityZoneInstalledTimeline": true,
+        "NewCapacitySystemInstalledTimeline": true
       }
     },
     "costs": {
@@ -56,11 +56,11 @@
     "dispatch": {
       "enabled": true,
       "figures": {
-        "DispatchZoneMaxLoadDay": false,
-        "DispatchZoneMaxLoadSeason": false,
+        "DispatchZoneMaxLoadDay": true,
+        "DispatchZoneMaxLoadSeason": true,
         "DispatchZoneFullSeason": true,
-        "DispatchSystemMaxLoadDay": false,
-        "DispatchSystemMaxLoadSeason": false
+        "DispatchSystemMaxLoadDay": true,
+        "DispatchSystemMaxLoadSeason": true
       }
     },
     "interconnection": {
