@@ -19,7 +19,7 @@
       }
     },
     "costs": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "NPVCostSystemScenarios": true,
         "NPVCostSystemScenariosRelative": true,
@@ -43,7 +43,7 @@
       }
     },
     "energy": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "EnergyMixSystemEvolutionScenarios": true,
         "EnergyMixSystemEvolutionScenariosRelative": true,
@@ -54,13 +54,13 @@
       }
     },
     "dispatch": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
-        "DispatchZoneMaxLoadDay": false,
-        "DispatchZoneMaxLoadSeason": false,
+        "DispatchZoneMaxLoadDay": true,
+        "DispatchZoneMaxLoadSeason": true,
         "DispatchZoneFullSeason": true,
-        "DispatchSystemMaxLoadDay": false,
-        "DispatchSystemMaxLoadSeason": false
+        "DispatchSystemMaxLoadDay": true,
+        "DispatchSystemMaxLoadSeason": true
       }
     },
     "interconnection": {
@@ -74,12 +74,12 @@
       }
     },
     "maps": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
-        "TransmissionCapacityMap": false,
-        "TransmissionCapacityMapEvolution": false,
-        "TransmissionUtilizationMap": false,
-        "TransmissionUtilizationMapEvolution": false,
+        "TransmissionCapacityMap": true,
+        "TransmissionCapacityMapEvolution": true,
+        "TransmissionUtilizationMap": true,
+        "TransmissionUtilizationMapEvolution": true,
         "NetExportsMap": true,
         "InteractiveMap": true
       }

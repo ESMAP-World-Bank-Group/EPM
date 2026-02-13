@@ -1,14 +1,16 @@
 ﻿Geojson,EPM,region,country,division
-Angola,Angola,,,
-Democratic Republic of the Congo - North,DRC,north,Democratic Republic of the Congo,NSE
-Democratic Republic of the Congo - South,DRC_South,south,Democratic Republic of the Congo,NSE
-Democratic Republic of the Congo - East,DRC_East,east,Democratic Republic of the Congo,NSE
 Burundi,Burundi,,,
-Cameroon,Cameroon,,,
-Central African Republic,CAR,,,
-Chad,Chad,,,
-Republic of Congo,Congo,,,
-Democratic Republic of the Congo,DRC,,,
-Equatorial Guinea,EquatorialGuinea,,,
-Gabon,Gabon,,,
+Djibouti,Djibouti,,,
+Egypt,Egypt,,,
+Ethiopia,Ethiopia,,,
+Kenya,Kenya,,,
+Libya,Libya,,,
 Rwanda,Rwanda,,,
+Sudan,Sudan,,,
+South Sudan,SouthSudan,,,
+Tanzania,Tanzania,,,
+Uganda,Uganda,,,
+Somaliland,Somaliland,,,
+SomaliaROC,SomaliaROC,,,
+Mogadishu,Mogadishu,,,
+Drc_E,Drc_E,,,
