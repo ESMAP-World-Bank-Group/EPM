@@ -75,7 +75,7 @@ PATH_GAMS = {
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_FILE_PATH = Path(BASE_DIR) / "epm.log"
+LOG_FILE_PATH = Path(BASE_DIR) / f"epm{datetime.datetime.now().strftime('_%Y%m%d_%H%M%S')}.log"
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 _ENV_FLAG = "EPM_LOG_INITIALIZED"
 

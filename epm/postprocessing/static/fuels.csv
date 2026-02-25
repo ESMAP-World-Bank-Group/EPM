@@ -1,33 +1,19 @@
 ﻿# Order of Processing is the one is stacked plots,
 EPM_Fuel,Processing
-<<<<<<< HEAD
-ST-Uranium,Uranium
-=======
 ST-Coal,ST-Coal
 CCGT-Gas,CCGT-Gas
-OCGT-Gas,OCGT-Gas
-OCGT-HFO,OCGT-HFO
-OCGT-LFO,OCGT-LFO
-OCGT-Diesel,OCGT-Diesel
 ICE-Gas,ICE-Gas
 ICE-HFO,ICE-HFO
 ICE-LFO,ICE-LFO
-ICE-Diesel,ICE-Diesel
-ReservoirHydro-Water,Reservoir
-ROR-Water,ROR
 BiomassPlant-Biomass,Biomass
-CSPPlant-CSP,CSP
-OnshoreWind-Wind,Onshore Wind
-OffshoreWind-Wind,Offshore Wind
-PV-Solar,PV
-Storage-Battery,Battery
->>>>>>> origin/main
+ST-Bagasse,Bagasse
+ST-Woodchip,Woodchip
+INT-Import_SAR,Import_SAR
+INT-Import_MOZ,Import_MOZ
+INT-Import_SAPP,Import_SAPP
 Uranium,Uranium
-ST-Coal,ST-Coal
 Coal,Coal
 Gas,Gas
-CCGT-Gas,CCGT-Gas
-ICE-Gas,ICE-Gas
 LNG,LNG
 CCGT-LNG,CCGT-LNG
 OCGT-LNG,OCGT-LNG
@@ -38,9 +24,6 @@ PV-Diesel,PV-Diesel
 OCGT-Diesel,OCGT-Diesel
 OCGT-HFO,OCGT-HFO
 OCGT-LFO,OCGT-LFO
-ICE-HFO,ICE-HFO
-ICE-LFO,ICE-LFO
-BiomassPlant-Biomass,Biomass
 Biomass,Biomass
 ST-Biomass,Biomass
 CSPPlant-CSP,CSP
@@ -61,3 +44,4 @@ ST-Geothermal,Geothermal
 CSP,CSP
 Solar,Solar
 Import,Import
+Imports,Import

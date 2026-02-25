@@ -93,6 +93,7 @@ $if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/head
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
+$if not set pMaxAnnualInternalTradeShare $set pMaxAnnualInternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualInternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
@@ -212,7 +213,7 @@ $onEmbeddedCode Connect:
     file: %pDemandForecast%
     name: pDemandForecast
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2]
     header: [1]
     type: par
@@ -516,6 +517,14 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxAnnualInternalTradeShare%
+    name: pMaxAnnualInternalTradeShare
+    indexColumns: [1]
+    header: [1]
+    type: par
 
 - CSVReader:
     trace: %TRACE%
@@ -542,7 +551,7 @@ $onEmbeddedCode Connect:
     file: %pLossFactorInternal%
     name: pLossFactorInternal
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2]
     header: [1]
     type: par

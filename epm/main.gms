@@ -91,7 +91,7 @@ option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR
 
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
-$set BASE_FILE "base.gms"
+$set BASE_FILE "base_phaseout.gms"
 $endIf
 $if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
 
@@ -194,6 +194,8 @@ Parameter
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
+   pMaxAnnualInternalTradeShare(y,c)                     'Maximum trade share between countries'
+   
    
 * Demand parameters
    pDemandProfile(z,q,d,t)                               'Normalized demand profiles'
@@ -276,7 +278,7 @@ $load pPlanningReserveMargin
 * Load trade data
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
-$load pTradePrice, pMaxAnnualExternalTradeShare
+$load pTradePrice, pMaxAnnualExternalTradeShare, pMaxAnnualInternalTradeShare
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2

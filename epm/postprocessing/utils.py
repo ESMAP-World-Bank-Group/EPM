@@ -458,7 +458,7 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
         new_values = [f for f in temp[column].unique() if f not in mapping.values()]
         if new_values:
             raise ValueError(f'New tech-fuel combinations found in {key}: {new_values}. '
-                             f'Add them to resources/pTechFuel.csv and resources/pTechFuelProcessing.csv.')
+                             f'Add them to resources/pTechFuel.csv and resources/postprocess/pTechFuelProcessing.csv.')
 
         dict_df[key] = temp.copy()
     else:
@@ -997,6 +997,7 @@ def generate_summary(epm_results, folder):
         order = order + [i for i in summary['attribute'].unique() if i not in order]
 
     summary.reset_index(drop=True, inplace=True)
+    summary_alt = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).reset_index()
     summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
     summary.reset_index(inplace=True)
 
@@ -1038,8 +1039,10 @@ def generate_summary(epm_results, folder):
         return df.loc[~mask].copy()
     
     summary = drop_redundant_country_rows(summary)
+    summary_alt = drop_redundant_country_rows(summary_alt)
     
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
+    summary_alt.round(1).to_excel(os.path.join(folder, 'summary_alt.xlsx'), index=False)
 
 
 def generate_plants_summary(epm_results, folder):

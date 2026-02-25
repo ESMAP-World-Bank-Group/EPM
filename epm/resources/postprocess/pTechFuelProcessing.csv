@@ -9,6 +9,8 @@ ST,DomesticCoal,ST-DomesticCoal,dimgray
 ST,ImportedCoal,ST-ImportedCoal,silver
 ST,Geothermal,ST-Geothermal,mediumturquoise
 ST,Lignite,ST-Lignite,lightgray
+ST,Bagasse,ST-Bagasse,lightgreen
+ST,Woodchip,ST-Woodchip,darkgreen
 OCGT,Diesel,GT-Diesel,darksalmon
 OCGT,Gas,GT-Gas,firebrick
 OCGT,LNG,GT-LNG,darkgoldenrod
@@ -35,3 +37,6 @@ EnergyBalance,Exports,Exports,pink
 EnergyBalance,Exports External,ExportsExternal,purple
 EnergyBalance,UnmetDemand,UnmetDemand,red
 EnergyBalance,Surplus,Surplus,brown
+INT,Import_SAR,Imports,tan
+INT,Import_MOZ,Imports,tan
+INT,Import_SAPP,Imports,tan
