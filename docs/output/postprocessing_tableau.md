@@ -35,7 +35,7 @@ Drag and drop your simulation results into the `scenarios/` folder. Each scenari
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
-Download the [EPM_Report.twb](../dwld/EPM_Report.twb) template file.
+Download the [EPM_Report.twb](../dwld/ESMAP_Tableau_opti.twb) template file.
 
 ## 2. Generate `linestring_countries.geojson` and add to the directory
 
