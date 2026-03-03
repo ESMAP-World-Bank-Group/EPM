@@ -37,3 +37,6 @@ Geothermal,Geothermal,0,0,24
 CCGT_CCS,Gas,0,0,25
 OCGT_CCS,Gas,0,0,26
 RPV,Solar,0,0,27
+CSPPlant,Solar,0,0,28
+ST,Gas,0,0,29
+ST,HFO,0,0,31
