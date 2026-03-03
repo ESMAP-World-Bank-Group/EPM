@@ -604,6 +604,7 @@ def calculate_cumulative(
         return False
 
     df = pd.read_csv(input_path)
+    df['value'] = pd.to_numeric(df['value'].replace('EPS', 0), errors='coerce').fillna(0)
 
     # Identify grouping columns (all columns except year and value)
     group_cols = [col for col in df.columns if col not in [year_col, value_col]]
