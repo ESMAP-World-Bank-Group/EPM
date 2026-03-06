@@ -11,6 +11,7 @@ ST,Geothermal,ST-Geothermal,mediumturquoise
 ST,Lignite,ST-Lignite,lightgray
 ST,Bagasse,ST-Bagasse,lightgreen
 ST,Woodchip,ST-Woodchip,darkgreen
+ST,Biogas,ST-Biogas,firebrick
 OCGT,Diesel,GT-Diesel,darksalmon
 OCGT,Gas,GT-Gas,firebrick
 OCGT,LNG,GT-LNG,darkgoldenrod

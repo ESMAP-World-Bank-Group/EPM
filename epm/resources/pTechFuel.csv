@@ -24,6 +24,7 @@ ST,ImportedCoal,0,0,1
 ST,Lignite,0,0,18
 ST,Geothermal,0,1,14
 ST,Biomass,0,1,13
+ST,Biogas,0,1,22
 STOPV,Solar,0,1,4
 Storage,Battery,0,0,11
 Storage,Water,0,0,3

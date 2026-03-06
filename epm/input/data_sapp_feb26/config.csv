@@ -40,7 +40,7 @@ External trading zones (Unit: unitless),zext,trade/zext.csv
 Seasonal import and export limits with external zones (Unit: MW),pExtTransferLimit,trade/pExtTransferLimit.csv
 Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
-Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare_ensecu.csv
+Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
 Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv

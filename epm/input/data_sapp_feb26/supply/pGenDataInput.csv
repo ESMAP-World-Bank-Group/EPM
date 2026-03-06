@@ -35,6 +35,8 @@ ChishimbaFallsExt_HY_ZMB,Zambia,ROR,Water,2026,2106,9,2,,,,,,0.107375,40000,0.5,
 Beluluane_TH_MOZ,Mozambique_South,CCGT,Gas,2030,2060,2000,3,0.2,9.75,,,,0.2,30000,2,0,1.245080501,,100,0,,,0.05,0,0
 Biomass_TZ_Candidate,Tanzania,ST,Biomass,2025,2060,32,3,,10,0.33,0.33,,,100000,2.5,0,1.5,,32,,,,,,
 Boroma_HY_MOZ,Mozambique_Central,ReservoirHydro,Water,2037,2110,200,3,,,,,,,,,,,,200,,,,,,
+Luapula_HY_ZMB,Zambia,ROR,Water,2030,2110,271,3,,,,,,0.278070484,50000,0.5,,3.12,50,315,0,,0,0,0,0
+Luapula_PV_ZMB,Zambia,PV,Solar,2027,2057,50,3,,,,,,,15000,,,0.8,,50,,,,,1,
 CandidateHydro_HY_ZMB,Zambia,ReservoirHydro,Water,2036,2109,315,3,,,,,,0.278070484,50000,0.5,,3.12,50,315,0,,0,0,0,0
 CIF_TH_AGO,Angola,OCGT,Gas,2000,2019,50,1,,13.1746563,,,,,,,,0,,,0,7,13.8746563,0.25,0,0
 Committed_PV1-1_BWA,Botswana,PV,Solar,2026,2056,100,2,,,,,,,15000,,,0.8,,100,,,,,1,
@@ -126,6 +128,7 @@ Kendal_TH_ZAF,South_Africa,ST,Coal,1985,2042,3840,1,0.3,11.3,,,,,,,,0,,,0,,0,0.0
 Khan_PV_NAM,Namibia,PV,Solar,2025,2060,25,2,,,,,,,15000,,,0.8,,25,,,,,1,
 GenericDieselCan_ZAF,South_Africa,ICE,HFO,2024,2054,2000,0,,10.42,,,,,,,,0.933810376,,1000,0,,0,0.06,0,0
 Kilubi_HY_DRCSouth,DRC_South,ROR,Water,1954,2060,3,1,,,,,,0.27,,,0,0,50,,0,,0,0,0,0
+Tazama_Gas_ZMB,Zambia,OCGT,Gas,2035,2065,400,3,,,,,,,,,,,,,,,,,,
 GenericDieselCan_ZMB,Zambia,ICE,HFO,2026,2053,100,0,,10.42,,,,,20000,4.4,,0.830053667,,100,0,,0,0.06,0,0
 Koeberg_NU_ZAF,South_Africa,Nuclear,Uranium,1985,2045,1860,1,,10.53119469,0.1,0.1,0,0,100000,2.3,0,0,50,,0,,0,0.6,0,1800
 KomatiI_TH_ZAF,South_Africa,ST,Coal,1966,2022,500,1,,11.31,,,,,,,,0,,,0,,0,0.05,0,500
@@ -249,6 +252,7 @@ Paratus_TH_NAM,Namibia,ICE,HFO,1976,2017,25,1,,10.41544727,,,,,,,,0,,,0,,0,0,0,0
 PortRexGas_TH_ZAF,South_Africa,OCGT,HFO,1976,2026,171,1,,11.26101378,,,,,,,,0,,,0,,0,0,0,0
 PretoriaWest_TH_ZAF,South_Africa,ST,Coal,1952,2019,180,1,,13.09693531,,,,,,,,0,,,0,,0,0.05,0,180
 MumbotutaFalls_HY_ZMB,Zambia,ReservoirHydro,Water,2035,2110,271,3,,,,,,0.278070484,50000,0.5,,3.12,50,301,0,,0,0,0,0
+NgonyeFalls_HY_ZMB,Zambia,ReservoirHydro,Water,2028,2108,180,3,,,,,,0.278070484,50000,0.5,,3.12,50,180,0,,0,0,0,0
 MupataGorgeNorth_HY_ZMB,Zambia,ReservoirHydro,Water,2040,2110,600,3,,,,,,0.278070484,50000,0.5,,3.12,50,600,0,,0,0,0,0
 PV_Caraculo_OffGrid,Angola,PV,Solar,2022,2052,25,1,,0,,,,,,,,0,,0,0,,0,0,1,0
 MupataGorgeSouth_HY_ZWE,Zimbabwe,ReservoirHydro,Water,2040,2110,600,3,,,,,,0.275342466,50000,0.5,,3.12,50,600,0,,0,0,0,0
@@ -371,6 +375,9 @@ New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,,,,,,15000,,,0.8,,40,,,,,1,
 New_PV_LSO,Lesotho,PV,Solar,2026,2060,500,3,,,,,,,15000,,,0.8,,15,,,,,1,
 New_PV_SWZ,Eswatini,PV,Solar,2030,2060,50,3,,,,,,,15000,,,0.8,,20,,,,,1,
 New_PV_TZA,Tanzania,PV,Solar,2027,2052,250,3,,,,,,,15000,,,0.8,,40,,,,,,
+7Yards_PV_ZMB,Zambia,PV,Solar,2027,2057,100,3,,,,,,,15000,,,0.8,,50,,,,,1,
+Lufubu_HY_ZMB,Zambia,ReservoirHydro,Water,2029,2109,163,3,,,,,,0.278070484,50000,0.5,,3.12,50,163,0,,0,0,0,0
+Serenje_PV_ZMB,Zambia,PV,Solar,2027,2057,50,3,,,,,,,15000,,,0.8,,50,,,,,1,
 New_PV_ZMB,Zambia,PV,Solar,2028,2060,600,3,,,,,,,15000,,,0.8,,50,,,,,1,
 New_PV_ZWE,Zimbabwe,PV,Solar,2031,2060,300,3,,,,,,,15000,,,0.8,,30,,,,,1,
 NewCCGTNG_TH_LSO,Lesotho,CCGT,Gas,2027,2074,500,0,,,,,,,30000,2,,1.17732737,,28,0,7,9.7,0.05,0,0
