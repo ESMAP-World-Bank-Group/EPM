@@ -1,0 +1,132 @@
+c_0,uni_1,uni_2,value
+Kenya,Average Capex: $m,Summary,4.641761701353966
+Kenya,Average Annualized capex: $m,Summary,241.68004694359215
+Kenya,Average Fixed O&M: $m,Summary,118.78687836517598
+Kenya,Average Variable O&M: $m,Summary,0.004728989348878787
+Kenya,Average Transmission additions: $m,Summary,9.153927291698514
+Kenya,Average Spinning Reserve costs: $m,Summary,0.0003414365018027566
+Kenya,Average Unmet demand costs: $m,Summary,0.00017232112151503986
+Kenya,Average Spinning Reserve violation: $m,Summary,0.000238511673207507
+Kenya,Average Planning Reserve violation: $m,Summary,36.89005821655229
+Kenya,Average Total Annual Cost: $m,Summary,882.0820178166297
+Burundi,Average Capex: $m,Summary,20.58157921364547
+Burundi,Average Annualized capex: $m,Summary,13.058193223980885
+Burundi,Average Fixed O&M: $m,Summary,9.088610170590181
+Burundi,Average Variable O&M: $m,Summary,4.893246210174637
+Burundi,Average Transmission additions: $m,Summary,0.887587180201293
+Burundi,Average Spinning Reserve costs: $m,Summary,2.3923527285711477
+Burundi,Average Unmet demand costs: $m,Summary,0.00015953002715548748
+Burundi,Average Spinning Reserve violation: $m,Summary,0.019951664172072683
+Burundi,Average Planning Reserve violation: $m,Summary,2.600906700516274
+Burundi,Average Total Annual Cost: $m,Summary,70.55443793736988
+Djibouti,Average Capex: $m,Summary,27.660617785191416
+Djibouti,Average Annualized capex: $m,Summary,9.427367776335029
+Djibouti,Average Fixed O&M: $m,Summary,1.9635594520515423
+Djibouti,Average Variable O&M: $m,Summary,8.753938002462498
+Djibouti,Average Transmission additions: $m,Summary,0.735988075188924
+Djibouti,Average Spinning Reserve costs: $m,Summary,0.00035795669399175186
+Djibouti,Average Unmet demand costs: $m,Summary,0.0001556920948247712
+Djibouti,Average Spinning Reserve violation: $m,Summary,0.00024592676050874354
+Djibouti,Average Planning Reserve violation: $m,Summary,2.332151562342854
+Djibouti,Average Total Annual Cost: $m,Summary,39.441628813038804
+DRC,Average Capex: $m,Summary,0.01294946839599819
+DRC,Average Annualized capex: $m,Summary,7.326538457948899
+DRC,Average Fixed O&M: $m,Summary,2.553287580949946
+DRC,Average Variable O&M: $m,Summary,0.0003188524876899721
+DRC,Average Transmission additions: $m,Summary,1.3033777938570246
+DRC,Average Spinning Reserve costs: $m,Summary,0.1497317696459341
+DRC,Average Unmet demand costs: $m,Summary,0.00014752546028239702
+DRC,Average Spinning Reserve violation: $m,Summary,0.13279362649325524
+DRC,Average Planning Reserve violation: $m,Summary,2.2216469613526675
+DRC,Average Total Annual Cost: $m,Summary,35.787875040861195
+Egypt,Average Capex: $m,Summary,143.9898084309554
+Egypt,Average Annualized capex: $m,Summary,1881.3046584951223
+Egypt,Average Fixed O&M: $m,Summary,762.3407574757803
+Egypt,Average Variable O&M: $m,Summary,6241.182610730896
+Egypt,Average Transmission additions: $m,Summary,35.46829380053562
+Egypt,Average Spinning Reserve costs: $m,Summary,0.0007552999181336236
+Egypt,Average Unmet demand costs: $m,Summary,0.00020115636136006584
+Egypt,Average Spinning Reserve violation: $m,Summary,0.00025662754563858016
+Egypt,Average Planning Reserve violation: $m,Summary,1.8724208030216576e-06
+Egypt,Average Total Annual Cost: $m,Summary,10415.117206999803
+Ethiopia,Average Capex: $m,Summary,70.96277294792081
+Ethiopia,Average Annualized capex: $m,Summary,325.0474023135536
+Ethiopia,Average Fixed O&M: $m,Summary,5.716024831860382
+Ethiopia,Average Variable O&M: $m,Summary,0.0009567374432322174
+Ethiopia,Average Transmission additions: $m,Summary,19.206554600902074
+Ethiopia,Average Spinning Reserve costs: $m,Summary,0.0003324949055965077
+Ethiopia,Average Unmet demand costs: $m,Summary,0.00021105359190750424
+Ethiopia,Average Spinning Reserve violation: $m,Summary,0.0010261859537272315
+Ethiopia,Average Total Annual Cost: $m,Summary,1121.495433361917
+Libya,Average Capex: $m,Summary,589.4355440497918
+Libya,Average Annualized capex: $m,Summary,288.7173271850021
+Libya,Average Fixed O&M: $m,Summary,261.3964637834989
+Libya,Average Variable O&M: $m,Summary,2031.655421961313
+Libya,Average Transmission additions: $m,Summary,40.121275475356846
+Libya,Average Spinning Reserve costs: $m,Summary,19.804635445247428
+Libya,Average Unmet demand costs: $m,Summary,0.0001457439911943554
+Libya,Average Spinning Reserve violation: $m,Summary,2.595889345440996
+Libya,Average Planning Reserve violation: $m,Summary,9.025798195850959
+Libya,Average Total Annual Cost: $m,Summary,3404.050467103701
+Rwanda,Average Capex: $m,Summary,0.03532444376867254
+Rwanda,Average Annualized capex: $m,Summary,28.800986030438096
+Rwanda,Average Fixed O&M: $m,Summary,1.9034250875431948
+Rwanda,Average Variable O&M: $m,Summary,12.73879951015646
+Rwanda,Average Transmission additions: $m,Summary,3.085873894031156
+Rwanda,Average Spinning Reserve costs: $m,Summary,0.0003415509645015483
+Rwanda,Average Unmet demand costs: $m,Summary,0.00017030392644718813
+Rwanda,Average Spinning Reserve violation: $m,Summary,0.000275176457518442
+Rwanda,Average Planning Reserve violation: $m,Summary,5.654971352414366
+Rwanda,Average Total Annual Cost: $m,Summary,130.79547612454832
+Somalia,Average Capex: $m,Summary,42.21645868256921
+Somalia,Average Annualized capex: $m,Summary,15.543429941196354
+Somalia,Average Fixed O&M: $m,Summary,6.318509009778353
+Somalia,Average Variable O&M: $m,Summary,4.3523656360766445
+Somalia,Average Transmission additions: $m,Summary,1.068002151007245
+Somalia,Average Spinning Reserve costs: $m,Summary,29.817300895828375
+Somalia,Average Unmet demand costs: $m,Summary,0.00041690688517139135
+Somalia,Average Spinning Reserve violation: $m,Summary,0.9299655751185789
+Somalia,Average Planning Reserve violation: $m,Summary,0.3401628511286329
+Somalia,Average Total Annual Cost: $m,Summary,84.73871900229963
+SouthSudan,Average Capex: $m,Summary,10.753844687660527
+SouthSudan,Average Annualized capex: $m,Summary,22.500788792510804
+SouthSudan,Average Fixed O&M: $m,Summary,18.923556506089994
+SouthSudan,Average Variable O&M: $m,Summary,24.929573143312265
+SouthSudan,Average Transmission additions: $m,Summary,0.5533417334713123
+SouthSudan,Average Spinning Reserve costs: $m,Summary,167.70641566018315
+SouthSudan,Average Unmet demand costs: $m,Summary,0.0001224584826047432
+SouthSudan,Average Spinning Reserve violation: $m,Summary,0.011726679536393845
+SouthSudan,Average Planning Reserve violation: $m,Summary,4.339249257878689
+SouthSudan,Average Total Annual Cost: $m,Summary,356.2137907649477
+Sudan,Average Capex: $m,Summary,46.15662500618255
+Sudan,Average Annualized capex: $m,Summary,235.67844154260223
+Sudan,Average Fixed O&M: $m,Summary,70.41881386449727
+Sudan,Average Variable O&M: $m,Summary,537.6702770450862
+Sudan,Average Transmission additions: $m,Summary,30.57401115039183
+Sudan,Average Spinning Reserve costs: $m,Summary,22.455443523257124
+Sudan,Average Unmet demand costs: $m,Summary,0.0001367315680738864
+Sudan,Average Spinning Reserve violation: $m,Summary,11.551733433506284
+Sudan,Average Planning Reserve violation: $m,Summary,37.610640925332746
+Sudan,Average Total Annual Cost: $m,Summary,1494.4789176582271
+Tanzania,Average Capex: $m,Summary,34.82716268497154
+Tanzania,Average Annualized capex: $m,Summary,358.84207828105275
+Tanzania,Average Fixed O&M: $m,Summary,22.49653780733878
+Tanzania,Average Variable O&M: $m,Summary,67.8769139586004
+Tanzania,Average Total fuel Costs: $m,Summary,1.3887082219110674
+Tanzania,Average Transmission additions: $m,Summary,14.459654569533045
+Tanzania,Average Spinning Reserve costs: $m,Summary,0.0003477494924610457
+Tanzania,Average Unmet demand costs: $m,Summary,0.00017206073814313955
+Tanzania,Average Spinning Reserve violation: $m,Summary,0.00024126218209351643
+Tanzania,Average Planning Reserve violation: $m,Summary,0.788985566059103
+Tanzania,Average Total Annual Cost: $m,Summary,1061.1953329196267
+Uganda,Average Capex: $m,Summary,0.5152809506990106
+Uganda,Average Annualized capex: $m,Summary,111.19093488969654
+Uganda,Average Fixed O&M: $m,Summary,16.369640929919097
+Uganda,Average Variable O&M: $m,Summary,0.012234592938990008
+Uganda,Average Total fuel Costs: $m,Summary,1.3887082219110674
+Uganda,Average Transmission additions: $m,Summary,2.2895266066120112
+Uganda,Average Spinning Reserve costs: $m,Summary,0.0003467903545119823
+Uganda,Average Unmet demand costs: $m,Summary,0.00017248866110633896
+Uganda,Average Spinning Reserve violation: $m,Summary,0.00023684890814991156
+Uganda,Average Planning Reserve violation: $m,Summary,6.83783041340291
+Uganda,Average Total Annual Cost: $m,Summary,392.49175030950175

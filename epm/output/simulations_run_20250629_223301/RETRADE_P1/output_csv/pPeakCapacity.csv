@@ -1,0 +1,230 @@
+z,uni,y,value
+Kenya,Available capacity: MW,2024,4064.675202480484
+Kenya,Available capacity: MW,2030,4630.565565452809
+Kenya,Available capacity: MW,2036,4685.840265245527
+Kenya,Peak demand: MW,2024,2268.0
+Kenya,Peak demand: MW,2030,3099.0
+Kenya,Peak demand: MW,2036,4333.0
+Kenya,Peak demand including P to H2: MW,2024,1e-06
+Kenya,Peak demand including P to H2: MW,2030,1e-06
+Kenya,Peak demand including P to H2: MW,2036,1e-06
+Kenya,New capacity: MW,2024,399.6752024804841
+Kenya,New capacity: MW,2030,565.898347680785
+Kenya,New capacity: MW,2036,421.3103238766114
+Kenya,Retired capacity: MW,2036,366.0
+Kenya,Committed Total TX capacity: MW,2024,1675.0
+Kenya,Committed Total TX capacity: MW,2030,2195.0
+Kenya,Committed Total TX capacity: MW,2036,3095.0
+Burundi,Available capacity: MW,2024,155.70122326257663
+Burundi,Available capacity: MW,2030,439.4886613508789
+Burundi,Available capacity: MW,2036,549.5838585696812
+Burundi,Peak demand: MW,2024,185.5694333
+Burundi,Peak demand: MW,2030,387.4581722
+Burundi,Peak demand: MW,2036,517.360042
+Burundi,Peak demand including P to H2: MW,2024,1e-06
+Burundi,Peak demand including P to H2: MW,2030,1e-06
+Burundi,Peak demand including P to H2: MW,2036,1e-06
+Burundi,New capacity: MW,2024,16.001223262576634
+Burundi,New capacity: MW,2030,283.78805229664533
+Burundi,New capacity: MW,2036,110.10932401068852
+Burundi,Committed Total TX capacity: MW,2024,27.0
+Burundi,Committed Total TX capacity: MW,2030,27.0
+Burundi,Committed Total TX capacity: MW,2036,27.0
+Djibouti,Available capacity: MW,2024,174.40276893457343
+Djibouti,Available capacity: MW,2030,287.58819697647385
+Djibouti,Available capacity: MW,2036,677.4666025367052
+Djibouti,Peak demand: MW,2024,153.1999755
+Djibouti,Peak demand: MW,2030,229.7999633
+Djibouti,Peak demand: MW,2036,354.0058939
+Djibouti,Peak demand including P to H2: MW,2024,1e-06
+Djibouti,Peak demand including P to H2: MW,2030,1e-06
+Djibouti,Peak demand including P to H2: MW,2036,1e-06
+Djibouti,New capacity: MW,2024,0.0027689345734386
+Djibouti,New capacity: MW,2030,129.1860422502435
+Djibouti,New capacity: MW,2036,414.8827050186298
+Djibouti,Retired capacity: MW,2024,13.0
+Djibouti,Retired capacity: MW,2030,16.0
+Djibouti,Retired capacity: MW,2036,25.0
+Djibouti,Committed Total TX capacity: MW,2024,95.0
+Djibouti,Committed Total TX capacity: MW,2030,160.0
+Djibouti,Committed Total TX capacity: MW,2036,160.0
+Drc_E,Available capacity: MW,2024,94.80834044079114
+Drc_E,Available capacity: MW,2030,167.79094549096655
+Drc_E,Available capacity: MW,2036,169.05423019629507
+Drc_E,Peak demand: MW,2024,103.1474234
+Drc_E,Peak demand: MW,2030,135.4370515
+Drc_E,Peak demand: MW,2036,169.1128506
+Drc_E,Peak demand including P to H2: MW,2024,1e-06
+Drc_E,Peak demand including P to H2: MW,2030,1e-06
+Drc_E,Peak demand including P to H2: MW,2036,1e-06
+Drc_E,New capacity: MW,2024,54.80834044079114
+Drc_E,New capacity: MW,2030,72.98506188354746
+Drc_E,New capacity: MW,2036,1.26942678875866
+Drc_E,Committed Total TX capacity: MW,2024,12.0
+Drc_E,Committed Total TX capacity: MW,2030,112.0
+Drc_E,Committed Total TX capacity: MW,2036,112.0
+Egypt,Available capacity: MW,2024,56251.0
+Egypt,Available capacity: MW,2030,55784.04932041732
+Egypt,Available capacity: MW,2036,60891.9941524448
+Egypt,Peak demand: MW,2024,33650.0
+Egypt,Peak demand: MW,2030,42187.0
+Egypt,Peak demand: MW,2036,49535.0
+Egypt,Peak demand including P to H2: MW,2024,1e-06
+Egypt,Peak demand including P to H2: MW,2030,1e-06
+Egypt,Peak demand including P to H2: MW,2036,1e-06
+Egypt,New capacity: MW,2030,2400.0493204173254
+Egypt,New capacity: MW,2036,9895.95220252522
+Egypt,Retired capacity: MW,2024,1955.0
+Egypt,Retired capacity: MW,2030,2867.0
+Egypt,Retired capacity: MW,2036,4788.0
+Egypt,Committed Total TX capacity: MW,2024,480.0
+Egypt,Committed Total TX capacity: MW,2030,480.0
+Egypt,Committed Total TX capacity: MW,2036,480.0
+Ethiopia,Available capacity: MW,2024,5323.031046033062
+Ethiopia,Available capacity: MW,2030,13640.084821190854
+Ethiopia,Available capacity: MW,2036,14643.247993777644
+Ethiopia,Peak demand: MW,2024,3275.0
+Ethiopia,Peak demand: MW,2030,6260.0
+Ethiopia,Peak demand: MW,2036,10336.0
+Ethiopia,Peak demand including P to H2: MW,2024,1e-06
+Ethiopia,Peak demand including P to H2: MW,2030,1e-06
+Ethiopia,Peak demand including P to H2: MW,2036,1e-06
+Ethiopia,New capacity: MW,2024,0.0310460330623052
+Ethiopia,New capacity: MW,2030,8317.059303032878
+Ethiopia,New capacity: MW,2036,1085.1932687955943
+Ethiopia,Retired capacity: MW,2024,246.0
+Ethiopia,Retired capacity: MW,2036,82.0
+Ethiopia,Committed Total TX capacity: MW,2024,440.0
+Ethiopia,Committed Total TX capacity: MW,2030,825.0
+Ethiopia,Committed Total TX capacity: MW,2036,1725.0
+Libya,Available capacity: MW,2024,8432.0
+Libya,Available capacity: MW,2030,14667.063213106396
+Libya,Available capacity: MW,2036,19566.75281508777
+Libya,Peak demand: MW,2024,9404.171933439991
+Libya,Peak demand: MW,2030,13294.579449097446
+Libya,Peak demand: MW,2036,17748.79599959543
+Libya,Peak demand including P to H2: MW,2024,1e-06
+Libya,Peak demand including P to H2: MW,2030,1e-06
+Libya,Peak demand including P to H2: MW,2036,1e-06
+Libya,New capacity: MW,2030,7520.063213106396
+Libya,New capacity: MW,2036,4899.693287231426
+Libya,Retired capacity: MW,2024,1434.0
+Libya,Retired capacity: MW,2030,1285.0
+Libya,Committed Total TX capacity: MW,2024,180.0
+Libya,Committed Total TX capacity: MW,2030,180.0
+Libya,Committed Total TX capacity: MW,2036,180.0
+Rwanda,Available capacity: MW,2024,323.9981026784967
+Rwanda,Available capacity: MW,2030,386.78214393288033
+Rwanda,Available capacity: MW,2036,645.0257704530711
+Rwanda,Peak demand: MW,2024,224.0
+Rwanda,Peak demand: MW,2030,397.0
+Rwanda,Peak demand: MW,2036,704.0
+Rwanda,Peak demand including P to H2: MW,2024,1e-06
+Rwanda,Peak demand including P to H2: MW,2030,1e-06
+Rwanda,Peak demand including P to H2: MW,2036,1e-06
+Rwanda,New capacity: MW,2024,0.1981026784967213
+Rwanda,New capacity: MW,2030,62.79141175449973
+Rwanda,New capacity: MW,2036,266.5626669788245
+Rwanda,Retired capacity: MW,2036,8.3
+Rwanda,Committed Total TX capacity: MW,2024,408.0
+Rwanda,Committed Total TX capacity: MW,2030,508.0
+Rwanda,Committed Total TX capacity: MW,2036,508.0
+Somaliland,Available capacity: MW,2030,43.66879167699852
+Somaliland,Available capacity: MW,2036,624.2879710360535
+Somaliland,Peak demand: MW,2024,23.0
+Somaliland,Peak demand: MW,2030,80.0
+Somaliland,Peak demand: MW,2036,283.0
+Somaliland,Peak demand including P to H2: MW,2024,1e-06
+Somaliland,Peak demand including P to H2: MW,2030,1e-06
+Somaliland,Peak demand including P to H2: MW,2036,1e-06
+Somaliland,New capacity: MW,2030,43.66879167699852
+Somaliland,New capacity: MW,2036,580.6234788179198
+Somaliland,Retired capacity: MW,2024,52.2
+Somaliland,Committed Total TX capacity: MW,2030,100.0
+Somaliland,Committed Total TX capacity: MW,2036,100.0
+Mogadishu,Available capacity: MW,2030,113.34852552755248
+Mogadishu,Available capacity: MW,2036,297.1862557371523
+Mogadishu,Peak demand: MW,2024,23.0
+Mogadishu,Peak demand: MW,2030,92.0
+Mogadishu,Peak demand: MW,2036,317.0
+Mogadishu,Peak demand including P to H2: MW,2024,1e-06
+Mogadishu,Peak demand including P to H2: MW,2030,1e-06
+Mogadishu,Peak demand including P to H2: MW,2036,1e-06
+Mogadishu,New capacity: MW,2030,113.34852552755248
+Mogadishu,New capacity: MW,2036,183.84202966798128
+Mogadishu,Retired capacity: MW,2024,14.4
+SomaliaROC,Available capacity: MW,2030,65.20062001863612
+SomaliaROC,Available capacity: MW,2036,198.68324804005576
+SomaliaROC,Peak demand: MW,2024,21.0
+SomaliaROC,Peak demand: MW,2030,30.0
+SomaliaROC,Peak demand: MW,2036,211.0
+SomaliaROC,Peak demand including P to H2: MW,2024,1e-06
+SomaliaROC,Peak demand including P to H2: MW,2030,1e-06
+SomaliaROC,Peak demand including P to H2: MW,2036,1e-06
+SomaliaROC,New capacity: MW,2030,65.20062001863612
+SomaliaROC,New capacity: MW,2036,133.48754168823686
+SomaliaROC,Retired capacity: MW,2024,23.7
+SouthSudan,Available capacity: MW,2024,91.0
+SouthSudan,Available capacity: MW,2030,834.8701690725802
+SouthSudan,Available capacity: MW,2036,1222.0947118457434
+SouthSudan,Peak demand: MW,2024,551.1265813
+SouthSudan,Peak demand: MW,2030,799.835317
+SouthSudan,Peak demand: MW,2036,1067.725878
+SouthSudan,Peak demand including P to H2: MW,2024,1e-06
+SouthSudan,Peak demand including P to H2: MW,2030,1e-06
+SouthSudan,Peak demand including P to H2: MW,2036,1e-06
+SouthSudan,New capacity: MW,2030,743.8701690725802
+SouthSudan,New capacity: MW,2036,387.23314168996376
+SouthSudan,Committed Total TX capacity: MW,2024,12.0
+SouthSudan,Committed Total TX capacity: MW,2030,12.0
+SouthSudan,Committed Total TX capacity: MW,2036,12.0
+Sudan,Available capacity: MW,2024,3555.0
+Sudan,Available capacity: MW,2030,6987.52027285926
+Sudan,Available capacity: MW,2036,10231.674000359651
+Sudan,Peak demand: MW,2024,5141.542233425785
+Sudan,Peak demand: MW,2030,7007.7410714873695
+Sudan,Peak demand: MW,2036,9551.538663327185
+Sudan,Peak demand including P to H2: MW,2024,1e-06
+Sudan,Peak demand including P to H2: MW,2030,1e-06
+Sudan,Peak demand including P to H2: MW,2036,1e-06
+Sudan,New capacity: MW,2030,3890.52027285926
+Sudan,New capacity: MW,2036,3994.159255375487
+Sudan,Retired capacity: MW,2024,212.0
+Sudan,Retired capacity: MW,2030,458.0
+Sudan,Retired capacity: MW,2036,750.0
+Sudan,Committed Total TX capacity: MW,2024,552.0
+Sudan,Committed Total TX capacity: MW,2030,552.0
+Sudan,Committed Total TX capacity: MW,2036,552.0
+Tanzania,Available capacity: MW,2024,2210.636784501323
+Tanzania,Available capacity: MW,2030,6065.738567358684
+Tanzania,Available capacity: MW,2036,9340.756801760346
+Tanzania,Peak demand: MW,2024,2084.819191
+Tanzania,Peak demand: MW,2030,4355.357771
+Tanzania,Peak demand: MW,2036,8237.369202
+Tanzania,Peak demand including P to H2: MW,2024,1e-06
+Tanzania,Peak demand including P to H2: MW,2030,1e-06
+Tanzania,Peak demand including P to H2: MW,2036,1e-06
+Tanzania,New capacity: MW,2024,0.0367845013226903
+Tanzania,New capacity: MW,2030,3855.102397065704
+Tanzania,New capacity: MW,2036,3283.063685820993
+Tanzania,Retired capacity: MW,2024,49.0
+Tanzania,Retired capacity: MW,2036,8.0
+Tanzania,Committed Total TX capacity: MW,2024,1597.0
+Tanzania,Committed Total TX capacity: MW,2030,1597.0
+Tanzania,Committed Total TX capacity: MW,2036,3097.0
+Uganda,Available capacity: MW,2024,1997.3012170426628
+Uganda,Available capacity: MW,2030,2284.1899368948243
+Uganda,Available capacity: MW,2036,2802.8323355589555
+Uganda,Peak demand: MW,2024,1025.0
+Uganda,Peak demand: MW,2030,1644.0
+Uganda,Peak demand: MW,2036,2293.0
+Uganda,Peak demand including P to H2: MW,2024,1e-06
+Uganda,Peak demand including P to H2: MW,2030,1e-06
+Uganda,Peak demand including P to H2: MW,2036,1e-06
+Uganda,New capacity: MW,2024,8.001217042662935
+Uganda,New capacity: MW,2030,286.88933406050427
+Uganda,New capacity: MW,2036,518.6669669978518
+Uganda,Retired capacity: MW,2024,5.0
+Uganda,Committed Total TX capacity: MW,2024,482.0
+Uganda,Committed Total TX capacity: MW,2030,782.0
+Uganda,Committed Total TX capacity: MW,2036,2282.0

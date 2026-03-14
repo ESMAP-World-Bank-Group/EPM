@@ -1,0 +1,1009 @@
+z,uni,y,q,value
+Kenya,Demand: GWh,2024,Q1,3461.6939240208403
+Kenya,Demand: GWh,2024,Q2,3466.3656824782643
+Kenya,Demand: GWh,2024,Q3,3313.3724188498954
+Kenya,Demand: GWh,2024,Q4,3518.567974651005
+Kenya,Demand: GWh,2030,Q1,4701.430536836603
+Kenya,Demand: GWh,2030,Q2,4706.822584239383
+Kenya,Demand: GWh,2030,Q3,4493.639398230185
+Kenya,Demand: GWh,2030,Q4,4778.107480693807
+Kenya,Demand: GWh,2036,Q1,6535.329650159804
+Kenya,Demand: GWh,2036,Q2,6541.546940356442
+Kenya,Demand: GWh,2036,Q3,6237.965658386013
+Kenya,Demand: GWh,2036,Q4,6641.157751097745
+Kenya,Total production: GWh,2024,Q1,3936.621689370414
+Kenya,Total production: GWh,2024,Q2,4016.992499943001
+Kenya,Total production: GWh,2024,Q3,4074.9752012395415
+Kenya,Total production: GWh,2024,Q4,4102.358275164424
+Kenya,Total production: GWh,2030,Q1,4855.989381821627
+Kenya,Total production: GWh,2030,Q2,3985.656457636192
+Kenya,Total production: GWh,2030,Q3,5014.232628348829
+Kenya,Total production: GWh,2030,Q4,5039.030678965366
+Kenya,Total production: GWh,2036,Q1,4594.097658614956
+Kenya,Total production: GWh,2036,Q2,3165.1823838948817
+Kenya,Total production: GWh,2036,Q3,4750.944246606456
+Kenya,Total production: GWh,2036,Q4,4948.316355266995
+Kenya,Unmet demand: GWh,2024,Q1,0.0001639270961537
+Kenya,Unmet demand: GWh,2024,Q2,0.0001639143591833
+Kenya,Unmet demand: GWh,2024,Q3,0.0001644328675025
+Kenya,Unmet demand: GWh,2024,Q4,0.0001653831228781
+Kenya,Unmet demand: GWh,2030,Q1,6.753322729282248e-05
+Kenya,Unmet demand: GWh,2030,Q2,6.640013190395481e-05
+Kenya,Unmet demand: GWh,2030,Q3,6.813378938026698e-05
+Kenya,Unmet demand: GWh,2030,Q4,6.84657071043701e-05
+Kenya,Unmet demand: GWh,2036,Q1,8.536521838814407e-05
+Kenya,Unmet demand: GWh,2036,Q2,8.493907081107911e-05
+Kenya,Unmet demand: GWh,2036,Q3,8.68378991092749e-05
+Kenya,Unmet demand: GWh,2036,Q4,8.781487684733706e-05
+Kenya,Surplus generation: GWh,2024,Q1,0.0009506683625376
+Kenya,Surplus generation: GWh,2024,Q2,0.0009567026895863
+Kenya,Surplus generation: GWh,2024,Q3,0.0009572713926185
+Kenya,Surplus generation: GWh,2024,Q4,0.0009416618798378
+Kenya,Surplus generation: GWh,2030,Q1,0.0002686065458399
+Kenya,Surplus generation: GWh,2030,Q2,0.0003352838779851
+Kenya,Surplus generation: GWh,2030,Q3,0.0002944257413701
+Kenya,Surplus generation: GWh,2030,Q4,0.0002643598876613
+Kenya,Surplus generation: GWh,2036,Q1,0.0003811463625591
+Kenya,Surplus generation: GWh,2036,Q2,0.0004320932792108
+Kenya,Surplus generation: GWh,2036,Q3,0.000399234579606
+Kenya,Surplus generation: GWh,2036,Q4,0.0003321886255983
+Kenya,Imports exchange: GWh,2024,Q1,341.2101606853117
+Kenya,Imports exchange: GWh,2024,Q2,382.2209193510527
+Kenya,Imports exchange: GWh,2024,Q3,386.4202732908422
+Kenya,Imports exchange: GWh,2024,Q4,359.8201494648954
+Kenya,Imports exchange: GWh,2030,Q1,702.0456332172249
+Kenya,Imports exchange: GWh,2030,Q2,773.5273535507249
+Kenya,Imports exchange: GWh,2030,Q3,717.7414666986413
+Kenya,Imports exchange: GWh,2030,Q4,718.1594636515727
+Kenya,Imports exchange: GWh,2036,Q1,2676.126088876354
+Kenya,Imports exchange: GWh,2036,Q2,3481.457485813717
+Kenya,Imports exchange: GWh,2036,Q3,1992.6851781936623
+Kenya,Imports exchange: GWh,2036,Q4,2731.2445640632563
+Kenya,Exports exchange: GWh,2024,Q1,805.0681915418803
+Kenya,Exports exchange: GWh,2024,Q2,920.0189591522666
+Kenya,Exports exchange: GWh,2024,Q3,1132.5939980345663
+Kenya,Exports exchange: GWh,2024,Q4,925.1679339463396
+Kenya,Exports exchange: GWh,2030,Q1,835.4883416983554
+Kenya,Exports exchange: GWh,2030,Q2,29.01653641332716
+Kenya,Exports exchange: GWh,2030,Q3,1216.7291663052445
+Kenya,Exports exchange: GWh,2030,Q4,957.4819177333068
+Kenya,Exports exchange: GWh,2036,Q1,654.287346812542
+Kenya,Exports exchange: GWh,2036,Q2,0.1692339013679239
+Kenya,Exports exchange: GWh,2036,Q3,440.2630185589291
+Kenya,Exports exchange: GWh,2036,Q4,956.2071428913164
+Burundi,Demand: GWh,2024,Q1,274.4590534691587
+Burundi,Demand: GWh,2024,Q2,278.63095173890827
+Burundi,Demand: GWh,2024,Q3,278.9836293626975
+Burundi,Demand: GWh,2024,Q4,273.3263654292352
+Burundi,Demand: GWh,2030,Q1,573.0545237384036
+Burundi,Demand: GWh,2030,Q2,581.7652044227126
+Burundi,Demand: GWh,2030,Q3,582.501574770368
+Burundi,Demand: GWh,2030,Q4,570.6895370685144
+Burundi,Demand: GWh,2036,Q1,765.1806923801701
+Burundi,Demand: GWh,2036,Q2,776.8117752893266
+Burundi,Demand: GWh,2036,Q3,777.7950261830097
+Burundi,Demand: GWh,2036,Q4,762.022804147495
+Burundi,Total production: GWh,2024,Q1,211.66471883998383
+Burundi,Total production: GWh,2024,Q2,221.16262303055032
+Burundi,Total production: GWh,2024,Q3,208.81911507361897
+Burundi,Total production: GWh,2024,Q4,203.2244156352037
+Burundi,Total production: GWh,2030,Q1,631.3571825970004
+Burundi,Total production: GWh,2030,Q2,640.366635915919
+Burundi,Total production: GWh,2030,Q3,642.0869004153111
+Burundi,Total production: GWh,2030,Q4,630.2473772656022
+Burundi,Total production: GWh,2036,Q1,1690.0759863611938
+Burundi,Total production: GWh,2036,Q2,1718.889535700867
+Burundi,Total production: GWh,2036,Q3,1720.0819063719073
+Burundi,Total production: GWh,2036,Q4,1714.485053945844
+Burundi,Unmet demand: GWh,2024,Q1,6.227320805164362
+Burundi,Unmet demand: GWh,2024,Q2,0.273954579486979
+Burundi,Unmet demand: GWh,2024,Q3,12.3404169514439
+Burundi,Unmet demand: GWh,2024,Q4,12.277884875137357
+Burundi,Unmet demand: GWh,2030,Q1,4.524954192432453e-05
+Burundi,Unmet demand: GWh,2030,Q2,4.606905757029044e-05
+Burundi,Unmet demand: GWh,2030,Q3,4.542377937567045e-05
+Burundi,Unmet demand: GWh,2030,Q4,4.558512325967384e-05
+Burundi,Unmet demand: GWh,2036,Q1,5.437371311698037e-05
+Burundi,Unmet demand: GWh,2036,Q2,5.43234039298056e-05
+Burundi,Unmet demand: GWh,2036,Q3,5.4075959562461823e-05
+Burundi,Unmet demand: GWh,2036,Q4,5.4281582042113695e-05
+Burundi,Surplus generation: GWh,2024,Q1,0.0001458530543866
+Burundi,Surplus generation: GWh,2024,Q2,0.0003870645262959
+Burundi,Surplus generation: GWh,2024,Q3,0.0001448430271459
+Burundi,Surplus generation: GWh,2024,Q4,0.0001449438262539
+Burundi,Surplus generation: GWh,2030,Q1,0.0003052135007885
+Burundi,Surplus generation: GWh,2030,Q2,0.000307392522621
+Burundi,Surplus generation: GWh,2030,Q3,0.0003056684908773
+Burundi,Surplus generation: GWh,2030,Q4,0.0003044182302746
+Burundi,Surplus generation: GWh,2036,Q1,0.0003608690892964
+Burundi,Surplus generation: GWh,2036,Q2,0.0004215393838246
+Burundi,Surplus generation: GWh,2036,Q3,0.0003742299047877
+Burundi,Surplus generation: GWh,2036,Q4,0.0003672433659053
+Burundi,Imports exchange: GWh,2024,Q1,58.320721708648456
+Burundi,Imports exchange: GWh,2024,Q2,58.96823795316869
+Burundi,Imports exchange: GWh,2024,Q3,59.61674344648623
+Burundi,Imports exchange: GWh,2024,Q4,59.6167423518522
+Burundi,Imports exchange: GWh,2030,Q1,0.0008104664541038
+Burundi,Imports exchange: GWh,2030,Q2,0.0057559942386208
+Burundi,Imports exchange: GWh,2030,Q3,0.0012505811010222
+Burundi,Imports exchange: GWh,2030,Q4,0.0009051588584831
+Burundi,Imports exchange: GWh,2036,Q1,0.0427873314242129
+Burundi,Imports exchange: GWh,2036,Q2,0.0200478626120648
+Burundi,Imports exchange: GWh,2036,Q3,0.0558616671045846
+Burundi,Imports exchange: GWh,2036,Q4,0.004933486031174
+Burundi,Exports exchange: GWh,2024,Q1,0.0001603566718082
+Burundi,Exports exchange: GWh,2024,Q2,0.000631157922357
+Burundi,Exports exchange: GWh,2024,Q3,0.0001584571342601
+Burundi,Exports exchange: GWh,2024,Q4,0.0001594587872437
+Burundi,Exports exchange: GWh,2030,Q1,58.29472316163858
+Burundi,Exports exchange: GWh,2030,Q2,58.598244702520056
+Burundi,Exports exchange: GWh,2030,Q3,59.57767556946018
+Burundi,Exports exchange: GWh,2030,Q4,59.54979594723028
+Burundi,Exports exchange: GWh,2036,Q1,924.927833710525
+Burundi,Exports exchange: GWh,2036,Q2,942.0881330936256
+Burundi,Exports exchange: GWh,2036,Q3,942.3319429711704
+Burundi,Exports exchange: GWh,2036,Q4,952.4578587720204
+Djibouti,Demand: GWh,2024,Q1,126.590684129927
+Djibouti,Demand: GWh,2024,Q2,214.40306291770415
+Djibouti,Demand: GWh,2024,Q3,237.30584673000763
+Djibouti,Demand: GWh,2024,Q4,172.08800312236042
+Djibouti,Demand: GWh,2030,Q1,189.88602603075884
+Djibouti,Demand: GWh,2030,Q2,321.60459432568337
+Djibouti,Demand: GWh,2030,Q3,355.9587700709452
+Djibouti,Demand: GWh,2030,Q4,258.1320045726118
+Djibouti,Demand: GWh,2036,Q1,292.51863848458805
+Djibouti,Demand: GWh,2036,Q2,495.43054865698144
+Djibouti,Demand: GWh,2036,Q3,548.3530144348738
+Djibouti,Demand: GWh,2036,Q4,397.6512864235588
+Djibouti,Total production: GWh,2024,Q1,0.0125909725543327
+Djibouti,Total production: GWh,2024,Q2,20.94355967974563
+Djibouti,Total production: GWh,2024,Q3,40.35293448044583
+Djibouti,Total production: GWh,2024,Q4,2.876527492830282
+Djibouti,Total production: GWh,2030,Q1,13.912330625950675
+Djibouti,Total production: GWh,2030,Q2,21.42593732200538
+Djibouti,Total production: GWh,2030,Q3,30.933614576252328
+Djibouti,Total production: GWh,2030,Q4,14.042833559111918
+Djibouti,Total production: GWh,2036,Q1,0.1087160808925429
+Djibouti,Total production: GWh,2036,Q2,3.9872387268695246
+Djibouti,Total production: GWh,2036,Q3,7.684136657818155
+Djibouti,Total production: GWh,2036,Q4,0.1031112617832343
+Djibouti,Unmet demand: GWh,2024,Q1,0.0001616526511525
+Djibouti,Unmet demand: GWh,2024,Q2,0.0001796645384155
+Djibouti,Unmet demand: GWh,2024,Q3,0.0001816951338332
+Djibouti,Unmet demand: GWh,2024,Q4,0.0001668860708195
+Djibouti,Unmet demand: GWh,2030,Q1,4.059951748390596e-05
+Djibouti,Unmet demand: GWh,2030,Q2,4.25710680766183e-05
+Djibouti,Unmet demand: GWh,2030,Q3,4.31686321143117e-05
+Djibouti,Unmet demand: GWh,2030,Q4,4.0874431548925056e-05
+Djibouti,Unmet demand: GWh,2036,Q1,5.650855228581699e-05
+Djibouti,Unmet demand: GWh,2036,Q2,5.675335629401396e-05
+Djibouti,Unmet demand: GWh,2036,Q3,5.718216798361744e-05
+Djibouti,Unmet demand: GWh,2036,Q4,5.707329406863976e-05
+Djibouti,Surplus generation: GWh,2024,Q1,0.001383767860885
+Djibouti,Surplus generation: GWh,2024,Q2,0.0007920439085806
+Djibouti,Surplus generation: GWh,2024,Q3,0.0007162880860613
+Djibouti,Surplus generation: GWh,2024,Q4,0.0011748481830083
+Djibouti,Surplus generation: GWh,2030,Q1,0.0003036060852236
+Djibouti,Surplus generation: GWh,2030,Q2,0.0002148685460256
+Djibouti,Surplus generation: GWh,2030,Q3,0.0001896075536742
+Djibouti,Surplus generation: GWh,2030,Q4,0.0002999190410505
+Djibouti,Surplus generation: GWh,2036,Q1,0.000365469725278
+Djibouti,Surplus generation: GWh,2036,Q2,0.000381837700952
+Djibouti,Surplus generation: GWh,2036,Q3,0.000355225908497
+Djibouti,Surplus generation: GWh,2036,Q4,0.000349784426816
+Djibouti,Imports exchange: GWh,2024,Q1,132.21897402669194
+Djibouti,Imports exchange: GWh,2024,Q2,199.76342943510232
+Djibouti,Imports exchange: GWh,2024,Q3,203.07183524591977
+Djibouti,Imports exchange: GWh,2024,Q4,174.61019061685815
+Djibouti,Imports exchange: GWh,2030,Q1,273.9436809407809
+Djibouti,Imports exchange: GWh,2030,Q2,336.2675285355585
+Djibouti,Imports exchange: GWh,2030,Q3,347.6202846752508
+Djibouti,Imports exchange: GWh,2030,Q4,312.4301508881143
+Djibouti,Imports exchange: GWh,2036,Q1,301.5666925434593
+Djibouti,Imports exchange: GWh,2036,Q2,509.11127583043833
+Djibouti,Imports exchange: GWh,2036,Q3,564.0914605482319
+Djibouti,Imports exchange: GWh,2036,Q4,409.9431838126452
+Djibouti,Exports exchange: GWh,2024,Q1,1.667764577331028
+Djibouti,Exports exchange: GWh,2024,Q2,0.3050298367156697
+Djibouti,Exports exchange: GWh,2024,Q3,0.0207938342002394
+Djibouti,Exports exchange: GWh,2024,Q4,0.1539595122979065
+Djibouti,Exports exchange: GWh,2030,Q1,71.00074075281766
+Djibouti,Exports exchange: GWh,2030,Q2,12.907719079298086
+Djibouti,Exports exchange: GWh,2030,Q3,5.628751969643179
+Djibouti,Exports exchange: GWh,2030,Q4,40.15738447548596
+Djibouti,Exports exchange: GWh,2036,Q1,0.0253494961541052
+Djibouti,Exports exchange: GWh,2036,Q2,0.0453067627098807
+Djibouti,Exports exchange: GWh,2036,Q3,0.0199852817724324
+Djibouti,Exports exchange: GWh,2036,Q4,0.0204274884907668
+Drc_E,Demand: GWh,2024,Q1,156.9462214767034
+Drc_E,Demand: GWh,2024,Q2,159.2749295405633
+Drc_E,Demand: GWh,2024,Q3,159.61343189226088
+Drc_E,Demand: GWh,2024,Q4,156.66541709047274
+Drc_E,Demand: GWh,2030,Q1,206.07721254464727
+Drc_E,Demand: GWh,2030,Q2,209.13490747884703
+Drc_E,Demand: GWh,2030,Q3,209.5793757883904
+Drc_E,Demand: GWh,2030,Q4,205.70850418811577
+Drc_E,Demand: GWh,2036,Q1,257.3173623231392
+Drc_E,Demand: GWh,2036,Q2,261.13533902043935
+Drc_E,Demand: GWh,2036,Q3,261.6903223271155
+Drc_E,Demand: GWh,2036,Q4,256.8569763293062
+Drc_E,Total production: GWh,2024,Q1,135.88685858679517
+Drc_E,Total production: GWh,2024,Q2,142.4756821510576
+Drc_E,Total production: GWh,2024,Q3,131.96530416133152
+Drc_E,Total production: GWh,2024,Q4,131.01301861414262
+Drc_E,Total production: GWh,2030,Q1,216.2950267435395
+Drc_E,Total production: GWh,2030,Q2,232.78664633284495
+Drc_E,Total production: GWh,2030,Q3,206.8842581961441
+Drc_E,Total production: GWh,2030,Q4,206.3498166722649
+Drc_E,Total production: GWh,2036,Q1,216.46616020768363
+Drc_E,Total production: GWh,2036,Q2,232.96770209465163
+Drc_E,Total production: GWh,2036,Q3,207.05885345239912
+Drc_E,Total production: GWh,2036,Q4,206.51829799079272
+Drc_E,Unmet demand: GWh,2024,Q1,0.0001725216443558
+Drc_E,Unmet demand: GWh,2024,Q2,0.000169553808143
+Drc_E,Unmet demand: GWh,2024,Q3,1.9484463090646211
+Drc_E,Unmet demand: GWh,2024,Q4,0.0001747719796138
+Drc_E,Unmet demand: GWh,2030,Q1,3.3832807763439894e-05
+Drc_E,Unmet demand: GWh,2030,Q2,3.273684796933141e-05
+Drc_E,Unmet demand: GWh,2030,Q3,3.3408861577474854e-05
+Drc_E,Unmet demand: GWh,2030,Q4,3.388679340660167e-05
+Drc_E,Unmet demand: GWh,2036,Q1,4.555297424459194e-05
+Drc_E,Unmet demand: GWh,2036,Q2,4.495210330274818e-05
+Drc_E,Unmet demand: GWh,2036,Q3,4.540186017489148e-05
+Drc_E,Unmet demand: GWh,2036,Q4,4.6431040026108624e-05
+Drc_E,Surplus generation: GWh,2024,Q1,0.0008197924380199
+Drc_E,Surplus generation: GWh,2024,Q2,0.0008793522498808
+Drc_E,Surplus generation: GWh,2024,Q3,0.0001685535303975
+Drc_E,Surplus generation: GWh,2024,Q4,0.0008061587226792
+Drc_E,Surplus generation: GWh,2030,Q1,0.0002084876834413
+Drc_E,Surplus generation: GWh,2030,Q2,0.0002741346228646
+Drc_E,Surplus generation: GWh,2030,Q3,0.0002286947787899
+Drc_E,Surplus generation: GWh,2030,Q4,0.0002083850999214
+Drc_E,Surplus generation: GWh,2036,Q1,0.0003384561699917
+Drc_E,Surplus generation: GWh,2036,Q2,0.0003837184315014
+Drc_E,Surplus generation: GWh,2036,Q3,0.0003502656405747
+Drc_E,Surplus generation: GWh,2036,Q4,0.0002963588723276
+Drc_E,Imports exchange: GWh,2024,Q1,21.735337037467687
+Drc_E,Imports exchange: GWh,2024,Q2,17.34754168323549
+Drc_E,Imports exchange: GWh,2024,Q3,26.496268524936408
+Drc_E,Imports exchange: GWh,2024,Q4,26.46310107255713
+Drc_E,Imports exchange: GWh,2030,Q1,2.5098940351819627
+Drc_E,Imports exchange: GWh,2030,Q2,3.9774791969991594
+Drc_E,Imports exchange: GWh,2030,Q3,2.843846509092372
+Drc_E,Imports exchange: GWh,2030,Q4,3.2750831236789257
+Drc_E,Imports exchange: GWh,2036,Q1,218.57954102648787
+Drc_E,Imports exchange: GWh,2036,Q2,227.8911973798178
+Drc_E,Imports exchange: GWh,2036,Q3,220.3267946025088
+Drc_E,Imports exchange: GWh,2036,Q4,230.3415766322047
+Drc_E,Exports exchange: GWh,2024,Q1,0.0219449145726955
+Drc_E,Exports exchange: GWh,2024,Q2,0.0258217269575628
+Drc_E,Exports exchange: GWh,2024,Q3,0.0001792395395729
+Drc_E,Exports exchange: GWh,2024,Q4,0.0148268198747084
+Drc_E,Exports exchange: GWh,2030,Q1,12.640536849477892
+Drc_E,Exports exchange: GWh,2030,Q2,27.484746053065507
+Drc_E,Exports exchange: GWh,2030,Q3,0.0498212046265859
+Drc_E,Exports exchange: GWh,2030,Q4,3.806148116407451
+Drc_E,Exports exchange: GWh,2036,Q1,171.1268395691645
+Drc_E,Exports exchange: GWh,2036,Q2,192.81494533043485
+Drc_E,Exports exchange: GWh,2036,Q3,159.0388649015402
+Drc_E,Exports exchange: GWh,2036,Q4,173.0570218796325
+Egypt,Demand: GWh,2024,Q1,44950.2182516646
+Egypt,Demand: GWh,2024,Q2,52229.34643120235
+Egypt,Demand: GWh,2024,Q3,61720.171816964
+Egypt,Demand: GWh,2024,Q4,47670.263500169
+Egypt,Demand: GWh,2030,Q1,56351.95065576702
+Egypt,Demand: GWh,2030,Q2,65478.28989723115
+Egypt,Demand: GWh,2030,Q3,77377.60356214043
+Egypt,Demand: GWh,2030,Q4,59762.15588486128
+Egypt,Demand: GWh,2036,Q1,66167.60203248262
+Egypt,Demand: GWh,2036,Q2,76883.43484429982
+Egypt,Demand: GWh,2036,Q3,90855.19466455298
+Egypt,Demand: GWh,2036,Q4,70171.7684586645
+Egypt,Total production: GWh,2024,Q1,45986.02794422087
+Egypt,Total production: GWh,2024,Q2,52615.58901437632
+Egypt,Total production: GWh,2024,Q3,62220.516887931415
+Egypt,Total production: GWh,2024,Q4,48724.118921045854
+Egypt,Total production: GWh,2030,Q1,57388.347507342456
+Egypt,Total production: GWh,2030,Q2,65619.1410340474
+Egypt,Total production: GWh,2030,Q3,77515.85061476917
+Egypt,Total production: GWh,2030,Q4,60821.41628867468
+Egypt,Total production: GWh,2036,Q1,66688.25311905824
+Egypt,Total production: GWh,2036,Q2,73194.47937733502
+Egypt,Total production: GWh,2036,Q3,87051.31039168633
+Egypt,Total production: GWh,2036,Q4,71434.67967973628
+Egypt,Unmet demand: GWh,2024,Q1,0.0001849969146885
+Egypt,Unmet demand: GWh,2024,Q2,0.000185310904022
+Egypt,Unmet demand: GWh,2024,Q3,0.0001861877007278
+Egypt,Unmet demand: GWh,2024,Q4,0.0001861715524545
+Egypt,Unmet demand: GWh,2030,Q1,6.185249342275658e-05
+Egypt,Unmet demand: GWh,2030,Q2,6.167888274008196e-05
+Egypt,Unmet demand: GWh,2030,Q3,6.104305150629233e-05
+Egypt,Unmet demand: GWh,2030,Q4,6.251224899652328e-05
+Egypt,Unmet demand: GWh,2036,Q1,7.380521273745365e-05
+Egypt,Unmet demand: GWh,2036,Q2,7.811456555535911e-05
+Egypt,Unmet demand: GWh,2036,Q3,7.862919994981618e-05
+Egypt,Unmet demand: GWh,2036,Q4,7.54927433162605e-05
+Egypt,Surplus generation: GWh,2024,Q1,0.001366986987248
+Egypt,Surplus generation: GWh,2024,Q2,0.0012606587024124
+Egypt,Surplus generation: GWh,2024,Q3,0.0011347954995623
+Egypt,Surplus generation: GWh,2024,Q4,0.0013330889824893
+Egypt,Surplus generation: GWh,2030,Q1,0.0002651775860877
+Egypt,Surplus generation: GWh,2030,Q2,0.0002579411715037
+Egypt,Surplus generation: GWh,2030,Q3,0.0002548566234655
+Egypt,Surplus generation: GWh,2030,Q4,0.0002628296955597
+Egypt,Surplus generation: GWh,2036,Q1,0.0003538778797095
+Egypt,Surplus generation: GWh,2036,Q2,0.0003407386319724
+Egypt,Surplus generation: GWh,2036,Q3,0.0003329889499966
+Egypt,Surplus generation: GWh,2036,Q4,0.0003506425062397
+Egypt,Imports exchange: GWh,2024,Q1,0.0266855834347686
+Egypt,Imports exchange: GWh,2024,Q2,297.2437462760521
+Egypt,Imports exchange: GWh,2024,Q3,253.53982653608128
+Egypt,Imports exchange: GWh,2024,Q4,0.0301830063865368
+Egypt,Imports exchange: GWh,2030,Q1,0.0058680010872201
+Egypt,Imports exchange: GWh,2030,Q2,438.8015256226698
+Egypt,Imports exchange: GWh,2030,Q3,428.1947526240903
+Egypt,Imports exchange: GWh,2030,Q4,0.0125102173018843
+Egypt,Imports exchange: GWh,2036,Q1,663.0789152467097
+Egypt,Imports exchange: GWh,2036,Q2,4523.655397985243
+Egypt,Imports exchange: GWh,2036,Q3,4436.582458458724
+Egypt,Imports exchange: GWh,2036,Q4,117.0736684262437
+Egypt,Exports exchange: GWh,2024,Q1,1035.8154860949578
+Egypt,Exports exchange: GWh,2024,Q2,674.5487510624031
+Egypt,Exports exchange: GWh,2024,Q3,746.2584667440881
+Egypt,Exports exchange: GWh,2024,Q4,1053.8642730507484
+Egypt,Exports exchange: GWh,2030,Q1,1036.3776049987648
+Egypt,Exports exchange: GWh,2030,Q2,566.4634339734772
+Egypt,Exports exchange: GWh,2030,Q3,553.5705990732537
+Egypt,Exports exchange: GWh,2030,Q4,1059.2471623634176
+Egypt,Exports exchange: GWh,2036,Q1,1163.8026694423795
+Egypt,Exports exchange: GWh,2036,Q2,698.954492894111
+Egypt,Exports exchange: GWh,2036,Q3,499.5624999811458
+Egypt,Exports exchange: GWh,2036,Q4,1376.4372594178187
+Ethiopia,Demand: GWh,2024,Q1,4139.709458620393
+Ethiopia,Demand: GWh,2024,Q2,4485.547067945511
+Ethiopia,Demand: GWh,2024,Q3,4625.996815140422
+Ethiopia,Demand: GWh,2024,Q4,4533.746658293675
+Ethiopia,Demand: GWh,2030,Q1,7913.34839905761
+Ethiopia,Demand: GWh,2030,Q2,8574.35436759219
+Ethiopia,Demand: GWh,2030,Q3,8842.806568746832
+Ethiopia,Demand: GWh,2030,Q4,8666.49066460338
+Ethiopia,Demand: GWh,2036,Q1,13067.470552987988
+Ethiopia,Demand: GWh,2036,Q2,14158.724108817109
+Ethiopia,Demand: GWh,2036,Q3,14601.936766961153
+Ethiopia,Demand: GWh,2036,Q4,14310.86857123372
+Ethiopia,Total production: GWh,2024,Q1,5015.512158895531
+Ethiopia,Total production: GWh,2024,Q2,5383.479296163207
+Ethiopia,Total production: GWh,2024,Q3,5518.324201758031
+Ethiopia,Total production: GWh,2024,Q4,5469.96554704404
+Ethiopia,Total production: GWh,2030,Q1,9458.32124244258
+Ethiopia,Total production: GWh,2030,Q2,10259.139793877705
+Ethiopia,Total production: GWh,2030,Q3,10563.739535313747
+Ethiopia,Total production: GWh,2030,Q4,10327.3972907568
+Ethiopia,Total production: GWh,2036,Q1,21434.1170806503
+Ethiopia,Total production: GWh,2036,Q2,21872.748770176164
+Ethiopia,Total production: GWh,2036,Q3,21905.985663296207
+Ethiopia,Total production: GWh,2036,Q4,21664.781916481985
+Ethiopia,Unmet demand: GWh,2024,Q1,0.0001493047364694
+Ethiopia,Unmet demand: GWh,2024,Q2,0.0001491797672149
+Ethiopia,Unmet demand: GWh,2024,Q3,0.0001499920856464
+Ethiopia,Unmet demand: GWh,2024,Q4,0.0001508295040702
+Ethiopia,Unmet demand: GWh,2030,Q1,6.230913036576467e-05
+Ethiopia,Unmet demand: GWh,2030,Q2,6.222491877007893e-05
+Ethiopia,Unmet demand: GWh,2030,Q3,6.2732997983967e-05
+Ethiopia,Unmet demand: GWh,2030,Q4,6.269941222569025e-05
+Ethiopia,Unmet demand: GWh,2036,Q1,8.205336731413757e-05
+Ethiopia,Unmet demand: GWh,2036,Q2,8.137151924350051e-05
+Ethiopia,Unmet demand: GWh,2036,Q3,8.320298500505823e-05
+Ethiopia,Unmet demand: GWh,2036,Q4,8.337619975092339e-05
+Ethiopia,Surplus generation: GWh,2024,Q1,0.0014642935126754
+Ethiopia,Surplus generation: GWh,2024,Q2,0.0014641405060083
+Ethiopia,Surplus generation: GWh,2024,Q3,0.0013921183369174
+Ethiopia,Surplus generation: GWh,2024,Q4,0.0013540102158171
+Ethiopia,Surplus generation: GWh,2030,Q1,0.0004792599867813
+Ethiopia,Surplus generation: GWh,2030,Q2,0.0004761911924249
+Ethiopia,Surplus generation: GWh,2030,Q3,0.0004715177946844
+Ethiopia,Surplus generation: GWh,2030,Q4,0.0004644816132228
+Ethiopia,Surplus generation: GWh,2036,Q1,0.0003874062270108
+Ethiopia,Surplus generation: GWh,2036,Q2,0.0004486576670631
+Ethiopia,Surplus generation: GWh,2036,Q3,0.0004099851861585
+Ethiopia,Surplus generation: GWh,2036,Q4,0.000370666804754
+Ethiopia,Imports exchange: GWh,2024,Q1,1.6712328603703708
+Ethiopia,Imports exchange: GWh,2024,Q2,16.346864262683912
+Ethiopia,Imports exchange: GWh,2024,Q3,0.1182550507410217
+Ethiopia,Imports exchange: GWh,2024,Q4,0.158546406529509
+Ethiopia,Imports exchange: GWh,2030,Q1,119.7253621262352
+Ethiopia,Imports exchange: GWh,2030,Q2,58.97293471758016
+Ethiopia,Imports exchange: GWh,2030,Q3,50.7830810273576
+Ethiopia,Imports exchange: GWh,2030,Q4,80.92273047911524
+Ethiopia,Imports exchange: GWh,2036,Q1,0.1133197644270608
+Ethiopia,Imports exchange: GWh,2036,Q2,0.2072016304887091
+Ethiopia,Imports exchange: GWh,2036,Q3,0.1373140996891547
+Ethiopia,Imports exchange: GWh,2036,Q4,0.0821218252513566
+Ethiopia,Exports exchange: GWh,2024,Q1,877.4162604949599
+Ethiopia,Exports exchange: GWh,2024,Q2,913.781061863036
+Ethiopia,Exports exchange: GWh,2024,Q3,892.4345920757974
+Ethiopia,Exports exchange: GWh,2024,Q4,936.365149957128
+Ethiopia,Exports exchange: GWh,2030,Q1,1661.0758158360886
+Ethiopia,Exports exchange: GWh,2030,Q2,1741.9581539958256
+Ethiopia,Exports exchange: GWh,2030,Q3,1770.1613463993776
+Ethiopia,Exports exchange: GWh,2030,Q4,1739.3704317597724
+Ethiopia,Exports exchange: GWh,2036,Q1,8366.728129273015
+Ethiopia,Exports exchange: GWh,2036,Q2,7714.192869671798
+Ethiopia,Exports exchange: GWh,2036,Q3,7304.15235655281
+Ethiopia,Exports exchange: GWh,2036,Q4,7353.965120586874
+Libya,Demand: GWh,2024,Q1,6993.912417139375
+Libya,Demand: GWh,2024,Q2,13672.193900618771
+Libya,Demand: GWh,2024,Q3,9576.946841196244
+Libya,Demand: GWh,2024,Q4,8444.582471045624
+Libya,Demand: GWh,2030,Q1,9887.220793896802
+Libya,Demand: GWh,2030,Q2,19328.237439907465
+Libya,Demand: GWh,2030,Q3,13538.829528129732
+Libya,Demand: GWh,2030,Q4,11938.017868066026
+Libya,Demand: GWh,2036,Q1,13199.835733483533
+Libya,Demand: GWh,2036,Q2,25803.97105949444
+Libya,Demand: GWh,2036,Q3,18074.879637083
+Libya,Demand: GWh,2036,Q4,15937.731959939025
+Libya,Total production: GWh,2024,Q1,6617.759213820262
+Libya,Total production: GWh,2024,Q2,13034.175865323348
+Libya,Total production: GWh,2024,Q3,9191.47283316789
+Libya,Total production: GWh,2024,Q4,8064.139645477702
+Libya,Total production: GWh,2030,Q1,9510.511419241033
+Libya,Total production: GWh,2030,Q2,18946.92475824321
+Libya,Total production: GWh,2030,Q3,13173.104034597727
+Libya,Total production: GWh,2030,Q4,11553.100624225026
+Libya,Total production: GWh,2036,Q1,12509.447279268665
+Libya,Total production: GWh,2036,Q2,25142.25930607914
+Libya,Total production: GWh,2036,Q3,17630.60650051955
+Libya,Total production: GWh,2036,Q4,15239.45627619316
+Libya,Unmet demand: GWh,2024,Q1,0.0001594280689329
+Libya,Unmet demand: GWh,2024,Q2,256.7105442250429
+Libya,Unmet demand: GWh,2024,Q3,0.0001605131102797
+Libya,Unmet demand: GWh,2024,Q4,0.7520242415467323
+Libya,Unmet demand: GWh,2030,Q1,3.384021677523204e-05
+Libya,Unmet demand: GWh,2030,Q2,3.390715797064335e-05
+Libya,Unmet demand: GWh,2030,Q3,3.3728054844298814e-05
+Libya,Unmet demand: GWh,2030,Q4,3.400110039854143e-05
+Libya,Unmet demand: GWh,2036,Q1,4.656937241789074e-05
+Libya,Unmet demand: GWh,2036,Q2,7.108290964072839e-05
+Libya,Unmet demand: GWh,2036,Q3,4.653134280680084e-05
+Libya,Unmet demand: GWh,2036,Q4,4.767035632687389e-05
+Libya,Surplus generation: GWh,2024,Q1,0.0011514034376145
+Libya,Surplus generation: GWh,2024,Q2,0.0007802811251611
+Libya,Surplus generation: GWh,2024,Q3,0.0010286543850007
+Libya,Surplus generation: GWh,2024,Q4,0.0010769729514522
+Libya,Surplus generation: GWh,2030,Q1,0.0002784536998231
+Libya,Surplus generation: GWh,2030,Q2,0.0002138348669192
+Libya,Surplus generation: GWh,2030,Q3,0.0002478538514692
+Libya,Surplus generation: GWh,2030,Q4,0.0002637362154024
+Libya,Surplus generation: GWh,2036,Q1,0.0003461244951783
+Libya,Surplus generation: GWh,2036,Q2,0.0002944003764424
+Libya,Surplus generation: GWh,2036,Q3,0.0003214018019896
+Libya,Surplus generation: GWh,2036,Q4,0.0003362335738838
+Libya,Imports exchange: GWh,2024,Q1,387.8163497678183
+Libya,Imports exchange: GWh,2024,Q2,393.1108793192223
+Libya,Imports exchange: GWh,2024,Q3,397.4146269506597
+Libya,Imports exchange: GWh,2024,Q4,391.4661265499926
+Libya,Imports exchange: GWh,2030,Q1,388.3775805303469
+Libya,Imports exchange: GWh,2030,Q2,393.1181295253343
+Libya,Imports exchange: GWh,2030,Q3,377.8290950354967
+Libya,Imports exchange: GWh,2030,Q4,396.8471196981537
+Libya,Imports exchange: GWh,2036,Q1,711.7850986037515
+Libya,Imports exchange: GWh,2036,Q2,698.9479966383255
+Libya,Imports exchange: GWh,2036,Q3,499.555650217523
+Libya,Imports exchange: GWh,2036,Q4,719.9229037458659
+Libya,Exports exchange: GWh,2024,Q1,0.0254697403237686
+Libya,Exports exchange: GWh,2024,Q2,0.0072939830559397
+Libya,Exports exchange: GWh,2024,Q3,0.0151539366821196
+Libya,Exports exchange: GWh,2024,Q4,0.0280667863181601
+Libya,Exports exchange: GWh,2030,Q1,0.0054921164909983
+Libya,Exports exchange: GWh,2030,Q2,0.0019148687894918
+Libya,Exports exchange: GWh,2030,Q3,0.7567222161610467
+Libya,Exports exchange: GWh,2030,Q4,0.0121425893494944
+Libya,Exports exchange: GWh,2036,Q1,0.0097185309899247
+Libya,Exports exchange: GWh,2036,Q2,16.229140115202352
+Libya,Exports exchange: GWh,2036,Q3,40.26503228503356
+Libya,Exports exchange: GWh,2036,Q4,0.0169828695396134
+Rwanda,Demand: GWh,2024,Q1,339.4794554757
+Rwanda,Demand: GWh,2024,Q2,344.53357604484995
+Rwanda,Demand: GWh,2024,Q3,345.22478811114496
+Rwanda,Demand: GWh,2024,Q4,338.7621803683052
+Rwanda,Demand: GWh,2030,Q1,601.5365707859698
+Rwanda,Demand: GWh,2030,Q2,610.4938067951994
+Rwanda,Demand: GWh,2030,Q3,611.714633361059
+Rwanda,Demand: GWh,2030,Q4,600.2549890577724
+Rwanda,Demand: GWh,2036,Q1,1065.6166519995377
+Rwanda,Demand: GWh,2036,Q2,1081.4980904601605
+Rwanda,Demand: GWh,2036,Q3,1083.627674211932
+Rwanda,Demand: GWh,2036,Q4,1063.2575833283693
+Rwanda,Total production: GWh,2024,Q1,181.5292086394454
+Rwanda,Total production: GWh,2024,Q2,182.98454791380456
+Rwanda,Total production: GWh,2024,Q3,184.2240591407536
+Rwanda,Total production: GWh,2024,Q4,183.92441139557377
+Rwanda,Total production: GWh,2030,Q1,473.8306063393952
+Rwanda,Total production: GWh,2030,Q2,234.05490169633956
+Rwanda,Total production: GWh,2030,Q3,235.8602378048771
+Rwanda,Total production: GWh,2030,Q4,459.98382197444033
+Rwanda,Total production: GWh,2036,Q1,489.1262743874364
+Rwanda,Total production: GWh,2036,Q2,496.47896607571977
+Rwanda,Total production: GWh,2036,Q3,501.1368438220917
+Rwanda,Total production: GWh,2036,Q4,552.3201284116612
+Rwanda,Unmet demand: GWh,2024,Q1,0.0001624569516134
+Rwanda,Unmet demand: GWh,2024,Q2,0.0001615219298542
+Rwanda,Unmet demand: GWh,2024,Q3,0.000161686571834
+Rwanda,Unmet demand: GWh,2024,Q4,0.0001625891095498
+Rwanda,Unmet demand: GWh,2030,Q1,6.256795357527999e-05
+Rwanda,Unmet demand: GWh,2030,Q2,6.150386522260288e-05
+Rwanda,Unmet demand: GWh,2030,Q3,6.305506210261301e-05
+Rwanda,Unmet demand: GWh,2030,Q4,6.330064980672257e-05
+Rwanda,Unmet demand: GWh,2036,Q1,7.484064903896364e-05
+Rwanda,Unmet demand: GWh,2036,Q2,7.452961238342379e-05
+Rwanda,Unmet demand: GWh,2036,Q3,7.583870058527647e-05
+Rwanda,Unmet demand: GWh,2036,Q4,7.6798620817788e-05
+Rwanda,Surplus generation: GWh,2024,Q1,0.0009905152808459
+Rwanda,Surplus generation: GWh,2024,Q2,0.0010360609119528
+Rwanda,Surplus generation: GWh,2024,Q3,0.0010332973708536
+Rwanda,Surplus generation: GWh,2024,Q4,0.0009921988923928
+Rwanda,Surplus generation: GWh,2030,Q1,0.0002443961328747
+Rwanda,Surplus generation: GWh,2030,Q2,0.0003110987920107
+Rwanda,Surplus generation: GWh,2030,Q3,0.0002667932173181
+Rwanda,Surplus generation: GWh,2030,Q4,0.000243837544166
+Rwanda,Surplus generation: GWh,2036,Q1,0.0003707790685248
+Rwanda,Surplus generation: GWh,2036,Q2,0.0004200422383254
+Rwanda,Surplus generation: GWh,2036,Q3,0.0003847389075913
+Rwanda,Surplus generation: GWh,2036,Q4,0.0003253175935416
+Rwanda,Imports exchange: GWh,2024,Q1,284.5290564046557
+Rwanda,Imports exchange: GWh,2024,Q2,306.05595740874566
+Rwanda,Imports exchange: GWh,2024,Q3,316.2588181508979
+Rwanda,Imports exchange: GWh,2024,Q4,291.8227159819744
+Rwanda,Imports exchange: GWh,2030,Q1,134.28997810956773
+Rwanda,Imports exchange: GWh,2030,Q2,392.2900982045615
+Rwanda,Imports exchange: GWh,2030,Q3,390.4643496836367
+Rwanda,Imports exchange: GWh,2030,Q4,148.0389427525921
+Rwanda,Imports exchange: GWh,2036,Q1,609.30085494205
+Rwanda,Imports exchange: GWh,2036,Q2,640.7808263571776
+Rwanda,Imports exchange: GWh,2036,Q3,600.7052839120516
+Rwanda,Imports exchange: GWh,2036,Q4,579.6455362150472
+Rwanda,Exports exchange: GWh,2024,Q1,118.0303691582647
+Rwanda,Exports exchange: GWh,2024,Q2,135.3125205614216
+Rwanda,Exports exchange: GWh,2024,Q3,145.7574671821021
+Rwanda,Exports exchange: GWh,2024,Q4,128.2174327638254
+Rwanda,Exports exchange: GWh,2030,Q1,2.5305263484269878
+Rwanda,Exports exchange: GWh,2030,Q2,4.045275987370732
+Rwanda,Exports exchange: GWh,2030,Q3,2.869584550642005
+Rwanda,Exports exchange: GWh,2030,Q4,3.301689365717849
+Rwanda,Exports exchange: GWh,2036,Q1,14.476997921657254
+Rwanda,Exports exchange: GWh,2036,Q2,36.45934507094501
+Rwanda,Exports exchange: GWh,2036,Q3,0.1355180727098183
+Rwanda,Exports exchange: GWh,2036,Q4,51.271865253164975
+Somaliland,Demand: GWh,2024,Q1,30.482308081859237
+Somaliland,Demand: GWh,2024,Q2,32.59388911200813
+Somaliland,Demand: GWh,2024,Q3,33.73792172956584
+Somaliland,Demand: GWh,2024,Q4,36.18588107656675
+Somaliland,Demand: GWh,2030,Q1,104.73341708930222
+Somaliland,Demand: GWh,2030,Q2,112.1830063725988
+Somaliland,Demand: GWh,2030,Q3,116.20209398274795
+Somaliland,Demand: GWh,2030,Q4,124.88148255535044
+Somaliland,Demand: GWh,2036,Q1,367.3616620307257
+Somaliland,Demand: GWh,2036,Q2,393.96908642780426
+Somaliland,Demand: GWh,2036,Q3,408.2832204798579
+Somaliland,Demand: GWh,2036,Q4,439.3860310616121
+Somaliland,Total production: GWh,2030,Q1,26.71408098562178
+Somaliland,Total production: GWh,2030,Q2,26.965174641312142
+Somaliland,Total production: GWh,2030,Q3,27.222745678154887
+Somaliland,Total production: GWh,2030,Q4,27.11833994511661
+Somaliland,Total production: GWh,2036,Q1,114.76288295741188
+Somaliland,Total production: GWh,2036,Q2,129.9261391122601
+Somaliland,Total production: GWh,2036,Q3,134.4804190535649
+Somaliland,Total production: GWh,2036,Q4,134.69550738637034
+Somaliland,Unmet demand: GWh,2024,Q1,30.482308081859237
+Somaliland,Unmet demand: GWh,2024,Q2,32.59388911200813
+Somaliland,Unmet demand: GWh,2024,Q3,33.73792172956584
+Somaliland,Unmet demand: GWh,2024,Q4,36.18588107656675
+Somaliland,Unmet demand: GWh,2030,Q1,3.179135780867634e-05
+Somaliland,Unmet demand: GWh,2030,Q2,3.1833157264767e-05
+Somaliland,Unmet demand: GWh,2030,Q3,3.1822357701342824e-05
+Somaliland,Unmet demand: GWh,2030,Q4,3.184782694087886e-05
+Somaliland,Unmet demand: GWh,2036,Q1,4.556716833482647e-05
+Somaliland,Unmet demand: GWh,2036,Q2,4.489602239071778e-05
+Somaliland,Unmet demand: GWh,2036,Q3,4.541096381131051e-05
+Somaliland,Unmet demand: GWh,2036,Q4,0.0860810467006181
+Somaliland,Surplus generation: GWh,2030,Q1,0.0002951538302521
+Somaliland,Surplus generation: GWh,2030,Q2,0.0002956610506838
+Somaliland,Surplus generation: GWh,2030,Q3,0.0002956886553724
+Somaliland,Surplus generation: GWh,2030,Q4,0.0002942313558075
+Somaliland,Surplus generation: GWh,2036,Q1,0.000328968277611
+Somaliland,Surplus generation: GWh,2036,Q2,0.0003758777372776
+Somaliland,Surplus generation: GWh,2036,Q3,0.0003405687009679
+Somaliland,Surplus generation: GWh,2036,Q4,0.000249279832186
+Somaliland,Imports exchange: GWh,2030,Q1,166.73085773136611
+Somaliland,Imports exchange: GWh,2030,Q2,171.73447321556475
+Somaliland,Imports exchange: GWh,2030,Q3,175.02165206748492
+Somaliland,Imports exchange: GWh,2030,Q4,179.41893462688424
+Somaliland,Imports exchange: GWh,2036,Q1,269.6687223504723
+Somaliland,Imports exchange: GWh,2036,Q2,283.4296591343524
+Somaliland,Imports exchange: GWh,2036,Q3,295.78407071282373
+Somaliland,Imports exchange: GWh,2036,Q4,337.78637035853194
+Somaliland,Exports exchange: GWh,2030,Q1,48.7237422672844
+Somaliland,Exports exchange: GWh,2030,Q2,46.05933739888167
+Somaliland,Exports exchange: GWh,2030,Q3,45.151588506319136
+Somaliland,Exports exchange: GWh,2030,Q4,40.76448711863829
+Somaliland,Exports exchange: GWh,2036,Q1,0.0206470418615367
+Somaliland,Exports exchange: GWh,2036,Q2,0.0546825085000459
+Somaliland,Exports exchange: GWh,2036,Q3,0.0237524724769419
+Somaliland,Exports exchange: GWh,2036,Q4,0.0077640711159218
+Mogadishu,Demand: GWh,2024,Q1,29.92162782724064
+Mogadishu,Demand: GWh,2024,Q2,32.07875736878406
+Mogadishu,Demand: GWh,2024,Q3,33.24008065858353
+Mogadishu,Demand: GWh,2024,Q4,35.75953414539171
+Mogadishu,Demand: GWh,2030,Q1,119.68651130896257
+Mogadishu,Demand: GWh,2030,Q2,128.31502947513624
+Mogadishu,Demand: GWh,2030,Q3,132.96032263433412
+Mogadishu,Demand: GWh,2030,Q4,143.03813658156685
+Mogadishu,Demand: GWh,2036,Q1,412.5321635928564
+Mogadishu,Demand: GWh,2036,Q2,442.2521439344473
+Mogadishu,Demand: GWh,2036,Q3,458.2540736809303
+Mogadishu,Demand: GWh,2036,Q4,492.9616187917671
+Mogadishu,Total production: GWh,2030,Q1,119.7930235461407
+Mogadishu,Total production: GWh,2030,Q2,128.42189082862268
+Mogadishu,Total production: GWh,2030,Q3,133.06814031209282
+Mogadishu,Total production: GWh,2030,Q4,143.1457411194022
+Mogadishu,Total production: GWh,2036,Q1,412.7551347672618
+Mogadishu,Total production: GWh,2036,Q2,442.4709277324032
+Mogadishu,Total production: GWh,2036,Q3,458.4785499207664
+Mogadishu,Total production: GWh,2036,Q4,493.1873044654923
+Mogadishu,Unmet demand: GWh,2024,Q1,29.92162782724064
+Mogadishu,Unmet demand: GWh,2024,Q2,32.07875736878406
+Mogadishu,Unmet demand: GWh,2024,Q3,33.24008065858353
+Mogadishu,Unmet demand: GWh,2024,Q4,35.75953414539171
+Mogadishu,Unmet demand: GWh,2030,Q1,3.186354969912628e-05
+Mogadishu,Unmet demand: GWh,2030,Q2,3.19072311637145e-05
+Mogadishu,Unmet demand: GWh,2030,Q3,3.1906839800482027e-05
+Mogadishu,Unmet demand: GWh,2030,Q4,3.195848856633776e-05
+Mogadishu,Unmet demand: GWh,2036,Q1,4.42243479480628e-05
+Mogadishu,Unmet demand: GWh,2036,Q2,4.423328218440244e-05
+Mogadishu,Unmet demand: GWh,2036,Q3,4.42451826045301e-05
+Mogadishu,Unmet demand: GWh,2036,Q4,4.431494672879245e-05
+Mogadishu,Surplus generation: GWh,2030,Q1,0.0002887501251342
+Mogadishu,Surplus generation: GWh,2030,Q2,0.0002890760141274
+Mogadishu,Surplus generation: GWh,2030,Q3,0.0002888766455154
+Mogadishu,Surplus generation: GWh,2030,Q4,0.0002862913155388
+Mogadishu,Surplus generation: GWh,2036,Q1,0.0004002099872311
+Mogadishu,Surplus generation: GWh,2036,Q2,0.000401379581926
+Mogadishu,Surplus generation: GWh,2036,Q3,0.0004009161117159
+Mogadishu,Surplus generation: GWh,2036,Q4,0.0003975374837204
+Mogadishu,Imports exchange: GWh,2036,Q1,0.001359447051779
+Mogadishu,Imports exchange: GWh,2036,Q2,0.0039862209446534
+Mogadishu,Imports exchange: GWh,2036,Q3,0.0016581139050269
+Mogadishu,Imports exchange: GWh,2036,Q4,0.00118892185063
+Mogadishu,Exports exchange: GWh,2036,Q1,0.0216045136808679
+Mogadishu,Exports exchange: GWh,2036,Q2,0.0189851924077695
+Mogadishu,Exports exchange: GWh,2036,Q3,0.0217682915260658
+Mogadishu,Exports exchange: GWh,2036,Q4,0.0222585169552852
+SomaliaROC,Demand: GWh,2024,Q1,28.27046583922517
+SomaliaROC,Demand: GWh,2024,Q2,30.1627844665306
+SomaliaROC,Demand: GWh,2024,Q3,31.19380415645932
+SomaliaROC,Demand: GWh,2024,Q4,33.37294553778488
+SomaliaROC,Demand: GWh,2030,Q1,38.50409605838781
+SomaliaROC,Demand: GWh,2030,Q2,41.36032124279154
+SomaliaROC,Demand: GWh,2030,Q3,42.891253770929865
+SomaliaROC,Demand: GWh,2030,Q4,46.24432892789079
+SomaliaROC,Demand: GWh,2036,Q1,274.55935531236184
+SomaliaROC,Demand: GWh,2036,Q2,294.3437232248476
+SomaliaROC,Demand: GWh,2036,Q3,304.99572267993835
+SomaliaROC,Demand: GWh,2036,Q4,328.1011987828516
+SomaliaROC,Total production: GWh,2030,Q1,38.6109115945492
+SomaliaROC,Total production: GWh,2030,Q2,41.46748336396102
+SomaliaROC,Total production: GWh,2030,Q3,42.99937707689812
+SomaliaROC,Total production: GWh,2030,Q4,46.35226019857222
+SomaliaROC,Total production: GWh,2036,Q1,274.76251845756724
+SomaliaROC,Total production: GWh,2036,Q2,294.547849172904
+SomaliaROC,Total production: GWh,2036,Q3,305.2005153064824
+SomaliaROC,Total production: GWh,2036,Q4,328.3063761979623
+SomaliaROC,Unmet demand: GWh,2024,Q1,28.27046583922517
+SomaliaROC,Unmet demand: GWh,2024,Q2,30.1627844665306
+SomaliaROC,Unmet demand: GWh,2024,Q3,31.19380415645932
+SomaliaROC,Unmet demand: GWh,2024,Q4,33.37294553778488
+SomaliaROC,Unmet demand: GWh,2030,Q1,3.198181399385946e-05
+SomaliaROC,Unmet demand: GWh,2030,Q2,3.2023836431653176e-05
+SomaliaROC,Unmet demand: GWh,2030,Q3,3.2018543077943134e-05
+SomaliaROC,Unmet demand: GWh,2030,Q4,3.2043045772880865e-05
+SomaliaROC,Unmet demand: GWh,2036,Q1,4.462328834814527e-05
+SomaliaROC,Unmet demand: GWh,2036,Q2,4.464665173188122e-05
+SomaliaROC,Unmet demand: GWh,2036,Q3,4.467063090036866e-05
+SomaliaROC,Unmet demand: GWh,2036,Q4,4.4724268043801504e-05
+SomaliaROC,Surplus generation: GWh,2030,Q1,0.0002943570403259
+SomaliaROC,Surplus generation: GWh,2030,Q2,0.0002951502995066
+SomaliaROC,Surplus generation: GWh,2030,Q3,0.000295114267491
+SomaliaROC,Surplus generation: GWh,2030,Q4,0.0002932646259096
+SomaliaROC,Surplus generation: GWh,2036,Q1,0.000405732315356
+SomaliaROC,Surplus generation: GWh,2036,Q2,0.000406083123769
+SomaliaROC,Surplus generation: GWh,2036,Q3,0.0004058296906341
+SomaliaROC,Surplus generation: GWh,2036,Q4,0.0004029205381967
+SouthSudan,Demand: GWh,2024,Q1,601.1450808088612
+SouthSudan,Demand: GWh,2024,Q2,845.4628331009424
+SouthSudan,Demand: GWh,2024,Q3,839.9530865931165
+SouthSudan,Demand: GWh,2024,Q4,658.4389994970808
+SouthSudan,Demand: GWh,2030,Q1,872.4258320290063
+SouthSudan,Demand: GWh,2030,Q2,1226.997673588924
+SouthSudan,Demand: GWh,2030,Q3,1219.0015253444224
+SouthSudan,Demand: GWh,2030,Q4,955.574969037649
+SouthSudan,Demand: GWh,2036,Q1,1164.629289614087
+SouthSudan,Demand: GWh,2036,Q2,1637.9586400095573
+SouthSudan,Demand: GWh,2036,Q3,1627.284324637716
+SouthSudan,Demand: GWh,2036,Q4,1275.627745738641
+SouthSudan,Total production: GWh,2024,Q1,165.24178536763688
+SouthSudan,Total production: GWh,2024,Q2,167.0778051745253
+SouthSudan,Total production: GWh,2024,Q3,168.9138248353285
+SouthSudan,Total production: GWh,2024,Q4,168.91382478726035
+SouthSudan,Total production: GWh,2030,Q1,898.5709637982519
+SouthSudan,Total production: GWh,2030,Q2,1209.731029350212
+SouthSudan,Total production: GWh,2030,Q3,1199.0053331537638
+SouthSudan,Total production: GWh,2030,Q4,986.4859419958264
+SouthSudan,Total production: GWh,2036,Q1,1038.6608882846826
+SouthSudan,Total production: GWh,2036,Q2,1053.2574732992675
+SouthSudan,Total production: GWh,2036,Q3,1072.952353310179
+SouthSudan,Total production: GWh,2036,Q4,1076.808374624468
+SouthSudan,Unmet demand: GWh,2024,Q1,414.3594903865505
+SouthSudan,Unmet demand: GWh,2024,Q2,652.9650271950779
+SouthSudan,Unmet demand: GWh,2024,Q3,645.339919231015
+SouthSudan,Unmet demand: GWh,2024,Q4,467.2829831682576
+SouthSudan,Unmet demand: GWh,2030,Q1,3.2835681441738025e-05
+SouthSudan,Unmet demand: GWh,2030,Q2,3.7320818169332585e-05
+SouthSudan,Unmet demand: GWh,2030,Q3,0.0412759658230659
+SouthSudan,Unmet demand: GWh,2030,Q4,3.363798319308735e-05
+SouthSudan,Unmet demand: GWh,2036,Q1,4.560455148744566e-05
+SouthSudan,Unmet demand: GWh,2036,Q2,4.516441511500868e-05
+SouthSudan,Unmet demand: GWh,2036,Q3,4.579709693885792e-05
+SouthSudan,Unmet demand: GWh,2036,Q4,4.6248022862969495e-05
+SouthSudan,Surplus generation: GWh,2024,Q1,0.0001351443907226
+SouthSudan,Surplus generation: GWh,2024,Q2,0.0001346972468121
+SouthSudan,Surplus generation: GWh,2024,Q3,0.00013483695779
+SouthSudan,Surplus generation: GWh,2024,Q4,0.0001351236510173
+SouthSudan,Surplus generation: GWh,2030,Q1,0.0002783331107524
+SouthSudan,Surplus generation: GWh,2030,Q2,0.000133903499704
+SouthSudan,Surplus generation: GWh,2030,Q3,0.0001356840226155
+SouthSudan,Surplus generation: GWh,2030,Q4,0.0002495563093739
+SouthSudan,Surplus generation: GWh,2036,Q1,0.0003397118354145
+SouthSudan,Surplus generation: GWh,2036,Q2,0.0003780853807975
+SouthSudan,Surplus generation: GWh,2036,Q3,0.0003382758487585
+SouthSudan,Surplus generation: GWh,2036,Q4,0.0003100903732561
+SouthSudan,Imports exchange: GWh,2024,Q1,22.21267114103395
+SouthSudan,Imports exchange: GWh,2024,Q2,26.208295155268804
+SouthSudan,Imports exchange: GWh,2024,Q3,26.49629851260869
+SouthSudan,Imports exchange: GWh,2024,Q4,22.932652669591644
+SouthSudan,Imports exchange: GWh,2030,Q1,0.035361152605643
+SouthSudan,Imports exchange: GWh,2030,Q2,26.207972521856554
+SouthSudan,Imports exchange: GWh,2030,Q3,26.495650734599344
+SouthSudan,Imports exchange: GWh,2030,Q4,0.3039960528526243
+SouthSudan,Imports exchange: GWh,2036,Q1,310.3371114984866
+SouthSudan,Imports exchange: GWh,2036,Q2,612.4795082532726
+SouthSudan,Imports exchange: GWh,2036,Q3,591.5606662963046
+SouthSudan,Imports exchange: GWh,2036,Q4,550.7376826993552
+SouthSudan,Exports exchange: GWh,2024,Q1,0.0005998319587025
+SouthSudan,Exports exchange: GWh,2024,Q2,0.000148758162213
+SouthSudan,Exports exchange: GWh,2024,Q3,0.0001501977416121
+SouthSudan,Exports exchange: GWh,2024,Q4,0.0005580756526582
+SouthSudan,Exports exchange: GWh,2030,Q1,25.86032441297361
+SouthSudan,Exports exchange: GWh,2030,Q2,0.0003520402092671
+SouthSudan,Exports exchange: GWh,2030,Q3,0.0004982281717474
+SouthSudan,Exports exchange: GWh,2030,Q4,26.15976793693456
+SouthSudan,Exports exchange: GWh,2036,Q1,175.00746526272923
+SouthSudan,Exports exchange: GWh,2036,Q2,9.08625982317764
+SouthSudan,Exports exchange: GWh,2036,Q3,10.046672852477176
+SouthSudan,Exports exchange: GWh,2036,Q4,317.19005404139875
+Sudan,Demand: GWh,2024,Q1,7370.375356331643
+Sudan,Demand: GWh,2024,Q2,4486.71325706123
+Sudan,Demand: GWh,2024,Q3,4726.532285521392
+Sudan,Demand: GWh,2024,Q4,6975.468681085751
+Sudan,Demand: GWh,2030,Q1,10045.562158580133
+Sudan,Demand: GWh,2030,Q2,6115.232228005135
+Sudan,Demand: GWh,2030,Q3,6442.097121682121
+Sudan,Demand: GWh,2030,Q4,9507.31826173261
+Sudan,Demand: GWh,2036,Q1,13692.083422278818
+Sudan,Demand: GWh,2036,Q2,8335.050691109247
+Sudan,Demand: GWh,2036,Q3,8780.566962014707
+Sudan,Demand: GWh,2036,Q4,12958.457944597209
+Sudan,Total production: GWh,2024,Q1,6166.061491575028
+Sudan,Total production: GWh,2024,Q2,4083.0465418446665
+Sudan,Total production: GWh,2024,Q3,4224.472715279676
+Sudan,Total production: GWh,2024,Q4,5645.058060377621
+Sudan,Total production: GWh,2030,Q1,8914.97463403927
+Sudan,Total production: GWh,2030,Q2,5989.52499540293
+Sudan,Total production: GWh,2030,Q3,6312.644783956164
+Sudan,Total production: GWh,2030,Q4,8357.102079162893
+Sudan,Total production: GWh,2036,Q1,9247.76603018427
+Sudan,Total production: GWh,2036,Q2,9342.705253350454
+Sudan,Total production: GWh,2036,Q3,9443.439020566955
+Sudan,Total production: GWh,2036,Q4,9223.644793559366
+Sudan,Unmet demand: GWh,2024,Q1,95.12381957944092
+Sudan,Unmet demand: GWh,2024,Q2,0.0001554415009498
+Sudan,Unmet demand: GWh,2024,Q3,0.0001577154704476
+Sudan,Unmet demand: GWh,2024,Q4,196.80128151136967
+Sudan,Unmet demand: GWh,2030,Q1,3.636106921973627e-05
+Sudan,Unmet demand: GWh,2030,Q2,3.298285390418296e-05
+Sudan,Unmet demand: GWh,2030,Q3,3.3223139170941946e-05
+Sudan,Unmet demand: GWh,2030,Q4,4.584986523821129e-05
+Sudan,Unmet demand: GWh,2036,Q1,4.6597529585056914e-05
+Sudan,Unmet demand: GWh,2036,Q2,4.539783785062437e-05
+Sudan,Unmet demand: GWh,2036,Q3,4.582320255586095e-05
+Sudan,Unmet demand: GWh,2036,Q4,4.623015098232424e-05
+Sudan,Surplus generation: GWh,2024,Q1,0.0005233700290828
+Sudan,Surplus generation: GWh,2024,Q2,0.0011450595613592
+Sudan,Surplus generation: GWh,2024,Q3,0.0010829892330952
+Sudan,Surplus generation: GWh,2024,Q4,0.0006381295191229
+Sudan,Surplus generation: GWh,2030,Q1,0.0001409524701257
+Sudan,Surplus generation: GWh,2030,Q2,0.00026107273383
+Sudan,Surplus generation: GWh,2030,Q3,0.0002469770237049
+Sudan,Surplus generation: GWh,2030,Q4,0.00013852325447
+Sudan,Surplus generation: GWh,2036,Q1,0.000311420897439
+Sudan,Surplus generation: GWh,2036,Q2,0.0003629151447078
+Sudan,Surplus generation: GWh,2036,Q3,0.000335010473181
+Sudan,Surplus generation: GWh,2036,Q4,0.0003114117457474
+Sudan,Imports exchange: GWh,2024,Q1,1166.3992569330533
+Sudan,Imports exchange: GWh,2024,Q2,766.1378934168848
+Sudan,Imports exchange: GWh,2024,Q3,806.369249959398
+Sudan,Imports exchange: GWh,2024,Q4,1192.3176819076132
+Sudan,Imports exchange: GWh,2030,Q1,1192.2605028612622
+Sudan,Imports exchange: GWh,2030,Q2,697.5028556167382
+Sudan,Imports exchange: GWh,2030,Q3,705.6605093896699
+Sudan,Imports exchange: GWh,2030,Q4,1218.479981479764
+Sudan,Imports exchange: GWh,2036,Q1,5317.19695284829
+Sudan,Imports exchange: GWh,2036,Q2,3709.204134062539
+Sudan,Imports exchange: GWh,2036,Q3,3946.557507136045
+Sudan,Imports exchange: GWh,2036,Q4,4025.444722308305
+Sudan,Exports exchange: GWh,2024,Q1,22.21476528978915
+Sudan,Exports exchange: GWh,2024,Q2,339.4839809836187
+Sudan,Exports exchange: GWh,2024,Q3,280.11559006088004
+Sudan,Exports exchange: GWh,2024,Q4,22.93616595117578
+Sudan,Exports exchange: GWh,2030,Q1,0.0360016093197465
+Sudan,Exports exchange: GWh,2030,Q2,465.0107221411322
+Sudan,Exports exchange: GWh,2030,Q3,453.93555464811215
+Sudan,Exports exchange: GWh,2030,Q4,0.3046211160162151
+Sudan,Exports exchange: GWh,2036,Q1,663.0796591035426
+Sudan,Exports exchange: GWh,2036,Q2,4524.675028064896
+Sudan,Exports exchange: GWh,2036,Q3,4404.284608715326
+Sudan,Exports exchange: GWh,2036,Q4,127.1112368736004
+Tanzania,Demand: GWh,2024,Q1,3178.0520123915844
+Tanzania,Demand: GWh,2024,Q2,2994.5324674665503
+Tanzania,Demand: GWh,2024,Q3,3030.43388948628
+Tanzania,Demand: GWh,2024,Q4,3406.8519306555822
+Tanzania,Demand: GWh,2030,Q1,6863.259069743383
+Tanzania,Demand: GWh,2030,Q2,6519.359647078321
+Tanzania,Demand: GWh,2030,Q3,6596.750373620335
+Tanzania,Demand: GWh,2030,Q4,7319.476259557989
+Tanzania,Demand: GWh,2036,Q1,13441.883155645866
+Tanzania,Demand: GWh,2036,Q2,12872.757921927005
+Tanzania,Demand: GWh,2036,Q3,13024.048425026136
+Tanzania,Demand: GWh,2036,Q4,14259.926127401024
+Tanzania,Total production: GWh,2024,Q1,2213.891766259708
+Tanzania,Total production: GWh,2024,Q2,1896.749051980266
+Tanzania,Total production: GWh,2024,Q3,1724.1939519848504
+Tanzania,Total production: GWh,2024,Q4,2318.8890861392288
+Tanzania,Total production: GWh,2030,Q1,6052.937585337174
+Tanzania,Total production: GWh,2030,Q2,6794.704831664825
+Tanzania,Total production: GWh,2030,Q3,5678.572790742772
+Tanzania,Total production: GWh,2030,Q4,6378.128675287139
+Tanzania,Total production: GWh,2036,Q1,12405.133607527549
+Tanzania,Total production: GWh,2036,Q2,13319.763713572183
+Tanzania,Total production: GWh,2036,Q3,12275.513411498208
+Tanzania,Total production: GWh,2036,Q4,12544.719782114596
+Tanzania,Unmet demand: GWh,2024,Q1,0.0001719199442914
+Tanzania,Unmet demand: GWh,2024,Q2,0.0001723598070489
+Tanzania,Unmet demand: GWh,2024,Q3,0.0001737076900805
+Tanzania,Unmet demand: GWh,2024,Q4,0.0001756416982345
+Tanzania,Unmet demand: GWh,2030,Q1,8.006050458114962e-05
+Tanzania,Unmet demand: GWh,2030,Q2,7.917597882936903e-05
+Tanzania,Unmet demand: GWh,2030,Q3,8.134790045055347e-05
+Tanzania,Unmet demand: GWh,2030,Q4,8.108350881720165e-05
+Tanzania,Unmet demand: GWh,2036,Q1,9.58387054768513e-05
+Tanzania,Unmet demand: GWh,2036,Q2,9.577630112664064e-05
+Tanzania,Unmet demand: GWh,2036,Q3,9.805242557162304e-05
+Tanzania,Unmet demand: GWh,2036,Q4,9.848593193050616e-05
+Tanzania,Surplus generation: GWh,2024,Q1,0.0009397651988804
+Tanzania,Surplus generation: GWh,2024,Q2,0.0009470976081389
+Tanzania,Surplus generation: GWh,2024,Q3,0.0009454008137588
+Tanzania,Surplus generation: GWh,2024,Q4,0.0009284658622252
+Tanzania,Surplus generation: GWh,2030,Q1,0.0002810537678033
+Tanzania,Surplus generation: GWh,2030,Q2,0.0003531628143123
+Tanzania,Surplus generation: GWh,2030,Q3,0.0003080578042933
+Tanzania,Surplus generation: GWh,2030,Q4,0.0002729529637138
+Tanzania,Surplus generation: GWh,2036,Q1,0.0003707786739347
+Tanzania,Surplus generation: GWh,2036,Q2,0.0004230756103602
+Tanzania,Surplus generation: GWh,2036,Q3,0.0003871202393996
+Tanzania,Surplus generation: GWh,2036,Q4,0.0003205524968224
+Tanzania,Imports exchange: GWh,2024,Q1,994.0944388592916
+Tanzania,Imports exchange: GWh,2024,Q2,1131.8160000558685
+Tanzania,Imports exchange: GWh,2024,Q3,1346.7190821912598
+Tanzania,Imports exchange: GWh,2024,Q4,1121.7225970145043
+Tanzania,Imports exchange: GWh,2030,Q1,835.4756132295961
+Tanzania,Imports exchange: GWh,2030,Q2,0.1000352682408819
+Tanzania,Imports exchange: GWh,2030,Q3,976.3825377350807
+Tanzania,Imports exchange: GWh,2030,Q4,970.5307994860408
+Tanzania,Imports exchange: GWh,2036,Q1,1069.044615578013
+Tanzania,Imports exchange: GWh,2036,Q2,333.5396084512819
+Tanzania,Imports exchange: GWh,2036,Q3,773.0855182051025
+Tanzania,Imports exchange: GWh,2036,Q4,1768.5759636581454
+Tanzania,Exports exchange: GWh,2024,Q1,0.102307550465678
+Tanzania,Exports exchange: GWh,2024,Q2,0.0689459589465191
+Tanzania,Exports exchange: GWh,2024,Q3,0.0683246341411433
+Tanzania,Exports exchange: GWh,2024,Q4,0.0988590411389384
+Tanzania,Exports exchange: GWh,2030,Q1,0.059297123111298
+Tanzania,Exports exchange: GWh,2030,Q2,275.40704517336053
+Tanzania,Exports exchange: GWh,2030,Q3,28.881242209989047
+Tanzania,Exports exchange: GWh,2030,Q4,0.0361548446406613
+Tanzania,Exports exchange: GWh,2036,Q1,0.1783635154990339
+Tanzania,Exports exchange: GWh,2036,Q2,770.4767062685273
+Tanzania,Exports exchange: GWh,2036,Q3,1.308865008988524
+Tanzania,Exports exchange: GWh,2036,Q4,0.2725736803568397
+Uganda,Demand: GWh,2024,Q1,1492.8514017165337
+Uganda,Demand: GWh,2024,Q2,1513.0003972678971
+Uganda,Demand: GWh,2024,Q3,1521.818577485232
+Uganda,Demand: GWh,2024,Q4,1485.3296235303308
+Uganda,Demand: GWh,2030,Q1,2395.7823142859115
+Uganda,Demand: GWh,2030,Q2,2428.107943221372
+Uganda,Demand: GWh,2030,Q3,2442.2819574532846
+Uganda,Demand: GWh,2030,Q4,2383.827785039434
+Uganda,Demand: GWh,2036,Q1,3342.749204504174
+Uganda,Demand: GWh,2036,Q2,3387.843309109665
+Uganda,Demand: GWh,2036,Q3,3407.6387516213485
+Uganda,Demand: GWh,2036,Q4,3326.1687347648203
+Uganda,Total production: GWh,2024,Q1,2042.738632691049
+Uganda,Total production: GWh,2024,Q2,2124.6819782581024
+Uganda,Total production: GWh,2024,Q3,2147.0900546073062
+Uganda,Total production: GWh,2024,Q4,2059.4587672359125
+Uganda,Total production: GWh,2030,Q1,2459.1212766183257
+Uganda,Total production: GWh,2030,Q2,2499.156769613541
+Uganda,Total production: GWh,2030,Q3,2511.2517353238827
+Uganda,Total production: GWh,2030,Q4,2482.0872068880835
+Uganda,Total production: GWh,2036,Q1,3360.42244119907
+Uganda,Total production: GWh,2036,Q2,3504.312486279305
+Uganda,Total production: GWh,2036,Q3,3527.44156063042
+Uganda,Total production: GWh,2036,Q4,3498.2614937665358
+Uganda,Unmet demand: GWh,2024,Q1,0.0001655783843361
+Uganda,Unmet demand: GWh,2024,Q2,0.0001646328763776
+Uganda,Unmet demand: GWh,2024,Q3,0.0001647816113534
+Uganda,Unmet demand: GWh,2024,Q4,0.0001657392518019
+Uganda,Unmet demand: GWh,2030,Q1,6.630877447493793e-05
+Uganda,Unmet demand: GWh,2030,Q2,6.527979603297933e-05
+Uganda,Unmet demand: GWh,2030,Q3,6.686911965028591e-05
+Uganda,Unmet demand: GWh,2030,Q4,6.696691010419903e-05
+Uganda,Unmet demand: GWh,2036,Q1,7.913797658790584e-05
+Uganda,Unmet demand: GWh,2036,Q2,7.883473592561207e-05
+Uganda,Unmet demand: GWh,2036,Q3,8.021561723314699e-05
+Uganda,Unmet demand: GWh,2036,Q4,8.107287706457644e-05
+Uganda,Surplus generation: GWh,2024,Q1,0.0010072450206046
+Uganda,Surplus generation: GWh,2024,Q2,0.001056432690693
+Uganda,Surplus generation: GWh,2024,Q3,0.0010537438643754
+Uganda,Surplus generation: GWh,2024,Q4,0.0010087415717415
+Uganda,Surplus generation: GWh,2030,Q1,0.0002587750389193
+Uganda,Surplus generation: GWh,2030,Q2,0.0003247925756152
+Uganda,Surplus generation: GWh,2030,Q3,0.0002823520121692
+Uganda,Surplus generation: GWh,2030,Q4,0.0002565570374048
+Uganda,Surplus generation: GWh,2036,Q1,0.0003746296585164
+Uganda,Surplus generation: GWh,2036,Q2,0.0004235597199596
+Uganda,Surplus generation: GWh,2036,Q3,0.0003888859194841
+Uganda,Surplus generation: GWh,2036,Q4,0.0003266373165914
+Uganda,Imports exchange: GWh,2024,Q1,0.1036204340263777
+Uganda,Imports exchange: GWh,2024,Q2,0.0741544901171241
+Uganda,Imports exchange: GWh,2024,Q3,0.0736324239831393
+Uganda,Imports exchange: GWh,2024,Q4,0.1007340855343325
+Uganda,Imports exchange: GWh,2030,Q1,0.0721742783502757
+Uganda,Imports exchange: GWh,2030,Q2,181.79910507337212
+Uganda,Imports exchange: GWh,2030,Q3,240.41867017203344
+Uganda,Imports exchange: GWh,2030,Q4,0.0378038016211454
+Uganda,Imports exchange: GWh,2036,Q1,149.21932558863875
+Uganda,Imports exchange: GWh,2036,Q2,31.18345137523916
+Uganda,Imports exchange: GWh,2036,Q3,2.548375919119102
+Uganda,Imports exchange: GWh,2036,Q4,309.5918652974816
+Uganda,Exports exchange: GWh,2024,Q1,549.9751858906277
+Uganda,Exports exchange: GWh,2024,Q2,611.7407737628961
+Uganda,Exports exchange: GWh,2024,Q3,625.3300358869408
+Uganda,Exports exchange: GWh,2024,Q4,574.2140357650038
+Uganda,Exports exchange: GWh,2030,Q1,63.38016950531017
+Uganda,Exports exchange: GWh,2030,Q2,247.35176521618223
+Uganda,Exports exchange: GWh,2030,Q3,302.1445960525347
+Uganda,Exports exchange: GWh,2030,Q4,98.26671804963205
+Uganda,Exports exchange: GWh,2036,Q1,162.36876145187514
+Uganda,Exports exchange: GWh,2036,Q2,146.64664829774472
+Uganda,Exports exchange: GWh,2036,Q3,122.22291213688855
+Uganda,Exports exchange: GWh,2036,Q4,472.3587151079388
