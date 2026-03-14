@@ -43,6 +43,10 @@
 /epm/cplex.opt
 epm/output/*
 !epm/output/tableau/
+!epm/output/simulations_run_20250627_180737/
+epm/output/simulations_run_20250627_180737/**/*.gdx
+epm/output/simulations_run_20250627_180737/**/*.log
+epm/output/simulations_run_20250627_180737/**/*.lst
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
