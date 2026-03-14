@@ -1,0 +1,7 @@
+barcrossalg=1
+solutiontype=2
+lpmethod=4
+threads=10
+names=yes
+barepcomp=1E-5
+barcolnz=50

@@ -1,0 +1,688 @@
+z,uni,y,value
+Kenya,Annualized capex: $m,2024,373.1246457863072
+Kenya,Annualized capex: $m,2030,464.85476716559793
+Kenya,Annualized capex: $m,2036,453.1655433516895
+Kenya,Fixed O&M: $m,2024,206.44082626231457
+Kenya,Fixed O&M: $m,2030,239.7213358212813
+Kenya,Fixed O&M: $m,2036,225.7951397342217
+Kenya,Variable O&M: $m,2024,136.40631268133663
+Kenya,Variable O&M: $m,2030,131.0379500065941
+Kenya,Variable O&M: $m,2036,94.39441850099315
+Kenya,Total fuel Costs: $m,2024,0.0086379328330659
+Kenya,Total fuel Costs: $m,2030,0.0033144627334624
+Kenya,Total fuel Costs: $m,2036,0.0042655489662091
+Kenya,Transmission additions: $m,2036,2.3549427951448605e-05
+Kenya,Spinning Reserve costs: $m,2024,9.151989012723751
+Kenya,Spinning Reserve costs: $m,2030,9.151863177507703
+Kenya,Spinning Reserve costs: $m,2036,9.151938159049015
+Kenya,Unmet demand costs: $m,2024,0.0006576574457177
+Kenya,Unmet demand costs: $m,2030,0.0002705328556814
+Kenya,Unmet demand costs: $m,2036,0.0003449570651558
+Kenya,Excess generation: $m,2024,0.000380630432458
+Kenya,Excess generation: $m,2030,0.0001162676052856
+Kenya,Excess generation: $m,2036,0.0001544662846974
+Kenya,Capex: $m,2024,0.0145155247695648
+Kenya,Capex: $m,2030,33.34876374958071
+Kenya,Capex: $m,2036,26.910369313974677
+Kenya,Unmet reserve costs: $m,2024,0.0006446289403227
+Kenya,Unmet reserve costs: $m,2030,0.0001307483277197
+Kenya,Unmet reserve costs: $m,2036,95.75304275398896
+Kenya,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Kenya,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Kenya,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Kenya,Import costs with internal zones: $m,2024,79.2961831193984
+Kenya,Import costs with internal zones: $m,2030,103.69936500094002
+Kenya,Import costs with internal zones: $m,2036,273.61507469338994
+Kenya,Export revenues with internal zones: $m,2024,-203.737492982591
+Kenya,Export revenues with internal zones: $m,2030,-132.1602719212588
+Kenya,Export revenues with internal zones: $m,2036,-70.81046178031133
+Kenya,Trade shared benefits: $m,2024,-27.48576882731272
+Kenya,Trade shared benefits: $m,2030,-53.56648698157445
+Kenya,Trade shared benefits: $m,2036,-30.05762840378345
+Kenya,Trade Costs: $m,2024,-151.92707869050528
+Kenya,Trade Costs: $m,2030,-82.02739390189322
+Kenya,Trade Costs: $m,2036,172.74698450929515
+Kenya,Total Annual Cost by Zone: $m,2024,725.1334499633934
+Kenya,Total Annual Cost by Zone: $m,2030,844.7696174341754
+Kenya,Total Annual Cost by Zone: $m,2036,782.5118282676973
+Kenya,Total Annual Cost by Zone with trade: $m,2024,573.2063712728881
+Kenya,Total Annual Cost by Zone with trade: $m,2030,762.7422235322823
+Kenya,Total Annual Cost by Zone with trade: $m,2036,955.2588127769924
+Burundi,Annualized capex: $m,2024,22.133209859582188
+Burundi,Annualized capex: $m,2030,36.6048716629083
+Burundi,Annualized capex: $m,2036,68.73313861228527
+Burundi,Fixed O&M: $m,2024,5.550008132038201
+Burundi,Fixed O&M: $m,2030,12.54410871190434
+Burundi,Fixed O&M: $m,2036,28.33084153396433
+Burundi,Variable O&M: $m,2024,1.995969575483924
+Burundi,Variable O&M: $m,2030,8.147072608411436
+Burundi,Variable O&M: $m,2036,20.991233456171507
+Burundi,Total fuel Costs: $m,2024,63.59832036617118
+Burundi,Total fuel Costs: $m,2030,0.0006882233405767
+Burundi,Total fuel Costs: $m,2036,0.0010463945603415
+Burundi,Transmission additions: $m,2036,2.681093241321513
+Burundi,Spinning Reserve costs: $m,2024,0.8672661575776887
+Burundi,Spinning Reserve costs: $m,2030,0.888395653373209
+Burundi,Spinning Reserve costs: $m,2036,0.8884826381701904
+Burundi,Unmet demand costs: $m,2024,31.1195772112326
+Burundi,Unmet demand costs: $m,2030,0.0001823275021299
+Burundi,Unmet demand costs: $m,2036,0.0002170546586513
+Burundi,Excess generation: $m,2024,8.22704434082437e-05
+Burundi,Excess generation: $m,2030,0.0001222692744561
+Burundi,Excess generation: $m,2036,0.0001523881743814
+Burundi,Capex: $m,2024,1e-11
+Burundi,Capex: $m,2030,199.11632068233308
+Burundi,Capex: $m,2036,442.1797786103718
+Burundi,Unmet reserve costs: $m,2024,5.365851021028076
+Burundi,Unmet reserve costs: $m,2030,0.9540453165799844
+Burundi,Unmet reserve costs: $m,2036,0.0001792720205101
+Burundi,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Burundi,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Burundi,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Burundi,Import costs with internal zones: $m,2024,194.63254830578023
+Burundi,Import costs with internal zones: $m,2030,8.659811030989501e-05
+Burundi,Import costs with internal zones: $m,2036,0.0023091820714645
+Burundi,Export revenues with internal zones: $m,2024,-0.0006417778142911
+Burundi,Export revenues with internal zones: $m,2030,-0.985350070819244
+Burundi,Export revenues with internal zones: $m,2036,-63.51613048756041
+Burundi,Trade shared benefits: $m,2024,-91.3071970441368
+Burundi,Trade shared benefits: $m,2030,-3.981725853798568
+Burundi,Trade shared benefits: $m,2036,-17.014882867498486
+Burundi,Trade Costs: $m,2024,103.32470948382912
+Burundi,Trade Costs: $m,2030,-4.966989326507502
+Burundi,Trade Costs: $m,2036,-80.52870417298743
+Burundi,Total Annual Cost by Zone: $m,2024,125.2644335725292
+Burundi,Total Annual Cost by Zone: $m,2030,58.18544145671446
+Burundi,Total Annual Cost by Zone: $m,2036,121.6262053193062
+Burundi,Total Annual Cost by Zone with trade: $m,2024,228.5891430563583
+Burundi,Total Annual Cost by Zone with trade: $m,2030,53.21845213020696
+Burundi,Total Annual Cost by Zone with trade: $m,2036,41.09750114631876
+Djibouti,Annualized capex: $m,2024,0.0006533295017805
+Djibouti,Annualized capex: $m,2030,7.332009199554728
+Djibouti,Annualized capex: $m,2036,10.822381330938011
+Djibouti,Fixed O&M: $m,2024,0.9152
+Djibouti,Fixed O&M: $m,2030,3.4158679927159694
+Djibouti,Fixed O&M: $m,2036,5.714526397735489
+Djibouti,Variable O&M: $m,2024,0.3859530666737373
+Djibouti,Variable O&M: $m,2030,1.2800196620829958
+Djibouti,Variable O&M: $m,2036,0.2141539432517625
+Djibouti,Total fuel Costs: $m,2024,7.308033626390823
+Djibouti,Total fuel Costs: $m,2030,1.916313311090013
+Djibouti,Total fuel Costs: $m,2036,0.0953679780598663
+Djibouti,Transmission additions: $m,2036,0.8557496678413566
+Djibouti,Spinning Reserve costs: $m,2024,0.5873979375294381
+Djibouti,Spinning Reserve costs: $m,2030,0.6006390894272532
+Djibouti,Spinning Reserve costs: $m,2036,0.5896366312195354
+Djibouti,Unmet demand costs: $m,2024,0.0006898983942209
+Djibouti,Unmet demand costs: $m,2030,0.0001672136492237
+Djibouti,Unmet demand costs: $m,2036,0.000227517370632
+Djibouti,Excess generation: $m,2024,0.0004066948038535
+Djibouti,Excess generation: $m,2030,0.0001008001225974
+Djibouti,Excess generation: $m,2036,0.0001452317761543
+Djibouti,Capex: $m,2024,1e-11
+Djibouti,Capex: $m,2030,99.18078011258189
+Djibouti,Capex: $m,2036,46.49605586321051
+Djibouti,Unmet reserve costs: $m,2024,3.24774746638021
+Djibouti,Unmet reserve costs: $m,2030,4.691077452474336
+Djibouti,Unmet reserve costs: $m,2036,10.21069536467304
+Djibouti,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Djibouti,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Djibouti,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Djibouti,Import costs with internal zones: $m,2024,44.73733321581573
+Djibouti,Import costs with internal zones: $m,2030,36.90664546076668
+Djibouti,Import costs with internal zones: $m,2036,43.78960343226712
+Djibouti,Export revenues with internal zones: $m,2024,-0.0033695345582086
+Djibouti,Export revenues with internal zones: $m,2030,-0.0001426824356591
+Djibouti,Export revenues with internal zones: $m,2036,-0.0020844540814868
+Djibouti,Trade shared benefits: $m,2024,-20.89258335549746
+Djibouti,Trade shared benefits: $m,2030,-18.45329253766151
+Djibouti,Trade shared benefits: $m,2036,-4.475075288788297
+Djibouti,Trade Costs: $m,2024,23.841380325760053
+Djibouti,Trade Costs: $m,2030,18.453210240669502
+Djibouti,Trade Costs: $m,2036,39.31244368939734
+Djibouti,Total Annual Cost by Zone: $m,2024,9.198334553293854
+Djibouti,Total Annual Cost by Zone: $m,2030,14.545117268642784
+Djibouti,Total Annual Cost by Zone: $m,2036,18.292188698192813
+Djibouti,Total Annual Cost by Zone with trade: $m,2024,33.0397148790539
+Djibouti,Total Annual Cost by Zone with trade: $m,2030,32.99832750931228
+Djibouti,Total Annual Cost by Zone with trade: $m,2036,57.60463238759016
+Drc_E,Annualized capex: $m,2024,9.90756931684711
+Drc_E,Annualized capex: $m,2030,18.25588108266632
+Drc_E,Annualized capex: $m,2036,18.278590906727768
+Drc_E,Fixed O&M: $m,2024,1.6024710633038637
+Drc_E,Fixed O&M: $m,2030,4.676138748790357
+Drc_E,Fixed O&M: $m,2036,4.697983956048886
+Drc_E,Variable O&M: $m,2024,1.3235458236759496
+Drc_E,Variable O&M: $m,2030,2.143943587939726
+Drc_E,Variable O&M: $m,2036,2.1443751526840487
+Drc_E,Total fuel Costs: $m,2030,0.0002579686203556
+Drc_E,Total fuel Costs: $m,2036,0.0003406365334471
+Drc_E,Transmission additions: $m,2036,1.7058747817642606
+Drc_E,Spinning Reserve costs: $m,2024,1.1704449224726137
+Drc_E,Spinning Reserve costs: $m,2030,1.3141332296530803
+Drc_E,Spinning Reserve costs: $m,2036,1.3141822654361262
+Drc_E,Unmet demand costs: $m,2024,1.9489631564967345
+Drc_E,Unmet demand costs: $m,2030,0.0001338653107168
+Drc_E,Unmet demand costs: $m,2036,0.0001823379777483
+Drc_E,Excess generation: $m,2024,0.0002673856940977
+Drc_E,Excess generation: $m,2030,9.197021850174497e-05
+Drc_E,Excess generation: $m,2036,0.0001368799114395
+Drc_E,Capex: $m,2024,1e-11
+Drc_E,Capex: $m,2030,0.0313514925493153
+Drc_E,Capex: $m,2036,0.1058065238867827
+Drc_E,Unmet reserve costs: $m,2024,4.740003855001146
+Drc_E,Unmet reserve costs: $m,2030,2.777326670131259
+Drc_E,Unmet reserve costs: $m,2036,4.972315348392842
+Drc_E,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Drc_E,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Drc_E,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Drc_E,Import costs with internal zones: $m,2024,29.617780605883716
+Drc_E,Import costs with internal zones: $m,2030,0.4614526560350381
+Drc_E,Import costs with internal zones: $m,2036,22.58960157253621
+Drc_E,Export revenues with internal zones: $m,2024,-0.0036285274574178
+Drc_E,Export revenues with internal zones: $m,2030,-1.1197768466112128
+Drc_E,Export revenues with internal zones: $m,2036,-17.190143168523676
+Drc_E,Trade shared benefits: $m,2024,-12.463727251349129
+Drc_E,Trade shared benefits: $m,2030,-0.0240974954428977
+Drc_E,Trade shared benefits: $m,2036,-4.015830583500751
+Drc_E,Trade Costs: $m,2024,17.150424827077167
+Drc_E,Trade Costs: $m,2030,-0.6824216860190724
+Drc_E,Trade Costs: $m,2036,1.3836278205117838
+Drc_E,Total Annual Cost by Zone: $m,2024,15.95326166849037
+Drc_E,Total Annual Cost by Zone: $m,2030,26.390580453199053
+Drc_E,Total Annual Cost by Zone: $m,2036,28.14166691708373
+Drc_E,Total Annual Cost by Zone with trade: $m,2024,33.10368649556754
+Drc_E,Total Annual Cost by Zone with trade: $m,2030,25.708158767179984
+Drc_E,Total Annual Cost by Zone with trade: $m,2036,29.525294737595512
+Egypt,Annualized capex: $m,2030,837.4689156157264
+Egypt,Annualized capex: $m,2036,2339.0338001712016
+Egypt,Fixed O&M: $m,2024,1542.24974
+Egypt,Fixed O&M: $m,2030,1662.6087575695826
+Egypt,Fixed O&M: $m,2036,2129.7608874680736
+Egypt,Variable O&M: $m,2024,585.1795188681775
+Egypt,Variable O&M: $m,2030,739.6576650235644
+Egypt,Variable O&M: $m,2036,791.2857109590966
+Egypt,Total fuel Costs: $m,2024,6639.354758355869
+Egypt,Total fuel Costs: $m,2030,6166.650732191093
+Egypt,Total fuel Costs: $m,2036,6107.575722626175
+Egypt,Transmission additions: $m,2036,27.951123261601087
+Egypt,Spinning Reserve costs: $m,2024,35.46658595277093
+Egypt,Spinning Reserve costs: $m,2030,35.465770333711
+Egypt,Spinning Reserve costs: $m,2036,35.46583101660162
+Egypt,Unmet demand costs: $m,2024,0.000742667071893
+Egypt,Unmet demand costs: $m,2030,0.0002470866766656
+Egypt,Unmet demand costs: $m,2036,0.0003060417215588
+Egypt,Excess generation: $m,2024,0.0005095530171712
+Egypt,Excess generation: $m,2030,0.0001040805076616
+Egypt,Excess generation: $m,2036,0.0001378247967918
+Egypt,Capex: $m,2024,1e-11
+Egypt,Capex: $m,2030,0.0239911289561218
+Egypt,Capex: $m,2036,1805.194509662056
+Egypt,Unmet reserve costs: $m,2024,0.0006303629003183
+Egypt,Unmet reserve costs: $m,2030,0.0001326268488502
+Egypt,Unmet reserve costs: $m,2036,0.0025008544900935
+Egypt,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Egypt,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Egypt,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Egypt,Import costs with internal zones: $m,2024,23.89255253493438
+Egypt,Import costs with internal zones: $m,2030,28.91674312669185
+Egypt,Import costs with internal zones: $m,2036,324.1123020759801
+Egypt,Export revenues with internal zones: $m,2024,-152.26601983400562
+Egypt,Export revenues with internal zones: $m,2030,-106.50357699769484
+Egypt,Export revenues with internal zones: $m,2036,-119.24099460464306
+Egypt,Trade shared benefits: $m,2024,-206.44937401491444
+Egypt,Trade shared benefits: $m,2030,-86.29367376563367
+Egypt,Trade shared benefits: $m,2036,-77.04574388170796
+Egypt,Trade Costs: $m,2024,-334.8228413139857
+Egypt,Trade Costs: $m,2030,-163.88050763663668
+Egypt,Trade Costs: $m,2036,127.82556358962913
+Egypt,Total Annual Cost by Zone: $m,2024,8802.251855396906
+Egypt,Total Annual Cost by Zone: $m,2030,9441.852191900864
+Egypt,Total Annual Cost by Zone: $m,2036,11431.073519369267
+Egypt,Total Annual Cost by Zone with trade: $m,2024,8467.429014082922
+Egypt,Total Annual Cost by Zone with trade: $m,2030,9277.971684264226
+Egypt,Total Annual Cost by Zone with trade: $m,2036,11558.899082958897
+Ethiopia,Annualized capex: $m,2024,133.8052443864461
+Ethiopia,Annualized capex: $m,2030,773.907564080033
+Ethiopia,Annualized capex: $m,2036,1069.494637954215
+Ethiopia,Fixed O&M: $m,2024,134.35442210130938
+Ethiopia,Fixed O&M: $m,2030,333.6340068748661
+Ethiopia,Fixed O&M: $m,2036,383.9736547394792
+Ethiopia,Variable O&M: $m,2024,0.9662687788348738
+Ethiopia,Variable O&M: $m,2030,0.0009780734597471
+Ethiopia,Variable O&M: $m,2036,30.44311446691196
+Ethiopia,Total fuel Costs: $m,2024,0.0016558495054138
+Ethiopia,Total fuel Costs: $m,2030,0.0008039248174307
+Ethiopia,Total fuel Costs: $m,2036,0.0007502872647455
+Ethiopia,Transmission additions: $m,2036,12.173767704581882
+Ethiopia,Spinning Reserve costs: $m,2024,19.56552871237221
+Ethiopia,Spinning Reserve costs: $m,2030,18.396616348685093
+Ethiopia,Spinning Reserve costs: $m,2036,19.953445065787985
+Ethiopia,Unmet demand costs: $m,2024,0.0005993060934011
+Ethiopia,Unmet demand costs: $m,2030,0.0002499664593455
+Ethiopia,Unmet demand costs: $m,2036,0.0003300040713136
+Ethiopia,Excess generation: $m,2024,0.0005674562571418
+Ethiopia,Excess generation: $m,2030,0.0001891450587113
+Ethiopia,Excess generation: $m,2036,0.0001616715884986
+Ethiopia,Capex: $m,2024,0.0118924714976992
+Ethiopia,Capex: $m,2030,922.4737737750328
+Ethiopia,Capex: $m,2036,0.0553406087280623
+Ethiopia,Unmet reserve costs: $m,2024,0.0109439717758486
+Ethiopia,Unmet reserve costs: $m,2030,0.0001258814627868
+Ethiopia,Unmet reserve costs: $m,2036,0.0001774581174825
+Ethiopia,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Ethiopia,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Ethiopia,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Ethiopia,Import costs with internal zones: $m,2024,0.0156193097285401
+Ethiopia,Import costs with internal zones: $m,2030,-2.371936360990889e-05
+Ethiopia,Import costs with internal zones: $m,2036,0.0096159871836645
+Ethiopia,Export revenues with internal zones: $m,2024,-14.640632250731429
+Ethiopia,Export revenues with internal zones: $m,2030,0.0005030689203957
+Ethiopia,Export revenues with internal zones: $m,2036,-628.694664753838
+Ethiopia,Trade shared benefits: $m,2024,-196.14379825384844
+Ethiopia,Trade shared benefits: $m,2030,-151.7811952861318
+Ethiopia,Trade shared benefits: $m,2036,-99.48810957806072
+Ethiopia,Trade Costs: $m,2024,-210.7688111948513
+Ethiopia,Trade Costs: $m,2030,-151.780715936575
+Ethiopia,Trade Costs: $m,2036,-728.1731583447149
+Ethiopia,Total Annual Cost by Zone: $m,2024,288.69428659081854
+Ethiopia,Total Annual Cost by Zone: $m,2030,1125.9404084133794
+Ethiopia,Total Annual Cost by Zone: $m,2036,1516.0398618939007
+Ethiopia,Total Annual Cost by Zone with trade: $m,2024,77.92547539596721
+Ethiopia,Total Annual Cost by Zone with trade: $m,2030,974.1596924768046
+Ethiopia,Total Annual Cost by Zone with trade: $m,2036,787.8667035491857
+Libya,Annualized capex: $m,2030,663.0696896121353
+Libya,Annualized capex: $m,2036,963.5129983707976
+Libya,Fixed O&M: $m,2024,89.13086
+Libya,Fixed O&M: $m,2030,231.85222026344627
+Libya,Fixed O&M: $m,2036,378.8447451342212
+Libya,Variable O&M: $m,2024,261.6090420857217
+Libya,Variable O&M: $m,2030,267.4656045816346
+Libya,Variable O&M: $m,2036,247.1424575406109
+Libya,Total fuel Costs: $m,2024,1618.9509572448362
+Libya,Total fuel Costs: $m,2030,1815.434588179196
+Libya,Total fuel Costs: $m,2036,2265.413104978865
+Libya,Transmission additions: $m,2036,0.6869080497087594
+Libya,Spinning Reserve costs: $m,2024,37.525282663770575
+Libya,Spinning Reserve costs: $m,2030,40.3371200389081
+Libya,Spinning Reserve costs: $m,2036,40.3372266583562
+Libya,Unmet demand costs: $m,2024,257.4628884077689
+Libya,Unmet demand costs: $m,2030,0.0001354765299887
+Libya,Unmet demand costs: $m,2036,0.0002118539811922
+Libya,Excess generation: $m,2024,0.0004037311899228
+Libya,Excess generation: $m,2030,0.0001003878633614
+Libya,Excess generation: $m,2036,0.0001298160247494
+Libya,Capex: $m,2024,1e-11
+Libya,Capex: $m,2030,3527.034316542861
+Libya,Capex: $m,2036,4135.535075920317
+Libya,Unmet reserve costs: $m,2024,151.07955203747974
+Libya,Unmet reserve costs: $m,2030,0.0001785679247133
+Libya,Unmet reserve costs: $m,2036,0.0006847251946955
+Libya,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Libya,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Libya,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Libya,Import costs with internal zones: $m,2024,168.31268434894756
+Libya,Import costs with internal zones: $m,2030,66.31491133764025
+Libya,Import costs with internal zones: $m,2036,101.68695873727997
+Libya,Export revenues with internal zones: $m,2024,-0.0037472451155618
+Libya,Export revenues with internal zones: $m,2030,-0.0289308080420482
+Libya,Export revenues with internal zones: $m,2036,-2.0347181178306584
+Libya,Trade shared benefits: $m,2024,-50.111195765640936
+Libya,Trade shared benefits: $m,2030,-7.374666338109674
+Libya,Trade shared benefits: $m,2036,-8.99382026093472
+Libya,Trade Costs: $m,2024,118.19774133819104
+Libya,Trade Costs: $m,2030,58.911314191488536
+Libya,Trade Costs: $m,2036,90.65842035851456
+Libya,Total Annual Cost by Zone: $m,2024,2264.6794341332875
+Libya,Total Annual Cost by Zone: $m,2030,3018.159458539714
+Libya,Total Annual Cost by Zone: $m,2036,3895.9377824025646
+Libya,Total Annual Cost by Zone with trade: $m,2024,2382.8771754714785
+Libya,Total Annual Cost by Zone with trade: $m,2030,3077.070772731202
+Libya,Total Annual Cost by Zone with trade: $m,2036,3986.59620276108
+Rwanda,Annualized capex: $m,2024,46.38747078741569
+Rwanda,Annualized capex: $m,2030,56.45194857885746
+Rwanda,Annualized capex: $m,2036,78.597581819223
+Rwanda,Fixed O&M: $m,2024,13.409952735367035
+Rwanda,Fixed O&M: $m,2030,18.13273082582308
+Rwanda,Fixed O&M: $m,2036,29.00769532243912
+Rwanda,Variable O&M: $m,2024,0.3627620893717139
+Rwanda,Variable O&M: $m,2030,1.9438185077829844
+Rwanda,Variable O&M: $m,2036,1.4658369467536885
+Rwanda,Total fuel Costs: $m,2024,0.258977010914423
+Rwanda,Total fuel Costs: $m,2030,21.943348025495283
+Rwanda,Total fuel Costs: $m,2036,2.3898535865081
+Rwanda,Transmission additions: $m,2036,0.5315976109348605
+Rwanda,Spinning Reserve costs: $m,2024,3.0845065860191987
+Rwanda,Spinning Reserve costs: $m,2030,3.0844354400560703
+Rwanda,Spinning Reserve costs: $m,2036,3.0840455439716306
+Rwanda,Unmet demand costs: $m,2024,0.0006482545628515
+Rwanda,Unmet demand costs: $m,2030,0.0002504275307072
+Rwanda,Unmet demand costs: $m,2036,0.0003020075828254
+Rwanda,Excess generation: $m,2024,0.0004052072456045
+Rwanda,Excess generation: $m,2030,0.0001066125686369
+Rwanda,Excess generation: $m,2036,0.0001500877807983
+Rwanda,Capex: $m,2024,1e-11
+Rwanda,Capex: $m,2030,0.1927016536281661
+Rwanda,Capex: $m,2036,0.1182093645056728
+Rwanda,Unmet reserve costs: $m,2024,0.0009178655098886
+Rwanda,Unmet reserve costs: $m,2030,3.758597740990726
+Rwanda,Unmet reserve costs: $m,2036,17.191576394771637
+Rwanda,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Rwanda,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Rwanda,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Rwanda,Import costs with internal zones: $m,2024,60.78065270990253
+Rwanda,Import costs with internal zones: $m,2030,33.21976371305707
+Rwanda,Import costs with internal zones: $m,2036,61.85246880143582
+Rwanda,Export revenues with internal zones: $m,2024,-26.69646354787162
+Rwanda,Export revenues with internal zones: $m,2030,-0.4518805734004812
+Rwanda,Export revenues with internal zones: $m,2036,-3.0937920751797394
+Rwanda,Trade shared benefits: $m,2024,-105.21840557974876
+Rwanda,Trade shared benefits: $m,2030,-4.370342580760028
+Rwanda,Trade shared benefits: $m,2036,-7.37133508509071
+Rwanda,Trade Costs: $m,2024,-71.13421641771784
+Rwanda,Trade Costs: $m,2030,28.39754055889656
+Rwanda,Trade Costs: $m,2036,51.38734164116536
+Rwanda,Total Annual Cost by Zone: $m,2024,63.50472267089651
+Rwanda,Total Annual Cost by Zone: $m,2030,101.5566384181142
+Rwanda,Total Annual Cost by Zone: $m,2036,115.077062925194
+Rwanda,Total Annual Cost by Zone with trade: $m,2024,-7.629493746821325
+Rwanda,Total Annual Cost by Zone with trade: $m,2030,129.95417897701077
+Rwanda,Total Annual Cost by Zone with trade: $m,2036,166.46440456635938
+Somaliland,Annualized capex: $m,2030,1.2401852327107608
+Somaliland,Annualized capex: $m,2036,16.935825002659683
+Somaliland,Fixed O&M: $m,2030,1.7537352533106376
+Somaliland,Fixed O&M: $m,2036,12.89682947370329
+Somaliland,Variable O&M: $m,2030,1.5131375084107928e-05
+Somaliland,Variable O&M: $m,2036,0.1869457896858969
+Somaliland,Total fuel Costs: $m,2030,0.0002981390393649
+Somaliland,Total fuel Costs: $m,2036,0.69728373053919
+Somaliland,Transmission additions: $m,2036,1.9213658404606968
+Somaliland,Spinning Reserve costs: $m,2030,0.959715096414013
+Somaliland,Spinning Reserve costs: $m,2036,1.0769123238656442
+Somaliland,Unmet demand costs: $m,2024,132.99999999999994
+Somaliland,Unmet demand costs: $m,2030,0.0001272946997156
+Somaliland,Unmet demand costs: $m,2036,0.0862169208551549
+Somaliland,Excess generation: $m,2030,0.0001180734892116
+Somaliland,Excess generation: $m,2036,0.0001294694548042
+Somaliland,Capex: $m,2024,1e-11
+Somaliland,Capex: $m,2030,14.21468082004736
+Somaliland,Capex: $m,2036,112.34544527758152
+Somaliland,Unmet reserve costs: $m,2024,5.423883999999996
+Somaliland,Unmet reserve costs: $m,2030,7.803957451329172e-05
+Somaliland,Unmet reserve costs: $m,2036,0.0372624082621091
+Somaliland,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Somaliland,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Somaliland,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Somaliland,Import costs with internal zones: $m,2030,0.0005446200664141
+Somaliland,Import costs with internal zones: $m,2036,45.67317215449828
+Somaliland,Export revenues with internal zones: $m,2030,-0.000125873538007
+Somaliland,Export revenues with internal zones: $m,2036,-0.0017501301366624
+Somaliland,Trade shared benefits: $m,2030,-0.0002274155528
+Somaliland,Trade shared benefits: $m,2036,-10.466558566946794
+Somaliland,Trade Costs: $m,2030,0.000191330975607
+Somaliland,Trade Costs: $m,2036,35.204863457414824
+Somaliland,Total Annual Cost by Zone: $m,2024,132.99999999999994
+Somaliland,Total Annual Cost by Zone: $m,2030,3.954194221038788
+Somaliland,Total Annual Cost by Zone: $m,2036,33.80150855122436
+Somaliland,Total Annual Cost by Zone with trade: $m,2024,132.99999999999994
+Somaliland,Total Annual Cost by Zone with trade: $m,2030,3.9543855520143945
+Somaliland,Total Annual Cost by Zone with trade: $m,2036,69.00637200863918
+Mogadishu,Annualized capex: $m,2030,4.446237675697375
+Mogadishu,Annualized capex: $m,2036,13.90391170483243
+Mogadishu,Fixed O&M: $m,2030,1.951974999351878
+Mogadishu,Fixed O&M: $m,2036,6.198370749232246
+Mogadishu,Variable O&M: $m,2030,1.8346399930526085
+Mogadishu,Variable O&M: $m,2036,6.32297665877159
+Mogadishu,Total fuel Costs: $m,2030,0.0003035398584309
+Mogadishu,Total fuel Costs: $m,2036,0.0004271369551326
+Mogadishu,Transmission additions: $m,2036,0.0006261145818654
+Mogadishu,Spinning Reserve costs: $m,2030,0.0139130535220545
+Mogadishu,Spinning Reserve costs: $m,2036,0.0152454128621672
+Mogadishu,Unmet demand costs: $m,2024,130.99999999999994
+Mogadishu,Unmet demand costs: $m,2030,0.0001276361092296
+Mogadishu,Unmet demand costs: $m,2036,0.0001770177594657
+Mogadishu,Excess generation: $m,2030,0.0001152994100315
+Mogadishu,Excess generation: $m,2036,0.0001600043164593
+Mogadishu,Capex: $m,2024,1e-11
+Mogadishu,Capex: $m,2030,61.15022084681499
+Mogadishu,Capex: $m,2036,130.1073602018139
+Mogadishu,Unmet reserve costs: $m,2024,5.423883999999996
+Mogadishu,Unmet reserve costs: $m,2030,7.803957451329172e-05
+Mogadishu,Unmet reserve costs: $m,2036,0.0372624082621091
+Mogadishu,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Mogadishu,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Mogadishu,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Mogadishu,Import costs with internal zones: $m,2036,2.8677548614940044e-05
+Mogadishu,Export revenues with internal zones: $m,2036,-0.0002961727687484
+Mogadishu,Trade shared benefits: $m,2036,-0.0006841533835704
+Mogadishu,Trade Costs: $m,2036,-0.0009516486037039
+Mogadishu,Total Annual Cost by Zone: $m,2024,130.99999999999994
+Mogadishu,Total Annual Cost by Zone: $m,2030,8.247312197001607
+Mogadishu,Total Annual Cost by Zone: $m,2036,26.441894799311356
+Mogadishu,Total Annual Cost by Zone with trade: $m,2024,130.99999999999994
+Mogadishu,Total Annual Cost by Zone with trade: $m,2030,8.247312197001607
+Mogadishu,Total Annual Cost by Zone with trade: $m,2036,26.44094315070765
+SomaliaROC,Annualized capex: $m,2030,2.625405832982415
+SomaliaROC,Annualized capex: $m,2036,10.799000426861909
+SomaliaROC,Fixed O&M: $m,2030,1.1598568380728345
+SomaliaROC,Fixed O&M: $m,2036,4.83521890732533
+SomaliaROC,Variable O&M: $m,2030,0.5921182076006968
+SomaliaROC,Variable O&M: $m,2036,4.208641620622946
+SomaliaROC,Total fuel Costs: $m,2030,0.0003014320702044
+SomaliaROC,Total fuel Costs: $m,2036,0.0004264799219531
+SomaliaROC,Spinning Reserve costs: $m,2030,0.0139351716571907
+SomaliaROC,Spinning Reserve costs: $m,2036,0.015288041709716
+SomaliaROC,Unmet demand costs: $m,2024,123.0
+SomaliaROC,Unmet demand costs: $m,2030,0.0001280672392763
+SomaliaROC,Unmet demand costs: $m,2036,0.0001786648390241
+SomaliaROC,Excess generation: $m,2030,0.0001177886233233
+SomaliaROC,Excess generation: $m,2036,0.0001620565667955
+SomaliaROC,Capex: $m,2024,1e-11
+SomaliaROC,Capex: $m,2030,36.08253763120933
+SomaliaROC,Capex: $m,2036,112.42329598792516
+SomaliaROC,Unmet reserve costs: $m,2024,5.423883999999996
+SomaliaROC,Unmet reserve costs: $m,2030,7.803957451329172e-05
+SomaliaROC,Unmet reserve costs: $m,2036,0.0372624082621091
+SomaliaROC,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+SomaliaROC,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+SomaliaROC,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+SomaliaROC,Total Annual Cost by Zone: $m,2024,123.0
+SomaliaROC,Total Annual Cost by Zone: $m,2030,4.39186333824594
+SomaliaROC,Total Annual Cost by Zone: $m,2036,19.85891619784768
+SomaliaROC,Total Annual Cost by Zone with trade: $m,2024,123.0
+SomaliaROC,Total Annual Cost by Zone with trade: $m,2030,4.39186333824594
+SomaliaROC,Total Annual Cost by Zone with trade: $m,2036,19.85891619784768
+SouthSudan,Annualized capex: $m,2030,99.92151233875722
+SouthSudan,Annualized capex: $m,2036,102.85636841107986
+SouthSudan,Fixed O&M: $m,2024,1.82
+SouthSudan,Fixed O&M: $m,2030,10.81305148107772
+SouthSudan,Fixed O&M: $m,2036,15.9159929040542
+SouthSudan,Variable O&M: $m,2024,31.1618466676609
+SouthSudan,Variable O&M: $m,2030,19.57381892453639
+SouthSudan,Variable O&M: $m,2036,17.75350580553465
+SouthSudan,Total fuel Costs: $m,2024,108.6817061574585
+SouthSudan,Total fuel Costs: $m,2030,32.03055543644974
+SouthSudan,Total fuel Costs: $m,2036,0.0068592341979602
+SouthSudan,Transmission additions: $m,2036,1.597225991808234
+SouthSudan,Spinning Reserve costs: $m,2024,0.5259710274322198
+SouthSudan,Spinning Reserve costs: $m,2030,0.5538388821648946
+SouthSudan,Spinning Reserve costs: $m,2036,0.5561338099318615
+SouthSudan,Unmet demand costs: $m,2024,2179.9474199809006
+SouthSudan,Unmet demand costs: $m,2030,0.04137976030587
+SouthSudan,Unmet demand costs: $m,2036,0.0001828140864042
+SouthSudan,Excess generation: $m,2024,5.398022463422068e-05
+SouthSudan,Excess generation: $m,2030,7.974769424459765e-05
+SouthSudan,Excess generation: $m,2036,0.0001366163438226
+SouthSudan,Capex: $m,2024,1e-11
+SouthSudan,Capex: $m,2030,111.4327700117119
+SouthSudan,Capex: $m,2036,33.57939531290545
+SouthSudan,Unmet reserve costs: $m,2024,30.91509661510089
+SouthSudan,Unmet reserve costs: $m,2030,4.288406135549086
+SouthSudan,Unmet reserve costs: $m,2036,14.2902936589224
+SouthSudan,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+SouthSudan,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+SouthSudan,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+SouthSudan,Import costs with internal zones: $m,2024,97.84994041761988
+SouthSudan,Import costs with internal zones: $m,2030,7.08941993903782
+SouthSudan,Import costs with internal zones: $m,2036,51.06794759900196
+SouthSudan,Export revenues with internal zones: $m,2024,-0.0014568645768889
+SouthSudan,Export revenues with internal zones: $m,2030,-0.2785661252464616
+SouthSudan,Export revenues with internal zones: $m,2036,-15.808812431744824
+SouthSudan,Trade shared benefits: $m,2024,-44.733847652506114
+SouthSudan,Trade shared benefits: $m,2030,-5.814308049077439
+SouthSudan,Trade shared benefits: $m,2036,-7.275556262874562
+SouthSudan,Trade Costs: $m,2024,53.11463590053688
+SouthSudan,Trade Costs: $m,2030,0.9965457647139196
+SouthSudan,Trade Costs: $m,2036,27.983578904382583
+SouthSudan,Total Annual Cost by Zone: $m,2024,2322.136997813677
+SouthSudan,Total Annual Cost by Zone: $m,2030,162.93423657098612
+SouthSudan,Total Annual Cost by Zone: $m,2036,138.68640558703703
+SouthSudan,Total Annual Cost by Zone with trade: $m,2024,2375.251633714214
+SouthSudan,Total Annual Cost by Zone with trade: $m,2030,163.93078233570003
+SouthSudan,Total Annual Cost by Zone with trade: $m,2036,166.6699844914196
+Sudan,Annualized capex: $m,2030,353.8863277728702
+Sudan,Annualized capex: $m,2036,702.7281576903505
+Sudan,Fixed O&M: $m,2024,57.8572
+Sudan,Fixed O&M: $m,2030,140.76934887788764
+Sudan,Fixed O&M: $m,2036,300.7942445962113
+Sudan,Variable O&M: $m,2024,60.586590029347526
+Sudan,Variable O&M: $m,2030,72.10146363957949
+Sudan,Variable O&M: $m,2036,57.07125994020241
+Sudan,Total fuel Costs: $m,2024,394.5861016115047
+Sudan,Total fuel Costs: $m,2030,592.887485092749
+Sudan,Total fuel Costs: $m,2036,0.0010634253094404
+Sudan,Transmission additions: $m,2036,35.787754773201286
+Sudan,Spinning Reserve costs: $m,2024,22.65116827949652
+Sudan,Spinning Reserve costs: $m,2030,30.963155743534763
+Sudan,Spinning Reserve costs: $m,2036,31.536211945479515
+Sudan,Unmet demand costs: $m,2024,291.925414247782
+Sudan,Unmet demand costs: $m,2030,0.000148416927533
+Sudan,Unmet demand costs: $m,2036,0.0001840487209738
+Sudan,Excess generation: $m,2024,0.000338954834266
+Sudan,Excess generation: $m,2030,7.875254821307104e-05
+Sudan,Excess generation: $m,2036,0.0001320758261075
+Sudan,Capex: $m,2024,1e-11
+Sudan,Capex: $m,2030,419.2545514408346
+Sudan,Capex: $m,2036,23.0074705916934
+Sudan,Unmet reserve costs: $m,2024,232.66310437416732
+Sudan,Unmet reserve costs: $m,2030,50.49782054393091
+Sudan,Unmet reserve costs: $m,2036,141.9349734711355
+Sudan,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Sudan,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Sudan,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Sudan,Import costs with internal zones: $m,2024,691.7469095272703
+Sudan,Import costs with internal zones: $m,2030,362.6471753607946
+Sudan,Import costs with internal zones: $m,2036,469.89761398216586
+Sudan,Export revenues with internal zones: $m,2024,-14.603065946194116
+Sudan,Export revenues with internal zones: $m,2030,-10.311803758655453
+Sudan,Export revenues with internal zones: $m,2036,-190.88263028534232
+Sudan,Trade shared benefits: $m,2024,-353.3644516544152
+Sudan,Trade shared benefits: $m,2030,-166.54809636477853
+Sudan,Trade shared benefits: $m,2036,-120.13784113067312
+Sudan,Trade Costs: $m,2024,323.77939192666094
+Sudan,Trade Costs: $m,2030,185.7872752373607
+Sudan,Trade Costs: $m,2036,158.8771425661504
+Sudan,Total Annual Cost by Zone: $m,2024,827.6068131229649
+Sudan,Total Annual Cost by Zone: $m,2030,1190.6080082960968
+Sudan,Total Annual Cost by Zone: $m,2036,1127.9190084953016
+Sudan,Total Annual Cost by Zone with trade: $m,2024,1151.386205049626
+Sudan,Total Annual Cost by Zone with trade: $m,2030,1376.3952835334576
+Sudan,Total Annual Cost by Zone with trade: $m,2036,1286.7961510614523
+Tanzania,Annualized capex: $m,2024,0.0054500608645639
+Tanzania,Annualized capex: $m,2030,382.2080911616579
+Tanzania,Annualized capex: $m,2036,972.3379531372436
+Tanzania,Fixed O&M: $m,2024,62.769627187140095
+Tanzania,Fixed O&M: $m,2030,256.69154346638254
+Tanzania,Fixed O&M: $m,2036,536.8677963555823
+Tanzania,Variable O&M: $m,2024,18.466896488212832
+Tanzania,Variable O&M: $m,2030,17.297639820995187
+Tanzania,Variable O&M: $m,2036,27.07849896866781
+Tanzania,Total fuel Costs: $m,2024,207.64791283511244
+Tanzania,Total fuel Costs: $m,2030,53.47063094687682
+Tanzania,Total fuel Costs: $m,2036,19.104433755351604
+Tanzania,Transmission additions: $m,2036,0.4430046871762392
+Tanzania,Spinning Reserve costs: $m,2024,14.454606433215334
+Tanzania,Spinning Reserve costs: $m,2030,14.914444752217584
+Tanzania,Spinning Reserve costs: $m,2036,14.914520794331912
+Tanzania,Unmet demand costs: $m,2024,0.0006936291396556
+Tanzania,Unmet demand costs: $m,2030,0.0003216678926782
+Tanzania,Unmet demand costs: $m,2036,0.0003881533641056
+Tanzania,Excess generation: $m,2024,0.0003760729483003
+Tanzania,Excess generation: $m,2030,0.0001215227350122
+Tanzania,Excess generation: $m,2036,0.0001501527020517
+Tanzania,Capex: $m,2024,1e-11
+Tanzania,Capex: $m,2030,182.0051621590912
+Tanzania,Capex: $m,2036,216.52955034774
+Tanzania,Unmet reserve costs: $m,2024,10.257654109664776
+Tanzania,Unmet reserve costs: $m,2030,0.000132584939256
+Tanzania,Unmet reserve costs: $m,2036,0.0001999941293828
+Tanzania,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Tanzania,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Tanzania,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Tanzania,Import costs with internal zones: $m,2024,255.1774049366641
+Tanzania,Import costs with internal zones: $m,2030,128.0517005891324
+Tanzania,Import costs with internal zones: $m,2036,133.6871048638186
+Tanzania,Export revenues with internal zones: $m,2024,-0.0188393993382243
+Tanzania,Export revenues with internal zones: $m,2030,-3.70688274767659
+Tanzania,Export revenues with internal zones: $m,2036,-7.520919978098221
+Tanzania,Trade shared benefits: $m,2024,-5.625699982684866
+Tanzania,Trade shared benefits: $m,2030,-2.0197180830833834
+Tanzania,Trade shared benefits: $m,2036,-7.909210156858754
+Tanzania,Trade Costs: $m,2024,249.53286555464103
+Tanzania,Trade Costs: $m,2030,122.32509975837245
+Tanzania,Trade Costs: $m,2036,118.2569747288616
+Tanzania,Total Annual Cost by Zone: $m,2024,303.3455627066332
+Tanzania,Total Annual Cost by Zone: $m,2030,724.5827933387576
+Tanzania,Total Annual Cost by Zone: $m,2036,1570.7467460044195
+Tanzania,Total Annual Cost by Zone with trade: $m,2024,552.8784282612743
+Tanzania,Total Annual Cost by Zone with trade: $m,2030,846.9078930971301
+Tanzania,Total Annual Cost by Zone with trade: $m,2036,1689.0037207332816
+Uganda,Annualized capex: $m,2024,162.34933216242058
+Uganda,Annualized capex: $m,2030,205.2414810312626
+Uganda,Annualized capex: $m,2036,293.7312593531777
+Uganda,Fixed O&M: $m,2024,66.45503941409393
+Uganda,Fixed O&M: $m,2030,87.4585361112054
+Uganda,Fixed O&M: $m,2036,129.30834370601136
+Uganda,Variable O&M: $m,2024,18.33750605065553
+Uganda,Variable O&M: $m,2030,16.467256445575046
+Uganda,Variable O&M: $m,2036,14.17370423387651
+Uganda,Total fuel Costs: $m,2024,0.0017013915441444
+Uganda,Total fuel Costs: $m,2030,0.0127627465706611
+Uganda,Total fuel Costs: $m,2036,0.006883245696772
+Uganda,Transmission additions: $m,2036,0.5907709798756307
+Uganda,Spinning Reserve costs: $m,2024,2.2728106424195973
+Uganda,Spinning Reserve costs: $m,2030,2.2886627002326976
+Uganda,Spinning Reserve costs: $m,2036,2.288757196103833
+Uganda,Unmet demand costs: $m,2024,0.0006607321238692
+Uganda,Unmet demand costs: $m,2030,0.0002654246002624
+Uganda,Unmet demand costs: $m,2036,0.0003192612068112
+Uganda,Excess generation: $m,2024,0.0004126163147414
+Uganda,Excess generation: $m,2030,0.0001122476664108
+Uganda,Excess generation: $m,2036,0.0001513712614551
+Uganda,Capex: $m,2024,1e-11
+Uganda,Capex: $m,2030,6.539147128911909
+Uganda,Capex: $m,2036,0.1060178318206949
+Uganda,Unmet reserve costs: $m,2024,0.0006166223370798
+Uganda,Unmet reserve costs: $m,2030,4.029634112499872
+Uganda,Unmet reserve costs: $m,2036,18.952968042218608
+Uganda,Unmet system reserve costs: $m,2024,3.8986134561924966e-05
+Uganda,Unmet system reserve costs: $m,2030,8.086619297656136e-06
+Uganda,Unmet system reserve costs: $m,2036,1.3683493434124516e-05
+Uganda,Import costs with internal zones: $m,2024,0.0175168644681664
+Uganda,Import costs with internal zones: $m,2030,10.45302004457893
+Uganda,Import costs with internal zones: $m,2036,18.78683179095459
+Uganda,Export revenues with internal zones: $m,2024,-116.07786883536863
+Uganda,Export revenues with internal zones: $m,2030,-21.474846504736743
+Uganda,Export revenues with internal zones: $m,2036,-30.456229687653003
+Uganda,Trade shared benefits: $m,2024,-4.227849768735583
+Uganda,Trade shared benefits: $m,2030,-0.5113221346879777
+Uganda,Trade shared benefits: $m,2036,-3.2647292023198244
+Uganda,Trade Costs: $m,2024,-120.28820173963608
+Uganda,Trade Costs: $m,2030,-11.533148594845793
+Uganda,Trade Costs: $m,2036,-14.93412709901824
+Uganda,Total Annual Cost by Zone: $m,2024,249.41746300957243
+Uganda,Total Annual Cost by Zone: $m,2030,311.46907670711306
+Uganda,Total Annual Cost by Zone: $m,2036,440.10018934721
+Uganda,Total Annual Cost by Zone with trade: $m,2024,129.12926126993634
+Uganda,Total Annual Cost by Zone with trade: $m,2030,299.9359281122672
+Uganda,Total Annual Cost by Zone with trade: $m,2036,425.1660622481918

@@ -43,6 +43,11 @@
 /epm/cplex.opt
 epm/output/*
 !epm/output/tableau/
+!epm/output/simulations_run_*/
+epm/output/simulations_run_*/**/*.gdx
+epm/output/simulations_run_*/**/*.log
+epm/output/simulations_run_*/**/*.lst
+epm/output/simulations_run_*/**/*.lxi
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
