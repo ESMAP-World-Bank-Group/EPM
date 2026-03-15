@@ -23,11 +23,11 @@ from config import APP_TITLE, THEME_NAME
 from pages import (
     home,
     overview,
-    capacity,
-    energy_mix,
-    emissions,
-    costs,
-    trade,
+    evolution,
+    zonal_comparison,
+    dispatch,
+    power_plants,
+    results_table,
     input_manager,
     input_settings,
     input_resolution,
@@ -64,7 +64,7 @@ NAV_ITEMS = [
         ("bi bi-house-fill",          "Home",              "home"),
     ]),
     ("INPUTS",   [
-        ("bi bi-folder2-open",        "Manage Inputs",     "input-manager"),
+        ("bi bi-folder2-open",        "Input Manager",     "input-manager"),
         ("bi bi-gear-fill",           "Settings",          "input-settings"),
         ("bi bi-grid-3x3",            "Resolution",        "input-resolution"),
         ("bi bi-graph-up",            "Demand",            "input-demand"),
@@ -81,11 +81,11 @@ NAV_ITEMS = [
     ]),
     ("RESULTS",  [
         ("bi bi-speedometer2",        "Overview",          "overview"),
-        ("bi bi-bar-chart-fill",      "Capacity",          "capacity"),
-        ("bi bi-pie-chart-fill",      "Energy Mix",        "energy-mix"),
-        ("bi bi-cloud-haze2",         "Emissions",         "emissions"),
-        ("bi bi-currency-dollar",     "Costs",             "costs"),
-        ("bi bi-arrow-left-right",    "Trade",             "trade"),
+        ("bi bi-bar-chart-fill",      "Evolution",         "evolution"),
+        ("bi bi-grid-1x2-fill",       "Zonal Comparison",  "zonal-comparison"),
+        ("bi bi-lightning-charge",    "Dispatch",          "dispatch"),
+        ("bi bi-building",            "Power Plants",      "power-plants"),
+        ("bi bi-table",               "Results Table",     "results-table"),
     ]),
 ]
 
@@ -153,40 +153,23 @@ def build_filter_bar() -> dbc.Card:
     run_options = [{"label": r, "value": r} for r in runs]
     default_run = runs[0] if runs else None
 
-    # Pre-populate scenarios for default run
-    scenarios = dl.list_scenarios(default_run) if default_run else []
-    scenario_options = [{"label": s, "value": s} for s in scenarios]
-
     return dbc.Card(
-        dbc.CardBody([
+        dbc.CardBody(
             dbc.Row([
                 dbc.Col([
                     dbc.Label("Simulation run", className="fw-semibold small"),
                     dcc.Dropdown(id="filter-run", options=run_options,
                                  value=default_run, clearable=False,
                                  className="small"),
-                ], width=3),
-                dbc.Col([
-                    dbc.Label("Scenarios", className="fw-semibold small"),
-                    dcc.Dropdown(id="filter-scenarios", options=scenario_options,
-                                 value=scenarios[:1], multi=True,
-                                 className="small"),
-                ], width=3),
-                dbc.Col([
-                    dbc.Label("Zones", className="fw-semibold small"),
-                    dcc.Dropdown(id="filter-zones", options=[], value=[],
-                                 multi=True, placeholder="All zones",
-                                 className="small"),
-                ], width=3),
-                dbc.Col([
-                    dbc.Label("Years", className="fw-semibold small"),
-                    dcc.RangeSlider(id="filter-years", min=2020, max=2050,
-                                    step=1, value=[2020, 2050],
-                                    marks={y: str(y) for y in range(2020, 2055, 5)},
-                                    tooltip={"placement": "bottom"}),
-                ], width=3),
+                ], width=4),
+                dbc.Col(
+                    html.Small("Select a run to explore results. "
+                               "Each results page has its own scenario / year / zone controls.",
+                               className="text-muted"),
+                    width=8, className="d-flex align-items-center",
+                ),
             ], align="center"),
-        ]),
+        ),
         className="mb-3 border-0 shadow-sm",
     )
 
@@ -240,53 +223,7 @@ def refresh_runs(pathname, current_run):
     return options, value
 
 
-# 1. Update scenarios when run changes
-@app.callback(
-    Output("filter-scenarios", "options"),
-    Output("filter-scenarios", "value"),
-    Input("filter-run", "value"),
-)
-def update_scenarios(run):
-    if not run:
-        return [], []
-    scenarios = dl.list_scenarios(run)
-    options   = [{"label": s, "value": s} for s in scenarios]
-    return options, scenarios[:1]
-
-
-# 2. Update zone options when run + scenarios change
-@app.callback(
-    Output("filter-zones", "options"),
-    Input("filter-run",       "value"),
-    Input("filter-scenarios", "value"),
-)
-def update_zones(run, scenarios):
-    if not run or not scenarios:
-        return []
-    zones = dl.get_zones(run, scenarios[0])
-    return [{"label": z, "value": z} for z in zones]
-
-
-# 3. Update year slider when run + scenario change
-@app.callback(
-    Output("filter-years", "min"),
-    Output("filter-years", "max"),
-    Output("filter-years", "marks"),
-    Output("filter-years", "value"),
-    Input("filter-run",       "value"),
-    Input("filter-scenarios", "value"),
-)
-def update_years(run, scenarios):
-    if not run or not scenarios:
-        return 2020, 2050, {}, [2020, 2050]
-    years = dl.get_years(run, scenarios[0])
-    if not years:
-        return 2020, 2050, {}, [2020, 2050]
-    marks = {y: str(y) for y in years}
-    return years[0], years[-1], marks, [years[0], years[-1]]
-
-
-# 4. Show active project in sidebar
+# 1. Show active project in sidebar
 @app.callback(
     Output("sidebar-project-label", "children"),
     Input("store-active-project", "data"),
@@ -303,26 +240,23 @@ def update_sidebar_project(project):
     Output("filter-bar-container", "style"),
     Input("url",                   "pathname"),
     State("filter-run",            "value"),
-    State("filter-scenarios",      "value"),
-    State("filter-zones",          "value"),
-    State("filter-years",          "value"),
     State("store-active-project",  "data"),
 )
-def render_page(pathname, run, sc_filter, zones, years, active_project):
+def render_page(pathname, run, active_project):
     path = (pathname or "/").lstrip("/") or "home"
 
-    RESULT_PAGES = {"overview", "capacity", "energy-mix",
-                    "emissions", "costs", "trade"}
+    RESULT_PAGES = {"overview", "evolution", "zonal-comparison",
+                    "dispatch", "power-plants", "results-table"}
     filter_style = {"display": "block"} if path in RESULT_PAGES else {"display": "none"}
 
     pages = {
         "home":              home.layout,
-        "overview":          lambda: overview.layout(run, sc_filter, zones, years),
-        "capacity":          lambda: capacity.layout(run, sc_filter, zones, years),
-        "energy-mix":        lambda: energy_mix.layout(run, sc_filter, zones, years),
-        "emissions":         lambda: emissions.layout(run, sc_filter, zones, years),
-        "costs":             lambda: costs.layout(run, sc_filter, zones, years),
-        "trade":             lambda: trade.layout(run, sc_filter, zones, years),
+        "overview":          overview.layout,
+        "evolution":         evolution.layout,
+        "zonal-comparison":  zonal_comparison.layout,
+        "dispatch":          dispatch.layout,
+        "power-plants":      power_plants.layout,
+        "results-table":     results_table.layout,
         "input-manager":     lambda: input_manager.layout(active_project),
         "input-settings":    lambda: input_settings.layout(active_project),
         "input-resolution":  lambda: input_resolution.layout(active_project),
