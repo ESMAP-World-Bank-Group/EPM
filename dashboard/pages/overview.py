@@ -1,5 +1,6 @@
 """Results — Overview page: KPI cards + summary charts."""
 
+import pandas as pd
 import dash_bootstrap_components as dbc
 from dash import html, dcc
 import data_loader as dl
@@ -37,15 +38,25 @@ def layout(run, scenarios, zones, years):
     df_nrg = dl.get_energy(run, scenarios)
     df_re  = dl.get_re_share(run, sc0, zones or None)
 
+    # Ensure year column is numeric
+    if not df_cap.empty and "y" in df_cap.columns:
+        df_cap["y"] = pd.to_numeric(df_cap["y"], errors="coerce")
+    if not df_nrg.empty and "y" in df_nrg.columns:
+        df_nrg["y"] = pd.to_numeric(df_nrg["y"], errors="coerce")
+
     # Filter by zone if selected
     if zones:
-        df_cap = df_cap[df_cap["z"].isin(zones)]
-        df_nrg = df_nrg[df_nrg["z"].isin(zones)]
+        if not df_cap.empty and "z" in df_cap.columns:
+            df_cap = df_cap[df_cap["z"].isin(zones)]
+        if not df_nrg.empty and "z" in df_nrg.columns:
+            df_nrg = df_nrg[df_nrg["z"].isin(zones)]
 
     # Filter by year range
     if years and len(years) == 2:
-        df_cap = df_cap[df_cap["y"].between(years[0], years[1])]
-        df_nrg = df_nrg[df_nrg["y"].between(years[0], years[1])]
+        if not df_cap.empty and "y" in df_cap.columns:
+            df_cap = df_cap[df_cap["y"].between(years[0], years[1])]
+        if not df_nrg.empty and "y" in df_nrg.columns:
+            df_nrg = df_nrg[df_nrg["y"].between(years[0], years[1])]
 
     # KPI values
     npv  = kpis.get("npv")

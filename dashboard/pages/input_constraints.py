@@ -33,8 +33,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Policy Constraints", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("const-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Edit carbon price trajectories and CO₂ emissions caps.",
                className="text-muted mb-3"),
@@ -58,6 +56,7 @@ def layout(active_project=None):
                         html.P("Carbon price trajectory ($/tCO₂).",
                                className="text-muted small"),
                         _grid("cp-grid"),
+                        html.Div(make_open_folder_btn("con-cp-open"), className="mt-1 mb-2"),
                     ], width=5),
                     dbc.Col([
                         dcc.Graph(id="cp-chart", config={"displayModeBar": False}),
@@ -76,6 +75,7 @@ def layout(active_project=None):
                         ], className="mb-2"),
                         html.H6("System-wide CO₂ cap (Mt)"),
                         _grid("em-sys-grid"),
+                        html.Div(make_open_folder_btn("con-ems-open"), className="mt-1 mb-2"),
                     ], width=6),
                     dbc.Col([
                         make_variant_bar("c-emc"),
@@ -86,6 +86,7 @@ def layout(active_project=None):
                         ], className="mb-2"),
                         html.H6("Country-level CO₂ cap (Mt)"),
                         _grid("em-cnt-grid"),
+                        html.Div(make_open_folder_btn("con-emc-open"), className="mt-1 mb-2"),
                     ], width=6),
                 ]),
             ]),
@@ -100,6 +101,7 @@ def layout(active_project=None):
                 html.P("Maximum annual fuel consumption by zone and fuel.",
                        className="text-muted small"),
                 _grid("fuel-lim-grid"),
+                html.Div(make_open_folder_btn("con-fl-open"), className="mt-1 mb-2"),
             ]),
         ]),
     ])
@@ -265,9 +267,44 @@ def dup_fl(n, v, name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("const-open-btn", "n_clicks"),
-          State("const-project", "value"), prevent_initial_call=True)
-def open_const_folder(n, folder):
+          Input("con-cp-open", "n_clicks"),
+          State("const-project", "value"),
+          State("c-cp-variant", "value"),
+          prevent_initial_call=True)
+def open_cp_csv(n, folder, variant):
     from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "carbon_price", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("con-ems-open", "n_clicks"),
+          State("const-project", "value"),
+          State("c-ems-variant", "value"),
+          prevent_initial_call=True)
+def open_ems_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "emissions_total", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("con-emc-open", "n_clicks"),
+          State("const-project", "value"),
+          State("c-emc-variant", "value"),
+          prevent_initial_call=True)
+def open_emc_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "emissions_country", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("con-fl-open", "n_clicks"),
+          State("const-project", "value"),
+          State("c-fl-variant", "value"),
+          prevent_initial_call=True)
+def open_fl_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "max_fuel", variant)

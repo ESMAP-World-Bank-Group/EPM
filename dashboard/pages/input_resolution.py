@@ -28,8 +28,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Resolution", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("res-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Define the spatial (zones/countries) and temporal (years, periods) resolution.",
                className="text-muted mb-3"),
@@ -54,6 +52,7 @@ def layout(active_project=None):
                         html.P("Zone → country mapping. Edit the 'c' column to reassign zones.",
                                className="text-muted small mb-2"),
                         _grid("zcmap-grid", "380px"),
+                        html.Div(make_open_folder_btn("res-zcmap-open"), className="mt-1 mb-2"),
                     ], width=4),
                     dbc.Col([
                         dcc.Graph(id="zcmap-chart", config={"displayModeBar": False},
@@ -75,6 +74,7 @@ def layout(active_project=None):
                         html.P("List of modelled planning years.",
                                className="text-muted small mb-2"),
                         _grid("years-grid", "340px"),
+                        html.Div(make_open_folder_btn("res-years-open"), className="mt-1 mb-2"),
                     ], width=5),
                 ]),
             ]),
@@ -92,6 +92,7 @@ def layout(active_project=None):
                         html.P("Representative periods (q × d) and their hourly weights.",
                                className="text-muted small mb-2"),
                         _grid("phours-grid", "380px"),
+                        html.Div(make_open_folder_btn("res-ph-open"), className="mt-1 mb-2"),
                     ], width=6),
                     dbc.Col([
                         dcc.Graph(id="phours-chart", config={"displayModeBar": False},
@@ -405,9 +406,32 @@ def dup_phours(n, v, name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("res-open-btn", "n_clicks"),
-          State("res-project", "value"), prevent_initial_call=True)
-def open_res_folder(n, folder):
+          Input("res-zcmap-open", "n_clicks"),
+          State("res-project", "value"),
+          prevent_initial_call=True)
+def open_zcmap_csv(n, folder):
     from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "zcmap_input", None)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("res-years-open", "n_clicks"),
+          State("res-project", "value"),
+          State("res-y-variant", "value"),
+          prevent_initial_call=True)
+def open_years_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "years", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("res-ph-open", "n_clicks"),
+          State("res-project", "value"),
+          State("res-ph-variant", "value"),
+          prevent_initial_call=True)
+def open_phours_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "phours", variant)

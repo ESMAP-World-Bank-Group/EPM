@@ -201,6 +201,7 @@ app.layout = html.Div([
     # Store shared state across callbacks
     dcc.Store(id="store-active-project", storage_type="session"),
     dcc.Store(id="store-active-job",     storage_type="session"),
+    dcc.Store(id="run-config-store",     storage_type="session"),
     dcc.Store(id="open-file-store",      storage_type="memory"),
     html.Div(id="open-file-dummy",       style={"display": "none"}),
 
@@ -224,6 +225,20 @@ app.layout = html.Div([
 # ---------------------------------------------------------------------------
 # Callbacks
 # ---------------------------------------------------------------------------
+
+# 0. Refresh available simulation runs on every navigation
+@app.callback(
+    Output("filter-run", "options"),
+    Output("filter-run", "value"),
+    Input("url", "pathname"),
+    State("filter-run", "value"),
+)
+def refresh_runs(pathname, current_run):
+    runs    = dl.list_runs()
+    options = [{"label": r, "value": r} for r in runs]
+    value   = current_run if current_run in runs else (runs[0] if runs else None)
+    return options, value
+
 
 # 1. Update scenarios when run changes
 @app.callback(

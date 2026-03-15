@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "linestring_countries",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "z_other": "Rwanda", "z": "Burundi", "country_ini_lat": -3.3574253364136166, "country_ini_lon": 29.875082694422883, "lat_linestring": -2.6750879321538421, "lon_linestring": 29.89707169950805, "c": "Burundi", "c2": "Rwanda" }, "geometry": { "type": "LineString", "coordinates": [ [ 29.875082694422883, -3.357425336413617 ], [ 29.919060704593214, -1.992750527894068 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "Burundi", "z": "Rwanda", "country_ini_lat": -1.9927505278940678, "country_ini_lon": 29.919060704593214, "lat_linestring": -2.6750879321538421, "lon_linestring": 29.89707169950805, "c": "Rwanda", "c2": "Burundi" }, "geometry": { "type": "LineString", "coordinates": [ [ 29.919060704593214, -1.992750527894068 ], [ 29.875082694422883, -3.357425336413617 ] ] } }
+]
+}

@@ -253,4 +253,4 @@ def dup_settings(n, variant, new_name, folder):
 def open_settings_folder(n, folder):
     from dash import no_update
     if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    return str(INPUT_ROOT / folder / "pSettings.csv")

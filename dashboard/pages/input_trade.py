@@ -32,8 +32,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Trade & Transmission", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("trade-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Edit interconnection capacities, candidate new lines and trade prices.",
                className="text-muted mb-3"),
@@ -56,6 +54,7 @@ def layout(active_project=None):
                         html.P("Existing interconnection capacity between zones (MW).",
                                className="text-muted small"),
                         _grid("tl-grid"),
+                        html.Div(make_open_folder_btn("trade-tl-open"), className="mt-1 mb-2"),
                     ], width=5),
                     dbc.Col([
                         dbc.Row([
@@ -88,6 +87,7 @@ def layout(active_project=None):
                 html.P("Candidate new transmission lines.",
                        className="text-muted small"),
                 _grid("nt-grid"),
+                html.Div(make_open_folder_btn("trade-nt-open"), className="mt-1 mb-2"),
             ]),
             dbc.Tab(label="Trade Prices", tab_id="tab-tp", children=[
                 dbc.Row(className="mt-3", children=[
@@ -101,6 +101,7 @@ def layout(active_project=None):
                         html.P("Import/export prices with external zones ($/MWh).",
                                className="text-muted small"),
                         _grid("tp-grid"),
+                        html.Div(make_open_folder_btn("trade-tp-open"), className="mt-1 mb-2"),
                     ], width=6),
                     dbc.Col([
                         dbc.Row([
@@ -132,6 +133,7 @@ def layout(active_project=None):
                 html.P("Max capacity for imports/exports with external zones (MW).",
                        className="text-muted small"),
                 _grid("etl-grid"),
+                html.Div(make_open_folder_btn("trade-etl-open"), className="mt-1 mb-2"),
             ]),
         ]),
     ])
@@ -576,9 +578,40 @@ def dup_etl(n, v, name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("trade-open-btn", "n_clicks"),
-          State("trade-project", "value"), prevent_initial_call=True)
-def open_trade_folder(n, folder):
-    from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+          Input("trade-tl-open", "n_clicks"),
+          State("trade-project", "value"),
+          State("t-tl-variant", "value"),
+          prevent_initial_call=True)
+def open_tl_csv(n, folder, variant):
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "transfer_limit", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("trade-nt-open", "n_clicks"),
+          State("trade-project", "value"),
+          State("t-nt-variant", "value"),
+          prevent_initial_call=True)
+def open_nt_csv(n, folder, variant):
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "new_transmission", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("trade-tp-open", "n_clicks"),
+          State("trade-project", "value"),
+          State("t-tp-variant", "value"),
+          prevent_initial_call=True)
+def open_tp_csv(n, folder, variant):
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "trade_price", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("trade-etl-open", "n_clicks"),
+          State("trade-project", "value"),
+          State("t-etl-variant", "value"),
+          prevent_initial_call=True)
+def open_etl_csv(n, folder, variant):
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "ext_transfer", variant)

@@ -31,8 +31,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Reserve Requirements", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("reserve-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Edit planning reserve margins and spinning reserve requirements.",
                className="text-muted mb-3"),
@@ -55,6 +53,7 @@ def layout(active_project=None):
                         html.P("Required planning reserve margin as a fraction (0.15 = 15%).",
                                className="text-muted small"),
                         _grid("prm2-grid"),
+                        html.Div(make_open_folder_btn("rsv-prm-open"), className="mt-1 mb-2"),
                     ], width=8),
                 ]),
             ]),
@@ -68,6 +67,7 @@ def layout(active_project=None):
                 html.P("Country-level spinning reserve requirement. Tip: typically set to cover the largest single generating unit in the zone.",
                        className="text-muted small"),
                 _grid("src-grid"),
+                html.Div(make_open_folder_btn("rsv-src-open"), className="mt-1 mb-2"),
             ]),
             dbc.Tab(label="Spinning Reserve (System)", tab_id="tab-srs", children=[
                 make_variant_bar("r-srs"),
@@ -79,6 +79,7 @@ def layout(active_project=None):
                 html.P("System-wide spinning reserve requirement. Tip: typically set to cover the largest single generating unit in the system.",
                        className="text-muted small"),
                 _grid("srs-grid"),
+                html.Div(make_open_folder_btn("rsv-srs-open"), className="mt-1 mb-2"),
             ]),
         ]),
     ])
@@ -194,9 +195,33 @@ def dup_srs(n, v, name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("reserve-open-btn", "n_clicks"),
-          State("reserve-project", "value"), prevent_initial_call=True)
-def open_reserve_folder(n, folder):
+          Input("rsv-prm-open", "n_clicks"),
+          State("reserve-project", "value"),
+          State("r-prm-variant", "value"),
+          prevent_initial_call=True)
+def open_prm_csv(n, folder, variant):
     from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "planning_reserve", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("rsv-src-open", "n_clicks"),
+          State("reserve-project", "value"),
+          State("r-src-variant", "value"),
+          prevent_initial_call=True)
+def open_src_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "spinning_country", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("rsv-srs-open", "n_clicks"),
+          State("reserve-project", "value"),
+          State("r-srs-variant", "value"),
+          prevent_initial_call=True)
+def open_srs_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "spinning_system", variant)

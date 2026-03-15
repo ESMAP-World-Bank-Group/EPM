@@ -54,13 +54,20 @@ def _load_csv(path: str) -> pd.DataFrame:
 def load_output(run: str, scenario: str, key: str) -> pd.DataFrame:
     """
     Load an output CSV by its config key (e.g. 'capacity', 'energy').
-    Returns empty DataFrame if file not found.
+    CSV[key] may be a list of candidate filenames; the first that exists wins.
+    Returns empty DataFrame if no file is found.
     """
-    filename = CSV.get(key)
-    if not filename:
+    candidates = CSV.get(key)
+    if not candidates:
         return pd.DataFrame()
-    path = OUTPUT_ROOT / run / scenario / "output_csv" / filename
-    return _load_csv(str(path))
+    if isinstance(candidates, str):
+        candidates = [candidates]
+    base = OUTPUT_ROOT / run / scenario / "output_csv"
+    for filename in candidates:
+        df = _load_csv(str(base / filename))
+        if not df.empty:
+            return df
+    return pd.DataFrame()
 
 
 def load_output_multi(run: str, scenarios: list[str], key: str) -> pd.DataFrame:
@@ -177,9 +184,9 @@ def get_kpis(run: str, scenario: str) -> dict:
                              total_emissions, total_investment.
     """
     df = get_summary(run, scenario)
-    if df.empty:
+    if df.empty or "uni" not in df.columns:
         return {}
-    kv = df.set_index("uni")["value"].to_dict()
+    kv = pd.to_numeric(df.set_index("uni")["value"], errors="coerce").to_dict()
     return {
         "npv":              kv.get("NPV of system cost: $m"),
         "total_capacity":   kv.get("Total Capacity Added: MW"),
@@ -431,6 +438,21 @@ def load_variant(folder: str, key: str, variant: str | None = None) -> pd.DataFr
     path = (INPUT_ROOT / folder / subfolder / filename) if subfolder \
            else (INPUT_ROOT / folder / filename)
     return _load_input_csv(str(path))
+
+
+def resolve_variant_path(folder: str, key: str, variant: str | None = None) -> str:
+    """Return the absolute file path for a given input key + variant."""
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return ""
+    subfolder, filename = spec
+    if variant and variant != "Baseline":
+        filename = f"{Path(filename).stem}_{variant}.csv"
+    if subfolder:
+        path = INPUT_ROOT / folder / subfolder / filename
+    else:
+        path = INPUT_ROOT / folder / filename
+    return str(path)
 
 
 def save_variant(folder: str, key: str, variant: str | None, df: pd.DataFrame) -> bool:

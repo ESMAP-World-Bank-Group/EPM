@@ -51,8 +51,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Demand Inputs", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("demand-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Edit demand forecast, load profiles and energy efficiency factors.",
                className="text-muted mb-3"),
@@ -76,6 +74,7 @@ def layout(active_project=None):
                         html.P("Wide format: rows = zones × types, columns = years.",
                                className="text-muted small mb-1"),
                         _grid("demand-grid"),
+                        html.Div(make_open_folder_btn("dem-dem-open"), className="mt-1 mb-2"),
                     ], width=6),
                     dbc.Col([
                         dbc.Row([
@@ -124,6 +123,7 @@ def layout(active_project=None):
                         html.P("Energy efficiency reduction factor per zone/year.",
                                className="text-muted small mb-1"),
                         _grid("eff-grid"),
+                        html.Div(make_open_folder_btn("dem-eff-open"), className="mt-1 mb-2"),
                     ], width=6),
                     dbc.Col([
                         dcc.Graph(id="eff-chart", config={"displayModeBar": False}),
@@ -466,9 +466,22 @@ def dup_eff(n, variant, new_name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("demand-open-btn", "n_clicks"),
-          State("demand-project", "value"), prevent_initial_call=True)
-def open_demand_folder(n, folder):
+          Input("dem-dem-open", "n_clicks"),
+          State("demand-project", "value"),
+          State("d-dem-variant", "value"),
+          prevent_initial_call=True)
+def open_dem_csv(n, folder, variant):
     from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "demand_forecast", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("dem-eff-open", "n_clicks"),
+          State("demand-project", "value"),
+          State("d-eff-variant", "value"),
+          prevent_initial_call=True)
+def open_eff_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "efficiency", variant)

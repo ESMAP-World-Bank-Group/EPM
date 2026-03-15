@@ -1,0 +1,346 @@
+z,y,uni,value
+Burundi,2026,Carbon costs: $m,0
+Burundi,2026,Excess generation: $m,0
+Burundi,2026,Export revenues with external zones: $m,0
+Burundi,2026,Export revenues with internal zones: $m,0
+Burundi,2026,Fixed O&M: $m,5.388999999999999
+Burundi,2026,Fuel costs: $m,95.58301428000033
+Burundi,2026,Generation costs: $m,0
+Burundi,2026,Import costs with external zones: $m,0
+Burundi,2026,Import costs with internal zones: $m,0
+Burundi,2026,NPV of system cost: $m,0
+Burundi,2026,Spinning reserve costs: $m,0
+Burundi,2026,Startup costs: $m,0
+Burundi,2026,Trade shared benefits: $m,0
+Burundi,2026,Transmission costs: $m,0
+Burundi,2026,Unmet country CO2 backstop cost: $m,0
+Burundi,2026,Unmet country planning reserve costs: $m,9.4082836416
+Burundi,2026,Unmet country spinning reserve costs: $m,0
+Burundi,2026,Unmet demand costs: $m,732.0260378449876
+Burundi,2026,Unmet system CO2 backstop cost: $m,0
+Burundi,2026,Unmet system planning reserve costs: $m,0
+Burundi,2026,Unmet system spinning reserve costs: $m,0
+Burundi,2026,VRE curtailment: $m,0
+Burundi,2026,Variable O&M: $m,2.79356406000002
+Djibouti,2026,Carbon costs: $m,0
+Djibouti,2026,Excess generation: $m,0
+Djibouti,2026,Export revenues with external zones: $m,0
+Djibouti,2026,Export revenues with internal zones: $m,EPS
+Djibouti,2026,Fixed O&M: $m,0.9872
+Djibouti,2026,Fuel costs: $m,8.894602987137596
+Djibouti,2026,Generation costs: $m,0
+Djibouti,2026,Import costs with external zones: $m,0
+Djibouti,2026,Import costs with internal zones: $m,55.86387869137097
+Djibouti,2026,NPV of system cost: $m,0
+Djibouti,2026,Spinning reserve costs: $m,0
+Djibouti,2026,Startup costs: $m,0
+Djibouti,2026,Trade shared benefits: $m,-27.931939345685485
+Djibouti,2026,Transmission costs: $m,0
+Djibouti,2026,Unmet country CO2 backstop cost: $m,0
+Djibouti,2026,Unmet country planning reserve costs: $m,0
+Djibouti,2026,Unmet country spinning reserve costs: $m,0.0022169108981371084
+Djibouti,2026,Unmet demand costs: $m,0
+Djibouti,2026,Unmet system CO2 backstop cost: $m,0
+Djibouti,2026,Unmet system planning reserve costs: $m,0
+Djibouti,2026,Unmet system spinning reserve costs: $m,0
+Djibouti,2026,VRE curtailment: $m,0
+Djibouti,2026,Variable O&M: $m,5.813451776167514
+Drc_E,2026,Carbon costs: $m,0
+Drc_E,2026,Excess generation: $m,0
+Drc_E,2026,Export revenues with external zones: $m,0
+Drc_E,2026,Export revenues with internal zones: $m,0
+Drc_E,2026,Fixed O&M: $m,1.6621124999999999
+Drc_E,2026,Fuel costs: $m,0
+Drc_E,2026,Generation costs: $m,0
+Drc_E,2026,Import costs with external zones: $m,0
+Drc_E,2026,Import costs with internal zones: $m,0
+Drc_E,2026,NPV of system cost: $m,0
+Drc_E,2026,Spinning reserve costs: $m,0
+Drc_E,2026,Startup costs: $m,0
+Drc_E,2026,Trade shared benefits: $m,0
+Drc_E,2026,Transmission costs: $m,0
+Drc_E,2026,Unmet country CO2 backstop cost: $m,0
+Drc_E,2026,Unmet country planning reserve costs: $m,1.5793385508000009
+Drc_E,2026,Unmet country spinning reserve costs: $m,7.074378507952644
+Drc_E,2026,Unmet demand costs: $m,133.16234740248123
+Drc_E,2026,Unmet system CO2 backstop cost: $m,0
+Drc_E,2026,Unmet system planning reserve costs: $m,0
+Drc_E,2026,Unmet system spinning reserve costs: $m,0
+Drc_E,2026,VRE curtailment: $m,0
+Drc_E,2026,Variable O&M: $m,1.3847195319094
+Egypt,2026,Carbon costs: $m,0
+Egypt,2026,Excess generation: $m,0
+Egypt,2026,Export revenues with external zones: $m,0
+Egypt,2026,Export revenues with internal zones: $m,-258.9647828906794
+Egypt,2026,Fixed O&M: $m,1521.5209399999999
+Egypt,2026,Fuel costs: $m,13424.367415019331
+Egypt,2026,Generation costs: $m,0
+Egypt,2026,Import costs with external zones: $m,0
+Egypt,2026,Import costs with internal zones: $m,57.35366085214186
+Egypt,2026,NPV of system cost: $m,0
+Egypt,2026,Spinning reserve costs: $m,0
+Egypt,2026,Startup costs: $m,0
+Egypt,2026,Trade shared benefits: $m,-379.5677454032169
+Egypt,2026,Transmission costs: $m,0
+Egypt,2026,Unmet country CO2 backstop cost: $m,0
+Egypt,2026,Unmet country planning reserve costs: $m,0
+Egypt,2026,Unmet country spinning reserve costs: $m,0
+Egypt,2026,Unmet demand costs: $m,0
+Egypt,2026,Unmet system CO2 backstop cost: $m,0
+Egypt,2026,Unmet system planning reserve costs: $m,0
+Egypt,2026,Unmet system spinning reserve costs: $m,0
+Egypt,2026,VRE curtailment: $m,0
+Egypt,2026,Variable O&M: $m,600.2283950589573
+Ethiopia,2026,Carbon costs: $m,0
+Ethiopia,2026,Excess generation: $m,0
+Ethiopia,2026,Export revenues with external zones: $m,0
+Ethiopia,2026,Export revenues with internal zones: $m,EPS
+Ethiopia,2026,Fixed O&M: $m,211.95152
+Ethiopia,2026,Fuel costs: $m,0
+Ethiopia,2026,Generation costs: $m,0
+Ethiopia,2026,Import costs with external zones: $m,0
+Ethiopia,2026,Import costs with internal zones: $m,EPS
+Ethiopia,2026,NPV of system cost: $m,0
+Ethiopia,2026,Spinning reserve costs: $m,0
+Ethiopia,2026,Startup costs: $m,0
+Ethiopia,2026,Trade shared benefits: $m,-254.07363985214556
+Ethiopia,2026,Transmission costs: $m,0
+Ethiopia,2026,Unmet country CO2 backstop cost: $m,0
+Ethiopia,2026,Unmet country planning reserve costs: $m,0
+Ethiopia,2026,Unmet country spinning reserve costs: $m,0
+Ethiopia,2026,Unmet demand costs: $m,0
+Ethiopia,2026,Unmet system CO2 backstop cost: $m,0
+Ethiopia,2026,Unmet system planning reserve costs: $m,0
+Ethiopia,2026,Unmet system spinning reserve costs: $m,0
+Ethiopia,2026,VRE curtailment: $m,0
+Ethiopia,2026,Variable O&M: $m,0
+Kenya,2026,Carbon costs: $m,0
+Kenya,2026,Excess generation: $m,0
+Kenya,2026,Export revenues with external zones: $m,0
+Kenya,2026,Export revenues with internal zones: $m,-300.4540013416255
+Kenya,2026,Fixed O&M: $m,246.7472726947741
+Kenya,2026,Fuel costs: $m,4.990069999999999
+Kenya,2026,Generation costs: $m,0
+Kenya,2026,Import costs with external zones: $m,0
+Kenya,2026,Import costs with internal zones: $m,63.57414805009586
+Kenya,2026,NPV of system cost: $m,0
+Kenya,2026,Spinning reserve costs: $m,0
+Kenya,2026,Startup costs: $m,0
+Kenya,2026,Trade shared benefits: $m,-43.76357687669377
+Kenya,2026,Transmission costs: $m,0
+Kenya,2026,Unmet country CO2 backstop cost: $m,0
+Kenya,2026,Unmet country planning reserve costs: $m,0
+Kenya,2026,Unmet country spinning reserve costs: $m,0.31543996996301593
+Kenya,2026,Unmet demand costs: $m,0
+Kenya,2026,Unmet system CO2 backstop cost: $m,0
+Kenya,2026,Unmet system planning reserve costs: $m,0
+Kenya,2026,Unmet system spinning reserve costs: $m,0
+Kenya,2026,VRE curtailment: $m,0
+Kenya,2026,Variable O&M: $m,2.425463473231232
+Libya,2026,Carbon costs: $m,0
+Libya,2026,Excess generation: $m,0
+Libya,2026,Export revenues with external zones: $m,0
+Libya,2026,Export revenues with internal zones: $m,-0.0027411811917376727
+Libya,2026,Fixed O&M: $m,69.50586
+Libya,2026,Fuel costs: $m,3550.5744068033073
+Libya,2026,Generation costs: $m,0
+Libya,2026,Import costs with external zones: $m,0
+Libya,2026,Import costs with internal zones: $m,525.3656391966821
+Libya,2026,NPV of system cost: $m,0
+Libya,2026,Spinning reserve costs: $m,0
+Libya,2026,Startup costs: $m,0
+Libya,2026,Trade shared benefits: $m,-207.95717990446354
+Libya,2026,Transmission costs: $m,0
+Libya,2026,Unmet country CO2 backstop cost: $m,0
+Libya,2026,Unmet country planning reserve costs: $m,260.05142317272345
+Libya,2026,Unmet country spinning reserve costs: $m,141.35648454552563
+Libya,2026,Unmet demand costs: $m,3044.865612731271
+Libya,2026,Unmet system CO2 backstop cost: $m,0
+Libya,2026,Unmet system planning reserve costs: $m,0
+Libya,2026,Unmet system spinning reserve costs: $m,0
+Libya,2026,VRE curtailment: $m,0
+Libya,2026,Variable O&M: $m,278.51589156108855
+Mogadishu,2026,Carbon costs: $m,0
+Mogadishu,2026,Excess generation: $m,0
+Mogadishu,2026,Export revenues with external zones: $m,0
+Mogadishu,2026,Export revenues with internal zones: $m,0
+Mogadishu,2026,Fixed O&M: $m,0
+Mogadishu,2026,Fuel costs: $m,0
+Mogadishu,2026,Generation costs: $m,0
+Mogadishu,2026,Import costs with external zones: $m,0
+Mogadishu,2026,Import costs with internal zones: $m,0
+Mogadishu,2026,NPV of system cost: $m,0
+Mogadishu,2026,Spinning reserve costs: $m,0
+Mogadishu,2026,Startup costs: $m,0
+Mogadishu,2026,Trade shared benefits: $m,0
+Mogadishu,2026,Transmission costs: $m,0
+Mogadishu,2026,Unmet country CO2 backstop cost: $m,0
+Mogadishu,2026,Unmet country planning reserve costs: $m,1.5406567164179104
+Mogadishu,2026,Unmet country spinning reserve costs: $m,4.008837492537305
+Mogadishu,2026,Unmet demand costs: $m,135.99999999999977
+Mogadishu,2026,Unmet system CO2 backstop cost: $m,0
+Mogadishu,2026,Unmet system planning reserve costs: $m,0
+Mogadishu,2026,Unmet system spinning reserve costs: $m,0
+Mogadishu,2026,VRE curtailment: $m,0
+Mogadishu,2026,Variable O&M: $m,0
+Rwanda,2026,Carbon costs: $m,0
+Rwanda,2026,Excess generation: $m,0
+Rwanda,2026,Export revenues with external zones: $m,0
+Rwanda,2026,Export revenues with internal zones: $m,-0.0013316432910792176
+Rwanda,2026,Fixed O&M: $m,16.218899999999998
+Rwanda,2026,Fuel costs: $m,19.694567134455266
+Rwanda,2026,Generation costs: $m,0
+Rwanda,2026,Import costs with external zones: $m,0
+Rwanda,2026,Import costs with internal zones: $m,42.098311022580944
+Rwanda,2026,NPV of system cost: $m,0
+Rwanda,2026,Spinning reserve costs: $m,1.6407787224783215
+Rwanda,2026,Startup costs: $m,0
+Rwanda,2026,Trade shared benefits: $m,-1.0524928188090248
+Rwanda,2026,Transmission costs: $m,0
+Rwanda,2026,Unmet country CO2 backstop cost: $m,0
+Rwanda,2026,Unmet country planning reserve costs: $m,0
+Rwanda,2026,Unmet country spinning reserve costs: $m,0
+Rwanda,2026,Unmet demand costs: $m,0
+Rwanda,2026,Unmet system CO2 backstop cost: $m,0
+Rwanda,2026,Unmet system planning reserve costs: $m,0
+Rwanda,2026,Unmet system spinning reserve costs: $m,0
+Rwanda,2026,VRE curtailment: $m,0
+Rwanda,2026,Variable O&M: $m,1.6539559377811055
+SomaliaROC,2026,Carbon costs: $m,0
+SomaliaROC,2026,Excess generation: $m,0
+SomaliaROC,2026,Export revenues with external zones: $m,0
+SomaliaROC,2026,Export revenues with internal zones: $m,0
+SomaliaROC,2026,Fixed O&M: $m,0
+SomaliaROC,2026,Fuel costs: $m,0
+SomaliaROC,2026,Generation costs: $m,0
+SomaliaROC,2026,Import costs with external zones: $m,0
+SomaliaROC,2026,Import costs with internal zones: $m,0
+SomaliaROC,2026,NPV of system cost: $m,0
+SomaliaROC,2026,Spinning reserve costs: $m,0
+SomaliaROC,2026,Startup costs: $m,0
+SomaliaROC,2026,Trade shared benefits: $m,0
+SomaliaROC,2026,Transmission costs: $m,0
+SomaliaROC,2026,Unmet country CO2 backstop cost: $m,0
+SomaliaROC,2026,Unmet country planning reserve costs: $m,1.4500298507462692
+SomaliaROC,2026,Unmet country spinning reserve costs: $m,3.773023522388054
+SomaliaROC,2026,Unmet demand costs: $m,127.99999999999994
+SomaliaROC,2026,Unmet system CO2 backstop cost: $m,0
+SomaliaROC,2026,Unmet system planning reserve costs: $m,0
+SomaliaROC,2026,Unmet system spinning reserve costs: $m,0
+SomaliaROC,2026,VRE curtailment: $m,0
+SomaliaROC,2026,Variable O&M: $m,0
+Somaliland,2026,Carbon costs: $m,0
+Somaliland,2026,Excess generation: $m,0
+Somaliland,2026,Export revenues with external zones: $m,0
+Somaliland,2026,Export revenues with internal zones: $m,0
+Somaliland,2026,Fixed O&M: $m,0
+Somaliland,2026,Fuel costs: $m,0
+Somaliland,2026,Generation costs: $m,0
+Somaliland,2026,Import costs with external zones: $m,0
+Somaliland,2026,Import costs with internal zones: $m,0
+Somaliland,2026,NPV of system cost: $m,0
+Somaliland,2026,Spinning reserve costs: $m,0
+Somaliland,2026,Startup costs: $m,0
+Somaliland,2026,Trade shared benefits: $m,0
+Somaliland,2026,Transmission costs: $m,0
+Somaliland,2026,Unmet country CO2 backstop cost: $m,0
+Somaliland,2026,Unmet country planning reserve costs: $m,1.56331343283582
+Somaliland,2026,Unmet country spinning reserve costs: $m,4.067790985074616
+Somaliland,2026,Unmet demand costs: $m,138.0000000000001
+Somaliland,2026,Unmet system CO2 backstop cost: $m,0
+Somaliland,2026,Unmet system planning reserve costs: $m,0
+Somaliland,2026,Unmet system spinning reserve costs: $m,0
+Somaliland,2026,VRE curtailment: $m,0
+Somaliland,2026,Variable O&M: $m,0
+SouthSudan,2026,Carbon costs: $m,0
+SouthSudan,2026,Excess generation: $m,0
+SouthSudan,2026,Export revenues with external zones: $m,0
+SouthSudan,2026,Export revenues with internal zones: $m,0
+SouthSudan,2026,Fixed O&M: $m,1.8199999999999998
+SouthSudan,2026,Fuel costs: $m,159.13615027200066
+SouthSudan,2026,Generation costs: $m,0
+SouthSudan,2026,Import costs with external zones: $m,0
+SouthSudan,2026,Import costs with internal zones: $m,97.848
+SouthSudan,2026,NPV of system cost: $m,0
+SouthSudan,2026,Spinning reserve costs: $m,0
+SouthSudan,2026,Startup costs: $m,0
+SouthSudan,2026,Trade shared benefits: $m,-42.84226867592956
+SouthSudan,2026,Transmission costs: $m,0
+SouthSudan,2026,Unmet country CO2 backstop cost: $m,0
+SouthSudan,2026,Unmet country planning reserve costs: $m,35.5300830894
+SouthSudan,2026,Unmet country spinning reserve costs: $m,0
+SouthSudan,2026,Unmet demand costs: $m,2613.904399999999
+SouthSudan,2026,Unmet system CO2 backstop cost: $m,0
+SouthSudan,2026,Unmet system planning reserve costs: $m,0
+SouthSudan,2026,Unmet system spinning reserve costs: $m,0
+SouthSudan,2026,VRE curtailment: $m,0
+SouthSudan,2026,Variable O&M: $m,31.16151000000016
+Sudan,2026,Carbon costs: $m,0
+Sudan,2026,Excess generation: $m,0
+Sudan,2026,Export revenues with external zones: $m,0
+Sudan,2026,Export revenues with internal zones: $m,-32.706620219273795
+Sudan,2026,Fixed O&M: $m,64.63162
+Sudan,2026,Fuel costs: $m,638.19263185757
+Sudan,2026,Generation costs: $m,0
+Sudan,2026,Import costs with external zones: $m,0
+Sudan,2026,Import costs with internal zones: $m,844.6361253634398
+Sudan,2026,NPV of system cost: $m,0
+Sudan,2026,Spinning reserve costs: $m,0
+Sudan,2026,Startup costs: $m,0
+Sudan,2026,Trade shared benefits: $m,-408.80746065609515
+Sudan,2026,Transmission costs: $m,0
+Sudan,2026,Unmet country CO2 backstop cost: $m,0
+Sudan,2026,Unmet country planning reserve costs: $m,102.57792114467392
+Sudan,2026,Unmet country spinning reserve costs: $m,118.78905557598517
+Sudan,2026,Unmet demand costs: $m,323.0191556398218
+Sudan,2026,Unmet system CO2 backstop cost: $m,0
+Sudan,2026,Unmet system planning reserve costs: $m,0
+Sudan,2026,Unmet system spinning reserve costs: $m,0
+Sudan,2026,VRE curtailment: $m,0
+Sudan,2026,Variable O&M: $m,60.30394351923092
+Tanzania,2026,Carbon costs: $m,0
+Tanzania,2026,Excess generation: $m,0
+Tanzania,2026,Export revenues with external zones: $m,0
+Tanzania,2026,Export revenues with internal zones: $m,-4.249924503939341
+Tanzania,2026,Fixed O&M: $m,34.077250662338834
+Tanzania,2026,Fuel costs: $m,52.5464795923282
+Tanzania,2026,Generation costs: $m,0
+Tanzania,2026,Import costs with external zones: $m,0
+Tanzania,2026,Import costs with internal zones: $m,321.5432378363892
+Tanzania,2026,NPV of system cost: $m,0
+Tanzania,2026,Spinning reserve costs: $m,0
+Tanzania,2026,Startup costs: $m,0
+Tanzania,2026,Trade shared benefits: $m,-12.078623474681
+Tanzania,2026,Transmission costs: $m,0
+Tanzania,2026,Unmet country CO2 backstop cost: $m,0
+Tanzania,2026,Unmet country planning reserve costs: $m,0
+Tanzania,2026,Unmet country spinning reserve costs: $m,0.007952011660911345
+Tanzania,2026,Unmet demand costs: $m,0
+Tanzania,2026,Unmet system CO2 backstop cost: $m,0
+Tanzania,2026,Unmet system planning reserve costs: $m,0
+Tanzania,2026,Unmet system spinning reserve costs: $m,0
+Tanzania,2026,VRE curtailment: $m,0
+Tanzania,2026,Variable O&M: $m,6.30657619965491
+Uganda,2026,Carbon costs: $m,0
+Uganda,2026,Excess generation: $m,0
+Uganda,2026,Export revenues with external zones: $m,0
+Uganda,2026,Export revenues with internal zones: $m,-50.38118204041558
+Uganda,2026,Fixed O&M: $m,70.7145293
+Uganda,2026,Fuel costs: $m,1.4167121613450953
+Uganda,2026,Generation costs: $m,0
+Uganda,2026,Import costs with external zones: $m,0
+Uganda,2026,Import costs with internal zones: $m,26.12970996673264
+Uganda,2026,NPV of system cost: $m,0
+Uganda,2026,Spinning reserve costs: $m,0
+Uganda,2026,Startup costs: $m,0
+Uganda,2026,Trade shared benefits: $m,-9.577200151298921
+Uganda,2026,Transmission costs: $m,0
+Uganda,2026,Unmet country CO2 backstop cost: $m,0
+Uganda,2026,Unmet country planning reserve costs: $m,0
+Uganda,2026,Unmet country spinning reserve costs: $m,0
+Uganda,2026,Unmet demand costs: $m,0
+Uganda,2026,Unmet system CO2 backstop cost: $m,0
+Uganda,2026,Unmet system planning reserve costs: $m,0
+Uganda,2026,Unmet system spinning reserve costs: $m,0
+Uganda,2026,VRE curtailment: $m,0
+Uganda,2026,Variable O&M: $m,5.2545522671484655

@@ -6,8 +6,21 @@ import data_loader as dl
 from config import INPUT_ROOT
 
 
+from pathlib import Path as _Path
+
 def _badge(label, color="secondary"):
     return dbc.Badge(label, color=color, className="me-1")
+
+
+def _env_info_banner():
+    """Small info strip showing conda env + working directory used for the run."""
+    epm_dir = (_Path(__file__).parent.parent.parent / "epm").resolve()
+    return dbc.Alert([
+        html.Span("Conda env: ", className="fw-semibold"),
+        html.Code("gams_env"),
+        html.Span("   |   Working dir: ", className="fw-semibold ms-3"),
+        html.Code(str(epm_dir)),
+    ], color="light", className="py-1 px-2 small mb-0 border")
 
 
 def layout(active_project=None):
@@ -172,9 +185,9 @@ def layout(active_project=None):
                 dbc.Card([
                     dbc.CardHeader(html.Strong("Generated Command")),
                     dbc.CardBody([
-                        html.Small("Run this from the epm/ directory:", className="text-muted"),
+                        _env_info_banner(),
                         html.Pre(id="rc-command",
-                                 className="bg-dark text-white p-2 rounded small mt-1",
+                                 className="bg-dark text-white p-2 rounded small mt-2",
                                  style={"whiteSpace": "pre-wrap", "wordBreak": "break-all"}),
                         dbc.Button("Copy", id="rc-copy-btn", size="sm",
                                    color="outline-secondary", className="mt-1"),
@@ -315,3 +328,28 @@ def build_command(folder, sc_selected, modeltype, cpu, analysis, output_opts, la
         parts.append("--trace")
 
     return " \\\n  ".join(parts)
+
+
+# ── Persist configuration to session store ───────────────────────────────────
+@callback(
+    Output("run-config-store", "data"),
+    Input("rc-project",       "value"),
+    Input("rc-scenarios",     "value"),
+    Input("rc-modeltype",     "value"),
+    Input("rc-cpu",           "value"),
+    Input("rc-analysis",      "value"),
+    Input("rc-output-opts",   "value"),
+    Input("rc-label",         "value"),
+    Input("rc-advanced-opts", "value"),
+)
+def save_config(folder, scenarios, modeltype, cpu, analysis, output_opts, label, advanced):
+    return {
+        "folder":      folder,
+        "scenarios":   scenarios or [],
+        "modeltype":   modeltype or "MIP",
+        "cpu":         cpu or 1,
+        "analysis":    analysis or "standard",
+        "output_opts": output_opts or [],
+        "label":       (label or "").strip(),
+        "advanced":    advanced or [],
+    }

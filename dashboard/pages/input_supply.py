@@ -73,8 +73,6 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Supply Inputs", className="mb-0"), width="auto"),
-            dbc.Col(make_open_folder_btn("supply-open-btn"), width="auto",
-                    className="d-flex align-items-center"),
         ], className="mb-1 align-items-center"),
         html.P("Edit generator data, fuel prices, CAPEX, availability and storage.",
                className="text-muted mb-3"),
@@ -100,7 +98,10 @@ def layout(active_project=None):
                        "Status: 1=existing, 2=candidate, 3=must-build.",
                        className="text-muted small"),
                 dbc.Row(className="mb-2", children=[
-                    dbc.Col(_grid("gen-grid"), width=7),
+                    dbc.Col([
+                        _grid("gen-grid"),
+                        html.Div(make_open_folder_btn("sup-gen-open"), className="mt-1 mb-2"),
+                    ], width=7),
                     dbc.Col([
                         dbc.Row([
                             dbc.Col([
@@ -128,6 +129,7 @@ def layout(active_project=None):
                 html.P("Battery and pumped-hydro storage parameters.",
                        className="text-muted small"),
                 _grid("storage-grid"),
+                html.Div(make_open_folder_btn("sup-sto-open"), className="mt-1 mb-2"),
             ]),
 
             # ── Availability ──────────────────────────────────────────────
@@ -141,6 +143,7 @@ def layout(active_project=None):
                 html.P("Plant availability factor by season/quarter (0–1).",
                        className="text-muted small"),
                 _grid("avail-grid", height="420px"),
+                html.Div(make_open_folder_btn("sup-avail-open"), className="mt-1 mb-2"),
             ]),
 
             # ── Fuel Prices ───────────────────────────────────────────────
@@ -152,7 +155,10 @@ def layout(active_project=None):
                     dbc.Col(html.Div(id="save-fuel-msg"), width="auto"),
                 ]),
                 dbc.Row([
-                    dbc.Col(_grid("fuel-grid", height="380px"), width=6),
+                    dbc.Col([
+                        _grid("fuel-grid", height="380px"),
+                        html.Div(make_open_folder_btn("sup-fuel-open"), className="mt-1 mb-2"),
+                    ], width=6),
                     dbc.Col([
                         dbc.Row([
                             dbc.Col([
@@ -175,7 +181,10 @@ def layout(active_project=None):
                     dbc.Col(html.Div(id="save-capex-msg"), width="auto"),
                 ]),
                 dbc.Row([
-                    dbc.Col(_grid("capex-grid", height="380px"), width=6),
+                    dbc.Col([
+                        _grid("capex-grid", height="380px"),
+                        html.Div(make_open_folder_btn("sup-capex-open"), className="mt-1 mb-2"),
+                    ], width=6),
                     dbc.Col([
                         dbc.Row([
                             dbc.Col([
@@ -787,9 +796,55 @@ def dup_capex(n, variant, new_name, folder):
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),
-          Input("supply-open-btn", "n_clicks"),
-          State("supply-project", "value"), prevent_initial_call=True)
-def open_supply_folder(n, folder):
+          Input("sup-gen-open", "n_clicks"),
+          State("supply-project", "value"),
+          State("s-gen-variant", "value"),
+          prevent_initial_call=True)
+def open_gen_csv(n, folder, variant):
     from dash import no_update
-    if not folder: return no_update
-    return str(INPUT_ROOT / folder)
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "gen_data", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("sup-sto-open", "n_clicks"),
+          State("supply-project", "value"),
+          State("s-sto-variant", "value"),
+          prevent_initial_call=True)
+def open_storage_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "storage_data", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("sup-avail-open", "n_clicks"),
+          State("supply-project", "value"),
+          State("s-avail-variant", "value"),
+          prevent_initial_call=True)
+def open_avail_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "availability", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("sup-fuel-open", "n_clicks"),
+          State("supply-project", "value"),
+          State("s-fuel-variant", "value"),
+          prevent_initial_call=True)
+def open_fuel_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "fuel_price", variant)
+
+
+@callback(Output("open-file-store", "data", allow_duplicate=True),
+          Input("sup-capex-open", "n_clicks"),
+          State("supply-project", "value"),
+          State("s-capex-variant", "value"),
+          prevent_initial_call=True)
+def open_capex_csv(n, folder, variant):
+    from dash import no_update
+    if not n or not folder: return no_update
+    return dl.resolve_variant_path(folder, "capex", variant)

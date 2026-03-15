@@ -93,16 +93,21 @@ def make_variant_bar(prefix: str) -> html.Div:
     )
 
 
-def make_open_folder_btn(btn_id: str) -> dbc.Button:
-    """Small discreet button to open the input folder in the OS file explorer."""
+def make_open_csv_btn(btn_id: str, label: str = "Open CSV") -> dbc.Button:
+    """Discreet text-link button to open a specific input CSV in the OS default app."""
     return dbc.Button(
-        [html.I(className="bi bi-folder2-open me-1"), "Open folder"],
+        [html.I(className="bi bi-file-earmark-spreadsheet me-1"), label],
         id=btn_id,
         size="sm",
-        color="outline-secondary",
-        title="Open input folder in file explorer",
+        color="link",
+        title="Open CSV file",
+        className="p-0 text-secondary",
         style={"fontSize": "0.75rem"},
     )
+
+
+# backward-compat alias (all existing pages import this name)
+make_open_folder_btn = make_open_csv_btn
 
 
 def variant_options(folder: str, key: str) -> list:
