@@ -8,18 +8,18 @@
 
 | I want to... | Go here |
 |---|---|
-| Understand what EPM does | [Introduction](docs/introduction/introduction) |
-| Install EPM and run my first simulation | [Installation](docs/run/run_installation) |
-| Understand how to structure my input data | [Input Overview](docs/input/input_overview) |
-| Run multiple scenarios or a sensitivity analysis | [Python — Advanced](docs/run/run_python_advanced) |
-| Visualize results in Tableau | [Tableau Dashboards](docs/output/postprocessing_tableau) |
-| Read the mathematical formulation | [Model Formulation](docs/model/model_formulation) |
+| Understand what EPM does | [Introduction](introduction/introduction.md) |
+| Install EPM and run my first simulation | [Installation](run/run_installation.md) |
+| Understand how to structure my input data | [Input Overview](input/input_overview.md) |
+| Run multiple scenarios or a sensitivity analysis | [Python — Advanced](run/run_python_advanced.md) |
+| Visualize results in Tableau | [Tableau Dashboards](output/postprocessing_tableau.md) |
+| Read the mathematical formulation | [Model Formulation](model/model_formulation.md) |
 
 ---
 
 ## How EPM works
 
-```{mermaid}
+```mermaid
 flowchart LR
     A("**1. Collect data**\nDemand, generation,\ncosts, policies") -->
     B("**2. Prepare inputs**\nCSV files in\n`input/data_*/`") -->
@@ -78,4 +78,4 @@ Results are written to `output/simulations_run_<timestamp>/`.
 | Source code | [GitHub — ESMAP-World-Bank-Group/EPM](https://github.com/ESMAP-World-Bank-Group/EPM) |
 | Previous versions | [Zenodo archive](https://zenodo.org/communities/esmap-epm) |
 | Report an issue | [GitHub Issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues) |
-| Cite EPM | See [Introduction](docs/introduction/introduction) |
+| Cite EPM | See [Introduction](introduction/introduction.md) |

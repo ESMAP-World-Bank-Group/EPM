@@ -1,0 +1,247 @@
+/* ============================================================
+   ESMAP / EPM  —  Brand: #002F6C navy + #FCCA00 yellow
+   Header : #e8eef6  |  Tabs : #2c4f8a  |  Content : #f0f4fa
+   ============================================================ */
+
+/* ---------- Color tokens ---------- */
+:root {
+  --md-primary-fg-color:              #2c4f8a;
+  --md-primary-fg-color--light:       #3d64a8;
+  --md-primary-fg-color--dark:        #1e3a6e;
+  --md-accent-fg-color:               #e6a800;
+  --md-accent-fg-color--transparent:  rgba(252, 202, 0, 0.12);
+  --esmap-yellow:                     #FCCA00;
+  --esmap-navy:                       #002F6C;
+  --tab-blue:                         #1e3868;
+  --header-bg:                        #e8eef6;
+  --content-bg:                       #f0f4fa;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:              #2c4f8a;
+  --md-accent-fg-color:               #FCCA00;
+  --md-default-bg-color:              #111827;
+  --md-code-bg-color:                 #1e2a3a;
+}
+
+/* ---------- Page background (content area) ---------- */
+.md-main {
+  background-color: var(--content-bg);
+}
+
+.md-content {
+  background-color: var(--content-bg);
+}
+
+/* Force readable dark text throughout */
+.md-typeset {
+  color: #1e293b;
+}
+
+.md-typeset h1 {
+  color: #0f1f3d;
+  font-weight: 700;
+}
+
+.md-typeset p,
+.md-typeset li,
+.md-typeset td {
+  color: #1e293b;
+}
+
+/* ---------- Header — light blue-gray ---------- */
+.md-header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid #cdd8ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  color: var(--esmap-navy);
+}
+
+/* Logo: good size */
+.md-header__button.md-logo {
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+}
+
+.md-header__button.md-logo img {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+/* Site name in navy */
+.md-header__topic .md-ellipsis {
+  color: var(--esmap-navy);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+
+/* Search bar */
+.md-search__input {
+  background-color: #d8e3f0;
+  border-radius: 8px;
+  color: #1e293b;
+}
+
+.md-search__input::placeholder {
+  color: #6b84a3;
+}
+
+.md-search__icon {
+  color: #4a6080 !important;
+}
+
+/* ---------- Nav tabs — classy navy blue ---------- */
+.md-tabs {
+  background-color: var(--tab-blue);
+  border-bottom: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.md-tabs__link {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.2s ease;
+}
+
+.md-tabs__link:hover {
+  color: #ffffff;
+}
+
+.md-tabs__link--active {
+  color: #ffffff !important;
+  font-weight: 700;
+  border-bottom: 2px solid var(--esmap-yellow);
+}
+
+/* ---------- Sidebar ---------- */
+.md-sidebar {
+  background-color: var(--content-bg);
+}
+
+/* Remove the gradient fade at bottom of sidebar */
+.md-sidebar__scrollwrap::after {
+  display: none;
+}
+
+/* Both sidebar titles — clean gray uppercase, no background */
+.md-sidebar--primary .md-nav__title,
+.md-sidebar--secondary .md-nav__title {
+  --md-primary-fg-color: transparent;
+  --md-primary-bg-color: transparent;
+  background:       transparent !important;
+  background-color: transparent !important;
+  color:            #64748b !important;
+  box-shadow:       none !important;
+  border-bottom:    1px solid #d1dce8 !important;
+  font-size:        0.68rem !important;
+  font-weight:      700 !important;
+  letter-spacing:   0.1em !important;
+  text-transform:   uppercase !important;
+  padding:          0.7rem 0.6rem 0.4rem !important;
+}
+
+/* All sidebar links: dark, readable */
+.md-nav__link {
+  color: #334155;
+}
+
+.md-nav__link:hover {
+  color: var(--esmap-navy);
+}
+
+/* Active sidebar item: navy + left border, no yellow */
+.md-nav__link--active {
+  color: #1e3868 !important;
+  font-weight: 600;
+  border-left: 3px solid #1e3868;
+  padding-left: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+[data-md-color-scheme="slate"] .md-nav__link--active {
+  color: #93c5fd !important;
+  border-left-color: #93c5fd;
+}
+
+/* ---------- Content ---------- */
+.md-content__inner {
+  max-width: 880px;
+}
+
+/* h2 with yellow left accent */
+.md-typeset h2 {
+  border-left: 3px solid var(--esmap-yellow);
+  padding-left: 0.65rem;
+  margin-left: -0.8rem;
+}
+
+/* ---------- Tables ---------- */
+.md-typeset table:not([class]) th {
+  background-color: var(--esmap-navy);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background-color: rgba(44, 79, 138, 0.06);
+}
+
+/* ---------- Code blocks ---------- */
+.md-typeset .highlight {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ---------- Admonitions ---------- */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+}
+
+/* ---------- Footer ---------- */
+.md-footer {
+  background-color: var(--esmap-navy);
+}
+
+.md-footer-meta {
+  background-color: #001e47;
+}
+
+.footer-wb-logo {
+  height: 24px;
+  width: auto;
+  vertical-align: middle;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+}
+
+.md-footer-copyright {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- World Bank logo in header ---------- */
+.wb-logo-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 0.8rem 0 0;
+  border-right: 1px solid #b8cce0;
+  margin-right: 0.5rem;
+}
+
+.wb-header-logo {
+  height: 26px;
+  width: auto;
+  display: block;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.wb-header-logo:hover {
+  opacity: 1;
+}

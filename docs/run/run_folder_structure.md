@@ -63,9 +63,8 @@ epm/
 └── cplex.opt                       # CPLEX solver options
 ```
 
-```{note}
-When running EPM from the command line, you execute `python epm.py` from the repository root. The script automatically manages paths to the `epm/` directory.
-```
+!!! note
+    When running EPM from the command line, you execute `python epm.py` from the repository root. The script automatically manages paths to the `epm/` directory.
 
 ### Input Folder
 

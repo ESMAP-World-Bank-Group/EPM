@@ -6,9 +6,26 @@ EPM is formulated in the General Algebraic Modeling System (GAMS). All input dat
 
 In short, EPM **minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements**. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed Operation and Maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
 
-The practical deployment of EPM consists of a 7-step process, which is illustrated below.
+The practical deployment of EPM consists of a 7-step process, illustrated below.
 
-<img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
+```mermaid
+flowchart LR
+    A("**1. Collect data**\nDemand, generation,\ncosts, policies") -->
+    B("**2. Prepare inputs**\nCSV files in\n`input/data_*/`") -->
+    C("**3. Configure**\n`config.csv`,\nscenarios, solver") -->
+    D("**4. Run EPM**\n`python epm.py`\n--folder_input ...") -->
+    E("**5. Optimize**\nGAMS solves\ncapacity + dispatch") -->
+    F("**6. Postprocess**\nCSV tables +\nplots generated") -->
+    G("**7. Analyze**\nTableau / Python\ndashboards")
+
+    style A fill:#dbeafe,stroke:#3b82f6
+    style B fill:#dbeafe,stroke:#3b82f6
+    style C fill:#dbeafe,stroke:#3b82f6
+    style D fill:#dcfce7,stroke:#16a34a
+    style E fill:#dcfce7,stroke:#16a34a
+    style F fill:#fef9c3,stroke:#ca8a04
+    style G fill:#fef9c3,stroke:#ca8a04
+```
 
 ---
 
@@ -51,6 +68,6 @@ Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Pla
 
 ## License
 
-Licensed under the Areative Commons Zero v1.0 Universal (the "License"); you
+Licensed under the Creative Commons Zero v1.0 Universal (the "License"); you
 may not use this file except in compliance with the License. You may
 obtain a copy of the License at <https://creativecommons.org/publicdomain/zero/1.0/>

@@ -1,0 +1,150 @@
+site_name: EPM — Electricity Planning Model
+site_description: Least-cost capacity expansion and dispatch model for power system planning
+site_author: ESMAP — World Bank
+site_url: https://esmap-world-bank-group.github.io/EPM
+repo_url: https://github.com/ESMAP-World-Bank-Group/EPM
+repo_name: ESMAP-World-Bank-Group/EPM
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+exclude_docs: |
+  _build/
+
+theme:
+  name: material
+  logo: images/esmap.png
+  favicon: images/esmap.png
+  language: en
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.collapse
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - header.autohide
+
+nav:
+  - Home: home.md
+  - Introduction:
+    - About EPM: introduction/introduction.md
+    - Case Studies: introduction/introduction_case_studies.md
+  - Run EPM:
+    - Folder Structure: run/run_folder_structure.md
+    - Prerequisites: run/run_prerequisites.md
+    - Installation: run/run_installation.md
+    - Run from GAMS Studio: run/run_gams_studio.md
+    - Run from Python: run/run_python.md
+    - Configuration: run/configuration.md
+    - Python Advanced: run/run_python_advanced.md
+    - Python Summary: run/run_python_summary.md
+    - Remote Server: run/run_remote_server.md
+    - Git Process: run/run_git_process.md
+    - EPM Setup: run/run_epm_setup.md
+    - Dispatch Mode: run/run_dispatch.md
+    - Solver Options: run/options_solver.md
+    - Thread Options: run/options_thread.md
+    - GAMS Options: run/gams.md
+    - Debugging: run/run_debugging.md
+    - Troubleshooting: run/run_troubleshooting.md
+    - Summary: run/run_summary.md
+  - Input:
+    - Structure: input/input_structure.md
+    - Overview: input/input_overview.md
+    - Detailed Reference: input/input_detailed.md
+    - Resources: input/resources.md
+    - Data Treatment: input/input_treatment.md
+    - Set Definitions: input/input_set_definition.md
+    - Excel to CSV: input/input_from_excel_to_csv.md
+    - Technology Brief: input/input_technology_brief.md
+    - Fuel Brief: input/input_fuel_brief.md
+    - Representative Days: input/input_representative_days.md
+  - Output:
+    - Examples: output/examples.md
+    - EPM Output: output/postprocessing_output_EPM.md
+    - Output Reference: output/postprocessing_output.md
+    - Output Overview: output/postprocessing_output_overview.md
+    - Tableau: output/postprocessing_tableau.md
+    - Tableau Advanced: output/postprocessing_tableau_advanced.md
+  - Model:
+    - Overview: model/model_overview.md
+    - Description: model/model_description.md
+    - Notation: model/model_notations.md
+    - Formulation: model/model_formulation.md
+    - Equations: model/equations.md
+  - Advanced:
+    - Python API: advanced/advanced_python.md
+    - Postprocessing: advanced/postprocessing.md
+  - Contributing:
+    - Report Issues: contributing/contributing_issues.md
+    - Contribute Code: contributing/contributing_code.md
+    - Contribute Docs: contributing/contributing_docs.md
+    - Postprocessing: contributing/contributing_postprocess.md
+  - Pre-processing:
+    - Overview: preprocessing/pre_overview.md
+    - Projects: preprocessing/pre_projects.md
+  - Other:
+    - Open Data: other/other_open_data.md
+    - Process: other/other_process.md
+    - Interconnection: other/interconnection.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - javascripts/header_logos.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ESMAP-World-Bank-Group/EPM
+  generator: false
+
+copyright: >
+  <img src="images/worldbank.png" alt="The World Bank" class="footer-wb-logo">
+  &nbsp; All content is subject to the
+  <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>.
