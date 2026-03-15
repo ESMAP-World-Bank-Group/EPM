@@ -1,7 +1,7 @@
 site_name: EPM — Electricity Planning Model
 site_description: Least-cost capacity expansion and dispatch model for power system planning
 site_author: ESMAP — World Bank
-site_url: https://esmap-world-bank-group.github.io/EPM
+# site_url: https://esmap-world-bank-group.github.io/EPM
 repo_url: https://github.com/ESMAP-World-Bank-Group/EPM
 repo_name: ESMAP-World-Bank-Group/EPM
 edit_uri: edit/main/docs/
