@@ -32,8 +32,8 @@ SECTIONS = [
         "key":      "resolution",
         "icon":     "bi-grid-3x3",
         "color":    "#7b4f9e",
-        "title":    "Time Resolution",
-        "desc":     "Seasons, representative days and hours.",
+        "title":    "Resolution",
+        "desc":     "Spatial zones, seasons, representative days and hours.",
         "page":     "input-resolution",
         "csv_files": [
             ("resolution", "pRepresentativeDays.csv"),

@@ -1,4 +1,0 @@
-scenario,Objective (Billion USD),Time,Peak Memory (Mb)
-baseline,30.14,3.11 min,1472.0
-TEST,30.14,2.47 min,1472.0
-TEST2,30.14,2.77 min,1472.0
