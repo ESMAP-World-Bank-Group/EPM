@@ -212,6 +212,109 @@ def get_re_share(run: str, scenario: str, zones: Optional[list] = None) -> pd.Da
 
 
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Input scenario discovery  (scenarios.csv inside a data folder)
+# ---------------------------------------------------------------------------
+
+def load_input_scenarios(folder: str) -> dict:
+    """
+    Parse scenarios.csv from an input data folder.
+
+    Format: paramNames | ScenarioA | ScenarioB ...
+            pSettings  |           | pSettings_alt.csv
+            pCarbonPrice|          | constraint/pCarbonPrice_high.csv
+
+    Returns
+    -------
+    dict  {scenario_name: {param_name: override_path_or_None}}
+    e.g.  {"baseline": {"pCarbonPrice": None},
+           "high_carbon": {"pCarbonPrice": "constraint/pCarbonPrice_high.csv"}}
+    """
+    path = INPUT_ROOT / folder / "scenarios.csv"
+    if not path.exists():
+        return {}
+    try:
+        df = pd.read_csv(path, header=0)
+    except Exception:
+        return {}
+
+    # First column = paramNames, rest = scenario columns
+    param_col = df.columns[0]
+    scenario_cols = [c for c in df.columns[1:] if not str(c).startswith("Unnamed")]
+
+    result = {}
+    for sc in scenario_cols:
+        overrides = {}
+        for _, row in df.iterrows():
+            param = str(row[param_col]).strip()
+            val   = row.get(sc, "")
+            if param and param not in ("", "nan") and not param.isupper():
+                # isupper() → section headers like LOAD, SUPPLY etc — skip
+                override = str(val).strip() if (val and str(val).strip() not in ("", "nan")) else None
+                overrides[param] = override
+        result[sc] = overrides
+    return result
+
+
+def get_input_scenario_names(folder: str) -> list[str]:
+    """Return list of scenario names defined in scenarios.csv."""
+    return list(load_input_scenarios(folder).keys())
+
+
+def resolve_input_file(folder: str, key: str, scenario: str | None = None) -> Path | None:
+    """
+    Resolve the actual file path for an input key, respecting scenario overrides.
+
+    Returns the Path to use, or None if not found.
+    """
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return None
+    subfolder, filename = spec
+    default_path = (INPUT_ROOT / folder / subfolder / filename
+                    if subfolder else INPUT_ROOT / folder / filename)
+
+    if not scenario:
+        return default_path
+
+    # Check for override
+    scenarios = load_input_scenarios(folder)
+    sc_overrides = scenarios.get(scenario, {})
+
+    # Match by filename stem (e.g. "pCarbonPrice" matches key "carbon_price")
+    stem = Path(filename).stem  # e.g. "pCarbonPrice"
+    override_rel = sc_overrides.get(stem)
+    if override_rel:
+        override_path = INPUT_ROOT / folder / override_rel
+        if override_path.exists():
+            return override_path
+
+    return default_path
+
+
+def load_input_for_scenario(folder: str, key: str, scenario: str | None = None) -> pd.DataFrame:
+    """
+    Load an input CSV respecting scenario overrides.
+    Falls back to default file if override not found.
+    """
+    path = resolve_input_file(folder, key, scenario)
+    if path is None:
+        return pd.DataFrame()
+    return _load_input_csv(str(path))
+
+
+def is_override(folder: str, key: str, scenario: str) -> bool:
+    """Return True if this key has a scenario-specific override file."""
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return False
+    _, filename = spec
+    stem = Path(filename).stem
+    scenarios = load_input_scenarios(folder)
+    return bool(scenarios.get(scenario, {}).get(stem))
+
+
+# ---------------------------------------------------------------------------
 # Input folder discovery
 # ---------------------------------------------------------------------------
 
@@ -288,6 +391,173 @@ def list_input_files(folder: str) -> dict[str, list[str]]:
         subfolder = str(rel.parent) if rel.parent != Path(".") else "root"
         result.setdefault(subfolder, []).append(item.name)
     return result
+
+
+# ---------------------------------------------------------------------------
+# Variant system  (Baseline + named file variants per parameter)
+# ---------------------------------------------------------------------------
+
+def list_variants(folder: str, key: str) -> dict[str, str]:
+    """
+    Return {variant_name: filename} for all variants of a parameter.
+    Always includes "Baseline" → default filename.
+    Variant files follow: {stem}_{variant}.csv in the same subfolder.
+    """
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return {"Baseline": ""}
+    subfolder, filename = spec
+    stem = Path(filename).stem
+    base_dir = (INPUT_ROOT / folder / subfolder) if subfolder else (INPUT_ROOT / folder)
+    if not base_dir.exists():
+        return {"Baseline": filename}
+    variants: dict[str, str] = {"Baseline": filename}
+    prefix_len = len(stem) + 1
+    for f in sorted(base_dir.glob(f"{stem}_*.csv")):
+        variant_name = f.stem[prefix_len:]
+        if variant_name:
+            variants[variant_name] = f.name
+    return variants
+
+
+def load_variant(folder: str, key: str, variant: str | None = None) -> pd.DataFrame:
+    """Load a variant of a parameter file. None / 'Baseline' = default file."""
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return pd.DataFrame()
+    subfolder, filename = spec
+    if variant and variant != "Baseline":
+        filename = f"{Path(filename).stem}_{variant}.csv"
+    path = (INPUT_ROOT / folder / subfolder / filename) if subfolder \
+           else (INPUT_ROOT / folder / filename)
+    return _load_input_csv(str(path))
+
+
+def save_variant(folder: str, key: str, variant: str | None, df: pd.DataFrame) -> bool:
+    """Save DataFrame to a specific variant file."""
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return False
+    subfolder, filename = spec
+    if variant and variant != "Baseline":
+        filename = f"{Path(filename).stem}_{variant}.csv"
+    path = (INPUT_ROOT / folder / subfolder / filename) if subfolder \
+           else (INPUT_ROOT / folder / filename)
+    try:
+        df.to_csv(path, index=False)
+        _load_input_csv.cache_clear()
+        return True
+    except Exception:
+        return False
+
+
+def duplicate_variant(folder: str, key: str, source_variant: str | None,
+                      new_name: str) -> bool:
+    """Copy source variant to new_name. Returns False if dest already exists."""
+    import shutil as _shutil
+    spec = INPUT_CSV.get(key)
+    if not spec or not new_name.strip():
+        return False
+    subfolder, filename = spec
+    stem = Path(filename).stem
+    src_name = filename if (not source_variant or source_variant == "Baseline") \
+               else f"{stem}_{source_variant}.csv"
+    dst_name = f"{stem}_{new_name.strip()}.csv"
+    base_dir = (INPUT_ROOT / folder / subfolder) if subfolder else (INPUT_ROOT / folder)
+    src, dst = base_dir / src_name, base_dir / dst_name
+    if not src.exists() or dst.exists():
+        return False
+    try:
+        _shutil.copy2(src, dst)
+        _load_input_csv.cache_clear()
+        return True
+    except Exception:
+        return False
+
+
+def variant_to_override_path(folder: str, key: str, variant: str) -> Optional[str]:
+    """Convert variant name to relative path for scenarios.csv. None if Baseline."""
+    if not variant or variant == "Baseline":
+        return None
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return None
+    subfolder, filename = spec
+    fname = f"{Path(filename).stem}_{variant}.csv"
+    return f"{subfolder}/{fname}" if subfolder else fname
+
+
+def override_path_to_variant(folder: str, key: str, override_path) -> str:
+    """Convert a scenarios.csv override path to a variant name. 'Baseline' if empty."""
+    if not override_path or str(override_path).strip() in ("", "nan"):
+        return "Baseline"
+    spec = INPUT_CSV.get(key)
+    if not spec:
+        return "Baseline"
+    stem = Path(spec[1]).stem
+    fname = Path(str(override_path)).name
+    prefix = f"{stem}_"
+    if fname.startswith(prefix) and fname.endswith(".csv"):
+        return fname[len(prefix):-4]
+    return "Baseline"
+
+
+def add_scenario_column(folder: str, scenario_name: str) -> bool:
+    """Add a new empty scenario column to scenarios.csv (creates file if missing)."""
+    path = INPUT_ROOT / folder / "scenarios.csv"
+    try:
+        if path.exists():
+            df = pd.read_csv(path, dtype=str).fillna("")
+            if scenario_name in df.columns:
+                return False  # already exists
+            df[scenario_name] = ""
+        else:
+            param_names, seen = [], set()
+            for _key, (_sub, _fname) in INPUT_CSV.items():
+                gams = Path(_fname).stem
+                if gams not in seen:
+                    param_names.append(gams)
+                    seen.add(gams)
+            df = pd.DataFrame({"paramNames": param_names, scenario_name: ""})
+        df.to_csv(path, index=False)
+        _load_input_csv.cache_clear()
+        return True
+    except Exception:
+        return False
+
+
+def save_input_scenarios(folder: str, sc_key_variant_dict: dict) -> bool:
+    """
+    Update scenarios.csv with {scenario_name: {input_key: variant_name}}.
+    Preserves existing rows/structure not in our mapping.
+    """
+    path = INPUT_ROOT / folder / "scenarios.csv"
+    try:
+        df = pd.read_csv(path, dtype=str).fillna("") if path.exists() \
+             else pd.DataFrame({"paramNames": []})
+        param_col = df.columns[0] if len(df.columns) else "paramNames"
+
+        sc_names = list(sc_key_variant_dict.keys())
+        for sc in sc_names:
+            if sc not in df.columns:
+                df[sc] = ""
+
+        for sc_name, key_variants in sc_key_variant_dict.items():
+            for key, variant in key_variants.items():
+                spec = INPUT_CSV.get(key)
+                if not spec:
+                    continue
+                gams_name = Path(spec[1]).stem
+                override = variant_to_override_path(folder, key, variant) or ""
+                mask = df[param_col] == gams_name
+                if mask.any():
+                    df.loc[mask, sc_name] = override
+
+        df.to_csv(path, index=False)
+        _load_input_csv.cache_clear()
+        return True
+    except Exception:
+        return False
 
 
 def clone_input_folder(source: str, target_name: str) -> bool:

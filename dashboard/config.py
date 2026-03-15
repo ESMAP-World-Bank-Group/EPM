@@ -143,8 +143,9 @@ INPUT_CSV = {
     # Settings
     "settings_input":   ("",        "pSettings.csv"),
     "years":            ("",        "y.csv"),
-    "scenarios":        ("",        "scenarios.csv"),
+    "phours":           ("",        "pHours.csv"),
     "zcmap_input":      ("",        "zcmap.csv"),
+    "scenarios":        ("",        "scenarios.csv"),
 }
 
 # ---------------------------------------------------------------------------

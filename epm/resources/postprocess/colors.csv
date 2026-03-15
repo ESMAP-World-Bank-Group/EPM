@@ -1,21 +1,21 @@
 # Use https://matplotlib.org/3.4.2/gallery/color/named_colors.html,
 Processing,Color
 # Fuels (standalone),
-Coal,dimgray
-Gas,firebrick
-LNG,lightcoral
-Water,darkblue
-Solar,orange
-Wind,darkturquoise
+Coal,gray
+Gas,darkgoldenrod
+LNG,darkgoldenrod
+Water,steelblue
+Solar,gold
+Wind,mediumseagreen
 Import,thistle
-HFO,saddlebrown
-LFO,sandybrown
-Uranium,purple
-CSP,darkorange
-Battery,darkkhaki
-Diesel,darksalmon
+HFO,dimgrey
+LFO,dimgrey
+Uranium,orange
+CSP,gold
+Battery,slateblue
+Diesel,dimgrey
 Biomass,green
-Geothermal,red
+Geothermal,tan
 #Dispatch Attributes,
 Demand,red
 Exports,green

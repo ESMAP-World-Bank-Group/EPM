@@ -30,11 +30,13 @@ from pages import (
     trade,
     input_manager,
     input_settings,
+    input_resolution,
     input_supply,
     input_demand,
     input_trade,
     input_reserve,
     input_constraints,
+    scenarios,
     run_config,
     run_launch,
     run_history,
@@ -64,14 +66,16 @@ NAV_ITEMS = [
     ("INPUTS",   [
         ("bi bi-folder2-open",        "Manage Inputs",     "input-manager"),
         ("bi bi-gear-fill",           "Settings",          "input-settings"),
-        ("bi bi-lightning-charge",    "Supply",            "input-supply"),
+        ("bi bi-grid-3x3",            "Resolution",        "input-resolution"),
         ("bi bi-graph-up",            "Demand",            "input-demand"),
+        ("bi bi-lightning-charge",    "Supply",            "input-supply"),
         ("bi bi-arrow-left-right",    "Trade",             "input-trade"),
         ("bi bi-shield-check",        "Reserve",           "input-reserve"),
         ("bi bi-sliders",             "Constraints",       "input-constraints"),
+        ("bi bi-diagram-3",           "Scenario Builder",  "scenarios"),
     ]),
     ("RUN",      [
-        ("bi bi-list-check",          "Scenarios",         "run-config"),
+        ("bi bi-list-check",          "Run Config",        "run-config"),
         ("bi bi-play-circle-fill",    "Launch",            "run-launch"),
         ("bi bi-clock-history",       "History",           "run-history"),
     ]),
@@ -116,11 +120,20 @@ def build_sidebar() -> dbc.Col:
                          className="me-2",
                          style={"display": "none"},   # hidden until logo added
                          id="sidebar-logo"),
-                html.Span("EPM", className="fw-bold fs-5 text-white"),
+                html.Span("EPM", className="fw-bold fs-3 text-white"),
                 html.Br(),
-                html.Small("World Bank · ESMAP",
+                html.Small("World Bank Group",
                            className="text-muted", style={"fontSize": "0.7rem"}),
             ], className="px-3 py-3 border-bottom border-secondary"),
+
+            # Active project indicator
+            html.Div([
+                html.Small("Project:", className="text-muted",
+                           style={"fontSize": "0.65rem", "letterSpacing": "0.05em"}),
+                html.Div(id="sidebar-project-label",
+                         className="text-white fw-semibold",
+                         style={"fontSize": "0.78rem", "wordBreak": "break-all"}),
+            ], className="px-3 py-2 border-bottom border-secondary"),
 
             # Navigation
             html.Ul(nav_children, className="nav flex-column mt-2 mb-auto"),
@@ -188,6 +201,8 @@ app.layout = html.Div([
     # Store shared state across callbacks
     dcc.Store(id="store-active-project", storage_type="session"),
     dcc.Store(id="store-active-job",     storage_type="session"),
+    dcc.Store(id="open-file-store",      storage_type="memory"),
+    html.Div(id="open-file-dummy",       style={"display": "none"}),
 
     dbc.Row([
         # Left sidebar
@@ -256,7 +271,18 @@ def update_years(run, scenarios):
     return years[0], years[-1], marks, [years[0], years[-1]]
 
 
-# 4. Route URL → page content + show/hide filter bar
+# 4. Show active project in sidebar
+@app.callback(
+    Output("sidebar-project-label", "children"),
+    Input("store-active-project", "data"),
+)
+def update_sidebar_project(project):
+    if not project:
+        return html.Small("— none selected —", className="text-muted fst-italic")
+    return project
+
+
+# Route URL → page content + show/hide filter bar
 @app.callback(
     Output("page-content",         "children"),
     Output("filter-bar-container", "style"),
@@ -267,7 +293,7 @@ def update_years(run, scenarios):
     State("filter-years",          "value"),
     State("store-active-project",  "data"),
 )
-def render_page(pathname, run, scenarios, zones, years, active_project):
+def render_page(pathname, run, sc_filter, zones, years, active_project):
     path = (pathname or "/").lstrip("/") or "home"
 
     RESULT_PAGES = {"overview", "capacity", "energy-mix",
@@ -276,19 +302,21 @@ def render_page(pathname, run, scenarios, zones, years, active_project):
 
     pages = {
         "home":              home.layout,
-        "overview":          lambda: overview.layout(run, scenarios, zones, years),
-        "capacity":          lambda: capacity.layout(run, scenarios, zones, years),
-        "energy-mix":        lambda: energy_mix.layout(run, scenarios, zones, years),
-        "emissions":         lambda: emissions.layout(run, scenarios, zones, years),
-        "costs":             lambda: costs.layout(run, scenarios, zones, years),
-        "trade":             lambda: trade.layout(run, scenarios, zones, years),
+        "overview":          lambda: overview.layout(run, sc_filter, zones, years),
+        "capacity":          lambda: capacity.layout(run, sc_filter, zones, years),
+        "energy-mix":        lambda: energy_mix.layout(run, sc_filter, zones, years),
+        "emissions":         lambda: emissions.layout(run, sc_filter, zones, years),
+        "costs":             lambda: costs.layout(run, sc_filter, zones, years),
+        "trade":             lambda: trade.layout(run, sc_filter, zones, years),
         "input-manager":     lambda: input_manager.layout(active_project),
         "input-settings":    lambda: input_settings.layout(active_project),
-        "input-supply":      lambda: input_supply.layout(active_project),
+        "input-resolution":  lambda: input_resolution.layout(active_project),
         "input-demand":      lambda: input_demand.layout(active_project),
+        "input-supply":      lambda: input_supply.layout(active_project),
         "input-trade":       lambda: input_trade.layout(active_project),
         "input-reserve":     lambda: input_reserve.layout(active_project),
         "input-constraints": lambda: input_constraints.layout(active_project),
+        "scenarios":         lambda: scenarios.layout(active_project),
         "run-config":        lambda: run_config.layout(active_project),
         "run-launch":        run_launch.layout,
         "run-history":       run_history.layout,
@@ -301,6 +329,28 @@ def render_page(pathname, run, scenarios, zones, years, active_project):
         content = dbc.Alert(f"Error loading page: {e}", color="danger")
 
     return content, filter_style
+
+
+# Open file/folder in OS default application (local use only)
+@app.callback(
+    Output("open-file-dummy", "children"),
+    Input("open-file-store",  "data"),
+    prevent_initial_call=True,
+)
+def open_file_os(path):
+    if not path:
+        return ""
+    import os, sys, subprocess
+    try:
+        if sys.platform == "win32":
+            os.startfile(path)
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", path])
+        else:
+            subprocess.Popen(["xdg-open", path])
+    except Exception:
+        pass
+    return ""
 
 
 # ---------------------------------------------------------------------------
