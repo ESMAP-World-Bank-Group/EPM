@@ -46,7 +46,7 @@ theme:
     - header.autohide
 
 nav:
-  - Home: home.md
+  - Home: index.md
   - Introduction:
     - About EPM: introduction/introduction.md
     - Case Studies: introduction/introduction_case_studies.md
