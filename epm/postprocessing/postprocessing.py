@@ -923,15 +923,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------
             if generate_figures:
                 log_info('Creating folders for figures...', logger=active_logger)
-            
+
                 # Create subfolders directly under GRAPHS_FOLDER
                 subfolders = {}
                 for subfolder in ['1_capacity', '2_cost', '3_energy', '4_interconnection', '5_dispatch', '6_maps', '7_comparison']:
                     subfolders[subfolder] = Path(GRAPHS_FOLDER) / Path(subfolder)
                     if not os.path.exists(subfolders[subfolder]):
                         os.mkdir(subfolders[subfolder])
-            
-            
+
+
                 # ------------------------------------------------------------------------------------
 
                 # Select main years for x-axis in some plots to simplify the reading
