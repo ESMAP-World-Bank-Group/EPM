@@ -282,13 +282,14 @@ def render_page(pathname, run, active_project):
 
 # Open file/folder in OS default application (local use only)
 @app.callback(
-    Output("open-file-dummy", "children"),
-    Input("open-file-store",  "data"),
+    Output("open-file-dummy",  "children"),
+    Output("open-file-store",  "data"),
+    Input("open-file-store",   "data"),
     prevent_initial_call=True,
 )
 def open_file_os(path):
     if not path:
-        return ""
+        return "", None
     import os, sys, subprocess
     try:
         if sys.platform == "win32":
@@ -299,7 +300,7 @@ def open_file_os(path):
             subprocess.Popen(["xdg-open", path])
     except Exception:
         pass
-    return ""
+    return "", None   # clear store immediately after opening
 
 
 # ---------------------------------------------------------------------------
