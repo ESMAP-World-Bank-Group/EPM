@@ -240,12 +240,13 @@ def toggle_advanced(n, is_open):
 )
 def update_scenarios(folder):
     names = _get_scenario_names(folder)
-    opts  = [{"label": s, "value": s} for s in names]
+    all_names = [n for n in names if n.lower() != "baseline"]
+    opts  = [{"label": "Baseline", "value": "baseline"}] + [{"label": s, "value": s} for s in all_names]
     if not names:
-        info = html.Small("No scenarios.csv found — define scenarios in Scenario Builder first.",
-                          className="text-warning")
+        info = html.Small("No scenarios.csv found — only Baseline is available.",
+                          className="text-muted")
     else:
-        info = html.Small(f"{len(names)} scenario(s) available.", className="text-muted")
+        info = html.Small(f"{len(all_names)} scenario(s) available (incl. Baseline).", className="text-muted")
     return opts, [], info
 
 

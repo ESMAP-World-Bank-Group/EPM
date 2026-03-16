@@ -15,8 +15,20 @@ def _grid(grid_id: str) -> dag.AgGrid:
         id=grid_id, rowData=[], columnDefs=[],
         defaultColDef={"flex": 1, "minWidth": 90, "sortable": True,
                        "filter": True, "resizable": True},
+        dashGridOptions={"rowSelection": "multiple"},
         style={"height": "360px"}, className="ag-theme-alpine",
     )
+
+
+def _icon_btns(add_id, del_id):
+    return [
+        dbc.Button(html.I(className="bi bi-plus-lg"), id=add_id, color="link",
+                   className="text-secondary p-0 me-1",
+                   style={"fontSize": "0.78rem"}, title="Add row"),
+        dbc.Button(html.I(className="bi bi-trash"), id=del_id, color="link",
+                   className="text-danger p-0",
+                   style={"fontSize": "0.78rem"}, title="Delete selected"),
+    ]
 
 
 def _col_defs(df: pd.DataFrame) -> list:
@@ -33,7 +45,12 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Policy Constraints", className="mb-0"), width="auto"),
-        ], className="mb-1 align-items-center"),
+            dbc.Col(
+                dbc.Button([html.I(className="bi bi-arrow-clockwise me-1"), "Reload"],
+                           id="con-reload-btn", color="outline-secondary", size="sm"),
+                width="auto", className="ms-auto",
+            ),
+        ], className="mb-1 align-items-center justify-content-between"),
         html.P("Edit carbon price trajectories and CO₂ emissions caps.",
                className="text-muted mb-3"),
         html.Div(
@@ -53,8 +70,12 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-cp-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("Carbon price trajectory ($/tCO₂).",
-                               className="text-muted small"),
+                        dbc.Row([
+                            dbc.Col(html.P("Carbon price trajectory ($/tCO₂).",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col(_icon_btns("add-cp-btn", "del-cp-btn"),
+                                    width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("cp-grid"),
                         html.Div(make_open_folder_btn("con-cp-open"), className="mt-1 mb-2"),
                     ], width=5),
@@ -73,7 +94,11 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-em-sys-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.H6("System-wide CO₂ cap (Mt)"),
+                        dbc.Row([
+                            dbc.Col(html.H6("System-wide CO₂ cap (Mt)", className="mb-0"), width="auto"),
+                            dbc.Col(_icon_btns("add-em-sys-btn", "del-em-sys-btn"),
+                                    width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("em-sys-grid"),
                         html.Div(make_open_folder_btn("con-ems-open"), className="mt-1 mb-2"),
                     ], width=6),
@@ -84,7 +109,11 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-em-cnt-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.H6("Country-level CO₂ cap (Mt)"),
+                        dbc.Row([
+                            dbc.Col(html.H6("Country-level CO₂ cap (Mt)", className="mb-0"), width="auto"),
+                            dbc.Col(_icon_btns("add-em-cnt-btn", "del-em-cnt-btn"),
+                                    width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("em-cnt-grid"),
                         html.Div(make_open_folder_btn("con-emc-open"), className="mt-1 mb-2"),
                     ], width=6),
@@ -98,8 +127,12 @@ def layout(active_project=None):
                                        color="success", size="sm"), width="auto"),
                     dbc.Col(html.Div(id="save-fuel-lim-msg"), width="auto"),
                 ]),
-                html.P("Maximum annual fuel consumption by zone and fuel.",
-                       className="text-muted small"),
+                dbc.Row([
+                    dbc.Col(html.P("Maximum annual fuel consumption by zone and fuel.",
+                                   className="text-muted small mb-1"), width="auto"),
+                    dbc.Col(_icon_btns("add-fuel-lim-btn", "del-fuel-lim-btn"),
+                            width="auto", className="ms-auto d-flex align-items-center"),
+                ], className="align-items-center mb-1"),
                 _grid("fuel-lim-grid"),
                 html.Div(make_open_folder_btn("con-fl-open"), className="mt-1 mb-2"),
             ]),
@@ -122,8 +155,11 @@ def layout(active_project=None):
     Input("c-ems-variant",  "value"),
     Input("c-emc-variant",  "value"),
     Input("c-fl-variant",   "value"),
+    Input("con-reload-btn", "n_clicks"),
 )
-def load(folder, cp_var, ems_var, emc_var, fl_var):
+def load(folder, cp_var, ems_var, emc_var, fl_var, _reload=None):
+    if _reload:
+        dl.clear_input_cache()
     empty = ([], [])
     base_opts = [{"label": "Baseline", "value": "Baseline"}]
     empty_fig = px.line(title="No data", template="plotly_white")
@@ -308,3 +344,38 @@ def open_fl_csv(n, folder, variant):
     from dash import no_update
     if not n or not folder: return no_update
     return dl.resolve_variant_path(folder, "max_fuel", variant)
+
+
+# ---------------------------------------------------------------------------
+# Add / Delete row callbacks
+# ---------------------------------------------------------------------------
+
+def _empty_row(rows):
+    return {k: "" for k in rows[0].keys()} if rows else {}
+
+def _delete_selected(rows, selected):
+    if not selected: return rows
+    sel = {tuple(sorted(r.items())) for r in selected}
+    return [r for r in rows if tuple(sorted(r.items())) not in sel]
+
+for _grid_id, _add_id, _del_id in [
+    ("cp-grid",       "add-cp-btn",       "del-cp-btn"),
+    ("em-sys-grid",   "add-em-sys-btn",   "del-em-sys-btn"),
+    ("em-cnt-grid",   "add-em-cnt-btn",   "del-em-cnt-btn"),
+    ("fuel-lim-grid", "add-fuel-lim-btn", "del-fuel-lim-btn"),
+]:
+    @callback(Output(_grid_id, "rowData", allow_duplicate=True),
+              Input(_add_id, "n_clicks"),
+              State(_grid_id, "rowData"),
+              prevent_initial_call=True)
+    def _add(n, rows, _gid=_grid_id):
+        rows = rows or []
+        return rows + [_empty_row(rows)]
+
+    @callback(Output(_grid_id, "rowData", allow_duplicate=True),
+              Input(_del_id, "n_clicks"),
+              State(_grid_id, "rowData"),
+              State(_grid_id, "selectedRows"),
+              prevent_initial_call=True)
+    def _del(n, rows, selected, _gid=_grid_id):
+        return _delete_selected(rows or [], selected or [])

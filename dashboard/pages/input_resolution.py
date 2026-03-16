@@ -18,6 +18,7 @@ def _grid(grid_id: str, height: str = "340px") -> dag.AgGrid:
         id=grid_id, rowData=[], columnDefs=[],
         defaultColDef={"flex": 1, "minWidth": 90, "sortable": True,
                        "filter": True, "resizable": True},
+        dashGridOptions={"rowSelection": "multiple"},
         style={"height": height}, className="ag-theme-alpine",
     )
 
@@ -28,7 +29,12 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Resolution", className="mb-0"), width="auto"),
-        ], className="mb-1 align-items-center"),
+            dbc.Col(
+                dbc.Button([html.I(className="bi bi-arrow-clockwise me-1"), "Reload"],
+                           id="res-reload-btn", color="outline-secondary", size="sm"),
+                width="auto", className="ms-auto",
+            ),
+        ], className="mb-1 align-items-center justify-content-between"),
         html.P("Define the spatial (zones/countries) and temporal (years, periods) resolution.",
                className="text-muted mb-3"),
 
@@ -49,8 +55,18 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-zcmap-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("Zone → country mapping. Edit the 'c' column to reassign zones.",
-                               className="text-muted small mb-2"),
+                        dbc.Row([
+                            dbc.Col(html.P("Zone → country mapping. Edit the 'c' column to reassign zones.",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col([
+                                dbc.Button(html.I(className="bi bi-plus-lg"), id="add-zcmap-btn",
+                                           color="link", className="text-secondary p-0 me-1",
+                                           style={"fontSize": "0.78rem"}, title="Add row"),
+                                dbc.Button(html.I(className="bi bi-trash"), id="del-zcmap-btn",
+                                           color="link", className="text-danger p-0",
+                                           style={"fontSize": "0.78rem"}, title="Delete selected"),
+                            ], width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("zcmap-grid", "380px"),
                         html.Div(make_open_folder_btn("res-zcmap-open"), className="mt-1 mb-2"),
                     ], width=4),
@@ -71,8 +87,18 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-years-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("List of modelled planning years.",
-                               className="text-muted small mb-2"),
+                        dbc.Row([
+                            dbc.Col(html.P("List of modelled planning years.",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col([
+                                dbc.Button(html.I(className="bi bi-plus-lg"), id="add-years-btn",
+                                           color="link", className="text-secondary p-0 me-1",
+                                           style={"fontSize": "0.78rem"}, title="Add row"),
+                                dbc.Button(html.I(className="bi bi-trash"), id="del-years-btn",
+                                           color="link", className="text-danger p-0",
+                                           style={"fontSize": "0.78rem"}, title="Delete selected"),
+                            ], width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("years-grid", "340px"),
                         html.Div(make_open_folder_btn("res-years-open"), className="mt-1 mb-2"),
                     ], width=5),
@@ -89,8 +115,18 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-phours-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("Representative periods (q × d) and their hourly weights.",
-                               className="text-muted small mb-2"),
+                        dbc.Row([
+                            dbc.Col(html.P("Representative periods (q × d) and their hourly weights.",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col([
+                                dbc.Button(html.I(className="bi bi-plus-lg"), id="add-phours-btn",
+                                           color="link", className="text-secondary p-0 me-1",
+                                           style={"fontSize": "0.78rem"}, title="Add row"),
+                                dbc.Button(html.I(className="bi bi-trash"), id="del-phours-btn",
+                                           color="link", className="text-danger p-0",
+                                           style={"fontSize": "0.78rem"}, title="Delete selected"),
+                            ], width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("phours-grid", "380px"),
                         html.Div(make_open_folder_btn("res-ph-open"), className="mt-1 mb-2"),
                     ], width=6),
@@ -109,8 +145,8 @@ def layout(active_project=None):
 # ---------------------------------------------------------------------------
 
 def _load_geojson(folder):
-    """Try to load zones.geojson from the input folder. Returns dict or None."""
-    path = INPUT_ROOT / folder / "zones.geojson"
+    """Try to load linestring_countries.geojson from the input folder. Returns dict or None."""
+    path = INPUT_ROOT / folder / "linestring_countries.geojson"
     if not path.exists():
         return None
     try:
@@ -127,7 +163,7 @@ def _zone_network_figure(gj, df_zc):
     """
     if gj is None:
         fig = go.Figure()
-        fig.update_layout(title="zones.geojson not found in this project folder",
+        fig.update_layout(title="linestring_countries.geojson not found in this project folder",
                           template="plotly_white")
         return fig
 
@@ -277,8 +313,11 @@ def _phours_heatmap(df_ph):
     Input("res-project",     "value"),
     Input("res-y-variant",   "value"),
     Input("res-ph-variant",  "value"),
+    Input("res-reload-btn",  "n_clicks"),
 )
-def load(folder, y_var, ph_var):
+def load(folder, y_var, ph_var, _reload=None):
+    if _reload:
+        dl.clear_input_cache()
     empty = ([], [])
     base_opts = [{"label": "Baseline", "value": "Baseline"}]
     empty_fig = px.bar(title="No data", template="plotly_white")
@@ -403,6 +442,79 @@ def dup_phours(n, v, name, folder):
     if ok:
         return "Created ✓", variant_options(folder, "phours"), name
     return "Name exists or error", no_update, no_update
+
+
+# ---------------------------------------------------------------------------
+# Add / Delete row callbacks
+# ---------------------------------------------------------------------------
+
+def _empty_row(rows):
+    """Return a new blank row matching the columns of existing rows."""
+    if not rows:
+        return {}
+    return {k: "" for k in rows[0].keys()}
+
+
+def _delete_selected(rows, selected):
+    """Remove selected rows from rows list."""
+    if not selected:
+        return rows
+    selected_tuples = {tuple(sorted(r.items())) for r in selected}
+    return [r for r in rows if tuple(sorted(r.items())) not in selected_tuples]
+
+
+@callback(Output("zcmap-grid", "rowData", allow_duplicate=True),
+          Input("add-zcmap-btn", "n_clicks"),
+          State("zcmap-grid", "rowData"),
+          prevent_initial_call=True)
+def add_zcmap_row(n, rows):
+    rows = rows or []
+    return rows + [_empty_row(rows)]
+
+
+@callback(Output("zcmap-grid", "rowData", allow_duplicate=True),
+          Input("del-zcmap-btn", "n_clicks"),
+          State("zcmap-grid", "rowData"),
+          State("zcmap-grid", "selectedRows"),
+          prevent_initial_call=True)
+def del_zcmap_row(n, rows, selected):
+    return _delete_selected(rows or [], selected or [])
+
+
+@callback(Output("years-grid", "rowData", allow_duplicate=True),
+          Input("add-years-btn", "n_clicks"),
+          State("years-grid", "rowData"),
+          prevent_initial_call=True)
+def add_years_row(n, rows):
+    rows = rows or []
+    return rows + [_empty_row(rows) or {"y": ""}]
+
+
+@callback(Output("years-grid", "rowData", allow_duplicate=True),
+          Input("del-years-btn", "n_clicks"),
+          State("years-grid", "rowData"),
+          State("years-grid", "selectedRows"),
+          prevent_initial_call=True)
+def del_years_row(n, rows, selected):
+    return _delete_selected(rows or [], selected or [])
+
+
+@callback(Output("phours-grid", "rowData", allow_duplicate=True),
+          Input("add-phours-btn", "n_clicks"),
+          State("phours-grid", "rowData"),
+          prevent_initial_call=True)
+def add_phours_row(n, rows):
+    rows = rows or []
+    return rows + [_empty_row(rows)]
+
+
+@callback(Output("phours-grid", "rowData", allow_duplicate=True),
+          Input("del-phours-btn", "n_clicks"),
+          State("phours-grid", "rowData"),
+          State("phours-grid", "selectedRows"),
+          prevent_initial_call=True)
+def del_phours_row(n, rows, selected):
+    return _delete_selected(rows or [], selected or [])
 
 
 @callback(Output("open-file-store", "data", allow_duplicate=True),

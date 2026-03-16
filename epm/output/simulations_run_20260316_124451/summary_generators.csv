@@ -1,0 +1,1749 @@
+Variable,country,zone,generator,fuel,year,baseline
+Capacity: MW,Angola,Angola,AH Mabubas,ROR,2025,25.6
+Capacity: MW,Angola,Angola,AH Mabubas,ROR,2030,25.6
+Capacity: MW,Angola,Angola,AH Mabubas,ROR,2040,25.6
+Capacity: MW,Angola,Angola,BESS_Angola,Battery,2025,50.0
+Capacity: MW,Angola,Angola,BESS_Angola,Battery,2030,50.0
+Capacity: MW,Angola,Angola,BESS_Angola,Battery,2040,50.0
+Capacity: MW,Angola,Angola,Baia farta,PV,2025,76.0
+Capacity: MW,Angola,Angola,Baia farta,PV,2030,76.0
+Capacity: MW,Angola,Angola,Baia farta,PV,2040,76.0
+Capacity: MW,Angola,Angola,Bailundo,PV,2030,6.0
+Capacity: MW,Angola,Angola,Bailundo,PV,2040,6.0
+Capacity: MW,Angola,Angola,Baynes,Reservoir,2040,439.0
+Capacity: MW,Angola,Angola,Benjoin,Onshore Wind,2030,52.0
+Capacity: MW,Angola,Angola,Benjoin,Onshore Wind,2040,52.0
+Capacity: MW,Angola,Angola,Biopo PV,PV,2025,145.0
+Capacity: MW,Angola,Angola,Biopo PV,PV,2030,145.0
+Capacity: MW,Angola,Angola,Biopo PV,PV,2040,145.0
+Capacity: MW,Angola,Angola,CCGT Lobito,Gas,2025,37.88
+Capacity: MW,Angola,Angola,CCGT Lobito,Gas,2030,472.62
+Capacity: MW,Angola,Angola,CCGT Lobito,Gas,2040,472.62
+Capacity: MW,Angola,Angola,CD Benfica,Diesel,2025,36.0
+Capacity: MW,Angola,Angola,CD Bie,Diesel,2025,34.0
+Capacity: MW,Angola,Angola,CD Buco Zau,Diesel,2025,4.0
+Capacity: MW,Angola,Angola,CD Capoca 2,Diesel,2025,20.0
+Capacity: MW,Angola,Angola,CD Cavaco,Diesel,2025,16.0
+Capacity: MW,Angola,Angola,CD Chibodo,Diesel,2025,31.0
+Capacity: MW,Angola,Angola,CD Cuebe,Diesel,2025,50.0
+Capacity: MW,Angola,Angola,CD Cuito Cuanavale,Diesel,2025,7.0
+Capacity: MW,Angola,Angola,CD Dundo,Diesel,2025,41.0
+Capacity: MW,Angola,Angola,CD Huambo,Diesel,2025,38.0
+Capacity: MW,Angola,Angola,CD Kianganga,Diesel,2025,5.0
+Capacity: MW,Angola,Angola,CD Luau,Diesel,2025,33.0
+Capacity: MW,Angola,Angola,CD Lunda Sul,Diesel,2025,46.0
+Capacity: MW,Angola,Angola,CD Menongue,Diesel,2025,12.0
+Capacity: MW,Angola,Angola,CD Quarteis,Diesel,2025,28.0
+Capacity: MW,Angola,Angola,CD Santa Catarina,Diesel,2025,10.0
+Capacity: MW,Angola,Angola,CT Belem,Gas,2025,50.0
+Capacity: MW,Angola,Angola,CT Biopo,Gas,2025,27.0
+Capacity: MW,Angola,Angola,CT Biopo,Gas,2030,27.0
+Capacity: MW,Angola,Angola,CT Biopo,Gas,2040,27.0
+Capacity: MW,Angola,Angola,CT Boa Vista,Gas,2025,131.0
+Capacity: MW,Angola,Angola,CT Boa Vista,Gas,2030,33.88
+Capacity: MW,Angola,Angola,CT Boa Vista,Gas,2040,33.88
+Capacity: MW,Angola,Angola,CT CFL,Gas,2025,125.0
+Capacity: MW,Angola,Angola,CT Camana,Gas,2025,50.0
+Capacity: MW,Angola,Angola,CT Cazenga,Gas,2025,140.0
+Capacity: MW,Angola,Angola,CT Cazenga,Gas,2030,15.66
+Capacity: MW,Angola,Angola,CT Cazenga,Gas,2040,15.66
+Capacity: MW,Angola,Angola,CT Malembo,Gas,2025,105.0
+Capacity: MW,Angola,Angola,CT Malembo,Gas,2030,50.84
+Capacity: MW,Angola,Angola,CT Malembo,Gas,2040,50.84
+Capacity: MW,Angola,Angola,CT Morro Bento 2,Gas,2025,50.0
+Capacity: MW,Angola,Angola,CT Viana,Gas,2025,22.0
+Capacity: MW,Angola,Angola,CT Viana,Gas,2030,22.0
+Capacity: MW,Angola,Angola,CT Viana,Gas,2040,22.0
+Capacity: MW,Angola,Angola,Cacula,Onshore Wind,2030,88.0
+Capacity: MW,Angola,Angola,Cacula,Onshore Wind,2040,88.0
+Capacity: MW,Angola,Angola,Cacula Cabasa,ROR,2030,781.84
+Capacity: MW,Angola,Angola,Cacula Cabasa,ROR,2040,781.84
+Capacity: MW,Angola,Angola,Cafunfo,PV,2030,41.0
+Capacity: MW,Angola,Angola,Cafunfo,PV,2040,41.0
+Capacity: MW,Angola,Angola,Calenga,Onshore Wind,2030,84.0
+Capacity: MW,Angola,Angola,Calenga,Onshore Wind,2040,84.0
+Capacity: MW,Angola,Angola,Calengue (Catumbela),ROR,2040,200.0
+Capacity: MW,Angola,Angola,Cambambe,Reservoir,2025,960.0
+Capacity: MW,Angola,Angola,Cambambe,Reservoir,2030,960.0
+Capacity: MW,Angola,Angola,Cambambe,Reservoir,2040,960.0
+Capacity: MW,Angola,Angola,Cambulo,PV,2030,37.0
+Capacity: MW,Angola,Angola,Cambulo,PV,2040,37.0
+Capacity: MW,Angola,Angola,Capanda,Reservoir,2025,520.0
+Capacity: MW,Angola,Angola,Capanda,Reservoir,2030,520.0
+Capacity: MW,Angola,Angola,Capanda,Reservoir,2040,520.0
+Capacity: MW,Angola,Angola,Catete,PV,2030,100.0
+Capacity: MW,Angola,Angola,Catete,PV,2040,100.0
+Capacity: MW,Angola,Angola,Chibia,Onshore Wind,2030,88.0
+Capacity: MW,Angola,Angola,Chibia,Onshore Wind,2040,88.0
+Capacity: MW,Angola,Angola,Cuango,PV,2030,11.0
+Capacity: MW,Angola,Angola,Cuango,PV,2040,11.0
+Capacity: MW,Angola,Angola,Cunene,PV,2030,8.0
+Capacity: MW,Angola,Angola,Cunene,PV,2040,8.0
+Capacity: MW,Angola,Angola,Cunene thermique,Diesel,2025,48.0
+Capacity: MW,Angola,Angola,Gastao,Onshore Wind,2030,30.0
+Capacity: MW,Angola,Angola,Gastao,Onshore Wind,2040,30.0
+Capacity: MW,Angola,Angola,Generic_PV_Angola,PV,2040,2000.0
+Capacity: MW,Angola,Angola,Gove,Reservoir,2025,60.0
+Capacity: MW,Angola,Angola,Gove,Reservoir,2030,60.0
+Capacity: MW,Angola,Angola,Gove,Reservoir,2040,60.0
+Capacity: MW,Angola,Angola,Huila thermique,Diesel,2025,137.0
+Capacity: MW,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,62.0
+Capacity: MW,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,62.0
+Capacity: MW,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,42.0
+Capacity: MW,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,42.0
+Capacity: MW,Angola,Angola,Kuito,PV,2030,12.0
+Capacity: MW,Angola,Angola,Kuito,PV,2040,12.0
+Capacity: MW,Angola,Angola,Lauca,ROR,2025,2070.0
+Capacity: MW,Angola,Angola,Lauca,ROR,2030,2070.0
+Capacity: MW,Angola,Angola,Lauca,ROR,2040,2070.0
+Capacity: MW,Angola,Angola,Lauca PV,PV,2030,400.0
+Capacity: MW,Angola,Angola,Lauca PV,PV,2040,400.0
+Capacity: MW,Angola,Angola,Lomaum,ROR,2025,50.0
+Capacity: MW,Angola,Angola,Lomaum,ROR,2030,50.0
+Capacity: MW,Angola,Angola,Lomaum,ROR,2040,50.0
+Capacity: MW,Angola,Angola,Luachimo,ROR,2025,8.0
+Capacity: MW,Angola,Angola,Luachimo,ROR,2030,8.0
+Capacity: MW,Angola,Angola,Luachimo,ROR,2040,8.0
+Capacity: MW,Angola,Angola,Luau PV,PV,2025,32.0
+Capacity: MW,Angola,Angola,Luau PV,PV,2030,32.0
+Capacity: MW,Angola,Angola,Luau PV,PV,2040,32.0
+Capacity: MW,Angola,Angola,Lucapa,PV,2025,6.0
+Capacity: MW,Angola,Angola,Lucapa,PV,2030,6.0
+Capacity: MW,Angola,Angola,Lucapa,PV,2040,6.0
+Capacity: MW,Angola,Angola,Luena,PV,2025,21.0
+Capacity: MW,Angola,Angola,Luena,PV,2030,21.0
+Capacity: MW,Angola,Angola,Luena,PV,2040,21.0
+Capacity: MW,Angola,Angola,Matala,ROR,2025,41.0
+Capacity: MW,Angola,Angola,Matala,ROR,2030,41.0
+Capacity: MW,Angola,Angola,Matala,ROR,2040,41.0
+Capacity: MW,Angola,Angola,Namibe thermique,Diesel,2025,105.0
+Capacity: MW,Angola,Angola,Quilemba,PV,2025,35.0
+Capacity: MW,Angola,Angola,Quilemba,PV,2030,35.0
+Capacity: MW,Angola,Angola,Quilemba,PV,2040,35.0
+Capacity: MW,Angola,Angola,Quilengue,ROR,2040,210.0
+Capacity: MW,Angola,Angola,Quipungo,PV,2030,150.0
+Capacity: MW,Angola,Angola,Quipungo,PV,2040,150.0
+Capacity: MW,Angola,Angola,Saurimo,PV,2025,21.0
+Capacity: MW,Angola,Angola,Saurimo,PV,2030,21.0
+Capacity: MW,Angola,Angola,Saurimo,PV,2040,21.0
+Capacity: MW,Angola,Angola,Soyo,Gas,2025,750.0
+Capacity: MW,Angola,Angola,Soyo,Gas,2030,750.0
+Capacity: MW,Angola,Angola,Soyo,Gas,2040,750.0
+Capacity: MW,Angola,Angola,Tchiumbwe Dala,ROR,2025,12.0
+Capacity: MW,Angola,Angola,Tchiumbwe Dala,ROR,2030,12.0
+Capacity: MW,Angola,Angola,Tchiumbwe Dala,ROR,2040,12.0
+Capacity: MW,Angola,Angola,Tombwa,Onshore Wind,2030,100.0
+Capacity: MW,Angola,Angola,Tombwa,Onshore Wind,2040,100.0
+Capacity: MW,CAR,CAR,Bangui Enerca,Diesel,2025,20.0
+Capacity: MW,CAR,CAR,Bangui Enerca,Diesel,2030,20.0
+Capacity: MW,CAR,CAR,Bangui Enerca,Diesel,2040,20.0
+Capacity: MW,CAR,CAR,Boali 1 Rebuild,Reservoir,2025,9.0
+Capacity: MW,CAR,CAR,Boali 1 Rebuild,Reservoir,2030,9.0
+Capacity: MW,CAR,CAR,Boali 1 Rebuild,Reservoir,2040,9.0
+Capacity: MW,CAR,CAR,Boali 2,Reservoir,2025,20.0
+Capacity: MW,CAR,CAR,Boali 2,Reservoir,2030,20.0
+Capacity: MW,CAR,CAR,Boali 2,Reservoir,2040,20.0
+Capacity: MW,CAR,CAR,Boali 3,Reservoir,2030,10.0
+Capacity: MW,CAR,CAR,Boali 3,Reservoir,2040,10.0
+Capacity: MW,CAR,CAR,Danzi,PV,2025,25.0
+Capacity: MW,CAR,CAR,Danzi,PV,2030,25.0
+Capacity: MW,CAR,CAR,Danzi,PV,2040,25.0
+Capacity: MW,CAR,CAR,Dimoli (CAR),Reservoir,2040,90.0
+Capacity: MW,CAR,CAR,Kotto,Reservoir,2030,60.0
+Capacity: MW,CAR,CAR,Kotto,Reservoir,2040,60.0
+Capacity: MW,CAR,CAR,Lancremo,Reservoir,2040,7.33
+Capacity: MW,CAR,CAR,PV_CAF_2030,PV,2030,15.0
+Capacity: MW,CAR,CAR,PV_CAF_2030,PV,2040,15.0
+Capacity: MW,CAR,CAR,Sakai,PV,2025,15.0
+Capacity: MW,CAR,CAR,Sakai,PV,2030,15.0
+Capacity: MW,CAR,CAR,Sakai,PV,2040,15.0
+Capacity: MW,Congo,Congo,Brazzaville Solar,PV,2030,55.0
+Capacity: MW,Congo,Congo,Brazzaville Solar,PV,2040,55.0
+Capacity: MW,Congo,Congo,CEC (Cote Mateve),Gas,2025,484.0
+Capacity: MW,Congo,Congo,CEC (Cote Mateve),Gas,2030,297.58
+Capacity: MW,Congo,Congo,CTB (Mpila),Diesel,2025,21.0
+Capacity: MW,Congo,Congo,Djeno,Gas,2025,50.0
+Capacity: MW,Congo,Congo,Djeno,Gas,2030,50.0
+Capacity: MW,Congo,Congo,Dolisie,Diesel,2025,2.0
+Capacity: MW,Congo,Congo,Generic_PV_Congo,PV,2040,450.0
+Capacity: MW,Congo,Congo,Imboulou,Reservoir,2025,120.0
+Capacity: MW,Congo,Congo,Imboulou,Reservoir,2030,120.0
+Capacity: MW,Congo,Congo,Imboulou,Reservoir,2040,120.0
+Capacity: MW,Congo,Congo,Kouembali,Reservoir,2040,150.0
+Capacity: MW,Congo,Congo,Liouesso,Reservoir,2025,20.0
+Capacity: MW,Congo,Congo,Liouesso,Reservoir,2030,20.0
+Capacity: MW,Congo,Congo,Liouesso,Reservoir,2040,20.0
+Capacity: MW,Congo,Congo,Madingou,Diesel,2025,2.0
+Capacity: MW,Congo,Congo,Moukouloukou,Reservoir,2025,74.0
+Capacity: MW,Congo,Congo,Moukouloukou,Reservoir,2030,74.0
+Capacity: MW,Congo,Congo,Moukouloukou,Reservoir,2040,74.0
+Capacity: MW,Congo,Congo,Mourala,Reservoir,2040,101.0
+Capacity: MW,Congo,Congo,Mpoukou,Reservoir,2040,180.0
+Capacity: MW,Congo,Congo,Nkayi Mill,Biomass,2025,6.0
+Capacity: MW,Congo,Congo,Nkayi Mill,Biomass,2030,6.0
+Capacity: MW,Congo,Congo,Nkayi Mill,Biomass,2040,6.0
+Capacity: MW,Congo,Congo,Nyanga,Reservoir,2040,230.0
+Capacity: MW,Congo,Congo,Ouesso,Diesel,2025,6.0
+Capacity: MW,Congo,Congo,Ouesso Biomass,Biomass,2025,2.5
+Capacity: MW,Congo,Congo,Ouesso Biomass,Biomass,2030,2.5
+Capacity: MW,Congo,Congo,Ouesso Biomass,Biomass,2040,2.5
+Capacity: MW,Congo,Congo,Oyo,Diesel,2025,5.0
+Capacity: MW,Congo,Congo,Pointe Noire,Diesel,2025,26.0
+Capacity: MW,Congo,Congo,Sibiti,Diesel,2025,2.0
+Capacity: MW,DRC,DRC,Generic_PV_DRC,PV,2030,500.0
+Capacity: MW,DRC,DRC,Generic_PV_DRC,PV,2040,500.0
+Capacity: MW,DRC,DRC,Inga 1,Reservoir,2025,306.0
+Capacity: MW,DRC,DRC,Inga 1,Reservoir,2030,306.0
+Capacity: MW,DRC,DRC,Inga 1,Reservoir,2040,306.0
+Capacity: MW,DRC,DRC,Inga 2,Reservoir,2025,800.0
+Capacity: MW,DRC,DRC,Inga 2,Reservoir,2030,800.0
+Capacity: MW,DRC,DRC,Inga 2,Reservoir,2040,800.0
+Capacity: MW,DRC,DRC,Inga 3,Reservoir,2040,1655.0
+Capacity: MW,DRC,DRC,Kakobola,Reservoir,2030,10.0
+Capacity: MW,DRC,DRC,Kakobola,Reservoir,2040,10.0
+Capacity: MW,DRC,DRC,Katende,Reservoir,2030,64.0
+Capacity: MW,DRC,DRC,Katende,Reservoir,2040,64.0
+Capacity: MW,DRC,DRC,Mbandaka,Diesel,2025,5.0
+Capacity: MW,DRC,DRC,Mbandaka,Diesel,2030,5.0
+Capacity: MW,DRC,DRC,Mbandaka,Diesel,2040,5.0
+Capacity: MW,DRC,DRC,Mobayi,Reservoir,2025,10.0
+Capacity: MW,DRC,DRC,Mobayi,Reservoir,2030,10.0
+Capacity: MW,DRC,DRC,Mobayi,Reservoir,2040,10.0
+Capacity: MW,DRC,DRC,Nzongo,Reservoir,2025,75.0
+Capacity: MW,DRC,DRC,Nzongo,Reservoir,2030,75.0
+Capacity: MW,DRC,DRC,Nzongo,Reservoir,2040,75.0
+Capacity: MW,DRC,DRC,Nzongoii,Reservoir,2025,150.0
+Capacity: MW,DRC,DRC,Nzongoii,Reservoir,2030,150.0
+Capacity: MW,DRC,DRC,Nzongoii,Reservoir,2040,150.0
+Capacity: MW,DRC,DRC,Sanga,Reservoir,2025,6.0
+Capacity: MW,DRC,DRC,Sanga,Reservoir,2030,6.0
+Capacity: MW,DRC,DRC,Sanga,Reservoir,2040,6.0
+Capacity: MW,DRC,DRC,Soleniama,Reservoir,2025,25.5
+Capacity: MW,DRC,DRC,Soleniama,Reservoir,2030,25.5
+Capacity: MW,DRC,DRC,Soleniama,Reservoir,2040,25.5
+Capacity: MW,DRC,DRC,Zongo 1,Reservoir,2025,13.0
+Capacity: MW,DRC,DRC,Zongo 1,Reservoir,2030,13.0
+Capacity: MW,DRC,DRC,Zongo 1,Reservoir,2040,13.0
+Capacity: MW,DRC,DRC,Zongo 2,Reservoir,2025,74.0
+Capacity: MW,DRC,DRC,Zongo 2,Reservoir,2030,74.0
+Capacity: MW,DRC,DRC,Zongo 2,Reservoir,2040,74.0
+Capacity: MW,DRC,DRC_South,Bousanga,Reservoir,2025,240.0
+Capacity: MW,DRC,DRC_South,Bousanga,Reservoir,2030,240.0
+Capacity: MW,DRC,DRC_South,Bousanga,Reservoir,2040,240.0
+Capacity: MW,DRC,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,360.0
+Capacity: MW,DRC,DRC_South,Generic_PV_DRCSouth,PV,2040,0.54
+Capacity: MW,DRC,DRC_South,Kilubi,Reservoir,2025,8.0
+Capacity: MW,DRC,DRC_South,Kilubi,Reservoir,2030,8.0
+Capacity: MW,DRC,DRC_South,Kilubi,Reservoir,2040,8.0
+Capacity: MW,DRC,DRC_South,Koni,Reservoir,2025,42.0
+Capacity: MW,DRC,DRC_South,Koni,Reservoir,2030,42.0
+Capacity: MW,DRC,DRC_South,Koni,Reservoir,2040,42.0
+Capacity: MW,DRC,DRC_South,Lubumbashi,PV,2025,100.0
+Capacity: MW,DRC,DRC_South,Lubumbashi,PV,2030,100.0
+Capacity: MW,DRC,DRC_South,Lubumbashi,PV,2040,100.0
+Capacity: MW,DRC,DRC_South,Nseke,Reservoir,2025,250.0
+Capacity: MW,DRC,DRC_South,Nseke,Reservoir,2030,250.0
+Capacity: MW,DRC,DRC_South,Nseke,Reservoir,2040,250.0
+Capacity: MW,DRC,DRC_South,Nzilo,Reservoir,2025,110.0
+Capacity: MW,DRC,DRC_South,Nzilo,Reservoir,2030,110.0
+Capacity: MW,DRC,DRC_South,Nzilo,Reservoir,2040,110.0
+Capacity: MW,Gabon,Gabon,Akok,Diesel,2025,0.69
+Capacity: MW,Gabon,Gabon,Alenakiri,Gas,2025,48.0
+Capacity: MW,Gabon,Gabon,Alenakiri,Gas,2030,48.0
+Capacity: MW,Gabon,Gabon,Ayeme I,PV,2025,30.0
+Capacity: MW,Gabon,Gabon,Ayeme I,PV,2030,30.0
+Capacity: MW,Gabon,Gabon,Ayeme I,PV,2040,30.0
+Capacity: MW,Gabon,Gabon,Bifoun,Diesel,2025,0.48
+Capacity: MW,Gabon,Gabon,Bitam,Diesel,2025,2.34
+Capacity: MW,Gabon,Gabon,Bongolo,Reservoir,2025,6.0
+Capacity: MW,Gabon,Gabon,Bongolo,Reservoir,2030,6.0
+Capacity: MW,Gabon,Gabon,Bongolo,Reservoir,2040,6.0
+Capacity: MW,Gabon,Gabon,Booue,Reservoir,2040,411.0
+Capacity: MW,Gabon,Gabon,Cap Lopez,Gas,2025,52.5
+Capacity: MW,Gabon,Gabon,Cap Lopez,Gas,2030,52.5
+Capacity: MW,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,90.0
+Capacity: MW,Gabon,Gabon,Doubou,PV,2030,20.0
+Capacity: MW,Gabon,Gabon,Doubou,PV,2040,20.0
+Capacity: MW,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,34.3
+Capacity: MW,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,34.3
+Capacity: MW,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,34.3
+Capacity: MW,Gabon,Gabon,Fougamou,Diesel,2025,0.24
+Capacity: MW,Gabon,Gabon,Gamba,Gas,2025,3.4
+Capacity: MW,Gabon,Gabon,Gamba,Gas,2030,3.4
+Capacity: MW,Gabon,Gabon,Generic_PV_Gabon,PV,2040,450.0
+Capacity: MW,Gabon,Gabon,Grand Poubara,Reservoir,2025,160.0
+Capacity: MW,Gabon,Gabon,Grand Poubara,Reservoir,2030,160.0
+Capacity: MW,Gabon,Gabon,Grand Poubara,Reservoir,2040,160.0
+Capacity: MW,Gabon,Gabon,Kinguele,Reservoir,2025,57.0
+Capacity: MW,Gabon,Gabon,Kinguele,Reservoir,2030,57.0
+Capacity: MW,Gabon,Gabon,Kinguele,Reservoir,2040,57.0
+Capacity: MW,Gabon,Gabon,Kongue,Reservoir,2040,104.0
+Capacity: MW,Gabon,Gabon,Koula-Moutou,Diesel,2025,4.73
+Capacity: MW,Gabon,Gabon,Lambarene,Diesel,2025,5.9
+Capacity: MW,Gabon,Gabon,Lastourville,Diesel,2025,1.05
+Capacity: MW,Gabon,Gabon,Lifouta,Reservoir,2040,105.0
+Capacity: MW,Gabon,Gabon,Makokou,Diesel,2025,3.57
+Capacity: MW,Gabon,Gabon,Mandji,Diesel,2025,0.76
+Capacity: MW,Gabon,Gabon,Mayumba,Diesel,2025,0.9
+Capacity: MW,Gabon,Gabon,Mekambo,Diesel,2025,0.76
+Capacity: MW,Gabon,Gabon,Mimongo,Diesel,2025,0.28
+Capacity: MW,Gabon,Gabon,Minvoul,Diesel,2025,0.46
+Capacity: MW,Gabon,Gabon,Mitoungou,Reservoir,2040,410.0
+Capacity: MW,Gabon,Gabon,Mitzic,Diesel,2025,1.03
+Capacity: MW,Gabon,Gabon,Moabi,Diesel,2025,0.67
+Capacity: MW,Gabon,Gabon,Moanda Comilog,Diesel,2025,2.81
+Capacity: MW,Gabon,Gabon,Mouila,Diesel,2025,3.26
+Capacity: MW,Gabon,Gabon,Ndindi,Diesel,2025,0.26
+Capacity: MW,Gabon,Gabon,Ndjole,Diesel,2025,1.49
+Capacity: MW,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,88.0
+Capacity: MW,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,88.0
+Capacity: MW,Gabon,Gabon,Omboue,Diesel,2025,0.49
+Capacity: MW,Gabon,Gabon,Owendo,Diesel,2025,44.0
+Capacity: MW,Gabon,Gabon,Owendo Gas,Gas,2025,165.0
+Capacity: MW,Gabon,Gabon,Owendo Gas,Gas,2030,165.0
+Capacity: MW,Gabon,Gabon,Owendoc,Diesel,2025,66.2
+Capacity: MW,Gabon,Gabon,Oyem,Diesel,2025,6.5
+Capacity: MW,Gabon,Gabon,Oyem PV,PV,2030,50.0
+Capacity: MW,Gabon,Gabon,Oyem PV,PV,2040,50.0
+Capacity: MW,Gabon,Gabon,Port Gentil Perenco,Gas,2025,62.0
+Capacity: MW,Gabon,Gabon,Port Gentil Perenco,Gas,2030,62.0
+Capacity: MW,Gabon,Gabon,Poubara,Reservoir,2025,38.0
+Capacity: MW,Gabon,Gabon,Poubara,Reservoir,2030,38.0
+Capacity: MW,Gabon,Gabon,Poubara,Reservoir,2040,38.0
+Capacity: MW,Gabon,Gabon,Rabi Kounga Field,Gas,2025,15.51
+Capacity: MW,Gabon,Gabon,Rabi Kounga Field,Gas,2030,15.51
+Capacity: MW,Gabon,Gabon,Tchibanga,Diesel,2025,1.6
+Capacity: MW,Gabon,Gabon,Tchimbele,Reservoir,2025,68.0
+Capacity: MW,Gabon,Gabon,Tchimbele,Reservoir,2030,68.0
+Capacity: MW,Gabon,Gabon,Tchimbele,Reservoir,2040,68.0
+Capacity: MW,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,300.0
+Utilization: percent,Angola,Angola,AH Mabubas,ROR,2025,0.59
+Utilization: percent,Angola,Angola,AH Mabubas,ROR,2030,0.59
+Utilization: percent,Angola,Angola,AH Mabubas,ROR,2040,0.59
+Utilization: percent,Angola,Angola,BESS_Angola,Battery,2030,0.03
+Utilization: percent,Angola,Angola,BESS_Angola,Battery,2040,0.17
+Utilization: percent,Angola,Angola,Baia farta,PV,2025,0.23
+Utilization: percent,Angola,Angola,Baia farta,PV,2030,0.23
+Utilization: percent,Angola,Angola,Baia farta,PV,2040,0.23
+Utilization: percent,Angola,Angola,Bailundo,PV,2030,0.23
+Utilization: percent,Angola,Angola,Bailundo,PV,2040,0.23
+Utilization: percent,Angola,Angola,Baynes,Reservoir,2040,0.33
+Utilization: percent,Angola,Angola,Benjoin,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Benjoin,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Biopo PV,PV,2025,0.23
+Utilization: percent,Angola,Angola,Biopo PV,PV,2030,0.23
+Utilization: percent,Angola,Angola,Biopo PV,PV,2040,0.23
+Utilization: percent,Angola,Angola,CCGT Lobito,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CCGT Lobito,Gas,2030,0.73
+Utilization: percent,Angola,Angola,CCGT Lobito,Gas,2040,0.38
+Utilization: percent,Angola,Angola,CT Belem,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Biopo,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Biopo,Gas,2030,0.36
+Utilization: percent,Angola,Angola,CT Biopo,Gas,2040,0.01
+Utilization: percent,Angola,Angola,CT Boa Vista,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Boa Vista,Gas,2030,0.36
+Utilization: percent,Angola,Angola,CT Boa Vista,Gas,2040,0.01
+Utilization: percent,Angola,Angola,CT CFL,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Camana,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Cazenga,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Cazenga,Gas,2030,0.36
+Utilization: percent,Angola,Angola,CT Malembo,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Malembo,Gas,2030,0.36
+Utilization: percent,Angola,Angola,CT Morro Bento 2,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Viana,Gas,2025,0.36
+Utilization: percent,Angola,Angola,CT Viana,Gas,2030,0.36
+Utilization: percent,Angola,Angola,Cacula,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Cacula,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Cacula Cabasa,ROR,2030,0.43
+Utilization: percent,Angola,Angola,Cacula Cabasa,ROR,2040,0.43
+Utilization: percent,Angola,Angola,Cafunfo,PV,2030,0.23
+Utilization: percent,Angola,Angola,Cafunfo,PV,2040,0.23
+Utilization: percent,Angola,Angola,Calenga,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Calenga,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Calengue (Catumbela),ROR,2040,0.43
+Utilization: percent,Angola,Angola,Cambambe,Reservoir,2025,0.34
+Utilization: percent,Angola,Angola,Cambambe,Reservoir,2030,0.34
+Utilization: percent,Angola,Angola,Cambambe,Reservoir,2040,0.34
+Utilization: percent,Angola,Angola,Cambulo,PV,2030,0.23
+Utilization: percent,Angola,Angola,Cambulo,PV,2040,0.23
+Utilization: percent,Angola,Angola,Capanda,Reservoir,2025,0.28
+Utilization: percent,Angola,Angola,Capanda,Reservoir,2030,0.28
+Utilization: percent,Angola,Angola,Capanda,Reservoir,2040,0.28
+Utilization: percent,Angola,Angola,Catete,PV,2030,0.23
+Utilization: percent,Angola,Angola,Catete,PV,2040,0.23
+Utilization: percent,Angola,Angola,Chibia,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Chibia,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Cuango,PV,2030,0.23
+Utilization: percent,Angola,Angola,Cuango,PV,2040,0.23
+Utilization: percent,Angola,Angola,Cunene,PV,2030,0.23
+Utilization: percent,Angola,Angola,Cunene,PV,2040,0.23
+Utilization: percent,Angola,Angola,Gastao,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Gastao,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Generic_PV_Angola,PV,2040,0.23
+Utilization: percent,Angola,Angola,Gove,Reservoir,2025,0.42
+Utilization: percent,Angola,Angola,Gove,Reservoir,2030,0.42
+Utilization: percent,Angola,Angola,Gove,Reservoir,2040,0.42
+Utilization: percent,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,0.39
+Utilization: percent,Angola,Angola,Kuito,PV,2030,0.23
+Utilization: percent,Angola,Angola,Kuito,PV,2040,0.23
+Utilization: percent,Angola,Angola,Lauca,ROR,2025,0.27
+Utilization: percent,Angola,Angola,Lauca,ROR,2030,0.24
+Utilization: percent,Angola,Angola,Lauca,ROR,2040,0.27
+Utilization: percent,Angola,Angola,Lauca PV,PV,2030,0.23
+Utilization: percent,Angola,Angola,Lauca PV,PV,2040,0.23
+Utilization: percent,Angola,Angola,Lomaum,ROR,2025,0.2
+Utilization: percent,Angola,Angola,Lomaum,ROR,2030,0.2
+Utilization: percent,Angola,Angola,Lomaum,ROR,2040,0.2
+Utilization: percent,Angola,Angola,Luachimo,ROR,2025,0.39
+Utilization: percent,Angola,Angola,Luachimo,ROR,2030,0.39
+Utilization: percent,Angola,Angola,Luachimo,ROR,2040,0.39
+Utilization: percent,Angola,Angola,Luau PV,PV,2025,0.23
+Utilization: percent,Angola,Angola,Luau PV,PV,2030,0.23
+Utilization: percent,Angola,Angola,Luau PV,PV,2040,0.23
+Utilization: percent,Angola,Angola,Lucapa,PV,2025,0.23
+Utilization: percent,Angola,Angola,Lucapa,PV,2030,0.23
+Utilization: percent,Angola,Angola,Lucapa,PV,2040,0.23
+Utilization: percent,Angola,Angola,Luena,PV,2025,0.23
+Utilization: percent,Angola,Angola,Luena,PV,2030,0.23
+Utilization: percent,Angola,Angola,Luena,PV,2040,0.23
+Utilization: percent,Angola,Angola,Matala,ROR,2025,0.37
+Utilization: percent,Angola,Angola,Matala,ROR,2030,0.37
+Utilization: percent,Angola,Angola,Matala,ROR,2040,0.37
+Utilization: percent,Angola,Angola,Quilemba,PV,2025,0.23
+Utilization: percent,Angola,Angola,Quilemba,PV,2030,0.23
+Utilization: percent,Angola,Angola,Quilemba,PV,2040,0.23
+Utilization: percent,Angola,Angola,Quilengue,ROR,2040,0.43
+Utilization: percent,Angola,Angola,Quipungo,PV,2030,0.23
+Utilization: percent,Angola,Angola,Quipungo,PV,2040,0.23
+Utilization: percent,Angola,Angola,Saurimo,PV,2025,0.23
+Utilization: percent,Angola,Angola,Saurimo,PV,2030,0.23
+Utilization: percent,Angola,Angola,Saurimo,PV,2040,0.23
+Utilization: percent,Angola,Angola,Soyo,Gas,2025,0.66
+Utilization: percent,Angola,Angola,Soyo,Gas,2030,0.85
+Utilization: percent,Angola,Angola,Soyo,Gas,2040,0.43
+Utilization: percent,Angola,Angola,Tchiumbwe Dala,ROR,2025,0.36
+Utilization: percent,Angola,Angola,Tchiumbwe Dala,ROR,2030,0.36
+Utilization: percent,Angola,Angola,Tchiumbwe Dala,ROR,2040,0.36
+Utilization: percent,Angola,Angola,Tombwa,Onshore Wind,2030,0.39
+Utilization: percent,Angola,Angola,Tombwa,Onshore Wind,2040,0.39
+Utilization: percent,CAR,CAR,Bangui Enerca,Diesel,2025,0.11
+Utilization: percent,CAR,CAR,Bangui Enerca,Diesel,2030,0.01
+Utilization: percent,CAR,CAR,Bangui Enerca,Diesel,2040,0.02
+Utilization: percent,CAR,CAR,Boali 1 Rebuild,Reservoir,2025,0.34
+Utilization: percent,CAR,CAR,Boali 1 Rebuild,Reservoir,2030,0.65
+Utilization: percent,CAR,CAR,Boali 1 Rebuild,Reservoir,2040,0.92
+Utilization: percent,CAR,CAR,Boali 2,Reservoir,2025,0.51
+Utilization: percent,CAR,CAR,Boali 2,Reservoir,2030,0.76
+Utilization: percent,CAR,CAR,Boali 2,Reservoir,2040,0.9
+Utilization: percent,CAR,CAR,Boali 3,Reservoir,2030,0.63
+Utilization: percent,CAR,CAR,Boali 3,Reservoir,2040,0.73
+Utilization: percent,CAR,CAR,Danzi,PV,2025,0.16
+Utilization: percent,CAR,CAR,Danzi,PV,2030,0.16
+Utilization: percent,CAR,CAR,Danzi,PV,2040,0.16
+Utilization: percent,CAR,CAR,Dimoli (CAR),Reservoir,2040,0.61
+Utilization: percent,CAR,CAR,Kotto,Reservoir,2030,0.5
+Utilization: percent,CAR,CAR,Kotto,Reservoir,2040,0.5
+Utilization: percent,CAR,CAR,Lancremo,Reservoir,2040,0.31
+Utilization: percent,CAR,CAR,PV_CAF_2030,PV,2030,0.16
+Utilization: percent,CAR,CAR,PV_CAF_2030,PV,2040,0.16
+Utilization: percent,CAR,CAR,Sakai,PV,2025,0.16
+Utilization: percent,CAR,CAR,Sakai,PV,2030,0.16
+Utilization: percent,CAR,CAR,Sakai,PV,2040,0.16
+Utilization: percent,Congo,Congo,Brazzaville Solar,PV,2030,0.17
+Utilization: percent,Congo,Congo,Brazzaville Solar,PV,2040,0.17
+Utilization: percent,Congo,Congo,CEC (Cote Mateve),Gas,2025,0.43
+Utilization: percent,Congo,Congo,CEC (Cote Mateve),Gas,2030,0.37
+Utilization: percent,Congo,Congo,Djeno,Gas,2025,0.15
+Utilization: percent,Congo,Congo,Djeno,Gas,2030,0.36
+Utilization: percent,Congo,Congo,Generic_PV_Congo,PV,2040,0.17
+Utilization: percent,Congo,Congo,Imboulou,Reservoir,2025,0.47
+Utilization: percent,Congo,Congo,Imboulou,Reservoir,2030,0.47
+Utilization: percent,Congo,Congo,Imboulou,Reservoir,2040,0.47
+Utilization: percent,Congo,Congo,Kouembali,Reservoir,2040,0.47
+Utilization: percent,Congo,Congo,Liouesso,Reservoir,2025,0.44
+Utilization: percent,Congo,Congo,Liouesso,Reservoir,2030,0.44
+Utilization: percent,Congo,Congo,Liouesso,Reservoir,2040,0.44
+Utilization: percent,Congo,Congo,Moukouloukou,Reservoir,2025,0.58
+Utilization: percent,Congo,Congo,Moukouloukou,Reservoir,2030,0.58
+Utilization: percent,Congo,Congo,Moukouloukou,Reservoir,2040,0.58
+Utilization: percent,Congo,Congo,Mourala,Reservoir,2040,0.53
+Utilization: percent,Congo,Congo,Mpoukou,Reservoir,2040,0.53
+Utilization: percent,Congo,Congo,Nkayi Mill,Biomass,2025,0.85
+Utilization: percent,Congo,Congo,Nkayi Mill,Biomass,2030,0.85
+Utilization: percent,Congo,Congo,Nkayi Mill,Biomass,2040,0.85
+Utilization: percent,Congo,Congo,Nyanga,Reservoir,2040,0.5
+Utilization: percent,Congo,Congo,Ouesso Biomass,Biomass,2025,0.85
+Utilization: percent,Congo,Congo,Ouesso Biomass,Biomass,2030,0.85
+Utilization: percent,Congo,Congo,Ouesso Biomass,Biomass,2040,0.85
+Utilization: percent,DRC,DRC,Generic_PV_DRC,PV,2030,0.19
+Utilization: percent,DRC,DRC,Generic_PV_DRC,PV,2040,0.19
+Utilization: percent,DRC,DRC,Inga 1,Reservoir,2025,0.84
+Utilization: percent,DRC,DRC,Inga 1,Reservoir,2030,0.84
+Utilization: percent,DRC,DRC,Inga 1,Reservoir,2040,0.84
+Utilization: percent,DRC,DRC,Inga 2,Reservoir,2025,0.98
+Utilization: percent,DRC,DRC,Inga 2,Reservoir,2030,0.98
+Utilization: percent,DRC,DRC,Inga 2,Reservoir,2040,0.95
+Utilization: percent,DRC,DRC,Inga 3,Reservoir,2040,0.98
+Utilization: percent,DRC,DRC,Kakobola,Reservoir,2030,0.52
+Utilization: percent,DRC,DRC,Kakobola,Reservoir,2040,0.5
+Utilization: percent,DRC,DRC,Katende,Reservoir,2030,0.5
+Utilization: percent,DRC,DRC,Katende,Reservoir,2040,0.48
+Utilization: percent,DRC,DRC,Mobayi,Reservoir,2025,0.42
+Utilization: percent,DRC,DRC,Mobayi,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC,Mobayi,Reservoir,2040,0.42
+Utilization: percent,DRC,DRC,Nzongo,Reservoir,2025,0.58
+Utilization: percent,DRC,DRC,Nzongo,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC,Nzongo,Reservoir,2040,0.56
+Utilization: percent,DRC,DRC,Nzongoii,Reservoir,2025,0.54
+Utilization: percent,DRC,DRC,Nzongoii,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC,Nzongoii,Reservoir,2040,0.58
+Utilization: percent,DRC,DRC,Sanga,Reservoir,2025,0.42
+Utilization: percent,DRC,DRC,Sanga,Reservoir,2030,0.59
+Utilization: percent,DRC,DRC,Sanga,Reservoir,2040,0.41
+Utilization: percent,DRC,DRC,Soleniama,Reservoir,2025,0.58
+Utilization: percent,DRC,DRC,Soleniama,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC,Soleniama,Reservoir,2040,0.54
+Utilization: percent,DRC,DRC,Zongo 1,Reservoir,2025,0.15
+Utilization: percent,DRC,DRC,Zongo 1,Reservoir,2030,0.2
+Utilization: percent,DRC,DRC,Zongo 1,Reservoir,2040,0.19
+Utilization: percent,DRC,DRC,Zongo 2,Reservoir,2025,0.78
+Utilization: percent,DRC,DRC,Zongo 2,Reservoir,2030,0.81
+Utilization: percent,DRC,DRC,Zongo 2,Reservoir,2040,0.81
+Utilization: percent,DRC,DRC_South,Bousanga,Reservoir,2025,0.58
+Utilization: percent,DRC,DRC_South,Bousanga,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC_South,Bousanga,Reservoir,2040,0.58
+Utilization: percent,DRC,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,0.39
+Utilization: percent,DRC,DRC_South,Generic_PV_DRCSouth,PV,2040,0.19
+Utilization: percent,DRC,DRC_South,Kilubi,Reservoir,2025,0.58
+Utilization: percent,DRC,DRC_South,Kilubi,Reservoir,2030,0.58
+Utilization: percent,DRC,DRC_South,Kilubi,Reservoir,2040,0.58
+Utilization: percent,DRC,DRC_South,Koni,Reservoir,2025,0.49
+Utilization: percent,DRC,DRC_South,Koni,Reservoir,2030,0.49
+Utilization: percent,DRC,DRC_South,Koni,Reservoir,2040,0.49
+Utilization: percent,DRC,DRC_South,Lubumbashi,PV,2025,0.19
+Utilization: percent,DRC,DRC_South,Lubumbashi,PV,2030,0.19
+Utilization: percent,DRC,DRC_South,Lubumbashi,PV,2040,0.19
+Utilization: percent,DRC,DRC_South,Nseke,Reservoir,2025,0.91
+Utilization: percent,DRC,DRC_South,Nseke,Reservoir,2030,0.91
+Utilization: percent,DRC,DRC_South,Nseke,Reservoir,2040,0.91
+Utilization: percent,DRC,DRC_South,Nzilo,Reservoir,2025,0.57
+Utilization: percent,DRC,DRC_South,Nzilo,Reservoir,2030,0.57
+Utilization: percent,DRC,DRC_South,Nzilo,Reservoir,2040,0.57
+Utilization: percent,Gabon,Gabon,Alenakiri,Gas,2025,0.85
+Utilization: percent,Gabon,Gabon,Alenakiri,Gas,2030,0.75
+Utilization: percent,Gabon,Gabon,Ayeme I,PV,2025,0.16
+Utilization: percent,Gabon,Gabon,Ayeme I,PV,2030,0.16
+Utilization: percent,Gabon,Gabon,Ayeme I,PV,2040,0.16
+Utilization: percent,Gabon,Gabon,Bongolo,Reservoir,2025,0.58
+Utilization: percent,Gabon,Gabon,Bongolo,Reservoir,2030,0.58
+Utilization: percent,Gabon,Gabon,Bongolo,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Booue,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Cap Lopez,Gas,2025,0.85
+Utilization: percent,Gabon,Gabon,Cap Lopez,Gas,2030,0.75
+Utilization: percent,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Doubou,PV,2030,0.16
+Utilization: percent,Gabon,Gabon,Doubou,PV,2040,0.16
+Utilization: percent,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,0.48
+Utilization: percent,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,0.48
+Utilization: percent,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,0.48
+Utilization: percent,Gabon,Gabon,Gamba,Gas,2025,0.85
+Utilization: percent,Gabon,Gabon,Gamba,Gas,2030,0.36
+Utilization: percent,Gabon,Gabon,Generic_PV_Gabon,PV,2040,0.16
+Utilization: percent,Gabon,Gabon,Grand Poubara,Reservoir,2025,0.4
+Utilization: percent,Gabon,Gabon,Grand Poubara,Reservoir,2030,0.4
+Utilization: percent,Gabon,Gabon,Grand Poubara,Reservoir,2040,0.4
+Utilization: percent,Gabon,Gabon,Kinguele,Reservoir,2025,0.58
+Utilization: percent,Gabon,Gabon,Kinguele,Reservoir,2030,0.58
+Utilization: percent,Gabon,Gabon,Kinguele,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Kongue,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Lifouta,Reservoir,2040,0.62
+Utilization: percent,Gabon,Gabon,Mitoungou,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,0.71
+Utilization: percent,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,0.71
+Utilization: percent,Gabon,Gabon,Owendo Gas,Gas,2025,0.65
+Utilization: percent,Gabon,Gabon,Owendo Gas,Gas,2030,0.85
+Utilization: percent,Gabon,Gabon,Oyem PV,PV,2030,0.16
+Utilization: percent,Gabon,Gabon,Oyem PV,PV,2040,0.16
+Utilization: percent,Gabon,Gabon,Port Gentil Perenco,Gas,2025,0.85
+Utilization: percent,Gabon,Gabon,Port Gentil Perenco,Gas,2030,0.68
+Utilization: percent,Gabon,Gabon,Poubara,Reservoir,2025,0.58
+Utilization: percent,Gabon,Gabon,Poubara,Reservoir,2030,0.58
+Utilization: percent,Gabon,Gabon,Poubara,Reservoir,2040,0.58
+Utilization: percent,Gabon,Gabon,Rabi Kounga Field,Gas,2025,0.85
+Utilization: percent,Gabon,Gabon,Rabi Kounga Field,Gas,2030,0.49
+Utilization: percent,Gabon,Gabon,Tchimbele,Reservoir,2025,0.38
+Utilization: percent,Gabon,Gabon,Tchimbele,Reservoir,2030,0.38
+Utilization: percent,Gabon,Gabon,Tchimbele,Reservoir,2040,0.38
+Utilization: percent,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,0.58
+Energy: GWh,Angola,Angola,AH Mabubas,ROR,2025,131.84
+Energy: GWh,Angola,Angola,AH Mabubas,ROR,2030,131.84
+Energy: GWh,Angola,Angola,AH Mabubas,ROR,2040,131.84
+Energy: GWh,Angola,Angola,BESS_Angola,Battery,2030,11.66
+Energy: GWh,Angola,Angola,BESS_Angola,Battery,2040,73.0
+Energy: GWh,Angola,Angola,Baia farta,PV,2025,156.24
+Energy: GWh,Angola,Angola,Baia farta,PV,2030,156.24
+Energy: GWh,Angola,Angola,Baia farta,PV,2040,156.24
+Energy: GWh,Angola,Angola,Bailundo,PV,2030,12.34
+Energy: GWh,Angola,Angola,Bailundo,PV,2040,12.34
+Energy: GWh,Angola,Angola,Baynes,Reservoir,2040,1253.37
+Energy: GWh,Angola,Angola,Benjoin,Onshore Wind,2030,177.47
+Energy: GWh,Angola,Angola,Benjoin,Onshore Wind,2040,177.47
+Energy: GWh,Angola,Angola,Biopo PV,PV,2025,298.1
+Energy: GWh,Angola,Angola,Biopo PV,PV,2030,298.1
+Energy: GWh,Angola,Angola,Biopo PV,PV,2040,298.1
+Energy: GWh,Angola,Angola,CCGT Lobito,Gas,2025,118.22
+Energy: GWh,Angola,Angola,CCGT Lobito,Gas,2030,3006.95
+Energy: GWh,Angola,Angola,CCGT Lobito,Gas,2040,1561.09
+Energy: GWh,Angola,Angola,CT Belem,Gas,2025,156.06
+Energy: GWh,Angola,Angola,CT Biopo,Gas,2025,84.27
+Energy: GWh,Angola,Angola,CT Biopo,Gas,2030,84.27
+Energy: GWh,Angola,Angola,CT Biopo,Gas,2040,3.51
+Energy: GWh,Angola,Angola,CT Boa Vista,Gas,2025,408.88
+Energy: GWh,Angola,Angola,CT Boa Vista,Gas,2030,105.74
+Energy: GWh,Angola,Angola,CT Boa Vista,Gas,2040,3.96
+Energy: GWh,Angola,Angola,CT CFL,Gas,2025,390.15
+Energy: GWh,Angola,Angola,CT Camana,Gas,2025,156.06
+Energy: GWh,Angola,Angola,CT Cazenga,Gas,2025,436.97
+Energy: GWh,Angola,Angola,CT Cazenga,Gas,2030,48.89
+Energy: GWh,Angola,Angola,CT Cazenga,Gas,2040,0.53
+Energy: GWh,Angola,Angola,CT Malembo,Gas,2025,327.73
+Energy: GWh,Angola,Angola,CT Malembo,Gas,2030,158.67
+Energy: GWh,Angola,Angola,CT Malembo,Gas,2040,2.19
+Energy: GWh,Angola,Angola,CT Morro Bento 2,Gas,2025,156.06
+Energy: GWh,Angola,Angola,CT Viana,Gas,2025,68.67
+Energy: GWh,Angola,Angola,CT Viana,Gas,2030,68.67
+Energy: GWh,Angola,Angola,CT Viana,Gas,2040,0.95
+Energy: GWh,Angola,Angola,Cacula,Onshore Wind,2030,300.33
+Energy: GWh,Angola,Angola,Cacula,Onshore Wind,2040,300.33
+Energy: GWh,Angola,Angola,Cacula Cabasa,ROR,2030,2932.21
+Energy: GWh,Angola,Angola,Cacula Cabasa,ROR,2040,2932.21
+Energy: GWh,Angola,Angola,Cafunfo,PV,2030,84.29
+Energy: GWh,Angola,Angola,Cafunfo,PV,2040,84.29
+Energy: GWh,Angola,Angola,Calenga,Onshore Wind,2030,286.68
+Energy: GWh,Angola,Angola,Calenga,Onshore Wind,2040,286.68
+Energy: GWh,Angola,Angola,Calengue (Catumbela),ROR,2040,750.08
+Energy: GWh,Angola,Angola,Cambambe,Reservoir,2025,2890.29
+Energy: GWh,Angola,Angola,Cambambe,Reservoir,2030,2890.29
+Energy: GWh,Angola,Angola,Cambambe,Reservoir,2040,2890.29
+Energy: GWh,Angola,Angola,Cambulo,PV,2030,76.07
+Energy: GWh,Angola,Angola,Cambulo,PV,2040,76.07
+Energy: GWh,Angola,Angola,Capanda,Reservoir,2025,1282.64
+Energy: GWh,Angola,Angola,Capanda,Reservoir,2030,1282.64
+Energy: GWh,Angola,Angola,Capanda,Reservoir,2040,1282.64
+Energy: GWh,Angola,Angola,Catete,PV,2030,205.58
+Energy: GWh,Angola,Angola,Catete,PV,2040,205.58
+Energy: GWh,Angola,Angola,Chibia,Onshore Wind,2030,300.33
+Energy: GWh,Angola,Angola,Chibia,Onshore Wind,2040,300.33
+Energy: GWh,Angola,Angola,Cuango,PV,2030,22.61
+Energy: GWh,Angola,Angola,Cuango,PV,2040,22.61
+Energy: GWh,Angola,Angola,Cunene,PV,2030,16.45
+Energy: GWh,Angola,Angola,Cunene,PV,2040,16.45
+Energy: GWh,Angola,Angola,Gastao,Onshore Wind,2030,102.38
+Energy: GWh,Angola,Angola,Gastao,Onshore Wind,2040,102.38
+Energy: GWh,Angola,Angola,Generic_PV_Angola,PV,2040,4111.67
+Energy: GWh,Angola,Angola,Gove,Reservoir,2025,222.63
+Energy: GWh,Angola,Angola,Gove,Reservoir,2030,222.63
+Energy: GWh,Angola,Angola,Gove,Reservoir,2040,222.63
+Energy: GWh,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,211.59
+Energy: GWh,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,211.59
+Energy: GWh,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,143.34
+Energy: GWh,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,143.34
+Energy: GWh,Angola,Angola,Kuito,PV,2030,24.67
+Energy: GWh,Angola,Angola,Kuito,PV,2040,24.67
+Energy: GWh,Angola,Angola,Lauca,ROR,2025,4908.26
+Energy: GWh,Angola,Angola,Lauca,ROR,2030,4417.43
+Energy: GWh,Angola,Angola,Lauca,ROR,2040,4908.26
+Energy: GWh,Angola,Angola,Lauca PV,PV,2030,822.33
+Energy: GWh,Angola,Angola,Lauca PV,PV,2040,822.33
+Energy: GWh,Angola,Angola,Lomaum,ROR,2025,89.19
+Energy: GWh,Angola,Angola,Lomaum,ROR,2030,89.19
+Energy: GWh,Angola,Angola,Lomaum,ROR,2040,89.19
+Energy: GWh,Angola,Angola,Luachimo,ROR,2025,27.36
+Energy: GWh,Angola,Angola,Luachimo,ROR,2030,27.36
+Energy: GWh,Angola,Angola,Luachimo,ROR,2040,27.36
+Energy: GWh,Angola,Angola,Luau PV,PV,2025,65.79
+Energy: GWh,Angola,Angola,Luau PV,PV,2030,65.79
+Energy: GWh,Angola,Angola,Luau PV,PV,2040,65.79
+Energy: GWh,Angola,Angola,Lucapa,PV,2025,12.34
+Energy: GWh,Angola,Angola,Lucapa,PV,2030,12.34
+Energy: GWh,Angola,Angola,Lucapa,PV,2040,12.34
+Energy: GWh,Angola,Angola,Luena,PV,2025,43.17
+Energy: GWh,Angola,Angola,Luena,PV,2030,43.17
+Energy: GWh,Angola,Angola,Luena,PV,2040,43.17
+Energy: GWh,Angola,Angola,Matala,ROR,2025,134.68
+Energy: GWh,Angola,Angola,Matala,ROR,2030,134.68
+Energy: GWh,Angola,Angola,Matala,ROR,2040,134.68
+Energy: GWh,Angola,Angola,Quilemba,PV,2025,71.95
+Energy: GWh,Angola,Angola,Quilemba,PV,2030,71.95
+Energy: GWh,Angola,Angola,Quilemba,PV,2040,71.95
+Energy: GWh,Angola,Angola,Quilengue,ROR,2040,787.58
+Energy: GWh,Angola,Angola,Quipungo,PV,2030,308.38
+Energy: GWh,Angola,Angola,Quipungo,PV,2040,308.38
+Energy: GWh,Angola,Angola,Saurimo,PV,2025,43.17
+Energy: GWh,Angola,Angola,Saurimo,PV,2030,43.17
+Energy: GWh,Angola,Angola,Saurimo,PV,2040,43.17
+Energy: GWh,Angola,Angola,Soyo,Gas,2025,4361.84
+Energy: GWh,Angola,Angola,Soyo,Gas,2030,5584.5
+Energy: GWh,Angola,Angola,Soyo,Gas,2040,2813.96
+Energy: GWh,Angola,Angola,Tchiumbwe Dala,ROR,2025,37.47
+Energy: GWh,Angola,Angola,Tchiumbwe Dala,ROR,2030,37.47
+Energy: GWh,Angola,Angola,Tchiumbwe Dala,ROR,2040,37.47
+Energy: GWh,Angola,Angola,Tombwa,Onshore Wind,2030,341.28
+Energy: GWh,Angola,Angola,Tombwa,Onshore Wind,2040,341.28
+Energy: GWh,CAR,CAR,Bangui Enerca,Diesel,2025,19.14
+Energy: GWh,CAR,CAR,Bangui Enerca,Diesel,2030,2.37
+Energy: GWh,CAR,CAR,Bangui Enerca,Diesel,2040,2.93
+Energy: GWh,CAR,CAR,Boali 1 Rebuild,Reservoir,2025,27.14
+Energy: GWh,CAR,CAR,Boali 1 Rebuild,Reservoir,2030,51.18
+Energy: GWh,CAR,CAR,Boali 1 Rebuild,Reservoir,2040,72.2
+Energy: GWh,CAR,CAR,Boali 2,Reservoir,2025,89.37
+Energy: GWh,CAR,CAR,Boali 2,Reservoir,2030,133.04
+Energy: GWh,CAR,CAR,Boali 2,Reservoir,2040,158.4
+Energy: GWh,CAR,CAR,Boali 3,Reservoir,2030,55.29
+Energy: GWh,CAR,CAR,Boali 3,Reservoir,2040,63.73
+Energy: GWh,CAR,CAR,Danzi,PV,2025,35.49
+Energy: GWh,CAR,CAR,Danzi,PV,2030,35.49
+Energy: GWh,CAR,CAR,Danzi,PV,2040,35.49
+Energy: GWh,CAR,CAR,Dimoli (CAR),Reservoir,2040,477.42
+Energy: GWh,CAR,CAR,Kotto,Reservoir,2030,260.85
+Energy: GWh,CAR,CAR,Kotto,Reservoir,2040,260.85
+Energy: GWh,CAR,CAR,Lancremo,Reservoir,2040,19.78
+Energy: GWh,CAR,CAR,PV_CAF_2030,PV,2030,21.29
+Energy: GWh,CAR,CAR,PV_CAF_2030,PV,2040,21.29
+Energy: GWh,CAR,CAR,Sakai,PV,2025,21.29
+Energy: GWh,CAR,CAR,Sakai,PV,2030,21.29
+Energy: GWh,CAR,CAR,Sakai,PV,2040,21.29
+Energy: GWh,Congo,Congo,Brazzaville Solar,PV,2030,81.78
+Energy: GWh,Congo,Congo,Brazzaville Solar,PV,2040,81.78
+Energy: GWh,Congo,Congo,CEC (Cote Mateve),Gas,2025,1843.54
+Energy: GWh,Congo,Congo,CEC (Cote Mateve),Gas,2030,966.41
+Energy: GWh,Congo,Congo,Djeno,Gas,2025,67.65
+Energy: GWh,Congo,Congo,Djeno,Gas,2030,156.06
+Energy: GWh,Congo,Congo,Generic_PV_Congo,PV,2040,669.09
+Energy: GWh,Congo,Congo,Imboulou,Reservoir,2025,492.23
+Energy: GWh,Congo,Congo,Imboulou,Reservoir,2030,492.23
+Energy: GWh,Congo,Congo,Imboulou,Reservoir,2040,492.23
+Energy: GWh,Congo,Congo,Kouembali,Reservoir,2040,616.37
+Energy: GWh,Congo,Congo,Liouesso,Reservoir,2025,77.31
+Energy: GWh,Congo,Congo,Liouesso,Reservoir,2030,77.31
+Energy: GWh,Congo,Congo,Liouesso,Reservoir,2040,77.31
+Energy: GWh,Congo,Congo,Moukouloukou,Reservoir,2025,375.29
+Energy: GWh,Congo,Congo,Moukouloukou,Reservoir,2030,375.29
+Energy: GWh,Congo,Congo,Moukouloukou,Reservoir,2040,375.29
+Energy: GWh,Congo,Congo,Mourala,Reservoir,2040,468.14
+Energy: GWh,Congo,Congo,Mpoukou,Reservoir,2040,836.24
+Energy: GWh,Congo,Congo,Nkayi Mill,Biomass,2025,44.68
+Energy: GWh,Congo,Congo,Nkayi Mill,Biomass,2030,44.68
+Energy: GWh,Congo,Congo,Nkayi Mill,Biomass,2040,44.68
+Energy: GWh,Congo,Congo,Nyanga,Reservoir,2040,999.01
+Energy: GWh,Congo,Congo,Ouesso Biomass,Biomass,2025,18.62
+Energy: GWh,Congo,Congo,Ouesso Biomass,Biomass,2030,18.62
+Energy: GWh,Congo,Congo,Ouesso Biomass,Biomass,2040,18.62
+Energy: GWh,DRC,DRC,Generic_PV_DRC,PV,2030,843.79
+Energy: GWh,DRC,DRC,Generic_PV_DRC,PV,2040,843.79
+Energy: GWh,DRC,DRC,Inga 1,Reservoir,2025,2242.57
+Energy: GWh,DRC,DRC,Inga 1,Reservoir,2030,2253.89
+Energy: GWh,DRC,DRC,Inga 1,Reservoir,2040,2253.89
+Energy: GWh,DRC,DRC,Inga 2,Reservoir,2025,6837.68
+Energy: GWh,DRC,DRC,Inga 2,Reservoir,2030,6837.68
+Energy: GWh,DRC,DRC,Inga 2,Reservoir,2040,6642.93
+Energy: GWh,DRC,DRC,Inga 3,Reservoir,2040,14145.45
+Energy: GWh,DRC,DRC,Kakobola,Reservoir,2030,45.2
+Energy: GWh,DRC,DRC,Kakobola,Reservoir,2040,43.84
+Energy: GWh,DRC,DRC,Katende,Reservoir,2030,279.97
+Energy: GWh,DRC,DRC,Katende,Reservoir,2040,269.91
+Energy: GWh,DRC,DRC,Mbandaka,Diesel,2030,0.06
+Energy: GWh,DRC,DRC,Mbandaka,Diesel,2040,0.06
+Energy: GWh,DRC,DRC,Mobayi,Reservoir,2025,37.18
+Energy: GWh,DRC,DRC,Mobayi,Reservoir,2030,50.41
+Energy: GWh,DRC,DRC,Mobayi,Reservoir,2040,36.48
+Energy: GWh,DRC,DRC,Nzongo,Reservoir,2025,378.08
+Energy: GWh,DRC,DRC,Nzongo,Reservoir,2030,378.08
+Energy: GWh,DRC,DRC,Nzongo,Reservoir,2040,370.03
+Energy: GWh,DRC,DRC,Nzongoii,Reservoir,2025,708.03
+Energy: GWh,DRC,DRC,Nzongoii,Reservoir,2030,756.16
+Energy: GWh,DRC,DRC,Nzongoii,Reservoir,2040,756.16
+Energy: GWh,DRC,DRC,Sanga,Reservoir,2025,22.15
+Energy: GWh,DRC,DRC,Sanga,Reservoir,2030,31.13
+Energy: GWh,DRC,DRC,Sanga,Reservoir,2040,21.42
+Energy: GWh,DRC,DRC,Soleniama,Reservoir,2025,128.55
+Energy: GWh,DRC,DRC,Soleniama,Reservoir,2030,128.55
+Energy: GWh,DRC,DRC,Soleniama,Reservoir,2040,120.56
+Energy: GWh,DRC,DRC,Zongo 1,Reservoir,2025,16.58
+Energy: GWh,DRC,DRC,Zongo 1,Reservoir,2030,22.66
+Energy: GWh,DRC,DRC,Zongo 1,Reservoir,2040,21.54
+Energy: GWh,DRC,DRC,Zongo 2,Reservoir,2025,504.09
+Energy: GWh,DRC,DRC,Zongo 2,Reservoir,2030,526.26
+Energy: GWh,DRC,DRC,Zongo 2,Reservoir,2040,526.26
+Energy: GWh,DRC,DRC_South,Bousanga,Reservoir,2025,1209.86
+Energy: GWh,DRC,DRC_South,Bousanga,Reservoir,2030,1209.86
+Energy: GWh,DRC,DRC_South,Bousanga,Reservoir,2040,1209.86
+Energy: GWh,DRC,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,1235.76
+Energy: GWh,DRC,DRC_South,Generic_PV_DRCSouth,PV,2040,0.92
+Energy: GWh,DRC,DRC_South,Kilubi,Reservoir,2025,40.33
+Energy: GWh,DRC,DRC_South,Kilubi,Reservoir,2030,40.33
+Energy: GWh,DRC,DRC_South,Kilubi,Reservoir,2040,40.33
+Energy: GWh,DRC,DRC_South,Koni,Reservoir,2025,180.57
+Energy: GWh,DRC,DRC_South,Koni,Reservoir,2030,180.57
+Energy: GWh,DRC,DRC_South,Koni,Reservoir,2040,180.57
+Energy: GWh,DRC,DRC_South,Lubumbashi,PV,2025,168.76
+Energy: GWh,DRC,DRC_South,Lubumbashi,PV,2030,168.76
+Energy: GWh,DRC,DRC_South,Lubumbashi,PV,2040,168.76
+Energy: GWh,DRC,DRC_South,Nseke,Reservoir,2025,2002.65
+Energy: GWh,DRC,DRC_South,Nseke,Reservoir,2030,2002.65
+Energy: GWh,DRC,DRC_South,Nseke,Reservoir,2040,2002.65
+Energy: GWh,DRC,DRC_South,Nzilo,Reservoir,2025,549.68
+Energy: GWh,DRC,DRC_South,Nzilo,Reservoir,2030,549.68
+Energy: GWh,DRC,DRC_South,Nzilo,Reservoir,2040,549.68
+Energy: GWh,Gabon,Gabon,Alenakiri,Gas,2025,357.41
+Energy: GWh,Gabon,Gabon,Alenakiri,Gas,2030,316.47
+Energy: GWh,Gabon,Gabon,Ayeme I,PV,2025,41.36
+Energy: GWh,Gabon,Gabon,Ayeme I,PV,2030,41.36
+Energy: GWh,Gabon,Gabon,Ayeme I,PV,2040,41.36
+Energy: GWh,Gabon,Gabon,Bongolo,Reservoir,2025,30.67
+Energy: GWh,Gabon,Gabon,Bongolo,Reservoir,2030,30.67
+Energy: GWh,Gabon,Gabon,Bongolo,Reservoir,2040,30.67
+Energy: GWh,Gabon,Gabon,Booue,Reservoir,2040,2100.95
+Energy: GWh,Gabon,Gabon,Cap Lopez,Gas,2025,390.92
+Energy: GWh,Gabon,Gabon,Cap Lopez,Gas,2030,346.93
+Energy: GWh,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,460.06
+Energy: GWh,Gabon,Gabon,Doubou,PV,2030,27.57
+Energy: GWh,Gabon,Gabon,Doubou,PV,2040,27.57
+Energy: GWh,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,143.59
+Energy: GWh,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,143.59
+Energy: GWh,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,143.59
+Energy: GWh,Gabon,Gabon,Gamba,Gas,2025,25.32
+Energy: GWh,Gabon,Gabon,Gamba,Gas,2030,10.61
+Energy: GWh,Gabon,Gabon,Generic_PV_Gabon,PV,2040,620.33
+Energy: GWh,Gabon,Gabon,Grand Poubara,Reservoir,2025,566.36
+Energy: GWh,Gabon,Gabon,Grand Poubara,Reservoir,2030,566.36
+Energy: GWh,Gabon,Gabon,Grand Poubara,Reservoir,2040,566.36
+Energy: GWh,Gabon,Gabon,Kinguele,Reservoir,2025,291.37
+Energy: GWh,Gabon,Gabon,Kinguele,Reservoir,2030,291.37
+Energy: GWh,Gabon,Gabon,Kinguele,Reservoir,2040,291.37
+Energy: GWh,Gabon,Gabon,Kongue,Reservoir,2040,531.63
+Energy: GWh,Gabon,Gabon,Lifouta,Reservoir,2040,572.11
+Energy: GWh,Gabon,Gabon,Mitoungou,Reservoir,2040,2095.84
+Energy: GWh,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,547.65
+Energy: GWh,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,547.65
+Energy: GWh,Gabon,Gabon,Owendo Gas,Gas,2025,942.34
+Energy: GWh,Gabon,Gabon,Owendo Gas,Gas,2030,1228.59
+Energy: GWh,Gabon,Gabon,Oyem PV,PV,2030,68.93
+Energy: GWh,Gabon,Gabon,Oyem PV,PV,2040,68.93
+Energy: GWh,Gabon,Gabon,Port Gentil Perenco,Gas,2025,461.65
+Energy: GWh,Gabon,Gabon,Port Gentil Perenco,Gas,2030,369.83
+Energy: GWh,Gabon,Gabon,Poubara,Reservoir,2025,194.25
+Energy: GWh,Gabon,Gabon,Poubara,Reservoir,2030,194.25
+Energy: GWh,Gabon,Gabon,Poubara,Reservoir,2040,194.25
+Energy: GWh,Gabon,Gabon,Rabi Kounga Field,Gas,2025,115.49
+Energy: GWh,Gabon,Gabon,Rabi Kounga Field,Gas,2030,66.11
+Energy: GWh,Gabon,Gabon,Tchimbele,Reservoir,2025,227.29
+Energy: GWh,Gabon,Gabon,Tchimbele,Reservoir,2030,227.29
+Energy: GWh,Gabon,Gabon,Tchimbele,Reservoir,2040,227.29
+Energy: GWh,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,1533.54
+Spinning Reserve: GWh,,Angola,AH Mabubas,ROR,2025,5.47
+Spinning Reserve: GWh,,Angola,AH Mabubas,ROR,2030,10.9
+Spinning Reserve: GWh,,Angola,AH Mabubas,ROR,2040,10.9
+Spinning Reserve: GWh,,Angola,Cacula Cabasa,ROR,2040,0.36
+Spinning Reserve: GWh,,Angola,Cambambe,Reservoir,2030,243.12
+Spinning Reserve: GWh,,Angola,Cambambe,Reservoir,2040,750.03
+Spinning Reserve: GWh,,Angola,Capanda,Reservoir,2040,118.83
+Spinning Reserve: GWh,,Angola,Lauca,ROR,2025,1131.18
+Spinning Reserve: GWh,,Angola,Lauca,ROR,2030,269.17
+Spinning Reserve: GWh,,Angola,Lauca,ROR,2040,133.27
+Spinning Reserve: GWh,,Angola,Lomaum,ROR,2025,20.28
+Spinning Reserve: GWh,,Angola,Lomaum,ROR,2030,35.67
+Spinning Reserve: GWh,,Angola,Lomaum,ROR,2040,35.67
+Spinning Reserve: GWh,,Angola,Luachimo,ROR,2025,6.1
+Spinning Reserve: GWh,,Angola,Matala,ROR,2025,30.45
+Spinning Reserve: GWh,,Angola,Matala,ROR,2030,53.87
+Spinning Reserve: GWh,,Angola,Matala,ROR,2040,53.87
+Spinning Reserve: GWh,,Angola,Soyo,Gas,2030,7.46
+Spinning Reserve: GWh,,Angola,Soyo,Gas,2040,151.43
+Spinning Reserve: GWh,,Angola,Tchiumbwe Dala,ROR,2025,8.49
+Spinning Reserve: GWh,,CAR,Bangui Enerca,Diesel,2025,16.06
+Spinning Reserve: GWh,,CAR,Bangui Enerca,Diesel,2030,7.8
+Spinning Reserve: GWh,,CAR,Bangui Enerca,Diesel,2040,1.48
+Spinning Reserve: GWh,,CAR,Boali 2,Reservoir,2025,13.72
+Spinning Reserve: GWh,,CAR,Boali 2,Reservoir,2030,2.99
+Spinning Reserve: GWh,,CAR,Boali 3,Reservoir,2030,0.36
+Spinning Reserve: GWh,,CAR,Boali 3,Reservoir,2040,0.56
+Spinning Reserve: GWh,,CAR,Dimoli (CAR),Reservoir,2040,10.99
+Spinning Reserve: GWh,,CAR,Kotto,Reservoir,2030,3.96
+Spinning Reserve: GWh,,Congo,CEC (Cote Mateve),Gas,2030,12.27
+Spinning Reserve: GWh,,Congo,Imboulou,Reservoir,2040,21.64
+Spinning Reserve: GWh,,Congo,Kouembali,Reservoir,2040,22.42
+Spinning Reserve: GWh,,Congo,Liouesso,Reservoir,2040,5.5
+Spinning Reserve: GWh,,Congo,Moukouloukou,Reservoir,2040,63.07
+Spinning Reserve: GWh,,DRC,Inga 1,Reservoir,2025,15.08
+Spinning Reserve: GWh,,DRC,Inga 1,Reservoir,2030,66.62
+Spinning Reserve: GWh,,DRC,Inga 1,Reservoir,2040,61.5
+Spinning Reserve: GWh,,DRC,Inga 2,Reservoir,2025,10.23
+Spinning Reserve: GWh,,DRC,Inga 2,Reservoir,2030,21.05
+Spinning Reserve: GWh,,DRC,Inga 2,Reservoir,2040,60.26
+Spinning Reserve: GWh,,DRC,Kakobola,Reservoir,2040,1.51
+Spinning Reserve: GWh,,DRC,Katende,Reservoir,2040,6.44
+Spinning Reserve: GWh,,DRC,Mbandaka,Diesel,2040,1.82
+Spinning Reserve: GWh,,DRC,Mobayi,Reservoir,2040,0.56
+Spinning Reserve: GWh,,DRC,Nzongo,Reservoir,2040,6.89
+Spinning Reserve: GWh,,DRC,Nzongoii,Reservoir,2030,17.12
+Spinning Reserve: GWh,,DRC,Nzongoii,Reservoir,2040,62.37
+Spinning Reserve: GWh,,DRC,Sanga,Reservoir,2040,1.0
+Spinning Reserve: GWh,,DRC,Soleniama,Reservoir,2040,4.22
+Spinning Reserve: GWh,,DRC,Zongo 1,Reservoir,2040,4.51
+Spinning Reserve: GWh,,DRC,Zongo 2,Reservoir,2040,0.45
+Spinning Reserve: GWh,,DRC_South,Bousanga,Reservoir,2030,21.96
+Spinning Reserve: GWh,,DRC_South,Bousanga,Reservoir,2040,65.62
+Spinning Reserve: GWh,,DRC_South,Kilubi,Reservoir,2040,0.66
+Spinning Reserve: GWh,,DRC_South,Koni,Reservoir,2040,5.89
+Spinning Reserve: GWh,,DRC_South,Nseke,Reservoir,2030,25.13
+Spinning Reserve: GWh,,DRC_South,Nseke,Reservoir,2040,35.2
+Spinning Reserve: GWh,,DRC_South,Nzilo,Reservoir,2040,9.8
+Spinning Reserve: GWh,,Gabon,Booue,Reservoir,2040,13.45
+Spinning Reserve: GWh,,Gabon,FE-2 (Kinguele Aval),ROR,2025,156.88
+Spinning Reserve: GWh,,Gabon,FE-2 (Kinguele Aval),ROR,2030,156.88
+Spinning Reserve: GWh,,Gabon,FE-2 (Kinguele Aval),ROR,2040,156.88
+Spinning Reserve: GWh,,Gabon,Grand Poubara,Reservoir,2040,37.35
+Fixed O&M: $m,Angola,Angola,AH Mabubas,ROR,2025,1.02
+Fixed O&M: $m,Angola,Angola,AH Mabubas,ROR,2030,1.02
+Fixed O&M: $m,Angola,Angola,AH Mabubas,ROR,2040,1.02
+Fixed O&M: $m,Angola,Angola,Baia farta,PV,2025,1.14
+Fixed O&M: $m,Angola,Angola,Baia farta,PV,2030,1.14
+Fixed O&M: $m,Angola,Angola,Baia farta,PV,2040,1.14
+Fixed O&M: $m,Angola,Angola,Bailundo,PV,2030,0.09
+Fixed O&M: $m,Angola,Angola,Bailundo,PV,2040,0.09
+Fixed O&M: $m,Angola,Angola,Baynes,Reservoir,2040,21.95
+Fixed O&M: $m,Angola,Angola,Benjoin,Onshore Wind,2030,2.08
+Fixed O&M: $m,Angola,Angola,Benjoin,Onshore Wind,2040,2.08
+Fixed O&M: $m,Angola,Angola,Biopo PV,PV,2025,2.17
+Fixed O&M: $m,Angola,Angola,Biopo PV,PV,2030,2.17
+Fixed O&M: $m,Angola,Angola,Biopo PV,PV,2040,2.17
+Fixed O&M: $m,Angola,Angola,CCGT Lobito,Gas,2025,1.14
+Fixed O&M: $m,Angola,Angola,CCGT Lobito,Gas,2030,14.18
+Fixed O&M: $m,Angola,Angola,CCGT Lobito,Gas,2040,14.18
+Fixed O&M: $m,Angola,Angola,CD Benfica,Diesel,2025,1.3
+Fixed O&M: $m,Angola,Angola,CD Bie,Diesel,2025,1.22
+Fixed O&M: $m,Angola,Angola,CD Buco Zau,Diesel,2025,0.14
+Fixed O&M: $m,Angola,Angola,CD Capoca 2,Diesel,2025,0.72
+Fixed O&M: $m,Angola,Angola,CD Cavaco,Diesel,2025,0.58
+Fixed O&M: $m,Angola,Angola,CD Chibodo,Diesel,2025,1.12
+Fixed O&M: $m,Angola,Angola,CD Cuebe,Diesel,2025,1.8
+Fixed O&M: $m,Angola,Angola,CD Cuito Cuanavale,Diesel,2025,0.25
+Fixed O&M: $m,Angola,Angola,CD Dundo,Diesel,2025,1.48
+Fixed O&M: $m,Angola,Angola,CD Huambo,Diesel,2025,1.37
+Fixed O&M: $m,Angola,Angola,CD Kianganga,Diesel,2025,0.18
+Fixed O&M: $m,Angola,Angola,CD Luau,Diesel,2025,1.19
+Fixed O&M: $m,Angola,Angola,CD Lunda Sul,Diesel,2025,1.66
+Fixed O&M: $m,Angola,Angola,CD Menongue,Diesel,2025,0.43
+Fixed O&M: $m,Angola,Angola,CD Quarteis,Diesel,2025,1.01
+Fixed O&M: $m,Angola,Angola,CD Santa Catarina,Diesel,2025,0.36
+Fixed O&M: $m,Angola,Angola,CT Belem,Gas,2025,1.0
+Fixed O&M: $m,Angola,Angola,CT Biopo,Gas,2025,0.54
+Fixed O&M: $m,Angola,Angola,CT Biopo,Gas,2030,0.54
+Fixed O&M: $m,Angola,Angola,CT Biopo,Gas,2040,0.54
+Fixed O&M: $m,Angola,Angola,CT Boa Vista,Gas,2025,2.62
+Fixed O&M: $m,Angola,Angola,CT Boa Vista,Gas,2030,0.68
+Fixed O&M: $m,Angola,Angola,CT Boa Vista,Gas,2040,0.68
+Fixed O&M: $m,Angola,Angola,CT CFL,Gas,2025,2.5
+Fixed O&M: $m,Angola,Angola,CT Camana,Gas,2025,1.0
+Fixed O&M: $m,Angola,Angola,CT Cazenga,Gas,2025,2.8
+Fixed O&M: $m,Angola,Angola,CT Cazenga,Gas,2030,0.31
+Fixed O&M: $m,Angola,Angola,CT Cazenga,Gas,2040,0.31
+Fixed O&M: $m,Angola,Angola,CT Malembo,Gas,2025,2.1
+Fixed O&M: $m,Angola,Angola,CT Malembo,Gas,2030,1.02
+Fixed O&M: $m,Angola,Angola,CT Malembo,Gas,2040,1.02
+Fixed O&M: $m,Angola,Angola,CT Morro Bento 2,Gas,2025,1.0
+Fixed O&M: $m,Angola,Angola,CT Viana,Gas,2025,0.44
+Fixed O&M: $m,Angola,Angola,CT Viana,Gas,2030,0.44
+Fixed O&M: $m,Angola,Angola,CT Viana,Gas,2040,0.44
+Fixed O&M: $m,Angola,Angola,Cacula,Onshore Wind,2030,3.52
+Fixed O&M: $m,Angola,Angola,Cacula,Onshore Wind,2040,3.52
+Fixed O&M: $m,Angola,Angola,Cacula Cabasa,ROR,2030,31.27
+Fixed O&M: $m,Angola,Angola,Cacula Cabasa,ROR,2040,31.27
+Fixed O&M: $m,Angola,Angola,Cafunfo,PV,2030,0.62
+Fixed O&M: $m,Angola,Angola,Cafunfo,PV,2040,0.62
+Fixed O&M: $m,Angola,Angola,Calenga,Onshore Wind,2030,3.36
+Fixed O&M: $m,Angola,Angola,Calenga,Onshore Wind,2040,3.36
+Fixed O&M: $m,Angola,Angola,Calengue (Catumbela),ROR,2040,8.0
+Fixed O&M: $m,Angola,Angola,Cambambe,Reservoir,2025,48.0
+Fixed O&M: $m,Angola,Angola,Cambambe,Reservoir,2030,48.0
+Fixed O&M: $m,Angola,Angola,Cambambe,Reservoir,2040,48.0
+Fixed O&M: $m,Angola,Angola,Cambulo,PV,2030,0.55
+Fixed O&M: $m,Angola,Angola,Cambulo,PV,2040,0.55
+Fixed O&M: $m,Angola,Angola,Capanda,Reservoir,2025,26.0
+Fixed O&M: $m,Angola,Angola,Capanda,Reservoir,2030,26.0
+Fixed O&M: $m,Angola,Angola,Capanda,Reservoir,2040,26.0
+Fixed O&M: $m,Angola,Angola,Catete,PV,2030,1.5
+Fixed O&M: $m,Angola,Angola,Catete,PV,2040,1.5
+Fixed O&M: $m,Angola,Angola,Chibia,Onshore Wind,2030,3.52
+Fixed O&M: $m,Angola,Angola,Chibia,Onshore Wind,2040,3.52
+Fixed O&M: $m,Angola,Angola,Cuango,PV,2030,0.16
+Fixed O&M: $m,Angola,Angola,Cuango,PV,2040,0.16
+Fixed O&M: $m,Angola,Angola,Cunene,PV,2030,0.12
+Fixed O&M: $m,Angola,Angola,Cunene,PV,2040,0.12
+Fixed O&M: $m,Angola,Angola,Cunene thermique,Diesel,2025,1.73
+Fixed O&M: $m,Angola,Angola,Gastao,Onshore Wind,2030,1.2
+Fixed O&M: $m,Angola,Angola,Gastao,Onshore Wind,2040,1.2
+Fixed O&M: $m,Angola,Angola,Generic_PV_Angola,PV,2040,30.0
+Fixed O&M: $m,Angola,Angola,Gove,Reservoir,2025,3.0
+Fixed O&M: $m,Angola,Angola,Gove,Reservoir,2030,3.0
+Fixed O&M: $m,Angola,Angola,Gove,Reservoir,2040,3.0
+Fixed O&M: $m,Angola,Angola,Huila thermique,Diesel,2025,4.93
+Fixed O&M: $m,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,2.48
+Fixed O&M: $m,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,2.48
+Fixed O&M: $m,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,1.68
+Fixed O&M: $m,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,1.68
+Fixed O&M: $m,Angola,Angola,Kuito,PV,2030,0.18
+Fixed O&M: $m,Angola,Angola,Kuito,PV,2040,0.18
+Fixed O&M: $m,Angola,Angola,Lauca,ROR,2025,82.8
+Fixed O&M: $m,Angola,Angola,Lauca,ROR,2030,82.8
+Fixed O&M: $m,Angola,Angola,Lauca,ROR,2040,82.8
+Fixed O&M: $m,Angola,Angola,Lauca PV,PV,2030,6.0
+Fixed O&M: $m,Angola,Angola,Lauca PV,PV,2040,6.0
+Fixed O&M: $m,Angola,Angola,Lomaum,ROR,2025,2.0
+Fixed O&M: $m,Angola,Angola,Lomaum,ROR,2030,2.0
+Fixed O&M: $m,Angola,Angola,Lomaum,ROR,2040,2.0
+Fixed O&M: $m,Angola,Angola,Luachimo,ROR,2025,0.32
+Fixed O&M: $m,Angola,Angola,Luachimo,ROR,2030,0.32
+Fixed O&M: $m,Angola,Angola,Luachimo,ROR,2040,0.32
+Fixed O&M: $m,Angola,Angola,Luau PV,PV,2025,0.48
+Fixed O&M: $m,Angola,Angola,Luau PV,PV,2030,0.48
+Fixed O&M: $m,Angola,Angola,Luau PV,PV,2040,0.48
+Fixed O&M: $m,Angola,Angola,Lucapa,PV,2025,0.09
+Fixed O&M: $m,Angola,Angola,Lucapa,PV,2030,0.09
+Fixed O&M: $m,Angola,Angola,Lucapa,PV,2040,0.09
+Fixed O&M: $m,Angola,Angola,Luena,PV,2025,0.32
+Fixed O&M: $m,Angola,Angola,Luena,PV,2030,0.32
+Fixed O&M: $m,Angola,Angola,Luena,PV,2040,0.32
+Fixed O&M: $m,Angola,Angola,Matala,ROR,2025,1.64
+Fixed O&M: $m,Angola,Angola,Matala,ROR,2030,1.64
+Fixed O&M: $m,Angola,Angola,Matala,ROR,2040,1.64
+Fixed O&M: $m,Angola,Angola,Namibe thermique,Diesel,2025,3.78
+Fixed O&M: $m,Angola,Angola,Quilemba,PV,2025,0.52
+Fixed O&M: $m,Angola,Angola,Quilemba,PV,2030,0.52
+Fixed O&M: $m,Angola,Angola,Quilemba,PV,2040,0.52
+Fixed O&M: $m,Angola,Angola,Quilengue,ROR,2040,8.4
+Fixed O&M: $m,Angola,Angola,Quipungo,PV,2030,2.25
+Fixed O&M: $m,Angola,Angola,Quipungo,PV,2040,2.25
+Fixed O&M: $m,Angola,Angola,Saurimo,PV,2025,0.32
+Fixed O&M: $m,Angola,Angola,Saurimo,PV,2030,0.32
+Fixed O&M: $m,Angola,Angola,Saurimo,PV,2040,0.32
+Fixed O&M: $m,Angola,Angola,Tchiumbwe Dala,ROR,2025,0.48
+Fixed O&M: $m,Angola,Angola,Tchiumbwe Dala,ROR,2030,0.48
+Fixed O&M: $m,Angola,Angola,Tchiumbwe Dala,ROR,2040,0.48
+Fixed O&M: $m,Angola,Angola,Tombwa,Onshore Wind,2030,4.0
+Fixed O&M: $m,Angola,Angola,Tombwa,Onshore Wind,2040,4.0
+Fixed O&M: $m,CAR,CAR,Bangui Enerca,Diesel,2025,0.72
+Fixed O&M: $m,CAR,CAR,Bangui Enerca,Diesel,2030,0.72
+Fixed O&M: $m,CAR,CAR,Bangui Enerca,Diesel,2040,0.72
+Fixed O&M: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2025,0.45
+Fixed O&M: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2030,0.45
+Fixed O&M: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2040,0.45
+Fixed O&M: $m,CAR,CAR,Boali 2,Reservoir,2025,1.0
+Fixed O&M: $m,CAR,CAR,Boali 2,Reservoir,2030,1.0
+Fixed O&M: $m,CAR,CAR,Boali 2,Reservoir,2040,1.0
+Fixed O&M: $m,CAR,CAR,Boali 3,Reservoir,2030,0.5
+Fixed O&M: $m,CAR,CAR,Boali 3,Reservoir,2040,0.5
+Fixed O&M: $m,CAR,CAR,Danzi,PV,2025,0.38
+Fixed O&M: $m,CAR,CAR,Danzi,PV,2030,0.38
+Fixed O&M: $m,CAR,CAR,Danzi,PV,2040,0.38
+Fixed O&M: $m,CAR,CAR,Dimoli (CAR),Reservoir,2040,4.5
+Fixed O&M: $m,CAR,CAR,Kotto,Reservoir,2030,3.0
+Fixed O&M: $m,CAR,CAR,Kotto,Reservoir,2040,3.0
+Fixed O&M: $m,CAR,CAR,Lancremo,Reservoir,2040,0.37
+Fixed O&M: $m,CAR,CAR,PV_CAF_2030,PV,2030,0.22
+Fixed O&M: $m,CAR,CAR,PV_CAF_2030,PV,2040,0.22
+Fixed O&M: $m,CAR,CAR,Sakai,PV,2025,0.22
+Fixed O&M: $m,CAR,CAR,Sakai,PV,2030,0.22
+Fixed O&M: $m,CAR,CAR,Sakai,PV,2040,0.22
+Fixed O&M: $m,Congo,Congo,Brazzaville Solar,PV,2030,0.82
+Fixed O&M: $m,Congo,Congo,Brazzaville Solar,PV,2040,0.82
+Fixed O&M: $m,Congo,Congo,CEC (Cote Mateve),Gas,2025,9.68
+Fixed O&M: $m,Congo,Congo,CEC (Cote Mateve),Gas,2030,5.95
+Fixed O&M: $m,Congo,Congo,CTB (Mpila),Diesel,2025,0.76
+Fixed O&M: $m,Congo,Congo,Djeno,Gas,2025,1.0
+Fixed O&M: $m,Congo,Congo,Djeno,Gas,2030,1.0
+Fixed O&M: $m,Congo,Congo,Dolisie,Diesel,2025,0.07
+Fixed O&M: $m,Congo,Congo,Generic_PV_Congo,PV,2040,6.75
+Fixed O&M: $m,Congo,Congo,Imboulou,Reservoir,2025,6.0
+Fixed O&M: $m,Congo,Congo,Imboulou,Reservoir,2030,6.0
+Fixed O&M: $m,Congo,Congo,Imboulou,Reservoir,2040,6.0
+Fixed O&M: $m,Congo,Congo,Kouembali,Reservoir,2040,7.5
+Fixed O&M: $m,Congo,Congo,Liouesso,Reservoir,2025,1.0
+Fixed O&M: $m,Congo,Congo,Liouesso,Reservoir,2030,1.0
+Fixed O&M: $m,Congo,Congo,Liouesso,Reservoir,2040,1.0
+Fixed O&M: $m,Congo,Congo,Madingou,Diesel,2025,0.07
+Fixed O&M: $m,Congo,Congo,Moukouloukou,Reservoir,2025,3.7
+Fixed O&M: $m,Congo,Congo,Moukouloukou,Reservoir,2030,3.7
+Fixed O&M: $m,Congo,Congo,Moukouloukou,Reservoir,2040,3.7
+Fixed O&M: $m,Congo,Congo,Mourala,Reservoir,2040,5.05
+Fixed O&M: $m,Congo,Congo,Mpoukou,Reservoir,2040,9.0
+Fixed O&M: $m,Congo,Congo,Nkayi Mill,Biomass,2025,0.6
+Fixed O&M: $m,Congo,Congo,Nkayi Mill,Biomass,2030,0.6
+Fixed O&M: $m,Congo,Congo,Nkayi Mill,Biomass,2040,0.6
+Fixed O&M: $m,Congo,Congo,Nyanga,Reservoir,2040,11.5
+Fixed O&M: $m,Congo,Congo,Ouesso,Diesel,2025,0.22
+Fixed O&M: $m,Congo,Congo,Ouesso Biomass,Biomass,2025,0.25
+Fixed O&M: $m,Congo,Congo,Ouesso Biomass,Biomass,2030,0.25
+Fixed O&M: $m,Congo,Congo,Ouesso Biomass,Biomass,2040,0.25
+Fixed O&M: $m,Congo,Congo,Oyo,Diesel,2025,0.18
+Fixed O&M: $m,Congo,Congo,Pointe Noire,Diesel,2025,0.94
+Fixed O&M: $m,Congo,Congo,Sibiti,Diesel,2025,0.07
+Fixed O&M: $m,DRC,DRC,Generic_PV_DRC,PV,2030,7.5
+Fixed O&M: $m,DRC,DRC,Generic_PV_DRC,PV,2040,7.5
+Fixed O&M: $m,DRC,DRC,Inga 1,Reservoir,2025,15.3
+Fixed O&M: $m,DRC,DRC,Inga 1,Reservoir,2030,15.3
+Fixed O&M: $m,DRC,DRC,Inga 1,Reservoir,2040,15.3
+Fixed O&M: $m,DRC,DRC,Inga 2,Reservoir,2025,40.0
+Fixed O&M: $m,DRC,DRC,Inga 2,Reservoir,2030,40.0
+Fixed O&M: $m,DRC,DRC,Inga 2,Reservoir,2040,40.0
+Fixed O&M: $m,DRC,DRC,Inga 3,Reservoir,2040,82.75
+Fixed O&M: $m,DRC,DRC,Kakobola,Reservoir,2030,0.5
+Fixed O&M: $m,DRC,DRC,Kakobola,Reservoir,2040,0.5
+Fixed O&M: $m,DRC,DRC,Katende,Reservoir,2030,3.2
+Fixed O&M: $m,DRC,DRC,Katende,Reservoir,2040,3.2
+Fixed O&M: $m,DRC,DRC,Mbandaka,Diesel,2025,0.18
+Fixed O&M: $m,DRC,DRC,Mbandaka,Diesel,2030,0.18
+Fixed O&M: $m,DRC,DRC,Mbandaka,Diesel,2040,0.18
+Fixed O&M: $m,DRC,DRC,Mobayi,Reservoir,2025,0.5
+Fixed O&M: $m,DRC,DRC,Mobayi,Reservoir,2030,0.5
+Fixed O&M: $m,DRC,DRC,Mobayi,Reservoir,2040,0.5
+Fixed O&M: $m,DRC,DRC,Nzongo,Reservoir,2025,3.75
+Fixed O&M: $m,DRC,DRC,Nzongo,Reservoir,2030,3.75
+Fixed O&M: $m,DRC,DRC,Nzongo,Reservoir,2040,3.75
+Fixed O&M: $m,DRC,DRC,Nzongoii,Reservoir,2025,7.5
+Fixed O&M: $m,DRC,DRC,Nzongoii,Reservoir,2030,7.5
+Fixed O&M: $m,DRC,DRC,Nzongoii,Reservoir,2040,7.5
+Fixed O&M: $m,DRC,DRC,Sanga,Reservoir,2025,0.3
+Fixed O&M: $m,DRC,DRC,Sanga,Reservoir,2030,0.3
+Fixed O&M: $m,DRC,DRC,Sanga,Reservoir,2040,0.3
+Fixed O&M: $m,DRC,DRC,Soleniama,Reservoir,2025,1.27
+Fixed O&M: $m,DRC,DRC,Soleniama,Reservoir,2030,1.27
+Fixed O&M: $m,DRC,DRC,Soleniama,Reservoir,2040,1.27
+Fixed O&M: $m,DRC,DRC,Zongo 1,Reservoir,2025,0.65
+Fixed O&M: $m,DRC,DRC,Zongo 1,Reservoir,2030,0.65
+Fixed O&M: $m,DRC,DRC,Zongo 1,Reservoir,2040,0.65
+Fixed O&M: $m,DRC,DRC,Zongo 2,Reservoir,2025,3.7
+Fixed O&M: $m,DRC,DRC,Zongo 2,Reservoir,2030,3.7
+Fixed O&M: $m,DRC,DRC,Zongo 2,Reservoir,2040,3.7
+Fixed O&M: $m,DRC,DRC_South,Bousanga,Reservoir,2025,12.0
+Fixed O&M: $m,DRC,DRC_South,Bousanga,Reservoir,2030,12.0
+Fixed O&M: $m,DRC,DRC_South,Bousanga,Reservoir,2040,12.0
+Fixed O&M: $m,DRC,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,14.4
+Fixed O&M: $m,DRC,DRC_South,Kilubi,Reservoir,2025,0.4
+Fixed O&M: $m,DRC,DRC_South,Kilubi,Reservoir,2030,0.4
+Fixed O&M: $m,DRC,DRC_South,Kilubi,Reservoir,2040,0.4
+Fixed O&M: $m,DRC,DRC_South,Koni,Reservoir,2025,2.1
+Fixed O&M: $m,DRC,DRC_South,Koni,Reservoir,2030,2.1
+Fixed O&M: $m,DRC,DRC_South,Koni,Reservoir,2040,2.1
+Fixed O&M: $m,DRC,DRC_South,Lubumbashi,PV,2025,1.5
+Fixed O&M: $m,DRC,DRC_South,Lubumbashi,PV,2030,1.5
+Fixed O&M: $m,DRC,DRC_South,Lubumbashi,PV,2040,1.5
+Fixed O&M: $m,DRC,DRC_South,Nseke,Reservoir,2025,12.5
+Fixed O&M: $m,DRC,DRC_South,Nseke,Reservoir,2030,12.5
+Fixed O&M: $m,DRC,DRC_South,Nseke,Reservoir,2040,12.5
+Fixed O&M: $m,DRC,DRC_South,Nzilo,Reservoir,2025,5.5
+Fixed O&M: $m,DRC,DRC_South,Nzilo,Reservoir,2030,5.5
+Fixed O&M: $m,DRC,DRC_South,Nzilo,Reservoir,2040,5.5
+Fixed O&M: $m,Gabon,Gabon,Akok,Diesel,2025,0.02
+Fixed O&M: $m,Gabon,Gabon,Alenakiri,Gas,2025,0.96
+Fixed O&M: $m,Gabon,Gabon,Alenakiri,Gas,2030,0.96
+Fixed O&M: $m,Gabon,Gabon,Ayeme I,PV,2025,0.45
+Fixed O&M: $m,Gabon,Gabon,Ayeme I,PV,2030,0.45
+Fixed O&M: $m,Gabon,Gabon,Ayeme I,PV,2040,0.45
+Fixed O&M: $m,Gabon,Gabon,Bifoun,Diesel,2025,0.02
+Fixed O&M: $m,Gabon,Gabon,Bitam,Diesel,2025,0.08
+Fixed O&M: $m,Gabon,Gabon,Bongolo,Reservoir,2025,0.3
+Fixed O&M: $m,Gabon,Gabon,Bongolo,Reservoir,2030,0.3
+Fixed O&M: $m,Gabon,Gabon,Bongolo,Reservoir,2040,0.3
+Fixed O&M: $m,Gabon,Gabon,Booue,Reservoir,2040,20.55
+Fixed O&M: $m,Gabon,Gabon,Cap Lopez,Gas,2025,1.05
+Fixed O&M: $m,Gabon,Gabon,Cap Lopez,Gas,2030,1.05
+Fixed O&M: $m,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,4.5
+Fixed O&M: $m,Gabon,Gabon,Doubou,PV,2030,0.3
+Fixed O&M: $m,Gabon,Gabon,Doubou,PV,2040,0.3
+Fixed O&M: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,1.37
+Fixed O&M: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,1.37
+Fixed O&M: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,1.37
+Fixed O&M: $m,Gabon,Gabon,Gamba,Gas,2025,0.07
+Fixed O&M: $m,Gabon,Gabon,Gamba,Gas,2030,0.07
+Fixed O&M: $m,Gabon,Gabon,Generic_PV_Gabon,PV,2040,6.75
+Fixed O&M: $m,Gabon,Gabon,Grand Poubara,Reservoir,2025,8.0
+Fixed O&M: $m,Gabon,Gabon,Grand Poubara,Reservoir,2030,8.0
+Fixed O&M: $m,Gabon,Gabon,Grand Poubara,Reservoir,2040,8.0
+Fixed O&M: $m,Gabon,Gabon,Kinguele,Reservoir,2025,2.85
+Fixed O&M: $m,Gabon,Gabon,Kinguele,Reservoir,2030,2.85
+Fixed O&M: $m,Gabon,Gabon,Kinguele,Reservoir,2040,2.85
+Fixed O&M: $m,Gabon,Gabon,Kongue,Reservoir,2040,5.2
+Fixed O&M: $m,Gabon,Gabon,Koula-Moutou,Diesel,2025,0.17
+Fixed O&M: $m,Gabon,Gabon,Lambarene,Diesel,2025,0.21
+Fixed O&M: $m,Gabon,Gabon,Lastourville,Diesel,2025,0.04
+Fixed O&M: $m,Gabon,Gabon,Lifouta,Reservoir,2040,5.25
+Fixed O&M: $m,Gabon,Gabon,Makokou,Diesel,2025,0.13
+Fixed O&M: $m,Gabon,Gabon,Mandji,Diesel,2025,0.03
+Fixed O&M: $m,Gabon,Gabon,Mayumba,Diesel,2025,0.03
+Fixed O&M: $m,Gabon,Gabon,Mekambo,Diesel,2025,0.03
+Fixed O&M: $m,Gabon,Gabon,Mimongo,Diesel,2025,0.01
+Fixed O&M: $m,Gabon,Gabon,Minvoul,Diesel,2025,0.02
+Fixed O&M: $m,Gabon,Gabon,Mitoungou,Reservoir,2040,20.5
+Fixed O&M: $m,Gabon,Gabon,Mitzic,Diesel,2025,0.04
+Fixed O&M: $m,Gabon,Gabon,Moabi,Diesel,2025,0.02
+Fixed O&M: $m,Gabon,Gabon,Moanda Comilog,Diesel,2025,0.1
+Fixed O&M: $m,Gabon,Gabon,Mouila,Diesel,2025,0.12
+Fixed O&M: $m,Gabon,Gabon,Ndjole,Diesel,2025,0.05
+Fixed O&M: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,4.4
+Fixed O&M: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,4.4
+Fixed O&M: $m,Gabon,Gabon,Omboue,Diesel,2025,0.02
+Fixed O&M: $m,Gabon,Gabon,Owendo,Diesel,2025,1.58
+Fixed O&M: $m,Gabon,Gabon,Owendo Gas,Gas,2025,3.3
+Fixed O&M: $m,Gabon,Gabon,Owendo Gas,Gas,2030,3.3
+Fixed O&M: $m,Gabon,Gabon,Owendoc,Diesel,2025,2.38
+Fixed O&M: $m,Gabon,Gabon,Oyem,Diesel,2025,0.23
+Fixed O&M: $m,Gabon,Gabon,Oyem PV,PV,2030,0.75
+Fixed O&M: $m,Gabon,Gabon,Oyem PV,PV,2040,0.75
+Fixed O&M: $m,Gabon,Gabon,Port Gentil Perenco,Gas,2025,1.24
+Fixed O&M: $m,Gabon,Gabon,Port Gentil Perenco,Gas,2030,1.24
+Fixed O&M: $m,Gabon,Gabon,Poubara,Reservoir,2025,1.9
+Fixed O&M: $m,Gabon,Gabon,Poubara,Reservoir,2030,1.9
+Fixed O&M: $m,Gabon,Gabon,Poubara,Reservoir,2040,1.9
+Fixed O&M: $m,Gabon,Gabon,Rabi Kounga Field,Gas,2025,0.31
+Fixed O&M: $m,Gabon,Gabon,Rabi Kounga Field,Gas,2030,0.31
+Fixed O&M: $m,Gabon,Gabon,Tchibanga,Diesel,2025,0.06
+Fixed O&M: $m,Gabon,Gabon,Tchimbele,Reservoir,2025,3.4
+Fixed O&M: $m,Gabon,Gabon,Tchimbele,Reservoir,2030,3.4
+Fixed O&M: $m,Gabon,Gabon,Tchimbele,Reservoir,2040,3.4
+Fixed O&M: $m,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,15.0
+Investment costs: $m,Angola,Angola,Bailundo,PV,2030,0.3
+Investment costs: $m,Angola,Angola,Bailundo,PV,2040,0.3
+Investment costs: $m,Angola,Angola,Baynes,Reservoir,2040,67.43
+Investment costs: $m,Angola,Angola,Benjoin,Onshore Wind,2030,3.78
+Investment costs: $m,Angola,Angola,Benjoin,Onshore Wind,2040,3.78
+Investment costs: $m,Angola,Angola,CCGT Lobito,Gas,2025,2.35
+Investment costs: $m,Angola,Angola,CCGT Lobito,Gas,2030,28.5
+Investment costs: $m,Angola,Angola,CCGT Lobito,Gas,2040,28.5
+Investment costs: $m,Angola,Angola,Cacula,Onshore Wind,2030,6.4
+Investment costs: $m,Angola,Angola,Cacula,Onshore Wind,2040,6.4
+Investment costs: $m,Angola,Angola,Cacula Cabasa,ROR,2030,142.53
+Investment costs: $m,Angola,Angola,Cacula Cabasa,ROR,2040,142.53
+Investment costs: $m,Angola,Angola,Cafunfo,PV,2030,2.05
+Investment costs: $m,Angola,Angola,Cafunfo,PV,2040,2.05
+Investment costs: $m,Angola,Angola,Calenga,Onshore Wind,2030,6.11
+Investment costs: $m,Angola,Angola,Calenga,Onshore Wind,2040,6.11
+Investment costs: $m,Angola,Angola,Calengue (Catumbela),ROR,2040,30.14
+Investment costs: $m,Angola,Angola,Cambulo,PV,2030,1.85
+Investment costs: $m,Angola,Angola,Cambulo,PV,2040,1.85
+Investment costs: $m,Angola,Angola,Catete,PV,2030,5.01
+Investment costs: $m,Angola,Angola,Catete,PV,2040,5.01
+Investment costs: $m,Angola,Angola,Chibia,Onshore Wind,2030,6.4
+Investment costs: $m,Angola,Angola,Chibia,Onshore Wind,2040,6.4
+Investment costs: $m,Angola,Angola,Cuango,PV,2030,0.55
+Investment costs: $m,Angola,Angola,Cuango,PV,2040,0.55
+Investment costs: $m,Angola,Angola,Cunene,PV,2030,0.4
+Investment costs: $m,Angola,Angola,Cunene,PV,2040,0.4
+Investment costs: $m,Angola,Angola,Gastao,Onshore Wind,2030,2.18
+Investment costs: $m,Angola,Angola,Gastao,Onshore Wind,2040,2.18
+Investment costs: $m,Angola,Angola,Generic_PV_Angola,PV,2040,75.1
+Investment costs: $m,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,4.51
+Investment costs: $m,Angola,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,4.51
+Investment costs: $m,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,3.05
+Investment costs: $m,Angola,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,3.05
+Investment costs: $m,Angola,Angola,Kuito,PV,2030,0.6
+Investment costs: $m,Angola,Angola,Kuito,PV,2040,0.6
+Investment costs: $m,Angola,Angola,Lauca PV,PV,2030,20.03
+Investment costs: $m,Angola,Angola,Lauca PV,PV,2040,20.03
+Investment costs: $m,Angola,Angola,Luau PV,PV,2025,1.8
+Investment costs: $m,Angola,Angola,Luau PV,PV,2030,1.8
+Investment costs: $m,Angola,Angola,Luau PV,PV,2040,1.8
+Investment costs: $m,Angola,Angola,Quilemba,PV,2025,1.97
+Investment costs: $m,Angola,Angola,Quilemba,PV,2030,1.97
+Investment costs: $m,Angola,Angola,Quilemba,PV,2040,1.97
+Investment costs: $m,Angola,Angola,Quilengue,ROR,2040,29.69
+Investment costs: $m,Angola,Angola,Quipungo,PV,2030,7.51
+Investment costs: $m,Angola,Angola,Quipungo,PV,2040,7.51
+Investment costs: $m,Angola,Angola,Tombwa,Onshore Wind,2030,7.27
+Investment costs: $m,Angola,Angola,Tombwa,Onshore Wind,2040,7.27
+Investment costs: $m,CAR,CAR,Boali 3,Reservoir,2030,3.05
+Investment costs: $m,CAR,CAR,Boali 3,Reservoir,2040,3.05
+Investment costs: $m,CAR,CAR,Dimoli (CAR),Reservoir,2040,9.71
+Investment costs: $m,CAR,CAR,Kotto,Reservoir,2030,12.94
+Investment costs: $m,CAR,CAR,Kotto,Reservoir,2040,12.94
+Investment costs: $m,CAR,CAR,Lancremo,Reservoir,2040,1.67
+Investment costs: $m,CAR,CAR,PV_CAF_2030,PV,2030,0.82
+Investment costs: $m,CAR,CAR,PV_CAF_2030,PV,2040,0.82
+Investment costs: $m,Congo,Congo,Brazzaville Solar,PV,2030,3.01
+Investment costs: $m,Congo,Congo,Brazzaville Solar,PV,2040,3.01
+Investment costs: $m,Congo,Congo,Generic_PV_Congo,PV,2040,18.77
+Investment costs: $m,Congo,Congo,Kouembali,Reservoir,2040,19.03
+Investment costs: $m,Congo,Congo,Mourala,Reservoir,2040,16.02
+Investment costs: $m,Congo,Congo,Mpoukou,Reservoir,2040,19.41
+Investment costs: $m,Congo,Congo,Nyanga,Reservoir,2040,23.35
+Investment costs: $m,DRC,DRC,Generic_PV_DRC,PV,2030,27.33
+Investment costs: $m,DRC,DRC,Generic_PV_DRC,PV,2040,27.33
+Investment costs: $m,DRC,DRC,Inga 3,Reservoir,2040,346.5
+Investment costs: $m,DRC,DRC,Kakobola,Reservoir,2030,2.09
+Investment costs: $m,DRC,DRC,Kakobola,Reservoir,2040,2.09
+Investment costs: $m,DRC,DRC,Katende,Reservoir,2030,13.4
+Investment costs: $m,DRC,DRC,Katende,Reservoir,2040,13.4
+Investment costs: $m,DRC,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,26.36
+Investment costs: $m,DRC,DRC_South,Generic_PV_DRCSouth,PV,2040,0.02
+Investment costs: $m,DRC,DRC_South,Lubumbashi,PV,2025,6.26
+Investment costs: $m,DRC,DRC_South,Lubumbashi,PV,2030,6.26
+Investment costs: $m,DRC,DRC_South,Lubumbashi,PV,2040,6.26
+Investment costs: $m,Gabon,Gabon,Booue,Reservoir,2040,59.51
+Investment costs: $m,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,15.61
+Investment costs: $m,Gabon,Gabon,Doubou,PV,2030,1.09
+Investment costs: $m,Gabon,Gabon,Doubou,PV,2040,1.09
+Investment costs: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,11.42
+Investment costs: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,11.42
+Investment costs: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,11.42
+Investment costs: $m,Gabon,Gabon,Generic_PV_Gabon,PV,2040,18.77
+Investment costs: $m,Gabon,Gabon,Kongue,Reservoir,2040,16.5
+Investment costs: $m,Gabon,Gabon,Lifouta,Reservoir,2040,16.56
+Investment costs: $m,Gabon,Gabon,Mitoungou,Reservoir,2040,59.26
+Investment costs: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,15.48
+Investment costs: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,15.48
+Investment costs: $m,Gabon,Gabon,Oyem PV,PV,2030,2.73
+Investment costs: $m,Gabon,Gabon,Oyem PV,PV,2040,2.73
+Investment costs: $m,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,33.24
+Variable Cost: $m,Angola,Angola,AH Mabubas,ROR,2025,0.07
+Variable Cost: $m,Angola,Angola,AH Mabubas,ROR,2030,0.07
+Variable Cost: $m,Angola,Angola,AH Mabubas,ROR,2040,0.07
+Variable Cost: $m,Angola,Angola,Baynes,Reservoir,2040,0.63
+Variable Cost: $m,Angola,Angola,CCGT Lobito,Gas,2025,6.87
+Variable Cost: $m,Angola,Angola,CCGT Lobito,Gas,2030,191.32
+Variable Cost: $m,Angola,Angola,CCGT Lobito,Gas,2040,122.84
+Variable Cost: $m,Angola,Angola,CT Belem,Gas,2025,12.95
+Variable Cost: $m,Angola,Angola,CT Biopo,Gas,2025,6.99
+Variable Cost: $m,Angola,Angola,CT Biopo,Gas,2030,7.64
+Variable Cost: $m,Angola,Angola,CT Biopo,Gas,2040,0.39
+Variable Cost: $m,Angola,Angola,CT Boa Vista,Gas,2025,33.92
+Variable Cost: $m,Angola,Angola,CT Boa Vista,Gas,2030,9.59
+Variable Cost: $m,Angola,Angola,CT Boa Vista,Gas,2040,0.44
+Variable Cost: $m,Angola,Angola,CT CFL,Gas,2025,32.37
+Variable Cost: $m,Angola,Angola,CT Camana,Gas,2025,12.95
+Variable Cost: $m,Angola,Angola,CT Cazenga,Gas,2025,36.25
+Variable Cost: $m,Angola,Angola,CT Cazenga,Gas,2030,4.43
+Variable Cost: $m,Angola,Angola,CT Cazenga,Gas,2040,0.06
+Variable Cost: $m,Angola,Angola,CT Malembo,Gas,2025,27.19
+Variable Cost: $m,Angola,Angola,CT Malembo,Gas,2030,14.39
+Variable Cost: $m,Angola,Angola,CT Malembo,Gas,2040,0.24
+Variable Cost: $m,Angola,Angola,CT Morro Bento 2,Gas,2025,12.95
+Variable Cost: $m,Angola,Angola,CT Viana,Gas,2025,5.7
+Variable Cost: $m,Angola,Angola,CT Viana,Gas,2030,6.23
+Variable Cost: $m,Angola,Angola,CT Viana,Gas,2040,0.11
+Variable Cost: $m,Angola,Angola,Cacula Cabasa,ROR,2030,1.47
+Variable Cost: $m,Angola,Angola,Cacula Cabasa,ROR,2040,1.47
+Variable Cost: $m,Angola,Angola,Calengue (Catumbela),ROR,2040,0.38
+Variable Cost: $m,Angola,Angola,Cambambe,Reservoir,2025,1.45
+Variable Cost: $m,Angola,Angola,Cambambe,Reservoir,2030,1.45
+Variable Cost: $m,Angola,Angola,Cambambe,Reservoir,2040,1.45
+Variable Cost: $m,Angola,Angola,Capanda,Reservoir,2025,0.64
+Variable Cost: $m,Angola,Angola,Capanda,Reservoir,2030,0.64
+Variable Cost: $m,Angola,Angola,Capanda,Reservoir,2040,0.64
+Variable Cost: $m,Angola,Angola,Gove,Reservoir,2025,0.11
+Variable Cost: $m,Angola,Angola,Gove,Reservoir,2030,0.11
+Variable Cost: $m,Angola,Angola,Gove,Reservoir,2040,0.11
+Variable Cost: $m,Angola,Angola,Lauca,ROR,2025,2.45
+Variable Cost: $m,Angola,Angola,Lauca,ROR,2030,2.21
+Variable Cost: $m,Angola,Angola,Lauca,ROR,2040,2.45
+Variable Cost: $m,Angola,Angola,Lomaum,ROR,2025,0.04
+Variable Cost: $m,Angola,Angola,Lomaum,ROR,2030,0.04
+Variable Cost: $m,Angola,Angola,Lomaum,ROR,2040,0.04
+Variable Cost: $m,Angola,Angola,Luachimo,ROR,2025,0.01
+Variable Cost: $m,Angola,Angola,Luachimo,ROR,2030,0.01
+Variable Cost: $m,Angola,Angola,Luachimo,ROR,2040,0.01
+Variable Cost: $m,Angola,Angola,Matala,ROR,2025,0.07
+Variable Cost: $m,Angola,Angola,Matala,ROR,2030,0.07
+Variable Cost: $m,Angola,Angola,Matala,ROR,2040,0.07
+Variable Cost: $m,Angola,Angola,Quilengue,ROR,2040,0.39
+Variable Cost: $m,Angola,Angola,Soyo,Gas,2025,244.92
+Variable Cost: $m,Angola,Angola,Soyo,Gas,2030,344.15
+Variable Cost: $m,Angola,Angola,Soyo,Gas,2040,215.8
+Variable Cost: $m,Angola,Angola,Tchiumbwe Dala,ROR,2025,0.02
+Variable Cost: $m,Angola,Angola,Tchiumbwe Dala,ROR,2030,0.02
+Variable Cost: $m,Angola,Angola,Tchiumbwe Dala,ROR,2040,0.02
+Variable Cost: $m,CAR,CAR,Bangui Enerca,Diesel,2025,3.2
+Variable Cost: $m,CAR,CAR,Bangui Enerca,Diesel,2030,0.46
+Variable Cost: $m,CAR,CAR,Bangui Enerca,Diesel,2040,0.64
+Variable Cost: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2025,0.01
+Variable Cost: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2030,0.03
+Variable Cost: $m,CAR,CAR,Boali 1 Rebuild,Reservoir,2040,0.04
+Variable Cost: $m,CAR,CAR,Boali 2,Reservoir,2025,0.04
+Variable Cost: $m,CAR,CAR,Boali 2,Reservoir,2030,0.07
+Variable Cost: $m,CAR,CAR,Boali 2,Reservoir,2040,0.08
+Variable Cost: $m,CAR,CAR,Boali 3,Reservoir,2030,0.03
+Variable Cost: $m,CAR,CAR,Boali 3,Reservoir,2040,0.03
+Variable Cost: $m,CAR,CAR,Dimoli (CAR),Reservoir,2040,0.24
+Variable Cost: $m,CAR,CAR,Kotto,Reservoir,2030,0.13
+Variable Cost: $m,CAR,CAR,Kotto,Reservoir,2040,0.13
+Variable Cost: $m,Congo,Congo,CEC (Cote Mateve),Gas,2025,152.94
+Variable Cost: $m,Congo,Congo,CEC (Cote Mateve),Gas,2030,87.62
+Variable Cost: $m,Congo,Congo,Djeno,Gas,2025,5.61
+Variable Cost: $m,Congo,Congo,Djeno,Gas,2030,14.15
+Variable Cost: $m,Congo,Congo,Imboulou,Reservoir,2025,0.25
+Variable Cost: $m,Congo,Congo,Imboulou,Reservoir,2030,0.25
+Variable Cost: $m,Congo,Congo,Imboulou,Reservoir,2040,0.25
+Variable Cost: $m,Congo,Congo,Kouembali,Reservoir,2040,0.31
+Variable Cost: $m,Congo,Congo,Liouesso,Reservoir,2025,0.04
+Variable Cost: $m,Congo,Congo,Liouesso,Reservoir,2030,0.04
+Variable Cost: $m,Congo,Congo,Liouesso,Reservoir,2040,0.04
+Variable Cost: $m,Congo,Congo,Moukouloukou,Reservoir,2025,0.19
+Variable Cost: $m,Congo,Congo,Moukouloukou,Reservoir,2030,0.19
+Variable Cost: $m,Congo,Congo,Moukouloukou,Reservoir,2040,0.19
+Variable Cost: $m,Congo,Congo,Mourala,Reservoir,2040,0.23
+Variable Cost: $m,Congo,Congo,Mpoukou,Reservoir,2040,0.42
+Variable Cost: $m,Congo,Congo,Nkayi Mill,Biomass,2025,0.11
+Variable Cost: $m,Congo,Congo,Nkayi Mill,Biomass,2030,0.11
+Variable Cost: $m,Congo,Congo,Nkayi Mill,Biomass,2040,0.11
+Variable Cost: $m,Congo,Congo,Nyanga,Reservoir,2040,0.5
+Variable Cost: $m,Congo,Congo,Ouesso Biomass,Biomass,2025,0.05
+Variable Cost: $m,Congo,Congo,Ouesso Biomass,Biomass,2030,0.05
+Variable Cost: $m,Congo,Congo,Ouesso Biomass,Biomass,2040,0.05
+Variable Cost: $m,DRC,DRC,Inga 1,Reservoir,2025,1.12
+Variable Cost: $m,DRC,DRC,Inga 1,Reservoir,2030,1.13
+Variable Cost: $m,DRC,DRC,Inga 1,Reservoir,2040,1.13
+Variable Cost: $m,DRC,DRC,Inga 2,Reservoir,2025,3.42
+Variable Cost: $m,DRC,DRC,Inga 2,Reservoir,2030,3.42
+Variable Cost: $m,DRC,DRC,Inga 2,Reservoir,2040,3.32
+Variable Cost: $m,DRC,DRC,Inga 3,Reservoir,2040,7.07
+Variable Cost: $m,DRC,DRC,Kakobola,Reservoir,2030,0.02
+Variable Cost: $m,DRC,DRC,Kakobola,Reservoir,2040,0.02
+Variable Cost: $m,DRC,DRC,Katende,Reservoir,2030,0.14
+Variable Cost: $m,DRC,DRC,Katende,Reservoir,2040,0.13
+Variable Cost: $m,DRC,DRC,Mbandaka,Diesel,2030,0.01
+Variable Cost: $m,DRC,DRC,Mbandaka,Diesel,2040,0.01
+Variable Cost: $m,DRC,DRC,Mobayi,Reservoir,2025,0.02
+Variable Cost: $m,DRC,DRC,Mobayi,Reservoir,2030,0.03
+Variable Cost: $m,DRC,DRC,Mobayi,Reservoir,2040,0.02
+Variable Cost: $m,DRC,DRC,Nzongo,Reservoir,2025,0.19
+Variable Cost: $m,DRC,DRC,Nzongo,Reservoir,2030,0.19
+Variable Cost: $m,DRC,DRC,Nzongo,Reservoir,2040,0.19
+Variable Cost: $m,DRC,DRC,Nzongoii,Reservoir,2025,0.35
+Variable Cost: $m,DRC,DRC,Nzongoii,Reservoir,2030,0.38
+Variable Cost: $m,DRC,DRC,Nzongoii,Reservoir,2040,0.38
+Variable Cost: $m,DRC,DRC,Sanga,Reservoir,2025,0.01
+Variable Cost: $m,DRC,DRC,Sanga,Reservoir,2030,0.02
+Variable Cost: $m,DRC,DRC,Sanga,Reservoir,2040,0.01
+Variable Cost: $m,DRC,DRC,Soleniama,Reservoir,2025,0.06
+Variable Cost: $m,DRC,DRC,Soleniama,Reservoir,2030,0.06
+Variable Cost: $m,DRC,DRC,Soleniama,Reservoir,2040,0.06
+Variable Cost: $m,DRC,DRC,Zongo 1,Reservoir,2030,0.01
+Variable Cost: $m,DRC,DRC,Zongo 1,Reservoir,2040,0.01
+Variable Cost: $m,DRC,DRC,Zongo 2,Reservoir,2025,0.25
+Variable Cost: $m,DRC,DRC,Zongo 2,Reservoir,2030,0.26
+Variable Cost: $m,DRC,DRC,Zongo 2,Reservoir,2040,0.26
+Variable Cost: $m,DRC,DRC_South,Bousanga,Reservoir,2025,0.6
+Variable Cost: $m,DRC,DRC_South,Bousanga,Reservoir,2030,0.6
+Variable Cost: $m,DRC,DRC_South,Bousanga,Reservoir,2040,0.6
+Variable Cost: $m,DRC,DRC_South,Kilubi,Reservoir,2025,0.02
+Variable Cost: $m,DRC,DRC_South,Kilubi,Reservoir,2030,0.02
+Variable Cost: $m,DRC,DRC_South,Kilubi,Reservoir,2040,0.02
+Variable Cost: $m,DRC,DRC_South,Koni,Reservoir,2025,0.09
+Variable Cost: $m,DRC,DRC_South,Koni,Reservoir,2030,0.09
+Variable Cost: $m,DRC,DRC_South,Koni,Reservoir,2040,0.09
+Variable Cost: $m,DRC,DRC_South,Nseke,Reservoir,2025,1.0
+Variable Cost: $m,DRC,DRC_South,Nseke,Reservoir,2030,1.0
+Variable Cost: $m,DRC,DRC_South,Nseke,Reservoir,2040,1.0
+Variable Cost: $m,DRC,DRC_South,Nzilo,Reservoir,2025,0.27
+Variable Cost: $m,DRC,DRC_South,Nzilo,Reservoir,2030,0.27
+Variable Cost: $m,DRC,DRC_South,Nzilo,Reservoir,2040,0.27
+Variable Cost: $m,Gabon,Gabon,Alenakiri,Gas,2025,29.65
+Variable Cost: $m,Gabon,Gabon,Alenakiri,Gas,2030,28.69
+Variable Cost: $m,Gabon,Gabon,Bongolo,Reservoir,2025,0.02
+Variable Cost: $m,Gabon,Gabon,Bongolo,Reservoir,2030,0.02
+Variable Cost: $m,Gabon,Gabon,Bongolo,Reservoir,2040,0.02
+Variable Cost: $m,Gabon,Gabon,Booue,Reservoir,2040,1.05
+Variable Cost: $m,Gabon,Gabon,Cap Lopez,Gas,2025,32.43
+Variable Cost: $m,Gabon,Gabon,Cap Lopez,Gas,2030,31.45
+Variable Cost: $m,Gabon,Gabon,Chute de Tsamba,Reservoir,2040,0.23
+Variable Cost: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2025,0.07
+Variable Cost: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2030,0.07
+Variable Cost: $m,Gabon,Gabon,FE-2 (Kinguele Aval),ROR,2040,0.07
+Variable Cost: $m,Gabon,Gabon,Gamba,Gas,2025,2.1
+Variable Cost: $m,Gabon,Gabon,Gamba,Gas,2030,0.96
+Variable Cost: $m,Gabon,Gabon,Grand Poubara,Reservoir,2025,0.28
+Variable Cost: $m,Gabon,Gabon,Grand Poubara,Reservoir,2030,0.28
+Variable Cost: $m,Gabon,Gabon,Grand Poubara,Reservoir,2040,0.28
+Variable Cost: $m,Gabon,Gabon,Kinguele,Reservoir,2025,0.15
+Variable Cost: $m,Gabon,Gabon,Kinguele,Reservoir,2030,0.15
+Variable Cost: $m,Gabon,Gabon,Kinguele,Reservoir,2040,0.15
+Variable Cost: $m,Gabon,Gabon,Kongue,Reservoir,2040,0.27
+Variable Cost: $m,Gabon,Gabon,Lifouta,Reservoir,2040,0.29
+Variable Cost: $m,Gabon,Gabon,Mitoungou,Reservoir,2040,1.05
+Variable Cost: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2030,0.27
+Variable Cost: $m,Gabon,Gabon,Ngoulmendjim,Reservoir,2040,0.27
+Variable Cost: $m,Gabon,Gabon,Owendo Gas,Gas,2025,78.18
+Variable Cost: $m,Gabon,Gabon,Owendo Gas,Gas,2030,111.39
+Variable Cost: $m,Gabon,Gabon,Port Gentil Perenco,Gas,2025,38.3
+Variable Cost: $m,Gabon,Gabon,Port Gentil Perenco,Gas,2030,33.53
+Variable Cost: $m,Gabon,Gabon,Poubara,Reservoir,2025,0.1
+Variable Cost: $m,Gabon,Gabon,Poubara,Reservoir,2030,0.1
+Variable Cost: $m,Gabon,Gabon,Poubara,Reservoir,2040,0.1
+Variable Cost: $m,Gabon,Gabon,Rabi Kounga Field,Gas,2025,9.58
+Variable Cost: $m,Gabon,Gabon,Rabi Kounga Field,Gas,2030,5.99
+Variable Cost: $m,Gabon,Gabon,Tchimbele,Reservoir,2025,0.11
+Variable Cost: $m,Gabon,Gabon,Tchimbele,Reservoir,2030,0.11
+Variable Cost: $m,Gabon,Gabon,Tchimbele,Reservoir,2040,0.11
+Variable Cost: $m,Gabon,Gabon,Tsengue Leledi,Reservoir,2040,0.77
+LCOE: $/MWH,,Angola,AH Mabubas,ROR,2025,8.27
+LCOE: $/MWH,,Angola,AH Mabubas,ROR,2030,8.27
+LCOE: $/MWH,,Angola,AH Mabubas,ROR,2040,8.27
+LCOE: $/MWH,,Angola,Baia farta,PV,2025,7.3
+LCOE: $/MWH,,Angola,Baia farta,PV,2030,7.3
+LCOE: $/MWH,,Angola,Baia farta,PV,2040,7.3
+LCOE: $/MWH,,Angola,Bailundo,PV,2030,31.65
+LCOE: $/MWH,,Angola,Bailundo,PV,2040,31.65
+LCOE: $/MWH,,Angola,Baynes,Reservoir,2040,71.81
+LCOE: $/MWH,,Angola,Benjoin,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Benjoin,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Biopo PV,PV,2025,7.3
+LCOE: $/MWH,,Angola,Biopo PV,PV,2030,7.3
+LCOE: $/MWH,,Angola,Biopo PV,PV,2040,7.3
+LCOE: $/MWH,,Angola,CCGT Lobito,Gas,2025,87.66
+LCOE: $/MWH,,Angola,CCGT Lobito,Gas,2030,77.82
+LCOE: $/MWH,,Angola,CCGT Lobito,Gas,2040,106.03
+LCOE: $/MWH,,Angola,CT Belem,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Biopo,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Biopo,Gas,2030,97.07
+LCOE: $/MWH,,Angola,CT Biopo,Gas,2040,265.69
+LCOE: $/MWH,,Angola,CT Boa Vista,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Boa Vista,Gas,2030,97.07
+LCOE: $/MWH,,Angola,CT Boa Vista,Gas,2040,282.79
+LCOE: $/MWH,,Angola,CT CFL,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Camana,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Cazenga,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Cazenga,Gas,2030,97.07
+LCOE: $/MWH,,Angola,CT Malembo,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Malembo,Gas,2030,97.07
+LCOE: $/MWH,,Angola,CT Malembo,Gas,2040,576.96
+LCOE: $/MWH,,Angola,CT Morro Bento 2,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Viana,Gas,2025,89.37
+LCOE: $/MWH,,Angola,CT Viana,Gas,2030,97.07
+LCOE: $/MWH,,Angola,Cacula,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Cacula,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Cacula Cabasa,ROR,2030,59.77
+LCOE: $/MWH,,Angola,Cacula Cabasa,ROR,2040,59.77
+LCOE: $/MWH,,Angola,Cafunfo,PV,2030,31.65
+LCOE: $/MWH,,Angola,Cafunfo,PV,2040,31.65
+LCOE: $/MWH,,Angola,Calenga,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Calenga,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Calengue (Catumbela),ROR,2040,51.35
+LCOE: $/MWH,,Angola,Cambambe,Reservoir,2025,17.11
+LCOE: $/MWH,,Angola,Cambambe,Reservoir,2030,17.11
+LCOE: $/MWH,,Angola,Cambambe,Reservoir,2040,17.11
+LCOE: $/MWH,,Angola,Cambulo,PV,2030,31.65
+LCOE: $/MWH,,Angola,Cambulo,PV,2040,31.65
+LCOE: $/MWH,,Angola,Capanda,Reservoir,2025,20.77
+LCOE: $/MWH,,Angola,Capanda,Reservoir,2030,20.77
+LCOE: $/MWH,,Angola,Capanda,Reservoir,2040,20.77
+LCOE: $/MWH,,Angola,Catete,PV,2030,31.65
+LCOE: $/MWH,,Angola,Catete,PV,2040,31.65
+LCOE: $/MWH,,Angola,Chibia,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Chibia,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Cuango,PV,2030,31.65
+LCOE: $/MWH,,Angola,Cuango,PV,2040,31.65
+LCOE: $/MWH,,Angola,Cunene,PV,2030,31.65
+LCOE: $/MWH,,Angola,Cunene,PV,2040,31.65
+LCOE: $/MWH,,Angola,Gastao,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Gastao,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Generic_PV_Angola,PV,2040,25.56
+LCOE: $/MWH,,Angola,Gove,Reservoir,2025,13.98
+LCOE: $/MWH,,Angola,Gove,Reservoir,2030,13.98
+LCOE: $/MWH,,Angola,Gove,Reservoir,2040,13.98
+LCOE: $/MWH,,Angola,Kiwaba Ngozi 1,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Kiwaba Ngozi 1,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Kiwaba Ngozi 2,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Kiwaba Ngozi 2,Onshore Wind,2040,33.03
+LCOE: $/MWH,,Angola,Kuito,PV,2030,31.65
+LCOE: $/MWH,,Angola,Kuito,PV,2040,31.65
+LCOE: $/MWH,,Angola,Lauca,ROR,2025,17.37
+LCOE: $/MWH,,Angola,Lauca,ROR,2030,19.24
+LCOE: $/MWH,,Angola,Lauca,ROR,2040,17.37
+LCOE: $/MWH,,Angola,Lauca PV,PV,2030,31.65
+LCOE: $/MWH,,Angola,Lauca PV,PV,2040,31.65
+LCOE: $/MWH,,Angola,Lomaum,ROR,2025,22.92
+LCOE: $/MWH,,Angola,Lomaum,ROR,2030,22.92
+LCOE: $/MWH,,Angola,Lomaum,ROR,2040,22.92
+LCOE: $/MWH,,Angola,Luachimo,ROR,2025,12.2
+LCOE: $/MWH,,Angola,Luachimo,ROR,2030,12.2
+LCOE: $/MWH,,Angola,Luachimo,ROR,2040,12.2
+LCOE: $/MWH,,Angola,Luau PV,PV,2025,34.69
+LCOE: $/MWH,,Angola,Luau PV,PV,2030,34.69
+LCOE: $/MWH,,Angola,Luau PV,PV,2040,34.69
+LCOE: $/MWH,,Angola,Lucapa,PV,2025,7.3
+LCOE: $/MWH,,Angola,Lucapa,PV,2030,7.3
+LCOE: $/MWH,,Angola,Lucapa,PV,2040,7.3
+LCOE: $/MWH,,Angola,Luena,PV,2025,7.3
+LCOE: $/MWH,,Angola,Luena,PV,2030,7.3
+LCOE: $/MWH,,Angola,Luena,PV,2040,7.3
+LCOE: $/MWH,,Angola,Matala,ROR,2025,12.68
+LCOE: $/MWH,,Angola,Matala,ROR,2030,12.68
+LCOE: $/MWH,,Angola,Matala,ROR,2040,12.68
+LCOE: $/MWH,,Angola,Quilemba,PV,2025,34.69
+LCOE: $/MWH,,Angola,Quilemba,PV,2030,34.69
+LCOE: $/MWH,,Angola,Quilemba,PV,2040,34.69
+LCOE: $/MWH,,Angola,Quilengue,ROR,2040,48.86
+LCOE: $/MWH,,Angola,Quipungo,PV,2030,31.65
+LCOE: $/MWH,,Angola,Quipungo,PV,2040,31.65
+LCOE: $/MWH,,Angola,Saurimo,PV,2025,7.3
+LCOE: $/MWH,,Angola,Saurimo,PV,2030,7.3
+LCOE: $/MWH,,Angola,Saurimo,PV,2040,7.3
+LCOE: $/MWH,,Angola,Soyo,Gas,2025,56.15
+LCOE: $/MWH,,Angola,Soyo,Gas,2030,61.63
+LCOE: $/MWH,,Angola,Soyo,Gas,2040,76.69
+LCOE: $/MWH,,Angola,Tchiumbwe Dala,ROR,2025,13.31
+LCOE: $/MWH,,Angola,Tchiumbwe Dala,ROR,2030,13.31
+LCOE: $/MWH,,Angola,Tchiumbwe Dala,ROR,2040,13.31
+LCOE: $/MWH,,Angola,Tombwa,Onshore Wind,2030,33.03
+LCOE: $/MWH,,Angola,Tombwa,Onshore Wind,2040,33.03
+LCOE: $/MWH,,CAR,Bangui Enerca,Diesel,2025,204.64
+LCOE: $/MWH,,CAR,Bangui Enerca,Diesel,2030,499.34
+LCOE: $/MWH,,CAR,Bangui Enerca,Diesel,2040,462.98
+LCOE: $/MWH,,CAR,Boali 1 Rebuild,Reservoir,2025,17.08
+LCOE: $/MWH,,CAR,Boali 1 Rebuild,Reservoir,2030,9.29
+LCOE: $/MWH,,CAR,Boali 1 Rebuild,Reservoir,2040,6.73
+LCOE: $/MWH,,CAR,Boali 2,Reservoir,2025,11.69
+LCOE: $/MWH,,CAR,Boali 2,Reservoir,2030,8.02
+LCOE: $/MWH,,CAR,Boali 2,Reservoir,2040,6.81
+LCOE: $/MWH,,CAR,Boali 3,Reservoir,2030,64.62
+LCOE: $/MWH,,CAR,Boali 3,Reservoir,2040,56.13
+LCOE: $/MWH,,CAR,Danzi,PV,2025,10.57
+LCOE: $/MWH,,CAR,Danzi,PV,2030,10.57
+LCOE: $/MWH,,CAR,Danzi,PV,2040,10.57
+LCOE: $/MWH,,CAR,Dimoli (CAR),Reservoir,2040,30.26
+LCOE: $/MWH,,CAR,Kotto,Reservoir,2030,61.62
+LCOE: $/MWH,,CAR,Kotto,Reservoir,2040,61.62
+LCOE: $/MWH,,CAR,Lancremo,Reservoir,2040,103.59
+LCOE: $/MWH,,CAR,PV_CAF_2030,PV,2030,49.08
+LCOE: $/MWH,,CAR,PV_CAF_2030,PV,2040,49.08
+LCOE: $/MWH,,CAR,Sakai,PV,2025,10.57
+LCOE: $/MWH,,CAR,Sakai,PV,2030,10.57
+LCOE: $/MWH,,CAR,Sakai,PV,2040,10.57
+LCOE: $/MWH,,Congo,Brazzaville Solar,PV,2030,46.86
+LCOE: $/MWH,,Congo,Brazzaville Solar,PV,2040,46.86
+LCOE: $/MWH,,Congo,CEC (Cote Mateve),Gas,2025,88.21
+LCOE: $/MWH,,Congo,CEC (Cote Mateve),Gas,2030,96.82
+LCOE: $/MWH,,Congo,Djeno,Gas,2025,97.74
+LCOE: $/MWH,,Congo,Djeno,Gas,2030,97.07
+LCOE: $/MWH,,Congo,Generic_PV_Congo,PV,2040,38.15
+LCOE: $/MWH,,Congo,Imboulou,Reservoir,2025,12.69
+LCOE: $/MWH,,Congo,Imboulou,Reservoir,2030,12.69
+LCOE: $/MWH,,Congo,Imboulou,Reservoir,2040,12.69
+LCOE: $/MWH,,Congo,Kouembali,Reservoir,2040,43.55
+LCOE: $/MWH,,Congo,Liouesso,Reservoir,2025,13.44
+LCOE: $/MWH,,Congo,Liouesso,Reservoir,2030,13.44
+LCOE: $/MWH,,Congo,Liouesso,Reservoir,2040,13.44
+LCOE: $/MWH,,Congo,Moukouloukou,Reservoir,2025,10.36
+LCOE: $/MWH,,Congo,Moukouloukou,Reservoir,2030,10.36
+LCOE: $/MWH,,Congo,Moukouloukou,Reservoir,2040,10.36
+LCOE: $/MWH,,Congo,Mourala,Reservoir,2040,45.51
+LCOE: $/MWH,,Congo,Mpoukou,Reservoir,2040,34.48
+LCOE: $/MWH,,Congo,Nkayi Mill,Biomass,2025,15.93
+LCOE: $/MWH,,Congo,Nkayi Mill,Biomass,2030,15.93
+LCOE: $/MWH,,Congo,Nkayi Mill,Biomass,2040,15.93
+LCOE: $/MWH,,Congo,Nyanga,Reservoir,2040,35.38
+LCOE: $/MWH,,Congo,Ouesso Biomass,Biomass,2025,15.93
+LCOE: $/MWH,,Congo,Ouesso Biomass,Biomass,2030,15.93
+LCOE: $/MWH,,Congo,Ouesso Biomass,Biomass,2040,15.93
+LCOE: $/MWH,,DRC,Generic_PV_DRC,PV,2030,41.28
+LCOE: $/MWH,,DRC,Generic_PV_DRC,PV,2040,41.28
+LCOE: $/MWH,,DRC,Inga 1,Reservoir,2025,7.32
+LCOE: $/MWH,,DRC,Inga 1,Reservoir,2030,7.29
+LCOE: $/MWH,,DRC,Inga 1,Reservoir,2040,7.29
+LCOE: $/MWH,,DRC,Inga 2,Reservoir,2025,6.35
+LCOE: $/MWH,,DRC,Inga 2,Reservoir,2030,6.35
+LCOE: $/MWH,,DRC,Inga 2,Reservoir,2040,6.52
+LCOE: $/MWH,,DRC,Inga 3,Reservoir,2040,30.85
+LCOE: $/MWH,,DRC,Kakobola,Reservoir,2030,57.88
+LCOE: $/MWH,,DRC,Kakobola,Reservoir,2040,59.66
+LCOE: $/MWH,,DRC,Katende,Reservoir,2030,59.79
+LCOE: $/MWH,,DRC,Katende,Reservoir,2040,62.0
+LCOE: $/MWH,,DRC,Mobayi,Reservoir,2025,13.95
+LCOE: $/MWH,,DRC,Mobayi,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC,Mobayi,Reservoir,2040,14.2
+LCOE: $/MWH,,DRC,Nzongo,Reservoir,2025,10.42
+LCOE: $/MWH,,DRC,Nzongo,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC,Nzongo,Reservoir,2040,10.63
+LCOE: $/MWH,,DRC,Nzongoii,Reservoir,2025,11.09
+LCOE: $/MWH,,DRC,Nzongoii,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC,Nzongoii,Reservoir,2040,10.42
+LCOE: $/MWH,,DRC,Sanga,Reservoir,2025,14.04
+LCOE: $/MWH,,DRC,Sanga,Reservoir,2030,10.14
+LCOE: $/MWH,,DRC,Sanga,Reservoir,2040,14.5
+LCOE: $/MWH,,DRC,Soleniama,Reservoir,2025,10.42
+LCOE: $/MWH,,DRC,Soleniama,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC,Soleniama,Reservoir,2040,11.08
+LCOE: $/MWH,,DRC,Zongo 1,Reservoir,2025,39.7
+LCOE: $/MWH,,DRC,Zongo 1,Reservoir,2030,29.19
+LCOE: $/MWH,,DRC,Zongo 1,Reservoir,2040,30.68
+LCOE: $/MWH,,DRC,Zongo 2,Reservoir,2025,7.84
+LCOE: $/MWH,,DRC,Zongo 2,Reservoir,2030,7.53
+LCOE: $/MWH,,DRC,Zongo 2,Reservoir,2040,7.53
+LCOE: $/MWH,,DRC_South,Bousanga,Reservoir,2025,10.42
+LCOE: $/MWH,,DRC_South,Bousanga,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC_South,Bousanga,Reservoir,2040,10.42
+LCOE: $/MWH,,DRC_South,Generic_OnshoreWind_DRCSouth,Onshore Wind,2040,32.98
+LCOE: $/MWH,,DRC_South,Kilubi,Reservoir,2025,10.42
+LCOE: $/MWH,,DRC_South,Kilubi,Reservoir,2030,10.42
+LCOE: $/MWH,,DRC_South,Kilubi,Reservoir,2040,10.42
+LCOE: $/MWH,,DRC_South,Koni,Reservoir,2025,12.13
+LCOE: $/MWH,,DRC_South,Koni,Reservoir,2030,12.13
+LCOE: $/MWH,,DRC_South,Koni,Reservoir,2040,12.13
+LCOE: $/MWH,,DRC_South,Lubumbashi,PV,2025,45.97
+LCOE: $/MWH,,DRC_South,Lubumbashi,PV,2030,45.97
+LCOE: $/MWH,,DRC_South,Lubumbashi,PV,2040,45.97
+LCOE: $/MWH,,DRC_South,Nseke,Reservoir,2025,6.74
+LCOE: $/MWH,,DRC_South,Nseke,Reservoir,2030,6.74
+LCOE: $/MWH,,DRC_South,Nseke,Reservoir,2040,6.74
+LCOE: $/MWH,,DRC_South,Nzilo,Reservoir,2025,10.51
+LCOE: $/MWH,,DRC_South,Nzilo,Reservoir,2030,10.51
+LCOE: $/MWH,,DRC_South,Nzilo,Reservoir,2040,10.51
+LCOE: $/MWH,,Gabon,Alenakiri,Gas,2025,85.65
+LCOE: $/MWH,,Gabon,Alenakiri,Gas,2030,93.69
+LCOE: $/MWH,,Gabon,Ayeme I,PV,2025,10.88
+LCOE: $/MWH,,Gabon,Ayeme I,PV,2030,10.88
+LCOE: $/MWH,,Gabon,Ayeme I,PV,2040,10.88
+LCOE: $/MWH,,Gabon,Bongolo,Reservoir,2025,10.28
+LCOE: $/MWH,,Gabon,Bongolo,Reservoir,2030,10.28
+LCOE: $/MWH,,Gabon,Bongolo,Reservoir,2040,10.28
+LCOE: $/MWH,,Gabon,Booue,Reservoir,2040,38.61
+LCOE: $/MWH,,Gabon,Cap Lopez,Gas,2025,85.65
+LCOE: $/MWH,,Gabon,Cap Lopez,Gas,2030,93.69
+LCOE: $/MWH,,Gabon,Chute de Tsamba,Reservoir,2040,44.21
+LCOE: $/MWH,,Gabon,Doubou,PV,2030,50.54
+LCOE: $/MWH,,Gabon,Doubou,PV,2040,50.54
+LCOE: $/MWH,,Gabon,FE-2 (Kinguele Aval),ROR,2025,89.59
+LCOE: $/MWH,,Gabon,FE-2 (Kinguele Aval),ROR,2030,89.59
+LCOE: $/MWH,,Gabon,FE-2 (Kinguele Aval),ROR,2040,89.59
+LCOE: $/MWH,,Gabon,Gamba,Gas,2025,85.65
+LCOE: $/MWH,,Gabon,Gamba,Gas,2030,97.07
+LCOE: $/MWH,,Gabon,Generic_PV_Gabon,PV,2040,41.15
+LCOE: $/MWH,,Gabon,Grand Poubara,Reservoir,2025,14.63
+LCOE: $/MWH,,Gabon,Grand Poubara,Reservoir,2030,14.63
+LCOE: $/MWH,,Gabon,Grand Poubara,Reservoir,2040,14.63
+LCOE: $/MWH,,Gabon,Kinguele,Reservoir,2025,10.28
+LCOE: $/MWH,,Gabon,Kinguele,Reservoir,2030,10.28
+LCOE: $/MWH,,Gabon,Kinguele,Reservoir,2040,10.28
+LCOE: $/MWH,,Gabon,Kongue,Reservoir,2040,41.31
+LCOE: $/MWH,,Gabon,Lifouta,Reservoir,2040,38.62
+LCOE: $/MWH,,Gabon,Mitoungou,Reservoir,2040,38.55
+LCOE: $/MWH,,Gabon,Ngoulmendjim,Reservoir,2030,36.8
+LCOE: $/MWH,,Gabon,Ngoulmendjim,Reservoir,2040,36.8
+LCOE: $/MWH,,Gabon,Owendo Gas,Gas,2025,86.46
+LCOE: $/MWH,,Gabon,Owendo Gas,Gas,2030,93.35
+LCOE: $/MWH,,Gabon,Oyem PV,PV,2030,50.54
+LCOE: $/MWH,,Gabon,Oyem PV,PV,2040,50.54
+LCOE: $/MWH,,Gabon,Port Gentil Perenco,Gas,2025,85.65
+LCOE: $/MWH,,Gabon,Port Gentil Perenco,Gas,2030,94.01
+LCOE: $/MWH,,Gabon,Poubara,Reservoir,2025,10.28
+LCOE: $/MWH,,Gabon,Poubara,Reservoir,2030,10.28
+LCOE: $/MWH,,Gabon,Poubara,Reservoir,2040,10.28
+LCOE: $/MWH,,Gabon,Rabi Kounga Field,Gas,2025,85.65
+LCOE: $/MWH,,Gabon,Rabi Kounga Field,Gas,2030,95.35
+LCOE: $/MWH,,Gabon,Tchimbele,Reservoir,2025,15.46
+LCOE: $/MWH,,Gabon,Tchimbele,Reservoir,2030,15.46
+LCOE: $/MWH,,Gabon,Tchimbele,Reservoir,2040,15.46
+LCOE: $/MWH,,Gabon,Tsengue Leledi,Reservoir,2040,31.96

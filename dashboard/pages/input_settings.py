@@ -140,7 +140,12 @@ def layout(active_project=None):
             dbc.Col(html.H4("Model Settings", className="mb-0"), width="auto"),
             dbc.Col(make_open_folder_btn("settings-open-btn"), width="auto",
                     className="d-flex align-items-center"),
-        ], className="mb-1 align-items-center"),
+            dbc.Col(
+                dbc.Button([html.I(className="bi bi-arrow-clockwise me-1"), "Reload"],
+                           id="stg-reload-btn", color="outline-secondary", size="sm"),
+                width="auto", className="ms-auto",
+            ),
+        ], className="mb-1 align-items-center justify-content-between"),
         html.P("Configure model switches (toggles) and numeric parameters.",
                className="text-muted mb-3"),
 
@@ -168,8 +173,11 @@ def layout(active_project=None):
     Output("stg-variant",          "options"),
     Input("settings-project",      "value"),
     Input("stg-variant",           "value"),
+    Input("stg-reload-btn",        "n_clicks"),
 )
-def load_settings(folder, variant):
+def load_settings(folder, variant, _reload=None):
+    if _reload:
+        dl.clear_input_cache()
     base_opts = [{"label": "Baseline", "value": "Baseline"}]
     if not folder:
         return html.Div(), base_opts
@@ -252,5 +260,5 @@ def dup_settings(n, variant, new_name, folder):
           State("settings-project", "value"), prevent_initial_call=True)
 def open_settings_folder(n, folder):
     from dash import no_update
-    if not folder: return no_update
+    if not n or not folder: return no_update
     return str(INPUT_ROOT / folder / "pSettings.csv")

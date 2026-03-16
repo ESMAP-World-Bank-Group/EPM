@@ -1,5 +1,5 @@
-paramNames,TEST,TEST2,TEST3
-pGenDataInput,supply/pGenDataInput_TEST.csv,,
+paramNames,ISO,FreeExpansion,Baseline
+pGenDataInput,,,
 pGenDataInputDefault,,,
 pStorageDataInput,,,
 pFuelPrice,,,
@@ -11,7 +11,7 @@ pDemandProfile,,,
 pDemandData,,,
 pEnergyEfficiencyFactor,,,
 pTransferLimit,,,
-pNewTransmission,,,
+pNewTransmission,,trade/pNewTransmission_Free_Expansion.csv,
 pTradePrice,,,
 pExtTransferLimit,,,
 pEmissionsTotal,,,

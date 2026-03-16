@@ -582,6 +582,11 @@ def save_input_scenarios(folder: str, sc_key_variant_dict: dict) -> bool:
         return False
 
 
+def clear_input_cache() -> None:
+    """Clear the lru_cache for input CSV files (call before a forced reload)."""
+    _load_input_csv.cache_clear()
+
+
 def clone_input_folder(source: str, target_name: str) -> bool:
     """
     Copy an existing data folder to a new one with target_name.

@@ -15,8 +15,20 @@ def _grid(grid_id: str, height: str = "360px") -> dag.AgGrid:
         id=grid_id, rowData=[], columnDefs=[],
         defaultColDef={"flex": 1, "minWidth": 90, "sortable": True,
                        "filter": True, "resizable": True},
+        dashGridOptions={"rowSelection": "multiple"},
         style={"height": height}, className="ag-theme-alpine",
     )
+
+
+def _icon_btns(add_id, del_id):
+    return [
+        dbc.Button(html.I(className="bi bi-plus-lg"), id=add_id, color="link",
+                   className="text-secondary p-0 me-1",
+                   style={"fontSize": "0.78rem"}, title="Add row"),
+        dbc.Button(html.I(className="bi bi-trash"), id=del_id, color="link",
+                   className="text-danger p-0",
+                   style={"fontSize": "0.78rem"}, title="Delete selected"),
+    ]
 
 
 def _col_defs(df: pd.DataFrame, read_only: list) -> list:
@@ -32,7 +44,12 @@ def layout(active_project=None):
     return html.Div([
         dbc.Row([
             dbc.Col(html.H4("Trade & Transmission", className="mb-0"), width="auto"),
-        ], className="mb-1 align-items-center"),
+            dbc.Col(
+                dbc.Button([html.I(className="bi bi-arrow-clockwise me-1"), "Reload"],
+                           id="tra-reload-btn", color="outline-secondary", size="sm"),
+                width="auto", className="ms-auto",
+            ),
+        ], className="mb-1 align-items-center justify-content-between"),
         html.P("Edit interconnection capacities, candidate new lines and trade prices.",
                className="text-muted mb-3"),
         html.Div(
@@ -51,8 +68,12 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-tl-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("Existing interconnection capacity between zones (MW).",
-                               className="text-muted small"),
+                        dbc.Row([
+                            dbc.Col(html.P("Existing interconnection capacity between zones (MW).",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col(_icon_btns("add-tl-btn", "del-tl-btn"),
+                                    width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("tl-grid"),
                         html.Div(make_open_folder_btn("trade-tl-open"), className="mt-1 mb-2"),
                     ], width=5),
@@ -84,8 +105,12 @@ def layout(active_project=None):
                                        color="success", size="sm"), width="auto"),
                     dbc.Col(html.Div(id="save-nt-msg"), width="auto"),
                 ]),
-                html.P("Candidate new transmission lines.",
-                       className="text-muted small"),
+                dbc.Row([
+                    dbc.Col(html.P("Candidate new transmission lines.",
+                                   className="text-muted small mb-1"), width="auto"),
+                    dbc.Col(_icon_btns("add-nt-btn", "del-nt-btn"),
+                            width="auto", className="ms-auto d-flex align-items-center"),
+                ], className="align-items-center mb-1"),
                 _grid("nt-grid"),
                 html.Div(make_open_folder_btn("trade-nt-open"), className="mt-1 mb-2"),
             ]),
@@ -98,8 +123,12 @@ def layout(active_project=None):
                                                color="success", size="sm"), width="auto"),
                             dbc.Col(html.Div(id="save-tp-msg"), width="auto"),
                         ], className="mb-2"),
-                        html.P("Import/export prices with external zones ($/MWh).",
-                               className="text-muted small"),
+                        dbc.Row([
+                            dbc.Col(html.P("Import/export prices with external zones ($/MWh).",
+                                           className="text-muted small mb-1"), width="auto"),
+                            dbc.Col(_icon_btns("add-tp-btn", "del-tp-btn"),
+                                    width="auto", className="ms-auto d-flex align-items-center"),
+                        ], className="align-items-center mb-1"),
                         _grid("tp-grid"),
                         html.Div(make_open_folder_btn("trade-tp-open"), className="mt-1 mb-2"),
                     ], width=6),
@@ -130,8 +159,12 @@ def layout(active_project=None):
                                        color="success", size="sm"), width="auto"),
                     dbc.Col(html.Div(id="save-etl-msg"), width="auto"),
                 ]),
-                html.P("Max capacity for imports/exports with external zones (MW).",
-                       className="text-muted small"),
+                dbc.Row([
+                    dbc.Col(html.P("Max capacity for imports/exports with external zones (MW).",
+                                   className="text-muted small mb-1"), width="auto"),
+                    dbc.Col(_icon_btns("add-etl-btn", "del-etl-btn"),
+                            width="auto", className="ms-auto d-flex align-items-center"),
+                ], className="align-items-center mb-1"),
                 _grid("etl-grid"),
                 html.Div(make_open_folder_btn("trade-etl-open"), className="mt-1 mb-2"),
             ]),
@@ -158,9 +191,12 @@ def layout(active_project=None):
     Input("t-nt-variant",   "value"),
     Input("t-tp-variant",   "value"),
     Input("t-etl-variant",  "value"),
+    Input("tra-reload-btn", "n_clicks"),
     prevent_initial_call="initial_duplicate",
 )
-def load(folder, tl_var, nt_var, tp_var, etl_var):
+def load(folder, tl_var, nt_var, tp_var, etl_var, _reload=None):
+    if _reload:
+        dl.clear_input_cache()
     empty = ([], [])
     base_opts = [{"label": "Baseline", "value": "Baseline"}]
     empty_fig = px.bar(title="No data", template="plotly_white")
@@ -250,7 +286,7 @@ def update_tl_map(rows, year, quarter, folder):
     # Load geojson for zone centroids
     zone_coords = {}
     if folder:
-        gj_path = INPUT_ROOT / folder / "zones.geojson"
+        gj_path = INPUT_ROOT / folder / "linestring_countries.geojson"
         if gj_path.exists():
             try:
                 with open(gj_path, encoding="utf-8") as f:
@@ -615,3 +651,38 @@ def open_tp_csv(n, folder, variant):
 def open_etl_csv(n, folder, variant):
     if not n or not folder: return no_update
     return dl.resolve_variant_path(folder, "ext_transfer", variant)
+
+
+# ---------------------------------------------------------------------------
+# Add / Delete row callbacks
+# ---------------------------------------------------------------------------
+
+def _empty_row(rows):
+    return {k: "" for k in rows[0].keys()} if rows else {}
+
+def _delete_selected(rows, selected):
+    if not selected: return rows
+    sel = {tuple(sorted(r.items())) for r in selected}
+    return [r for r in rows if tuple(sorted(r.items())) not in sel]
+
+for _grid_id, _add_id, _del_id in [
+    ("tl-grid",  "add-tl-btn",  "del-tl-btn"),
+    ("nt-grid",  "add-nt-btn",  "del-nt-btn"),
+    ("tp-grid",  "add-tp-btn",  "del-tp-btn"),
+    ("etl-grid", "add-etl-btn", "del-etl-btn"),
+]:
+    @callback(Output(_grid_id, "rowData", allow_duplicate=True),
+              Input(_add_id, "n_clicks"),
+              State(_grid_id, "rowData"),
+              prevent_initial_call=True)
+    def _add(n, rows, _gid=_grid_id):
+        rows = rows or []
+        return rows + [_empty_row(rows)]
+
+    @callback(Output(_grid_id, "rowData", allow_duplicate=True),
+              Input(_del_id, "n_clicks"),
+              State(_grid_id, "rowData"),
+              State(_grid_id, "selectedRows"),
+              prevent_initial_call=True)
+    def _del(n, rows, selected, _gid=_grid_id):
+        return _delete_selected(rows or [], selected or [])
