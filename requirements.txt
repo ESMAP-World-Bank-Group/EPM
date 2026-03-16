@@ -1,5 +1,11 @@
 pandas
 matplotlib
+# Dashboard
+dash>=2.17.0
+dash-bootstrap-components>=1.6.0
+dash-ag-grid>=31.0.0
+plotly>=5.22.0
+gunicorn>=21.2.0
 gamsapi>=48.2.0
 seaborn
 numpy

@@ -1,0 +1,12 @@
+* ------------------------------------------------------------
+* CPLEX MIP Fast Configuration
+* Purpose: prioritize speed over precision (exploratory runs)
+* ------------------------------------------------------------
+
+* --- Key parameters (adjust first) ---
+startalg 4
+scaind  1
+lpmethod 4
+threads 8
+predual -1
+

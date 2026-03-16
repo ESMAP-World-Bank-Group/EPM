@@ -1,0 +1,551 @@
+country,zone,attribute,resolution,year,baseline
+Angola,Angola,Annual Energy Exchanges: GWh,Congo,2030,1029.6
+Angola,Angola,Annual Energy Exchanges: GWh,Congo,2040,470.8
+Angola,Angola,Annual Energy Exchanges: GWh,DRC,2030,2539.9
+Angola,Angola,Annual Energy Exchanges: GWh,DRC,2040,22.0
+Angola,Angola,Capacity: MW,Battery,2025,50.0
+Angola,Angola,Capacity: MW,Battery,2030,50.0
+Angola,Angola,Capacity: MW,Battery,2040,50.0
+Angola,Angola,Capacity: MW,Diesel,2025,701.0
+Angola,Angola,Capacity: MW,Gas,2025,1487.9
+Angola,Angola,Capacity: MW,Gas,2030,1372.0
+Angola,Angola,Capacity: MW,Gas,2040,1372.0
+Angola,Angola,Capacity: MW,Onshore Wind,2030,546.0
+Angola,Angola,Capacity: MW,Onshore Wind,2040,546.0
+Angola,Angola,Capacity: MW,PV,2025,336.0
+Angola,Angola,Capacity: MW,PV,2030,1101.0
+Angola,Angola,Capacity: MW,PV,2040,3101.0
+Angola,Angola,Capacity: MW,ROR,2025,2206.6
+Angola,Angola,Capacity: MW,ROR,2030,2988.4
+Angola,Angola,Capacity: MW,ROR,2040,3398.4
+Angola,Angola,Capacity: MW,Reservoir,2025,1540.0
+Angola,Angola,Capacity: MW,Reservoir,2030,1540.0
+Angola,Angola,Capacity: MW,Reservoir,2040,1979.0
+Angola,Angola,Demand: GWh,,2025,17080.0
+Angola,Angola,Demand: GWh,,2030,21782.0
+Angola,Angola,Demand: GWh,,2040,33615.0
+Angola,Angola,Emissions: MtCO2,,2025,2.9
+Angola,Angola,Emissions: MtCO2,,2030,3.5
+Angola,Angola,Emissions: MtCO2,,2040,1.7
+Angola,Angola,Energy: GWh,Battery,2030,11.7
+Angola,Angola,Energy: GWh,Battery,2040,73.0
+Angola,Angola,Energy: GWh,Gas,2025,6664.9
+Angola,Angola,Energy: GWh,Gas,2030,9057.7
+Angola,Angola,Energy: GWh,Gas,2040,4386.2
+Angola,Angola,Energy: GWh,Onshore Wind,2030,1863.4
+Angola,Angola,Energy: GWh,Onshore Wind,2040,1863.4
+Angola,Angola,Energy: GWh,PV,2025,690.8
+Angola,Angola,Energy: GWh,PV,2030,2263.5
+Angola,Angola,Energy: GWh,PV,2040,6375.1
+Angola,Angola,Energy: GWh,ROR,2025,5328.8
+Angola,Angola,Energy: GWh,ROR,2030,7770.2
+Angola,Angola,Energy: GWh,ROR,2040,9798.7
+Angola,Angola,Energy: GWh,Reservoir,2025,4395.6
+Angola,Angola,Energy: GWh,Reservoir,2030,4395.6
+Angola,Angola,Energy: GWh,Reservoir,2040,5648.9
+Angola,Angola,Export revenues with internal zones: $/MWh,,,-3.8
+Angola,Angola,Exports exchange: GWh,,2030,3569.5
+Angola,Angola,Exports exchange: GWh,,2040,492.9
+Angola,Angola,Fixed O&M: $/MWh,,,10.3
+Angola,Angola,Fixed O&M: $m,,2025,210.7
+Angola,Angola,Fixed O&M: $m,,2030,252.1
+Angola,Angola,Fixed O&M: $m,,2040,320.4
+Angola,Angola,Fuel costs: $/MWh,,,15.9
+Angola,Angola,Fuel costs: $m,,2025,424.1
+Angola,Angola,Fuel costs: $m,,2030,569.9
+Angola,Angola,Fuel costs: $m,,2040,336.7
+Angola,Angola,Generation: GWh,,2025,17080.0
+Angola,Angola,Generation: GWh,,2030,25362.0
+Angola,Angola,Generation: GWh,,2040,28145.3
+Angola,Angola,Import costs with internal zones: $/MWh,,,8.3
+Angola,Angola,Import costs with internal zones: $m,,2030,1.3
+Angola,Angola,Import costs with internal zones: $m,,2040,444.1
+Angola,Angola,Imports exchange: GWh,,2030,2.0
+Angola,Angola,Imports exchange: GWh,,2040,6345.5
+Angola,Angola,Investment costs: $/MWh,,,12.2
+Angola,Angola,Investment costs: $m,,2025,6.1
+Angola,Angola,Investment costs: $m,,2030,252.8
+Angola,Angola,Investment costs: $m,,2040,455.2
+Angola,Angola,Net interchange Ratio: GWh,,2040,0.2
+Angola,Angola,Net interchange: GWh,,2040,5852.7
+Angola,Angola,New Capacity: MW,Gas,2025,37.9
+Angola,Angola,New Capacity: MW,Gas,2030,434.7
+Angola,Angola,New Capacity: MW,Onshore Wind,2030,546.0
+Angola,Angola,New Capacity: MW,PV,2025,67.0
+Angola,Angola,New Capacity: MW,PV,2030,765.0
+Angola,Angola,New Capacity: MW,PV,2040,2000.0
+Angola,Angola,New Capacity: MW,ROR,2030,781.8
+Angola,Angola,New Capacity: MW,ROR,2040,410.0
+Angola,Angola,New Capacity: MW,Reservoir,2040,439.0
+Angola,Angola,New Transmission Capacity: MW,Congo,2030,203.8
+Angola,Angola,New Transmission Capacity: MW,Congo,2040,233.0
+Angola,Angola,New Transmission Capacity: MW,DRC,2030,500.0
+Angola,Angola,Price: $/MWh,,2025,70.1
+Angola,Angola,Price: $/MWh,,2030,76.9
+Angola,Angola,Price: $/MWh,,2040,65.3
+Angola,Angola,Spinning Reserve: GWh,,2025,1202.0
+Angola,Angola,Spinning Reserve: GWh,,2030,620.2
+Angola,Angola,Spinning Reserve: GWh,,2040,1254.4
+Angola,Angola,Total Demand: GWh,,2025,17080.0
+Angola,Angola,Total Demand: GWh,,2030,21782.0
+Angola,Angola,Total Demand: GWh,,2040,33615.0
+Angola,Angola,Trade shared benefits: $/MWh,,,-2.3
+Angola,Angola,Transmission Capacity: MW,Congo,2030,203.8
+Angola,Angola,Transmission Capacity: MW,Congo,2040,436.8
+Angola,Angola,Transmission Capacity: MW,DRC,2030,500.0
+Angola,Angola,Transmission Capacity: MW,DRC,2040,500.0
+Angola,Angola,Transmission costs: $/MWh,,,0.7
+Angola,Angola,Transmission costs: $m,,2030,17.4
+Angola,Angola,Transmission costs: $m,,2040,23.2
+Angola,Angola,Unmet demand costs: $/MWh,,,0.3
+Angola,Angola,Unmet demand costs: $m,,2030,0.6
+Angola,Angola,Unmet demand costs: $m,,2040,15.4
+Angola,Angola,Unmet demand: GWh,,2030,0.6
+Angola,Angola,Unmet demand: GWh,,2040,15.4
+Angola,Angola,Variable O&M: $/MWh,,,0.5
+Angola,Angola,Variable O&M: $m,,2025,13.8
+Angola,Angola,Variable O&M: $m,,2030,14.0
+Angola,Angola,Variable O&M: $m,,2040,10.9
+CAR,CAR,Annual Energy Exchanges: GWh,Congo,2030,130.0
+CAR,CAR,Annual Energy Exchanges: GWh,Congo,2040,113.7
+CAR,CAR,Capacity: MW,Diesel,2025,20.0
+CAR,CAR,Capacity: MW,Diesel,2030,20.0
+CAR,CAR,Capacity: MW,Diesel,2040,20.0
+CAR,CAR,Capacity: MW,PV,2025,40.0
+CAR,CAR,Capacity: MW,PV,2030,55.0
+CAR,CAR,Capacity: MW,PV,2040,55.0
+CAR,CAR,Capacity: MW,Reservoir,2025,29.0
+CAR,CAR,Capacity: MW,Reservoir,2030,99.0
+CAR,CAR,Capacity: MW,Reservoir,2040,196.3
+CAR,CAR,Demand: GWh,,2025,191.0
+CAR,CAR,Demand: GWh,,2030,459.0
+CAR,CAR,Demand: GWh,,2040,1088.0
+CAR,CAR,Emissions: MtCO2,,2025,0.0
+CAR,CAR,Energy: GWh,Diesel,2025,19.1
+CAR,CAR,Energy: GWh,Diesel,2030,2.4
+CAR,CAR,Energy: GWh,Diesel,2040,2.9
+CAR,CAR,Energy: GWh,PV,2025,56.8
+CAR,CAR,Energy: GWh,PV,2030,78.1
+CAR,CAR,Energy: GWh,PV,2040,78.1
+CAR,CAR,Energy: GWh,Reservoir,2025,116.5
+CAR,CAR,Energy: GWh,Reservoir,2030,500.4
+CAR,CAR,Energy: GWh,Reservoir,2040,1052.4
+CAR,CAR,Export revenues with internal zones: $/MWh,,,-6.3
+CAR,CAR,Exports exchange: GWh,,2030,130.0
+CAR,CAR,Exports exchange: GWh,,2040,113.7
+CAR,CAR,Fixed O&M: $/MWh,,,11.4
+CAR,CAR,Fixed O&M: $m,,2025,2.8
+CAR,CAR,Fixed O&M: $m,,2030,6.5
+CAR,CAR,Fixed O&M: $m,,2040,11.4
+CAR,CAR,Fuel costs: $/MWh,,,1.0
+CAR,CAR,Fuel costs: $m,,2025,3.1
+CAR,CAR,Fuel costs: $m,,2030,0.4
+CAR,CAR,Fuel costs: $m,,2040,0.6
+CAR,CAR,Generation: GWh,,2025,192.4
+CAR,CAR,Generation: GWh,,2030,580.8
+CAR,CAR,Generation: GWh,,2040,1133.4
+CAR,CAR,Import costs with internal zones: $/MWh,,,3.4
+CAR,CAR,Import costs with internal zones: $m,,2030,1.6
+CAR,CAR,Import costs with internal zones: $m,,2040,3.7
+CAR,CAR,Imports exchange: GWh,,2030,8.7
+CAR,CAR,Imports exchange: GWh,,2040,71.9
+CAR,CAR,Investment costs: $/MWh,,,27.9
+CAR,CAR,Investment costs: $m,,2030,16.8
+CAR,CAR,Investment costs: $m,,2040,28.2
+CAR,CAR,New Capacity: MW,PV,2030,15.0
+CAR,CAR,New Capacity: MW,Reservoir,2030,70.0
+CAR,CAR,New Capacity: MW,Reservoir,2040,97.3
+CAR,CAR,New Transmission Capacity: MW,Congo,2030,26.0
+CAR,CAR,Price: $/MWh,,2025,163.4
+CAR,CAR,Price: $/MWh,,2030,69.4
+CAR,CAR,Price: $/MWh,,2040,55.5
+CAR,CAR,Spinning Reserve: GWh,,2025,29.8
+CAR,CAR,Spinning Reserve: GWh,,2030,15.1
+CAR,CAR,Spinning Reserve: GWh,,2040,13.0
+CAR,CAR,Surplus generation: GWh,,2025,6.1
+CAR,CAR,Total Demand: GWh,,2025,191.0
+CAR,CAR,Total Demand: GWh,,2030,459.0
+CAR,CAR,Total Demand: GWh,,2040,1088.0
+CAR,CAR,Trade shared benefits: $/MWh,,,-4.3
+CAR,CAR,Transmission Capacity: MW,Congo,2030,26.0
+CAR,CAR,Transmission Capacity: MW,Congo,2040,26.0
+CAR,CAR,Transmission costs: $/MWh,,,5.2
+CAR,CAR,Transmission costs: $m,,2030,4.4
+CAR,CAR,Transmission costs: $m,,2040,4.4
+CAR,CAR,Unmet country planning reserve costs: $/MWh,,,1.4
+CAR,CAR,Unmet country planning reserve costs: $m,,2025,1.5
+CAR,CAR,Unmet country planning reserve costs: $m,,2030,0.5
+CAR,CAR,Unmet country planning reserve costs: $m,,2040,1.4
+CAR,CAR,Unmet demand costs: $/MWh,,,0.6
+CAR,CAR,Unmet demand costs: $m,,2025,4.7
+CAR,CAR,Unmet demand: GWh,,2025,4.7
+CAR,CAR,Variable O&M: $/MWh,,,0.5
+CAR,CAR,Variable O&M: $m,,2025,0.2
+CAR,CAR,Variable O&M: $m,,2030,0.3
+CAR,CAR,Variable O&M: $m,,2040,0.5
+Congo,Congo,Annual Energy Exchanges: GWh,Angola,2030,2.0
+Congo,Congo,Annual Energy Exchanges: GWh,Angola,2040,2574.0
+Congo,Congo,Annual Energy Exchanges: GWh,CAR,2030,8.7
+Congo,Congo,Annual Energy Exchanges: GWh,CAR,2040,71.9
+Congo,Congo,Annual Energy Exchanges: GWh,DRC,2025,409.4
+Congo,Congo,Annual Energy Exchanges: GWh,DRC,2030,0.9
+Congo,Congo,Annual Energy Exchanges: GWh,DRC,2040,54.2
+Congo,Congo,Annual Energy Exchanges: GWh,Gabon,2030,386.8
+Congo,Congo,Annual Energy Exchanges: GWh,Gabon,2040,128.2
+Congo,Congo,Capacity: MW,Biomass,2025,8.5
+Congo,Congo,Capacity: MW,Biomass,2030,8.5
+Congo,Congo,Capacity: MW,Biomass,2040,8.5
+Congo,Congo,Capacity: MW,Diesel,2025,64.0
+Congo,Congo,Capacity: MW,Gas,2025,534.0
+Congo,Congo,Capacity: MW,Gas,2030,347.6
+Congo,Congo,Capacity: MW,PV,2030,55.0
+Congo,Congo,Capacity: MW,PV,2040,505.0
+Congo,Congo,Capacity: MW,Reservoir,2025,214.0
+Congo,Congo,Capacity: MW,Reservoir,2030,214.0
+Congo,Congo,Capacity: MW,Reservoir,2040,875.0
+Congo,Congo,Demand: GWh,,2025,2786.0
+Congo,Congo,Demand: GWh,,2030,3749.0
+Congo,Congo,Demand: GWh,,2040,6352.0
+Congo,Congo,Emissions: MtCO2,,2025,1.0
+Congo,Congo,Emissions: MtCO2,,2030,0.6
+Congo,Congo,Energy: GWh,Biomass,2025,63.3
+Congo,Congo,Energy: GWh,Biomass,2030,63.3
+Congo,Congo,Energy: GWh,Biomass,2040,63.3
+Congo,Congo,Energy: GWh,Gas,2025,1911.2
+Congo,Congo,Energy: GWh,Gas,2030,1122.5
+Congo,Congo,Energy: GWh,PV,2030,81.8
+Congo,Congo,Energy: GWh,PV,2040,750.9
+Congo,Congo,Energy: GWh,Reservoir,2025,944.8
+Congo,Congo,Energy: GWh,Reservoir,2030,944.8
+Congo,Congo,Energy: GWh,Reservoir,2040,3864.6
+Congo,Congo,Export revenues with internal zones: $/MWh,,,-20.1
+Congo,Congo,Exports exchange: GWh,,2025,409.4
+Congo,Congo,Exports exchange: GWh,,2030,398.3
+Congo,Congo,Exports exchange: GWh,,2040,2828.2
+Congo,Congo,Fixed O&M: $/MWh,,,7.3
+Congo,Congo,Fixed O&M: $m,,2025,24.5
+Congo,Congo,Fixed O&M: $m,,2030,19.3
+Congo,Congo,Fixed O&M: $m,,2040,52.2
+Congo,Congo,Fuel costs: $/MWh,,,10.5
+Congo,Congo,Fuel costs: $m,,2025,150.9
+Congo,Congo,Fuel costs: $m,,2030,97.3
+Congo,Congo,Generation: GWh,,2025,2919.3
+Congo,Congo,Generation: GWh,,2030,2212.4
+Congo,Congo,Generation: GWh,,2040,4678.7
+Congo,Congo,Import costs with internal zones: $/MWh,,,44.2
+Congo,Congo,Import costs with internal zones: $m,,2025,24.1
+Congo,Congo,Import costs with internal zones: $m,,2030,160.6
+Congo,Congo,Import costs with internal zones: $m,,2040,302.8
+Congo,Congo,Imports exchange: GWh,,2025,290.7
+Congo,Congo,Imports exchange: GWh,,2030,2036.8
+Congo,Congo,Imports exchange: GWh,,2040,4738.4
+Congo,Congo,Investment costs: $/MWh,,,10.5
+Congo,Congo,Investment costs: $m,,2030,3.0
+Congo,Congo,Investment costs: $m,,2040,99.6
+Congo,Congo,Net interchange Ratio: GWh,,2030,0.4
+Congo,Congo,Net interchange Ratio: GWh,,2040,0.3
+Congo,Congo,Net interchange: GWh,,2030,1638.5
+Congo,Congo,Net interchange: GWh,,2040,1910.2
+Congo,Congo,New Capacity: MW,PV,2030,55.0
+Congo,Congo,New Capacity: MW,PV,2040,450.0
+Congo,Congo,New Capacity: MW,Reservoir,2040,661.0
+Congo,Congo,New Transmission Capacity: MW,Angola,2030,203.8
+Congo,Congo,New Transmission Capacity: MW,Angola,2040,233.0
+Congo,Congo,New Transmission Capacity: MW,CAR,2030,26.0
+Congo,Congo,New Transmission Capacity: MW,DRC,2030,235.0
+Congo,Congo,New Transmission Capacity: MW,Gabon,2030,82.7
+Congo,Congo,New Transmission Capacity: MW,Gabon,2040,382.9
+Congo,Congo,Price: $/MWh,,2025,83.0
+Congo,Congo,Price: $/MWh,,2030,86.4
+Congo,Congo,Price: $/MWh,,2040,59.9
+Congo,Congo,Spinning Reserve: GWh,,2030,12.3
+Congo,Congo,Spinning Reserve: GWh,,2040,112.6
+Congo,Congo,Total Demand: GWh,,2025,2786.0
+Congo,Congo,Total Demand: GWh,,2030,3749.0
+Congo,Congo,Total Demand: GWh,,2040,6352.0
+Congo,Congo,Trade shared benefits: $/MWh,,,-10.0
+Congo,Congo,Transmission Capacity: MW,Angola,2030,203.8
+Congo,Congo,Transmission Capacity: MW,Angola,2040,436.8
+Congo,Congo,Transmission Capacity: MW,CAR,2030,26.0
+Congo,Congo,Transmission Capacity: MW,CAR,2040,26.0
+Congo,Congo,Transmission Capacity: MW,DRC,2025,80.0
+Congo,Congo,Transmission Capacity: MW,DRC,2030,315.0
+Congo,Congo,Transmission Capacity: MW,DRC,2040,315.0
+Congo,Congo,Transmission Capacity: MW,Gabon,2030,82.7
+Congo,Congo,Transmission Capacity: MW,Gabon,2040,465.6
+Congo,Congo,Transmission costs: $/MWh,,,4.0
+Congo,Congo,Transmission costs: $m,,2030,13.6
+Congo,Congo,Transmission costs: $m,,2040,28.3
+Congo,Congo,Variable O&M: $/MWh,,,0.8
+Congo,Congo,Variable O&M: $m,,2025,8.3
+Congo,Congo,Variable O&M: $m,,2030,5.1
+Congo,Congo,Variable O&M: $m,,2040,2.1
+DRC,DRC,Annual Energy Exchanges: GWh,Angola,2040,3771.5
+DRC,DRC,Annual Energy Exchanges: GWh,Congo,2025,290.7
+DRC,DRC,Annual Energy Exchanges: GWh,Congo,2030,876.2
+DRC,DRC,Annual Energy Exchanges: GWh,Congo,2040,1442.7
+DRC,DRC,Annual Energy Exchanges: GWh,DRC_South,2025,6025.2
+DRC,DRC,Annual Energy Exchanges: GWh,DRC_South,2030,7678.5
+DRC,DRC,Annual Energy Exchanges: GWh,DRC_South,2040,12341.6
+DRC,DRC,Capacity: MW,Diesel,2025,5.0
+DRC,DRC,Capacity: MW,Diesel,2030,5.0
+DRC,DRC,Capacity: MW,Diesel,2040,5.0
+DRC,DRC,Capacity: MW,PV,2030,500.0
+DRC,DRC,Capacity: MW,PV,2040,500.0
+DRC,DRC,Capacity: MW,Reservoir,2025,1459.5
+DRC,DRC,Capacity: MW,Reservoir,2030,1533.5
+DRC,DRC,Capacity: MW,Reservoir,2040,3188.5
+DRC,DRC,Demand: GWh,,2025,4948.0
+DRC,DRC,Demand: GWh,,2030,6013.0
+DRC,DRC,Demand: GWh,,2040,8569.0
+DRC,DRC,Energy: GWh,Diesel,2030,0.1
+DRC,DRC,Energy: GWh,Diesel,2040,0.1
+DRC,DRC,Energy: GWh,PV,2030,843.8
+DRC,DRC,Energy: GWh,PV,2040,843.8
+DRC,DRC,Energy: GWh,Reservoir,2025,10874.9
+DRC,DRC,Energy: GWh,Reservoir,2030,11310.0
+DRC,DRC,Energy: GWh,Reservoir,2040,25208.5
+DRC,DRC,Export revenues with internal zones: $/MWh,,,-72.5
+DRC,DRC,Exports exchange: GWh,,2025,6315.9
+DRC,DRC,Exports exchange: GWh,,2030,8554.6
+DRC,DRC,Exports exchange: GWh,,2040,17555.8
+DRC,DRC,Fixed O&M: $/MWh,,,17.4
+DRC,DRC,Fixed O&M: $m,,2025,73.2
+DRC,DRC,Fixed O&M: $m,,2030,84.4
+DRC,DRC,Fixed O&M: $m,,2040,167.1
+DRC,DRC,Fuel costs: $m,,2030,0.0
+DRC,DRC,Fuel costs: $m,,2040,0.0
+DRC,DRC,Generation: GWh,,2025,10874.9
+DRC,DRC,Generation: GWh,,2030,12153.8
+DRC,DRC,Generation: GWh,,2040,26052.3
+DRC,DRC,Import costs with internal zones: $/MWh,,,11.0
+DRC,DRC,Import costs with internal zones: $m,,2025,38.9
+DRC,DRC,Import costs with internal zones: $m,,2030,188.6
+DRC,DRC,Import costs with internal zones: $m,,2040,2.7
+DRC,DRC,Imports exchange: GWh,,2025,409.4
+DRC,DRC,Imports exchange: GWh,,2030,2540.8
+DRC,DRC,Imports exchange: GWh,,2040,76.3
+DRC,DRC,Investment costs: $/MWh,,,29.9
+DRC,DRC,Investment costs: $m,,2030,42.8
+DRC,DRC,Investment costs: $m,,2040,389.3
+DRC,DRC,New Capacity: MW,PV,2030,500.0
+DRC,DRC,New Capacity: MW,Reservoir,2030,74.0
+DRC,DRC,New Capacity: MW,Reservoir,2040,1655.0
+DRC,DRC,New Transmission Capacity: MW,Angola,2030,500.0
+DRC,DRC,New Transmission Capacity: MW,Congo,2030,235.0
+DRC,DRC,New Transmission Capacity: MW,DRC_South,2040,600.0
+DRC,DRC,Price: $/MWh,,2025,60.5
+DRC,DRC,Price: $/MWh,,2030,83.7
+DRC,DRC,Price: $/MWh,,2040,27.3
+DRC,DRC,Spinning Reserve: GWh,,2025,25.3
+DRC,DRC,Spinning Reserve: GWh,,2030,104.8
+DRC,DRC,Spinning Reserve: GWh,,2040,211.5
+DRC,DRC,Total Demand: GWh,,2025,4948.0
+DRC,DRC,Total Demand: GWh,,2030,6013.0
+DRC,DRC,Total Demand: GWh,,2040,8569.0
+DRC,DRC,Trade shared benefits: $/MWh,,,-36.9
+DRC,DRC,Transmission Capacity: MW,Angola,2030,500.0
+DRC,DRC,Transmission Capacity: MW,Angola,2040,500.0
+DRC,DRC,Transmission Capacity: MW,Congo,2025,80.0
+DRC,DRC,Transmission Capacity: MW,Congo,2030,315.0
+DRC,DRC,Transmission Capacity: MW,Congo,2040,315.0
+DRC,DRC,Transmission Capacity: MW,DRC_South,2025,1000.0
+DRC,DRC,Transmission Capacity: MW,DRC_South,2030,1000.0
+DRC,DRC,Transmission Capacity: MW,DRC_South,2040,1600.0
+DRC,DRC,Transmission costs: $/MWh,,,5.7
+DRC,DRC,Transmission costs: $m,,2030,15.1
+DRC,DRC,Transmission costs: $m,,2040,68.5
+DRC,DRC,Unmet country planning reserve costs: $/MWh,,,0.4
+DRC,DRC,Unmet country planning reserve costs: $m,,2025,9.8
+DRC,DRC,Unmet country planning reserve costs: $m,,2030,5.3
+DRC,DRC,Unmet country spinning reserve costs: $/MWh,,,0.0
+DRC,DRC,Unmet country spinning reserve costs: $m,,2040,0.3
+DRC,DRC,Variable O&M: $/MWh,,,1.3
+DRC,DRC,Variable O&M: $m,,2025,5.4
+DRC,DRC,Variable O&M: $m,,2030,5.7
+DRC,DRC,Variable O&M: $m,,2040,12.6
+DRC,DRC_South,Annual Energy Imports External: GWh,SAPP,2025,174.2
+DRC,DRC_South,Annual Energy Imports External: GWh,SAPP,2030,764.1
+DRC,DRC_South,Annual Energy Imports External: GWh,SAPP,2040,272.1
+DRC,DRC_South,Capacity: MW,Onshore Wind,2040,360.0
+DRC,DRC_South,Capacity: MW,PV,2025,100.0
+DRC,DRC_South,Capacity: MW,PV,2030,100.0
+DRC,DRC_South,Capacity: MW,PV,2040,100.5
+DRC,DRC_South,Capacity: MW,Reservoir,2025,650.0
+DRC,DRC_South,Capacity: MW,Reservoir,2030,650.0
+DRC,DRC_South,Capacity: MW,Reservoir,2040,650.0
+DRC,DRC_South,Demand: GWh,,2025,10050.0
+DRC,DRC_South,Demand: GWh,,2030,12214.0
+DRC,DRC_South,Demand: GWh,,2040,17405.0
+DRC,DRC_South,Energy: GWh,Onshore Wind,2040,1235.8
+DRC,DRC_South,Energy: GWh,PV,2025,168.8
+DRC,DRC_South,Energy: GWh,PV,2030,168.8
+DRC,DRC_South,Energy: GWh,PV,2040,169.7
+DRC,DRC_South,Energy: GWh,Reservoir,2025,3983.1
+DRC,DRC_South,Energy: GWh,Reservoir,2030,3983.1
+DRC,DRC_South,Energy: GWh,Reservoir,2040,3983.1
+DRC,DRC_South,Fixed O&M: $/MWh,,,2.8
+DRC,DRC_South,Fixed O&M: $m,,2025,34.0
+DRC,DRC_South,Fixed O&M: $m,,2030,34.0
+DRC,DRC_South,Fixed O&M: $m,,2040,48.4
+DRC,DRC_South,Generation: GWh,,2025,4151.8
+DRC,DRC_South,Generation: GWh,,2030,4151.8
+DRC,DRC_South,Generation: GWh,,2040,5388.5
+DRC,DRC_South,Import costs with external zones: $/MWh,,,3.1
+DRC,DRC_South,Import costs with external zones: $m,,2025,17.4
+DRC,DRC_South,Import costs with external zones: $m,,2030,76.4
+DRC,DRC_South,Import costs with external zones: $m,,2040,27.2
+DRC,DRC_South,Import costs with internal zones: $/MWh,,,56.5
+DRC,DRC_South,Import costs with internal zones: $m,,2025,392.0
+DRC,DRC_South,Import costs with internal zones: $m,,2030,783.7
+DRC,DRC_South,Import costs with internal zones: $m,,2040,942.0
+DRC,DRC_South,Imports exchange: GWh,,2025,6199.4
+DRC,DRC_South,Imports exchange: GWh,,2030,8442.5
+DRC,DRC_South,Imports exchange: GWh,,2040,12613.6
+DRC,DRC_South,Investment costs: $/MWh,,,1.3
+DRC,DRC_South,Investment costs: $m,,2025,6.3
+DRC,DRC_South,Investment costs: $m,,2030,6.3
+DRC,DRC_South,Investment costs: $m,,2040,32.6
+DRC,DRC_South,Net interchange Ratio: GWh,,2025,0.6
+DRC,DRC_South,Net interchange Ratio: GWh,,2030,0.7
+DRC,DRC_South,Net interchange Ratio: GWh,,2040,0.7
+DRC,DRC_South,Net interchange: GWh,,2025,6199.4
+DRC,DRC_South,Net interchange: GWh,,2030,8442.5
+DRC,DRC_South,Net interchange: GWh,,2040,12613.6
+DRC,DRC_South,New Capacity: MW,Onshore Wind,2040,360.0
+DRC,DRC_South,New Capacity: MW,PV,2025,100.0
+DRC,DRC_South,New Capacity: MW,PV,2040,0.5
+DRC,DRC_South,New Transmission Capacity: MW,DRC,2040,600.0
+DRC,DRC_South,Price: $/MWh,,2025,63.7
+DRC,DRC_South,Price: $/MWh,,2030,103.2
+DRC,DRC_South,Price: $/MWh,,2040,82.6
+DRC,DRC_South,Spinning Reserve: GWh,,2030,47.1
+DRC,DRC_South,Spinning Reserve: GWh,,2040,117.2
+DRC,DRC_South,Total Demand: GWh,,2025,10050.0
+DRC,DRC_South,Total Demand: GWh,,2030,12214.0
+DRC,DRC_South,Total Demand: GWh,,2040,17405.0
+DRC,DRC_South,Trade shared benefits: $/MWh,,,-12.9
+DRC,DRC_South,Transmission Capacity: MW,DRC,2025,1000.0
+DRC,DRC_South,Transmission Capacity: MW,DRC,2030,1000.0
+DRC,DRC_South,Transmission Capacity: MW,DRC,2040,1600.0
+DRC,DRC_South,Transmission costs: $/MWh,,,2.2
+DRC,DRC_South,Transmission costs: $m,,2040,64.3
+DRC,DRC_South,Unmet country planning reserve costs: $/MWh,,,0.4
+DRC,DRC_South,Unmet country planning reserve costs: $m,,2025,19.9
+DRC,DRC_South,Unmet country planning reserve costs: $m,,2030,10.7
+DRC,DRC_South,Unmet country spinning reserve costs: $/MWh,,,0.0
+DRC,DRC_South,Unmet country spinning reserve costs: $m,,2040,0.6
+DRC,DRC_South,Unmet demand costs: $/MWh,,,0.8
+DRC,DRC_South,Unmet demand costs: $m,,2030,3.6
+DRC,DRC_South,Unmet demand costs: $m,,2040,19.9
+DRC,DRC_South,Unmet demand: GWh,,2030,3.6
+DRC,DRC_South,Unmet demand: GWh,,2040,19.9
+DRC,DRC_South,Variable O&M: $/MWh,,,0.1
+DRC,DRC_South,Variable O&M: $m,,2025,2.0
+DRC,DRC_South,Variable O&M: $m,,2030,2.0
+DRC,DRC_South,Variable O&M: $m,,2040,2.0
+Gabon,Gabon,Annual Energy Exchanges: GWh,Congo,2030,1.0
+Gabon,Gabon,Annual Energy Exchanges: GWh,Congo,2040,2711.3
+Gabon,Gabon,Capacity: MW,Diesel,2025,150.5
+Gabon,Gabon,Capacity: MW,Gas,2025,346.4
+Gabon,Gabon,Capacity: MW,Gas,2030,346.4
+Gabon,Gabon,Capacity: MW,PV,2025,30.0
+Gabon,Gabon,Capacity: MW,PV,2030,100.0
+Gabon,Gabon,Capacity: MW,PV,2040,550.0
+Gabon,Gabon,Capacity: MW,ROR,2025,34.3
+Gabon,Gabon,Capacity: MW,ROR,2030,34.3
+Gabon,Gabon,Capacity: MW,ROR,2040,34.3
+Gabon,Gabon,Capacity: MW,Reservoir,2025,329.0
+Gabon,Gabon,Capacity: MW,Reservoir,2030,417.0
+Gabon,Gabon,Capacity: MW,Reservoir,2040,1837.0
+Gabon,Gabon,Demand: GWh,,2025,3788.0
+Gabon,Gabon,Demand: GWh,,2030,4844.0
+Gabon,Gabon,Demand: GWh,,2040,7464.0
+Gabon,Gabon,Emissions: MtCO2,,2025,1.2
+Gabon,Gabon,Emissions: MtCO2,,2030,1.2
+Gabon,Gabon,Energy: GWh,Gas,2025,2293.1
+Gabon,Gabon,Energy: GWh,Gas,2030,2338.5
+Gabon,Gabon,Energy: GWh,PV,2025,41.4
+Gabon,Gabon,Energy: GWh,PV,2030,137.9
+Gabon,Gabon,Energy: GWh,PV,2040,758.2
+Gabon,Gabon,Energy: GWh,ROR,2025,143.6
+Gabon,Gabon,Energy: GWh,ROR,2030,143.6
+Gabon,Gabon,Energy: GWh,ROR,2040,143.6
+Gabon,Gabon,Energy: GWh,Reservoir,2025,1309.9
+Gabon,Gabon,Energy: GWh,Reservoir,2030,1857.6
+Gabon,Gabon,Energy: GWh,Reservoir,2040,9151.7
+Gabon,Gabon,Export revenues with internal zones: $/MWh,,,-10.4
+Gabon,Gabon,Exports exchange: GWh,,2030,1.0
+Gabon,Gabon,Exports exchange: GWh,,2040,2711.3
+Gabon,Gabon,Fixed O&M: $/MWh,,,11.0
+Gabon,Gabon,Fixed O&M: $m,,2025,30.6
+Gabon,Gabon,Fixed O&M: $m,,2030,30.7
+Gabon,Gabon,Fixed O&M: $m,,2040,101.5
+Gabon,Gabon,Fuel costs: $/MWh,,,15.9
+Gabon,Gabon,Fuel costs: $m,,2025,181.1
+Gabon,Gabon,Fuel costs: $m,,2030,202.7
+Gabon,Gabon,Generation: GWh,,2025,3788.0
+Gabon,Gabon,Generation: GWh,,2030,4477.6
+Gabon,Gabon,Generation: GWh,,2040,10053.5
+Gabon,Gabon,Import costs with internal zones: $/MWh,,,3.1
+Gabon,Gabon,Import costs with internal zones: $m,,2030,35.1
+Gabon,Gabon,Import costs with internal zones: $m,,2040,9.7
+Gabon,Gabon,Imports exchange: GWh,,2030,386.8
+Gabon,Gabon,Imports exchange: GWh,,2040,128.2
+Gabon,Gabon,Investment costs: $/MWh,,,23.2
+Gabon,Gabon,Investment costs: $m,,2025,11.4
+Gabon,Gabon,Investment costs: $m,,2030,30.7
+Gabon,Gabon,Investment costs: $m,,2040,250.2
+Gabon,Gabon,Net interchange Ratio: GWh,,2030,0.1
+Gabon,Gabon,Net interchange: GWh,,2030,385.8
+Gabon,Gabon,New Capacity: MW,PV,2030,70.0
+Gabon,Gabon,New Capacity: MW,PV,2040,450.0
+Gabon,Gabon,New Capacity: MW,ROR,2025,34.3
+Gabon,Gabon,New Capacity: MW,Reservoir,2030,88.0
+Gabon,Gabon,New Capacity: MW,Reservoir,2040,1420.0
+Gabon,Gabon,New Transmission Capacity: MW,Congo,2030,82.7
+Gabon,Gabon,New Transmission Capacity: MW,Congo,2040,382.9
+Gabon,Gabon,Price: $/MWh,,2025,83.0
+Gabon,Gabon,Price: $/MWh,,2030,93.8
+Gabon,Gabon,Price: $/MWh,,2040,48.2
+Gabon,Gabon,Spinning Reserve: GWh,,2025,156.9
+Gabon,Gabon,Spinning Reserve: GWh,,2030,156.9
+Gabon,Gabon,Spinning Reserve: GWh,,2040,207.7
+Gabon,Gabon,Total Demand: GWh,,2025,3788.0
+Gabon,Gabon,Total Demand: GWh,,2030,4844.0
+Gabon,Gabon,Total Demand: GWh,,2040,7464.0
+Gabon,Gabon,Trade shared benefits: $/MWh,,,-1.6
+Gabon,Gabon,Transmission Capacity: MW,Congo,2030,82.7
+Gabon,Gabon,Transmission Capacity: MW,Congo,2040,465.6
+Gabon,Gabon,Transmission costs: $/MWh,,,1.3
+Gabon,Gabon,Transmission costs: $m,,2030,2.4
+Gabon,Gabon,Transmission costs: $m,,2040,13.5
+Gabon,Gabon,Variable O&M: $/MWh,,,1.2
+Gabon,Gabon,Variable O&M: $m,,2025,9.9
+Gabon,Gabon,Variable O&M: $m,,2030,10.4
+Gabon,Gabon,Variable O&M: $m,,2040,4.6
+System,System,Export revenues with internal zones: $/MWh,,,-13.0
+System,System,Export revenues with internal zones: $m,,,-8697.1
+System,System,Fixed O&M: $/MWh,,,9.2
+System,System,Fixed O&M: $m,,,6134.8
+System,System,Fuel costs: $/MWh,,,9.6
+System,System,Fuel costs: $m,,,6404.3
+System,System,Import costs with external zones: $/MWh,,,0.7
+System,System,Import costs with external zones: $m,,,499.6
+System,System,Import costs with internal zones: $/MWh,,,22.5
+System,System,Import costs with internal zones: $m,,,15036.6
+System,System,Investment costs: $/MWh,,,12.8
+System,System,Investment costs: $m,,,8555.5
+System,System,NPV of system cost: $/MWh,,,35.5
+System,System,NPV of system cost: $m,,,23671.4
+System,System,Trade shared benefits: $/MWh,,,-9.5
+System,System,Trade shared benefits: $m,,,-6339.4
+System,System,Transmission costs: $/MWh,,,2.0
+System,System,Transmission costs: $m,,,1357.8
+System,System,Unmet country planning reserve costs: $/MWh,,,0.2
+System,System,Unmet country planning reserve costs: $m,,,110.2
+System,System,Unmet country spinning reserve costs: $m,,,5.0
+System,System,Unmet demand costs: $/MWh,,,0.3
+System,System,Unmet demand costs: $m,,,220.1
+System,System,Variable O&M: $/MWh,,,0.6
+System,System,Variable O&M: $m,,,384.1

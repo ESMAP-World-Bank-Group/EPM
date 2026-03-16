@@ -612,6 +612,7 @@ def calculate_cumulative(
     df = df.sort_values(by=group_cols + [year_col])
 
     # Calculate cumulative sum within each group
+    df[value_col] = pd.to_numeric(df[value_col], errors="coerce")
     df[value_col] = df.groupby(group_cols)[value_col].cumsum()
 
     # Save to output file
@@ -1718,7 +1719,10 @@ def run_output_treatment(
     for input_name, output_name in cumulative_files:
         input_path = os.path.join(output_dir, f"{input_name}.csv")
         output_path = os.path.join(output_dir, f"{output_name}.csv")
-        calculate_cumulative(input_path, output_path, log_func=log_func)
+        try:
+            calculate_cumulative(input_path, output_path, log_func=log_func)
+        except Exception as e:
+            log_func(f"[output_treatment]   WARNING: cumulative calc failed for {input_name}: {e}")
 
     # ---------------------------------------------------------
     # 6. Aggregate plant files to TechFuel level
