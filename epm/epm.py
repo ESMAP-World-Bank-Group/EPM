@@ -847,6 +847,13 @@ def main(test_args=None):
     )
 
     parser.add_argument(
+        "--generate_figures",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Generate figures during postprocessing (default: True). Use --no-generate-figures to skip."
+    )
+
+    parser.add_argument(
         "--reduce_definition_csv",
         action="store_true",
         help="Enable reduced yearly definition for csv files used in Tableau visualization (default: False)"
@@ -1074,7 +1081,8 @@ def main(test_args=None):
                            selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                            graphs_folder=args.graphs_folder, montecarlo=args.montecarlo,
                            reduce_definition_csv=args.reduce_definition_csv, logger=logger,
-                           focus_country=args.focus_country, folder_input=folder_input)
+                           focus_country=args.focus_country, folder_input=folder_input,
+                           generate_figures=args.generate_figures)
         logger.info("Postprocessing completed for folder: %s", folder)
 
         # Zip the folder if it exists
