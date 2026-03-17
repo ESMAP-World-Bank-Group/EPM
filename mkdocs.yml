@@ -49,6 +49,8 @@ nav:
     - Run from GAMS Studio: run/run_gams_studio.md
     - Run on Remote Server: run/run_remote_server.md
     - Dispatch Mode: run/run_dispatch.md
+    - Solver Options: run/options_solver.md
+    - Performance & Threads: run/options_thread.md
     - Debugging: run/run_debugging.md
   - Model:
     - Overview: model/model_overview.md

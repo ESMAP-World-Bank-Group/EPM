@@ -33,11 +33,13 @@ python epm.py --folder_input your_data --config your_data/config.csv --trace
 ## Common errors
 
 **Infeasible model**
-Usually caused by contradictory constraints — for example a renewable target that cannot be met given available capacity, or a demand that exceeds all possible supply. Check:
+Usually caused by contradictory constraints — a renewable target that cannot be met, demand exceeding all possible supply, etc. Check:
 
 - Demand vs. installed + buildable capacity
 - Emission caps relative to the fuel mix
 - Reserve requirements vs. dispatchable capacity
+
+Enable `iis = 1` in your CPLEX option file to get an automatic infeasibility report — see [Solver Options](options_solver.md).
 
 **Unrealistic results (e.g. enormous unserved energy)**
 Usually a data issue. Check:
@@ -95,6 +97,7 @@ To generate it in GAMS Studio: add `rf=filename.ref` to the command-line argumen
 
 ## Still stuck?
 
-- Check the [Input Setup](../input/input_setup.md) and [Input Catalog](../input/input_detailed.md) to verify your data format
-- Use AI tools or Google with the exact error message from the `.lst` file
-- Contact the EPM team
+- Verify your data format: [Input Setup](../input/input_setup.md) · [Input Catalog](../input/input_detailed.md)
+- Tune solver settings: [Solver Options](options_solver.md)
+- Search the exact error message from the `.lst` file
+- [Contact the EPM team](../contributing/contributing_issues.md)
