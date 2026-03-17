@@ -23,8 +23,6 @@ Two options are available. The **Windows Installer** automates the full setup (G
 
 === "Windows Installer"
 
-    <span style="font-size:0.78rem; color:#856404; background:#fff3cd; padding:4px 10px; border-radius:4px; display:inline-block; margin-bottom:1rem;">⚠ Beta — under development. If you encounter issues, try the Manual Setup tab or [report them here](../contributing/contributing_issues.md).</span>
-
     [Download epm.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
 
     <div style="font-size:0.85rem; margin-top:1.2rem;">
@@ -39,7 +37,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
     **After installation**
 
     - EPM is in the folder you chose
-    - A **"Launch EPM Dashboard"** shortcut is on your Desktop — double-click it to start
+    - A **"Launch EPM Dashboard"** shortcut is on your Desktop — double-click it to start *(Dashboard is under development — errors must be debugged via command line)*
 
     > **Note:** GAMS must be installed separately with a valid license. The installer will warn you if it is not detected.
 

@@ -258,11 +258,17 @@ def layout(*args):
             ], className="shadow-sm border-0 h-100"), md=6),
         ], className="mb-3 g-3"),
 
-        # ── Dispatch on map click ─────────────────────────────────────────
+        # ── Dispatch ──────────────────────────────────────────────────────
         dbc.Row([
             dbc.Col(dbc.Card([
-                dbc.CardHeader(html.B(id="ov-dispatch-title",
-                                      children="Annual Dispatch — click a zone on the map")),
+                dbc.CardHeader(dbc.Row([
+                    dbc.Col(html.B("Annual Dispatch"), width="auto",
+                            className="d-flex align-items-center"),
+                    dbc.Col(dcc.Dropdown(id="ov-zone", placeholder="Select a zone…",
+                                        clearable=False,
+                                        style={"fontSize": "0.85rem", "minWidth": "180px"}),
+                            width=3),
+                ], align="center", className="g-2")),
                 dbc.CardBody(dcc.Graph(id="ov-dispatch",
                                        config={"displayModeBar": False},
                                        style={"height": "380px"})),
@@ -594,40 +600,47 @@ def update_ov_map_and_capacity(run, scenario, year):
 
 
 @callback(
-    Output("ov-dispatch",       "figure"),
-    Output("ov-dispatch-title", "children"),
-    Input("ov-map",             "clickData"),
-    State("filter-run",         "value"),
-    State("ov-scenario",        "value"),
-    State("ov-year",            "value"),
+    Output("ov-zone", "options"),
+    Output("ov-zone", "value"),
+    Input("filter-run", "value"),
+    Input("ov-map",     "clickData"),
+    State("ov-zone",    "value"),
 )
-def update_ov_dispatch(click, run, scenario, year):
+def update_ov_zone(run, click, cur_zone):
+    zones   = sorted(dl.load_zone_coords(run).keys()) if run else []
+    options = [{"label": z, "value": z} for z in zones]
+    # Sync with map click if a zone was clicked
+    if click:
+        clicked = click["points"][0].get("text")
+        if clicked in zones:
+            return options, clicked
+    value = cur_zone if cur_zone in zones else (zones[0] if zones else None)
+    return options, value
+
+
+@callback(
+    Output("ov-dispatch", "figure"),
+    Input("ov-zone",      "value"),
+    Input("ov-scenario",  "value"),
+    Input("ov-year",      "value"),
+    State("filter-run",   "value"),
+)
+def update_ov_dispatch(zone, scenario, year, run):
     empty = go.Figure().update_layout(
         paper_bgcolor="white", plot_bgcolor="white",
         margin=dict(l=10, r=10, t=10, b=10),
     )
-    default_title = "Annual Dispatch — click a zone on the map"
-    if not click or not run or not scenario or not year:
-        return empty, default_title
-
-    point = click["points"][0]
-    zone = point.get("text")
-    if not zone:
-        return empty, default_title
-
-    zone_coords = dl.load_zone_coords(run)
-    if zone not in zone_coords:
-        return empty, default_title
+    if not zone or not run or not scenario or not year:
+        return empty
 
     dispatch_df = dl.load_dispatch_merged(run, [scenario])
     if dispatch_df.empty:
-        return empty, f"Annual Dispatch — {zone} (no dispatch data)"
+        return empty
 
     price_df    = dl.load_hourly_price_merged(run, [scenario])
     day_weights = dl.load_phours_merged(run)
-    fig = _dispatch_annual_fig(
+    return _dispatch_annual_fig(
         dispatch_df, zone, scenario, year,
         price_df=price_df if not price_df.empty else None,
         day_weights=day_weights if day_weights else None,
     )
-    return fig, f"Annual Dispatch — {zone}  |  {scenario}  |  {int(year)}"

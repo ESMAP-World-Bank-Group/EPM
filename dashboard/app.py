@@ -219,7 +219,7 @@ app.layout = html.Div([
 def refresh_runs(pathname, current_run):
     runs    = dl.list_runs()
     options = [{"label": r, "value": r} for r in runs]
-    value   = current_run if current_run in runs else (runs[0] if runs else None)
+    value   = runs[0] if runs else None   # always open on the latest run
     return options, value
 
 
