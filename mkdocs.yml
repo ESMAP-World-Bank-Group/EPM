@@ -9,11 +9,12 @@ edit_uri: edit/main/docs/
 docs_dir: docs
 exclude_docs: |
   _build/
+  data/~$*
 
 theme:
   name: material
-  logo: images/esmap.png
-  favicon: images/esmap.png
+  logo: images/esmap_white.png
+  favicon: images/favicon.webp
   language: en
   font:
     text: Inter
@@ -22,15 +23,6 @@ theme:
     - scheme: default
       primary: custom
       accent: custom
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - scheme: slate
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -46,68 +38,42 @@ theme:
     - header.autohide
 
 nav:
-  - Home: index.md
   - Introduction:
-    - About EPM: introduction/introduction.md
-    - Case Studies: introduction/introduction_case_studies.md
-  - Run EPM:
-    - Folder Structure: run/run_folder_structure.md
-    - Prerequisites: run/run_prerequisites.md
+    - What is EPM?: introduction/introduction.md
+    - EPM in Practice: introduction/introduction_case_studies.md
+    - How EPM Works: introduction/introduction_workflow.md
+  - Installation & Run:
     - Installation: run/run_installation.md
-    - Run from GAMS Studio: run/run_gams_studio.md
+    - Run from Dashboard: run/run_dashboard.md
     - Run from Python: run/run_python.md
-    - Configuration: run/configuration.md
-    - Python Advanced: run/run_python_advanced.md
-    - Python Summary: run/run_python_summary.md
-    - Remote Server: run/run_remote_server.md
-    - Git Process: run/run_git_process.md
-    - EPM Setup: run/run_epm_setup.md
+    - Run from GAMS Studio: run/run_gams_studio.md
+    - Run on Remote Server: run/run_remote_server.md
     - Dispatch Mode: run/run_dispatch.md
-    - Solver Options: run/options_solver.md
-    - Thread Options: run/options_thread.md
-    - GAMS Options: run/gams.md
     - Debugging: run/run_debugging.md
-    - Troubleshooting: run/run_troubleshooting.md
-    - Summary: run/run_summary.md
-  - Input:
-    - Structure: input/input_structure.md
-    - Overview: input/input_overview.md
-    - Detailed Reference: input/input_detailed.md
-    - Resources: input/resources.md
-    - Data Treatment: input/input_treatment.md
-    - Set Definitions: input/input_set_definition.md
-    - Excel to CSV: input/input_from_excel_to_csv.md
-    - Technology Brief: input/input_technology_brief.md
-    - Fuel Brief: input/input_fuel_brief.md
-    - Representative Days: input/input_representative_days.md
-  - Output:
-    - Examples: output/examples.md
-    - EPM Output: output/postprocessing_output_EPM.md
-    - Output Reference: output/postprocessing_output.md
-    - Output Overview: output/postprocessing_output_overview.md
-    - Tableau: output/postprocessing_tableau.md
-    - Tableau Advanced: output/postprocessing_tableau_advanced.md
   - Model:
     - Overview: model/model_overview.md
-    - Description: model/model_description.md
-    - Notation: model/model_notations.md
-    - Formulation: model/model_formulation.md
-    - Equations: model/equations.md
-  - Advanced:
-    - Python API: advanced/advanced_python.md
-    - Postprocessing: advanced/postprocessing.md
+    - Objective Function: model/model_objective.md
+    - Time Representation: input/input_representative_days.md
+    - Constraints: model/model_constraints.md
+    - Reference: model/equations.md
+  - Input:
+    - Setup: input/input_setup.md
+    - Typical Values: input/input_parameter_guide.md
+    - Input Catalog: input/input_detailed.md
+    - Open Data Sources: input/input_open_data.md
+  - Output:
+    - Overview: output/output_overview.md
+    - Output Catalog: output/output_catalog.md
+    - Visualization: output/visualization.md
   - Contributing:
-    - Report Issues: contributing/contributing_issues.md
+    - Get Involved: contributing/contributing_issues.md
     - Contribute Code: contributing/contributing_code.md
     - Contribute Docs: contributing/contributing_docs.md
-    - Postprocessing: contributing/contributing_postprocess.md
-  - Pre-processing:
-    - Overview: preprocessing/pre_overview.md
-    - Projects: preprocessing/pre_projects.md
-  - Other:
-    - Open Data: other/other_open_data.md
-    - Process: other/other_process.md
-    - Interconnection: other/interconnection.md
+  - Resources:
+    - Data Preparation: preprocessing/pre_overview.md
+    - Study Methodology: other/other_process.md
+    - Transmission Costing: other/interconnection.md
+    - Citation: resources/citation.md
 
 markdown_extensions:
   - admonition
@@ -145,6 +111,7 @@ extra:
   generator: false
 
 copyright: >
-  <img src="images/worldbank.png" alt="The World Bank" class="footer-wb-logo">
-  &nbsp; All content is subject to the
+  All content is subject to the
   <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>.
+  &nbsp;&nbsp;|&nbsp;&nbsp; Contact:
+  <a href="mailto:cnicolas@worldbank.org">Claire Nicolas</a>

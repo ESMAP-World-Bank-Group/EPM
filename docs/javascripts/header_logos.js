@@ -14,7 +14,7 @@ function addWBLogo() {
   if (!esmap) return;
   var option = document.querySelector('.md-header__option');
   if (!option) return;
-  var wbSrc = esmap.getAttribute('src').replace('esmap.png', 'worldbank.png');
+  var wbSrc = esmap.getAttribute('src').replace('esmap_white.png', 'worldbank_white.png');
   var wrapper = document.createElement('div');
   wrapper.className = 'wb-logo-wrapper';
   wrapper.innerHTML =

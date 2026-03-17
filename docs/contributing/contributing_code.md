@@ -1,67 +1,64 @@
-# Contributing to the code
+# Contribute Code
 
-We welcome contributions to both the codebase and the documentation. Below are a few guidelines to help you get started.
+Bug fixes, performance improvements, new features — all contributions are welcome. Before starting, check the [open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues) to avoid duplicating work, or open a new one to discuss your idea first.
 
-## Reporting Bugs or Requesting Features
+---
 
-Before starting a contribution, check if an issue already exists or open a new one.
+## Workflow
 
-**[How to report issues](contributing_issues.md)**
+All contributions go through a **branch + pull request** workflow:
 
-## Code Contributions
+1. **Fork or clone** the repository if you haven't already.
+2. **Create a branch** from the latest `main`:
+   ```bash
+   git checkout main && git pull
+   git checkout -b feature/my-update
+   ```
+3. **Make your changes**, test them, and commit with a clear message:
+   ```bash
+   git add .
+   git commit -m "Fix: correct pAvailability default for solar"
+   ```
+4. **Push your branch** to GitHub:
+   ```bash
+   git push origin feature/my-update
+   ```
+5. **Open a pull request** on [GitHub](https://github.com/ESMAP-World-Bank-Group/EPM/pulls) targeting `main`, with a short description of what changed and why.
 
-If you would like to modify or improve the code, please follow these principles:
+A reviewer from the EPM team will review, comment, and merge the PR once approved.
 
-- Use your own branch for custom modifications that are specific to your case study or data. These include small changes that don’t need to be integrated across all models.
-- Update the `main` branch for general improvements such as bug fixes, performance enhancements, or new features that would benefit all users.
-- Make sure your changes are well documented and tested.
+---
 
-## Guidelines for submitting pull requests
+## Pull request guidelines
 
-If your contribution is significant (bug fix, improvement, new feature), you should:
+- **One type of change per PR** — don't mix a bug fix with a new feature
+- **Describe your changes** — what was the problem, what did you change, and why
+- **Test before submitting** — run the model with your changes and verify outputs are as expected
+- **Keep case-study-specific changes in your own branch** — only push to `main` what benefits all users
 
-1. Create a new branch from `main` (for example: `feature-my-update`).
-2. Make your changes on that branch.
-3. Open a pull request (PR) to merge your branch into `main`.
-
-A pull request is a safe and documented way to propose changes. It allows you and others to:
-
-- See exactly what was changed.
-- Review and test the code before merging.
-- Discuss the changes if needed.
-
-Even if you are the only contributor, using pull requests helps keep a clean and transparent history, and makes it easier to undo changes if needed.
-
-Pull requests should be used for important changes. For small edits, you can update the `main` branch directly, as long as it is up to date. Refer to previous sections for instructions on committing and pushing to `main`.
-
-We recommend that pull requests:
-
-- Include a short description of what was changed and why.
-- Contain only one type of change (avoid mixing bug fixes with new features).
-- Be tested before being submitted.
+---
 
 ## Adding a new technology
 
-To add a new technology to the model, you must update several input files.
+To add a new technology to the model, update the following files:
 
-1. **Supply defaults**
-   - Add the technology to:
-     - `AvailabilityDefault`
-     - `PageNDataInputDefault`
-     - `PayCapExTrajectoriesDefault`
-   - These are all under *supply*.
-   - Do this in the **main branch**, so everyone can use it, unless the technology is strictly specific to your own case.
+**1. Supply defaults** — under `supply/`:
 
-2. **Zonal definition**
-   - Default technologies are defined **by zone**.
-   - If you have no better information, define the **same technology** for **all zones** in the input files.
+- `pAvailabilityDefault.csv`
+- `pGenDataInputDefault.csv`
+- `pCapexTrajectoriesDefault.csv`
 
-3. **Resources and attributes**
-   - Add the technology to the **resources** and **take data** files.
-   - Define all required **attributes** (e.g., efficiency, fuel, lifetime, cost parameters).
+Add the technology in the `main` branch if it is general enough to benefit all users.
 
-4. **Post-processing and coding**
-   - Add the technology to:
-     - `PostProcessingStaticTechnologies.csv`
-     - `Coders.csv`
-   - This ensures that figures are generated correctly and avoids exceptions during post-processing.
+**2. Zonal definition**
+
+Default technologies are defined by zone. If no zone-specific data is available, define the same technology for all zones.
+
+**3. Resources and postprocessing**
+
+Add the technology to:
+
+- `PostProcessingStaticTechnologies.csv`
+- `Coders.csv`
+
+This ensures figures are generated correctly and prevents exceptions during postprocessing.

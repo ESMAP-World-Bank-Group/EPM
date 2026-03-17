@@ -1,87 +1,100 @@
-# Debugging EPM Models in GAMS
+# Debugging
 
-If your run **didn’t converge**, or worse, **converged with unrealistic results**, this guide provides tools and methods to investigate what went wrong.
-
----
-
-## 1. Understanding the `PA.gdx` Output
-
-The `PA.gdx` file (often auto-generated) contains **post-solve values** for variables and equations. It's critical for diagnosing model behavior.
-
-Each variable includes:
-
-| Field        | Meaning                                                            |
-| ------------ | ------------------------------------------------------------------ |
-| **Level**    | The actual solution value (e.g. power output, demand served, etc.) |
-| **Marginal** | Dual value — often shadow price or reduced cost                    |
-| **Lower**    | Lower bound on the variable                                        |
-| **Upper**    | Upper bound on the variable                                        |
-| **Scale**    | Scaling factor applied (typically 1 unless specified otherwise)    |
-
-### What to Look for
-
-- **Zero levels**: If all levels are zero, check if:
-
-  - The variable was properly connected in constraints.
-  - It had a feasible range (`Lower`, `Upper`) that allowed movement.
-  - There's a cost or penalty preventing it from being selected.
-
-- **Marginals = EPS**: GAMS uses `EPS` (epsilon) when dual values are **effectively zero**, i.e. the bound is **not active**. This is normal unless you expected that variable to be tightly constrained.
-
-- **Very high or low levels**: Could indicate:
-  - Missing unit conversions (e.g. kW vs MW)
-  - Mis-specified bounds or parameters
-  - A cost that unintentionally encourages unrealistic dispatch
+This page covers what to do when EPM doesn't run, doesn't converge, or produces unrealistic results.
 
 ---
 
-## 2. Reference Outputs for Debugging
+## First steps
 
-GAMS provides reference files to trace model structure, usage, and execution flow.
+Start by identifying the symptom:
 
----
+| Symptom | Where to look |
+|---|---|
+| Python error before GAMS starts | Terminal output, check input files and config.csv |
+| GAMS compilation error | `.lst` file, first `ERROR` line |
+| Model infeasible | `PA.gdx` for binding constraints, `.lst` for infeasibility message |
+| Model runs but results look wrong | `PA.gdx` variable levels, check input data units |
+| Run times out or crashes | `.log` file for memory/time, reduce problem size or use remote server |
 
-### `.log` File — Execution Log
+Enable verbose logging to get more detail:
 
-Contains runtime logs and time stamps:
+```sh
+python epm.py --folder_input your_data --config your_data/config.csv --debug
+```
 
-- File inclusions
-- Model generation times
-- modeltype startup and memory use
-- Useful for checking if the modeltype started, crashed, or timed out
+Or add `--trace` to log detailed input reading:
 
----
-
-### `.ref` File — Model Symbol Reference
-
-Enable it within GAMS Studio using command parameters.
-
-This produces `<filename>.ref` which contains:
-
-- All declared **symbols** (sets, parameters, variables, equations)
-- Where each symbol was:
-  - Declared
-  - Defined
-  - Assigned
-  - Referenced
-- Warnings for @**declared but unused** symbols
-
-**Why it's useful**: Quickly shows whether a variable like `vPwrOut(g,f,q,d,t,y)` is declared but never referenced in a constraint — a common source of “zero everywhere” issues.
+```sh
+python epm.py --folder_input your_data --config your_data/config.csv --trace
+```
 
 ---
 
-### `.lst` File — Execution Listing
+## Common errors
 
-Automatically generated. Includes:
+**Infeasible model**
+Usually caused by contradictory constraints — for example a renewable target that cannot be met given available capacity, or a demand that exceeds all possible supply. Check:
 
-- Compilation diagnostics
-- Code listing
-- Full equation listings (left-hand side, right-hand side, status)
-- modeltype messages and summaries
+- Demand vs. installed + buildable capacity
+- Emission caps relative to the fuel mix
+- Reserve requirements vs. dispatchable capacity
 
-**Tips**:
+**Unrealistic results (e.g. enormous unserved energy)**
+Usually a data issue. Check:
 
-- Set `option limcol = 0; option limrow = 0;` to limit variable/equation listings.
-- Use the **"Variable Listing"** and **"Equation Listing"** sections to examine values in context.
+- Unit consistency (MW vs. GW, MWh vs. GWh)
+- Missing or zero capacity values
+- Costs set to zero unintentionally (allows infinite dispatch)
+
+**Python crashes before GAMS**
+Check `config.csv` — a missing file reference or wrong path is the most common cause. Run with `--trace` to see exactly which input file fails to load.
+
+**GAMS compilation error**
+Open the `.lst` file and search for `****` — GAMS marks all errors with four asterisks. The line number points directly to the problem.
 
 ---
+
+## GAMS output files
+
+### `PA.gdx` — post-solve values
+
+Generated after a solve. Open in GAMS Studio or with `gdxdump`. Each variable shows:
+
+| Field | Meaning |
+|---|---|
+| **Level** | Actual solution value |
+| **Marginal** | Dual value (shadow price or reduced cost) |
+| **Lower / Upper** | Variable bounds |
+
+What to look for:
+
+- **All levels = 0**: the variable may not be connected to any constraint, or has a cost preventing selection
+- **Marginal = EPS**: the bound is not active — usually normal
+- **Very large levels**: check unit conversions and parameter bounds
+
+### `.log` — execution log
+
+Contains timestamps, file inclusions, model generation time, and solver startup. Useful for diagnosing crashes and timeouts.
+
+### `.lst` — execution listing
+
+Automatically generated. Contains compilation output, equation listings, and solver messages. Search for `****` to find errors quickly.
+
+Tips:
+
+- Set `option limcol = 0; option limrow = 0;` to reduce listing size
+- Use the "Variable Listing" and "Equation Listing" sections to inspect values in context
+
+### `.ref` — symbol reference
+
+Shows where every set, parameter, variable, and equation is declared, defined, and referenced. Useful for finding variables that are declared but never used in a constraint.
+
+To generate it in GAMS Studio: add `rf=filename.ref` to the command-line arguments in the Task Bar.
+
+---
+
+## Still stuck?
+
+- Check the [Input Setup](../input/input_setup.md) and [Input Catalog](../input/input_detailed.md) to verify your data format
+- Use AI tools or Google with the exact error message from the `.lst` file
+- Contact the EPM team

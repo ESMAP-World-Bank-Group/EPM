@@ -1,253 +1,128 @@
-# Run EPM on the Remote Server
+# Run on Remote Server
 
-The World Bank's remote server is designed for **running computationally heavy EPM simulations**.
+The World Bank remote server is designed for computationally heavy simulations — large scenarios, Monte Carlo runs, or anything that would be too slow on a laptop.
 
-## 1. Prerequisites
+## Prerequisites
 
-You need:
-- A **World Bank computer** or access via **VDI (Virtual Desktop Infrastructure)**
-- A **YubiKey** (only for VDI login)
-
-If you're not using a WB-issued device, you **must** use the VDI and your YubiKey.
+- A World Bank computer, or VDI access with a YubiKey
+- EPM tested and working locally before running on the server
 
 ---
 
-## 2. Connect to the Server
+## 1. Connect
 
-1. Go to [PrivX Login](https://privx.worldbank.org/auth/login)  
-2. Sign in with **Microsoft credentials**
-3. In the **Connections** tab, click on a host like `Linux-xxx-.worldbank.org`
+1. Go to [privx.worldbank.org/auth/login](https://privx.worldbank.org/auth/login)
+2. Sign in with your Microsoft credentials
+3. In the **Connections** tab, select a host (e.g. `Linux-xxx-.worldbank.org`)
 
-Once connected, you’ll have access to:
-- A **Terminal** (for commands)
-- A **Files tab** (to upload/download files)
+Once connected you have access to a **Terminal** and a **Files** tab for uploads/downloads.
 
 ---
 
-## 3. Clone the EPM Repository
+## 2. Clone the repository
 
-**Storage rules**
+All data and code must be stored in `/Data`, not in `/home`.
 
-- Do **not** store data, code, or results in `/home/wb_yourID/`.
-- Use the `/Data` directory for **all** storage and simulations. This is where disk space is allocated.
-
-Hence, once on the server, navigate to the `/Data` folder to clone the repository. To do so, you should change working directory after connecting to the server:
-```sh 
+```sh
 cd /Data
-```
-Then you can create your working directory (e.g. `CAPP`) and change your location in:
-```sh
-mkdir yourdirectory
-```
-
-Then you can clone the EPM repository:
-```sh
-cd ~
-git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
-cd EPM
-```
-
-To clone a specific branch:
-```sh
+mkdir your_project_folder
+cd your_project_folder
 git clone --branch your-branch-name --single-branch https://github.com/ESMAP-World-Bank-Group/EPM.git
+cd EPM/epm
 ```
 
 ---
 
-## 4. Best Practices Workflow
+## 3. Keep code in sync
 
-The server is for running simulations, not for code development. Follow these steps to ensure a smooth workflow:
+The server is for running simulations, not for development. Work locally, then sync:
 
-1. **Test Locally First**  
-   Run a simple example on your computer before launching long runs on the server.
+```sh
+# On your local machine
+git add .
+git commit -m "ready for server run"
+git push origin your-branch-name
 
-2. **Push Your Local Changes** from your computer
-   ```sh
-   git add .
-   git commit -m "Your message"
-   git push origin your-branch-name
-   ```
-
-3. **Update Code on the Server**
-   ```sh
-   cd ~/EPM
-   git pull origin your-branch-name
-   ```
+# On the server
+cd /Data/your_project_folder/EPM
+git pull origin your-branch-name
+```
 
 ---
 
-## 5. Run EPM on the Server (Option 1 – Python or GAMS)
+## 4. Run EPM
 
-> ⚠️ Important: Monitor RAM Usage
-The AWS cluster instance we are using has a total of 96 GB of RAM available. Individual simulations can often consume more than 10 GB each.
-When multiple users run jobs simultaneously or a single user launches parallel simulations, total memory usage can quickly exceed the available RAM, potentially causing the cluster to crash.
+!!! warning "RAM usage"
+    The cluster has 96 GB of total RAM. Individual runs can consume 10+ GB each. Monitor usage carefully when running in parallel or alongside other users.
 
-> ✅ Always monitor your simulations’ memory usage and avoid overloading the cluster.
+### Python (recommended)
 
-Once your code is ready, you can run EPM on the server using the **same steps as on your computer**.
+First time only — add Miniconda to your PATH:
 
-### A. Python (Recommended)
-
-#### First time only
-
-You need to add the shared Miniconda installation to your terminal environment. Run the following **once**:
-
-To use `conda` from anywhere on this server, you need to add its location to your system `PATH`.
-> This only needs to be done once. Just copy and paste the line below into your terminal.
-
-```sh 
+```sh
 echo 'export PATH="/Data/miniconda3/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
-After running this, you can confirm conda is accessible:
 
-```sh 
-which conda
-conda --version
-```
+Then run:
 
-All simulations must be run from the `/Data` folder, not from `/home`. 
-To do so, you should change working directory after connecting to the server:
-
-```sh 
-cd /Data
-```
-Then you can create your working directory and change your location in:
-```sh 
-cd yourdirectory/EPM/epm
-```
-
-Each time you run:
 ```sh
 conda activate epm_env
-python epm.py --output_zip
+cd /Data/your_project_folder/EPM/epm
+python epm.py --folder_input your_data --config your_data/config.csv --scenarios --cpu 8 --output_zip
 ```
 
-You can also specify arguments:
+Use `--output_zip` to compress results into a single file — the server only allows downloading files, not folders.
+
+### GAMS (for low-level debugging only)
+
 ```sh
-python epm.py --folder_input data_test --config config.csv --scenarios scenarios.csv --selected_scenario baseline --output_zip
-```
-
-> **Important**: The AWS cluster currently only allows downloading files instead of directories. To ensure easier extraction of results, we recommend using the zip option to extract results folder.
-
-To do so, use argument `--output_zip` when running the code. For instance:
-```sh 
-python epm.py --folder_input data_test --output_zip
-```
-
-### B. GAMS (to test if bug does not appear in Python)
-You don't have access to GAMS Studio on the server, but you can run GAMS directly from the terminal.
-```sh
-cd EPM/epm
-gams main.gms
-# or with arguments:
-gams main.gms --FOLDER_INPUT input_folder
+cd /Data/your_project_folder/EPM/epm
+gams main.gms --FOLDER_INPUT your_data
 ```
 
 ---
 
-## 6. Run in Background (Essential for Long Runs)
+## 5. Run in background
 
-For long-running simulations, it is important that your job continues running even if you disconnect from the server. This can be achieved using `tmux`, a terminal multiplexer that allows you to create virtual sessions that persist after logout.
+For long runs, use `tmux` so the job continues if you disconnect:
 
-Start a new tmux session, and then, inside the session, launch your job (adjust the command as needed):
-
-```sh 
+```sh
 tmux new -s epmrun
-python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity 
+# launch your command here
+python epm.py --folder_input your_data --config your_data/config.csv --output_zip
 ```
 
+Detach without stopping the job: `Ctrl + B`, then `D`
 
-To leave the session without stopping your job, press the following key sequence:
-```sh 
-Ctrl + B, then D
+```sh
+tmux attach -t epmrun      # reconnect to the session
+tmux list-sessions          # see all active sessions
 ```
 
-This detaches the session and sends it to the background, allowing your job to continue running.
+To check if your job is still running:
 
-**If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:**
-```sh 
-tmux detach-client
-```
-
-To see all active tmux sessions:
-```sh 
-tmux list-sessions
-```
-
-If your session appears with `(attached)`, it is still active in a terminal window. If not, it is safely detached and running in the background.
-
-To reconnect to a running session:
-```sh 
-tmux attach -t epmrun
-```
-
-To verify processes running:
 ```sh
 ps aux | grep epm.py
 ```
 
-You get a list of all active processes related to the script epm.py. Each line corresponds to a running process. Here's how to read one. Example line:
-```sh 
-wb636520  999873  6.9  0.0  891358 184220 ?  Sl  11:49  0:07 python epm.py 
-```
+Find your username in the output — if the line is there, the job is running. To stop it:
 
-Here is a column-by-column Breakdown
-
-| Field | Column         | Description                                                                 |
-|-------|----------------|-----------------------------------------------------------------------------|
-|  wb636520     | `USER`      | User who launched the process                                               |
-|   999873    | `PID`     | Process ID — unique identifier for the process                              |
-|    6.9   | `%CPU`    | CPU usage percentage                                                        |
-|  0.0     | `%MEM`    | Memory usage percentage                                                     |
-|  891358     | `VSZ`     | Virtual memory size (in kilobytes)                                          |
-|  184220     | `RSS`     | Resident Set Size — physical memory usage (in kilobytes)                   |
-|   ?    | `TTY`     | Terminal controlling the process (`?` means none; typical for background)   |
-|  Sl     | `STAT`    | Process status (e.g., `S` = sleeping, `R` = running, `Z` = zombie) + flags  |
-|   11:49    | `START`   | Time the process started (HH:MM or date)                                    |
-|   0:07    | `TIME`    | Total CPU time the process has used so far                                  |
-|     python epm.py  | `COMMAND` | Command used to launch the process, including all arguments                 |
-
-
-To stop it if needed:
 ```sh
 kill -9 <PID>
 ```
 
 ---
 
-## 7. Help Section: Terminal Commands
+??? note "Terminal command reminder"
 
-### File Navigation Basics
-
-- **List files**: `ls`  
-- **Detailed list**: `ls -l`  
-- **Change directory**: `cd folder_name`  
-- **Go up one level**: `cd ..`  
-- **Print current directory**: `pwd`  
-- **Make directory**: `mkdir new_folder`  
-- **Delete directory and contents**: `rm -rf folder_name` *(⚠ irreversible)*
-
-### Server Usage Tips
-
-- **Monitor usage**:  
-  ```sh
-  top        # real-time CPU/memory
-  free -h    # memory summary
-  ```
-- **Find heavy processes**:  
-  ```sh
-  ps aux --sort=-%mem | head -10
-  ```
-- **Kill a process**:  
-  ```sh
-  kill -9 <PID>
-  ```
-
-### Final Reminders
-
-✅ Test locally first  
-✅ Always log out after use  
-✅ Use `nohup` for long runs  
-❌ Don’t overload the server  
-🤝 Coordinate with others if needed
+    | Action | Command |
+    |---|---|
+    | List files | `ls` or `ls -l` |
+    | Change directory | `cd folder_name` |
+    | Go up one level | `cd ..` |
+    | Print current path | `pwd` |
+    | Create folder | `mkdir folder_name` |
+    | Delete folder | `rm -rf folder_name` |
+    | Monitor CPU/RAM | `top` or `free -h` |
+    | Find heavy processes | `ps aux --sort=-%mem \| head -10` |
