@@ -26,64 +26,45 @@ Two options are available. The **Windows Installer** automates the full setup (G
     !!! note "Beta — under development"
         The Windows installer is in beta and under development. If you encounter issues, you can try using the **Manual Setup** tab or report them via the [Contributing](../contributing/contributing_issues.md) page.
 
-    [Download EPM_Setup.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
+    [Download epm.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
 
-    **What to expect step by step:**
+    <small>
 
-    1. **Double-click** `EPM_Setup.exe` — a black terminal window opens
-    2. **Enter an install folder** when prompted (or press Enter to use the default `C:\Users\you\EPM`)
-    3. **Wait** — the installer will clone the repository and set up the Python environment. This can take several minutes depending on your internet connection
-    4. Once complete, you will see **"Installation complete!"**
+    | Step | What happens |
+    |------|-------------|
+    | 1. Double-click `EPM_Setup.exe` | A terminal window opens |
+    | 2. Enter an install folder | Or press Enter for default: `C:\Users\you\EPM` |
+    | 3. Wait | Repository clone + Python environment setup (a few minutes) |
+    | 4. Done | You see **"Installation complete!"** |
 
-    **After installation:**
+    **After installation:** EPM is in the folder you chose, and a **"Launch EPM Dashboard"** shortcut is on your Desktop.
 
-    - EPM is available in the folder you chose
-    - A shortcut **"Launch EPM Dashboard"** has been created on your Desktop — double-click it to start
+    **GAMS:** must be installed separately with a valid license — the installer will warn you if not detected.
 
-    !!! warning "GAMS required"
-        GAMS must be installed separately with a valid license before running the model.
-        The installer will warn you if GAMS is not detected on your machine.
+    </small>
 
 === "Manual Setup"
 
-    ### 1. Install prerequisites
+    <small>
 
-    === "Git"
-        Git is used to download and update the EPM code.
+    **1. Prerequisites**
 
-        - **Windows**: [Download Git for Windows](https://git-scm.com/download/win), with default settings
-        - **macOS**: [Download Git for macOS](https://sourceforge.net/projects/git-osx-installer/)
+    | Tool | Install |
+    |------|---------|
+    | Git | [Windows](https://git-scm.com/download/win) · [macOS](https://sourceforge.net/projects/git-osx-installer/) |
+    | Python & Conda | [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (all platforms) |
+    | Code editor *(optional)* | [VS Code](https://code.visualstudio.com/) |
 
-        Verify: `git --version`
-
-    === "Python & Conda"
-        Required to use the Python interface (scenarios, Monte Carlo, automation).
-
-        [Download Miniconda](https://docs.conda.io/en/latest/miniconda.html) for all platforms.
-
-        Verify: `python --version` and `conda --version`
-
-    === "Code Editor (optional)"
-        Useful for editing input files and navigating the codebase.
-
-        - [Visual Studio Code](https://code.visualstudio.com/) (recommended)
-        - [PyCharm](https://www.jetbrains.com/pycharm/)
-
-    ### 2. Clone the repository
+    **2. Clone the repository**
 
     ```sh
     git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
     cd EPM
-    ```
-
-    Create your own working branch (replace `my_country_2025` with your project name):
-
-    ```sh
     git checkout -b my_country_2025
     git push -u origin my_country_2025
     ```
 
-    ### 3. Set up the Python environment
+    **3. Set up the Python environment**
 
     ```sh
     conda create -n epm_env python=3.10
@@ -91,13 +72,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
     pip install -r requirements.txt
     ```
 
-    !!! note "Windows + Monte Carlo"
-        If you plan to run Monte Carlo analysis on Windows, first install [C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/), then:
-        ```sh
-        pip install chaospy==4.3.18
-        ```
-
-    ### 4. Verify the installation
+    **4. Verify**
 
     ```sh
     cd epm
@@ -105,6 +80,8 @@ Two options are available. The **Windows Installer** automates the full setup (G
     ```
 
     Results written to `output/`. If something fails, see [Debugging](run_debugging.md).
+
+    </small>
 
 ---
 
