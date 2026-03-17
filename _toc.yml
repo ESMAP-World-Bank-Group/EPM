@@ -6,14 +6,13 @@ parts:
     chapters:
       - file: introduction/introduction
       - file: introduction/introduction_case_studies
+      - file: introduction/introduction_workflow
   - caption: Run EPM
     chapters:
-      - file: run/run_folder_structure
       - file: run/run_prerequisites
       - file: run/run_installation
       - file: run/run_gams_studio
       - file: run/run_python
-      - file: run/configuration
       - file: run/run_python_advanced
       - file: run/run_python_summary
       - file: run/run_remote_server
@@ -28,8 +27,8 @@ parts:
       - file: run/run_summary
   - caption: Input
     chapters:
-      - file: input/input_structure
-      - file: input/input_overview
+      - file: input/input_setup
+      - file: input/input_selection
       - file: input/input_detailed
       - file: input/resources
       - file: input/input_treatment
@@ -40,11 +39,10 @@ parts:
       - file: input/input_representative_days
   - caption: Output & Postprocessing
     chapters:
-      - file: output/examples
+      - file: output/output_overview
       - file: output/postprocessing_output_EPM
       - file: output/postprocessing_output
-      - file: output/postprocessing_output_overview
-      - file: output/postprocessing_tableau
+      - file: output/visualization
       - file: output/postprocessing_tableau_advanced
   - caption: Model Description
     chapters:
@@ -62,7 +60,6 @@ parts:
       - file: contributing/contributing_issues
       - file: contributing/contributing_code
       - file: contributing/contributing_docs
-      - file: contributing/contributing_postprocess
   - caption: Pre-processing Analysis
     chapters:
       - file: preprocessing/pre_overview
