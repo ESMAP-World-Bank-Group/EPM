@@ -8,6 +8,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import data_loader as dl
 from components.variant_selector import make_variant_bar, variant_options, make_open_folder_btn
+from components.page_nav import make_page_nav
 from config import INPUT_ROOT, RESOURCES
 import pandas as _pd_colors
 
@@ -111,6 +112,7 @@ def layout(active_project=None):
     default = active_project or (folders[0] if folders else None)
 
     return html.Div([
+        make_page_nav("input-supply"),
         dbc.Row([
             dbc.Col(html.H4("Supply Inputs", className="mb-0"), width="auto"),
             dbc.Col(

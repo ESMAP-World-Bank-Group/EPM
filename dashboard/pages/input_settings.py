@@ -5,6 +5,7 @@ from dash import html, dcc, Input, Output, State, callback, ALL
 import pandas as pd
 import data_loader as dl
 from components.variant_selector import make_variant_bar, variant_options, make_open_folder_btn
+from components.page_nav import make_page_nav
 from config import INPUT_ROOT
 
 # ---------------------------------------------------------------------------
@@ -136,6 +137,7 @@ def layout(active_project=None):
     default = active_project or (folders[0] if folders else None)
 
     return html.Div([
+        make_page_nav("input-settings"),
         dbc.Row([
             dbc.Col(html.H4("Model Settings", className="mb-0"), width="auto"),
             dbc.Col(make_open_folder_btn("settings-open-btn"), width="auto",
