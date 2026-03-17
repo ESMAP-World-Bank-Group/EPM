@@ -102,12 +102,6 @@ flowchart TD
     !!! warning
         For `pAvailabilityDefault.csv` and `pCapexTrajectoriesCustom.csv`, missing values for any zone/tech/fuel combination may cause errors. For `pGenDataInputCustom.csv`, missing optional fields (e.g., Capex, VOM) silently default to zero.
 
-??? "New to EPM? See also"
-
-    - [Study Methodology](../other/other_process.md): the standard 7-step planning process from data collection to results
-    - [Data Preparation](../preprocessing/pre_overview.md): pre-analysis workflows for building demand profiles, VRE profiles, and hydro availability
-    - [Transmission Costing](../other/interconnection.md): estimating transfer capacity and investment cost for new interconnectors
-
 ??? "Scenarios"
 
     Scenarios overlay changes on the baseline `config.csv`. Define a `scenarios.csv` where each column is a scenario variant — only the files that differ need to be specified. Empty cells inherit the baseline.

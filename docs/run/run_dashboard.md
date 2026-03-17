@@ -4,6 +4,9 @@ The EPM Dashboard provides a visual interface to configure, run, and explore EPM
 
 **Best for:** first-time users, non-technical stakeholders, quick scenario testing.
 
+!!! note "Note"
+    The Dashboard is under active development. If a run fails or produces unexpected results, use the command line and `.log` files to diagnose the issue. See [Debugging](run_debugging.md).
+
 ---
 
 ## Launch the dashboard
@@ -35,7 +38,7 @@ Set key parameters directly from the interface: model type (MIP / RMIP), number 
 
 ### 3. Run EPM
 
-Click **Run** to launch the model. A progress bar shows the solve status in real time.
+Click **Run** to launch the model. The interface will indicate that the run is in progress. If the run fails, switch to the command line to see the full error output. See [Debugging](run_debugging.md).
 
 ### 4. Explore results
 
