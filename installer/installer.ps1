@@ -1,36 +1,17 @@
 # EPM Installer Script
-# Clones the EPM repo, sets up conda environment, and creates a desktop launcher.
 
-$REPO_URL = "https://github.com/ESMAP-World-Bank-Group/EPM.git"
+$REPO_URL    = "https://github.com/ESMAP-World-Bank-Group/EPM.git"
 $REPO_BRANCH = "main"
-$ENV_NAME = "esmap_env"
-$PYTHON_VERSION = "3.10"
-$MINICONDA_URL = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
+$ENV_NAME    = "epm_env"
+$PYTHON_VER  = "3.10"
+$MINICONDA_URL       = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
 $MINICONDA_INSTALLER = "$env:TEMP\Miniconda3-installer.exe"
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
-
-function Write-Step($msg) {
-    Write-Host ""
-    Write-Host ">>> $msg" -ForegroundColor Cyan
-}
-
-function Write-Success($msg) {
-    Write-Host "    OK: $msg" -ForegroundColor Green
-}
-
-function Write-Fail($msg) {
-    Write-Host "    ERROR: $msg" -ForegroundColor Red
-}
-
-function Pause-Exit($code) {
-    Write-Host ""
-    Write-Host "Press any key to exit..." -ForegroundColor Gray
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    exit $code
-}
-
-# ── Banner ────────────────────────────────────────────────────────────────────
+function Write-Step { Write-Host ""; Write-Host ">>> $args" -ForegroundColor Cyan }
+function Write-Ok   { Write-Host "    OK: $args" -ForegroundColor Green }
+function Write-Warn { Write-Host "    !! $args" -ForegroundColor Yellow }
+function Write-Err  { Write-Host "    ERROR: $args" -ForegroundColor Red }
+function Stop-Install { Read-Host "Press Enter to exit"; exit 1 }
 
 Clear-Host
 Write-Host "=============================================" -ForegroundColor Yellow
@@ -38,69 +19,57 @@ Write-Host "   EPM - Electricity Planning Model"          -ForegroundColor Yello
 Write-Host "   Installer"                                  -ForegroundColor Yellow
 Write-Host "=============================================" -ForegroundColor Yellow
 
-# ── Step 1: Choose install folder ─────────────────────────────────────────────
+# --- Step 1: Install folder ---
 
 Write-Step "Choose installation folder"
+Write-Host "    Press Enter for default: $env:USERPROFILE\EPM" -ForegroundColor Gray
+$userInput = Read-Host "    Folder"
 
-Add-Type -AssemblyName System.Windows.Forms
-$browser = New-Object System.Windows.Forms.FolderBrowserDialog
-$browser.Description = "Select the folder where EPM will be installed"
-$browser.ShowNewFolderButton = $true
-$browser.RootFolder = [System.Environment+SpecialFolder]::UserProfile
-
-$result = $browser.ShowDialog()
-if ($result -ne [System.Windows.Forms.DialogResult]::OK) {
-    Write-Fail "No folder selected. Installation cancelled."
-    Pause-Exit 1
+if ($userInput -eq "") {
+    $INSTALL_DIR = "$env:USERPROFILE\EPM"
+} else {
+    $INSTALL_DIR = $userInput
 }
+Write-Ok "Install location: $INSTALL_DIR"
 
-$INSTALL_DIR = Join-Path $browser.SelectedPath "EPM"
-Write-Success "Install location: $INSTALL_DIR"
-
-# ── Step 2: Check / install Git ───────────────────────────────────────────────
+# --- Step 2: Git ---
 
 Write-Step "Checking for Git"
-
 $git = Get-Command git -ErrorAction SilentlyContinue
 if ($git) {
-    Write-Success "Git found: $($git.Source)"
+    Write-Ok "Git found: $($git.Source)"
 } else {
-    Write-Host "    Git not found. Installing via winget..." -ForegroundColor Yellow
+    Write-Warn "Git not found. Installing via winget..."
     winget install --id Git.Git -e --source winget --silent
-    # Refresh PATH
-    $env:PATH = [System.Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" +
-                [System.Environment]::GetEnvironmentVariable("PATH", "User")
+    $env:PATH = "$env:PATH;C:\Program Files\Git\cmd"
     $git = Get-Command git -ErrorAction SilentlyContinue
     if (-not $git) {
-        Write-Fail "Git installation failed. Please install Git manually from https://git-scm.com and re-run."
-        Pause-Exit 1
+        Write-Err "Git install failed. Install from https://git-scm.com then re-run."
+        Stop-Install
     }
-    Write-Success "Git installed."
+    Write-Ok "Git installed."
 }
 
-# ── Step 3: Clone repository ──────────────────────────────────────────────────
+# --- Step 3: Clone ---
 
 Write-Step "Cloning EPM repository"
-
 if (Test-Path $INSTALL_DIR) {
-    Write-Host "    Folder already exists. Pulling latest changes..." -ForegroundColor Yellow
-    git -C $INSTALL_DIR pull origin $REPO_BRANCH
+    Write-Warn "Folder exists - pulling latest changes..."
+    & git -C "$INSTALL_DIR" pull origin $REPO_BRANCH
 } else {
-    git clone --branch $REPO_BRANCH $REPO_URL $INSTALL_DIR
+    & git clone --branch $REPO_BRANCH $REPO_URL "$INSTALL_DIR"
     if ($LASTEXITCODE -ne 0) {
-        Write-Fail "Clone failed. Check your internet connection."
-        Pause-Exit 1
+        Write-Err "Clone failed. Check your internet connection."
+        Stop-Install
     }
 }
-Write-Success "Repository ready at $INSTALL_DIR"
+Write-Ok "Repository ready at $INSTALL_DIR"
 
-# ── Step 4: Check / install Conda ─────────────────────────────────────────────
+# --- Step 4: Conda ---
 
 Write-Step "Checking for Conda"
-
-# Try to find conda (Anaconda or Miniconda)
 $condaCmd = $null
-$condaCandidates = @(
+$candidates = @(
     "$env:USERPROFILE\anaconda3\Scripts\conda.exe",
     "$env:USERPROFILE\miniconda3\Scripts\conda.exe",
     "$env:LOCALAPPDATA\anaconda3\Scripts\conda.exe",
@@ -108,118 +77,140 @@ $condaCandidates = @(
     "C:\ProgramData\anaconda3\Scripts\conda.exe",
     "C:\ProgramData\miniconda3\Scripts\conda.exe"
 )
-foreach ($c in $condaCandidates) {
-    if (Test-Path $c) { $condaCmd = $c; break }
+foreach ($c in $candidates) {
+    if (Test-Path $c) {
+        $condaCmd = $c
+        break
+    }
 }
 if (-not $condaCmd) {
-    $condaCmd = (Get-Command conda -ErrorAction SilentlyContinue)?.Source
+    $found = Get-Command conda -ErrorAction SilentlyContinue
+    if ($found) {
+        $condaCmd = $found.Source
+    }
 }
 
 if ($condaCmd) {
-    Write-Success "Conda found: $condaCmd"
+    Write-Ok "Conda found: $condaCmd"
 } else {
-    Write-Host "    Conda not found. Downloading Miniconda..." -ForegroundColor Yellow
+    Write-Warn "Conda not found. Downloading Miniconda..."
     Invoke-WebRequest -Uri $MINICONDA_URL -OutFile $MINICONDA_INSTALLER -UseBasicParsing
-    Write-Host "    Installing Miniconda (this may take a few minutes)..." -ForegroundColor Yellow
-    Start-Process -FilePath $MINICONDA_INSTALLER `
-        -ArgumentList "/S /D=$env:USERPROFILE\miniconda3" `
-        -Wait -NoNewWindow
+    Start-Process -FilePath $MINICONDA_INSTALLER -ArgumentList "/S /D=$env:USERPROFILE\miniconda3" -Wait -NoNewWindow
     $condaCmd = "$env:USERPROFILE\miniconda3\Scripts\conda.exe"
     if (-not (Test-Path $condaCmd)) {
-        Write-Fail "Miniconda installation failed."
-        Pause-Exit 1
+        Write-Err "Miniconda install failed."
+        Stop-Install
     }
-    Write-Success "Miniconda installed."
+    Write-Ok "Miniconda installed."
 }
 
-# Derive conda base dir and activation script
 $condaBase = Split-Path (Split-Path $condaCmd)
-$condaActivate = Join-Path $condaBase "Scripts\activate.ps1"
-if (-not (Test-Path $condaActivate)) {
-    $condaActivate = Join-Path $condaBase "shell\condabin\conda-hook.ps1"
-}
 
-# ── Step 5: Create conda environment ──────────────────────────────────────────
+# --- Step 5: Python environment ---
 
 Write-Step "Setting up Python environment ($ENV_NAME)"
 
-$reqFile = Join-Path $INSTALL_DIR "requirements.txt"
+$reqFile = "$INSTALL_DIR\requirements.txt"
+if (-not (Test-Path $reqFile)) {
+    Write-Err "requirements.txt not found - repository may not have cloned correctly."
+    Stop-Install
+}
 
-# Check if env already exists
-$envExists = (& $condaCmd env list) -match "^\s*$ENV_NAME\s"
+$envList   = & "$condaCmd" env list 2>&1
+$envExists = $envList | Select-String -SimpleMatch $ENV_NAME
+
 if ($envExists) {
-    Write-Host "    Environment already exists. Updating packages..." -ForegroundColor Yellow
-    & $condaCmd run -n $ENV_NAME pip install -r $reqFile --quiet
-} else {
-    & $condaCmd create -n $ENV_NAME python=$PYTHON_VERSION -y --quiet
+    Write-Warn "Environment exists. Updating packages..."
+    & "$condaCmd" run -n $ENV_NAME pip install -r "$reqFile"
     if ($LASTEXITCODE -ne 0) {
-        Write-Fail "Failed to create conda environment."
-        Pause-Exit 1
+        Write-Err "pip install failed."
+        Stop-Install
     }
-    & $condaCmd run -n $ENV_NAME pip install -r $reqFile --quiet
+} else {
+    Write-Warn "Creating environment (may take a few minutes)..."
+    & "$condaCmd" create -n $ENV_NAME "python=$PYTHON_VER" -y
     if ($LASTEXITCODE -ne 0) {
-        Write-Fail "Failed to install Python packages."
-        Pause-Exit 1
+        Write-Err "conda create failed."
+        Stop-Install
+    }
+    & "$condaCmd" run -n $ENV_NAME pip install -r "$reqFile"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Err "pip install failed."
+        Stop-Install
     }
 }
-Write-Success "Environment ready."
+Write-Ok "Environment ready."
 
-# ── Step 6: Create desktop launcher ───────────────────────────────────────────
+# --- Step 6: Desktop launcher ---
 
 Write-Step "Creating desktop launcher"
 
 $desktop = [System.Environment]::GetFolderPath("Desktop")
-$launcherPath = Join-Path $desktop "Launch EPM Dashboard.bat"
+if (-not (Test-Path $desktop)) {
+    $dlist = @(
+        "$env:USERPROFILE\OneDrive\Desktop",
+        "$env:USERPROFILE\OneDrive - World Bank Group\Desktop",
+        "$env:USERPROFILE\Desktop"
+    )
+    foreach ($d in $dlist) {
+        if (Test-Path $d) {
+            $desktop = $d
+            break
+        }
+    }
+}
+Write-Host "    Desktop: $desktop" -ForegroundColor Gray
 
-$batContent = @"
-@echo off
-title EPM Dashboard
-echo =============================================
-echo   EPM - Electricity Planning Model
-echo   Starting Dashboard...
-echo =============================================
-echo.
+$activateBat  = "$condaBase\Scripts\activate.bat"
+$launcherPath = "$desktop\Launch EPM Dashboard.bat"
 
-SET CONDA_BASE=$condaBase
-SET ENV_NAME=$ENV_NAME
-SET INSTALL_DIR=$INSTALL_DIR
+$line1  = "@echo off"
+$line2  = "title EPM Dashboard"
+$line3  = "echo ============================================="
+$line4  = "echo   EPM - Electricity Planning Model"
+$line5  = "echo   Starting Dashboard..."
+$line6  = "echo ============================================="
+$line7  = "echo."
+$line8  = "CALL `"$activateBat`" $ENV_NAME"
+$line9  = "cd /d `"$INSTALL_DIR`""
+$line10 = "start `"`" `"http://localhost:8080`""
+$line11 = "python dashboard/app.py"
+$line12 = "pause"
 
-CALL "%CONDA_BASE%\Scripts\activate.bat" %ENV_NAME%
-cd /d "%INSTALL_DIR%"
-start "" "http://localhost:8050"
-python dashboard/app.py
-
-pause
-"@
+$batContent = $line1, $line2, $line3, $line4, $line5, $line6, $line7, $line8, $line9, $line10, $line11, $line12
 
 Set-Content -Path $launcherPath -Value $batContent -Encoding UTF8
-Write-Success "Launcher created on Desktop: Launch EPM Dashboard.bat"
 
-# ── Step 7: GAMS check ────────────────────────────────────────────────────────
-
-Write-Step "Checking for GAMS"
-
-$gams = Get-Command gams -ErrorAction SilentlyContinue
-if ($gams) {
-    Write-Success "GAMS found: $($gams.Source)"
+if (Test-Path $launcherPath) {
+    Write-Ok "Launcher created: $launcherPath"
 } else {
-    Write-Host ""
-    Write-Host "  !! GAMS not detected on this machine." -ForegroundColor Yellow
-    Write-Host "     EPM requires GAMS with a valid license to run optimizations." -ForegroundColor Yellow
-    Write-Host "     Download GAMS from: https://www.gams.com/download/" -ForegroundColor Yellow
-    Write-Host "     Contact your ESMAP/World Bank contact for a license file." -ForegroundColor Yellow
+    Write-Err "Could not create launcher on Desktop."
+    Write-Warn "No problem - a launcher has been saved in the install folder instead:"
+    $fallback = "$INSTALL_DIR\launch_dashboard.bat"
+    Set-Content -Path $fallback -Value $batContent -Encoding UTF8
+    Write-Ok "Fallback launcher: $fallback"
 }
 
-# ── Done ──────────────────────────────────────────────────────────────────────
+# --- Step 7: GAMS ---
+
+Write-Step "Checking for GAMS"
+$gams = Get-Command gams -ErrorAction SilentlyContinue
+if ($gams) {
+    Write-Ok "GAMS found: $($gams.Source)"
+} else {
+    Write-Warn "GAMS not detected. EPM requires GAMS with a valid license."
+    Write-Warn "Download: https://www.gams.com/download/"
+}
+
+# --- Done ---
 
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Green
 Write-Host "   Installation complete!" -ForegroundColor Green
 Write-Host "=============================================" -ForegroundColor Green
+Write-Host "   EPM installed at : $INSTALL_DIR"
+Write-Host "   Launch the dashboard by double-clicking:"
+Write-Host "   'Launch EPM Dashboard' on your Desktop"
 Write-Host ""
-Write-Host "   EPM installed at : $INSTALL_DIR" -ForegroundColor White
-Write-Host "   To start the dashboard, double-click:" -ForegroundColor White
-Write-Host "   'Launch EPM Dashboard' on your Desktop" -ForegroundColor White
-Write-Host ""
-
-Pause-Exit 0
+Read-Host "Press Enter to exit"
+exit 0
