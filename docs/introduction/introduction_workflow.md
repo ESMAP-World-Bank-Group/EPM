@@ -14,7 +14,7 @@ This section provides a quick map of the model, the repository, and the typical 
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">1</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Install</div>
     <div style="font-size: 0.7rem; color: #475569;">Set up Python and GAMS</div>
-    <div style="margin-top: 0.4rem;"><a href="../run/run_installation/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Installation →</a></div>
+    <div style="margin-top: 0.4rem;"><a href="../../run/run_installation/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Installation →</a></div>
   </div>
 
   <div style="display: flex; align-items: center; padding: 0 0.4rem; color: #C8952C; font-size: 1.2rem; font-weight: 300;">→</div>
@@ -23,7 +23,7 @@ This section provides a quick map of the model, the repository, and the typical 
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">2</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Prepare inputs</div>
     <div style="font-size: 0.7rem; color: #475569;">Via Dashboard or CSV files</div>
-    <div style="margin-top: 0.4rem;"><a href="../input/input_setup/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Input →</a></div>
+    <div style="margin-top: 0.4rem;"><a href="../../input/input_setup/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Input →</a></div>
   </div>
 
   <div style="display: flex; align-items: center; padding: 0 0.4rem; color: #C8952C; font-size: 1.2rem; font-weight: 300;">→</div>
@@ -31,8 +31,8 @@ This section provides a quick map of the model, the repository, and the typical 
   <div style="flex: 1; background: #fdf8f0; border: 1px solid #d4b87a; border-radius: 8px; padding: 0.65rem 0.7rem; text-align: center;">
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">3</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Run</div>
-    <div style="font-size: 0.7rem; color: #475569;">Via <a href="../run/run_dashboard/" style="color: #475569;">Dashboard</a>, <a href="../run/run_python/" style="color: #475569;">Python</a>, or <a href="../run/run_gams_studio/" style="color: #475569;">GAMS Studio</a></div>
-    <div style="margin-top: 0.4rem;"><a href="../run/run_python/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Run →</a></div>
+    <div style="font-size: 0.7rem; color: #475569;">Via <a href="../../run/run_dashboard/" style="color: #475569;">Dashboard</a>, <a href="../../run/run_python/" style="color: #475569;">Python</a>, or <a href="../../run/run_gams_studio/" style="color: #475569;">GAMS Studio</a></div>
+    <div style="margin-top: 0.4rem;"><a href="../../run/run_python/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Run →</a></div>
   </div>
 
   <div style="display: flex; align-items: center; padding: 0 0.4rem; color: #C8952C; font-size: 1.2rem; font-weight: 300;">→</div>
@@ -41,7 +41,7 @@ This section provides a quick map of the model, the repository, and the typical 
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">4</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Analyze results</div>
     <div style="font-size: 0.7rem; color: #475569;">Dashboard or CSV files</div>
-    <div style="margin-top: 0.4rem;"><a href="../output/output_overview/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Output →</a></div>
+    <div style="margin-top: 0.4rem;"><a href="../../output/output_overview/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Output →</a></div>
   </div>
 
 </div>
