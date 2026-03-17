@@ -2050,9 +2050,26 @@ Contact your institution or the World Bank team for a license.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="admonition note">
-<p class="admonition-title">Coming soon</p>
-<p>The <code>.exe</code> installer is in development. Download will be available here.</p>
-<p>In the meantime, use the <strong>Manual Setup</strong> tab.</p>
+<p class="admonition-title">Beta — under development</p>
+<p>The Windows installer is in beta and under development. If you encounter issues, you can try using the <strong>Manual Setup</strong> tab or report them via the <a href="../../contributing/contributing_issues/">Contributing</a> page.</p>
+</div>
+<p><a class="md-button md-button--primary" href="https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe">Download EPM_Setup.exe</a></p>
+<p><strong>What to expect step by step:</strong></p>
+<ol>
+<li><strong>Double-click</strong> <code>EPM_Setup.exe</code> — a black terminal window opens</li>
+<li><strong>Enter an install folder</strong> when prompted (or press Enter to use the default <code>C:\Users\you\EPM</code>)</li>
+<li><strong>Wait</strong> — the installer will clone the repository and set up the Python environment. This can take several minutes depending on your internet connection</li>
+<li>Once complete, you will see <strong>"Installation complete!"</strong></li>
+</ol>
+<p><strong>After installation:</strong></p>
+<ul>
+<li>EPM is available in the folder you chose</li>
+<li>A shortcut <strong>"Launch EPM Dashboard"</strong> has been created on your Desktop — double-click it to start</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">GAMS required</p>
+<p>GAMS must be installed separately with a valid license before running the model.
+The installer will warn you if GAMS is not detected on your machine.</p>
 </div>
 </div>
 <div class="tabbed-block">
