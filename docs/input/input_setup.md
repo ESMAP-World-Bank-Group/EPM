@@ -10,42 +10,27 @@ EPM uses a layered input system. Each layer has a distinct role:
 
 ```mermaid
 flowchart TD
-    DASH(["<b>EPM Dashboard</b>\nlaunch · configure · visualize"])
-    CLI(["<b>python epm.py</b>\n--folder_input · --config · --scenarios"])
+    CLI(["<b>python epm.py</b>\n--folder_input data_test"])
 
     subgraph routing ["Routing layer"]
-        CONFIG["<b>config.csv</b>\nMaps each parameter name\nto a CSV file path"]
-        SCEN["<b>scenarios.csv</b>\nOverrides baseline paths\nper scenario (optional)"]
+        CONFIG["<b>config.csv</b>\nMaps parameter names to file paths"]
+        SCEN["<b>scenarios.csv</b>\nOverrides baseline paths (optional)"]
     end
 
-    subgraph control ["Control layer"]
-        PS["<b>pSettings.csv</b>\nFeature flags &amp; economic\nparameters"]
-    end
+    PS["<b>pSettings.csv</b>\nFeature flags &amp; global parameters"]
 
     subgraph data ["Data layer"]
-        SUPPLY["supply/\npGenDataInput · pAvailability\npVREProfile · pFuelPrice · ..."]
-        LOAD["load/\npDemandProfile\npDemandForecast · ..."]
-        OTHER["reserve/ · trade/\nconstraint/ · h2/"]
+        CSVS["<b>Data CSVs</b>\nsupply/ · load/ · reserve/ · trade/ · ..."]
     end
 
-    GAMS["<b>GAMS</b>\nCore model · base.gms · CPLEX solver"]
-    POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
-    OUT[("<b>CSV Outputs</b>")]
+    GAMS["<b>GAMS</b>\nOptimization core"]
 
-    DASH -->|launch| CLI
     CLI --> CONFIG
     SCEN -.->|overlays| CONFIG
     CONFIG --> PS
-    CONFIG --> SUPPLY
-    CONFIG --> LOAD
-    CONFIG --> OTHER
+    CONFIG --> data
     PS --> GAMS
-    SUPPLY --> GAMS
-    LOAD --> GAMS
-    OTHER --> GAMS
-    GAMS --> POST
-    POST --> OUT
-    OUT -->|results| DASH
+    CSVS --> GAMS
 ```
 
 1. You point EPM to an input folder (`--folder_input`). All data lives inside it.
