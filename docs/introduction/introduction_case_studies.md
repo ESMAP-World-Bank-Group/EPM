@@ -8,7 +8,7 @@ EPM is applied in more than 80 countries across Africa, Asia, Latin America, and
 
 <div style="border-radius: 10px; overflow: hidden; border: 1px solid #c5d8ee; box-shadow: 0 2px 8px rgba(27,58,92,0.08); margin: 1.5rem 0; background: white;">
   <iframe
-    src="/assets/epm_map.html"
+    src="../../assets/epm_map.html"
     width="100%"
     height="480px"
     frameborder="0"
