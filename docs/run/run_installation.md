@@ -23,10 +23,26 @@ Two options are available. The **Windows Installer** automates the full setup (G
 
 === "Windows Installer"
 
-    !!! note "Coming soon"
-        The `.exe` installer is in development. Download will be available here.
+    !!! note "Beta — under development"
+        The Windows installer is in beta and under development. If you encounter issues, you can try using the **Manual Setup** tab or report them via the [Contributing](../contributing/contributing_issues.md) page.
 
-        In the meantime, use the **Manual Setup** tab.
+    [Download EPM_Setup.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
+
+    **What to expect step by step:**
+
+    1. **Double-click** `EPM_Setup.exe` — a black terminal window opens
+    2. **Enter an install folder** when prompted (or press Enter to use the default `C:\Users\you\EPM`)
+    3. **Wait** — the installer will clone the repository and set up the Python environment. This can take several minutes depending on your internet connection
+    4. Once complete, you will see **"Installation complete!"**
+
+    **After installation:**
+
+    - EPM is available in the folder you chose
+    - A shortcut **"Launch EPM Dashboard"** has been created on your Desktop — double-click it to start
+
+    !!! warning "GAMS required"
+        GAMS must be installed separately with a valid license before running the model.
+        The installer will warn you if GAMS is not detected on your machine.
 
 === "Manual Setup"
 
