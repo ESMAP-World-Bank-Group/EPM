@@ -1,67 +1,64 @@
-# Electricity Planning Standard Process
+# Study Methodology
 
-Below is a detailed overview of the standard process for electricity planning, which the Planning team usually follows to ensure reliable and efficient power system operation.
-
----
-
-## 1. **Context and Objectives of the Study**
-
-Define the context of the planning process. This typically includes either a strategic overview or a project-based assessment. For example, for World Bank projects, a strategic overview may involve a CCDR (Country Climate and Development Report), while a project-based assessment could be conducted during a pre-feasibility study of a new power plant. 
-
-The objectives should be clear and measurable—such as reducing emissions, increasing reliability, or optimizing costs. The context and objectives define the scope of the planning process and its expected outcomes.
+A standard electricity planning study with EPM follows seven steps, from framing the problem to sharing results with the country team.
 
 ---
 
-## 2. **Set the Energy Context**
+## 1. Context and objectives
 
-Analyze the country’s energy context, including the current energy mix, demand patterns, and existing infrastructure. This helps identify strengths and weaknesses in the current system and informs future planning decisions.
+Define what the study is trying to answer. This typically falls into one of two categories:
 
-At this stage, it is important to collect Master Plan documents or internal reports that provide insights into the national energy landscape. These may include previous planning studies, energy sector assessments, or policy frameworks.
+- **Strategic overview**: e.g., a CCDR (Country Climate and Development Report) assessing long-term energy transition pathways
+- **Project-based assessment**: e.g., a pre-feasibility study for a specific investment or policy intervention
 
-> Master Plan documents for various countries can be found on the [IRENA National Energy Planning Dashboard](https://app.powerbi.com/view?r=eyJrIjoiODIwYmVhYjktYWFiYy00ZmRlLTljMjgtZGJhMWZlOGVlYjA5IiwidCI6ImNjZGRlYmIwLWQyYmItNDRkMC05ODRhLThlNDJhNWMwNjJiMyIsImMiOjh9&pageName=8db57587b800be86e56c)
-
----
-
-## 3. **Install EPM and Run Open-Data Simulation**
-
-Install the Electricity Planning Model (EPM) and run an open-data simulation to establish a baseline for the country’s energy system. This simulation provides initial insights and helps identify areas for further analysis.
-
-The open-data simulation uses publicly available data—such as generation capacity, fuel prices, and demand forecasts—based on standard assumptions made by the CCDR team. It serves as a starting point for discussion with the country team and for refining the analysis.
-
-> The process of running the open-data simulation is ongoing. The team is working to improve data quality and availability.
+Objectives should be measurable: reducing emissions by X%, meeting peak demand with Y% reliability, minimizing system cost under a given carbon price, etc. This framing defines scope and shapes scenario design.
 
 ---
 
-## 4. **Data Collection and Analysis**
+## 2. Set the energy context
 
-Gather and analyze data on the existing energy system, including generation, transmission, and distribution infrastructure.
+Analyze the country's current energy system: generation mix, demand patterns, existing infrastructure, and policy framework. This identifies gaps and informs what data needs to be collected.
 
-A structured data collection template is available to support this process. It lists all required inputs for the EPM model.
+Useful starting points include national Master Plans, energy sector assessments, and CCDR background documents.
 
-> [Download the Data Collection Template](dwld/TemplateDataCollection.xlsx) 
-
----
-
-## 5. **Define Scenarios**
-
-Based on the context and objectives, define future energy scenarios. These may include variations in demand growth, fuel prices, technology adoption, or policy interventions.
-
-Scenarios help evaluate different development pathways and their potential impacts on the energy system.
+> National energy plans for many countries are available on the [IRENA National Energy Planning Dashboard](https://app.powerbi.com/view?r=eyJrIjoiODIwYmVhYjktYWFiYy00ZmRlLTljMjgtZGJhMWZlOGVlYjA5IiwidCI6ImNjZGRlYmIwLWQyYmItNDRkMC05ODRhLThlNDJhNWMwNjJiMyIsImMiOjh9&pageName=8db57587b800be86e56c).
 
 ---
 
-## 6. **Run Simulations**
+## 3. Install EPM and run an open-data simulation
 
-Use the EPM to simulate the defined scenarios. This involves adjusting model inputs—such as capacity additions, technology choices, and fuel prices—to reflect each scenario.
-
-Simulations generate outputs on costs, emissions, system reliability, and other performance indicators, supporting evidence-based decision-making.
+Install EPM and run a first simulation using publicly available data (generation capacity, fuel prices, demand forecasts) based on CCDR standard assumptions. This baseline run provides early insights and a starting point for discussion with the country team before more granular data is collected.
 
 ---
 
-## 7. **Create Tableau Visualizations and Share with Country Team**
+## 4. Data collection
 
-Develop visualizations in Tableau based on the simulation results. These visual outputs help communicate findings effectively to the country team.
+Gather data on the existing system: generation units, transmission infrastructure, fuel prices, demand forecasts, and policy constraints. A structured template listing all required EPM inputs is available to guide this process.
 
-The Tableau dashboards should highlight key performance indicators and enable interactive exploration of different scenarios.
+> [Download the Data Collection Template](dwld/TemplateDataCollection.xlsx)
 
-Once completed, share the dashboard with the country team for feedback and further discussion.
+---
+
+## 5. Define scenarios
+
+Design the scenario set based on study objectives. Scenarios typically vary:
+
+- Demand growth trajectories
+- Fuel price assumptions
+- Technology cost evolution (e.g., solar and wind CAPEX)
+- Policy constraints (renewable targets, emissions caps, carbon price)
+- Infrastructure options (transmission expansion, interconnection)
+
+---
+
+## 6. Run simulations
+
+Run EPM for each scenario. The model optimizes capacity expansion and dispatch, producing outputs on system costs, investment plans, emissions, and reliability indicators. Results form the evidence base for decision-making.
+
+---
+
+## 7. Visualize and share results
+
+Build Tableau dashboards from the simulation outputs and share them with the country team for review. Dashboards should highlight key indicators and allow interactive exploration across scenarios and years.
+
+See [Visualization](../output/visualization.md) for how to set up the Tableau workflow.
