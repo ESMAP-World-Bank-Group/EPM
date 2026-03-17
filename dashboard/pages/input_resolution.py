@@ -332,10 +332,7 @@ def load(folder, y_var, ph_var, _reload=None):
 
     # zcmap grid
     if not df_zc.empty:
-        zc_cols = [{"field": c,
-                    "editable": c == "c",
-                    "cellStyle": {} if c == "c"
-                                 else {"backgroundColor": "#f8f9fa", "color": "#6c757d"}}
+        zc_cols = [{"field": c, "editable": True, "cellStyle": {}}
                    for c in df_zc.columns]
         zc_rows = df_zc.to_dict("records")
     else:
@@ -354,11 +351,7 @@ def load(folder, y_var, ph_var, _reload=None):
 
     # pHours grid
     if not df_ph.empty:
-        ph_id_cols = [c for c in ["q", "d"] if c in df_ph.columns]
-        ph_cols = [{"field": c,
-                    "editable": c not in ph_id_cols,
-                    "cellStyle": {} if c not in ph_id_cols
-                                 else {"backgroundColor": "#f8f9fa", "color": "#6c757d"}}
+        ph_cols = [{"field": c, "editable": True, "cellStyle": {}}
                    for c in df_ph.columns]
         ph_rows = df_ph.to_dict("records")
     else:

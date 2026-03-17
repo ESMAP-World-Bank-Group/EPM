@@ -142,8 +142,8 @@ def load(folder, prm_var, src_var, srs_var, _reload=None):
     def rc(df, ro): return (df.to_dict("records"), _col_defs(df, ro)) if not df.empty else ([], [])
 
     return (
-        *rc(df_prm, ["z"]),  variant_options(folder, "planning_reserve"),
-        *rc(df_src, ["c"]),  variant_options(folder, "spinning_country"),
+        *rc(df_prm, []),  variant_options(folder, "planning_reserve"),
+        *rc(df_src, []),  variant_options(folder, "spinning_country"),
         *rc(df_srs, []),     variant_options(folder, "spinning_system"),
     )
 

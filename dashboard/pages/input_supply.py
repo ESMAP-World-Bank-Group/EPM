@@ -436,15 +436,15 @@ def load_all(folder, gen_var, sto_var, avail_var, fuel_var, capex_var, _reload=N
                  if not df_fuel.empty and "z" in df_fuel.columns else []
 
     gen_rows = df_gen.to_dict("records") if not df_gen.empty else []
-    gen_cols = _gen_col_defs(df_gen, ["z", "g"], tech_values, fuel_values) \
+    gen_cols = _gen_col_defs(df_gen, [], tech_values, fuel_values) \
                if not df_gen.empty else []
 
     return (
         gen_rows, gen_cols,            opts("gen_data"),
-        *rc(df_storage, ["g", "z"]),   opts("storage_data"),
-        *rc(df_avail,   ["g"]),        opts("availability"),
-        *rc(df_fuel,    ["z", "f"]),   opts("fuel_price"),   fig_fuel,
-        *rc(df_capex,   ["f"]),        opts("capex"),        fig_capex,
+        *rc(df_storage, []),           opts("storage_data"),
+        *rc(df_avail,   []),           opts("availability"),
+        *rc(df_fuel,    []),           opts("fuel_price"),   fig_fuel,
+        *rc(df_capex,   []),           opts("capex"),        fig_capex,
         vre_rows, vre_cols, vre_zones, vre_techs,
         capex_zones, capex_techs,
         gen_zones,

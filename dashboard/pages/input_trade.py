@@ -236,10 +236,10 @@ def load(folder, tl_var, nt_var, tp_var, etl_var, _reload=None):
                    if not df_tp.empty and "y" in df_tp.columns else []
 
     return (
-        *rc(df_tl,  ["From", "To", "z", "z2"]),   variant_options(folder, "transfer_limit"),
-        *rc(df_nt,  ["z", "z2"]),                  variant_options(folder, "new_transmission"),
-        *rc(df_tp,  ["z", "zext", "q", "d", "y"]), variant_options(folder, "trade_price"),
-        *rc(df_etl, ["z", "zext"]),                variant_options(folder, "ext_transfer"),
+        *rc(df_tl,  []),   variant_options(folder, "transfer_limit"),
+        *rc(df_nt,  []),   variant_options(folder, "new_transmission"),
+        *rc(df_tp,  []),   variant_options(folder, "trade_price"),
+        *rc(df_etl, []),   variant_options(folder, "ext_transfer"),
         fig_tl, fig_tp, tl_year_opts, tp_zext_opts, tp_year_opts,
     )
 

@@ -189,7 +189,7 @@ def load(folder, dem_var, eff_var, _reload=None):
 
     # Demand forecast
     if not df_dem.empty:
-        id_cols = [c for c in ["z", "type"] if c in df_dem.columns]
+        id_cols = []
         dem_rows = df_dem.to_dict("records")
         dem_cols = _col_defs_wide(df_dem, id_cols)
         zone_opts = [{"label": z, "value": z} for z in sorted(df_dem["z"].dropna().astype(str).unique())] \
@@ -213,7 +213,7 @@ def load(folder, dem_var, eff_var, _reload=None):
 
     # Efficiency factor
     if not df_eff.empty:
-        id_cols_eff = [c for c in ["z", "c"] if c in df_eff.columns]
+        id_cols_eff = []
         eff_rows = df_eff.to_dict("records")
         eff_cols = _col_defs_wide(df_eff, id_cols_eff)
         yr_cols = [c for c in df_eff.columns if c not in id_cols_eff and str(c).isdigit()]

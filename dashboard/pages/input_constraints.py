@@ -32,11 +32,7 @@ def _icon_btns(add_id, del_id):
 
 
 def _col_defs(df: pd.DataFrame) -> list:
-    return [{"field": c,
-             "editable": df[c].dtype in ("float64", "int64") or c == "value",
-             "cellStyle": {} if (df[c].dtype in ("float64", "int64") or c == "value")
-                         else {"backgroundColor": "#f8f9fa", "color": "#6c757d"}}
-            for c in df.columns]
+    return [{"field": c, "editable": True, "cellStyle": {}} for c in df.columns]
 
 
 def layout(active_project=None):
