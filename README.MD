@@ -68,13 +68,20 @@ EPM produces comprehensive outputs including:
 | Interconnections | Cross-border power flows |
 | Interactive Maps | Geographic visualization of the power system |
 
-See the [Output Examples](https://esmap-world-bank-group.github.io/EPM/docs/output/examples.html) documentation for sample visualizations.
+See the [Output & Postprocessing](https://esmap-world-bank-group.github.io/EPM/output/output_overview.html) documentation for sample visualizations.
 
-## Deployment Process
+## Getting Started
 
-The practical deployment of EPM consists of a 7-step process, which is illustrated below.
+Install EPM and choose how you want to run it:
 
-<img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
+| Method | Best for |
+|--------|----------|
+| [Windows Installer](https://esmap-world-bank-group.github.io/EPM/run/run_installation.html) | One-click setup on Windows — installs everything automatically |
+| [Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_installation.html) | Visual interface for quick runs, no command line needed *(under development)* |
+| [Python CLI](https://esmap-world-bank-group.github.io/EPM/run/run_python.html) | Scenarios, automation, Monte Carlo |
+| [GAMS Studio](https://esmap-world-bank-group.github.io/EPM/run/run_gams_studio.html) | Model development and GAMS debugging |
+
+Full installation instructions are available [here](https://esmap-world-bank-group.github.io/EPM/run/run_installation.html).
 
 ---
 
@@ -111,6 +118,6 @@ Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Pla
 
 ## License
 
-Licensed under the Areative Commons Zero v1.0 Universal (the "License"); you
+Licensed under the Creative Commons Zero v1.0 Universal (the "License"); you
 may not use this file except in compliance with the License. You may
 obtain a copy of the License at <https://creativecommons.org/publicdomain/zero/1.0/>
