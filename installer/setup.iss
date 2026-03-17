@@ -28,9 +28,9 @@ Source: "installer.ps1"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Run]
 Filename: "powershell.exe"; \
-  Parameters: "-ExecutionPolicy Bypass -NonInteractive -File ""{tmp}\installer.ps1"""; \
+  Parameters: "-ExecutionPolicy Bypass -File ""{tmp}\installer.ps1"""; \
   Description: "Run EPM setup"; \
-  Flags: runhidden waituntilterminated
+  Flags: waituntilterminated
 
 [Messages]
 WelcomeLabel1=Welcome to EPM Setup

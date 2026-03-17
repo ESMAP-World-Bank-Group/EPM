@@ -324,7 +324,8 @@ def layout(active_project=None):
     return html.Div([
         html.H4("Input Manager", className="mb-1"),
         html.P("Select a section to view and edit input data.",
-               className="text-muted mb-4", style={"fontSize": "0.85rem"}),
+               className="text-muted mb-2", style={"fontSize": "0.85rem"}),
+        html.Div(id="im-no-project-warning"),
 
         # Section cards
         html.Div(
@@ -347,11 +348,17 @@ def layout(active_project=None):
 # ---------------------------------------------------------------------------
 
 @callback(
-    Output("im-section-cards",  "children"),
-    Output("im-file-browser",   "children"),
+    Output("im-section-cards",      "children"),
+    Output("im-file-browser",       "children"),
+    Output("im-no-project-warning", "children"),
     Input("store-active-project", "data"),
 )
 def refresh(folder):
-    cards  = dbc.Row([_section_card(s, folder) for s in SECTIONS], className="g-3")
+    cards   = dbc.Row([_section_card(s, folder) for s in SECTIONS], className="g-3")
     browser = _file_browser(folder)
-    return cards, browser
+    warning = dbc.Alert(
+        [html.I(className="bi bi-exclamation-triangle-fill me-2"),
+         "No project selected — please select a project from the dropdown above before editing."],
+        color="warning", className="py-2 mb-3", style={"fontSize": "0.85rem"},
+    ) if not folder else None
+    return cards, browser, warning

@@ -1,8 +1,13 @@
 """Home page — project selector."""
 
+import shutil
+from pathlib import Path
+
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State, callback, no_update, ALL, ctx
+
 import data_loader as dl
+from config import INPUT_ROOT
 
 
 def layout(*args):
@@ -37,9 +42,10 @@ def layout(*args):
         html.Hr(),
 
         dbc.Row([
-            dbc.Col(html.H5("Create New Project"), width=12),
+            # Clone existing project
             dbc.Col([
-                dbc.Label("Clone from existing project"),
+                html.H5("Clone Existing Project", className="mb-3"),
+                dbc.Label("Source project"),
                 dcc.Dropdown(
                     id="clone-source",
                     options=[{"label": f, "value": f} for f in folders],
@@ -51,6 +57,25 @@ def layout(*args):
                           className="mb-2"),
                 dbc.Button("Create Project", id="clone-btn", color="success"),
                 html.Div(id="clone-result", className="mt-2"),
+            ], width=4),
+
+            dbc.Col(width=1),
+
+            # Import from local folder
+            dbc.Col([
+                html.H5("Import from Local Folder", className="mb-3"),
+                dbc.Label("Folder path"),
+                dbc.InputGroup([
+                    dbc.Input(id="import-path", placeholder="C:\\path\\to\\your\\project",
+                              className="mb-0"),
+                    dbc.Button([html.I(className="bi bi-folder2-open")],
+                               id="import-browse-btn", color="outline-secondary"),
+                ], className="mb-2"),
+                dbc.Input(id="import-name",
+                          placeholder="Project name in EPM (e.g. data_namibia)",
+                          className="mb-2"),
+                dbc.Button("Import Project", id="import-btn", color="primary"),
+                html.Div(id="import-result", className="mt-2"),
             ], width=4),
         ]),
     ])
@@ -90,3 +115,50 @@ def clone_project(n, source, name):
     if ok:
         return dbc.Alert(f"Project '{name}' created successfully.", color="success")
     return dbc.Alert("Failed — folder already exists or source not found.", color="danger")
+
+
+@callback(
+    Output("import-path", "value"),
+    Input("import-browse-btn", "n_clicks"),
+    prevent_initial_call=True,
+)
+def browse_folder(n):
+    if not n:
+        return no_update
+    try:
+        import tkinter as tk
+        from tkinter import filedialog
+        root = tk.Tk()
+        root.withdraw()
+        root.wm_attributes("-topmost", True)
+        folder = filedialog.askdirectory(title="Select EPM project folder")
+        root.destroy()
+        return folder if folder else no_update
+    except Exception:
+        return no_update
+
+
+@callback(
+    Output("import-result", "children"),
+    Input("import-btn",  "n_clicks"),
+    State("import-path", "value"),
+    State("import-name", "value"),
+    prevent_initial_call=True,
+)
+def import_project(n, src_path, name):
+    if not src_path or not name:
+        return dbc.Alert("Please select a folder and enter a project name.", color="warning")
+    name = name.strip()
+    if not name.startswith("data_"):
+        name = "data_" + name
+    src = Path(src_path)
+    if not src.exists():
+        return dbc.Alert(f"Folder not found: {src_path}", color="danger")
+    dest = INPUT_ROOT / name
+    if dest.exists():
+        return dbc.Alert(f"Project '{name}' already exists in EPM.", color="warning")
+    try:
+        shutil.copytree(str(src), str(dest))
+        return dbc.Alert(f"Project '{name}' imported successfully.", color="success")
+    except Exception as e:
+        return dbc.Alert(f"Import failed: {e}", color="danger")

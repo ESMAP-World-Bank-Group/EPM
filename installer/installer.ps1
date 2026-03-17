@@ -11,7 +11,7 @@ function Write-Step { Write-Host ""; Write-Host ">>> $args" -ForegroundColor Cya
 function Write-Ok   { Write-Host "    OK: $args" -ForegroundColor Green }
 function Write-Warn { Write-Host "    !! $args" -ForegroundColor Yellow }
 function Write-Err  { Write-Host "    ERROR: $args" -ForegroundColor Red }
-function Stop-Install { Read-Host "Press Enter to exit"; exit 1 }
+function Stop-Install { Write-Host "Press Enter to exit..."; $null = Read-Host; exit 1 }
 
 Clear-Host
 Write-Host "=============================================" -ForegroundColor Yellow
@@ -24,7 +24,6 @@ Write-Host "=============================================" -ForegroundColor Yell
 Write-Step "Choose installation folder"
 Write-Host "    Press Enter for default: $env:USERPROFILE\EPM" -ForegroundColor Gray
 $userInput = Read-Host "    Folder"
-
 if ($userInput -eq "") {
     $INSTALL_DIR = "$env:USERPROFILE\EPM"
 } else {
@@ -53,11 +52,15 @@ if ($git) {
 # --- Step 3: Clone ---
 
 Write-Step "Cloning EPM repository"
-if (Test-Path $INSTALL_DIR) {
+$isGitRepo = Test-Path (Join-Path $INSTALL_DIR ".git")
+if ($isGitRepo) {
     Write-Warn "Folder exists - pulling latest changes..."
-    & git -C "$INSTALL_DIR" pull origin $REPO_BRANCH
+    & git -C "$INSTALL_DIR" pull --quiet origin $REPO_BRANCH
 } else {
-    & git clone --branch $REPO_BRANCH $REPO_URL "$INSTALL_DIR"
+    if (Test-Path $INSTALL_DIR) {
+        Write-Warn "Folder exists but is not a git repo - cloning into it..."
+    }
+    & git clone --quiet --branch $REPO_BRANCH $REPO_URL "$INSTALL_DIR"
     if ($LASTEXITCODE -ne 0) {
         Write-Err "Clone failed. Check your internet connection."
         Stop-Install
@@ -212,5 +215,6 @@ Write-Host "   EPM installed at : $INSTALL_DIR"
 Write-Host "   Launch the dashboard by double-clicking:"
 Write-Host "   'Launch EPM Dashboard' on your Desktop"
 Write-Host ""
-Read-Host "Press Enter to exit"
+Write-Host "Press Enter to exit..."
+$null = Read-Host
 exit 0
