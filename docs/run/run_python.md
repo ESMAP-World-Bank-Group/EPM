@@ -1,295 +1,172 @@
-# Run EPM from Python
+# Run from Python
 
-Using the Python interface enables advanced features such as scenario creation, sensitivity analysis, and Monte Carlo simulations.
+Running EPM through Python is the recommended approach. `epm.py` reads your configuration, launches GAMS for each scenario, and runs postprocessing automatically.
 
-You don't need to know Python—just follow the steps below.
-
-You must have Python installed. See the [prerequisites](run_prerequisites.md) for setup instructions.
-
-**Related Documentation:**
-
-- [Configuration Flow](configuration.md) - How config.csv, pSettings, and resources work together
-- [Input Structure](../input/input_structure.md) - Input folder organization
-- [Input Treatment](../input/input_treatment.md) - Automatic data validation and filling
+> **Prerequisites:** Python environment set up. If not done yet, see [Installation](run_installation.md).
 
 ---
 
-## 1. Create a Python Environment
+## Quick start
 
-A Python environment ensures that all required libraries for EPM are available and isolated from other projects.
-
-**Important**:
-
-- Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
-
-### On Windows
-
-If you plan to run Monte Carlo analysis on **Windows**, first install `Microsoft C++ Build Tools` (needed to compile the optional `chaospy` package):
-
-1. Go to [VSCode build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-2. Download and install Build Tools for Visual Studio.
-3. During installation, check the option: `C++ build tools`
-
-Then you can follow these steps:
-
-1. Open a terminal or command prompt (Anaconda Prompt).
-2. Navigate to the folder where you cloned EPM:
-   ```sh
-   cd EPM
-   ```
-3. Create a new environment named `epm_env`:
-   ```sh
-   conda create -n epm_env python=3.10
-   ```
-4. Activate the environment:
-   ```sh
-   conda activate epm_env
-   ```
-5. Install the required libraries:
-   ```sh
-   pip install -r requirements.txt
-   ```
-6. _(Optional – Monte Carlo only)_ Install `chaospy`:
-   ```sh
-   pip install chaospy==4.3.18
-   ```
-
-### On Mac
-
-Follow the same steps as on Windows (minus the Build Tools prerequisite). Install `chaospy` only if you plan to run Monte Carlo analysis.
-
-### On Linux (remote server)
-
-1. Open a terminal or command prompt.
-2. Navigate to the folder where you cloned EPM:
-   ```sh
-   cd EPM
-   ```
-3. Create a new environment named `epm_env`, specifying some Linux compilers.
-
-```sh
-conda create -n epm_env python=3.10 numpy cython gcc_linux-64 gxx_linux-64 -c conda-forge
-```
-
-4. Activate the environment:
+Open a terminal **from inside your EPM repository folder** and run:
 
 ```sh
 conda activate epm_env
-export TMPDIR=~/pip_tmp
+python epm.py --folder_input data_test --config data_test/config.csv
 ```
 
-5. Install additional packages from the shared `requirements.txt` file:
+- `--folder_input`: your input data folder (inside `epm/input/`)
+- `--config`: the configuration file that tells EPM which CSV files to use
 
-```sh
-pip install -r requirements.txt
-```
-
-6. _(Optional – Monte Carlo only)_ Install `chaospy`:
-
-```sh
-pip install chaospy==4.3.18
-```
+Results are written to `output/simulations_run_<timestamp>/`.
 
 ---
 
-## 2. Run the Model (Basic Test)
+## Common workflows
 
-Once the environment is set up, you can test the model:
+=== "Basic run"
 
-1. Navigate to the `epm` code directory:
-   ```sh
-   cd epm
-   ```
-2. Run the model:
-   ```sh
-   python epm.py
-   ```
+    Run EPM with your own input folder:
 
-This runs the model using the default input folder and configuration.
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv
+    ```
 
----
+    Use `--simple` to relax integer constraints (faster, good for first tests):
 
-## 3. Input Data
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv --simple
+    ```
 
-**All input data need to be within the `epm/input` folder. The path of the input file are defined based on this reference.**
+=== "Multi-scenario"
 
-Input data are defined in a folder `folder_input` and controlled via a `config.csv` file, which specifies what CSV files to use for each parameter in the model.
+    Run all scenarios defined in a `scenarios.csv` file, using 4 CPU cores in parallel:
 
-> Example input structure is provided in the GitHub `main` branch under the `input` folder. See the [input documentation](https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html) for full details.
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv --scenarios --cpu 4
+    ```
 
-By default, the model uses the `data_test` input folder and `input/config.csv` file, but command line arguments allow you to specify different folders and configurations.
+    Run only a subset of scenarios:
 
-Input data for EPM is specified through two key components:
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv --scenarios -S baseline HighDemand
+    ```
 
-1. **Input Folder (`FOLDER_INPUT`)**  
-   This folder contains all the necessary `.csv` input files for the model, organized by type (e.g., `data_test_region`). It holds the raw data the model reads.
+=== "Monte Carlo"
 
-### `--folder_input`
+    Run 50 Monte Carlo samples using an uncertainties definition file:
 
-- **Type:** string
-- **Default:** `data_test`
-- **Purpose:** Folder containing the CSV input data for the simulation.
-- **Notes:** Should contain the input files referenced in the config.
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv \
+      --montecarlo --montecarlo_samples 50 \
+      --uncertainties my_country/uncertainties.csv \
+      --cpu 8 --reduced_output
+    ```
 
-2. **Configuration File (`config.csv`)**  
-   This CSV file defines which input files correspond to which parameters in the model for the **baseline scenario**. It includes the parameter `name` and the relative `file` path inside the input folder. An example of a configuration file is available here: [Example `config.csv`](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv)
+    !!! note "Windows prerequisite"
+        Monte Carlo requires `chaospy`. On Windows, install [C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) first, then `pip install chaospy==4.3.18`.
 
-### `--config`
+=== "Postprocess only"
 
-- **Type:** string
-- **Default:** `input/config.csv`
-- **Purpose:** Specifies the configuration file that defines baseline input CSV files and parameters.
-- **Notes:** The config file is required for proper data loading and scenario configuration.
+    Re-run postprocessing on an existing results folder without re-solving the model:
 
-### `--modeltype`
+    ```sh
+    python epm.py --postprocess simulations_run_2025-05-01_12-00-00
+    ```
 
-- **Type:** string
-- **Default:** `None` (falls back to the value defined in `config.csv`)
-- **Purpose:** Overrides the model type used by GAMS; accepts values such as `MIP` or `RMIP`.
-- **Notes:** Use this flag to test relaxed problems (`RMIP`) or enforce a specific formulation without editing `config.csv`.
+=== "Assessment"
 
-Important Configuration Options in config.csv
+    Assess the value of a specific project by running a counterfactual (model without that project):
 
-| Option        | Description                                                                                                                        |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `solvemode`   | How the model is solved:<br> `2` = normal (default)<br> `1` = write savepoint `PA_pd.gdx`<br> `0` = generate model only (no solve) |
-| `trace`       | Logging verbosity:<br> `0` = minimal (default)<br> `1` = detailed debugging output                                                 |
-| `reportshort` | Report size:<br> `0` = full report (default)<br> `1` = compact report for multiple runs (e.g., Monte Carlo)                        |
-| `modeltype`   | Solver formulation:<br> `MIP` = default mixed-integer run<br> `RMIP` = relax integrality for debugging or bounds                   |
-| `cplexfile`   | Relative path to the CPLEX options file (for example `cplex/cplex_baseline.opt`) that controls low-level solver parameters         |
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv \
+      --generator_assessment SolarProject
+    ```
 
-## 4. Specifying Optional Arguments for your Run
+    Assess the value of an interconnection:
 
-Check `Run EPM Advanced Features` for additional explanations on advanced features like sensitivity analysis, Monte Carlo simulations, and scenario management.
-
-### `--simple`
-
-- **Type:** list of strings
-- **Default:** ['DiscreteCap', 'y']
-- **Purpose:** Enables simplified model modes by toggling specified parameters.
-
-### `--cpu`
-
-- **Type:** integer
-- **Default:** 1
-- **Purpose:** Number of CPU cores to use for running scenarios in parallel.
-
-### `--engine`
-
-- **Type:** string
-- **Default:** None
-- **Purpose:** Path to a GAMS Engine file for running simulations remotely.
-
-### `--postprocess`
-
-- **Type:** string
-- **Default:** None
-- **Purpose:** Runs only postprocessing on an existing output folder, skipping simulation.
-
-### `--plot_selected_scenarios`
-
-- **Type:** list of strings
-- **Default:** `"all"`
-- **Purpose:** Specifies scenarios to plot in postprocessing.
-
-### `--no_plot_dispatch`
-
-- **Type:** flag (boolean)
-- **Default:** False (dispatch plotting enabled by default)
-- **Purpose:** Disables automatic creation of dispatch plots to save time and memory.
-
-### `--graphs_folder`
-
-- **Type:** string
-- **Default:** `img`
-- **Purpose:** Directory where postprocessing graphs and plots will be saved.
-
-### `--simulation_label`
-
-- **Type:** string
-- **Default:** timestamp generated name
-- **Purpose:** Replaces the automatic timestamp with a custom name for the results folder.
+    ```sh
+    python epm.py --folder_input my_country --config my_country/config.csv \
+      --interco_assessment Angola-Zambia
+    ```
 
 ---
 
-### `--scenarios`
+## All options
 
-- **Type:** string
-- **Default:** None (flag omitted)
-- **Purpose:** Path to a scenario definition file specifying multiple scenarios and their overridden inputs.
-- **Notes:** Use `--scenarios` with no value to load the default `scenarios.csv`. Provide a custom path (for example `--scenarios alternative.csv`) to select a different file. If the flag is omitted entirely, only the baseline scenario runs.
+The tables below list every argument you can pass to `python epm.py`. Arguments are optional unless stated otherwise (the model uses default values for anything not specified).
 
-### `--selected_scenarios`
+### Core inputs
 
-- **Type:** list of strings
-- **Default:** None
-- **Purpose:** Specifies a subset of scenarios from the scenarios file to run.
-- **Alias:** `-S`
-- **Example:** `-S baseline ScenarioA`
+| Argument | Default | Description |
+|---|---|---|
+| `--folder_input` | `data_test` | Input data folder (inside `epm/input/`) |
+| `--config` | `config.csv` | Configuration file path, relative to `folder_input` |
+| `--modeltype` | `None` | Override solver type: `MIP` or `RMIP` |
 
-### `--sensitivity`
+### Scenarios
 
-- **Type:** flag (boolean)
-- **Default:** False
-- **Purpose:** Enables sensitivity analysis which automatically modifies select parameters to evaluate model sensitivity.
-- **Usage:** Include `--sensitivity` to enable.
+| Argument | Default | Description |
+|---|---|---|
+| `--scenarios` | `None` | Scenario file. Use without value to load `scenarios.csv`, or provide a custom path |
+| `-S` / `--selected_scenarios` | `None` | Run only a subset of scenarios. Example: `-S baseline HighDemand` |
+| `--simple` | `None` | Relax integer constraints. Use without arguments for default `['DiscreteCap', 'y']` |
 
-### `--generator_assessment`
+### Performance
 
-- **Type:** list of strings
-- **Default:** None
-- **Purpose:** Specifies projects to exclude from the simulation to assess counterfactual scenarios.
-- **Example:** `--generator_assessment SolarProject`
+| Argument | Default | Description |
+|---|---|---|
+| `--cpu` | `1` | Number of CPU cores for parallel scenario runs |
+| `--reduced_output` | `False` | Generate smaller output files (recommended for large Monte Carlo runs) |
+| `--output_zip` | `False` | Zip the output folder after processing |
+
+### Monte Carlo & sensitivity
+
+| Argument | Default | Description |
+|---|---|---|
+| `--montecarlo` | `False` | Enable Monte Carlo simulation |
+| `--montecarlo_samples` | `10` | Number of random samples |
+| `--uncertainties` | `None` | CSV file defining uncertain parameters and their distributions |
+| `--sensitivity` | `False` | Enable built-in sensitivity analysis |
+
+### Assessment
+
+| Argument | Default | Description |
+|---|---|---|
+| `--generator_assessment` | `None` | Exclude named generators to assess their counterfactual value |
+| `--project_assessment` | `None` | Create individual and combined assessment scenarios per project |
+| `--interco_assessment` | `None` | Assess the value of a named interconnection |
+
+### Regional & country filtering
+
+| Argument | Default | Description |
+|---|---|---|
+| `--country` | `None` | Filter zones to include only those belonging to this country |
+| `--focus_country` | `None` | After a regional run, generate single-country inputs for this country |
+
+### Postprocessing & output
+
+| Argument | Default | Description |
+|---|---|---|
+| `--postprocess` | `None` | Run postprocessing only on an existing results folder |
+| `--generate_figures` | `False` | Generate figures during postprocessing |
+| `--no_plot_dispatch` | | Disable dispatch plots (saves time on large runs) |
+| `--plot_selected_scenarios` | `all` | Restrict plots to a subset of scenarios |
+| `--graphs_folder` | `img` | Folder where postprocessing plots are saved |
+| `--reduce_definition_csv` | `False` | Generate reduced yearly CSV files for Tableau |
+| `--simulation_label` | timestamp | Custom name for the results folder |
+
+### Debugging
+
+| Argument | Default | Description |
+|---|---|---|
+| `--debug` | `False` | Enable verbose DEBUG mode in GAMS |
+| `--trace` | `False` | Enable TRACE mode in GAMS |
 
 ---
 
-### `--montecarlo`
+## Related
 
-- **Type:** flag (boolean)
-- **Default:** False
-- **Purpose:** Enables Monte Carlo simulation by sampling uncertain parameters multiple times.
-- **Usage:** Include `--montecarlo` to enable.
-
-### `--montecarlo_samples`
-
-- **Type:** integer
-- **Default:** 10
-- **Purpose:** Number of random samples/scenarios to generate during Monte Carlo analysis.
-- **Notes:** Larger numbers increase accuracy but require more computation.
-
-### `--uncertainties`
-
-- **Type:** string
-- **Default:** None
-- **Purpose:** CSV file that specifies uncertain parameters and their distributions for Monte Carlo sampling.
-- **Notes:** Required if `--montecarlo` is enabled.
-
-### `--reduced_output`
-
-- **Type:** flag (boolean)
-- **Default:** False
-- **Purpose:** Generates reduced-size outputs to save memory, useful for large Monte Carlo runs.
-
----
-
-## Example Usage
-
-Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:
-
-> It is important to specify the `config.csv` path when running python. Otherwise, a default value will be used, calibrated on the `data_test_region` folder.
-
-```bash
-python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity --cpu 4
-```
-
-Run postprocessing only on a previous simulation folder:
-
-```bash
-python epm.py --postprocess simulations_run_2025-05-01_12-00-00
-```
-
-Run Monte Carlo analysis with 20 samples and a specified uncertainties file:
-
-```bash
-python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --montecarlo --montecarlo_samples 20 --uncertainties input/data_test_region/uncertainties.csv
-```
+- [Input Setup](../input/input_setup.md): how `config.csv`, `pSettings`, and scenarios work together
+- [Input Catalog](../input/input_detailed.md): full reference of all input parameters
+- [Debugging](run_debugging.md): what to do when the model does not converge

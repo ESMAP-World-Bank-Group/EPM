@@ -1,43 +1,43 @@
-# Reporting Issues and Requesting Features
+# Get Involved
 
-We welcome feedback from the community! If you encounter a bug or have an idea for a new feature, please open an issue on GitHub.
+EPM is an open project: feedback, bug reports, and contributions of all kinds are welcome.
 
-## How to Open an Issue
+---
 
-1. Go to the [EPM GitHub Issues page](https://github.com/ESMAP-World-Bank-Group/EPM/issues)
-2. Click **New Issue**
-3. Select the appropriate template:
-   - **Bug Report** - for unexpected behavior or errors
-   - **Feature Request** - for new functionality
-4. Fill out the template with as much detail as possible
-5. Click **Submit new issue**
+## Report a bug
 
-## Quick Links
+If something isn't working as expected, open an issue on GitHub with:
 
-- [Open a new issue](https://github.com/ESMAP-World-Bank-Group/EPM/issues/new/choose)
-- [View existing issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues)
+- What you did and what you expected to happen
+- The exact error message or unexpected output
+- Relevant context: which input folder, which command, which version
 
-## Tips for Good Issue Reports
+→ [Open a bug report](https://github.com/ESMAP-World-Bank-Group/EPM/issues/new/choose)
 
-- **Be specific**: Include exact error messages and steps to reproduce
-- **Include context**: What data folder were you using? What command did you run?
-- **Attach files if helpful**: Screenshots, log files, or minimal input examples
+---
 
-## Bug Report Template
+## Request a feature
 
-When reporting a bug, include:
+Have an idea for a new capability or improvement? Open a feature request describing:
 
-- A clear description of the problem
-- Steps to reproduce the issue
-- Expected vs. actual behavior
-- Relevant code snippets or log output
-- Affected files (with line numbers if known)
+- What problem it solves
+- What the expected behavior would be
 
-## Feature Request Template
+→ [Open a feature request](https://github.com/ESMAP-World-Bank-Group/EPM/issues/new/choose)
 
-When requesting a feature, include:
+---
 
-- A clear description of the feature
-- Why this feature is needed (what problem it solves)
-- Acceptance criteria (how we know it's done)
-- Any additional context or examples
+## Contribute
+
+Whether it's a bug fix, a new feature, or a documentation improvement, contributions are welcome.
+
+- [Contribute code](contributing_code.md): bug fixes, new features, new technologies
+- [Contribute to the docs](contributing_docs.md): improve content, fix errors, extend the analysis tools
+- [View open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues): pick something to work on
+
+---
+
+## Contact
+
+For questions not suited for a public issue, you can reach the EPM team directly:
+[cnicolas@worldbank.org](mailto:cnicolas@worldbank.org) · [mbaronnet@worldbank.org](mailto:mbaronnet@worldbank.org) · [lvivier@worldbank.org](mailto:lvivier@worldbank.org)

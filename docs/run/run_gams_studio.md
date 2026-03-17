@@ -1,67 +1,43 @@
-# Run EPM from GAMS Studio
+# Run from GAMS Studio
 
-This method is recommended for **debugging**, **testing**, and initial **setup** of the model.
+Use GAMS Studio when you need to debug the model, inspect GAMS output directly, or test changes to the `.gms` files. For standard runs and scenario analysis, [Run from Python](run_python.md) is recommended.
 
 ---
 
 ## Steps
 
 1. Open **GAMS Studio**.
-2. Open the project folder:
-   - Go to the **File** menu at the top.
-   - Click **Open in New Group**.
-   - Navigate to the folder where the model files are located.
-   - Select the file named `main.gms` and click **Open**.
 
-3. Ensure `main.gms` is set as the **main file** (you'll see a green triangle in the corner of its tab). If not, right-click it and choose **Set as Main File**.
+2. Open `main.gms`: go to **File > Open in New Group**, navigate to your EPM folder, and select `main.gms`.
 
-4. Specify the required command-line arguments in the **Task Bar** at the top of GAMS Studio.
+3. Make sure `main.gms` is set as the **main file** (green triangle on its tab). If not, right-click it and choose **Set as Main File**.
 
-   > All arguments must be prefixed with `--`.  
-   > Example:  
-   > ```
-   > --FOLDER_INPUT data_eapp --BASE_FILE base.gms
-   > ```
+![GAMS Studio interface](../images/gams_studio.png)
 
-   **Note**:  
-   - `%FOLDER_INPUT%` must always be defined (no default), and by default is a subfolder of `epm/input/`.  
-   - Other files have defaults if not specified (see below).  
-   - The `BASE_FILE` is only included if you are not restarting a run (`gams.restart` is not set).
+4. In the **Task Bar** at the top, specify your arguments. All arguments must be prefixed with `--`. `FOLDER_INPUT` is the only required argument:
 
-5. Click the **Compile/Run** button.
+    ```
+    --FOLDER_INPUT data_test
+    ```
 
-6. Check the **Process Log** for errors or messages. If successful, the output file `epmresults.gdx` will appear in the project directory.
+    All other arguments are optional and fall back to the defaults listed below.
 
-   > **Tip:** Rename or move these files after the run to avoid overwriting them next time.
+5. Click **Compile/Run**.
+
+6. Check the **Process Log** for errors. If successful, `epmresults.gdx` will appear in the project directory.
 
 ---
 
-## Default GAMS File Arguments and Behavior
+## Default arguments
 
-If not provided on the command line, the following files are set to default values in the GAMS script:
+If not specified on the command line, these files fall back to their defaults:
 
-| Argument Name       | Default Filename           | Description                                   |
-|---------------------|----------------------------|-----------------------------------------------|
-| `BASE_FILE`         | `base.gms`                 | Base GAMS file, included only if not restarting |
-| `REPORT_FILE`       | `generate_report.gms`      | Report generation script                      |
-| `READER_FILE`       | `input_readers.gms`        | Input reading script                          |
-| `VERIFICATION_FILE` | `input_verification.gms`   | Input verification script                     |
-| `TREATMENT_FILE`    | `input_treatment.gms`      | Input treatment/preprocessing script          |
-| `DEMAND_FILE`       | `generate_demand.gms`      | Demand generation script                       |
-| `TRACE`       | 0      | Detailed log when reading inputs                       |
-
----
-
-## Important Notes
-
-- The `%FOLDER_INPUT%` argument **must always be defined** when running the model, as it points to the folder containing input `.csv` files.
-- The `BASE_FILE` is included only if no restart flag (`gams.restart`) is set, meaning a fresh run.
-- The system logs which files are used for each argument, helping with debugging.
-- You can override any of these files by specifying them explicitly as command-line arguments prefixed with `--`.
-
----
-
-Example command-line arguments in GAMS Studio task bar:
-```
-–FOLDER_INPUT epm/input/data_sapp/ –BASE_FILE base_v2.gms –REPORT_FILE generate_report_v2.gms
-```
+| Argument | Default | Description |
+|---|---|---|
+| `BASE_FILE` | `base.gms` | Core model file (included only on fresh runs) |
+| `REPORT_FILE` | `generate_report.gms` | Report generation script |
+| `READER_FILE` | `input_readers.gms` | Input reading script |
+| `VERIFICATION_FILE` | `input_verification.gms` | Input verification script |
+| `TREATMENT_FILE` | `input_treatment.gms` | Input preprocessing script |
+| `DEMAND_FILE` | `generate_demand.gms` | Demand generation script |
+| `TRACE` | `0` | Set to `1` for detailed input reading logs |

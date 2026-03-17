@@ -1,90 +1,57 @@
-# Threading and Parallelism in EPM
+# Performance & Threads
+
+EPM can run multiple scenarios in parallel using the `--cpu` flag. This page explains how to size that correctly for your machine.
 
 ---
 
-## Understanding CPU, Core, Thread, and vCPU
+## Key concepts
 
-Efficient use of computing resources requires clarity on how modern processors are structured and virtualized:
+| Term | What it means |
+|---|---|
+| **Core** | A physical compute unit on the CPU |
+| **Thread** | A stream of execution; with hyperthreading, one core handles 2 threads |
+| **vCPU** | In cloud/VM environments, one vCPU ≈ one thread |
 
-- **CPU (Central Processing Unit):** The physical processor. A system may have one or more CPUs.
-- **Core:** A processing unit within a CPU that executes instructions. Modern CPUs typically have multiple cores.
-- **Thread:** A stream of execution handled by a core. With hyperthreading, one core can manage multiple threads (usually 2).
-- **vCPU (Virtual CPU):** In virtualized/cloud environments, a vCPU typically maps to a single thread. It represents the smallest unit of compute allocated to a process.
-
-| Term      | Description                        | Relation to Others                 |
-|-----------|------------------------------------|------------------------------------|
-| **CPU**   | Physical chip                       | Contains multiple **cores**        |
-| **Core**  | Independent compute unit            | Can run 1–2 **threads**            |
-| **Thread**| Stream of execution                 | Mapped to a **vCPU**               |
-| **vCPU**  | Virtualized thread in the cloud     | ≈ 1 **thread** (part of a **core**) |
-
-**Note:** A vCPU does not represent a full physical core. When a cloud provider offers "4 vCPUs", this usually means access to 4 hardware threads — not 4 full cores — and therefore you can run 4 parallel tasks, assuming no other bottlenecks.
+> A machine with "8 vCPUs" can run 8 parallel tasks, but memory is usually the real bottleneck.
 
 ---
 
-## Framework to Define the Right Simulation Setup
+## How to size your parallel runs
 
-Performance is often limited more by **available memory** than by CPU speed. Follow this step-by-step method to size your simulations appropriately:
+The limiting factor is almost always **RAM**, not CPU.
 
-### 1. Determine Available Memory
+**Step 1:Check available RAM**
+Note your total system memory (e.g. 128 GB).
 
-Start with the total available RAM on your server or VM.
+**Step 2:Measure memory per simulation**
+Run one scenario and check the `.lst` file or GAMS Studio console for `ProcTreeMemMonitor` → `VSS` (Virtual Set Size). This is the peak memory footprint per run.
 
-> **Example**:  
-> For the World Bank Planning Team server:  
-> **Available RAM**: 128 GB
+**Step 3:Calculate max parallel jobs**
 
-### 2. Check CPU and Core Information
-
-Identify how many physical CPUs and cores you have.
-
-> **Example**:  
-> 1 physical CPU with **4 cores**, each supporting **2 threads**  
-> → Total: **8 threads**, **8 vCPUs**
-
-### 3. Estimate Memory Usage per Simulation
-
-Run one standard model and monitor its peak memory usage using **GAMS Studio**:
-
-- Open the `.lst` file or console output.
-- Look for the **`ProcTreeMemMonitor`** entry.
-- Use the **`VSS` (Virtual Set Size)** value — this is the total memory footprint.
-
-> **Example**:  
-> A typical simulation uses **32 GB RAM** (VSS value).
-
-### 4. Calculate Max Parallel Jobs Based on Memory
-
-Divide available RAM by the estimated memory per job:
-
-```math
-Max Parallel Simulations = Total RAM / Memory per Simulation
+```
+Max parallel jobs = Total RAM / Memory per simulation
 ```
 
-> **Example**:  
-> 128 GB / 32 GB = **4 parallel simulations**
+**Step 4:Set threads per simulation**
 
-### 5. Set Number of Threads per Simulation
-
-Each simulation can then use a subset of threads, depending on your compute layout:
-
-- If your machine has 8 threads total and you run 4 simulations:
-- Each simulation can use up to **2 threads**
-
-You control this in GAMS using the CPLEX thread option:
-```gams
-option threads = 2;
 ```
+Threads per simulation = Total threads / Max parallel jobs
+```
+
+Set this in your CPLEX option file: `threads = <value>` (see [Solver Options](options_solver.md)).
 
 ---
 
-### Example Setup Summary
+## Example
 
-| Parameter              | Value          |
-|------------------------|----------------|
-| Total RAM              | 128 GB         |
-| Per-job RAM usage      | 32 GB          |
-| Max parallel jobs      | 4              |
-| Total threads available| 8              |
-| Threads per simulation | 2              |
-| Cores used             | 4              |
+| Parameter | Value |
+|---|---|
+| Total RAM | 128 GB |
+| Memory per simulation (VSS) | 32 GB |
+| Max parallel jobs (`--cpu`) | 4 |
+| Total threads | 8 |
+| Threads per simulation (`threads`) | 2 |
+
+```sh
+python epm.py --folder_input my_country --config config.csv --scenarios --cpu 4
+```

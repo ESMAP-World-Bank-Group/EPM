@@ -1,56 +1,36 @@
-## About EPM
+# What is EPM?
 
-EPM (Electricity Planning Model) is a **least-cost power system planning tool**. EPM has been developed by the Power Systems Planning Group, embedded in the **Energy Sector Management Assistance Program (ESMAP) of the World Bank**. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank's staff and clients and to be an evolving and versatile decision-making tool. 
+## Context
 
-EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via csv files to the model and likewise, the results are collected in csv files. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
+The **Energy Sector Management Assistance Program (ESMAP)** is the World Bank's global energy advisory program. It supports governments and utilities in over 100 countries in planning sustainable, reliable, and affordable power systems.
 
-In short, EPM **minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements**. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed Operation and Maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
-
-The practical deployment of EPM consists of a 7-step process, which is illustrated below.
-
-<img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
+Power sector planning sits at the core of ESMAP's mandate: investment decisions made today lock in decades of infrastructure. To standardize and scale this analytical work across the World Bank's portfolio, ESMAP's Power Systems Planning team developed the **Electricity Planning Model** (EPM), first deployed in 2016.
 
 ---
 
-## Works deploying EPM
+## What EPM does
 
-- Suski, A., Remy, T., Chattopadhyay, D., Song, C. S., Jaques, I., Keskes, T., & Li, Y. (2021). Analyzing Electric Vehicle Load Impact on Power Systems: Modeling Analysis and a Case Study for Maldives. IEEE Access, 9, 125640-125657.
-- World Bank. 2021. The Value of Trade and Regional Investments in The Pan-Arab Electricity Market : Integrating Power Systems and Building Economies. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/36614
-- Timilsina, Govinda; Deluque Curiel, Ilka; Chattopadhyay, Deb. 2021. How Much Does Latin America Gain from Enhanced Cross-Border Electricity Trade in the Short Run?. Policy Research Working Paper;No. 9692. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/35729
-- Huang, Z., Smolenova, I., Chattopadhyay, D., Govindarajalu, C., De Wit, J., Remy, T., & Curiel, I. D. (2021). ACT on RE+ FLEX: Accelerating Coal Transition Through Repurposing Coal Plants Into Renewable and Flexibility Centers. IEEE Access, 9, 84811-84827.
-- Chattopadhyay, D., Chitkara, P., Curiel, I. D., & Draugelis, G. (2020). Cross-Border Interconnectors in South Asia: Market-Oriented Dispatch and Planning. IEEE Access, 8, 120361-120374.
-- Remy, T., & Chattopadhyay, D. (2020). Promoting better economics, renewables and CO2 reduction through trade: A case study for the Eastern Africa Power Pool. Energy for Sustainable Development, 57, 81-97.
-- Islam, M. E., Khan, M. M. Z., Chattopadhyay, D., & Väyrynen, J. (2021). Impact of COVID-19 on dispatch and capacity plan: A case study for Bangladesh. The Electricity Journal, 34(5), 106955.
-- Islam, M. E., Khan, M. M. Z., Chattopadhyay, D., & Draugelis, G. (2020, August). Economic benefits of cross border power trading: A case study for Bangladesh. In 2020 IEEE Power & Energy Society General Meeting (PESGM) (pp. 1-5). IEEE.
-- Spyrou, E., Hobbs, B. F., Bazilian, M. D., & Chattopadhyay, D. (2019). Planning power systems in fragile and conflict-affected states. Nature energy, 4(4), 300-310.
-- World Bank Group. Poland Energy Transition: The Path to Sustainability in the Electricity and Heating Sector. World Bank, 2018.
+EPM **minimizes the total cost of expanding and operating a power system** over a multi-year horizon, while meeting all technical, economic, and environmental requirements.
+
+It answers questions like:
+
+- How much new capacity is needed, and which technologies?
+- What generation mix minimizes costs while meeting renewable targets?
+- What is the economic value of regional interconnection?
+- How should a carbon price or emissions cap shape the investment plan?
+
+Concretely, EPM handles:
+
+| Capability | Description |
+|---|---|
+| **Capacity expansion** | Least-cost investment plans across multiple years and zones |
+| **Dispatch optimization** | Co-optimizes generation, spinning reserves, and cross-border trade |
+| **Policy testing** | Emissions caps, carbon prices, renewable targets, fuel and import limits |
+| **Scenario analysis** | Run hundreds of scenarios in parallel, with built-in uncertainty quantification |
+| **Multi-zone modeling** | Supports interconnected regions with transmission constraints |
 
 ---
 
-## Archive 
+## History & versions
 
-The EPM Zenodo archive contains the previous versions of the model, which are no longer actively maintained. The archive is available at <https://zenodo.org/communities/esmap-epm>.
-
----
-
-## Citing EPM
-
-Please cite EPM as:
-
-Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Planning Model (EPM) Mathematical Formulation, 2018, Energy Sector Management Assistance Program (ESMAP), International Bank for Reconstruction and Development, The World Bank, Washington DC
-
-```bibtex
-@article{
-  author = {Chattopadhyay, Debabrata and De Sisternes, Fernando and Oguah, Samuel Kofi Wilson},
-  title = {World Bank Electricity Planning Model (EPM) Mathematical Formulation},
-  year = {2018},
-  institution = {Energy Sector Management Assistance Program (ESMAP), International Bank for Reconstruction and Development, The World Bank},
-  address = {Washington DC}
-}
-```
-
-## License
-
-Licensed under the Areative Commons Zero v1.0 Universal (the "License"); you
-may not use this file except in compliance with the License. You may
-obtain a copy of the License at <https://creativecommons.org/publicdomain/zero/1.0/>
+EPM was first deployed in 2016 and has evolved through several major versions, expanding from single-zone dispatch to full multi-zone capacity expansion with reserves, interconnection, and stochastic scenario support. Previous versions are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
