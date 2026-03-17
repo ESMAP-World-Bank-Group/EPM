@@ -722,56 +722,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-clone-the-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Clone the repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-set-up-the-python-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Set up the Python environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-verify-the-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Verify the installation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1946,56 +1896,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-clone-the-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Clone the repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-set-up-the-python-environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Set up the Python environment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-verify-the-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Verify the installation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -2053,75 +1953,80 @@ Contact your institution or the World Bank team for a license.</p>
 <p class="admonition-title">Beta — under development</p>
 <p>The Windows installer is in beta and under development. If you encounter issues, you can try using the <strong>Manual Setup</strong> tab or report them via the <a href="../../contributing/contributing_issues/">Contributing</a> page.</p>
 </div>
-<p><a class="md-button md-button--primary" href="https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe">Download EPM_Setup.exe</a></p>
-<p><strong>What to expect step by step:</strong></p>
-<ol>
-<li><strong>Double-click</strong> <code>EPM_Setup.exe</code> — a black terminal window opens</li>
-<li><strong>Enter an install folder</strong> when prompted (or press Enter to use the default <code>C:\Users\you\EPM</code>)</li>
-<li><strong>Wait</strong> — the installer will clone the repository and set up the Python environment. This can take several minutes depending on your internet connection</li>
-<li>Once complete, you will see <strong>"Installation complete!"</strong></li>
-</ol>
-<p><strong>After installation:</strong></p>
-<ul>
-<li>EPM is available in the folder you chose</li>
-<li>A shortcut <strong>"Launch EPM Dashboard"</strong> has been created on your Desktop — double-click it to start</li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">GAMS required</p>
-<p>GAMS must be installed separately with a valid license before running the model.
-The installer will warn you if GAMS is not detected on your machine.</p>
-</div>
-</div>
-<div class="tabbed-block">
-<h3 id="1-install-prerequisites">1. Install prerequisites<a class="headerlink" href="#1-install-prerequisites" title="Permanent link">&para;</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Git</label><label for="__tabbed_2_2">Python &amp; Conda</label><label for="__tabbed_2_3">Code Editor (optional)</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>Git is used to download and update the EPM code.</p>
-<ul>
-<li><strong>Windows</strong>: <a href="https://git-scm.com/download/win">Download Git for Windows</a>, with default settings</li>
-<li><strong>macOS</strong>: <a href="https://sourceforge.net/projects/git-osx-installer/">Download Git for macOS</a></li>
-</ul>
-<p>Verify: <code>git --version</code></p>
-</div>
-<div class="tabbed-block">
-<p>Required to use the Python interface (scenarios, Monte Carlo, automation).</p>
-<p><a href="https://docs.conda.io/en/latest/miniconda.html">Download Miniconda</a> for all platforms.</p>
-<p>Verify: <code>python --version</code> and <code>conda --version</code></p>
+<p><a class="md-button md-button--primary" href="https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe">Download epm.exe</a></p>
+<p><small></p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Double-click <code>EPM_Setup.exe</code></td>
+<td>A terminal window opens</td>
+</tr>
+<tr>
+<td>2. Enter an install folder</td>
+<td>Or press Enter for default: <code>C:\Users\you\EPM</code></td>
+</tr>
+<tr>
+<td>3. Wait</td>
+<td>Repository clone + Python environment setup (a few minutes)</td>
+</tr>
+<tr>
+<td>4. Done</td>
+<td>You see <strong>"Installation complete!"</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>After installation:</strong> EPM is in the folder you chose, and a <strong>"Launch EPM Dashboard"</strong> shortcut is on your Desktop.</p>
+<p><strong>GAMS:</strong> must be installed separately with a valid license — the installer will warn you if not detected.</p>
+<p></small></p>
 </div>
 <div class="tabbed-block">
-<p>Useful for editing input files and navigating the codebase.</p>
-<ul>
-<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> (recommended)</li>
-<li><a href="https://www.jetbrains.com/pycharm/">PyCharm</a></li>
-</ul>
-</div>
-</div>
-</div>
-<h3 id="2-clone-the-repository">2. Clone the repository<a class="headerlink" href="#2-clone-the-repository" title="Permanent link">&para;</a></h3>
+<p><small></p>
+<p><strong>1. Prerequisites</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Install</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git</td>
+<td><a href="https://git-scm.com/download/win">Windows</a> · <a href="https://sourceforge.net/projects/git-osx-installer/">macOS</a></td>
+</tr>
+<tr>
+<td>Python &amp; Conda</td>
+<td><a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> (all platforms)</td>
+</tr>
+<tr>
+<td>Code editor <em>(optional)</em></td>
+<td><a href="https://code.visualstudio.com/">VS Code</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. Clone the repository</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>EPM
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>my_country_2025
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>my_country_2025
 </code></pre></div>
-<p>Create your own working branch (replace <code>my_country_2025</code> with your project name):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>my_country_2025
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>my_country_2025
+<p><strong>3. Set up the Python environment</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>epm_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </code></pre></div>
-<h3 id="3-set-up-the-python-environment">3. Set up the Python environment<a class="headerlink" href="#3-set-up-the-python-environment" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>epm_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Windows + Monte Carlo</p>
-<p>If you plan to run Monte Carlo analysis on Windows, first install <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">C++ Build Tools</a>, then:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">chaospy</span><span class="o">==</span><span class="m">4</span>.3.18
-</code></pre></div></p>
-</div>
-<h3 id="4-verify-the-installation">4. Verify the installation<a class="headerlink" href="#4-verify-the-installation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd</span><span class="w"> </span>epm
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--simple
+<p><strong>4. Verify</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>epm
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--simple
 </code></pre></div>
 <p>Results written to <code>output/</code>. If something fails, see <a href="../run_debugging/">Debugging</a>.</p>
+<p></small></p>
 </div>
 </div>
 </div>
