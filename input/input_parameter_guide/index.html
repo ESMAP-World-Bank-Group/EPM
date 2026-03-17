@@ -1,0 +1,2627 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Least-cost capacity expansion and dispatch model for power system planning">
+      
+      
+        <meta name="author" content="ESMAP — World Bank">
+      
+      
+      
+        <link rel="prev" href="../input_setup/">
+      
+      
+        <link rel="next" href="../input_detailed/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/favicon.webp">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Typical Values - EPM — Electricity Planning Model</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#typical-values" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-header__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EPM — Electricity Planning Model
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Typical Values
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../introduction/introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../run/run_installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Installation & Run
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model/model_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Model
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../input_setup/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Input
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../output/output_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Output
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing_issues/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../preprocessing/pre_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-nav__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    EPM — Electricity Planning Model
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Introduction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is EPM?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_case_studies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EPM in Practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How EPM Works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Run
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installation & Run
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_gams_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from GAMS Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_remote_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run on Remote Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dispatch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatch Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solver Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_thread/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance & Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debugging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_objective/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objective Function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_representative_days/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Time Representation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Input
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Values
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Values
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#st-steam-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ST — Steam Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocgt-open-cycle-gas-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OCGT — Open Cycle Gas Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccgt-combined-cycle-gas-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCGT — Combined Cycle Gas Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ice-internal-combustion-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ICE — Internal Combustion Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reservoir-hydro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reservoir Hydro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ror-run-of-river-hydro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROR — Run-of-River Hydro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nuclear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nuclear
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geothermal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geothermal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biomass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biomass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pv-photovoltaics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PV — Photovoltaics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wind-onshore-and-offshore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wind — Onshore and Offshore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#battery-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Battery Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pumped-hydro-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pumped Hydro Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuel-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fuel Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuel-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuel-price-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Price Methodology
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-prices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Prices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_detailed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_open_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open Data Sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Output
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Involved
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/other_process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/interconnection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmission Costing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technology-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technology Parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Technology Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#st-steam-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ST — Steam Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocgt-open-cycle-gas-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OCGT — Open Cycle Gas Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccgt-combined-cycle-gas-turbine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCGT — Combined Cycle Gas Turbine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ice-internal-combustion-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ICE — Internal Combustion Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reservoir-hydro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reservoir Hydro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ror-run-of-river-hydro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROR — Run-of-River Hydro
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nuclear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nuclear
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geothermal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geothermal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biomass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Biomass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pv-photovoltaics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PV — Photovoltaics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wind-onshore-and-offshore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Wind — Onshore and Offshore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#battery-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Battery Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pumped-hydro-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pumped Hydro Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuel-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Parameters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fuel Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuel-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuel-price-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Price Methodology
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-prices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Prices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="typical-values">Typical Values<a class="headerlink" href="#typical-values" title="Permanent link">&para;</a></h1>
+<p>Reference values for technology and fuel parameters. For open data sources to populate these inputs, see <a href="../input_open_data/">Open Data Sources</a>.</p>
+<hr />
+<h2 id="technology-parameters">Technology Parameters<a class="headerlink" href="#technology-parameters" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Default values — CCDR methodology</p>
+<p>The values below are drawn from the CCDR (Country Climate and Development Report) methodology. A <a href="dwld/pGenDataInputDefault_CCDR.csv">template file</a> and the full <a href="../../dwld/CCDR_Methodology_Note.pdf">CCDR EEX Methodology Note</a> are available for reference.</p>
+<p>Work is ongoing to cross-validate and enrich these defaults against open datasets (IRENA, IEA, NREL ATB). See <a href="../input_open_data/">Open Data Sources</a> for relevant resources.</p>
+</div>
+<div class="scrollable-table">
+  <table class="tech-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Technology</th>
+        <th rowspan="2">Fuel</th>
+        <th colspan="2">Min. Generation (%)</th>
+        <th colspan="2">Heat Rate (MMBtu/MWh)</th>
+        <th colspan="2">Ramp-up Rate</th>
+        <th colspan="2">Ramp-down Rate</th>
+        <th colspan="2">Max. Reserve (%)</th>
+        <th colspan="2">Fixed O&M ($/MW/yr)</th>
+        <th colspan="2">Variable O&M ($/MWh)</th>
+        <th colspan="2">Capex (M$/MW)</th>
+        <th rowspan="2">Lifetime</th>
+        <th rowspan="2">Round-trip Eff.</th>
+      </tr>
+      <tr>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+        <th>Range</th><th>Std.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ST</td><td>Coal</td><td>25–40%</td><td>30%</td><td>7.7–9.4</td><td>8.5</td><td>30–100%</td><td>50%</td><td>30–100%</td><td>50%</td><td>0%</td><td>0%</td><td>30k–90k</td><td>60k</td><td>1.0–5.0</td><td>3</td><td>1.4–2.6</td><td>2</td><td>30</td><td>—</td></tr>
+      <tr><td>ST</td><td>Lignite</td><td>50–60%</td><td>55%</td><td>9.5–11.0</td><td>10.3</td><td>30–100%</td><td>50%</td><td>30–100%</td><td>50%</td><td>0%</td><td>0%</td><td>30k–90k</td><td>60k</td><td>1.0–5.0</td><td>3</td><td>1.4–2.6</td><td>2</td><td>30</td><td>—</td></tr>
+      <tr><td>OCGT</td><td>Gas</td><td>0%</td><td>0%</td><td>7.7–10.4</td><td>9</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>10–20%</td><td>20%</td><td>10k–30k</td><td>20k</td><td>3.0–5.0</td><td>4</td><td>0.56–1.04</td><td>0.8</td><td>30</td><td>—</td></tr>
+      <tr><td>OCGT</td><td>HFO</td><td>0%</td><td>0%</td><td>8.4–11.4</td><td>9.9</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>10–20%</td><td>20%</td><td>10k–30k</td><td>20k</td><td>3.3–5.5</td><td>4.4</td><td>0.56–1.04</td><td>0.8</td><td>30</td><td>—</td></tr>
+      <tr><td>OCGT</td><td>Diesel</td><td>0%</td><td>0%</td><td>8.4–11.4</td><td>9.9</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>10–20%</td><td>20%</td><td>10k–30k</td><td>20k</td><td>3.3–5.5</td><td>4.4</td><td>0.56–1.04</td><td>0.8</td><td>30</td><td>—</td></tr>
+      <tr><td>CCGT</td><td>Gas</td><td>40–50%</td><td>45%</td><td>5.1–7.7</td><td>6.4</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>3–6%</td><td>5%</td><td>15k–45k</td><td>30k</td><td>1.0–3.0</td><td>2</td><td>0.63–1.17</td><td>0.9</td><td>30</td><td>—</td></tr>
+      <tr><td>Reservoir Hydro</td><td>Water</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>5–50%</td><td>45%</td><td>25k–75k</td><td>50k</td><td>0.0–1.0</td><td>0.5</td><td>1.5–5.0</td><td>3.3</td><td>50</td><td>—</td></tr>
+      <tr><td>ROR</td><td>Water</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>5–50%</td><td>40%</td><td>20k–60k</td><td>40k</td><td>0.0–1.0</td><td>0.5</td><td>1.5–4.0</td><td>2.8</td><td>50</td><td>—</td></tr>
+      <tr><td>PV</td><td>Solar</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0%</td><td>0%</td><td>10k–20k</td><td>15k</td><td>0</td><td>0</td><td>0.6–1.2</td><td>0.8</td><td>25</td><td>—</td></tr>
+      <tr><td>Wind Onshore</td><td>Wind</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0%</td><td>0%</td><td>20k–60k</td><td>40k</td><td>0</td><td>0</td><td>1.0–3.0</td><td>1.3</td><td>30</td><td>—</td></tr>
+      <tr><td>Wind Offshore</td><td>Wind</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0%</td><td>0%</td><td>40k–100k</td><td>70k</td><td>0</td><td>0</td><td>2.0–4.1</td><td>3</td><td>30</td><td>—</td></tr>
+      <tr><td>Biomass</td><td>Biomass</td><td>0%</td><td>0%</td><td>10.0–15.0</td><td>12.5</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>3–6%</td><td>5%</td><td>50k–150k</td><td>100k</td><td>1.3–3.8</td><td>2.5</td><td>1.0–3.0</td><td>2</td><td>30</td><td>—</td></tr>
+      <tr><td>Geothermal</td><td>Geothermal</td><td>—</td><td>—</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>50k–150k</td><td>100k</td><td>0</td><td>0</td><td>2.0–5.0</td><td>3.5</td><td>30</td><td>—</td></tr>
+      <tr><td>Nuclear</td><td>Uranium</td><td>50–100%</td><td>75%</td><td>10.0–15.0</td><td>12.5</td><td>10–20%</td><td>15%</td><td>10–20%</td><td>15%</td><td>0%</td><td>0%</td><td>100k–200k</td><td>150k</td><td>2.1–4.9</td><td>3.5</td><td>2.8–6.5</td><td>4</td><td>50</td><td>—</td></tr>
+      <tr><td>Battery</td><td>Battery</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>30–75%</td><td>50%</td><td>20k–60k</td><td>40k</td><td>0</td><td>0</td><td>0.20–0.40</td><td>0.3</td><td>20</td><td>85%</td></tr>
+      <tr><td>Pumped Hydro</td><td>Pumped Hydro</td><td>0%</td><td>0%</td><td>—</td><td>—</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>50–100%</td><td>75%</td><td>25k–75k</td><td>50k</td><td>0.0–1.0</td><td>0.5</td><td>0.70–5.0</td><td>2.9</td><td>50</td><td>80%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 id="st-steam-turbine">ST — Steam Turbine<a class="headerlink" href="#st-steam-turbine" title="Permanent link">&para;</a></h3>
+<p>Uses external combustion to heat water into steam (Rankine cycle). Less flexible, suited for base-load operation.</p>
+<p><strong>Compatible fuels:</strong> Coal, lignite, biomass.</p>
+<p>High minimum generation (30–60%) due to thermal inertia of the boiler. Ramp rates are modest, heat rates moderate to high. Capital costs are high; lifetimes often exceed 40 years.</p>
+<hr />
+<h3 id="ocgt-open-cycle-gas-turbine">OCGT — Open Cycle Gas Turbine<a class="headerlink" href="#ocgt-open-cycle-gas-turbine" title="Permanent link">&para;</a></h3>
+<p>Simple gas turbine (Brayton cycle) with no heat recovery. Valued for fast-start flexibility and reserve capability.</p>
+<p><strong>Compatible fuels:</strong> Natural gas, LNG, diesel, HFO.</p>
+<p>Near-zero minimum generation; can ramp fully within minutes. Heat rates are high (typically &gt;9 MMBtu/MWh). Capital costs are low, but O&amp;M is higher for liquid fuels (HFO requires pre-heating).</p>
+<hr />
+<h3 id="ccgt-combined-cycle-gas-turbine">CCGT — Combined Cycle Gas Turbine<a class="headerlink" href="#ccgt-combined-cycle-gas-turbine" title="Permanent link">&para;</a></h3>
+<p>Combines a gas turbine with a steam turbine that recovers exhaust heat, significantly improving efficiency.</p>
+<p><strong>Compatible fuels:</strong> Natural gas, LNG only (heat recovery system is incompatible with liquid fuels).</p>
+<p>Best efficiency among fossil technologies (~6.4 MMBtu/MWh). Moderate flexibility with ramp rates up to 100%/h in modern designs. Capital costs higher than OCGT due to the steam cycle.</p>
+<hr />
+<h3 id="ice-internal-combustion-engine">ICE — Internal Combustion Engine<a class="headerlink" href="#ice-internal-combustion-engine" title="Permanent link">&para;</a></h3>
+<p>Reciprocating engines installed as modular blocks. Common for decentralized peaking and grid support.</p>
+<p><strong>Compatible fuels:</strong> Diesel, HFO, natural gas, LNG, biogas.</p>
+<p>Excellent flexibility: very low minimum load per unit, fast start (minutes), frequent cycling. Heat rates ~8–9 MMBtu/MWh on gas. O&amp;M is higher for heavy fuels.</p>
+<hr />
+<h3 id="reservoir-hydro">Reservoir Hydro<a class="headerlink" href="#reservoir-hydro" title="Permanent link">&para;</a></h3>
+<p>Dispatchable hydro with upstream storage reservoir allowing control over water flow.</p>
+<p>Highly flexible — can ramp within seconds to minutes. In EPM, dispatch is optimized seasonally, with capacity factors constraining total energy per season. Lifetimes exceed 50 years; O&amp;M is low.</p>
+<hr />
+<h3 id="ror-run-of-river-hydro">ROR — Run-of-River Hydro<a class="headerlink" href="#ror-run-of-river-hydro" title="Permanent link">&para;</a></h3>
+<p>Hydro plant without significant storage. Generation follows river flow with minimal control.</p>
+<p>Non-dispatchable and cannot provide reserves. Treated as a renewable variable source in EPM. Lower capital cost than reservoir hydro; long lifetime.</p>
+<hr />
+<h3 id="nuclear">Nuclear<a class="headerlink" href="#nuclear" title="Permanent link">&para;</a></h3>
+<p>Uses nuclear fission to generate steam. Operated for steady base-load.</p>
+<p>High minimum generation (&gt;75%) and slow ramp rates due to thermal and safety constraints. Very high capital costs, low variable O&amp;M. Lifetimes can exceed 60 years.</p>
+<hr />
+<h3 id="geothermal">Geothermal<a class="headerlink" href="#geothermal" title="Permanent link">&para;</a></h3>
+<p>Converts underground heat into electricity via flash or binary cycle systems.</p>
+<p>Base-load operation only; output modulation is limited to avoid reservoir stress. High capital costs (drilling-intensive); moderate O&M; geographically constrained.</p>
+<hr />
+<h3 id="biomass">Biomass<a class="headerlink" href="#biomass" title="Permanent link">&para;</a></h3>
+<p>Burns organic materials through a steam turbine. Renewable if sustainably sourced.</p>
+<p>Behaves similarly to coal-fired ST: high minimum generation, limited ramping. Fuel supply logistics are a critical planning factor.</p>
+<hr />
+<h3 id="pv-photovoltaics">PV — Photovoltaics<a class="headerlink" href="#pv-photovoltaics" title="Permanent link">&para;</a></h3>
+<p>Converts solar irradiance directly into electricity. Variable and non-dispatchable.</p>
+<p>Zero minimum generation; output follows solar angle and cloud cover. Cannot provide reserves unless paired with storage. Costs have declined sharply; typical asset life 25–30 years.</p>
+<hr />
+<h3 id="wind-onshore-and-offshore">Wind — Onshore and Offshore<a class="headerlink" href="#wind-onshore-and-offshore" title="Permanent link">&para;</a></h3>
+<p>Converts wind kinetic energy into electricity. Variable and weather-dependent.</p>
+<p>Zero minimum generation; ramping follows wind conditions, not system needs. Offshore wind offers higher capacity factors at higher capital and O&amp;M cost.</p>
+<hr />
+<h3 id="battery-storage">Battery Storage<a class="headerlink" href="#battery-storage" title="Permanent link">&para;</a></h3>
+<p>Electrochemical storage (typically lithium-ion). Ideal for short-duration flexibility.</p>
+<p>Near-instantaneous ramp response; round-trip efficiency ~85–90%. Duration limited to a few hours. Declining capital costs; lifespan 10–15 years depending on cycling patterns.</p>
+<hr />
+<h3 id="pumped-hydro-storage">Pumped Hydro Storage<a class="headerlink" href="#pumped-hydro-storage" title="Permanent link">&para;</a></h3>
+<p>Large-scale mechanical storage: pump water uphill when surplus power is available, generate when needed.</p>
+<p>Full modulation capability with fast ramp. Round-trip efficiency 75–80%. Very high capital cost due to civil infrastructure; lifetimes exceed 50 years.</p>
+<hr />
+<h2 id="fuel-parameters">Fuel Parameters<a class="headerlink" href="#fuel-parameters" title="Permanent link">&para;</a></h2>
+<h3 id="fuel-types">Fuel Types<a class="headerlink" href="#fuel-types" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Fuel</th>
+<th>Energy Content</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Coal</strong></td>
+<td>20–28 MJ/kg</td>
+<td>Solid, abundant, carbon-intensive</td>
+</tr>
+<tr>
+<td><strong>Natural Gas</strong></td>
+<td>38–42 MJ/m³</td>
+<td>Cleanest fossil fuel; requires pipeline or LNG infra</td>
+</tr>
+<tr>
+<td><strong>LNG</strong></td>
+<td>~50 MJ/kg</td>
+<td>Natural gas liquefied at −162°C for transport; regasified before use</td>
+</tr>
+<tr>
+<td><strong>HFO</strong></td>
+<td>~40 MJ/kg</td>
+<td>Refinery residual; requires pre-heating; high emissions</td>
+</tr>
+<tr>
+<td><strong>LFO</strong></td>
+<td>~42 MJ/kg</td>
+<td>Lighter, cleaner than HFO; used in medium-scale generators</td>
+</tr>
+<tr>
+<td><strong>Diesel</strong></td>
+<td>~43 MJ/kg</td>
+<td>High-quality distillate; fast-start; most expensive liquid fuel</td>
+</tr>
+<tr>
+<td><strong>Biomass</strong></td>
+<td>15–20 MJ/kg</td>
+<td>Renewable if sustainably sourced; lower energy density</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fuel-price-methodology">Fuel Price Methodology<a class="headerlink" href="#fuel-price-methodology" title="Permanent link">&para;</a></h3>
+<p>EPM uses delivered fuel prices in <strong>USD/MMBtu</strong>. For both importing and exporting countries, the international benchmark is used — as the actual purchase cost or the opportunity cost of export, respectively.</p>
+<p><strong>Steps to estimate delivered price:</strong></p>
+<ol>
+<li>Start with an international benchmark (World Bank Pink Sheet, IEA, TradingEconomics)</li>
+<li>Add transport and delivery: +1–3 USD/MMBtu for LNG shipping/regasification, +1–2 USD/MMBtu for local distribution</li>
+<li>Include taxes, duties, or subsidies where applicable</li>
+<li>Convert to USD/MMBtu: <code>1 MMBtu ≈ 293 kWh</code>, so <code>1 USD/MMBtu ≈ 3.4 USD/MWh</code></li>
+</ol>
+<h3 id="reference-prices">Reference Prices<a class="headerlink" href="#reference-prices" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Fuel</th>
+<th>Typical Source</th>
+<th style="text-align: right;">Price (USD/MMBtu)</th>
+<th style="text-align: right;">Equivalent (USD/MWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coal</td>
+<td>World Bank Pink Sheet (Australia thermal)</td>
+<td style="text-align: right;">3–4</td>
+<td style="text-align: right;">10–14</td>
+</tr>
+<tr>
+<td>Natural Gas</td>
+<td>Henry Hub / TTF / JKM</td>
+<td style="text-align: right;">6–10</td>
+<td style="text-align: right;">20–34</td>
+</tr>
+<tr>
+<td>LNG</td>
+<td>IEA or JKM index</td>
+<td style="text-align: right;">9–12</td>
+<td style="text-align: right;">31–41</td>
+</tr>
+<tr>
+<td>HFO</td>
+<td>IEA Oil Market Report</td>
+<td style="text-align: right;">12–16</td>
+<td style="text-align: right;">41–55</td>
+</tr>
+<tr>
+<td>LFO</td>
+<td>IEA or national market</td>
+<td style="text-align: right;">14–18</td>
+<td style="text-align: right;">48–61</td>
+</tr>
+<tr>
+<td>Diesel</td>
+<td>TradingEconomics, local prices</td>
+<td style="text-align: right;">18–22</td>
+<td style="text-align: right;">61–75</td>
+</tr>
+<tr>
+<td>Biomass</td>
+<td>IRENA, FAO, or local sources</td>
+<td style="text-align: right;">3–5</td>
+<td style="text-align: right;">10–17</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Indicative mid-range 2026 values. Adjust for inflation, country context, and long-term escalation factors (IEA or World Bank forecasts).</p>
+</blockquote>
+<hr />
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../input_open_data/">Open Data Sources</a> — where to find technology costs, demand forecasts, and fuel prices</li>
+<li><a href="../../preprocessing/pre_overview/">Data Preparation</a> — pre-analysis workflows for building VRE profiles, demand profiles, and hydro availability from open datasets</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      All content is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>. &nbsp;&nbsp;|&nbsp;&nbsp; Contact: <a href="mailto:cnicolas@worldbank.org">Claire Nicolas</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.collapse", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/header_logos.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

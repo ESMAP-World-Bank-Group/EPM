@@ -1,0 +1,3528 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Least-cost capacity expansion and dispatch model for power system planning">
+      
+      
+        <meta name="author" content="ESMAP — World Bank">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/favicon.webp">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Postprocessing with Python - EPM — Electricity Planning Model</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postprocessing-with-python" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-header__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EPM — Electricity Planning Model
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Postprocessing with Python
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../introduction/introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../run/run_installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Installation & Run
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model/model_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Model
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../input/input_setup/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Input
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../output/output_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Output
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing_issues/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../preprocessing/pre_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-nav__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    EPM — Electricity Planning Model
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Introduction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is EPM?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_case_studies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EPM in Practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How EPM Works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Run
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installation & Run
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_gams_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from GAMS Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_remote_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run on Remote Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dispatch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatch Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solver Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_thread/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance & Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debugging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_objective/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objective Function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_representative_days/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Time Representation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Input
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_parameter_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Values
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_detailed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_open_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open Data Sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Output
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Involved
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/other_process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/interconnection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmission Costing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-utils-package-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. utils package overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. utils package overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postrocessing-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Postrocessing &amp; plotting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3data-handling-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.Data handling functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.Data handling functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#read_plot_specs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        read_plot_specs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="read_plot_specs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_gdx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_gdx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="extract_gdx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extract_epm_folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        extract_epm_folder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="extract_epm_folder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standardize_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        standardize_names
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="standardize_names">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter_dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filter_dataframe
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="filter_dataframe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter_dataframe_by_index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        filter_dataframe_by_index
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="filter_dataframe_by_index">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_epm_inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_epm_inputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="process_epm_inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_epm_results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_epm_results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="process_epm_results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process_simulation_results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_simulation_results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="process_simulation_results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate_summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        generate_summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="generate_summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postprocess_output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        postprocess_output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="postprocess_output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4plotting-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.Plotting functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.Plotting functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#make_stacked_areaplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        make_stacked_areaplot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="make_stacked_areaplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bar_plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bar_plot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bar_plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#line_plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        line_plot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="line_plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch_plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dispatch_plot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dispatch_plot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make_fuel_dispatchplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        make_fuel_dispatchplot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="make_fuel_dispatchplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make_stacked_barplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        make_stacked_barplot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="make_stacked_barplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subplot_pie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        subplot_pie
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="subplot_pie">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make_capacity_mix_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        make_capacity_mix_map
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="make_capacity_mix_map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make_interconnection_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        make_interconnection_map
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="make_interconnection_map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_interactive_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_interactive_map
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_interactive_map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functionality_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functionality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="postprocessing-with-python">Postprocessing with Python<a class="headerlink" href="#postprocessing-with-python" title="Permanent link">&para;</a></h1>
+<p>This section describes the postprocessing with Python of the results of the simulation.
+It enables the user to quickly visualize the results and generate standardized figures with Jupyter notebooks.</p>
+<p>It is recommended for advanced users who want to customize the postprocessing and visualization of the results, and are comfortable with Python and Jupyter notebooks.</p>
+<h2 id="1-structure">1. Structure<a class="headerlink" href="#1-structure" title="Permanent link">&para;</a></h2>
+<p>The postprocessing is divided into two main parts:</p>
+<ul>
+<li><code>epm/postprocessing/utils.py</code>: Contains the functions to read the results and generate the figures.</li>
+<li>Jupyter notebooks to run the postprocessing. An example of the postprocessing is provided bellow. User need to adapt the code to their needs.</li>
+</ul>
+<hr />
+<h2 id="2-utils-package-overview">2. <code>utils</code> package overview<a class="headerlink" href="#2-utils-package-overview" title="Permanent link">&para;</a></h2>
+<h3 id="data-handling">Data Handling<a class="headerlink" href="#data-handling" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>read_plot_specs</code></strong>: Reads plot specifications (colors, fuel mappings, technology mappings, etc.).</li>
+<li><strong><code>extract_gdx</code></strong>: Extracts parameters and sets from a <code>.gdx</code> file into a dictionary of DataFrames.</li>
+<li><strong><code>extract_epm_folder</code></strong>: Extracts GDX results from multiple scenarios in a folder.</li>
+<li><strong><code>standardize_names</code></strong>: Standardizes fuel names in results using a predefined mapping.</li>
+<li><strong><code>filter_dataframe</code></strong>: Filters a DataFrame based on a dictionary of conditions.</li>
+<li><strong><code>filter_dataframe_by_index</code></strong>: Filters a DataFrame by conditions applied to the index levels.</li>
+<li><strong><code>process_epm_inputs</code></strong>: Processes EPM input files for plotting.</li>
+<li><strong><code>process_epm_results</code></strong>: Processes EPM output results for plotting.</li>
+<li><strong><code>process_simulation_results</code></strong>: Extracts and processes both inputs and outputs.</li>
+<li><strong><code>generate_summary</code></strong>: Generates a summary of key EPM results.</li>
+</ul>
+<h3 id="postrocessing-plotting">Postrocessing &amp; plotting<a class="headerlink" href="#postrocessing-plotting" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>postprocess_output</code></strong>: Processes simulation results, generates summaries, and creates visualizations.</li>
+<li><strong><code>make_stacked_areaplot</code></strong>: Creates a stacked area plot of generation by fuel type.</li>
+<li><strong><code>bar_plot</code></strong>: Creates a bar plot.</li>
+<li><strong><code>line_plot</code></strong>: Creates a line plot.</li>
+<li><strong><code>dispatch_plot)</code></strong>: Creates a dispatch plot with stacked areas and line plots.</li>
+<li><strong><code>make_fuel_dispatchplot</code></strong>: Generates and saves a complete fuel dispatch plot.</li>
+<li><strong><code>make_stacked_barplot</code></strong>: Creates stacked bar subplots for comparing capacity over time and across scenarios.</li>
+<li><strong><code>subplot_pie</code></strong>: Creates pie chart subplots.</li>
+<li><strong><code>make_capacity_mix_map</code></strong>: Creates a capacity mix map with pie charts overlaid on a regional map.</li>
+<li><strong><code>make_interconnection_map</code></strong>: Generates an interconnection map showing transmission capacities.</li>
+<li><strong><code>create_interactive_map</code></strong>: Generates an interactive Folium-based map for energy dispatch and capacity visualization.</li>
+</ul>
+<hr />
+<h2 id="3data-handling-functions">3.Data handling functions<a class="headerlink" href="#3data-handling-functions" title="Permanent link">&para;</a></h2>
+<hr />
+<h4 id="read_plot_specs"><code>read_plot_specs</code><a class="headerlink" href="#read_plot_specs" title="Permanent link">&para;</a></h4>
+<p><code>read_plot_specs(folder='')</code>
+Reads static plot specifications including color mappings, fuel mappings, and geographic data.</p>
+<h5 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>folder</code> (str, optional): Path to the directory containing static files.</li>
+</ul>
+<h5 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>dict_specs</code> (dict): A dictionary containing:</li>
+<li>Colors for fuels and technologies.</li>
+<li>Fuel and technology mappings.</li>
+<li>Geographic data for mapping.</li>
+</ul>
+<h5 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">specs</span> <span class="o">=</span> <span class="n">read_plot_specs</span><span class="p">(</span><span class="s1">&#39;static/&#39;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">])</span>  <span class="c1"># Displays color mapping for fuels</span>
+</code></pre></div>
+<hr />
+<h4 id="extract_gdx"><code>extract_gdx</code><a class="headerlink" href="#extract_gdx" title="Permanent link">&para;</a></h4>
+<p><code>extract_gdx(file)</code>
+Extracts parameters and sets from a <code>.gdx</code> file into a dictionary of DataFrames.</p>
+<h5 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>file</code> (str): Path to the <code>.gdx</code> file.</li>
+</ul>
+<h5 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_result</code> (dict): Dictionary where:</li>
+<li>Keys are parameter or set names from the GDX file.</li>
+<li>Values are Pandas DataFrames containing the extracted data.</li>
+</ul>
+<h5 id="example-usage_1">Example Usage<a class="headerlink" href="#example-usage_1" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">results</span> <span class="o">=</span> <span class="n">extract_gdx</span><span class="p">(</span><span class="s1">&#39;output/epmresults.gdx&#39;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># Displays the available parameters in the GDX file</span>
+</code></pre></div>
+<hr />
+<h4 id="extract_epm_folder"><code>extract_epm_folder</code><a class="headerlink" href="#extract_epm_folder" title="Permanent link">&para;</a></h4>
+<p><code>extract_epm_folder(results_folder, file='epmresults.gdx')</code>
+Extracts GDX results from multiple scenarios stored in a given folder.</p>
+<h5 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>results_folder</code> (str): Path to the folder containing scenario outputs.</li>
+<li><code>file</code> (str, optional, default=<code>'epmresults.gdx'</code>): Name of the <code>.gdx</code> file to extract.</li>
+</ul>
+<h5 id="returns_2">Returns<a class="headerlink" href="#returns_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>inverted_dict</code> (dict): Dictionary where:</li>
+<li>Keys are result categories (e.g., <code>pCapacityFuel</code>, <code>pEnergyFuel</code>).</li>
+<li>Values are Pandas DataFrames with extracted results across multiple scenarios.</li>
+</ul>
+<h5 id="example-usage_2">Example Usage<a class="headerlink" href="#example-usage_2" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">epm_results</span> <span class="o">=</span> <span class="n">extract_epm_folder</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityFuel&#39;</span><span class="p">])</span>  <span class="c1"># Displays capacity by fuel for all scenarios</span>
+</code></pre></div>
+<hr />
+<h4 id="standardize_names"><code>standardize_names</code><a class="headerlink" href="#standardize_names" title="Permanent link">&para;</a></h4>
+<p>Standardizes fuel or technology names in DataFrames using a predefined mapping.</p>
+<h5 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>dict_df</code> (dict): Dictionary of DataFrames containing EPM results.</li>
+<li><code>key</code> (str): Key corresponding to the DataFrame to modify.</li>
+<li><code>mapping</code> (dict): Dictionary mapping original names to standardized names.</li>
+<li><code>column</code> (str, optional, default=<code>'fuel'</code>): Column to apply standardization.</li>
+</ul>
+<h5 id="functionality">Functionality<a class="headerlink" href="#functionality" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Replaces values in the specified column according to the provided mapping.</li>
+<li>Aggregates values if multiple original names are mapped to the same standardized name.</li>
+<li>Raises an error if new, unmapped values are found in the column.</li>
+</ul>
+<h5 id="example-usage_3">Example Usage<a class="headerlink" href="#example-usage_3" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">fuel_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Diesel&#39;</span><span class="p">:</span> <span class="s1">&#39;Oil&#39;</span><span class="p">,</span> <span class="s1">&#39;Heavy Fuel Oil&#39;</span><span class="p">:</span> <span class="s1">&#39;Oil&#39;</span><span class="p">}</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">standardize_names</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="s1">&#39;pEnergyFuel&#39;</span><span class="p">,</span> <span class="n">fuel_mapping</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="filter_dataframe"><code>filter_dataframe</code><a class="headerlink" href="#filter_dataframe" title="Permanent link">&para;</a></h4>
+<p>Filters a DataFrame based on specified conditions.</p>
+<h5 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): The DataFrame to filter.</li>
+<li><code>conditions</code> (dict): Dictionary where:</li>
+<li>Keys are column names.</li>
+<li>Values specify filter criteria (either a single value or a list of values).</li>
+</ul>
+<h5 id="returns_3">Returns<a class="headerlink" href="#returns_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>pd.DataFrame</code>: Filtered DataFrame containing only rows that match the given conditions.</li>
+</ul>
+<h5 id="example-usage_4">Example Usage<a class="headerlink" href="#example-usage_4" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scenario&#39;</span><span class="p">:</span> <span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">2050</span><span class="p">}</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityFuel&#39;</span><span class="p">],</span> <span class="n">conditions</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="filter_dataframe_by_index"><code>filter_dataframe_by_index</code><a class="headerlink" href="#filter_dataframe_by_index" title="Permanent link">&para;</a></h4>
+<p>Filters a DataFrame based on conditions applied to its index levels.</p>
+<h5 id="parameters_5">Parameters<a class="headerlink" href="#parameters_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): The DataFrame to filter, where conditions apply to index levels.</li>
+<li><code>conditions</code> (dict): Dictionary where:</li>
+<li>Keys are index level names.</li>
+<li>Values specify filter criteria (either a single value or a list of values).</li>
+</ul>
+<h5 id="returns_4">Returns<a class="headerlink" href="#returns_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>pd.DataFrame</code>: Filtered DataFrame containing only rows where the index levels match the given conditions.</li>
+</ul>
+<h5 id="example-usage_5">Example Usage<a class="headerlink" href="#example-usage_5" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scenario&#39;</span><span class="p">:</span> <span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">2050</span><span class="p">}</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filter_dataframe_by_index</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyFuel&#39;</span><span class="p">],</span> <span class="n">conditions</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="process_epm_inputs"><code>process_epm_inputs</code><a class="headerlink" href="#process_epm_inputs" title="Permanent link">&para;</a></h4>
+<p>Processes EPM input files for visualization by standardizing names and formatting columns.</p>
+<h5 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_input</code> (dict): Dictionary containing raw input data from the <code>.gdx</code> file.</li>
+<li><code>dict_specs</code> (dict): Plot specifications obtained from <code>read_plot_specs()</code>, including mappings for fuels and technologies.</li>
+<li><code>scenarios_rename</code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency.</li>
+</ul>
+<h5 id="returns_5">Returns<a class="headerlink" href="#returns_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_dict</code> (dict): Processed input data where:</li>
+<li>Columns are standardized using predefined mappings.</li>
+<li>Data types are correctly formatted.</li>
+<li>Scenario names are updated if a rename mapping is provided.</li>
+</ul>
+<h5 id="example-usage_6">Example Usage<a class="headerlink" href="#example-usage_6" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">processed_inputs</span> <span class="o">=</span> <span class="n">process_epm_inputs</span><span class="p">(</span><span class="n">epm_inputs</span><span class="p">,</span> <span class="n">specs</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="process_epm_results"><code>process_epm_results</code><a class="headerlink" href="#process_epm_results" title="Permanent link">&para;</a></h4>
+<p>Processes EPM model outputs for visualization by standardizing names, formatting data, and handling fuel mappings.</p>
+<h5 id="parameters_7">Parameters<a class="headerlink" href="#parameters_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_results</code> (dict): Raw GDX extraction results, containing multiple EPM output parameters.</li>
+<li><code>dict_specs</code> (dict): Plot specifications obtained from <code>read_plot_specs()</code>, including color mappings and fuel/technology mappings.</li>
+<li><code>scenarios_rename</code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency in visualization.</li>
+<li><code>mapping_gen_fuel</code> (pd.DataFrame, optional): DataFrame mapping generators to fuel types, used to standardize plant-level results.</li>
+</ul>
+<h5 id="returns_6">Returns<a class="headerlink" href="#returns_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_dict</code> (dict): Processed results where:</li>
+<li>Fuel and technology names are standardized.</li>
+<li>Scenario names are updated if a rename mapping is provided.</li>
+<li>Data is cleaned, formatted, and ready for visualization.</li>
+</ul>
+<h5 id="example-usage_7">Example Usage<a class="headerlink" href="#example-usage_7" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">processed_results</span> <span class="o">=</span> <span class="n">process_epm_results</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">specs</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="process_simulation_results"><code>process_simulation_results</code><a class="headerlink" href="#process_simulation_results" title="Permanent link">&para;</a></h4>
+<p>Processes both inputs and outputs from a simulation run, preparing them for analysis and visualization.</p>
+<h5 id="parameters_8">Parameters<a class="headerlink" href="#parameters_8" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>FOLDER</code> (str): Path to the simulation output folder.</li>
+<li><code>SCENARIOS_RENAME</code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency.</li>
+<li><code>folder</code> (str, optional): Path to the static folder containing additional mappings (e.g., color mappings, fuel classifications).</li>
+</ul>
+<h5 id="returns_7">Returns<a class="headerlink" href="#returns_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>RESULTS_FOLDER</code> (str): Path to results folder.</li>
+<li><code>GRAPHS_FOLDER</code> (str): Path to folder storing generated graphs.</li>
+<li><code>dict_specs</code> (dict): Specifications for plots, including color mappings and technology classifications.</li>
+<li><code>epm_input</code> (dict): Processed input data from the simulation.</li>
+<li><code>epm_results</code> (dict): Processed output data, formatted for visualization.</li>
+<li><code>mapping_gen_fuel</code> (pd.DataFrame): DataFrame mapping generators to fuels.</li>
+</ul>
+<h5 id="example-usage_8">Example Usage<a class="headerlink" href="#example-usage_8" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">GRAPHS_FOLDER</span><span class="p">,</span> <span class="n">specs</span><span class="p">,</span> <span class="n">epm_input</span><span class="p">,</span> <span class="n">epm_results</span><span class="p">,</span> <span class="n">mapping_gen_fuel</span> <span class="o">=</span> <span class="n">process_simulation_results</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="generate_summary"><code>generate_summary</code><a class="headerlink" href="#generate_summary" title="Permanent link">&para;</a></h4>
+<p>Generates a summary of key EPM results, aggregating important indicators such as system costs, emissions, generation, and capacity.</p>
+<h5 id="parameters_9">Parameters<a class="headerlink" href="#parameters_9" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>epm_results</code> (dict): Processed EPM output data containing key model results.</li>
+<li><code>folder</code> (str): Path to the folder where the summary CSV file will be saved.</li>
+<li><code>epm_input</code> (dict): Processed input data, used for context in the summary.</li>
+</ul>
+<h5 id="functionality_1">Functionality<a class="headerlink" href="#functionality_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Extracts key indicators such as system costs, demand, capacity, generation, and emissions.</li>
+<li>Aggregates results across years and scenarios.</li>
+<li>Saves the summary as a CSV file in the specified folder.</li>
+</ul>
+<h5 id="example-usage_9">Example Usage<a class="headerlink" href="#example-usage_9" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">generate_summary</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">,</span> <span class="n">epm_input</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="postprocess_output"><code>postprocess_output</code><a class="headerlink" href="#postprocess_output" title="Permanent link">&para;</a></h4>
+<p>Runs the entire post-processing workflow, which includes processing simulation results, generating summary tables, and creating visualizations.</p>
+<h5 id="parameters_10">Parameters<a class="headerlink" href="#parameters_10" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>FOLDER</code> (str): Path to the simulation output folder.</li>
+<li><code>reduced_output</code> (bool, optional, default=<code>False</code>): If <code>True</code>, generates a reduced set of outputs to save processing time.</li>
+<li><code>plot_all</code> (bool, optional, default=<code>False</code>): If <code>True</code>, generates all available plots instead of a limited selection.</li>
+<li><code>folder</code> (str, optional): Path to the static mapping files, containing information such as color schemes and technology groupings.</li>
+</ul>
+<h5 id="functionality_2">Functionality<a class="headerlink" href="#functionality_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Calls <code>process_simulation_results()</code> to extract and format inputs and outputs.</li>
+<li>Generates summary statistics via <code>generate_summary()</code>.</li>
+<li>Creates visualizations such as stacked area plots, dispatch plots, and bar charts.</li>
+<li>Saves results and graphs in the designated output folder.</li>
+</ul>
+<h5 id="example-usage_10">Example Usage<a class="headerlink" href="#example-usage_10" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">postprocess_output</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">,</span> <span class="n">reduced_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_all</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h3 id="4plotting-functions">4.Plotting functions<a class="headerlink" href="#4plotting-functions" title="Permanent link">&para;</a></h3>
+<hr />
+<h4 id="make_stacked_areaplot"><code>make_stacked_areaplot</code><a class="headerlink" href="#make_stacked_areaplot" title="Permanent link">&para;</a></h4>
+<p>Creates stacked area charts for one or many panels, with optional annotations and a secondary axis.</p>
+<h5 id="key-parameters">Key Parameters<a class="headerlink" href="#key-parameters" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> <em>(pd.DataFrame)</em>: Source data containing at least the x, value, and stack columns.</li>
+<li><code>filename</code> <em>(str | None)</em>: Where to save the figure. When <code>None</code>, the plot is shown interactively.</li>
+<li><code>column_xaxis</code> <em>(str, default <code>'year'</code>)</em>: Column plotted on the x-axis.</li>
+<li><code>column_value</code> <em>(str, default <code>'value'</code>)</em>: Column providing stacked values.</li>
+<li><code>column_stacked</code> <em>(str, default <code>'fuel'</code>)</em>: Column defining each stacked layer.</li>
+<li><code>column_subplot</code> <em>(str, optional)</em>: Adds one subplot per unique value (e.g., scenario).</li>
+<li><code>colors</code> <em>(dict, optional)</em>: Custom colour mapping for stack categories.</li>
+<li><code>annotation_source</code> <em>(str, optional)</em>: Column used to auto-annotate year-on-year increases.</li>
+<li><code>secondary_df</code> <em>(pd.DataFrame, optional)</em>: Dataset drawn on a secondary y-axis for single-panel charts.</li>
+</ul>
+<h5 id="example-usage_11">Example Usage<a class="headerlink" href="#example-usage_11" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">make_stacked_areaplot</span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">df</span><span class="o">=</span><span class="n">energy_data</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;generation.png&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">column_xaxis</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">column_value</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">column_stacked</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">colors</span><span class="o">=</span><span class="n">dict_colors</span><span class="p">,</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">column_subplot</span><span class="o">=</span><span class="s2">&quot;scenario&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">annotation_source</span><span class="o">=</span><span class="s2">&quot;generator&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">annotation_template</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{category}</span><span class="s2"> - </span><span class="si">{value:.0f}</span><span class="s2">&quot;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="bar_plot"><code>bar_plot</code><a class="headerlink" href="#bar_plot" title="Permanent link">&para;</a></h4>
+<p>Creates a bar plot to visualize categorical data, such as capacity by fuel or cost breakdown.</p>
+<h5 id="parameters_11">Parameters<a class="headerlink" href="#parameters_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): Input data containing the variables to be plotted.</li>
+<li><code>x</code> (str): Column name for the x-axis categories.</li>
+<li><code>y</code> (str): Column name for the y-axis values.</li>
+<li><code>xlabel</code> (str, optional): Label for the x-axis.</li>
+<li><code>ylabel</code> (str, optional): Label for the y-axis.</li>
+<li><code>title</code> (str, optional): Title of the plot.</li>
+<li><code>filename</code> (str, optional): Path to save the generated plot.</li>
+<li><code>figsize</code> (tuple, default=<code>(8, 5)</code>): Size of the figure.</li>
+</ul>
+<h5 id="functionality_3">Functionality<a class="headerlink" href="#functionality_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Creates a bar plot using the specified x and y variables.</li>
+<li>Adds annotations to bars for clarity.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the plot.</li>
+</ul>
+<h4 id="example-usage_12">Example Usage<a class="headerlink" href="#example-usage_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">bar_plot</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">capacity_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Fuel Type&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Installed Capacity (MW)&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Capacity by Fuel&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;capacity_bar.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="line_plot"><code>line_plot</code><a class="headerlink" href="#line_plot" title="Permanent link">&para;</a></h4>
+<p>Creates a line plot to visualize trends over time, such as cost evolution or energy generation by year.</p>
+<h5 id="parameters_12">Parameters<a class="headerlink" href="#parameters_12" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): Input data containing the variables to be plotted.</li>
+<li><code>x</code> (str): Column name for the x-axis values.</li>
+<li><code>y</code> (str): Column name for the y-axis values.</li>
+<li><code>xlabel</code> (str, optional): Label for the x-axis.</li>
+<li><code>ylabel</code> (str, optional): Label for the y-axis.</li>
+<li><code>title</code> (str, optional): Title of the plot.</li>
+<li><code>filename</code> (str, optional): Path to save the generated plot.</li>
+<li><code>figsize</code> (tuple, default=<code>(10, 6)</code>): Size of the figure.</li>
+</ul>
+<h5 id="functionality_4">Functionality<a class="headerlink" href="#functionality_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Plots a line chart using <code>x</code> and <code>y</code> columns from the DataFrame.</li>
+<li>Adds axis labels and title if provided.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the plot.</li>
+</ul>
+<h5 id="example-usage_13">Example Usage<a class="headerlink" href="#example-usage_13" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">line_plot</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">cost_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Total System Cost ($M)&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;System Cost Evolution&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;cost_evolution.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="dispatch_plot"><code>dispatch_plot</code><a class="headerlink" href="#dispatch_plot" title="Permanent link">&para;</a></h4>
+<p>Creates a dispatch plot combining stacked area and line plots to visualize electricity generation, demand, and storage dynamics.</p>
+<h5 id="parameters_13">Parameters<a class="headerlink" href="#parameters_13" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df_area</code> (pd.DataFrame, optional): DataFrame for stacked area plots (e.g., generation by fuel).</li>
+<li><code>filename</code> (str, optional): Path to save the generated plot.</li>
+<li><code>dict_colors</code> (dict, optional): Dictionary mapping categories (e.g., fuels) to colors.</li>
+<li><code>df_line</code> (pd.DataFrame, optional): DataFrame for line plots (e.g., demand curve).</li>
+<li><code>figsize</code> (tuple, default=<code>(10, 6)</code>): Size of the figure.</li>
+<li><code>legend_loc</code> (str, default=<code>'bottom'</code>): Location of the legend (<code>'bottom'</code> or <code>'right'</code>).</li>
+<li><code>bottom</code> (int, default=<code>0</code>): Minimum value for the y-axis.</li>
+</ul>
+<h5 id="functionality_5">Functionality<a class="headerlink" href="#functionality_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Uses a stacked area plot to show generation by fuel type.</li>
+<li>Overlays line plots for demand and other attributes.</li>
+<li>Formats the plot with axis labels and a customizable legend position.</li>
+</ul>
+<h5 id="example-usage_14">Example Usage<a class="headerlink" href="#example-usage_14" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">dispatch_plot</span><span class="p">(</span><span class="n">df_area</span><span class="o">=</span><span class="n">generation_data</span><span class="p">,</span> <span class="n">df_line</span><span class="o">=</span><span class="n">demand_data</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">fuel_colors</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;dispatch_plot.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="make_fuel_dispatchplot"><code>make_fuel_dispatchplot</code><a class="headerlink" href="#make_fuel_dispatchplot" title="Permanent link">&para;</a></h4>
+<p>Generates and saves a complete fuel dispatch plot, including generation, demand, and other dispatch components.</p>
+<h5 id="parameters_14">Parameters<a class="headerlink" href="#parameters_14" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>dfs_area</code> (dict): Dictionary of DataFrames for stacked area plots (e.g., generation by fuel).</li>
+<li><code>dfs_line</code> (dict): Dictionary of DataFrames for line plots (e.g., demand curve).</li>
+<li><code>dict_colors</code> (dict): Dictionary mapping fuel types to colors.</li>
+<li><code>zone</code> (str): The zone to filter the data for.</li>
+<li><code>year</code> (int): The year to filter the data for.</li>
+<li><code>scenario</code> (str): The scenario to filter the data for.</li>
+<li><code>filename</code> (str, optional): Path to save the generated plot.</li>
+<li><code>fuel_grouping</code> (dict, optional): Mapping of specific fuels to broader fuel categories.</li>
+<li><code>select_time</code> (dict, optional): Dictionary specifying a subset of time periods to include in the plot.</li>
+<li><code>reorder_dispatch</code> (list, optional): List specifying a custom order for stacking fuels.</li>
+<li><code>legend_loc</code> (str, default=<code>'bottom'</code>): Location of the legend (<code>'bottom'</code> or <code>'right'</code>).</li>
+<li><code>bottom</code> (int, default=<code>0</code>): Minimum value for the y-axis.</li>
+<li><code>figsize</code> (tuple, default=<code>(10,6)</code>): Size of the figure.</li>
+</ul>
+<h5 id="functionality_6">Functionality<a class="headerlink" href="#functionality_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Filters the input DataFrames based on the specified zone, year, and scenario.</li>
+<li>Processes data for stacked area and line plots.</li>
+<li>Generates a dispatch plot showing electricity generation, demand, and storage behavior.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the plot.</li>
+</ul>
+<h5 id="example-usage_15">Example Usage<a class="headerlink" href="#example-usage_15" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">make_fuel_dispatchplot</span><span class="p">(</span><span class="n">dfs_area</span><span class="o">=</span><span class="n">generation_data</span><span class="p">,</span> <span class="n">dfs_line</span><span class="o">=</span><span class="n">demand_data</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">fuel_colors</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="s1">&#39;Liberia&#39;</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;dispatch_fuel_plot.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="make_stacked_barplot"><code>make_stacked_barplot</code><a class="headerlink" href="#make_stacked_barplot" title="Permanent link">&para;</a></h4>
+<p>Creates stacked bar subplots to analyze energy system evolution, such as capacity changes over time or across scenarios.</p>
+<h5 id="parameters_15">Parameters<a class="headerlink" href="#parameters_15" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): DataFrame containing the results.</li>
+<li><code>filename</code> (str): Path to save the figure.</li>
+<li><code>dict_colors</code> (dict): Dictionary mapping categories (e.g., fuel types) to colors.</li>
+<li><code>selected_zone</code> (str, optional): Filter the data for a specific zone.</li>
+<li><code>selected_year</code> (int, optional): Filter the data for a specific year.</li>
+<li><code>column_subplot</code> (str, default=<code>'year'</code>): Column for subplot separation.</li>
+<li><code>column_stacked</code> (str, default=<code>'fuel'</code>): Column to use for stacking bars.</li>
+<li><code>column_xaxis</code> (str, default=<code>'scenario'</code>): Column defining multiple bars within a single subplot.</li>
+<li><code>column_value</code> (str, default=<code>'value'</code>): Column containing numerical values to be plotted.</li>
+<li><code>select_subplot</code> (list, optional): Subset of values to display as separate subplots.</li>
+<li><code>stacked_grouping</code> (dict, optional): Mapping of categories for aggregation.</li>
+<li><code>order_scenarios</code> (list, optional): Order in which scenarios should be displayed.</li>
+<li><code>dict_scenarios</code> (dict, optional): Dictionary mapping scenario names to new labels.</li>
+<li><code>format_y</code> (function, optional, default=<code>'{:.0f} MW'.format(y)</code>): Function to format y-axis labels.</li>
+<li><code>order_stacked</code> (list, optional): Custom order for stacked categories.</li>
+<li><code>cap</code> (int, default=<code>2</code>): Minimum value for displaying annotations.</li>
+<li><code>annotate</code> (bool, default=<code>True</code>): Whether to annotate values on the bars.</li>
+<li><code>show_total</code> (bool, default=<code>False</code>): Whether to display the total value on top of bars.</li>
+<li><code>fonttick</code> (int, default=<code>12</code>): Font size for tick labels.</li>
+<li><code>rotation</code> (int, default=<code>0</code>): Rotation angle for x-axis labels.</li>
+<li><code>title</code> (str, optional): Title of the plot.</li>
+</ul>
+<h5 id="functionality_7">Functionality<a class="headerlink" href="#functionality_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Groups data according to the selected columns and aggregates values.</li>
+<li>Generates multiple subplots for different x-axis categories (e.g., years).</li>
+<li>Stacks bars by fuel type or technology.</li>
+<li>Displays labels and annotations as specified.</li>
+</ul>
+<h5 id="example-usage_16">Example Usage<a class="headerlink" href="#example-usage_16" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">make_stacked_barplot</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">capacity_data</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;capacity_evolution.png&quot;</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">fuel_colors</span><span class="p">,</span> <span class="n">selected_zone</span><span class="o">=</span><span class="s1">&#39;Liberia&#39;</span><span class="p">,</span> <span class="n">select_subplot</span><span class="o">=</span><span class="p">[</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2040</span><span class="p">],</span> <span class="n">order_scenarios</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;High Hydro&#39;</span><span class="p">,</span> <span class="s1">&#39;High Demand&#39;</span><span class="p">],</span> <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</code></pre></div>
+<hr />
+<h4 id="subplot_pie"><code>subplot_pie</code><a class="headerlink" href="#subplot_pie" title="Permanent link">&para;</a></h4>
+<p>Creates pie chart subplots to visualize the share of different categories, such as capacity mix or energy generation by fuel type.</p>
+<h5 id="parameters_16">Parameters<a class="headerlink" href="#parameters_16" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>df</code> (pd.DataFrame): DataFrame containing the data to be plotted.</li>
+<li><code>index</code> (str): Column used to differentiate pie charts (e.g., scenario, year, or zone).</li>
+<li><code>dict_colors</code> (dict): Dictionary mapping categories (e.g., fuel types) to colors.</li>
+<li><code>filename</code> (str, optional): Path to save the figure.</li>
+<li><code>figsize</code> (tuple, default=<code>(10, 6)</code>): Size of the figure.</li>
+<li><code>autopct</code> (str, optional, default=<code>'%1.1f%%'</code>): Format for displaying percentages on the pie chart.</li>
+<li><code>title</code> (str, optional): Title of the plot.</li>
+<li><code>explode</code> (dict, optional): Dictionary specifying which slices should be exploded for emphasis.</li>
+</ul>
+<h5 id="functionality_8">Functionality<a class="headerlink" href="#functionality_8" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Groups data by the specified <code>index</code> and normalizes values to calculate percentages.</li>
+<li>Generates multiple pie charts as subplots for different categories.</li>
+<li>Applies consistent colors using <code>dict_colors</code>.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the plot.</li>
+</ul>
+<h5 id="example-usage_17">Example Usage<a class="headerlink" href="#example-usage_17" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">subplot_pie</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">capacity_mix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;scenario&quot;</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">fuel_colors</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;capacity_pie.png&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Capacity Mix by Scenario&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="make_capacity_mix_map"><code>make_capacity_mix_map</code><a class="headerlink" href="#make_capacity_mix_map" title="Permanent link">&para;</a></h4>
+<p>Creates a capacity mix map with pie charts overlaid on a regional map, showing the share of different fuel types in each zone.</p>
+<h5 id="parameters_17">Parameters<a class="headerlink" href="#parameters_17" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>zone_map</code> (GeoDataFrame): Geospatial map of the zones.</li>
+<li><code>pCapacityFuel</code> (pd.DataFrame): DataFrame containing capacity data by fuel type for each zone.</li>
+<li><code>dict_colors</code> (dict): Dictionary mapping fuel types to colors.</li>
+<li><code>centers</code> (dict): Dictionary mapping zone names to their geographic coordinates.</li>
+<li><code>year</code> (int): Year to visualize.</li>
+<li><code>scenario</code> (str): Scenario to visualize.</li>
+<li><code>filename</code> (str, optional): Path to save the generated map.</li>
+<li><code>folder</code> (str, optional): Directory where additional static files (e.g., shapefiles) are stored.</li>
+</ul>
+<h5 id="functionality_9">Functionality<a class="headerlink" href="#functionality_9" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Filters <code>pCapacityFuel</code> for the selected <code>year</code> and <code>scenario</code>.</li>
+<li>Normalizes values to compute capacity shares for each fuel type.</li>
+<li>Overlays pie charts on the map to represent the fuel mix in each zone.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the map.</li>
+</ul>
+<h5 id="example-usage_18">Example Usage<a class="headerlink" href="#example-usage_18" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">make_capacity_mix_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">capacity_data</span><span class="p">,</span> <span class="n">dict_colors</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s2">&quot;Baseline&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;capacity_mix_map.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="make_interconnection_map"><code>make_interconnection_map</code><a class="headerlink" href="#make_interconnection_map" title="Permanent link">&para;</a></h4>
+<p>Generates an interconnection map showing transmission capacities between zones.</p>
+<h5 id="parameters_18">Parameters<a class="headerlink" href="#parameters_18" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>zone_map</code> (GeoDataFrame): Geospatial map of the zones.</li>
+<li><code>interconnection_data</code> (pd.DataFrame): DataFrame containing transmission capacities between zones.</li>
+<li><code>dict_colors</code> (dict): Dictionary mapping different interconnection types to colors.</li>
+<li><code>centers</code> (dict): Dictionary mapping zone names to their geographic coordinates.</li>
+<li><code>year</code> (int): Year to visualize.</li>
+<li><code>scenario</code> (str): Scenario to visualize.</li>
+<li><code>filename</code> (str, optional): Path to save the generated map.</li>
+<li><code>folder</code> (str, optional): Directory where additional static files (e.g., shapefiles) are stored.</li>
+</ul>
+<h5 id="functionality_10">Functionality<a class="headerlink" href="#functionality_10" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Filters <code>interconnection_data</code> for the selected <code>year</code> and <code>scenario</code>.</li>
+<li>Plots transmission lines between zones, with thickness representing capacity.</li>
+<li>Uses <code>dict_colors</code> to differentiate interconnection types.</li>
+<li>Saves the figure if <code>filename</code> is provided; otherwise, displays the map.</li>
+</ul>
+<h5 id="example-usage_19">Example Usage<a class="headerlink" href="#example-usage_19" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">make_interconnection_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">interconnection_data</span><span class="p">,</span> <span class="n">dict_colors</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s2">&quot;Baseline&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;interconnection_map.png&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h4 id="create_interactive_map"><code>create_interactive_map</code><a class="headerlink" href="#create_interactive_map" title="Permanent link">&para;</a></h4>
+<p>Generates an interactive map using Folium to visualize energy capacity, dispatch, and interconnections.</p>
+<h5 id="parameters_19">Parameters<a class="headerlink" href="#parameters_19" title="Permanent link">&para;</a></h5>
+<ul>
+<li><code>zone_map</code> (GeoDataFrame): Geospatial map of the zones.</li>
+<li><code>centers</code> (dict): Dictionary mapping zone names to their geographic coordinates.</li>
+<li><code>transmission_data</code> (pd.DataFrame): DataFrame containing transmission capacities between zones.</li>
+<li><code>energy_data</code> (pd.DataFrame): DataFrame containing generation and demand data for each zone.</li>
+<li><code>year</code> (int): Year to visualize.</li>
+<li><code>scenario</code> (str): Scenario to visualize.</li>
+<li><code>filename</code> (str, optional): Path to save the interactive map as an HTML file.</li>
+<li><code>folder</code> (str, optional): Directory where additional static files (e.g., shapefiles) are stored.</li>
+</ul>
+<h5 id="functionality_11">Functionality<a class="headerlink" href="#functionality_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Filters <code>transmission_data</code> and <code>energy_data</code> for the selected <code>year</code> and <code>scenario</code>.</li>
+<li>Creates an interactive map using Folium.</li>
+<li>Overlays pie charts representing generation mix and demand for each zone.</li>
+<li>Draws transmission lines with width proportional to capacity.</li>
+<li>Saves the map as an HTML file if <code>filename</code> is provided; otherwise, displays it in the browser.</li>
+</ul>
+<h5 id="example-usage_20">Example Usage<a class="headerlink" href="#example-usage_20" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">create_interactive_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">transmission_data</span><span class="p">,</span> <span class="n">energy_data</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s2">&quot;Baseline&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;interactive_map.html&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      All content is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>. &nbsp;&nbsp;|&nbsp;&nbsp; Contact: <a href="mailto:cnicolas@worldbank.org">Claire Nicolas</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.collapse", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/header_logos.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2833 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Least-cost capacity expansion and dispatch model for power system planning">
+      
+      
+        <meta name="author" content="ESMAP — World Bank">
+      
+      
+      
+        <link rel="prev" href="../../input/input_representative_days/">
+      
+      
+        <link rel="next" href="../equations/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/favicon.webp">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Constraints - EPM — Electricity Planning Model</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#constraints" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-header__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EPM — Electricity Planning Model
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Constraints
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../introduction/introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../run/run_installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Installation & Run
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../model_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Model
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../input/input_setup/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Input
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../output/output_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Output
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing_issues/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../preprocessing/pre_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-nav__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    EPM — Electricity Planning Model
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Introduction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is EPM?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_case_studies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EPM in Practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How EPM Works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Run
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installation & Run
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_gams_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from GAMS Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_remote_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run on Remote Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dispatch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatch Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solver Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_thread/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance & Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debugging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_objective/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objective Function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_representative_days/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Time Representation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constraints
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#demand-and-supply-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demand and Supply Balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capacity-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacity Evolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generator-operating-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generator Operating Limits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generator Operating Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-and-reserve-envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch and Reserve Envelope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seasonal-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seasonal Availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-output-optional-fapplymingenshareallhours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum Output [Optional — fApplyMinGenShareAllHours]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation-with-curtailment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable Generation with Curtailment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuel-consumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Consumption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-phase-out-optional-fapplygenerationphaseout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation Phase-out [Optional — fApplyGenerationPhaseout]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ramp-rate-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ramp Rate Constraints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ramp Rate Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-mode-dispatch-mode-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch mode [Dispatch mode only]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reserve-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserve Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reserve Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generator-reserve-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generator reserve limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spinning-reserve-requirement-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spinning reserve requirement [Optional]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#planning-reserve-margin-optional-fapplyplanningreserveconstraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning reserve margin [Optional — fApplyPlanningReserveConstraint]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transmission-and-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission and Trade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capacity-and-power-bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacity and power bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-of-charge-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-of-charge dynamics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reserve-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserve contribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csp-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSP Extensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investment-and-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment and Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#co2-emissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CO₂ Emissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unit-commitment-dispatch-mode-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Commitment [Dispatch mode only]
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Input
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_parameter_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Values
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_detailed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_open_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open Data Sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Output
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Involved
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/other_process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/interconnection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmission Costing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#demand-and-supply-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demand and Supply Balance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capacity-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacity Evolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generator-operating-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generator Operating Limits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generator Operating Limits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-and-reserve-envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch and Reserve Envelope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seasonal-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seasonal Availability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-output-optional-fapplymingenshareallhours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum Output [Optional — fApplyMinGenShareAllHours]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation-with-curtailment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable Generation with Curtailment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuel-consumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuel Consumption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-phase-out-optional-fapplygenerationphaseout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation Phase-out [Optional — fApplyGenerationPhaseout]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ramp-rate-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ramp Rate Constraints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ramp Rate Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standard-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-mode-dispatch-mode-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch mode [Dispatch mode only]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reserve-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserve Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reserve Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generator-reserve-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generator reserve limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spinning-reserve-requirement-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spinning reserve requirement [Optional]
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#planning-reserve-margin-optional-fapplyplanningreserveconstraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planning reserve margin [Optional — fApplyPlanningReserveConstraint]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transmission-and-trade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission and Trade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#capacity-and-power-bounds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capacity and power bounds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#state-of-charge-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State-of-charge dynamics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reserve-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserve contribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csp-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSP Extensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#investment-and-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment and Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#co2-emissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CO₂ Emissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unit-commitment-dispatch-mode-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit Commitment [Dispatch mode only]
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">&para;</a></h1>
+<p>All constraints are grouped by topic. Each equation name matches the label in <code>base.gms</code>. For notation and variable definitions, see <a href="../model_objective/">Objective Function</a> and <a href="../equations/">Reference</a>.</p>
+<blockquote>
+<p><strong>[Dispatch mode only]</strong> — active when <code>fDispatchMode=1</code>.
+<strong>[Optional]</strong> — activated by a flag in <code>pSettings.csv</code>.</p>
+</blockquote>
+<hr />
+<h2 id="demand-and-supply-balance">Demand and Supply Balance<a class="headerlink" href="#demand-and-supply-balance" title="Permanent link">&para;</a></h2>
+<p>The demand balance (<code>eDemSupply</code>) equates demand to the composite supply variable:</p>
+<div class="arithmatex">\[
+pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y} = vSupply_{z,q,d,t,y}.
+\]</div>
+<p><code>vSupply</code> decomposes generation, storage, flows, trade, and slack (<code>eDefineSupply</code>):</p>
+<div class="arithmatex">\[
+\begin{aligned}
+vSupply_{z,q,d,t,y} ={}&amp;
+  \sum_{g,f} vPwrOut_{g,f,q,d,t,y}
+  - \sum_{z_2} vFlow_{z,z_2,q,d,t,y} \\
+&amp;+ \sum_{z_2} \bigl(1 - pLossFactorInternal_{z,z_2,y}\bigr) \cdot vFlow_{z_2,z,q,d,t,y} \\
+&amp;- \sum_{st \in z} vStorInj_{st,q,d,t,y} \cdot \mathbb{1}_{fEnableStorage} \\
+&amp;+ \sum_{z_{\text{ext}}} vYearlyImportExternal_{z,z_{\text{ext}},q,d,t,y}
+ - \sum_{z_{\text{ext}}} vYearlyExportExternal_{z,z_{\text{ext}},q,d,t,y} \\
+&amp;+ vUSE_{z,q,d,t,y} - vSurplus_{z,q,d,t,y}.
+\end{aligned}
+\]</div>
+<hr />
+<h2 id="capacity-evolution">Capacity Evolution<a class="headerlink" href="#capacity-evolution" title="Permanent link">&para;</a></h2>
+<p>Initial capacity for the first model year, where the installed capacity term applies only to existing generators (<code>eg</code>) commissioned before the horizon (<code>eInitialCapacity</code>):</p>
+<div class="arithmatex">\[
+vCap_{g,y_0} = pGenData_{g,\text{Capacity}} \cdot \mathbb{1}_{eg(g)} + vBuild_{g,y_0} - vRetire_{g,y_0}.
+\]</div>
+<p>For subsequent years, existing assets follow (<code>eCapacityEvolutionExist</code>):</p>
+<div class="arithmatex">\[
+vCap_{eg,y} = vCap_{eg,y-1} + vBuild_{eg,y} - vRetire_{eg,y}.
+\]</div>
+<p>New entrants have no retirement (<code>eCapacityEvolutionNew</code>):</p>
+<div class="arithmatex">\[
+vCap_{ng,y} = vCap_{ng,y-1} + vBuild_{ng,y}.
+\]</div>
+<p>Discrete build and retirement decisions are enforced through integer variables (<code>eBuiltCap</code>, <code>eRetireCap</code>):</p>
+<div class="arithmatex">\[
+vBuild_{ng,y} = pGenData_{ng,\text{UnitSize}} \cdot vBuiltCapVar_{ng,y}, \qquad
+vRetire_{eg,y} = pGenData_{eg,\text{UnitSize}} \cdot vRetireCapVar_{eg,y}.
+\]</div>
+<p>Total builds for existing-fleet generators commissioned after the model start are capped (<code>eInitialBuildLimit</code>):</p>
+<div class="arithmatex">\[
+\sum_y vBuild_{eg,y} \le pGenData_{eg,\text{Capacity}}.
+\]</div>
+<p>Storage and CSP thermal capacity follow analogous recursions (<code>eCapStor*</code>, <code>eCapTherm*</code>).</p>
+<hr />
+<h2 id="generator-operating-limits">Generator Operating Limits<a class="headerlink" href="#generator-operating-limits" title="Permanent link">&para;</a></h2>
+<h3 id="dispatch-and-reserve-envelope">Dispatch and Reserve Envelope<a class="headerlink" href="#dispatch-and-reserve-envelope" title="Permanent link">&para;</a></h3>
+<p>Combined output and spinning reserve cannot exceed installed capacity (<code>eJointResCap</code>):</p>
+<div class="arithmatex">\[
+\sum_f vPwrOut_{g,f,q,d,t,y} + vSpinningReserve_{g,q,d,t,y}
+  \le \bigl(1 + pGenData_{g,\text{Overloadfactor}}\bigr) \cdot vCap_{g,y}.
+\]</div>
+<h3 id="seasonal-availability">Seasonal Availability<a class="headerlink" href="#seasonal-availability" title="Permanent link">&para;</a></h3>
+<p>Quarterly energy output is limited by the seasonal availability factor (<code>eMaxCF</code>). Note that <code>pAvailability</code> carries a year index to allow for degradation or scheduled outages:</p>
+<div class="arithmatex">\[
+\sum_{f,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t}
+  \le pAvailability_{g,y,q} \cdot vCap_{g,y} \cdot \sum_{d,t} pHours_{q,d,t}.
+\]</div>
+<h3 id="minimum-output-optional-fapplymingenshareallhours">Minimum Output <strong>[Optional — <code>fApplyMinGenShareAllHours</code>]</strong><a class="headerlink" href="#minimum-output-optional-fapplymingenshareallhours" title="Permanent link">&para;</a></h3>
+<p>(<code>eMinGen</code>):</p>
+<div class="arithmatex">\[
+\sum_f vPwrOut_{g,f,q,d,t,y} \ge vCap_{g,y} \cdot pGenData_{g,\text{MinGenShareAllHours}}.
+\]</div>
+<h3 id="renewable-generation-with-curtailment">Renewable Generation with Curtailment<a class="headerlink" href="#renewable-generation-with-curtailment" title="Permanent link">&para;</a></h3>
+<p>VRE output follows the hourly profile scaled by seasonal availability (<code>eVREProfile</code>). Curtailment is tracked explicitly:</p>
+<div class="arithmatex">\[
+vPwrOut_{g,f,q,d,t,y} + vCurtailedVRE_{z,g,q,d,t,y}
+  = pVREgenProfile_{g,q,d,t} \cdot pAvailability_{g,y,q} \cdot vCap_{g,y}.
+\]</div>
+<p>Curtailment is penalised through <code>vYearlyCurtailmentCost</code> in the objective function.</p>
+<h3 id="fuel-consumption">Fuel Consumption<a class="headerlink" href="#fuel-consumption" title="Permanent link">&para;</a></h3>
+<p>(<code>eFuel</code>):</p>
+<div class="arithmatex">\[
+vFuel_{z,f,y} = \sum_{g \in z,\, q,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t} \cdot pHeatRate_{g,f}.
+\]</div>
+<p>An upper bound on annual fuel consumption by country and fuel applies via <code>eFuelLimit</code> when <code>fApplyFuelConstraint=1</code>.</p>
+<h3 id="generation-phase-out-optional-fapplygenerationphaseout">Generation Phase-out <strong>[Optional — <code>fApplyGenerationPhaseout</code>]</strong><a class="headerlink" href="#generation-phase-out-optional-fapplygenerationphaseout" title="Permanent link">&para;</a></h3>
+<p><code>eMaxGenerationByFuel</code> caps annual generation by zone, technology group, and fuel (in GWh):</p>
+<div class="arithmatex">\[
+\frac{1}{1000} \sum_{g \in tech \cap z,\, q,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t}
+  \le pMaxGenerationByFuel_{z,tech,f,y}.
+\]</div>
+<hr />
+<h2 id="ramp-rate-constraints">Ramp Rate Constraints<a class="headerlink" href="#ramp-rate-constraints" title="Permanent link">&para;</a></h2>
+<h3 id="standard-mode">Standard mode<a class="headerlink" href="#standard-mode" title="Permanent link">&para;</a></h3>
+<p>Inter-hour ramp limits apply within each representative day (<code>eRampUpLimit</code>, <code>eRampDnLimit</code>):</p>
+<div class="arithmatex">\[
+\sum_f vPwrOut_{g,f,q,d,t,y} - \sum_f vPwrOut_{g,f,q,d,t-1,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampUpRate}},
+\]</div>
+<div class="arithmatex">\[
+\sum_f vPwrOut_{g,f,q,d,t-1,y} - \sum_f vPwrOut_{g,f,q,d,t,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampDnRate}}.
+\]</div>
+<p>Analogous bounds apply to storage charging (<code>eChargeRampUpLimit</code>, <code>eChargeRampDownLimit</code>).</p>
+<h3 id="dispatch-mode-dispatch-mode-only">Dispatch mode <strong>[Dispatch mode only]</strong><a class="headerlink" href="#dispatch-mode-dispatch-mode-only" title="Permanent link">&para;</a></h3>
+<p>In dispatch mode, ramp limits operate over chronological slots <span class="arithmatex">\(AT\)</span> using <code>vPwrOutDispatch</code>, linked to <code>vPwrOut</code> via <code>eRampContinuity</code>. Startup and shutdown events provide additional headroom when unit commitment is active (<code>eDispatchRampUpLimit</code>, <code>eDispatchRampDownLimit</code>):</p>
+<div class="arithmatex">\[
+vPwrOutDispatch_{g,AT,y} - vPwrOutDispatch_{g,AT-1,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampUpRate}}
+    + isStartup_{g,AT,y} \cdot pGenData_{g,\text{Capacity}} \cdot \mathbb{1}_{fApplyMinGenCommitment},
+\]</div>
+<div class="arithmatex">\[
+vPwrOutDispatch_{g,AT-1,y} - vPwrOutDispatch_{g,AT,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampDnRate}}
+    + isShutdown_{g,AT,y} \cdot pGenData_{g,\text{Capacity}} \cdot \mathbb{1}_{fApplyMinGenCommitment}.
+\]</div>
+<hr />
+<h2 id="reserve-requirements">Reserve Requirements<a class="headerlink" href="#reserve-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="generator-reserve-limit">Generator reserve limit<a class="headerlink" href="#generator-reserve-limit" title="Permanent link">&para;</a></h3>
+<p>Maximum spinning reserve provision per generator (<code>eSpinningReserveLim</code>):</p>
+<div class="arithmatex">\[
+vSpinningReserve_{g,q,d,t,y} \le vCap_{g,y} \cdot pGenData_{g,\text{ResLimShare}}.
+\]</div>
+<p>For VRE generators the limit is further scaled by the hourly profile (<code>eSpinningReserveLimVRE</code>):</p>
+<div class="arithmatex">\[
+vSpinningReserve_{g,q,d,t,y} \le vCap_{g,y} \cdot pGenData_{g,\text{ResLimShare}} \cdot pVREgenProfile_{g,q,d,t}.
+\]</div>
+<h3 id="spinning-reserve-requirement-optional">Spinning reserve requirement <strong>[Optional]</strong><a class="headerlink" href="#spinning-reserve-requirement-optional" title="Permanent link">&para;</a></h3>
+<p>Country level (<code>eSpinningReserveReqCountry</code>, flag <code>fApplyCountrySpinReserveConstraint</code>):</p>
+<div class="arithmatex">\[
+\sum_{z \in c,\, g \in z} vSpinningReserve_{g,q,d,t,y}
+  + vUnmetSpinningReserveCountry_{c,q,d,t,y}
+  \ge pSpinningReserveReqCountry_{c,y}
+    + \sum_{g \in \text{VREnoROR},\, f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct.
+\]</div>
+<p>System level (<code>eSpinningReserveReqSystem</code>, flag <code>fApplySystemSpinReserveConstraint</code>):</p>
+<div class="arithmatex">\[
+\sum_{g} vSpinningReserve_{g,q,d,t,y}
+  + vUnmetSpinningReserveSystem_{q,d,t,y}
+  \ge pSpinningReserveReqSystem_{y}
+    + \sum_{g \in \text{VREnoROR},\, f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct.
+\]</div>
+<h3 id="planning-reserve-margin-optional-fapplyplanningreserveconstraint">Planning reserve margin <strong>[Optional — <code>fApplyPlanningReserveConstraint</code>]</strong><a class="headerlink" href="#planning-reserve-margin-optional-fapplyplanningreserveconstraint" title="Permanent link">&para;</a></h3>
+<p>Country level (<code>ePlanningReserveReqCountry</code>). When <code>fCountIntercoForReserves=1</code>, available interconnection capacity contributes to the margin:</p>
+<div class="arithmatex">\[
+\sum_{z \in c,\, g \in z} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+  + vUnmetPlanningReserveCountry_{c,y}
+  + IC_{c,y}
+  \ge \bigl(1 + pPlanningReserveMargin_{c}\bigr) \cdot
+      \max_{q,d,t} \sum_{z \in c} pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y},
+\]</div>
+<p>where the interconnection term <span class="arithmatex">\(IC_{c,y}\)</span> (zero when <code>fCountIntercoForReserves=0</code>) is:</p>
+<div class="arithmatex">\[
+IC_{c,y} = \sum_{z \in c,\, z_2 \notin c} \left(
+  \frac{\sum_q pTransferLimit_{z_2,z,q,y}}{|Q|}
+  + vNewTransmissionLine_{z_2,z,y} \cdot pNewTransmission_{z_2,z,\text{CapacityPerLine}} \cdot fAllowTransferExpansion
+\right).
+\]</div>
+<p>System level (<code>ePlanningReserveReqSystem</code>):</p>
+<div class="arithmatex">\[
+\sum_{g} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+  + vUnmetPlanningReserveSystem_{y}
+  \ge \bigl(1 + sReserveMarginPct\bigr) \cdot
+      \max_{q,d,t} \sum_z pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y}.
+\]</div>
+<hr />
+<h2 id="transmission-and-trade">Transmission and Trade<a class="headerlink" href="#transmission-and-trade" title="Permanent link">&para;</a></h2>
+<p>Internal transfer capacity (<code>eTransferCapacityLimit</code>):</p>
+<div class="arithmatex">\[
+vFlow_{z,z_2,q,d,t,y}
+  \le pTransferLimit_{z,z_2,q,y}
+     + vNewTransmissionLine_{z,z_2,y} \cdot pNewTransmission_{z,z_2,\text{CapacityPerLine}} \cdot fAllowTransferExpansion.
+\]</div>
+<p>Expansion symmetry and cumulative build tracking: <code>eCumulativeTransferExpansion</code>, <code>eSymmetricTransferBuild</code>.</p>
+<p>External exchange limits <strong>[Optional]</strong>: annual and hourly import/export share caps (<code>eMaxAnnualImportShareEnergy</code>, <code>eMaxAnnualExportShareEnergy</code>, <code>eMaxHourlyImportShareEnergy</code>, <code>eMaxHourlyExportShareEnergy</code>), point-to-point limits (<code>eExternalImportLimit</code>, <code>eExternalExportLimit</code>), and a minimum import floor (<code>eMinImportRequirement</code>) when <code>pMinImport &gt; 0</code>.</p>
+<hr />
+<h2 id="storage-operations">Storage Operations<a class="headerlink" href="#storage-operations" title="Permanent link">&para;</a></h2>
+<h3 id="capacity-and-power-bounds">Capacity and power bounds<a class="headerlink" href="#capacity-and-power-bounds" title="Permanent link">&para;</a></h3>
+<p>State-of-charge upper bound (<code>eSOCUpperBound</code>):</p>
+<div class="arithmatex">\[
+vStorage_{st,q,d,t,y} \le vCapStor_{st,y}.
+\]</div>
+<p>Power injection and energy-power consistency (<code>eChargeCapacityLimit</code>, <code>eStorageCapMinConstraint</code>):</p>
+<div class="arithmatex">\[
+vStorInj_{st,q,d,t,y} \le vCap_{st,y}, \qquad vCapStor_{st,y} \ge vCap_{st,y}.
+\]</div>
+<p>When a fixed energy-to-power ratio is specified (<code>eStorageFixedDuration</code>):</p>
+<div class="arithmatex">\[
+vCapStor_{st,y} = vCap_{st,y} \cdot pStorageData_{st,\text{StorageDuration}}.
+\]</div>
+<p>Net charge balance (<code>eNetChargeBalance</code>):</p>
+<div class="arithmatex">\[
+vStorNet_{st,q,d,t,y} = \sum_f vPwrOut_{st,f,q,d,t,y} - vStorInj_{st,q,d,t,y}.
+\]</div>
+<h3 id="state-of-charge-dynamics">State-of-charge dynamics<a class="headerlink" href="#state-of-charge-dynamics" title="Permanent link">&para;</a></h3>
+<p>Three equations govern SOC evolution depending on time position and run mode.</p>
+<p><strong>First hour of a representative day</strong> (<code>eStateOfChargeInitRep</code>) — standard mode only, no carry-over from the previous day:</p>
+<div class="arithmatex">\[
+vStorage_{st,q,d,t_1,y} = pStorageData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t_1,y}
+  - \sum_f vPwrOut_{st,f,q,d,t_1,y}.
+\]</div>
+<p><strong>All subsequent hours</strong> (<code>eStorageHourTransition</code>):</p>
+<div class="arithmatex">\[
+vStorage_{st,q,d,t,y} = vStorage_{st,q,d,t-1,y}
+  + pStorageData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
+  - \sum_f vPwrOut_{st,f,q,d,t,y}.
+\]</div>
+<p><strong>Day boundary — [Dispatch mode only]</strong> (<code>eStorageDayWrap</code>) — links the first hour of each day to the last chronological slot <span class="arithmatex">\(AT-1\)</span>:</p>
+<div class="arithmatex">\[
+vStorage_{st,q,d,t_1,y} = vStorage_{st,AT-1,y}
+  + pStorageData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t_1,y}
+  - \sum_f vPwrOut_{st,f,q,d,t_1,y}.
+\]</div>
+<p><strong>Cycle anchoring — [Dispatch mode only]</strong> (<code>eStorageSOCInitDispatch</code>, <code>eStorageSOCFinalDispatch</code>) — the first and last hours of the full chronological cycle are pinned to a prescribed share of capacity:</p>
+<div class="arithmatex">\[
+vStorage_{st,q,d,t,y} = vCapStor_{st,y} \cdot pStorageInitShare.
+\]</div>
+<h3 id="reserve-contribution">Reserve contribution<a class="headerlink" href="#reserve-contribution" title="Permanent link">&para;</a></h3>
+<p>Storage can provide spinning reserve up to its current state of charge (<code>eSOCSupportsReserve</code>):</p>
+<div class="arithmatex">\[
+vSpinningReserve_{st,q,d,t,y} \le vStorage_{st,q,d,t,y}.
+\]</div>
+<p>PV-coupled batteries are additionally capped by the paired PV profile (<code>eChargeLimitWithPVProfile</code>).</p>
+<hr />
+<h2 id="csp-extensions">CSP Extensions<a class="headerlink" href="#csp-extensions" title="Permanent link">&para;</a></h2>
+<p>CSP plants use dedicated variables for the solar thermal field (<code>vThermalOut</code>, <code>vCapTherm</code>) alongside the standard storage variables.</p>
+<p>Charging is limited to what the thermal field produces, scaled by its efficiency (<code>eCSPStorageInjectionLimit</code>):</p>
+<div class="arithmatex">\[
+vStorInj_{cs,q,d,t,y} \le vThermalOut_{cs,q,d,t,y} \cdot \eta_{\text{thermal field}}.
+\]</div>
+<p>Thermal output is bounded by field capacity and the solar resource profile (<code>eCSPThermalOutputLimit</code>):</p>
+<div class="arithmatex">\[
+vThermalOut_{cs,q,d,t,y} \le vCapTherm_{cs,y} \cdot pCSPProfile_{cs,q,d,t}.
+\]</div>
+<p>The power balance links thermal output, storage charge/discharge, and turbine dispatch (<code>eCSPPowerBalance</code>):</p>
+<div class="arithmatex">\[
+vThermalOut_{cs,q,d,t,y} \cdot \eta_{\text{thermal}}
+  - vStorInj_{cs,q,d,t,y}
+  + vStorOut_{cs,q,d,t,y} \cdot \eta_{\text{storage}}
+  = \sum_f vPwrOut_{cs,f,q,d,t,y}.
+\]</div>
+<p>Storage capacity and charging are also bounded by <code>eCSPStorageCapacityLimit</code> and <code>eCSPStorageInjectionCap</code>. SOC dynamics follow the same recursion as standard storage (<code>eCSPStorageEnergyBalance</code>, <code>eCSPStorageInitialBalance</code>). Capacity evolution for both subsystems uses <code>eCapStor*</code> and <code>eCapTherm*</code>.</p>
+<hr />
+<h2 id="investment-and-policy">Investment and Policy<a class="headerlink" href="#investment-and-policy" title="Permanent link">&para;</a></h2>
+<p>Capital budget <strong>[Optional — <code>fApplyCapitalConstraint</code>]</strong> (<code>eCapitalConstraint</code>):</p>
+<div class="arithmatex">\[
+\sum_{y,\, ng} pRR_y \cdot pWeightYear_y \cdot pCRF_{ng} \cdot vCap_{ng,y} \cdot pGenData_{ng,\text{Capex}}
+  \le sMaxCapitalInvestmentInvestment \times 10^3.
+\]</div>
+<p>Minimum renewable share <strong>[Optional]</strong> (<code>eMinGenRE</code>): a fraction <code>pMinRE</code> of total annual energy must come from renewable sources.</p>
+<p>Fuel availability cap <strong>[Optional — <code>fApplyFuelConstraint</code>]</strong> (<code>eFuelLimit</code>): annual consumption by country and fuel cannot exceed <code>pMaxFuelLimit</code>.</p>
+<p>Minimum import <strong>[Optional]</strong> (<code>eMinImportRequirement</code>): enforces a lower bound on imports from a given zone when <code>pMinImport &gt; 0</code>.</p>
+<p>Discrete investment decisions for transmission (<code>vBuildTransmissionLine</code>) and generators/retirements (<code>vBuiltCapVar</code>, <code>vRetireCapVar</code>) are integer variables bounded by capacity consistency equations.</p>
+<hr />
+<h2 id="co2-emissions">CO₂ Emissions<a class="headerlink" href="#co2-emissions" title="Permanent link">&para;</a></h2>
+<p>Zonal emissions are computed from dispatched generation, heat rates, and carbon content (<code>eZonalEmissions</code>):</p>
+<div class="arithmatex">\[
+vZonalEmissions_{z,y} = \sum_{g \in z,\, f,\, q,d,t}
+  vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t} \cdot pHeatRate_{g,f} \cdot pFuelCarbonContent_f.
+\]</div>
+<p>System total (<code>eTotalEmissions</code>):</p>
+<div class="arithmatex">\[
+vTotalEmissions_y = \sum_z vZonalEmissions_{z,y}.
+\]</div>
+<p><strong>Country cap [Optional — <code>fApplyCountryCo2Constraint</code>]</strong> (<code>eEmissionsCountry</code>):</p>
+<div class="arithmatex">\[
+\sum_{z \in c} vZonalEmissions_{z,y} - vYearlyCO2backstop_{c,y} \le pEmissionsCountry_{c,y}.
+\]</div>
+<p><strong>System cap [Optional — <code>fApplySystemCo2Constraint</code>]</strong> (<code>eTotalEmissionsConstraint</code>):</p>
+<div class="arithmatex">\[
+vTotalEmissions_y - vYearlySysCO2backstop_y \le pEmissionsTotal_y.
+\]</div>
+<p>The backstop slack variables allow the cap to be violated at a penalty cost, which feeds into the objective function via <code>vYearlyCO2BackstopCostCountry</code> and <code>vYearlyCO2BackstopCostSystem</code>.</p>
+<hr />
+<h2 id="unit-commitment-dispatch-mode-only">Unit Commitment <strong>[Dispatch mode only]</strong><a class="headerlink" href="#unit-commitment-dispatch-mode-only" title="Permanent link">&para;</a></h2>
+<p>Unit commitment is active when <code>fDispatchMode=1</code> and <code>fApplyMinGenCommitment=1</code>. Binary variables <code>isOn</code>, <code>isStartup</code>, and <code>isShutdown</code> track generator state at each chronological slot <span class="arithmatex">\(AT\)</span>.</p>
+<p>Transition consistency (<code>eCommitmentConsistency</code>):</p>
+<div class="arithmatex">\[
+isOn_{g,AT,y} - isOn_{g,AT-1,y} = isStartup_{g,AT,y} - isShutdown_{g,AT,y}.
+\]</div>
+<p><code>eCommitmentInitialization</code> sets the state at the first slot; <code>eCommitmentSingleTransition</code> prevents simultaneous startup and shutdown.</p>
+<p>Min/max generation tied to commitment state (<code>eDispatchMinGenPoint</code>, <code>eDispatchMaxGenPoint</code>):</p>
+<div class="arithmatex">\[
+vCap_{g,y} \cdot pGenData_{g,\text{MinGenShareAllHours}} \cdot isOn_{g,AT,y}
+  \le vPwrOutDispatch_{g,AT,y}
+  \le vCap_{g,y} \cdot (1 + pGenData_{g,\text{Overloadfactor}}) \cdot isOn_{g,AT,y}.
+\]</div>
+<p>Minimum up/down time <strong>[Optional — <code>fApplyMUDT</code>]</strong>: <code>eMinUpInitial</code>, <code>eMinUpRolling</code>, <code>eMinDownInitial</code>, <code>eMinDownRolling</code> prevent generators from cycling faster than their physical limits.</p>
+<p>Startup costs <strong>[Optional — <code>fApplyStartupCost</code>]</strong>: <code>eStartupCostConstraint</code> accumulates per-slot startup costs into <code>vYearlyStartupCost</code>, which enters the objective via <code>vYearlyVariableCost</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      All content is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>. &nbsp;&nbsp;|&nbsp;&nbsp; Contact: <a href="mailto:cnicolas@worldbank.org">Claire Nicolas</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.collapse", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/header_logos.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

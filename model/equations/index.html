@@ -1,0 +1,4689 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Least-cost capacity expansion and dispatch model for power system planning">
+      
+      
+        <meta name="author" content="ESMAP — World Bank">
+      
+      
+      
+        <link rel="prev" href="../model_constraints/">
+      
+      
+        <link rel="next" href="../../input/input_setup/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/favicon.webp">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Reference - EPM — Electricity Planning Model</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#equations-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-header__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EPM — Electricity Planning Model
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../introduction/introduction/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Introduction
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../run/run_installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Installation & Run
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../model_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Model
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../input/input_setup/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Input
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../output/output_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Output
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing_issues/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../preprocessing/pre_overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EPM — Electricity Planning Model" class="md-nav__button md-logo" aria-label="EPM — Electricity Planning Model" data-md-component="logo">
+      
+  <img src="../../images/esmap_white.png" alt="logo">
+
+    </a>
+    EPM — Electricity Planning Model
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ESMAP-World-Bank-Group/EPM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ESMAP-World-Bank-Group/EPM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Introduction
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is EPM?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_case_studies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EPM in Practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/introduction_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How EPM Works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation & Run
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installation & Run
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_gams_studio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run from GAMS Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_remote_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run on Remote Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_dispatch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dispatch Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solver Options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/options_thread/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance & Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../run/run_debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debugging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_objective/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Objective Function
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_representative_days/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Time Representation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-and-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indices and Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objective-function-and-its-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective function and its components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transmission-network-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission network constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concentrated-solar-power-csp-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concentrated Solar Power (CSP) Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-consistency-of-power-system-additions-and-retirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time consistency of power system additions and retirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environmental-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environmental policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccs-retrofits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCS retrofits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#green-hydrogen-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Green hydrogen production
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description-of-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Description of the model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Description of the model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-and-sets_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indices and Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objective-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-of-lost-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value of Lost Load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transmission-network-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission network constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable generation modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concentrated-solar-power-csp-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concentrated Solar Power (CSP) modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-consistency-of-power-system-additions-and-retirements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time consistency of power system additions and retirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environmental-policy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environmental policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelling-ccs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelling CCS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelling-of-green-hydrogen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelling of Green Hydrogen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations-of-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations of the model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bibliography
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-mode-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch Mode Equations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dispatch Mode Equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-continuity-and-ramping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch continuity and ramping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit commitment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-flag-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required flag combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Input
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_parameter_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typical Values
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_detailed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_open_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open Data Sources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Output
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/output_catalog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Catalog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../output/visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Involved
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/contributing_docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute Docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Resources
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/other_process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Study Methodology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/interconnection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transmission Costing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../resources/citation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-and-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indices and Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objective-function-and-its-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective function and its components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transmission-network-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission network constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concentrated-solar-power-csp-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concentrated Solar Power (CSP) Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-consistency-of-power-system-additions-and-retirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time consistency of power system additions and retirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environmental-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environmental policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ccs-retrofits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CCS retrofits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#green-hydrogen-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Green hydrogen production
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#description-of-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Description of the model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Description of the model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#indices-and-sets_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indices and Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#objective-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objective function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-approximation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load approximation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#value-of-lost-load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Value of Lost Load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transmission-network-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transmission network constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system-requirements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generation-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generation constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renewable-generation-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewable generation modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concentrated-solar-power-csp-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concentrated Solar Power (CSP) modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-consistency-of-power-system-additions-and-retirements_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time consistency of power system additions and retirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage modeling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#investment-constraints_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Investment constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environmental-policy_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environmental policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelling-ccs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelling CCS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelling-of-green-hydrogen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelling of Green Hydrogen
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations-of-the-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations of the model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bibliography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bibliography
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-mode-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch Mode Equations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dispatch Mode Equations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-continuity-and-ramping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch continuity and ramping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unit commitment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-flag-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required flag combinations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="equations-reference">Equations Reference<a class="headerlink" href="#equations-reference" title="Permanent link">&para;</a></h1>
+<p>This page is the detailed technical reference for EPM equations. For a prose description of the model, see <a href="../model_overview/">Model Overview</a>. For the LaTeX formulation of the objective function and main constraints, see <a href="../model_formulation/">Mathematical Formulation</a>.</p>
+<h2 id="notation">Notation<a class="headerlink" href="#notation" title="Permanent link">&para;</a></h2>
+<h3 id="indices-and-sets">Indices and Sets<a class="headerlink" href="#indices-and-sets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Indices</th>
+<th>Set</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(c \in C\)</span></td>
+<td>where <span class="arithmatex">\(C\)</span> is the set of countries</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(d \in D\)</span></td>
+<td>where <span class="arithmatex">\(D\)</span> is the set of types of days or weeks</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(f \in F\)</span></td>
+<td>where <span class="arithmatex">\(F\)</span> is the set of fuels</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(g \in G\)</span></td>
+<td>where <span class="arithmatex">\(G\)</span> is the set of generators that can be built or the set of technology-specific types of aggregated generators</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(q \in Q\)</span></td>
+<td>where <span class="arithmatex">\(Q\)</span> is the set of seasons or quarters</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(h \in H\)</span></td>
+<td>where <span class="arithmatex">\(H\)</span> is the set of electrolyzers that can be built</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(y \in Y\)</span></td>
+<td>where <span class="arithmatex">\(Y\)</span> is the set of years considered in the planning model</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(z, z_2 \in Z\)</span></td>
+<td>where <span class="arithmatex">\(Z\)</span>is the set of zones/regions modeled</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(sc \in S\)</span></td>
+<td>where <span class="arithmatex">\(S\)</span> is the set of flags and penalties used to include/exclude certain features of the model</td>
+</tr>
+<tr>
+<td><strong>Subsets considered</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(EN, NG \in G\)</span></td>
+<td>where <span class="arithmatex">\(EG\)</span> and <span class="arithmatex">\(NG\)</span> is a partition of set <span class="arithmatex">\(G\)</span> and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup><a href="#footnote-2">[1]</a></sup></sup></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(DC and NDC \in G\)</span></td>
+<td>where <span class="arithmatex">\(DC\)</span> and <span class="arithmatex">\(NDC\)</span> are partitions of set <span class="arithmatex">\(G\)</span> separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(EH, NH \in H\)</span></td>
+<td>where <span class="arithmatex">\(EH\)</span> and <span class="arithmatex">\(NH\)</span> is a partition of <span class="arithmatex">\(H\)</span> set and the former (<span class="arithmatex">\(HG\)</span>) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup><a href="#footnote-3">[2]</a></sup></sup></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(DH and NDH \in H\)</span></td>
+<td>where <span class="arithmatex">\(DH\)</span> and <span class="arithmatex">\(NDH\)</span> are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(so \in G\)</span></td>
+<td>PV unit linked to a storage unit as a partition of set <span class="arithmatex">\(G\)</span> (this is the PV part of PV linked with storage)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(stp \in st\)</span></td>
+<td>Storage unit linked to a PV plant as a partition of set <span class="arithmatex">\(G\)</span> (this is the storage part of PV linked with storage)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(MD \in D\)</span></td>
+<td>where <span class="arithmatex">\(MD\)</span> is a subset of days the planner expects the minimum load levels to be binding</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(RE \in F\)</span></td>
+<td>where <span class="arithmatex">\(F\)</span> is a subset of set considered as renewable according to regulator’s criteria<sup><sup><a href="#footnote-4">[3]</a></sup></sup></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(RG \in G\)</span></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(map_{c,z}\)</span></td>
+<td>includes the subset of zones that correspond to each country</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(map_{g,f}\)</span></td>
+<td>includes valid combinations of fuels and generators; subset of the set <span class="arithmatex">\(G x F\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(map_{eg,ef}\)</span></td>
+<td>includes combinations of existing and candidate generators; subset of set <span class="arithmatex">\(EG x NG\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(map_{g,z}\)</span></td>
+<td>includes the subset of generators that correspond to each zone</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(map_{h,z}\)</span></td>
+<td>includes the subset of electrolyzers that correspond to each zone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="variables">Variables<a class="headerlink" href="#variables" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Non-negative decision variables</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(𝐴𝑑𝑑𝑖𝑡𝑖𝑜𝑛𝑎𝑙𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟_{𝑧,𝑧2,𝑦}\)</span></td>
+<td>Additional number of lines between z and z2 in year y</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑏𝑢𝑖𝑙𝑑𝑔,𝑦\)</span></td>
+<td>Generator investment in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑏𝑢𝑖𝑙𝑑𝐻2ℎ,𝑦\)</span></td>
+<td>Electrolyzer investment in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝑔,𝑦\)</span></td>
+<td>Integer variable to model discrete unit capacity</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝐻2ℎ,𝑦\)</span></td>
+<td>Integer variable to model discrete unit capacity</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑏𝑢𝑖𝑙𝑡𝑇𝑟𝑎𝑛𝑠𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑧,𝑧2,𝑦\)</span></td>
+<td>Integer variable to model number of new transmission lines added between z and z2 in year y</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑐𝑎𝑝𝑔,𝑦\)</span></td>
+<td>Generator capacity available at year in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑐𝑎𝑝𝐻2ℎ,𝑦\)</span></td>
+<td>Electrolyzer capacity available at year in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝐶𝑂2𝑏𝑎𝑐𝑘𝑠𝑡𝑜𝑝𝑐,𝑦\)</span></td>
+<td>Annual country CO2 emissions above the system emissions constraint cap</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠𝑧,𝑦\)</span></td>
+<td>Total system emissions of carbon dioxide in tons</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_𝑍𝑜𝑧,𝑦\)</span></td>
+<td>Emissions of carbon dioxide in tons per zone</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑒𝑥𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>External price driven export in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑓𝑢𝑒𝑙𝐻2𝑄𝑢𝑎𝑟𝑡𝑒𝑟𝑧,𝑞,𝑦\)</span></td>
+<td>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per quarter and year)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑓𝑢𝑒𝑙𝐻2𝑧,𝑞,𝑦\)</span></td>
+<td>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per year)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑓𝑢𝑒𝑙𝑧,𝑓,𝑦\)</span></td>
+<td>Fuel consumption in MMBTU</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑔𝑒𝑛𝑔,𝑓,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Generator output in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑔𝑒𝑛𝐶𝑆𝑃𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Power output of the solar panel in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑖𝑚𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>External price driven import in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝐻2𝑃𝑤𝑟𝐼𝑛ℎ,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Power drawn by electrolyzer h in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑟𝑒𝑡𝑖𝑟𝑒𝑔,𝑦\)</span></td>
+<td>Capacity in MW retired</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝑔,𝑦\)</span></td>
+<td>Supplementary integer variable to model discrete unit capacity</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝐻2ℎ,𝑦\)</span></td>
+<td>Supplementary integer variable to model discrete unit capacity</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑟𝑒𝑠𝑒𝑟𝑣𝑒𝑔,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Spinning reserve requirement met in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Level of energy in MWh stored in storage unit</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑖𝑛𝑗𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Power injected in MW in storage unit is charged during hour</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑐𝑎𝑝𝑎𝑐𝑖𝑡𝑦𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Total deployed energy storage capacity in MWh for storage unit</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Level of energy in MWh stored in CSP unit at zone</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑖𝑛𝑗𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Power level in MW at which the CSP storage unit is charged during hour</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑜𝑢𝑡𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Power level in MW at which the CSP storage unit is discharged during hour</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑠𝑢𝑟𝑝𝑙𝑢𝑠𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Surplus generation in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑢𝑛𝑚𝑒𝑡𝐷𝑒𝑚𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Annual system CO2 emissions above the system emissions constraint cap</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑢𝑛𝑚𝑒𝑡𝐻2𝐸𝑥𝑡𝑒𝑟𝑛𝑎𝑙𝑧,𝑞,𝑦\)</span></td>
+<td>Active power in MW flowing from to</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑢𝑛𝑚𝑒𝑡𝑅𝑒𝑠𝑧,𝑦\)</span></td>
+<td>Unmet demand in MW (or equivalently violation of the load balance constraint)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑍𝑜𝑧,𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Unmet quantity of hydrogen in MW (or equivalently violation of the external demand for hydrogen balance constraint)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑆𝑌𝑞,𝑑,𝑡,𝑦\)</span></td>
+<td>Violation of the planning reserve constraint in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(unmetSResZo\)</span></td>
+<td>Violation of the zonal/regional spinning reserve constraint in MW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(unmetSResSY\)</span></td>
+<td>Violation of the system-level spinning reserve constraint in MW</td>
+</tr>
+<tr>
+<td><strong>Variables for modeling objective function</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\text{npvcost} = \sum_{z,y} \text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y}\)</span></td>
+<td>Annualized capex for new generation capacity installed with varying total constructions cost when built in year <em>y</em> carried through planning horizon</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}\)</span></td>
+<td>Annualized capex for new electrolyzer capacity installed with varying total constructions cost when built in year <em>y</em> carried through planning horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>Carbon tax payments by generators</td>
+</tr>
+<tr>
+<td></td>
+<td>Amount of emissions above meeting target in tons</td>
+</tr>
+<tr>
+<td></td>
+<td>Penalty for missing to comply with carbon constraints in USD</td>
+</tr>
+<tr>
+<td></td>
+<td>Cost of new transmission capacity in USD</td>
+</tr>
+<tr>
+<td></td>
+<td>Curtailed energy in MWh</td>
+</tr>
+<tr>
+<td></td>
+<td>Fixed Operation and Maintenance Cost along with capital payments in constant prices</td>
+</tr>
+<tr>
+<td></td>
+<td>Net present value of power system cost over the whole planning horizon; objective function that optimization model tries to minimize</td>
+</tr>
+<tr>
+<td></td>
+<td>Cost to procure spinning reserves</td>
+</tr>
+<tr>
+<td></td>
+<td>Annual system cost in constant prices</td>
+</tr>
+<tr>
+<td></td>
+<td>Cost of surplus energy to the system in USE</td>
+</tr>
+<tr>
+<td></td>
+<td>Surplus energy in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Damage/economic loss in constant prices because of unmet demand</td>
+</tr>
+<tr>
+<td></td>
+<td>Penalty in constant prices for unmet spinning reserve requirements</td>
+</tr>
+<tr>
+<td></td>
+<td>Variable cost including fuel and variable operation and maintenance cost in constant prices</td>
+</tr>
+</tbody>
+</table>
+<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Availability of unit to generate power in quarter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Availability of electrolyzer to produce hydrogen in quarter</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum amount of MW allowed to be built per year</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital cost of unit g in USD $ or other monetary unit per MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital cost of electrolyzer h in USD $ or other monetary unit per MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Percentage of generator’s stable (firm) capacity per year</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital cost variation index for new generators to indicate how new construction costs change during the planning horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital cost variation index for new electrolyzers to indicate how new construction costs change during the planning horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>Equivalent tons of emitted per MMBTU of fuel consumed</td>
+</tr>
+<tr>
+<td></td>
+<td>Carbon price in USD$ per equivalent tons of</td>
+</tr>
+<tr>
+<td>CostH2Unserved</td>
+<td>Penalty for unserved hydrogen ($/mmBTU)</td>
+</tr>
+<tr>
+<td></td>
+<td>Earliest commission year for generators</td>
+</tr>
+<tr>
+<td></td>
+<td>Earliest commission year for electrolyzers</td>
+</tr>
+<tr>
+<td><em>CO2backstopPenalty</em></td>
+<td>Penalty per ton of CO2 above expected target</td>
+</tr>
+<tr>
+<td></td>
+<td>Cost of the last technology the system can build to reduce to the emissions caps set in the parameters, in $ per equivalent tons</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital Recovery factor for new generators</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital Recovery factor for new electrolyzers</td>
+</tr>
+<tr>
+<td></td>
+<td>Capital Recovery factor for new transmission lines</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum CSP storage capacity in MWh</td>
+</tr>
+<tr>
+<td>CurtailmentPenalty</td>
+<td>Penalty per MWh of VRE curtailed</td>
+</tr>
+<tr>
+<td></td>
+<td>Hourly load level in MW in hour t, day d, quarter q and year y</td>
+</tr>
+<tr>
+<td></td>
+<td>Discrete capacity of the unit for generator</td>
+</tr>
+<tr>
+<td></td>
+<td>Discount rate; real or nominal if cost parameters in real or nominal terms respectively</td>
+</tr>
+<tr>
+<td></td>
+<td>Duration of each time slice (block) in hours</td>
+</tr>
+<tr>
+<td></td>
+<td>Demand scaling factor for energy efficiency measures</td>
+</tr>
+<tr>
+<td></td>
+<td>Electrolyzer efficiency in mmBTU of hydrogen produced per MWh of electricity</td>
+</tr>
+<tr>
+<td></td>
+<td>External demand for hydrogen per quarter and year (hydrogen produced for use outside the power sector) (mmBTU)</td>
+</tr>
+<tr>
+<td></td>
+<td>Efficiency of the CSP solar field</td>
+</tr>
+<tr>
+<td></td>
+<td>Fixed Operation and Maintenance Cost in USD $ or other monetary unit per MW per generator capacity</td>
+</tr>
+<tr>
+<td></td>
+<td>Fixed Operation and Maintenance Cost in USD $ or other monetary unit per MW of electrolyzer capacity</td>
+</tr>
+<tr>
+<td></td>
+<td>Fuel price in USD $/MMBTU</td>
+</tr>
+<tr>
+<td></td>
+<td>Generator’s existing/available capacity in MW at initial year</td>
+</tr>
+<tr>
+<td></td>
+<td>Electrolyzer’s existing/available capacity in MW at initial year</td>
+</tr>
+<tr>
+<td></td>
+<td>Generation variable cost (fuel and VOM) in USD $ or other monetary unit per MWh</td>
+</tr>
+<tr>
+<td></td>
+<td>Contains the zone index of the zone the generator belongs to</td>
+</tr>
+<tr>
+<td></td>
+<td>Heat Rate in MMBTU/MWh</td>
+</tr>
+<tr>
+<td></td>
+<td>Operating life for new generators</td>
+</tr>
+<tr>
+<td></td>
+<td>Operating life for new electrolyzers</td>
+</tr>
+<tr>
+<td></td>
+<td>CAPEX of line connecting zones z1 and z2</td>
+</tr>
+<tr>
+<td></td>
+<td>“Linearized” loss factor in % of active power flowing on transmission line</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum amount of annualized capital payments in USD$ billion over the horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum share of the hourly price driven export in terms of demand</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum amount of fuel f (in million MMBTU) that can be consumed in year y</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum share of the hourly price driven import in terms of demand</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum capacity to be built over the horizon in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum number of transmission lines built over the horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>Minimum capacity factor (to reflect minimum load requirements)</td>
+</tr>
+<tr>
+<td></td>
+<td>Overload factor of generator <em>g</em>, as %, of capacity</td>
+</tr>
+<tr>
+<td></td>
+<td>Planning reserve margin per zone</td>
+</tr>
+<tr>
+<td></td>
+<td>Renewable power used for hydrogen production in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Renewable power which was used for electricity end use sectors (MW)</td>
+</tr>
+<tr>
+<td></td>
+<td>Ramp-down capability of generator <em>g</em>, as %, of capacity installed</td>
+</tr>
+<tr>
+<td></td>
+<td>Ramp-up capability of generator <em>g,</em> as %, of capacity installed</td>
+</tr>
+<tr>
+<td></td>
+<td>Ramp-down capability of electrolyzer h, as %, of capacity installed</td>
+</tr>
+<tr>
+<td></td>
+<td>Ramp-up capability of generator h<em>,</em> as %, of capacity installed</td>
+</tr>
+<tr>
+<td></td>
+<td>Renewable generation that is finally headed for hydrogen production (MW)</td>
+</tr>
+<tr>
+<td></td>
+<td>Renewable generation that is finally headed toward electricity end use sectors (MW)</td>
+</tr>
+<tr>
+<td></td>
+<td>Cost to provide reserves in USD $ or other monetary unit per MWh</td>
+</tr>
+<tr>
+<td></td>
+<td>Percentage of the generator’s unit qualify as a reserve offer</td>
+</tr>
+<tr>
+<td></td>
+<td>Violation penalty of planning reserve requirement in $/other monetary unit per MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Latest retirement year for existing generators</td>
+</tr>
+<tr>
+<td></td>
+<td>Latest retirement year for existing electrolyzers</td>
+</tr>
+<tr>
+<td></td>
+<td>Discount factor at the starting year of stage ending at year</td>
+</tr>
+<tr>
+<td></td>
+<td>Renewable generation profile in % of installed (rated) capacity</td>
+</tr>
+<tr>
+<td></td>
+<td>CSP output to solar field ratio</td>
+</tr>
+<tr>
+<td></td>
+<td>System-level spinning reserve constraint in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Zonal/regional spinning reserve constraint in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Duration of a stage represented by year y in years</td>
+</tr>
+<tr>
+<td></td>
+<td>First year of the horizon</td>
+</tr>
+<tr>
+<td></td>
+<td>First year of generator’s operation</td>
+</tr>
+<tr>
+<td></td>
+<td>Efficiency of storage unit st (per charging cycle)</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum energy capability of storage unit</td>
+</tr>
+<tr>
+<td><em>SurplusPenalty</em></td>
+<td>Penalty per MWh of surplus energy</td>
+</tr>
+<tr>
+<td></td>
+<td>Cap on emissions within the system at year in equivalent tons</td>
+</tr>
+<tr>
+<td></td>
+<td>Network topology: contains 0 for non-existing lines and 1 or -1 to define the direction of positive flow over the line</td>
+</tr>
+<tr>
+<td></td>
+<td>Transfer limits by quarter (seasonal) and year between zones</td>
+</tr>
+<tr>
+<td></td>
+<td>Transmission capacity of each new line in MW</td>
+</tr>
+<tr>
+<td></td>
+<td>Efficiency of the CSP power block</td>
+</tr>
+<tr>
+<td></td>
+<td>Variable Operation and Maintenance Cost in USD $ or other monetary unit per MWh electricity produced</td>
+</tr>
+<tr>
+<td></td>
+<td>Variable Operation and Maintenance Cost in USD $ or other monetary unit per mmBTU of hydrogen produced</td>
+</tr>
+<tr>
+<td></td>
+<td>Penalty/Economic loss consider per MWh of unmet demand</td>
+</tr>
+<tr>
+<td><em>VREforecastingerror</em></td>
+<td>Percentage error in VRE forecast [used to estimated required amount of spinning reserve]</td>
+</tr>
+<tr>
+<td></td>
+<td>Weighted Average Cost of Capital</td>
+</tr>
+<tr>
+<td></td>
+<td>Weight on years</td>
+</tr>
+<tr>
+<td></td>
+<td>Cap on emissions within country c and year in equivalent tons</td>
+</tr>
+<tr>
+<td></td>
+<td>Index of zone , unique number assigned to zone <em>z</em></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="model-formulation">Model formulation<a class="headerlink" href="#model-formulation" title="Permanent link">&para;</a></h2>
+<h3 id="objective-function-and-its-components">Objective function and its components<a class="headerlink" href="#objective-function-and-its-components" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{npvcost} = \sum_{z,y} (\text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y})
+\]</div>
+<div class="arithmatex">\[
+\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}
+\]</div>
+<div class="arithmatex">\[
+\text{fixedcost}_{z,y} = \sum_{g \in \text{NG} \cap \text{NDC}} (\text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y}) +
+\sum_{g \in \text{NG} \cap \text{DC}} \text{AnnCapex}_{\text{NG},y} +
+\sum_g (\text{FixedOM}_{g,y} \cdot \text{cap}_{g,y}) +
+\sum_{h \in \text{NH} \cap \text{NDH}} (\text{CRF}_{\text{NH}} \cdot \text{CapCostH2}_{\text{NH},y} \cdot \text{cap}_{h,y}) +
+\sum_{h \in \text{NH} \cap \text{DH}} \text{AnnCapexH2}_{\text{NH},y} +
+\sum_h (\text{FixedOMH2}_{h,y} \cdot \text{capH2}_{h,y})
+\]</div>
+<div class="arithmatex">\[
+\text{AnnCapex}_{g \in \text{DC},y} = \text{CFR}_{g \in \text{DC}} \cdot \text{CapCost}_{g \in \text{DC}} \cdot \text{CapexTrajectories}_{g \in \text{DC},y} \cdot \text{build}_{g \in \text{DC},y}
+\]</div>
+<div class="arithmatex">\[
+\text{AnnCapexH2}_{h \in \text{DH},y} = \text{CFR}_{h \in \text{DH}} \cdot \text{CapCost}_{h \in \text{DH}} \cdot \text{CapexTrajectories}_{h \in \text{DH},y} \cdot \text{build}_{h \in \text{DH},y}
+\]</div>
+<div class="arithmatex">\[
+\text{variablecost}_{z,y} = \sum_{g \in \text{G},f,q,d,t} (\text{GenCost}_{g,f,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{h \in \text{H},q,d,t} (\text{VOM}_{\text{H2},h,y} \cdot \text{EfficiencyH2}_h \cdot \text{vH2PwrIn}_{h,g,q,d,t,y} \cdot \text{pHours}_{q,d,t,y})
+\]</div>
+<div class="arithmatex">\[
+\text{reservecost}_{z,y} = \sum_{g \in \text{Z},q,d,t} (\text{ResCost}_g \cdot \text{Duration}_{q,d,t,y} \cdot \text{reserve}_{g,q,d,t,y})
+\]</div>
+<div class="arithmatex">\[
+\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VoLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
+\]</div>
+<div class="arithmatex">\[
+\text{usrcost}_{z,y} = \sum_{q,d,t} (\text{RESVoLL} \cdot \text{unmetRes}_{z,y}) +
+\sum_{z,q,d,t,y} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResZo}_{z,q,d,t,y}) +
+\sum_{q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResSY}_{q,d,t,y})
+\]</div>
+<div class="arithmatex">\[
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{CarbonTax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
+\text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
+\]</div>
+<div class="arithmatex">\[
+\text{CO2backCost}_{,y} = \text{CO2backstopPenalty} \cdot \text{CO2backstop}_y
+\]</div>
+<div class="arithmatex">\[
+\text{YearlyTradeCost}_{z,y} = \sum_{q,d,t} ((\text{ImportPrice}_{z,q,d,t,y} - \text{ExportPrice}_{z,q,d,t,y}) \cdot \text{TradePrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y})
+\]</div>
+<div class="arithmatex">\[
+\text{CurtailmentCost}_{z,y} = \text{CurtailmentPenalty} \cdot \text{Curtailment}_{z,y}
+\]</div>
+<div class="arithmatex">\[
+\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
+\]</div>
+<div class="arithmatex">\[
+\text{SurplusCost}_{z,y} = \text{SurplusPenalty} \cdot \text{Surplus}_{z,y}
+\]</div>
+<div class="arithmatex">\[
+\text{usrcostH2}_{z,y} = \sum_q (\text{CostH2Unserved} \cdot \text{unmetH2External}_{z,q,y})
+\]</div>
+<h3 id="transmission-network-constraints">Transmission network constraints<a class="headerlink" href="#transmission-network-constraints" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
+\sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
+\text{storageOut}_{z,q,d,t,y} - \text{storageInj}_{z,q,d,t,y} +
+\text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
+\text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
+\text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
+\]</div>
+<div class="arithmatex">\[
+\text{trans}_{z,z2,q,d,t,y} \leq \text{TransLimit}_{z,z2,q,y} + \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2}
+\]</div>
+<div class="arithmatex">\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z,z2,y-1} + \text{BuildTransmission}_{z,z2,y}
+\]</div>
+<div class="arithmatex">\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z2,z,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{z \in c,q,d,t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq
+\sum_{z \in c,q,d,t} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y} \cdot \text{MaxPriceImShare}_{y,c} \right)
+\]</div>
+<div class="arithmatex">\[
+\sum_{z \in c} \text{importPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport} \right)
+\]</div>
+<div class="arithmatex">\[
+\sum_{z \in c} \text{exportPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport} \right)
+\]</div>
+<h3 id="system-requirements">System requirements<a class="headerlink" href="#system-requirements" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\sum_{g \in z} \text{reserve}_{g,q,d,t,y} +
+\text{unmetSResSY}_{z,q,d,t,y} +
+\sum_{z2} \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+\text{SResSY}_{z,y} + 0.2 \cdot \sum_{VRE \in z} \text{gen}_{VRE,f,q,d,t,y} \quad \forall z,q,d,t,y
+\]</div>
+<div class="arithmatex">\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="arithmatex">\[
+\sum_{g \in Z} \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} +
+\text{unmetRes}_{z,y} +
+\sum_{z2} \sum_q \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+(1 + \text{PRM}_z) \cdot \max_{q,d,t} \text{Demand}_{z,q,d,t,y} \quad \forall z,y
+\]</div>
+<h3 id="generation-constraints">Generation constraints<a class="headerlink" href="#generation-constraints" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\sum_f \text{gen}_{g,f,q,d,t,y} + \text{reserve}_{g,q,d,t,y} \leq (1 + \text{OverLoadFactor}_g) \cdot \text{cap}_{g,y}
+\]</div>
+<div class="arithmatex">\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="arithmatex">\[
+\sum_f \text{gen}_{g,f,q,d,t-1,y} - \sum_f \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{RampDn}_g \quad \forall t &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\sum_f \text{gen}_{g,f,q,d,t,y} - \sum_f \text{gen}_{g,f,q,d,t-1,y} \leq \text{cap}_{g,y} \cdot \text{RampUp}_g \quad \forall t &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\sum_f \text{gen}_{g,f,q,d,t,y} \geq \text{MinCapFac}_g \cdot \text{cap}_{g,y} \quad \forall d \in M
+\]</div>
+<div class="arithmatex">\[
+\sum_{f,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \right) \leq
+\text{Availability}_{g,q} \cdot \sum_{d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \right)
+\]</div>
+<h3 id="renewable-generation">Renewable generation<a class="headerlink" href="#renewable-generation" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{gen}_{g,f,q,d,t,y} \leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y} \quad \forall \text{RE} \notin \text{CSP}
+\]</div>
+<h3 id="concentrated-solar-power-csp-generation">Concentrated Solar Power (CSP) Generation<a class="headerlink" href="#concentrated-solar-power-csp-generation" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSPStorage} \quad \forall \text{map}(g,\text{CSP})
+\]</div>
+<div class="arithmatex">\[
+\text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiencyCSP} \cdot \text{FieldEfficiencyCSP}}
+\]</div>
+<div class="arithmatex">\[
+\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiencyCSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiencyCSP}} \quad \forall g,z,q,d,t,y
+\]</div>
+<div class="arithmatex">\[
+\text{storageCSP}_{g,z,q,d,t,y} = \text{storageCSP}_{g,z,q,d,t-1,y} + \text{storageCSPinj}_{g,z,q,d,t,y} - \text{storageCSPout}_{g,z,q,d,t,y}
+\]</div>
+<h3 id="time-consistency-of-power-system-additions-and-retirements">Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{EG},y} = \text{cap}_{\text{EG},y-1} + \text{build}_{\text{EG},y} - \text{retire}_{\text{EG},y} \quad \forall (y, g \in \text{EG}), \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} &gt; \text{CommissionYear}_g)
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{CommissionYear}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{CommissionYear}_g \wedge \text{ord}(y) &lt; \text{RetirementYear}_{\text{EG}})
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{RetirementYear}_{\text{EG}})
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{NG},y} = \text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_g \leq \text{GenCap}_g
+\]</div>
+<div class="arithmatex">\[
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) &lt; \text{CommissionYear}_g)
+\]</div>
+<h3 id="storage-constraints">Storage constraints<a class="headerlink" href="#storage-constraints" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\]</div>
+<div class="arithmatex">\[
+\text{storage}_{\text{st},z,q,d,t&gt;1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
+\text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t&gt;1
+\]</div>
+<div class="arithmatex">\[
+\text{storageInj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\]</div>
+<div class="arithmatex">\[
+\text{storageInj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="arithmatex">\[
+\text{storage}_{\text{st},q,d,t,y} \leq \text{StorageCapacity}_{\text{st},y}
+\]</div>
+<div class="arithmatex">\[
+\text{storageInj}_{\text{st},q,d,t,y} - \text{storageInj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="arithmatex">\[
+\text{storageInj}_{\text{st},q,d,t-1,y} - \text{storageInj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="arithmatex">\[
+\text{StorageCapacity}_{\text{EG},y} = \text{StorageCapacity}_{\text{EG},y-1} +
+\text{BuildStorageCapacity}_{\text{EG},y-1} - \text{Retire}_{\text{StorageCapacity}_{\text{EG},y-1}} \quad \forall y&gt;1
+\]</div>
+<div class="arithmatex">\[
+\text{StorageCapacity}_{\text{NG},y} = \text{StorageCapacity}_{\text{NG},y-1} +
+\text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y&gt;1
+\]</div>
+<div class="arithmatex">\[
+\text{StorageCapacity}_{\text{NG},y} = \text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y=1
+\]</div>
+<div class="arithmatex">\[
+\text{StorageCapacity}_{\text{st},y} \geq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="arithmatex">\[
+\text{StorageCapacity}_{\text{st},y} \leq \text{MaximumStorageEnergy}_{\text{st},y} + \text{MaximumStorageEnergy}_{\text{CSP},y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{y} \text{BuildStorageCapacity}_{\text{EG},y} \leq \text{MaximumStorageEnergy}_{\text{EG},y}
+\]</div>
+<h3 id="investment-constraints">Investment constraints<a class="headerlink" href="#investment-constraints" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\sum_y \text{build}_{g \in \text{NG},y} \leq \text{MaxNewCap}_{\text{NG}}
+\]</div>
+<div class="arithmatex">\[
+\sum_y \text{build}_{g \in \text{NG},y} \geq \text{MinNewCap}_{\text{NG}}
+\]</div>
+<div class="arithmatex">\[
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{CommissionYear}_g &gt; \text{StartYear})
+\]</div>
+<div class="arithmatex">\[
+\text{build}_{g \in \text{NG},y} \leq \text{AnnualBuiltLimit}_y \cdot \text{WeightYear}_y
+\]</div>
+<div class="arithmatex">\[
+\text{build}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{builtCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="arithmatex">\[
+\text{retire}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{retireCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="arithmatex">\[
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{CommissionYear}_g)
+\]</div>
+<div class="arithmatex">\[
+\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y}
+\]</div>
+<div class="arithmatex">\[
+\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y} \right)
+\]</div>
+<div class="arithmatex">\[
+\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{sMaxCapitalInvestment}
+\]</div>
+<h3 id="environmental-policy">Environmental policy<a class="headerlink" href="#environmental-policy" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{emissionsZo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="arithmatex">\[
+\text{emissionsZo}_{z,y} \leq \text{ZoEmissionCap}_{y,z}
+\]</div>
+<div class="arithmatex">\[
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="arithmatex">\[
+\text{emissions}_{z,y} \leq \text{SyEmissionCap}_y
+\]</div>
+<h3 id="ccs-retrofits">CCS retrofits<a class="headerlink" href="#ccs-retrofits" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{build}_{\text{ng},y} - \text{retire}_{\text{eg},y} \leq 0 \quad \forall \text{ng},\text{eg} \in \text{GG}
+\]</div>
+<h3 id="green-hydrogen-production">Green hydrogen production<a class="headerlink" href="#green-hydrogen-production" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\text{capH2}_{\text{eh},y} = \text{capH2}_{\text{eh},y-1} + \text{buildH2}_{\text{eh},y} - \text{retireH2}_{\text{eh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\text{capH2}_{\text{nh},y} = \text{capH2}_{\text{nh},y-1} + \text{buildH2}_{\text{nh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="arithmatex">\[
+\text{capH2}_{h,y} = \text{H2Cap}_{h \in \text{EH},y} + \text{buildH2}_{h,y} - \text{retireH2}_{\text{EH},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="arithmatex">\[
+\sum_{y \in Y} \text{buildH2}_{\text{eh},y} \leq \text{H2Cap}_{\text{eh}}
+\]</div>
+<div class="arithmatex">\[
+\sum_{y \in Y} \text{buildH2}_{\text{nh},y} \leq \text{MaxNewCapH2}_{\text{nh}}
+\]</div>
+<div class="arithmatex">\[
+\text{buildH2}_{\text{nh},y} = \text{UnitSizeH2}_{\text{nh}} \cdot \text{buildCapVarH2}_{\text{nh},y}
+\]</div>
+<div class="arithmatex">\[
+\text{retireH2}_{\text{eh},y} = \text{UnitSizeH2}_{\text{eh}} \cdot \text{retireCapVarH2}_{\text{eh},y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{d,t} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_z \left( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \right) \leq \sum_{z,h \in \text{map}(h,z)} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \right)
+\]</div>
+<div class="arithmatex">\[
+\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y}
+\]</div>
+<div class="arithmatex">\[
+\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y}
+\]</div>
+<div class="arithmatex">\[
+\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h
+\]</div>
+<div class="arithmatex">\[
+\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y} \leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h
+\]</div>
+<div class="arithmatex">\[
+\text{Gen}_{\text{RE},f,d,t,y} = \text{REPwr2Grid}_{\text{RE},f,d,t,y} + \text{REPwr2H2}_{\text{RE},f,d,t,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2H2}_{\text{RE},f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="arithmatex">\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2Grid}_{\text{RE},f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y}
+\]</div>
+<h2 id="description-of-the-model">Description of the model<a class="headerlink" href="#description-of-the-model" title="Permanent link">&para;</a></h2>
+<p>EPM cand be used (i) as a least-cost capacity expansion model to optimize investments in the power sector over a specified horizon that could extend from a few years to decades or as (ii) an economic dispatch model to optimize the operation of a specified power system over a relatively short period compared to Capacity Expansion Model (1-week to 1-year). Like every optimization software the problem is mathematically described through an objective function and several accompanying equations (system constraints). System constraints are used to describe mathematically the physical part of the system, laws of physics, policy targets and other realities specific to the system (for example fuel availability). More detailed description of system constraints can be found on subsequent sections.</p>
+<h3 id="indices-and-sets_1">Indices and Sets<a class="headerlink" href="#indices-and-sets_1" title="Permanent link">&para;</a></h3>
+<p>All sets used in the formulation can be classified in two major categories: time and power system-related. Four sets belong to the first category: which represent different time scales considered in the model: days, quarters, hours and years. Hour is the smallest unit of time used in this formulation and we could use the same formulation using just one set for time containing as many hours as the set . It is convenient though to keep all the four sets since they reveal some fundamental assumptions of the model: (1) days are used to reflect the chronological sequence of the time slices used for ramping and storage constraints as we will further explain in the constraints section; (2) quarters are used to reflect seasonality in the load patterns, the availability of thermal power units and the thermal limits of transmission lines; (3) years are used to represent annual trends on demand growth and keep track of the lifetime of units; and finally (4) hours are commonly used as the smallest time unit in long term models since the day ahead scheduling models schedule generation units on an hourly basis.</p>
+<p>Three sets are power system related. Set includes all generating units. Depending on the size of the system, we might decide to use set to model individual units of the power system for a small system or aggregated units that represent multiple units of the same technology for a large system. We use the term technology to refer to different technologies or different fuels used: e.g. coal steam turbines, natural gas combined cycle, natural gas combustion turbines, wind farms, solar photovoltaic panels, geothermal, hydropower and diesel generators. Depending on the resources available in a country, some technologies might not be present. As the model stands now, elements of set are mapped to sets and , which stand for fuel and zones respectively. Set is one of the major sets used in power systems since the power system is a network and physical laws (widely known as Kirchhoff’s laws) govern the flow of power over the transmission lines. Given that, a set such as set which captures the spatial dimension of the system is necessary. At the finest granularity, set might contain buses of the power system but in case we model larger systems, set might contain zones of a power system or even countries. Note that the modeler usually decides on the spatial granularity based on the presence of common regulatory rules or pricing schemes in a zone or/and based on the congestion observed on transmission lines connecting adjacent regions. Finally, set includes the different fuels used and we model it to keep track of the consumption of different fuels since for certain fuels domestic upper bounds on consumption might apply and/or issues of energy security might be involved in case of imported fuels. In addition, different types of fuels have different carbon content and lead to different emissions of carbon dioxide, which are important to track in case environmental policies exist.</p>
+<h3 id="objective-function">Objective function<a class="headerlink" href="#objective-function" title="Permanent link">&para;</a></h3>
+<p>The objective function in this model minimizes the total system cost including violation/penalty terms for constraints that are not met. All generation, transmission and emissions costs of the system are considered including: (1) Fixed costs including annualized capital cost payments for new generators<sup><a href="#footnote-5">[4]</a></sup> and any additional transmission capacity and fixed operation and maintenance costs (2) variable costs including the fuel cost and any variable operation and maintenance costs (3) cost to procure spinning reserves (4) carbon tax payments and (5) penalties for unmet demand and unmet capacity and spinning reserve requirements, breaching the emissions and renewable rejection at the system or the zonal level.</p>
+<p>In the case of a least-cost expansion model the objective function typically represents total system costs over the study horizon. Depending on the type of the problem (for example linear or non-linear) the user chooses an appropriate modeltype to minimize the value of the objective function. Total system costs are broken into several components the most important of which are the fixed and variable costs of electricity generation. CAPEX costs typically dominate fixed costs while fuel costs dominate variable costs of generation. In systems with very high shares of renewables VOM costs are higher than fuel costs. Other types of system costs included in the objective function are costs of reserve provision by generators, the cost of carbon (when applicable), the cost of electricity trading (it could be a net benefit if revenues from electricity trade exceed costs) and the cost of transmission enhancements.</p>
+<p>When EPM is used as a dispatch model, there are no capex costs in the objective function. In dispatch mode, the model does not consider unit commitment related decisions in its current form, albeit minimum generation constraints and ramp rates are modeled.</p>
+<h3 id="load-approximation">Load approximation<a class="headerlink" href="#load-approximation" title="Permanent link">&para;</a></h3>
+<p>The size of the optimization problem (i.e. the number of decision variables to be determined) depends significantly on the study horizon and the optimization step. An EPM user needs to find the balance between precision and computational effort (practicality) to complete the analysis. This is especially important when little gains in precision impact significantly the running time. In most cases representing the full year at the hourly level (8760 hours) over a study horizon that extends to multiple years, usually 15 to 20 years, is neither practical nor required to assess in detail the capacity mix of most supply options. For capacity expansion analyses, the load is typically approximated through a number of representative days which are assumed to repeat several times throughout the calendar year. Such representative days are carefully selected to capture the hourly profile (including the peak) of electricity demand on a monthly or quarterly basis. It is common practice to select the following three types of representative days: (i) an average day which is assumed to be representative of the bulk of electricity production (repeats several times over a quarter (or month), (ii) a typical day of high demand (which also need to include the peak) and (iii) a typical day of low demand. The last two types of days typically represent a much smaller portion of the quarterly (or monthly) demand compared to the average day. The EPM input file includes tabs where a user can provide the hourly profile of each of the selected typical days on the “Demand” tab. Also, a user needs to provide the relative contribution of each typical day on total quarterly/monthly/seasonal demand represented as number of repeats over a typical quarter (or month), in the “Duration” tab.</p>
+<p>The above-mentioned representation of the load has been widely used in power sector analysis to estimate the capacity mix of conventional supply options both efficiently and accurately. However, application of this methodology has weaknesses in power systems with very high shares of variable renewable energy (VRE) sources. In such systems detailed representation of chronology might have significant impact on results. VRE generation profiles are inputs on EPM. Selection of a representative day for load need to be accompanied by the respective VRE generation profile that corresponds to the selected day. This requires extensive data processing.</p>
+<p>A weakness of selecting representative demand days is that the analysis might undersize electricity storage, the simulation of which requires full description of chronology. This is especially true in the case multi-hour and seasonal storage. For that reason, running EPM on dispatch mode (full chronology) of a full (selected) year might be required to supplement capacity expansion analysis.</p>
+<p>An EPM user can represent demand in detail for each year of the study horizon or provide annual projections (single value) of demand and peak demand together with typical day profiles over a base (historical) year. When the latter option is activated, the model uses the above data to calculate the projected demand in detail.</p>
+<h3 id="value-of-lost-load">Value of Lost Load<a class="headerlink" href="#value-of-lost-load" title="Permanent link">&para;</a></h3>
+<p>The Value of Lost Load (VoLL) is an economic penalty used to ensure that the model will invest to meet the demand and avoid unserved energy if it is economic to do so. The VoLL represents the damage on the local economy from missing to supply 1MWh of demand. Without assigning VoLL matching supply and demand would be economically suboptimal as it is cheaper to fall short on supply rather than paying for the cost of electricity generation and associated investments. Thus, the selection of VoLL need to be based on research. There is no universally acceptable Value of Lost Load and different methods have been applied to estimate a reasonable value for the unserved energy. Typical values used in developed economies vary between 4,000 and 40,000<span class="arithmatex">\(/MWh while in developing countries between 500 and 10,000\)</span>/MWh [1].</p>
+<p>VoLL affects both the total-non served energy in the system and peaking supply investment decisions. In some cases, allowing for some loss of load might be preferable compared to investing into supply options that will only operate for a tiny amount of the annual time. The user will need to calibrate the model considering the local realities and system rules since the maximum allowed number of hours failing to meet demand is constrained by reliability criteria. When a value for VoLL is not available in global literature the EPM user can select a reported VoLL from a country with similar economic characteristics. Alternatively, the assessment of VoLL can be based on analytical expressions or based on the assumption that demand is sensitive to electricity price. In the latter case VoLL can take the value of cost of generation of the most expensive asset in the system which are usually backup diesel generators [2].</p>
+<p>Typically, back-up generators are fueled with expensive diesel, and if they are used in the mode just described, the system VoLL would take the value of the variable cost of these generators (~500 $/MWh).</p>
+<h3 id="transmission-network-constraints_1">Transmission network constraints<a class="headerlink" href="#transmission-network-constraints_1" title="Permanent link">&para;</a></h3>
+<p>Kirchhoff’s laws are physical laws governing the flows over transmission lines in a network. According to first Kirchhoff law, also known as KCL (Kirchhoff’s Current Law), the sum of injections in a node should equal zero. In our formulation, KCL corresponds to equation <em>(14)</em>. There, we can see that the power provided by generators and storage should be equal to demand (minus the unmet demand) plus/min outflows/inflows from the node to adjacent nodes. This equation additionally includes price-driven import and export volumes from external zones. The demand is adjusted with the potential improvements in the energy efficiency using parameter.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(14)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the second Kirchhoff Law (or widely known as KVL- Kirchhoff’s Voltage Law) is valid for power systems but for reduced power system, it might not apply depending on the method of network reduction followed. In this particular formulation, KVL is not considered.</p>
+<p>Another important feature of our model relates to modeling of transmission losses. We model transmission losses as a percent reduction of the imported electricity at each node. In particular, term</p>
+<p>at equation <em>(14)</em> models injections to node <em>z</em> and we can see how the loss factor reduces the amount of energy imported. On the contrary, the outflow is fully considered at the origin node of the network: .</p>
+<p>Another common constraint for transmission networks refers to the capacity limits of transmission lines. In particular, as equation <em>(15)</em> implies, the flow over a specific line cannot exceed a certain limit, which is defined either by thermal limit of the line or upper bounds imposed by reliability considerations. Note that we model flows over a particular transmission line with two positive variables, one for each direction. Please observe that the transmission limit parameter might change per year to reflect planned upgrades and the additions to the transmission network. There are also maximum built limits of additional transmission capacity between zones due to budget or technical constraints. Moreover, the transmission limit differs per season since ambient temperature affects the capacity available for power transfers.</p>
+<table>
+<thead>
+<tr>
+<th>+</th>
+<th>(15)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The modelled zones, countries and regions are usually not isolated from the external systems and markets not included in the model. Therefore, we allow trading with these zones at time-varying predefined price. Equations <em>(16)</em>, <em>(17)</em> and <em>(18)</em> define the limits of this exchange. Equation <em>(16)</em> sets the annual limit on the energy imported from external zones as a percentage of the annual demand using parameter . Equations <em>(17)</em> and <em>(18)</em> introduce the hourly limit on the imported and exported power, defined as a percentage of hourly demand.</p>
+<h3 id="system-requirements_1">System requirements<a class="headerlink" href="#system-requirements_1" title="Permanent link">&para;</a></h3>
+<p>In our formulation, we model two products that the system operator might require generators to provide during operation: (1) energy and (2) spinning reserves. Per NERC’s definition, spinning reserves refers to “unloaded generation that is synchronized and ready to serve additional demand” [3]. Note that more products exist, especially in organized U.S. wholesale markets such as non-spinning reserves or flex ramp. Operating reserves (spinning and non-spinning reserves) provide the capability above firm system demand required to provide for regulation, load-forecasting error, equipment forced and scheduled outages and local area protection [3]. Moreover, under the spinning reserves different products might exist with respect to the response times required etc.</p>
+<p>The amount of spinning reserve required depends on several factors that the planner/operator considers such as the load level and the associated forecasting error, the forecasting error attached to the renewable generation and the size of the largest unit committed on the system to be able to accommodate N-1 outages. Equation <em>(19)</em> indicates that spinning reserve can be provided by interconnections. On top of system-wide reserve requirements, zonal requirements apply to accommodate for outages on transmission lines connecting adjacent regions/zones/nodes.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(19)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Planners usually consider a planning reserve margin (PRM) to account for forecasting error in demand projections. Typical values for the PRM vary between 10-15%. Equation <em>(21)</em> indicates that interconnections can be accounted for as reserve margin. Note that intermittent units do not contribute towards the planning reserve constraint at their full capacity but at a fraction specified by the planner (using the Capacity Credit parameter), e.g. in the U.S. markets this fraction is calculated based on available historical data as the capacity factor during a set of peak hours [4].<sup><a href="#footnote-6">[5]</a></sup></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(21)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="generation-constraints_1">Generation constraints<a class="headerlink" href="#generation-constraints_1" title="Permanent link">&para;</a></h3>
+<p>Spinning reserve capacity is modeled as it is a very important dimension of a system flexibility and ability to integrate VRE.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(22)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (22) assures that the power generated by the unit along with the spinning reserves provided by the same unit do not exceed the unit’s capacity.<sup><a href="#footnote-7">[6]</a></sup> Note that the capacity is augmented by an overload factor. This factor is typically 10% for those generators that can handle overload conditions for a short period of time, and zero for those generators that cannot handle such conditions.</p>
+<p>Given that spinning reserve products are usually defined with respect to response time of generator to a certain dispatch signal, only a certain percentage of the generator’s unit qualify as a reserve offer. We capture this characteristic in the model through equation (23).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(23)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Ramping constraints acknowledge that the generation units have inertia in changing their outputs and differences in generation outputs between consecutive hours should be constrained by the ramping up and down capabilities of the unit.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(24)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(25)</td>
+</tr>
+</tbody>
+</table>
+<p>Another important feature of generators is the minimum load. The minimum load can either be determined based on technical specifications provided by the manufacturer or be calculated as an “economic” minimum beyond which the unit can provide energy economically. The minimum load constraint is really important for unit commitment and requires the use of binaries variables that make sure the constraint is enforced when the unit is on. However, in generation expansion models operations are approximated through a simple dispatch model for representative hours of the year. In this case, if deemed important, an approximation of the minimum load constraint can be applied for the thermal units for which it is relevant. The constraint can be applied for a subset of the days modeled and the constraint is activated only for those days or to all days. Constraint (26) is forcing all units to generate power equal to at least their minimum loading levels for specific days in the year.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(26)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Generating units require maintenance every year. Given that, we should consider the units as unavailable for certain periods during the year. In this particular application, we consider a uniform availability factor per quarter to account for maintenance.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(27)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="renewable-generation-modeling">Renewable generation modeling<a class="headerlink" href="#renewable-generation-modeling" title="Permanent link">&para;</a></h3>
+<p>Renewable generation differs from conventional units in that its output is, to a certain extent, uncontrollable and intermittent. The power generated by renewables such as wind or solar depends on wind velocity or solar irradiation. Collecting historical data that records weather information (such as wind speed, temperature, wind direction, etc.) or the power generation output by installed renewables at specific locations, analysts usually employ statistical methods such as k-means to reduce the number of hours required to approximate the intermittent nature of renewables [5]. In this particular application, the generation profile for each renewable energy technology (such as wind or solar PV) is defined by the hourly capacity factor, in a year, of a generic power plant of each type, modeled at a specified location. Then, given this hourly profile for a year, we choose the amount of days modeled based on the days selected for the load approximation (see Section 1.4.3), i.e., the renewable profile during the 12 days in the year selected, for load, is maintained.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(28)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the renewable profile is highly dependent on the region/location the resource is located. This formulation implicitly models that aspect since might have different elements for the same generation technology at different locations.</p>
+<h3 id="concentrated-solar-power-csp-modeling">Concentrated Solar Power (CSP) modeling<a class="headerlink" href="#concentrated-solar-power-csp-modeling" title="Permanent link">&para;</a></h3>
+<p>CSP technology modeling differs from other renewable technologies due to the complexity derived by its storage capabilities. The CSP configuration considered in this model consists of two integrated subsystems; these include the thermal storage system, and power cycle. Thermal storage is modeled using a simple energy balance approach that includes charging and discharging energy. The power cycle model provides a simple mechanism for modeling the conversion from thermal energy output from the solar field, and thermal storage into electrical energy.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(29)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (29) indicate that at any time the CSP storage level cannot exceed its storage capability.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(30)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The power output of the solar panel is calculated by multiplying the nameplate capacity of the CSP power plant, the capacity factor of the system, and the solar multiple, then, dividing this by the turbine and solar field efficiencies (Equation (30)).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(31)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (31) indicate that all the power output produced by CSP generators at any given zone, cannot exceed the nameplate capacity. Finally, Equations (32) and (33) detail the power balance formulations for the power cycle and thermal storage subsystems.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(32)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(33)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="time-consistency-of-power-system-additions-and-retirements_1">Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements_1" title="Permanent link">&para;</a></h3>
+<p>We use constraint (34) to track the capacity in consecutive years. In particular, generation capacity at year equals capacity at previous year plus any investment minus any retirement at year .</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(34)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Several more constraints are formulated to fix the capacity at pre-specified levels in certain years.</p>
+<ul>
+<li>The first constraint sets the capacity of the existing units in the first year to the predefined capacity, if the commissioning year is earlier then the first year of the optimization horizon.</li>
+</ul>
+<table><tbody><tr><th></th><th><p>(35)</p></th></tr><tr><td></td><td></td></tr><tr><td colspan="3"><ul><li>The second constraint sets the capacity of the existing units to the predefined capacity, for all the years exceeding the commissioning year, but before the defined retirement year.</li></ul><table><tbody><tr><th></th><th><p>(36)</p></th></tr><tr><td></td><td></td></tr></tbody></table></td><td></td></tr></tbody></table>
+
+<ul>
+<li>The third constraint forces the capacity of the existing units to 0, when the retirement year is reached.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(37)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The fourth constraint states that the total capacity of a new generator equals the capacity of that new generator built the previous year plus the capacity to be built the current year:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(38)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The fifth constraint forces the capacity at the first year of the horizon for new units to be equal to the capacity installed that year</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(39)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The sixth constraint limits the capacity to the predefined available or installed capacity of the unit.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(40)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The seventh constraint forces the capacity of planned and candidate units at zero for years preceding the commission year of the unit.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(41)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage-modeling">Storage modeling<a class="headerlink" href="#storage-modeling" title="Permanent link">&para;</a></h3>
+<p>Economically efficient storage in power systems has mainly been pumped hydro storage for a considerable number of years. Nowadays, more storage technologies such as battery energy storage systems are being added to the power system providing energy and/or reserve services.</p>
+<p>Storage is modeled differently compared to conventional units since it requires two more variables: (1) one variable to keep track of the storage level (storage) and (2) one variable (<em>storageinj</em>) to model the injection of energy into the storage unit. The variable <em>gen</em> used to track the generator output of conventional units is used to account for the output of a storage unit when it is discharged. Moreover, the chronological sequence of the time slices is important to make sure that the simulated operation is feasible e.g., we cannot discharge a storage unit if charging of the unit has not preceded. Finally, storage of energy requires the conversion of electricity to another form of energy e.g., mechanical for flywheels or chemical for fuel cells and common batteries. The conversion of one form of energy to another involves losses that we should consider in our models. Equations (30) and (31) represent the storage balance equations on the first hour of a representative day and any other hour of a representative day respectively:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(42)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(43)</td>
+</tr>
+</tbody>
+</table>
+<p>The first equation (42) makes sure that the battery is discharged at the start of each representative day. The choice for not making a link between different days and thus having the battery discharged at the start of each day is because the standard formulation of the model works with representative days (e.g peak load, minimum load, and average load days) instead of actual days. Equation (43)in turn keeps track of the energy stored in the storage unit between consecutive hours of the same day: the energy stored in the unit at time slice <em>t</em> (t &gt; 1) equals the energy stored in the unit at time slice <em>t-1</em> plus any injection reduced by the storage efficiency minus any discharge at time <em>t</em>. In case the storage unit is linked to a PV plant, the injection is given by the PV profile:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(44)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Two additional constraints are used to make sure that the operation of storage in each time slice is feasible considering the peak storage capacity (in MW):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(45)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(46)</td>
+</tr>
+</tbody>
+</table>
+<p>The first constraint ensures that the hourly energy injection is lower or equal than the maximum hourly energy injection. The second constraint limits the total amount of energy (in MWh) stored to the maximum storage level (in MWh). Storage outputs are constrained by the general equation (22).</p>
+<p>Furthermore, the storage units can be charged or discharged at a rate, which cannot exceed a specific value. To model this behavior, we include constraints (47) and (48) respectively.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(47)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(48)</td>
+</tr>
+</tbody>
+</table>
+<p>Three equations keep track of the deployed energy storage capacity (in MWh) of the storage units:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(49)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(50)</td>
+</tr>
+<tr>
+<td></td>
+<td>(51)</td>
+</tr>
+</tbody>
+</table>
+<p>Equation (49) keeps track of the energy storage capacity for existing storage units whereas equations (50) and (51) are used for new storage units.</p>
+<p>Three final constraints limit the total deployed energy storage capacity (in MWh):</p>
+<p>(52) (53)</p>
+<p>(54)</p>
+<p>The first constraint ensures that the deployed energy storage (in MWh) is larger than the peak storage capacity (in MW) at any time.<sup><a href="#footnote-8">[7]</a></sup> The second constraint limits the total deployed energy storage (in MWh) to the maximum deployable energy storage (in MWh). Equation (54) constrains the deployment of existing storage units for which the commission year is later than the starting year of the modelling horizon.</p>
+<h3 id="investment-constraints_1">Investment constraints<a class="headerlink" href="#investment-constraints_1" title="Permanent link">&para;</a></h3>
+<p>Planners consider several constraints when they decide on a generation investment plan. Common constraints refer to budget, land use, scheduling of new construction and consumption of specific fuels for energy security considerations.</p>
+<p>Constraint (55) usually reflects land use considerations, regulation that imposes an upper bound on capacity of specific technologies or simply resource potential (e.g., for wind there is a finite amount of locations where wind farms can provide the capacity factor modeled).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(55)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Constraint (58) is usually employed to reflect practical limitations on construction and spread the construction of new units more uniformly over time. For example, it seems pretty unrealistic that the whole system capacity can be built in one year.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(58)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Constraint (62) imposes an upper bound on fuel consumption. This upper bound might correspond to the fuel reserves a country might have at its disposal or the capacities of refinement units or importing units such as size of LNG terminals. Constraint (63) simply estimates the fuel consumption. Note that in case we want to reduce the number of variables in our model, we can get rid of the fuel variable since it is defined in terms of the generation variable.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(62)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(63)</td>
+</tr>
+</tbody>
+</table>
+<p>Constraint (64) represents a budget constraint. It limits the capital expenses withdrawal to be lower than a pre-specified amount. In this formulation, we assume that the <em>sMaxCapitalInvestment</em> parameter is similar to the maximum debt payments that a power system planner can do over the horizon.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(64)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>An alternative constraint that addresses the same concern but relies on different information is expressed by constraint (69). In that case, the planner does not know the maximum amount of debt payments that the power plant owners might do but he has a good understanding of the maximum capital available to the system for investment. In that case, the sum of the overnight capital expenditure is not allowed to exceed this known budget.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(69)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="environmental-policy_1">Environmental policy<a class="headerlink" href="#environmental-policy_1" title="Permanent link">&para;</a></h3>
+<p>Environmental concerns often lead policymakers to adoption of caps on the amount of emissions of certain pollutants. Several countries have announced targets to reduce their carbon dioxide emissions below particular amounts. Given that the power system is a big contributor to carbon dioxide emissions, power system caps are usually enforced at the country or at multi-country level. Constraints (65) and (66) impose the caps decided by regulators. Note that constraints (67) and (68) are modeled as “hard” constraints with no violation allowed. We would like to note that environmental policy might impose caps on more pollutants beyond carbon dioxide. For example, in the USA certain caps apply on and emissions. The dual variables of constraint (66) and (68) provide valuable information to the planner since they estimate the additional cost the planner would have to bear to decrease the amount of the pollutant by an infinitely small amount. In other words, the dual prices of (66) and (68) provide an approximation of the prices that the planner would pay per unit of pollutant if slightly stricter regulation would be applied.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(65)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>(66)</td>
+</tr>
+<tr>
+<td></td>
+<td>(67)</td>
+</tr>
+<tr>
+<td></td>
+<td>(68)</td>
+</tr>
+</tbody>
+</table>
+<p>Another policy mechanism related to carbon emissions is a carbon tax (less popular than the cap-and-trade system at present). We model the carbon tax as part of the objective function. Note that the carbon tax does not correspond to an actual cost for the society since it is a transfer payment for emitters to the government. It reflects an actual cost, though, only if it attempts to monetize the public health cost and the damage to the environment. However, it reflects an actual cost for power system since generators would probably have to pay the tax to the government and that explains why it is part of the objective function (8).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(8)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="modelling-ccs">Modelling CCS<a class="headerlink" href="#modelling-ccs" title="Permanent link">&para;</a></h3>
+<p>CCS technology investments can be modelled on EPM as either greenfield or retrofits of existing coal plants. A new CCS plant is modelled similarly as any other coal plant with its techno-economic parameters adjusted. Typically, CCS plants are modelled to have lower efficiency and higher CAPEX and OPEX compared to conventional coal plants. The environmental impact of CO2 storage is modelled through setting fuel burned on a CCS plant to have reduced emissions factor compared to conventional coal (typically reduction 90% to 95%).</p>
+<p>CCS retrofits are modeled as a sudden change on the techno-economic parameters of an existing plant subject to some CAPEX incurred. More specifically, this change is modelled as a decommissioning of the existing plant and a simultaneous commissioning of the retrofitted plan. The retrofit CAPEX and the updated techno-economic parameters need to be carefully selected based on international experience. The mathematical addition of CCS retrofit on EPM is done through equation 69 below:</p>
+<p>(69)</p>
+<p>Set mapGG containing the relevant pairs of the existing plant (candidate for retrofit) and the new plant (retrofitted plant) is automatically generated through the inputs development phase. The relevant connection (pairs of plants) is made by the EPM user on excel tab named LinkedComDecom</p>
+<h3 id="modelling-of-green-hydrogen">Modelling of Green Hydrogen<a class="headerlink" href="#modelling-of-green-hydrogen" title="Permanent link">&para;</a></h3>
+<p>Modeling of production of green hydrogen is possible on EPM. When the option is activated investments on electrolyzers are optimized similarly as with supply side technologies. The user provides the relevant technoeconomic inputs for electrolyzers (CAPEX, OPEX, efficiency, project lifetime etc). There are two potential uses of green hydrogen in EPM:</p>
+<ol>
+<li>Re-circulation in the power sector. In that case green hydrogen acts as a carrier of renewable energy providing long-term storage to the system. Hydrogen can be burned in modified new CCGTs/OCGTs at 100% per volume or burned in existing dual fuel generators (future versions of EPM will include option for pre-specified per volume mix of hydrogen with natural gas to be burned in conventional turbines). The user needs to define hydrogen as an additional fuel with zero cost and zero emissions factor since it is produced within the system and not imported. Costs of hydrogen are indirectly accounted through the additional investments and relevant OPEX within the system. Also, techno-economic characteristics of new hydrogen turbines need to reflect published figures based on international experience</li>
+<li>Used in other end-use sectors (residential, industry, transport). This is modeled as an external demand of green hydrogen to be satisfied subject to some penalty for each mmBTU of unserved hydrogen demand. EPM simulates power sector operation and investment requirements to satisfy external hydrogen demand but it does not model any subsequent use outside the power sector. The costs for external hydrogen production are accounted for in the model and thus the power sector is assumed to bear the costs of decarbonization of other sectors.</li>
+</ol>
+<p>Description of green hydrogen formulation on EPM follows below:</p>
+<p>Investments on electrolyzers are mathematically constrained to dictate time consistency of capacity additions and retirements, similarly as with generators:</p>
+<p>Generation capacity of existing electrolyzer capacity at year equals capacity at previous year plus any investment minus any retirement at year where y is not the first year of the study horizon (equation 70)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(70)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (71) is the same constraint as (70) modified for candidate capacity</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(71)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (72) constraints total electrolyzer capacity at the end of the first year of the optimization horizon. At the beginning of horizon existing capacity is the one defined in the inputs section and by the end of year the capacity is adjusted by any optimized additions or retirement throughout the year.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(72)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Total electrolyzer capacity that can be developed into mandatory projects (decision for development has been made) can not exceed the maximum electrolyzer capacity provided as input</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(73)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Total new electrolyzer capacity that can be developed in candidate projects (decision to be optimized) cannot exceed the maximum electrolyzer capacity provided as input</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>(74)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Electolyzer candidate investments can also be set as integer decisions. In such cases the defined capacity can either be built in one step or stay out of the plan (equation 75). Similarly retirement of existing electrolyzer plant takes place in a single step (76). In equations (75) and (76), variables and can only take positive integer values</p>
+<p>(75)</p>
+<p>(76)</p>
+<p>Equation 77 puts a constraint on operational time of electrolyzers so that it doesn’t exceed their technical availability</p>
+<p>Equation 88 describes the thermal balance of hydrogen within the system (in mmBTU). Total mmBTU of hydrogen produced are equal to hydrogen demand for other sectors minus unmet hydrogen demand plus hydrogen recirculate in the power sector as fuel.</p>
+<p>Equation 79 makes a connection between quarterly an annual amount of hydrogen fuel produced in the system</p>
+<p>Equation 80 puts a constraint on total amount of electricity drawn by an electrolyzer. Max power absorbed can’t be more than the electrolyzer capacity</p>
+<p>Equations 81 and 82 define ramping constraints for electrolyzer operation</p>
+<p>Equations 83 sets an energy balance on renewable electricity. Total renewable electricity generated is equal to renewable electricity consumed by end-use sectors and renewable electricity consumed by electrolyzes</p>
+<p>Equation 84 makes a connection between renewable power produced and electricity drawn by electrolyzers</p>
+<p>Finally, equations 85 and 86 are mapping renewable electricity produced on a zonal basis which is necessary for the architecture of the hydrogen model</p>
+<h2 id="limitations-of-the-model">Limitations of the model<a class="headerlink" href="#limitations-of-the-model" title="Permanent link">&para;</a></h2>
+<p>As any model, this model also has some limitations in most practical system applications. Two major limitations of the model are the following:</p>
+<p>(1) Transmission network representation: Although in theory, the model can be used to represent the high voltage transmission network down to individual substations, the size limitation of the underlying LP, typically restricts to a small (below 20) number zones and we assume zero congestion within each zone modeled. Transmission expansion is not always an option. The model does not consider voltage angles and DC approximation to power flow in its current form and as such may have unrealistic flows around a loop.</p>
+<p>(2) As noted before, the model does not consider unit commitment (startup and shutdown) decisions. It also does not consider heat rate curves associated with thermal units and uses a single average heat rate for each generating unit.</p>
+<p>(3) In its main version, the model is deterministic and no uncertainty with respect to assumed parameters etc. is considered.</p>
+<p>(4) Hydropower: reservoir optimization is currently not a feature of EPM hence hydropower potential is represented as daily/seasonal/annual energy limits for individual hydro plant/unit. The main version model does not consider any representation of river chain.</p>
+<p>(5) In the current model version, coal plant flexibilization or repurposing is not considered.</p>
+<p>(6) When the model is used as a capacity expansion tool, the use of representative days and seasons limits the possibility to capture the VRE variability, hence the VRE integration costs are approximated. Similarly, the flexibility costs of the system are approximated as ancillary services are not all fully modeled.</p>
+<h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>[1]</th>
+<th>A. Van Der Welle and B. Van Der Zwaan, "An overview of selected studies on the value of lost load (VoLL)," <em>Energy Research Centre of the Netherlands (ECN), Amsterdam,</em> 2007.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[2]</td>
+<td>F. De Sisternes, "Investment model for renewable electricity systems (IMRES): an electricity generation capacity expansion formulation with unit commitment constraints," <em>MIT, Cambridge MA,</em> 2013.</td>
+</tr>
+<tr>
+<td>[3]</td>
+<td>NERC, "Glossary of Terms Used in NERC Reliability Standards," [Online]. Available: <a href="http://www.nerc.com/pa/stand/glossary">http://www.nerc.com/pa/stand/glossary</a> of terms/glossary_of_terms.pdf. [Accessed 12 December 2016].</td>
+</tr>
+<tr>
+<td>[4]</td>
+<td>B. Hobbs and C. Bothwell, "System Adequacy with Intermittent Resources : Capacity Value and Economic Distortions," ISO New England, 2016. [Online]. Available: <a href="https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf">https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf</a>. [Accessed 2 October 2016].</td>
+</tr>
+<tr>
+<td>[5]</td>
+<td>L. Baringo and A. J. Conejo, "Correlated wind-power production and electric load scenarios for investment decisions," <em>Applied Energy,</em> vol. 101, pp. 475-482, 2013.</td>
+</tr>
+<tr>
+<td>[6]</td>
+<td>CESI, "Pan-Arab Regional Energy Trade Platform (PA-RETP). Power Market Study: Gas Comsumption Assessment for the Power Sector accross MENA Region," CESI, 2016.</td>
+</tr>
+<tr>
+<td>[7]</td>
+<td>CESI-Ramboll, "Feasibility Study of the Electrical Interconnection and Energy Trade between Arab Countries," Arab Fund for Economic and Social Development, 2014.</td>
+</tr>
+<tr>
+<td>[8]</td>
+<td>The World Bank, "Energy Efficiency Study in Lebanon," The World Bank, Washington, DC, 2009.</td>
+</tr>
+<tr>
+<td>[9]</td>
+<td>Presidency of the Council of Ministries Central Administration of Statistics, "Energy".</td>
+</tr>
+<tr>
+<td>[10]</td>
+<td>Palestinian Electricity Regulatory Council, "Annual Report 2011,," Palestinian Electricity Regulatory Council, 2011.</td>
+</tr>
+<tr>
+<td>[11]</td>
+<td>DSIRE, "N.C. Clean Energy Technology Center," DSIRE, [Online]. Available: <a href="http://programs.dsireusa.org/system/program/tables">http://programs.dsireusa.org/system/program/tables</a>. [Accessed 12 December 2016].</td>
+</tr>
+<tr>
+<td>[12]</td>
+<td>A. Hainoun, "Construction of the hourly load curves and detecting the annual peak load of future Syrian electric power demand using bottom-up approach," <em>International Journal of Electrical Power &amp; Energy Systems,</em> vol. 31, no. 1, pp. 1-12, 2009.</td>
+</tr>
+<tr>
+<td>[13]</td>
+<td>P. Khajavi, H. Monsef and H. Abniki, "Load profile reformation through demand response programs using smart grid," in <em>Proceedings of the International Symposium Modern Electric Power Systems (MEPS), 2010</em>, 2010.</td>
+</tr>
+<tr>
+<td>[14]</td>
+<td>A. Khazaee, M. Ghasempour, H. Hoseinzadeh and H. Hooshmandi, "DEMAND MANAGEMENT PROGRAM FOR LARGE INDUSTRIAL CONSUMERS BY USING THE AMI SYSTEM," in <em>23rd International Conference on Electricity Distribution</em>, 2015.</td>
+</tr>
+<tr>
+<td>[15]</td>
+<td>A. Salimi-Beni, D. Farrokhzad, M. Fotuhi-Firuzabad and S. Alemohammad, "A new approach to determine base, intermediate and peak-demand in an electric power system," in <em>International Conference on Power System Technology, 2006. PowerCon 2006.</em>, 2006.</td>
+</tr>
+<tr>
+<td>[16]</td>
+<td>W. Short, P. Sullivan, T. Mai, M. Mowers, C. Uriarte, N. Blair, D. Heimiller and A. Martinez, "Regional Energy Deployment System ( ReEDS)," NREL, 2011.</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>The generators already planned are included in any of the two sets depending on criteria such as their capacity, status of their construction process etc. <a href="#footnote-ref-2">↑</a></p>
+</li>
+<li>
+<p>The electrolyzers already planned are included in any of the two sets depending on criteria such as their capacity, status of their construction process etc. <a href="#footnote-ref-3">↑</a></p>
+</li>
+<li>
+<p>Type of resources considered as renewables might be different from country to country or state to state. For example, some states do not include hydropower towards their renewable targets (e.g. California does not count large hydropower towards the RPS (Renewable portfolio standard) while others such as Oregon do [13]. <a href="#footnote-ref-4">↑</a></p>
+</li>
+<li>
+<p>Capital costs of existing generators are considered sunk costs and are not included in the objective function. <a href="#footnote-ref-5">↑</a></p>
+</li>
+<li>
+<p>For the first model runs, capacity credit was considered at full capacity. This will be modified in the next runs but it is not expected to change significantly the model results. <a href="#footnote-ref-6">↑</a></p>
+</li>
+<li>
+<p>Depending on the scope of the project, the dispatch constraint (14) might be slightly different. For example, ReEDS model implemented by NREL [16] treats quick start capacity service provided by a generator in the same way as spinning reserves under constraint (14) and on top of that, it accounts for planned and forced outages by considering average outage rates. <a href="#footnote-ref-7">↑</a></p>
+</li>
+</ol>
+<hr />
+<h2 id="dispatch-mode-equations">Dispatch Mode Equations<a class="headerlink" href="#dispatch-mode-equations" title="Permanent link">&para;</a></h2>
+<p>When <code>fDispatchMode=1</code>, EPM runs the full hourly chronology instead of representative days. This activates three additional blocks of equations. See <a href="../../run/run_dispatch/">Dispatch Mode</a> for how to enable these features.</p>
+<h3 id="dispatch-continuity-and-ramping">Dispatch continuity and ramping<a class="headerlink" href="#dispatch-continuity-and-ramping" title="Permanent link">&para;</a></h3>
+<p>Ensures that hourly generation <code>vPwrOut</code> and the slot-aggregated variable <code>vPwrOutDispatch</code> are consistent at every time step, and that slot-to-slot ramp changes respect physical ramp rates.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>eRampContinuity(g,q,d,t,AT,y)$((Ramprate(g) and fApplyRampConstraint and fDispatchMode) and mapTS(q,d,t,AT))..
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =e= vPwrOutDispatch(g,q,d,t,AT,y);
+</code></pre></div>
+<p>Slot-to-slot ramp limits (<code>eDispatchRampUpLimit</code>, <code>eDispatchRampDownLimit</code>) operate alongside the existing hourly ramp equations (<code>eRampUpLimit</code>, <code>eRampDnLimit</code>). Storage SOC transitions (<code>eStorageHourTransition</code>, <code>eStorageDayWrap</code>) also operate over the full chronology, so generation and storage trajectories are traced continuously.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>CSP and hydrogen modules do not yet have equivalent full-hour continuity enforcement and will be updated in a future version.</p>
+</div>
+<h3 id="unit-commitment">Unit commitment<a class="headerlink" href="#unit-commitment" title="Permanent link">&para;</a></h3>
+<p>Generators with a <code>MinGenPoint</code> activate binary variables <code>isOn</code>, <code>isStartup</code>, and <code>isShutdown</code>. These are linked to dispatch output and to the objective function via startup costs.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>eCommitmentConsistency(g,AT,y)$(ord(AT) &gt; 1 and fDispatchMode)..
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        =e= sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>           - sum((q,d,t)$mapTS(q,d,t,AT-1), isOn(g,q,d,t,AT-1,y));
+</code></pre></div>
+<p>The minimum generation constraint forces any positive output to raise the commitment flag; the maximum generation constraint caps output when <code>isOn=0</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>eDispatchMinGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenerationConstraint and MinGenPoint(g) and FD(q,d,t)))..
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= pGenData(g,&quot;MinLimitShare&quot;)*pGenData(g,&quot;Capacity&quot;)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        * sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>eDispatchMaxGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenerationConstraint and MinGenPoint(g) and FD(q,d,t)))..
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= pGenData(g,&quot;Capacity&quot;)*sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+</code></pre></div>
+<p><code>eStartupCostConstraint</code> counts startups per slot and feeds <code>vYearlyStartupCost</code> in the objective. Minimum up/down time windows are enforced by the <code>MinUp...</code>/<code>MinDown...</code> rolling constraints when <code>fApplyMUDT=1</code>.</p>
+<h3 id="required-flag-combinations">Required flag combinations<a class="headerlink" href="#required-flag-combinations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Required flags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dispatch continuity + ramp</td>
+<td><code>fDispatchMode=1</code>, <code>fRampConstraints=1</code>, <code>fApplyRampConstraint=1</code></td>
+</tr>
+<tr>
+<td>Unit commitment + startup cost</td>
+<td>above + <code>fApplyMinGenerationConstraint=1</code>, <code>fApplyStartupCost=1</code></td>
+</tr>
+<tr>
+<td>Minimum up/down time</td>
+<td>above + <code>fApplyMUDT=1</code></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>This constraint is necessary to ensure that the model does not simply build additional storage units just to meet planning or spinning reserve requirements. <a href="#footnote-ref-8">↑</a></li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      All content is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement</a>. &nbsp;&nbsp;|&nbsp;&nbsp; Contact: <a href="mailto:cnicolas@worldbank.org">Claire Nicolas</a>
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.collapse", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/header_logos.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

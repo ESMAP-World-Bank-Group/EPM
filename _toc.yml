@@ -1,0 +1,74 @@
+format: jb-book
+root: home
+
+parts:
+  - caption: Introduction
+    chapters:
+      - file: introduction/introduction
+      - file: introduction/introduction_case_studies
+  - caption: Run EPM
+    chapters:
+      - file: run/run_folder_structure
+      - file: run/run_prerequisites
+      - file: run/run_installation
+      - file: run/run_gams_studio
+      - file: run/run_python
+      - file: run/configuration
+      - file: run/run_python_advanced
+      - file: run/run_python_summary
+      - file: run/run_remote_server
+      - file: run/run_git_process
+      - file: run/run_epm_setup
+      - file: run/run_dispatch
+      - file: run/options_solver
+      - file: run/options_thread
+      - file: run/gams
+      - file: run/run_debugging
+      - file: run/run_troubleshooting
+      - file: run/run_summary
+  - caption: Input
+    chapters:
+      - file: input/input_structure
+      - file: input/input_overview
+      - file: input/input_detailed
+      - file: input/resources
+      - file: input/input_treatment
+      - file: input/input_set_definition
+      - file: input/input_from_excel_to_csv
+      - file: input/input_technology_brief
+      - file: input/input_fuel_brief
+      - file: input/input_representative_days
+  - caption: Output & Postprocessing
+    chapters:
+      - file: output/examples
+      - file: output/postprocessing_output_EPM
+      - file: output/postprocessing_output
+      - file: output/postprocessing_output_overview
+      - file: output/postprocessing_tableau
+      - file: output/postprocessing_tableau_advanced
+  - caption: Model Description
+    chapters:
+      - file: model/model_overview
+      - file: model/model_description
+      - file: model/model_notations
+      - file: model/model_formulation
+      - file: model/equations
+  - caption: Advanced Topics
+    chapters:
+      - file: advanced/advanced_python
+      - file: advanced/postprocessing
+  - caption: Contributing
+    chapters:
+      - file: contributing/contributing_issues
+      - file: contributing/contributing_code
+      - file: contributing/contributing_docs
+      - file: contributing/contributing_postprocess
+  - caption: Pre-processing Analysis
+    chapters:
+      - file: preprocessing/pre_overview
+      - file: preprocessing/pre_projects
+  - caption: Other Resources
+    chapters:
+      - file: other/other_open_data
+      - file: other/other_process
+      - file: other/interconnection
