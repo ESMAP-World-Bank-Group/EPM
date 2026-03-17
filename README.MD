@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15591290.svg)](https://doi.org/10.5281/zenodo.15591290)
 
 
-Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/home.html).
+Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/introduction/introduction.html).
 
 ## What is EPM?
 
@@ -22,23 +22,9 @@ EPM (Electricity Planning Model) is a least-cost power system planning tool deve
 
 EPM helps answer critical questions for power system planners:
 
-### Capacity Planning
-
-- **What generation capacity should be built?** - Optimal mix of technologies (solar, wind, hydro, gas, etc.)
-- **When should new capacity be built?** - Investment timeline over the planning horizon
-- **Where should it be located?** - Geographic distribution across zones/countries
-
-### System Operations
-
-- **How will generation be dispatched?** - Hourly operation of power plants
-- **What are the electricity costs?** - Generation costs by zone and technology
-- **How much will the system cost?** - Total NPV of capacity expansion and operations
-
-### Policy Analysis
-
-- **What is the impact of renewable targets?** - Achieving minimum RE shares
-- **What are the benefits of interconnections?** - Cross-border power trade
-- **What are the CO2 implications?** - Emissions under different scenarios
+- **Capacity Planning** — Optimal technology mix, investment timeline, and geographic distribution across zones
+- **System Operations** — Hourly dispatch, generation costs by zone and technology, total NPV of expansion and operations
+- **Policy Analysis** — Impact of renewable targets, cross-border interconnections, and CO₂ constraints under different scenarios
 
 ## How It Works
 
@@ -77,7 +63,7 @@ Install EPM and choose how you want to run it:
 | Method | Best for |
 |--------|----------|
 | [Windows Installer](https://esmap-world-bank-group.github.io/EPM/run/run_installation.html) | One-click setup on Windows — installs everything automatically |
-| [Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_installation.html) | Visual interface for quick runs, no command line needed *(under development)* |
+| [Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_dashboard.html) | Visual interface for quick runs, no command line needed *(under development)* |
 | [Python CLI](https://esmap-world-bank-group.github.io/EPM/run/run_python.html) | Scenarios, automation, Monte Carlo |
 | [GAMS Studio](https://esmap-world-bank-group.github.io/EPM/run/run_gams_studio.html) | Model development and GAMS debugging |
 
