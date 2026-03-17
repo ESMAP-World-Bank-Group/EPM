@@ -1891,42 +1891,27 @@
 <h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p>EPM uses a layered input system. Each layer has a distinct role:</p>
 <pre class="mermaid"><code>flowchart TD
-    DASH(["&lt;b&gt;EPM Dashboard&lt;/b&gt;\nlaunch · configure · visualize"])
-    CLI(["&lt;b&gt;python epm.py&lt;/b&gt;\n--folder_input · --config · --scenarios"])
+    CLI(["&lt;b&gt;python epm.py&lt;/b&gt;\n--folder_input data_test"])
 
     subgraph routing ["Routing layer"]
-        CONFIG["&lt;b&gt;config.csv&lt;/b&gt;\nMaps each parameter name\nto a CSV file path"]
-        SCEN["&lt;b&gt;scenarios.csv&lt;/b&gt;\nOverrides baseline paths\nper scenario (optional)"]
+        CONFIG["&lt;b&gt;config.csv&lt;/b&gt;\nMaps parameter names to file paths"]
+        SCEN["&lt;b&gt;scenarios.csv&lt;/b&gt;\nOverrides baseline paths (optional)"]
     end
 
-    subgraph control ["Control layer"]
-        PS["&lt;b&gt;pSettings.csv&lt;/b&gt;\nFeature flags &amp;amp; economic\nparameters"]
-    end
+    PS["&lt;b&gt;pSettings.csv&lt;/b&gt;\nFeature flags &amp;amp; global parameters"]
 
     subgraph data ["Data layer"]
-        SUPPLY["supply/\npGenDataInput · pAvailability\npVREProfile · pFuelPrice · ..."]
-        LOAD["load/\npDemandProfile\npDemandForecast · ..."]
-        OTHER["reserve/ · trade/\nconstraint/ · h2/"]
+        CSVS["&lt;b&gt;Data CSVs&lt;/b&gt;\nsupply/ · load/ · reserve/ · trade/ · ..."]
     end
 
-    GAMS["&lt;b&gt;GAMS&lt;/b&gt;\nCore model · base.gms · CPLEX solver"]
-    POST["&lt;b&gt;Python postprocessing&lt;/b&gt;\nepmresults.gdx → CSV"]
-    OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
+    GAMS["&lt;b&gt;GAMS&lt;/b&gt;\nOptimization core"]
 
-    DASH --&gt;|launch| CLI
     CLI --&gt; CONFIG
     SCEN -.-&gt;|overlays| CONFIG
     CONFIG --&gt; PS
-    CONFIG --&gt; SUPPLY
-    CONFIG --&gt; LOAD
-    CONFIG --&gt; OTHER
+    CONFIG --&gt; data
     PS --&gt; GAMS
-    SUPPLY --&gt; GAMS
-    LOAD --&gt; GAMS
-    OTHER --&gt; GAMS
-    GAMS --&gt; POST
-    POST --&gt; OUT
-    OUT --&gt;|results| DASH</code></pre>
+    CSVS --&gt; GAMS</code></pre>
 <ol>
 <li>You point EPM to an input folder (<code>--folder_input</code>). All data lives inside it.</li>
 <li><code>config.csv</code> is the master routing table: it maps every parameter name to its CSV file path within that folder.</li>
