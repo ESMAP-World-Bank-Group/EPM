@@ -23,37 +23,37 @@ Two options are available. The **Windows Installer** automates the full setup (G
 
 === "Windows Installer"
 
-    !!! note "Beta — under development"
-        The Windows installer is in beta and under development. If you encounter issues, you can try using the **Manual Setup** tab or report them via the [Contributing](../contributing/contributing_issues.md) page.
+    <span style="font-size:0.78rem; color:#856404; background:#fff3cd; padding:4px 10px; border-radius:4px; display:inline-block; margin-bottom:1rem;">⚠ Beta — under development. If you encounter issues, try the Manual Setup tab or [report them here](../contributing/contributing_issues.md).</span>
 
     [Download epm.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
 
-    <small>
+    <div style="font-size:0.85rem; margin-top:1.2rem;">
 
-    | Step | What happens |
-    |------|-------------|
-    | 1. Double-click `EPM_Setup.exe` | A terminal window opens |
-    | 2. Enter an install folder | Or press Enter for default: `C:\Users\you\EPM` |
-    | 3. Wait | Repository clone + Python environment setup (a few minutes) |
-    | 4. Done | You see **"Installation complete!"** |
+    **Steps**
 
-    **After installation:** EPM is in the folder you chose, and a **"Launch EPM Dashboard"** shortcut is on your Desktop.
+    1. **Double-click** `epm.exe` — a terminal window opens
+    2. **Choose an install folder** when prompted, or press Enter for the default (`C:\Users\you\EPM`)
+    3. **Wait** a few minutes — the installer clones the repository and sets up the Python environment
+    4. You see **"Installation complete!"** — you're done
 
-    **GAMS:** must be installed separately with a valid license — the installer will warn you if not detected.
+    **After installation**
 
-    </small>
+    - EPM is in the folder you chose
+    - A **"Launch EPM Dashboard"** shortcut is on your Desktop — double-click it to start
+
+    > **Note:** GAMS must be installed separately with a valid license. The installer will warn you if it is not detected.
+
+    </div>
 
 === "Manual Setup"
 
-    <small>
+    <div style="font-size:0.85rem;">
 
-    **1. Prerequisites**
+    **1. Install prerequisites**
 
-    | Tool | Install |
-    |------|---------|
-    | Git | [Windows](https://git-scm.com/download/win) · [macOS](https://sourceforge.net/projects/git-osx-installer/) |
-    | Python & Conda | [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (all platforms) |
-    | Code editor *(optional)* | [VS Code](https://code.visualstudio.com/) |
+    - **Git** — [Windows](https://git-scm.com/download/win) · [macOS](https://sourceforge.net/projects/git-osx-installer/)
+    - **Python & Conda** — [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (all platforms)
+    - **Code editor** *(optional)* — [VS Code](https://code.visualstudio.com/)
 
     **2. Clone the repository**
 
@@ -75,13 +75,12 @@ Two options are available. The **Windows Installer** automates the full setup (G
     **4. Verify**
 
     ```sh
-    cd epm
-    python epm.py --simple
+    cd epm && python epm.py --simple
     ```
 
-    Results written to `output/`. If something fails, see [Debugging](run_debugging.md).
+    Results are written to `output/`. If something fails, see [Debugging](run_debugging.md).
 
-    </small>
+    </div>
 
 ---
 
