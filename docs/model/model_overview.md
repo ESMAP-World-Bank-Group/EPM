@@ -1,6 +1,6 @@
 # Model Overview
 
-Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS with a Python orchestration layer. Deployed across 100+ countries by ESMAP — see [Applications](../introduction/introduction_case_studies.md).
+Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS with a Python orchestration layer. Deployed across 100+ countries by ESMAP; see [Applications](../introduction/introduction_case_studies.md).
 
 ---
 
@@ -24,7 +24,7 @@ Thermal (gas, coal, oil, nuclear) · Solar PV · Wind · Hydropower · Battery s
 
 | Feature | Notes |
 |---|---|
-| Unit commitment | On/off binaries, startup costs, min up/down time — Dispatch Mode only |
+| Unit commitment | On/off binaries, startup costs, min up/down time (Dispatch Mode only) |
 | Storage | SOC dynamics, charge/discharge efficiency, PV-coupled batteries |
 | Reserves | Spinning reserve + planning reserve margin, country and system level |
 | Emissions | CO₂ accounting per zone; country and system caps with backstop slack |
@@ -32,7 +32,7 @@ Thermal (gas, coal, oil, nuclear) · Solar PV · Wind · Hydropower · Battery s
 
 ## Assumptions
 
-Social planner model: perfect competition, inelastic demand, economically efficient trade across zones. Suitable for long-term planning — not for market dynamics or strategic bidding.
+Social planner model: perfect competition, inelastic demand, economically efficient trade across zones. Suitable for long-term planning, not for market dynamics or strategic bidding.
 
 ## Outputs
 

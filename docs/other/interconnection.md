@@ -2,7 +2,7 @@
 
 A simplified tool for estimating the **transfer capacity** (MW) and **investment cost** (M$) of a transmission line when detailed engineering data is not available.
 
-Designed for pre-feasibility and planning purposes — even approximate order-of-magnitude estimates are useful for comparing corridor options or identifying bottlenecks before detailed engineering studies begin.
+Designed for pre-feasibility and planning purposes. Even approximate order-of-magnitude estimates are useful for comparing corridor options or identifying bottlenecks before detailed engineering studies begin.
 
 ---
 

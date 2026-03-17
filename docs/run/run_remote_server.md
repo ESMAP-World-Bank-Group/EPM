@@ -1,6 +1,6 @@
 # Run on Remote Server
 
-The World Bank remote server is designed for computationally heavy simulations — large scenarios, Monte Carlo runs, or anything that would be too slow on a laptop.
+The World Bank remote server is designed for computationally heavy simulations: large scenarios, Monte Carlo runs, or anything that would be too slow on a laptop.
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ git pull origin your-branch-name
 
 ### Python (recommended)
 
-First time only — add Miniconda to your PATH:
+First time only, add Miniconda to your PATH:
 
 ```sh
 echo 'export PATH="/Data/miniconda3/bin:$PATH"' >> ~/.bashrc
@@ -72,7 +72,7 @@ cd /Data/your_project_folder/EPM/epm
 python epm.py --folder_input your_data --config your_data/config.csv --scenarios --cpu 8 --output_zip
 ```
 
-Use `--output_zip` to compress results into a single file — the server only allows downloading files, not folders.
+Use `--output_zip` to compress results into a single file (the server only allows downloading files, not folders).
 
 ### GAMS (for low-level debugging only)
 
@@ -106,7 +106,7 @@ To check if your job is still running:
 ps aux | grep epm.py
 ```
 
-Find your username in the output — if the line is there, the job is running. To stop it:
+Find your username in the output; if the line is there, the job is running. To stop it:
 
 ```sh
 kill -9 <PID>

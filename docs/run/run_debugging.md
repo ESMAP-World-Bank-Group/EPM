@@ -33,13 +33,13 @@ python epm.py --folder_input your_data --config your_data/config.csv --trace
 ## Common errors
 
 **Infeasible model**
-Usually caused by contradictory constraints — a renewable target that cannot be met, demand exceeding all possible supply, etc. Check:
+Usually caused by contradictory constraints: a renewable target that cannot be met, demand exceeding all possible supply, etc. Check:
 
 - Demand vs. installed + buildable capacity
 - Emission caps relative to the fuel mix
 - Reserve requirements vs. dispatchable capacity
 
-Enable `iis = 1` in your CPLEX option file to get an automatic infeasibility report — see [Solver Options](options_solver.md).
+Enable `iis = 1` in your CPLEX option file to get an automatic infeasibility report; see [Solver Options](options_solver.md).
 
 **Unrealistic results (e.g. enormous unserved energy)**
 Usually a data issue. Check:
@@ -49,10 +49,10 @@ Usually a data issue. Check:
 - Costs set to zero unintentionally (allows infinite dispatch)
 
 **Python crashes before GAMS**
-Check `config.csv` — a missing file reference or wrong path is the most common cause. Run with `--trace` to see exactly which input file fails to load.
+Check `config.csv`: a missing file reference or wrong path is the most common cause. Run with `--trace` to see exactly which input file fails to load.
 
 **GAMS compilation error**
-Open the `.lst` file and search for `****` — GAMS marks all errors with four asterisks. The line number points directly to the problem.
+Open the `.lst` file and search for `****`; GAMS marks all errors with four asterisks. The line number points directly to the problem.
 
 ---
 
@@ -71,7 +71,7 @@ Generated after a solve. Open in GAMS Studio or with `gdxdump`. Each variable sh
 What to look for:
 
 - **All levels = 0**: the variable may not be connected to any constraint, or has a cost preventing selection
-- **Marginal = EPS**: the bound is not active — usually normal
+- **Marginal = EPS**: the bound is not active (usually normal)
 - **Very large levels**: check unit conversions and parameter bounds
 
 ### `.log` — execution log

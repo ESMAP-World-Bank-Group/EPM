@@ -1,6 +1,6 @@
 # Contribute Code
 
-Bug fixes, performance improvements, new features — all contributions are welcome. Before starting, check the [open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues) to avoid duplicating work, or open a new one to discuss your idea first.
+Bug fixes, performance improvements, new features: all contributions are welcome. Before starting, check the [open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues) to avoid duplicating work, or open a new one to discuss your idea first.
 
 ---
 
@@ -31,10 +31,10 @@ A reviewer from the EPM team will review, comment, and merge the PR once approve
 
 ## Pull request guidelines
 
-- **One type of change per PR** — don't mix a bug fix with a new feature
-- **Describe your changes** — what was the problem, what did you change, and why
-- **Test before submitting** — run the model with your changes and verify outputs are as expected
-- **Keep case-study-specific changes in your own branch** — only push to `main` what benefits all users
+- **One type of change per PR**: don't mix a bug fix with a new feature
+- **Describe your changes**: what was the problem, what did you change, and why
+- **Test before submitting**: run the model with your changes and verify outputs are as expected
+- **Keep case-study-specific changes in your own branch**: only push to `main` what benefits all users
 
 ---
 
@@ -42,7 +42,7 @@ A reviewer from the EPM team will review, comment, and merge the PR once approve
 
 To add a new technology to the model, update the following files:
 
-**1. Supply defaults** — under `supply/`:
+**1. Supply defaults**, under `supply/`:
 
 - `pAvailabilityDefault.csv`
 - `pGenDataInputDefault.csv`

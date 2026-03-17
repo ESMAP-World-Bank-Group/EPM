@@ -10,9 +10,9 @@ Set via `--modeltype` on the CLI, or the `MODELTYPE` macro in GAMS:
 
 | Type | Description | When to use |
 |---|---|---|
-| `MIP` | Mixed-integer programming — discrete investment decisions | Default for capacity expansion |
-| `RMIP` | Relaxed MIP — integrality constraints dropped | Faster; good for bounds, debugging, or exploratory runs |
-| `LP` | Linear programming — no integer variables | Only if the model has no binary/integer decisions |
+| `MIP` | Mixed-integer programming (discrete investment decisions) | Default for capacity expansion |
+| `RMIP` | Relaxed MIP, integrality constraints dropped | Faster; good for bounds, debugging, or exploratory runs |
+| `LP` | Linear programming, no integer variables | Only if the model has no binary/integer decisions |
 
 ---
 
@@ -22,12 +22,12 @@ EPM ships ready-made option files in `epm/input/data_test/cplex/`. Point to one 
 
 | File | Focus |
 |---|---|
-| `cplex_baseline.opt` | Balanced defaults — general-purpose |
+| `cplex_baseline.opt` | Balanced defaults, general-purpose |
 | `cplex_rmip_fast.opt` | Fast relaxed solves (exploratory RMIP) |
 | `cplex_rmip_precision.opt` | Accurate relaxed solves (reproducible RMIP) |
 | `cplex_mip_fast.opt` | Fast integer solves (`optcr=0.05`, heuristic-heavy) |
 | `cplex_mip_precision.opt` | High-precision integer solves (`optcr=0.01`, deterministic) |
-| `cplex_test.opt` | Debug — verbose output, stable barrier settings |
+| `cplex_test.opt` | Debug: verbose output, stable barrier settings |
 
 To run a solver comparison across scenarios:
 
@@ -39,7 +39,7 @@ python epm.py --folder_input data_test --config config.csv --scenarios scenarios
 
 ## Key parameters
 
-Focus on these four first — they have the biggest impact:
+Focus on these four first, as they have the biggest impact:
 
 | Parameter | Recommended | Notes |
 |---|---|---|
@@ -79,7 +79,7 @@ Focus on these four first — they have the biggest impact:
 ## Stuck or slow?
 
 - **Presolve hangs** (log pauses after "CPLEX Presolve"): set `auxrootthreads = 0`
-- **Infeasible model**: enable `iis = 1` to get a diagnostic report — see [Debugging](run_debugging.md)
+- **Infeasible model**: enable `iis = 1` to get a diagnostic report; see [Debugging](run_debugging.md)
 - **Out of memory**: enable `memoryemphasis = 1`; reduce problem size or move to a remote server
 
 ## Resources

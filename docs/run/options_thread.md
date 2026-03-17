@@ -9,10 +9,10 @@ EPM can run multiple scenarios in parallel using the `--cpu` flag. This page exp
 | Term | What it means |
 |---|---|
 | **Core** | A physical compute unit on the CPU |
-| **Thread** | A stream of execution — with hyperthreading, one core handles 2 threads |
+| **Thread** | A stream of execution; with hyperthreading, one core handles 2 threads |
 | **vCPU** | In cloud/VM environments, one vCPU ≈ one thread |
 
-> A machine with "8 vCPUs" can run 8 parallel tasks — but memory is usually the real bottleneck.
+> A machine with "8 vCPUs" can run 8 parallel tasks, but memory is usually the real bottleneck.
 
 ---
 
@@ -20,19 +20,19 @@ EPM can run multiple scenarios in parallel using the `--cpu` flag. This page exp
 
 The limiting factor is almost always **RAM**, not CPU.
 
-**Step 1 — Check available RAM**
+**Step 1:Check available RAM**
 Note your total system memory (e.g. 128 GB).
 
-**Step 2 — Measure memory per simulation**
+**Step 2:Measure memory per simulation**
 Run one scenario and check the `.lst` file or GAMS Studio console for `ProcTreeMemMonitor` → `VSS` (Virtual Set Size). This is the peak memory footprint per run.
 
-**Step 3 — Calculate max parallel jobs**
+**Step 3:Calculate max parallel jobs**
 
 ```
 Max parallel jobs = Total RAM / Memory per simulation
 ```
 
-**Step 4 — Set threads per simulation**
+**Step 4:Set threads per simulation**
 
 ```
 Threads per simulation = Total threads / Max parallel jobs

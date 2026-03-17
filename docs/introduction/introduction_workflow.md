@@ -2,7 +2,7 @@
 
 EPM is implemented in **GAMS** (General Algebraic Modeling System), with a **Python** orchestration layer that handles input preparation, multi-scenario execution, and postprocessing. No GAMS or Python knowledge is required for standard use, though familiarity with either unlocks deeper customization and flexibility.
 
-A quick map of the model, the repository, and the typical workflow — so you know where everything lives before diving in.
+A quick map of the model, the repository, and the typical workflow, so you know where everything lives before diving in.
 
 
 ---
@@ -64,10 +64,10 @@ Each study lives in its own folder inside `epm/input/`. The minimum required fil
 
 ## Typical workflow
 
-1. **Install** — set up Python and GAMS, install dependencies → [Installation](../run/run_installation.md)
-2. **Prepare inputs** — create your input folder with `config.csv` and data CSVs → [Input Setup](../input/input_setup.md)
-3. **Run** — launch from the Dashboard or via `python epm.py --folder_input your_data` → [Run from Python](../run/run_python.md)
-4. **Analyze results** — outputs land in `epm/output/`, read by the Dashboard or directly as CSVs → [Output Overview](../output/output_overview.md)
+1. **Install**: set up Python and GAMS, install dependencies → [Installation](../run/run_installation.md)
+2. **Prepare inputs**: create your input folder with `config.csv` and data CSVs → [Input Setup](../input/input_setup.md)
+3. **Run**: launch from the Dashboard or via `python epm.py --folder_input your_data` → [Run from Python](../run/run_python.md)
+4. **Analyze results**: outputs land in `epm/output/`, read by the Dashboard or directly as CSVs → [Output Overview](../output/output_overview.md)
 
 ---
 

@@ -1,12 +1,12 @@
 # Contribute Docs
 
-Good documentation is as valuable as good code — and you can contribute to it too! Whether you spot a typo, want to clarify a section, or add missing content, all improvements are welcome. All documentation lives in the `docs/` folder as Markdown files. The navigation is defined in `mkdocs.yml` at the root of the repository.
+Good documentation is as valuable as good code, and you can contribute to it too! Whether you spot a typo, want to clarify a section, or add missing content, all improvements are welcome. All documentation lives in the `docs/` folder as Markdown files. The navigation is defined in `mkdocs.yml` at the root of the repository.
 
 ---
 
 ## Edit an existing page
 
-Open the relevant `.md` file in `docs/` and make your changes. No special tooling is required — standard Markdown plus the [MkDocs Material extensions](https://squidfunk.github.io/mkdocs-material/) used in this project.
+Open the relevant `.md` file in `docs/` and make your changes. No special tooling is required. Standard Markdown plus the [MkDocs Material extensions](https://squidfunk.github.io/mkdocs-material/) used in this project.
 
 To preview locally:
 

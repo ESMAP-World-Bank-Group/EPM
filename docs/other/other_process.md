@@ -1,6 +1,6 @@
 # Study Methodology
 
-A standard electricity planning study with EPM follows seven steps — from framing the problem to sharing results with the country team.
+A standard electricity planning study with EPM follows seven steps, from framing the problem to sharing results with the country team.
 
 ---
 
@@ -8,8 +8,8 @@ A standard electricity planning study with EPM follows seven steps — from fram
 
 Define what the study is trying to answer. This typically falls into one of two categories:
 
-- **Strategic overview** — e.g., a CCDR (Country Climate and Development Report) assessing long-term energy transition pathways
-- **Project-based assessment** — e.g., a pre-feasibility study for a specific investment or policy intervention
+- **Strategic overview**: e.g., a CCDR (Country Climate and Development Report) assessing long-term energy transition pathways
+- **Project-based assessment**: e.g., a pre-feasibility study for a specific investment or policy intervention
 
 Objectives should be measurable: reducing emissions by X%, meeting peak demand with Y% reliability, minimizing system cost under a given carbon price, etc. This framing defines scope and shapes scenario design.
 

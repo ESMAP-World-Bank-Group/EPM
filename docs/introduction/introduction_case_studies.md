@@ -1,6 +1,6 @@
 # EPM in Practice
 
-EPM is applied in more than 80 countries across Africa, Asia, Latin America, and the Middle East — by World Bank teams, energy ministries, national utilities, and regional power pools.
+EPM is applied in more than 80 countries across Africa, Asia, Latin America, and the Middle East, by World Bank teams, energy ministries, national utilities, and regional power pools.
 
 ---
 

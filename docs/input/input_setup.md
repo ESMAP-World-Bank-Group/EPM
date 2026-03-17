@@ -1,6 +1,6 @@
 # Setup
 
-This page explains how EPM's input system works — how files are organized, how the model finds them, and how to configure a run.
+This page explains how EPM's input system works: how files are organized, how the model finds them, and how to configure a run.
 
 ---
 
@@ -49,10 +49,10 @@ flowchart TD
 ```
 
 1. You point EPM to an input folder (`--folder_input`). All data lives inside it.
-2. `config.csv` is the master routing table — it maps every parameter name to its CSV file path within that folder.
+2. `config.csv` is the master routing table: it maps every parameter name to its CSV file path within that folder.
 3. `pSettings.csv` is one of those files. It controls model behavior: features, discount rates, reserve margins, CO₂ constraints, etc.
 4. All other CSV files contain the actual data: plants, demand, fuel prices, transmission limits, etc.
-5. If you pass `--scenarios`, a `scenarios.csv` overlays changes on the baseline — only the files that differ need to be specified.
+5. If you pass `--scenarios`, a `scenarios.csv` overlays changes on the baseline. Only the files that differ need to be specified.
 
 ---
 
@@ -86,7 +86,7 @@ flowchart TD
 
     Controls which model features are active and sets global economic parameters. Located at `config/pSettings.csv`.
 
-    Key flags — see [Input Catalog](input_detailed.md) for the full parameter table.
+    Key flags; see [Input Catalog](input_detailed.md) for the full parameter table.
 
     | Category | Key parameters |
     |---|---|
@@ -101,8 +101,8 @@ flowchart TD
 
     For generation data, availability, and CAPEX trajectories, EPM distinguishes two file types:
 
-    - `xxDefault.csv` — default values indexed by **zone · technology · fuel**, shared across plants
-    - `xxCustom.csv` — **plant-level** values that override defaults where specified
+    - `xxDefault.csv`: default values indexed by **zone · technology · fuel**, shared across plants
+    - `xxCustom.csv`: **plant-level** values that override defaults where specified
 
     | Case | Behavior |
     |---|---|
@@ -119,9 +119,9 @@ flowchart TD
 
 ??? "New to EPM? See also"
 
-    - [Study Methodology](../other/other_process.md) — the standard 7-step planning process from data collection to results
-    - [Data Preparation](../preprocessing/pre_overview.md) — pre-analysis workflows for building demand profiles, VRE profiles, and hydro availability
-    - [Transmission Costing](../other/interconnection.md) — estimating transfer capacity and investment cost for new interconnectors
+    - [Study Methodology](../other/other_process.md): the standard 7-step planning process from data collection to results
+    - [Data Preparation](../preprocessing/pre_overview.md): pre-analysis workflows for building demand profiles, VRE profiles, and hydro availability
+    - [Transmission Costing](../other/interconnection.md): estimating transfer capacity and investment cost for new interconnectors
 
 ??? "Scenarios"
 

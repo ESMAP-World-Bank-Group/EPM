@@ -1,6 +1,6 @@
 # Output Overview
 
-EPM produces several types of output after each run — raw model results, processed CSVs, figures, and summaries.
+EPM produces several types of output after each run: raw model results, processed CSVs, figures, and summaries.
 
 ---
 
@@ -77,7 +77,7 @@ After GAMS completes, EPM automatically runs a 10-step Python pipeline (`output_
 7. **Create merged CSV files** (see below)
 8. Add country columns to zone-based files
 9. Restructure and sort files
-10. **Delete intermediate files** — only the 10 final files are kept in `output_csv/`
+10. **Delete intermediate files**: only the 10 final files are kept in `output_csv/`
 
 ### Output CSV files
 
@@ -105,6 +105,6 @@ The raw, unprocessed results remain accessible at any time in `epmresults.gdx`.
 When running multiple scenarios, EPM processes them in parallel and consolidates results automatically:
 
 - Each scenario gets its own subfolder (e.g. `baseline/`, `high_demand/`, `low_fuel/`) with its own `output_csv/`.
-- **Figures** in `img/` cover all scenarios — cross-scenario comparisons appear at the top level.
+- **Figures** in `img/` cover all scenarios. Cross-scenario comparisons appear at the top level.
 - **`summary.csv`** and **`summary_generators.csv`** aggregate key indicators across all scenarios into a single file.
 - **`input_scenarios.csv`** tracks the configuration of every scenario run.

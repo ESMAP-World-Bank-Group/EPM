@@ -1,6 +1,6 @@
 # Run from Dashboard
 
-The EPM Dashboard provides a visual interface to configure, run, and explore EPM results — no command line required.
+The EPM Dashboard provides a visual interface to configure, run, and explore EPM results, with no command line required.
 
 **Best for:** first-time users, non-technical stakeholders, quick scenario testing.
 

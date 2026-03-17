@@ -2,10 +2,10 @@
 
 ## Prerequisites
 
-EPM's optimization engine is **GAMS** — it must be installed on your machine before proceeding with the rest of the installation.
+EPM's optimization engine is **GAMS**, which must be installed on your machine before proceeding.
 
 !!! info "Install GAMS"
-    [Download GAMS](https://www.gams.com/download/) — version **48.2.0 or higher** required.
+    [Download GAMS](https://www.gams.com/download/), version **48.2.0 or higher** required.
     Contact your institution or the World Bank team for a license.
 
     Add GAMS to your system PATH so it can be called from the terminal:
@@ -19,7 +19,7 @@ EPM's optimization engine is **GAMS** — it must be installed on your machine b
 
 ## Installation
 
-Two options are available. The **Windows Installer** automates the full setup (Git, Conda, Python environment, repository clone) — only GAMS needs to be pre-installed. The **Manual Setup** is for macOS, Linux, or advanced Windows users who prefer to control each step.
+Two options are available. The **Windows Installer** automates the full setup (Git, Conda, Python environment, repository clone); only GAMS needs to be pre-installed. The **Manual Setup** is for macOS, Linux, or advanced Windows users who prefer to control each step.
 
 === "Windows Installer"
 
@@ -35,7 +35,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
     === "Git"
         Git is used to download and update the EPM code.
 
-        - **Windows**: [Download Git for Windows](https://git-scm.com/download/win) — install with default settings
+        - **Windows**: [Download Git for Windows](https://git-scm.com/download/win), with default settings
         - **macOS**: [Download Git for macOS](https://sourceforge.net/projects/git-osx-installer/)
 
         Verify: `git --version`
@@ -43,14 +43,14 @@ Two options are available. The **Windows Installer** automates the full setup (G
     === "Python & Conda"
         Required to use the Python interface (scenarios, Monte Carlo, automation).
 
-        [Download Miniconda](https://docs.conda.io/en/latest/miniconda.html) — all platforms.
+        [Download Miniconda](https://docs.conda.io/en/latest/miniconda.html) for all platforms.
 
         Verify: `python --version` and `conda --version`
 
     === "Code Editor (optional)"
         Useful for editing input files and navigating the codebase.
 
-        - [Visual Studio Code](https://code.visualstudio.com/) — recommended
+        - [Visual Studio Code](https://code.visualstudio.com/) (recommended)
         - [PyCharm](https://www.jetbrains.com/pycharm/)
 
     ### 2. Clone the repository
@@ -88,7 +88,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
     python epm.py --simple
     ```
 
-    Results written to `output/` — if something fails, see [Debugging](run_debugging.md).
+    Results written to `output/`. If something fails, see [Debugging](run_debugging.md).
 
 ---
 

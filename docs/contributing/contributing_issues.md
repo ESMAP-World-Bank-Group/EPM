@@ -1,6 +1,6 @@
 # Get Involved
 
-EPM is an open project — feedback, bug reports, and contributions of all kinds are welcome.
+EPM is an open project: feedback, bug reports, and contributions of all kinds are welcome.
 
 ---
 
@@ -29,11 +29,11 @@ Have an idea for a new capability or improvement? Open a feature request describ
 
 ## Contribute
 
-Whether it's a bug fix, a new feature, or a documentation improvement — contributions are welcome.
+Whether it's a bug fix, a new feature, or a documentation improvement, contributions are welcome.
 
-- [Contribute code](contributing_code.md) — bug fixes, new features, new technologies
-- [Contribute to the docs](contributing_docs.md) — improve content, fix errors, extend the analysis tools
-- [View open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues) — pick something to work on
+- [Contribute code](contributing_code.md): bug fixes, new features, new technologies
+- [Contribute to the docs](contributing_docs.md): improve content, fix errors, extend the analysis tools
+- [View open issues](https://github.com/ESMAP-World-Bank-Group/EPM/issues): pick something to work on
 
 ---
 
