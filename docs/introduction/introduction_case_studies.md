@@ -1,6 +1,6 @@
 # EPM in Practice
 
-EPM is applied in more than 80 countries across Africa, Asia, Latin America, and the Middle East, by World Bank teams, energy ministries, national utilities, and regional power pools.
+As the World Bank's primary power sector planning tool, EPM has been applied in more than 80 countries to support project teams, energy ministries, and utilities.
 
 ---
 
@@ -33,4 +33,4 @@ EPM is applied in more than 80 countries across Africa, Asia, Latin America, and
 ---
 
 !!! note "EPM in the literature"
-    EPM has been used in peer-reviewed publications and World Bank reports across a wide range of geographies and topics. See the full list → [Citation](../resources/citation.md)
+    EPM has also been used in peer-reviewed publications and World Bank reports across a range of geographies and topics. See the full list → [Citation](../resources/citation.md)
