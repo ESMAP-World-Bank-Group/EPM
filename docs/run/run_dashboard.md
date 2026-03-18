@@ -2,10 +2,10 @@
 
 The EPM Dashboard provides a visual interface to configure, run, and explore EPM results, with no command line required.
 
-**Best for:** first-time users, non-technical stakeholders, quick scenario testing.
+**Best for:** people who want to interfere with the code as little as possible. 
 
 !!! note "Note"
-    The Dashboard is under active development. If a run fails or produces unexpected results, use the command line and `.log` files to diagnose the issue. See [Debugging](run_debugging.md).
+    The Dashboard is still under development. If a run fails or produces unexpected results, use the command line and `.log` files to diagnose the issue. See [Debugging](run_debugging.md).
 
 ---
 
