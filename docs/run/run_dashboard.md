@@ -3,7 +3,6 @@
 <<<<<<< Updated upstream
 The EPM Dashboard provides a visual interface to configure, run, and explore EPM results, with no command line required.
 
-**Best for:** people who want to interfere with the code as little as possible. 
 =======
 A visual interface to configure runs and explore results. No command line required.
 >>>>>>> Stashed changes
