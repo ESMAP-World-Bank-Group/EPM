@@ -1,6 +1,6 @@
 # Run from Python
 
-Full programmatic control over EPM runs, from a single baseline to large ensembles of scenarios, sensitivity sweeps, and Monte Carlo analyses.
+Programmatic control over runs, from a single baseline to large ensembles of scenarios, sensitivity sweeps, and Monte Carlo analyses.
 
 > **Prerequisites:** Python environment set up. If not done yet, see [Installation](run_installation.md).
 
