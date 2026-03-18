@@ -1,11 +1,6 @@
 # Run from Dashboard
 
-<<<<<<< Updated upstream
-The EPM Dashboard provides a visual interface to configure, run, and explore EPM results, with no command line required.
-
-=======
 A visual interface to configure runs and explore results. No command line required.
->>>>>>> Stashed changes
 
 !!! note "Note"
     The Dashboard is still under development. If a run fails or produces unexpected results, use the command line and `.log` files to diagnose the issue. See [Debugging](run_debugging.md).
