@@ -1,10 +1,10 @@
 # EPM in Practice
 
-As the World Bank's primary power sector planning tool, EPM has been applied in more than 80 countries to support project teams, energy ministries, and utilities.
+As the World Bank's primary power sector planning tool, EPM has been applied in over 80 countries to support project teams, national utilities, and energy ministries across Africa, Asia, Latin America, and the Middle East.
 
 ---
 
-## Global reach
+## Coverage
 
 <div style="border-radius: 10px; overflow: hidden; border: 1px solid #c5d8ee; box-shadow: 0 2px 8px rgba(27,58,92,0.08); margin: 1.5rem 0; background: white;">
   <iframe

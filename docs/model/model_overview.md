@@ -1,6 +1,6 @@
 # Model Overview
 
-Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS with a Python orchestration layer. Deployed across 100+ countries by ESMAP; see [Applications](../introduction/introduction_case_studies.md).
+Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS with a Python orchestration layer.
 
 ---
 

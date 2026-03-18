@@ -2,9 +2,9 @@
 
 ## Context
 
-The **Energy Sector Management Assistance Program (ESMAP)** is the World Bank's global energy advisory program. It supports governments and utilities in over 100 countries in planning sustainable, reliable, and affordable power systems.
+The **Energy Sector Management Assistance Program (ESMAP)** is the World Bank's global energy advisory program. It supports governments and utilities in over 80 countries on power sector planning.
 
-Power sector planning sits at the core of ESMAP's mandate: investment decisions made today lock in decades of infrastructure. To standardize and scale this analytical work across the World Bank's portfolio, ESMAP's Power Systems Planning team developed the **Electricity Planning Model** (EPM), first deployed in 2016.
+Power sector planning sits at the core of ESMAP's mandate: investment decisions made today lock in decades of infrastructure. To support this analytical work across the World Bank's portfolio, ESMAP's Power Systems Planning team developed the **Electricity Planning Model** (EPM), first deployed in 2016.
 
 ---
 

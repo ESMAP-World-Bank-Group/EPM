@@ -1,6 +1,6 @@
 # Electricity Planning Model (EPM)
 
-**EPM** is a least-cost capacity expansion and dispatch model for power system planning, developed by the World Bank's [Energy Sector Management Assistance Program (ESMAP)](https://esmap.org). It has been deployed in over 88 countries to inform energy investment and policy decisions.
+**EPM** is a least-cost capacity expansion and dispatch model for power system planning, developed by the World Bank's [Energy Sector Management Assistance Program (ESMAP)](https://esmap.org). It has been applied in over 80 countries.
 
 ---
 
