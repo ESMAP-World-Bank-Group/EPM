@@ -25,7 +25,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
 
     [Download epm.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
 
-    <div style="font-size:0.85rem; margin-top:1.2rem;">
+    <div style="font-size:0.78rem; margin-top:1.2rem;">
 
     **Steps**
 

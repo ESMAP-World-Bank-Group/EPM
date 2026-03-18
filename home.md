@@ -67,7 +67,7 @@ python epm.py --simple
 python epm.py --folder_input data_test --cpu 4
 ```
 
-Results are written to `output/simulations_run_<timestamp>/`.
+Results are written to `output/simulations_run_<timestamp>/` as CSV and GDX files, with Excel, Python, and Tableau templates available for post-processing.
 
 ---
 
