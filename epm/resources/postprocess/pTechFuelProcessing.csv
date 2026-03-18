@@ -49,3 +49,18 @@ CSPPlant,Solar,Solar,gold
 ST,Gas,Gas,lightcoral
 ST,HFO,Diesel,saddlebrown
 ST,Diesel,Diesel,saddlebrown
+ST,Shale,Gas,lightcoral
+ST,Uranium,Nuclear,pink
+ST,ALC,Gas,lightcoral
+CCGT,ALC,Gas,lightcoral
+CCGT,Diesel,Diesel,saddlebrown
+CCGT,HFO,Diesel,saddlebrown
+GT,Gas,Gas,lightcoral
+GT,ALC,Gas,lightcoral
+GT,Diesel,Diesel,saddlebrown
+GT,HFO,Diesel,saddlebrown
+CSP,CSP,CSP,darkorange
+PV,PV,PV,orange
+Wind,Wind,Onshore Wind,darkturquoise
+STO HY,Water,Reservoir,darkblue
+Biogas,Biogas,Biomass,green

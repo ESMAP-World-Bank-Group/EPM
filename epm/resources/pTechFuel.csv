@@ -40,3 +40,12 @@ RPV,Solar,0,0,27
 CSPPlant,Solar,0,0,28
 ST,Gas,0,0,29
 ST,HFO,0,0,31
+ST,Shale,0,0,32
+Biogas,Biogas,0,1,33
+PV,PV,1,1,34
+CCGT,ALC,0,0,35
+GT,ALC,0,0,35
+ST,ALC,0,0,35
+STO HY,Water,0,1,3
+CSP,CSP,0,1,10
+Wind,Wind,1,1,5

@@ -19,4 +19,24 @@ ICE,HFO,0.85
 ICE,Gas,0.85
 OCGT,LNG,0.85
 CCGT,LNG,0.85
+CCGT,ALC,0.85
+CCGT,Diesel,0.85
+CCGT,HFO,0.85
+GT,Gas,0.85
+GT,ALC,0.85
+GT,Diesel,0.85
+GT,HFO,0.85
+HY,Water,0.85
+PV,PV,1
+CSP,CSP,1
+Wind,Wind,1
+Biogas,Biogas,0.85
+ST,Gas,0.65
+ST,HFO,0.65
+ST,Diesel,0.65
+ST,ALC,0.65
+ST,Shale,0.65
+ST,Uranium,0.85
+ST,Waste,0.65
+STO HY,Water,0.85
 

@@ -43,11 +43,7 @@
 /epm/cplex.opt
 epm/output/*
 !epm/output/tableau/
-!epm/output/simulations_run_*/
-epm/output/simulations_run_*/**/*.gdx
-epm/output/simulations_run_*/**/*.log
-epm/output/simulations_run_*/**/*.lst
-epm/output/simulations_run_*/**/*.lxi
+epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
@@ -101,6 +97,8 @@ epm/input/*
 !epm/input/data_test/**
 !epm/input/data_eapp/
 !epm/input/data_eapp/**
+!epm/input/data_pan_arab/
+!epm/input/data_pan_arab/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
