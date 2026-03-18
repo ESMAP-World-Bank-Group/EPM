@@ -1,6 +1,6 @@
 # Model Overview
 
-Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS with a Python orchestration layer.
+Least-cost MIP capacity expansion and economic dispatch model, implemented in GAMS.
 
 ---
 
