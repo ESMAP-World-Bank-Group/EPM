@@ -2,7 +2,7 @@
 
 EPM is implemented in **GAMS** (General Algebraic Modeling System), with a **Python** orchestration layer that handles input preparation, multi-scenario execution, and postprocessing. No GAMS or Python knowledge is required for standard use, though familiarity with either unlocks deeper customization and flexibility.
 
-This section provides a quick map of the model, the repository, and the typical workflow, so you know where everything lives before diving in.
+This section provides a quick map of the model, the repository, and the typical workflow.
 
 ---
 
