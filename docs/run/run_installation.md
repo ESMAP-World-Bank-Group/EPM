@@ -19,7 +19,7 @@ EPM's optimization engine is **GAMS**, which must be installed on your machine b
 
 ## Installation
 
-Two options are available. The **Windows Installer** automates the full setup (Git, Conda, Python environment, repository clone); only GAMS needs to be pre-installed. The **Manual Setup** is for macOS, Linux, or advanced Windows users who prefer to control each step.
+Two options are available. The **Windows Installer** automates the full setup (Git, Conda, Python environment, repository clone); only GAMS needs to be pre-installed. The **Manual Setup** is for users who want to control each step. 
 
 === "Windows Installer"
 

@@ -1,6 +1,6 @@
 # EPM in Practice
 
-EPM is applied in more than 80 countries across Africa, Asia, Latin America, and the Middle East, by World Bank teams, energy ministries, national utilities, and regional power pools.
+As the World Bank's primary power sector planning tool, EPM has been applied in more than 80 countries to support project teams, energy ministries, and utilities.
 
 ---
 
@@ -24,13 +24,12 @@ EPM is applied in more than 80 countries across Africa, Asia, Latin America, and
 | Type | Description | Typical clients |
 |---|---|---|
 | **Least-cost national planning** | Long-term investment strategies identifying the optimal technology mix to meet demand at minimum cost | Energy ministries, national utilities |
-| **Renewable energy integration** | Assessing the technical and economic feasibility of large-scale solar, wind, and storage deployment | Utilities, regulators, IPP developers |
-| **Regional interconnection** | Quantifying the economic benefits of cross-border trade and evaluating transmission investments | Regional power pools, multi-country bodies |
-| **Dispatch & production cost** | Short-term operational planning, production cost modeling, and reserve adequacy | System operators, utilities |
+| **Renewable energy integration** | Assessing the technical and economic feasibility of solar, wind, and storage deployment | Utilities, regulators, IPP developers |
+| **Regional integration** | Quantifying the economic benefits of cross-border trade and evaluating transmission investments | Regional power pools, multi-country bodies |
+| **Dispatch & production cost** | Short-term planning, production cost modeling, and reserve adequacy | System operators, utilities |
 | **Policy & energy transition** | Modeling coal phase-out pathways, carbon pricing mechanisms, and net-zero scenarios | Governments, climate finance institutions |
-| **Island & fragile states** | Adapted planning for small island systems, off-grid contexts, and conflict-affected states | SIDS governments, humanitarian energy teams |
 
 ---
 
 !!! note "EPM in the literature"
-    EPM has been used in peer-reviewed publications and World Bank reports across a wide range of geographies and topics. See the full list → [Citation](../resources/citation.md)
+    EPM has also been used in peer-reviewed publications and World Bank reports across a range of geographies and topics. See the full list → [Citation](../resources/citation.md)
