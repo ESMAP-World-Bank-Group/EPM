@@ -33,4 +33,4 @@ Concretely, EPM handles:
 
 ## History & versions
 
-EPM was first deployed in 2016 and has evolved through several major versions, expanding from single-zone dispatch to full multi-zone capacity expansion with reserves, interconnection, and stochastic scenario support. Previous versions are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
+EPM was first deployed in 2016 and has evolved through several versions. Previous versions are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
