@@ -1,6 +1,6 @@
 # Run from GAMS Studio
 
-Use GAMS Studio when you need to debug the model, inspect GAMS output directly, or test changes to the `.gms` files. For standard runs and scenario analysis, [Run from Python](run_python.md) is recommended.
+Direct access to the model files, solver logs, and intermediate outputs. Suited for inspecting equations, tracing errors, and testing model changes.
 
 ---
 

@@ -1,6 +1,6 @@
 # Run on Remote Server
 
-The World Bank remote server is designed for computationally heavy simulations: large scenarios, Monte Carlo runs, or anything that would be too slow on a laptop.
+Runs EPM on dedicated infrastructure with more computational capacity than a local machine. Suited for large scenario batches and Monte Carlo runs that would be impractical to run locally.
 
 ## Prerequisites
 
