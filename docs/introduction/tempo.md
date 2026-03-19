@@ -1,6 +1,7 @@
 # Tempo
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
 flowchart LR
     subgraph ui ["User interface"]
         DASH(["<b>EPM Dashboard</b>\nlaunch · configure · visualize"])
