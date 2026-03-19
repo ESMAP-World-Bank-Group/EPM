@@ -1816,8 +1816,12 @@
     end
 
     POST["&lt;b&gt;Python postprocessing&lt;/b&gt;\nepmresults.gdx → CSV"]
-    OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
-    RDASH(["&lt;b&gt;Results Dashboard&lt;/b&gt;\nshareable · no install required"])
+
+    subgraph outputs ["Outputs"]
+        direction TB
+        OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
+        RDASH(["&lt;b&gt;Results Dashboard&lt;/b&gt;\nshareable · no install required"])
+    end
 
     DASH --&gt;|launch| CLI
     CLI --&gt; CONFIG
@@ -1827,7 +1831,7 @@
     GAMS --&gt; POST
     POST --&gt; OUT
     OUT --&gt;|results| DASH
-    OUT --&gt;|results| RDASH
+    OUT --&gt; RDASH
 
     classDef dashboard fill:#1a6fa3,stroke:#0d4f7a,color:#fff
     classDef cli fill:#2e86ab,stroke:#1a6fa3,color:#fff
@@ -1843,9 +1847,10 @@
     class POST postNode
     class OUT inputNode
 
-    style ui fill:#edf2f7,stroke:#b0c4d8,color:#2c3e50
-    style inputs fill:#edf2f7,stroke:#b0c4d8,color:#2c3e50
-    style core fill:#edf2f7,stroke:#b0c4d8,color:#2c3e50</code></pre>
+    style ui fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
+    style inputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
+    style core fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
+    style outputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50</code></pre>
 
 
 
