@@ -40,4 +40,4 @@ Whether it's a bug fix, a new feature, or a documentation improvement, contribut
 ## Contact
 
 For questions not suited for a public issue, you can reach the EPM team directly:
-[cnicolas@worldbank.org](mailto:cnicolas@worldbank.org) · [mbaronnet@worldbank.org](mailto:mbaronnet@worldbank.org) · [lvivier@worldbank.org](mailto:lvivier@worldbank.org)
+[cnicolas@worldbank.org](mailto:cnicolas@worldbank.org) · [mbaronnet@worldbank.org](mailto:mbaronnet@worldbank.org)
