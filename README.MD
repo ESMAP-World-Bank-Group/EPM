@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15591290.svg)](https://doi.org/10.5281/zenodo.15591290)
 
 
-Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/introduction/introduction.html).
+Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/).
 
 ## What is EPM?
 
