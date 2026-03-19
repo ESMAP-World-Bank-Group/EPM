@@ -1798,7 +1798,7 @@
 
 
 <h1 id="tempo">Tempo<a class="headerlink" href="#tempo" title="Permanent link">&para;</a></h1>
-<pre class="mermaid"><code>%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
+<pre class="mermaid"><code>%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '16px', 'edgeLabelBackground': '#ffffff'}}}%%
 flowchart LR
     subgraph ui ["User interface"]
         DASH(["&lt;b&gt;EPM Dashboard&lt;/b&gt;\nlaunch · configure · visualize"])
@@ -1817,12 +1817,8 @@ flowchart LR
     end
 
     POST["&lt;b&gt;Python postprocessing&lt;/b&gt;\nepmresults.gdx → CSV"]
-
-    subgraph outputs ["Outputs"]
-        direction BT
-        OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
-        RDASH(["&lt;b&gt;Results Dashboard&lt;/b&gt;\nshareable · no install required"])
-    end
+    OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
+    RDASH(["&lt;b&gt;Results Dashboard&lt;/b&gt;\nshareable"])
 
     DASH --&gt;|launch| CLI
     CLI --&gt; CONFIG
@@ -1851,7 +1847,7 @@ flowchart LR
     style ui fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
     style inputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
     style core fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
-    style outputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50</code></pre>
+</code></pre>
 
 
 
