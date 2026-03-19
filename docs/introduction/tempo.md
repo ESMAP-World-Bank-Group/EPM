@@ -42,7 +42,7 @@ flowchart LR
     class CONFIG,SCEN,CSV inputNode
     class GAMS coreNode
     class POST postNode
-    class OUT outNode
+    class OUT inputNode
 
     style ui fill:#edf2f7,stroke:#b0c4d8,color:#2c3e50
     style inputs fill:#edf2f7,stroke:#b0c4d8,color:#2c3e50
