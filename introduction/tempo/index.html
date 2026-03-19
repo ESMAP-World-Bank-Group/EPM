@@ -1817,6 +1817,7 @@
 
     POST["&lt;b&gt;Python postprocessing&lt;/b&gt;\nepmresults.gdx → CSV"]
     OUT[("&lt;b&gt;CSV Outputs&lt;/b&gt;")]
+    RDASH(["&lt;b&gt;Results Dashboard&lt;/b&gt;\nshareable · no install required"])
 
     DASH --&gt;|launch| CLI
     CLI --&gt; CONFIG
@@ -1826,6 +1827,7 @@
     GAMS --&gt; POST
     POST --&gt; OUT
     OUT --&gt;|results| DASH
+    OUT --&gt;|results| RDASH
 
     classDef dashboard fill:#1a6fa3,stroke:#0d4f7a,color:#fff
     classDef cli fill:#2e86ab,stroke:#1a6fa3,color:#fff
@@ -1834,7 +1836,7 @@
     classDef postNode fill:#457b9d,stroke:#1d3557,color:#fff
     classDef outNode fill:#1d3557,stroke:#0d2035,color:#fff
 
-    class DASH dashboard
+    class DASH,RDASH dashboard
     class CLI cli
     class CONFIG,SCEN,CSV inputNode
     class GAMS coreNode
