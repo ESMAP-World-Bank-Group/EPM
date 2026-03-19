@@ -20,6 +20,7 @@ flowchart LR
 
     POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
     OUT[("<b>CSV Outputs</b>")]
+    RDASH(["<b>Results Dashboard</b>\nshareable · no install required"])
 
     DASH -->|launch| CLI
     CLI --> CONFIG
@@ -29,6 +30,7 @@ flowchart LR
     GAMS --> POST
     POST --> OUT
     OUT -->|results| DASH
+    OUT -->|results| RDASH
 
     classDef dashboard fill:#1a6fa3,stroke:#0d4f7a,color:#fff
     classDef cli fill:#2e86ab,stroke:#1a6fa3,color:#fff
@@ -37,7 +39,7 @@ flowchart LR
     classDef postNode fill:#457b9d,stroke:#1d3557,color:#fff
     classDef outNode fill:#1d3557,stroke:#0d2035,color:#fff
 
-    class DASH dashboard
+    class DASH,RDASH dashboard
     class CLI cli
     class CONFIG,SCEN,CSV inputNode
     class GAMS coreNode
