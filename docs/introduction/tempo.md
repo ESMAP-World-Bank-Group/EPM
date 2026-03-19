@@ -21,7 +21,7 @@ flowchart LR
     POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
 
     subgraph outputs ["Outputs"]
-        direction TB
+        direction BT
         OUT[("<b>CSV Outputs</b>")]
         RDASH(["<b>Results Dashboard</b>\nshareable · no install required"])
     end
