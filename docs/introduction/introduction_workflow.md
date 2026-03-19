@@ -68,7 +68,7 @@ This section provides a quick map of the model, the repository, and the typical 
         end
 
         subgraph core ["Core model\n"]
-            GAMS["<b>GAMS</b>\nbase.gms · CPLEX"]
+            GAMS["<b>GAMS</b>\nmain.gms · base.gms · CPLEX"]
         end
 
         POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
