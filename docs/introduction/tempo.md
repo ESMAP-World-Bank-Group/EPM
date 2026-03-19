@@ -1,7 +1,7 @@
 # Tempo
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '16px'}}}%%
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '16px', 'edgeLabelBackground': '#ffffff'}}}%%
 flowchart LR
     subgraph ui ["User interface"]
         DASH(["<b>EPM Dashboard</b>\nlaunch · configure · visualize"])
@@ -20,12 +20,8 @@ flowchart LR
     end
 
     POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
-
-    subgraph outputs ["Outputs"]
-        direction BT
-        OUT[("<b>CSV Outputs</b>")]
-        RDASH(["<b>Results Dashboard</b>\nshareable · no install required"])
-    end
+    OUT[("<b>CSV Outputs</b>")]
+    RDASH(["<b>Results Dashboard</b>\nshareable"])
 
     DASH -->|launch| CLI
     CLI --> CONFIG
@@ -54,5 +50,5 @@ flowchart LR
     style ui fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
     style inputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
     style core fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
-    style outputs fill:#f7f4ef,stroke:#d4c9b8,color:#2c3e50
+
 ```
