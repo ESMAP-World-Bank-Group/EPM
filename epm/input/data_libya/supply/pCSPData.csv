@@ -1,0 +1,39 @@
+﻿,,Capacity,Capex,FixedOM,VOM,Availability,Efficiency,Life
+BotswanaSolarCSP_REN_BWA,Thermal Field,50000,1.2,800,0,0.9,0.9,30
+ZPCSolarCSP_TH_ZWE,Thermal Field,50000,1.2,800,0,0.9,0.9,30
+SACSP_REN_ZAF,Thermal Field,300,1.2,800,0,0.9,0.9,30
+ExistingCSP(CSP)_REN_ZAF,Thermal Field,800,,800,0,0.9,0.9,30
+New_CSP_ZAF,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_LSO,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_SWZ,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_BWA,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_NAM,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_ZMB,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_AGO,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_TZA,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_MWI,Thermal Field,50000,0.9,800,0,0.9,0.9,30
+New_CSP_BWA_2,Thermal Field,50000,0.8,800,0,0.9,0.9,30
+New_CSP_NAM_2,Thermal Field,50000,0.8,800,0,0.9,0.9,30
+CommittedCSP1_NAM,Thermal Field,100,0.9,800,0,0.9,0.9,30
+Committed_CSP1-1_BWA,Thermal Field,200,0.9,800,0,0.9,0.9,30
+Committed_CSP1-2_BWA,Thermal Field,100,0.9,800,0,0.9,0.9,30
+BotswanaSolarCSP_REN_BWA,Storage,5000000,70,200,0,1,0.9,30
+ZPCSolarCSP_TH_ZWE,Storage,5000000,70,200,0,1,0.9,30
+SACSP_REN_ZAF,Storage,1500,70,200,0,1,0.9,30
+ExistingCSP(CSP)_REN_ZAF,Storage,4000,,200,0,1,0.9,30
+New_CSP_ZAF,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_LSO,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_SWZ,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_BWA,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_NAM,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_ZMB,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_AGO,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_TZA,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_MWI,Storage,5000000,60,200,0,1,0.9,30
+New_CSP_BWA_2,Storage,5000000,55,200,0,1,0.9,30
+New_CSP_NAM_2,Storage,5000000,55,200,0,1,0.9,30
+CommittedCSP1_NAM,Storage,318,60,200,0,1,0.9,30
+Committed_CSP1-1_BWA,Storage,431,60,200,0,1,0.9,30
+Committed_CSP1-2_BWA,Storage,219,60,200,0,1,0.9,30
+New_CSP_ZAF_2024,Thermal Field,100,0.9,800,0,0.9,0.9,30
+New_CSP_ZAF_2024,Storage,400,60,200,0,1,0.9,30

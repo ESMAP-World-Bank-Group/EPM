@@ -99,6 +99,8 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
+!epm/input/data_libya/
+!epm/input/data_libya/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
