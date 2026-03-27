@@ -1116,13 +1116,13 @@ def perform_interco_assessment(interco_assessment, s, delay=5):
 
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pNewTransmission'])
-
+            print(df.head())
             # Create a helper column with standardized "From-To" or "To-From" format
             df['interco_key'] = df.apply(lambda row: f"{row['From']}-{row['To']}", axis=1)
-
+            print(df.head())
             # Remove project(s) in interco_assessment
             df_filtered = df[~df['interco_key'].isin(interco_assessment)].drop(columns='interco_key')
-
+            print(df_filtered.head())
             # Write the modified file
             name = '-'.join(interco_assessment).replace(' ', '')
             path_file = _generate_assessment_filepath(s[scenario]['pNewTransmission'], name)
