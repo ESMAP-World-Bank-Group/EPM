@@ -10,7 +10,7 @@ pDemandData,load/pDemandData.csv,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast_sapp_adapted.csv,load/pDemandForecast_sapp_adapted.csv
 sRelevant,load/sRelevant.csv,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv,load/pEnergyEfficiencyFactor.csv
-pGenDataInput,supply/pGenDataInput.csv,supply/pGenDataInput.csv
+pGenDataInput,supply/pGenDataInput_SAPP.csv,supply/pGenDataInput_SAPP.csv
 pGenDataInputDefault,supply/pGenDataInputDefault.csv,supply/pGenDataInputDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv,supply/pAvailabilityDefault.csv

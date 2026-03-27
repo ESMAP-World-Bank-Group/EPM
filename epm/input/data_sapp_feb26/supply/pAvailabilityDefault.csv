@@ -1,5 +1,6 @@
 ﻿zone,tech,fuel,Q1,Q2,Q3,Q4
 South_Africa,ST,Coal,0.65,0.65,0.65,0.65
+South_Africa,ST,Biogas,0.85,0.85,0.85,0.85
 South_Africa,OCGT,Gas,0.85,0.85,0.85,0.85
 South_Africa,CCGT,Gas,0.85,0.85,0.85,0.85
 South_Africa,ICE,Diesel,0.85,0.85,0.85,0.85
@@ -135,6 +136,7 @@ Malawi,ICE,HFO,0.85,0.85,0.85,0.85
 Malawi,OCGT,HFO,0.85,0.85,0.85,0.85
 Malawi,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Malawi,ST,Biomass,0.85,0.85,0.85,0.85
+Malawi,ST,HFO,0.85,0.85,0.85,0.85
 Malawi,CCGT,LNG,0.85,0.85,0.85,0.85
 Malawi,OCGT,LNG,0.85,0.85,0.85,0.85
 Malawi,PV,Solar,1,1,1,1

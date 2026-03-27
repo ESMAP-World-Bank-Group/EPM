@@ -7,6 +7,7 @@ CCGT-LNG,steelblue
 OCGT-LNG,lightskyblue
 ST-Uranium,yellowgreen
 ST-Bagasse,darkgreen
+ST-Biogas,chocolate
 ST-Woodchip,lightgreen
 Storage-Water,royalblue
 ST-Geothermal,sienna
@@ -52,6 +53,7 @@ CSP,darkorange
 Battery,darkkhaki
 Diesel,darksalmon
 Biomass,green
+Biogas,chocolate
 Geothermal,red
 #Dispatch Attributes,
 Demand,red
