@@ -197,7 +197,7 @@ LowerMaguduza_HY_SWZ,Eswatini,ROR,Water,2027,2107,13.5,2,,,,,,0.1835,40000,0.5,0
 Kasitu_GT_MWI,Malawi,ST,Geothermal,2055,2060,6,0,,0,1,1,0,0.2,15000,2.538071066,0,9.95,30,6,0,,0,0,0,0
 MajubaI_TH_ZAF,South_Africa,ST,Coal,1990,2051,1825,1,0.3,12.7,,,,,,,,0,,,0,,0,0.05,0,621.8
 MajubaII_TH_ZAF,South_Africa,ST,Coal,1985,2051,1981,1,0.3,12.7,,,,,,,,0,,,0,,0,0.05,0,669.5
-Kholombizo_HY_MWI,Malawi,ReservoirHydro,Water,2033,2093,213,3,,,,,,0.325077306,,,,3.445,,213,0,,0,0,0,0
+Kholombizo_HY_MWI,Malawi,ReservoirHydro,Water,2033,2093,213,0,,,,,,0.325077306,,,,3.445,,213,0,,0,0,0,0
 Mapanga_ICE_MWI,Malawi,ICE,Diesel,2000,2060,16,1,,,,,,,,,0,0,,0,0,,0,0,0,0
 Matimba_TH_ZAF,South_Africa,ST,Coal,1987,2039,3695,1,0.3,11.4,,,,,,,,0,,,0,,0,0.05,0,615
 Matla_TH_ZAF,South_Africa,ST,Coal,1979,2031,3450,1,0.3,11.3,,,,,,,,0,,,0,,0,0.05,0,575
@@ -209,7 +209,7 @@ Committed_Wind1-3_BWA,Botswana,OnshoreWind,Wind,2028,2058,0,2,,,1,1,,,30000,,,1.
 Committed_Wind1-4_BWA,Botswana,OnshoreWind,Wind,2031,2061,0,2,,,1,1,,,30000,,,1.3,,0,,,,,1,
 Committed_Wind1-5_BWA,Botswana,OnshoreWind,Wind,2035,2065,0,2,,,1,1,,,30000,,,1.3,,50,,,,,1,
 Kidunda_HY_TZA,Tanzania,ROR,Water,2028,2108,20,3,,,,,,0.3,40000,0.5,0,2.8,,20,,,,,,
-Mpatamanga_Opt_HY_MWI,Malawi,ReservoirHydro,Water,2031,2101,358,2,,,,,,0.278070484,50000,0.5,,3.12,50,359,0,,0,0,0,0
+Mpatamanga_Opt_HY_MWI,Malawi,ReservoirHydro,Water,2033,2101,358,2,,,,,,0.278070484,50000,0.5,,3.12,50,359,0,,0,0,0,0
 Nseke_HY_DRCSouth,DRC_South,ReservoirHydro,Water,1957,2060,260,1,,,,,,0.41,,,0,0,50,,0,,0,0,0,0
 Muela_HY_LSO,Lesotho,ReservoirHydro,Water,2000,2080,74,1,,,,,,0.396,,,0,0,50,,0,,0,0,0,0
 Kiejo_Mbaka_I_TH_TZA,Tanzania,ST,Geothermal,2050,2060,60,0,,,,,,,,,0,,,60,,,,,,
@@ -407,7 +407,7 @@ New_OnshoreWind_BWA,Botswana,OnshoreWind,Wind,2027,2057,8000,3,,,1,1,,,30000,,,1
 Malagarasi_HY_TZA,Tanzania,ROR,Water,2028,2108,50,2,,,,,,0.22,40000,0.5,0,2.8,,50,,,,,,
 New_OnshoreWind_DRC,DRC,OnshoreWind,Wind,2027,2056,8000,3,,,1,1,,,30000,,,1.3,,70,,,,,1,
 New_OnshoreWind_DRCSouth,DRC_South,OnshoreWind,Wind,2027,2056,8000,3,,,1,1,,,30000,,,1.3,,45,,,,,1,
-New_OnshoreWind_LSO,Lesotho,OnshoreWind,Wind,2028,2056,500,3,,,1,1,,,30000,,,1.3,,20,,,,,1,
+New_OnshoreWind_LSO,Lesotho,OnshoreWind,Wind,2029,2056,500,3,,,1,1,,,30000,,,1.3,,20,,,,,1,
 New_OnshoreWind_SWZ,Eswatini,OnshoreWind,Wind,2031,2061,1000,3,,,1,1,,,30000,,,1.3,,20,,,,,1,
 New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,400,3,,,1,1,,,30000,,,1.3,,60,,,,,1,
 New_OnshoreWind_ZWE,Zimbabwe,OnshoreWind,Wind,2028,2058,200,3,,,1,1,,,30000,,,1.3,,20,,,,,1,
@@ -424,7 +424,7 @@ CuambaII_PV_MOZ,Mozambique_North,PV,Solar,2028,2058,30,3,,0,1,1,,,,,,,,30,,,,,,
 New_PV_BWA,Botswana,PV,Solar,2029,2059,8000,3,,,,,,,15000,,,0.8,,40,,,,,1,
 New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,,,,,,15000,,,0.8,,70,,,,,1,
 New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,,,,,,15000,,,0.8,,40,,,,,1,
-New_PV_LSO,Lesotho,PV,Solar,2026,2060,500,3,,,,,,,15000,,,0.8,,15,,,,,1,
+New_PV_LSO,Lesotho,PV,Solar,2029,2060,500,3,,,,,,,15000,,,0.8,,15,,,,,1,
 New_PV_TZA,Tanzania,PV,Solar,2027,2052,250,3,,,,,,,15000,,,0.8,,40,,,,,,
 7Yards_PV_ZMB,Zambia,PV,Solar,2027,2057,100,3,,,,,,,15000,,,0.8,,50,,,,,1,
 Lufubu_HY_ZMB,Zambia,ReservoirHydro,Water,2029,2109,163,3,,,,,,0.278070484,50000,0.5,,3.12,50,163,0,,0,0,0,0
