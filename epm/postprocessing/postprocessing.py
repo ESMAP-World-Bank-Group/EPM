@@ -2196,15 +2196,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
             # Identify scenario pairs: base scenarios have no underscore, counterfactuals start with base name + '_'
             all_scenarios = df['scenario'].unique()
-            # Scenarios with @ are counterfactuals (project assessments)
-            base_scenario_names = [s for s in all_scenarios if '@' not in s]
-            counterfactual_names = [s for s in all_scenarios if '@' in s]
+            # Scenarios with @ or _wo are counterfactuals (project assessments)
+            base_scenario_names = [s for s in all_scenarios if '@' not in s and '_wo' not in s]
+            counterfactual_names = [s for s in all_scenarios if '@' in s or '_wo' in s]
 
             # Build pairs: {base_scenario: [list of counterfactual scenarios]}
+            # Split on '@' or '_wo' to find base scenario name, and check if it exists in the list of base scenarios
             # e.g., baseline~NoBiomass@rehabilitation pairs with baseline~NoBiomass
             scenario_pairs = {}
             for counterfactual in counterfactual_names:
-                base_name = counterfactual.split('@')[0]
+                base_name = counterfactual.split('@')[0].split('_wo')[0]
                 if base_name in base_scenario_names:
                     if base_name not in scenario_pairs:
                         scenario_pairs[base_name] = []

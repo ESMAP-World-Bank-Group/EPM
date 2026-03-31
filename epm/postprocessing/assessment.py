@@ -682,6 +682,7 @@ def make_assessment_cost_template_csv(
             continue
 
         project_name = scenario_cf.split("@")[1] if "@" in scenario_cf else scenario_cf
+        project_name = project_name.split("_wo_")[1] if "_wo" in project_name else project_name
 
         # Pivot to wide format: rows=attribute, columns=year
         df_base_wide = df_base.pivot_table(
