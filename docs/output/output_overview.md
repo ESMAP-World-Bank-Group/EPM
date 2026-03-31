@@ -43,23 +43,16 @@ Each run creates a timestamped folder under `epm/output/`:
 ```plaintext
 simulations_run_<timestamp>/
 │
-├── baseline/                    # One subfolder per scenario
-│   └── output_csv/              # merged files from postprocessing pipeline
+├── baseline/                    # Scenario folders (e.g. baseline, HighDemand)
+│   ├── output_csv/              # CSVs merged for dashboard
+│   ├── epmresults.gdx           # Comprehensive raw data
+│   └── input_version/           # Input data snapshot
 │
-├── img/                         # Auto-generated figures (only if enabled in figures_config.json)
-│   ├── 1_capacity/              # Disable dispatch plots via --no_plot_dispatch
-│   ├── 2_cost/
-│   ├── 3_energy/
-│   ├── 4_interconnection/
-│   ├── 5_dispatch/
-│   └── 6_maps/
+├── img/                         # Auto-generated figures
 │
-├── summary.csv                  # High-level results summary
-├── summary_generators.csv       # Generator-specific results
-├── input_scenarios.csv          # Input parameters used for the run
-├── solver_metrics.csv           # Solver performance metrics
-├── SummaryHeatmap.pdf           # PDF summary visualization
-└── epm.log                      # Execution log
+├── summary.csv                  # Summary CSVs
+├── summary_generators.csv
+└── input_scenarios.csv
 ```
 
 ---
