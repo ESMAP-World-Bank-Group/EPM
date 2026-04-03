@@ -3,7 +3,7 @@ modeltype,RMIP
 cplexfile,cplex/cplex_baseline.opt
 GENERAL,
 pSettings,pSettings.csv
-y,y.csv
+y,y_alt.csv
 zcmap,zcmap.csv
 pHours,pHours.csv
 LOAD,

@@ -35,7 +35,7 @@ Storage,Water,PSH,blue
 ImportTransmission,Imports,Imports,tan
 EnergyBalance,Imports,Imports,tan
 EnergyBalance,Imports External,ImportsExternal,bisque
-EnergyBalance,Exports,Exports,pink
+EnergyBalance,Exports,Exports,lightgreen
 EnergyBalance,Exports External,ExportsExternal,purple
 EnergyBalance,UnmetDemand,UnmetDemand,red
 EnergyBalance,Surplus,Surplus,brown
