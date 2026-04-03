@@ -249,7 +249,25 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     result_df = result_df.reset_index().set_index('z_other')
     result_df['c2'] = zcmap_df[country_col]
 
-    # output_file was already determined earlier in the function
+    # Add ISO codes for both zones (start and end) if available in zone map
+    result_df = result_df.reset_index()
+    iso_cols = [c for c in ['ISO_A3', 'ISO_A2'] if c in zone_map_gdf.columns]
+    if iso_cols:
+        iso_lookup = (
+            zone_map_gdf[['ADMIN'] + iso_cols]
+            .assign(epm_zone=lambda df: df['ADMIN'].map(geojson_to_epm_dict))
+            .dropna(subset=['epm_zone'])
+            .set_index('epm_zone')[iso_cols]
+        )
+        for col in iso_cols:
+            result_df[col] = result_df['z'].map(iso_lookup[col])
+            result_df[f'{col}_other'] = result_df['z_other'].map(iso_lookup[col])
+    # Ensure ISO columns always present for Tableau schema compatibility
+    for col in ['ISO_A3', 'ISO_A2']:
+        if col not in result_df.columns:
+            result_df[col] = ''
+            result_df[f'{col}_other'] = ''
+    result_df = gpd.GeoDataFrame(result_df, geometry='geometry', crs=countries_shapefile.crs)
 
     result_df.to_file(output_file, driver='GeoJSON')
     return result_df
@@ -280,6 +298,10 @@ Note: Runs automatically in postprocessing.py for multi-zone models.
                         help="Folder name in ../input/ where zcmap.csv is located (default: data_test)")
     parser.add_argument("--zcmap", type=str, default="zcmap.csv",
                         help="Filename of zone-country mapping CSV (default: zcmap.csv)")
+    parser.add_argument("--geojson", type=str, default=None,
+                        help="Path to geojson_to_epm mapping CSV (default: resources/postprocess/geojson_to_epm.csv)")
+    parser.add_argument("--zonemap", type=str, default=None,
+                        help="Path to custom zone shapefile GeoJSON (default: resources/postprocess/zones.geojson)")
 
     args = parser.parse_args()
 
@@ -316,10 +338,11 @@ Note: Runs automatically in postprocessing.py for multi-zone models.
 
     linestring = create_geojson_for_tableau(
         selected_zones=selected_zones,
-        geojson_to_epm=None,  # Use defaults from resources
+        geojson_to_epm=args.geojson,
         zcmap=zcmap_path,
         folder=args.folder,
-        output_path=output_path
+        output_path=output_path,
+        zone_map=args.zonemap
     )
 
     print(f"GeoJSON created with {len(linestring)} lines.")
