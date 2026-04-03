@@ -783,7 +783,7 @@ eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
 
 * Phase-out constraint: limits annual instantaneous power output by zone-technology-fuel combination
 eMaxGenerationByFuel(z,tech,f,q,d,t,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
-   sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f)), vPwrOut(g,f,q,d,t,y)) =l= pMaxGenerationByFuel(z,tech,f,y);
+   sum((gzmap(eg,z),gtechmap(eg,tech),gfmap(eg,f)), vPwrOut(eg,f,q,d,t,y)) =l= pMaxGenerationByFuel(z,tech,f,y);
 
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..

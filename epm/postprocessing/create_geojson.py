@@ -163,20 +163,19 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
                 selected_zones=selected_zones,
                 zone_map=zone_map
             )
-    print(geojson_to_epm_dict)
     zone_map_gdf, centers = create_zonemap(zone_map_gdf, map_geojson_to_epm=geojson_to_epm_dict)
 
     # Processing for Tableau use
     countries_shapefile = zone_map_gdf.copy()
     countries_shapefile['geometry'] = countries_shapefile.centroid
     countries_shapefile = countries_shapefile.set_index('ADMIN')
-    print(countries_shapefile.index)
+
     # Assign EPM zone names to geometries using the mapping
     # geojson_to_epm_dict is {epm_name: geojson_name}, we need reverse mapping
-    geojson_to_epm_reverse = {v: k for k, v in geojson_to_epm_dict.items()}
-    print(geojson_to_epm_reverse)
+    # geojson_to_epm_reverse = {v: k for k, v in geojson_to_epm_dict.items()}
+
     countries_shapefile['z'] = countries_shapefile.index.map(geojson_to_epm_dict)
-    print(countries_shapefile[['z']])
+
     countries_shapefile = countries_shapefile.reset_index(drop=True)
 
     # Create pairwise combinations (excluding self) to generate lines between all zones
