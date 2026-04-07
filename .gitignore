@@ -40,7 +40,7 @@
 **/_untracked/
 
 # Project-specific outputs
-!/epm/cplex.opt
+/epm/cplex.opt
 epm/output/*
 epm/postprocessing/*
 !epm/output/tableau/
@@ -72,6 +72,11 @@ epm/postprocessing/data_inception_report/output
 
 # Pre-analysis generated data
 pre-analysis/output_workflow
+pre-analysis/reporting
+pre-analysis/prepare-data/*
+pre-analysis/representative_days/*
+!pre-analysis/representative_days/generate_pvgis_era5_data.py
+!pre-analysis/representative_days/.cdsapirc
 pre-analysis/api
 pre-analysis/.snakemake/
 pre-analysis/dataset/

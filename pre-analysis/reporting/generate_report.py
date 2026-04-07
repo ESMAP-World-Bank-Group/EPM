@@ -19,45 +19,44 @@ import yaml
 from jinja2 import Template
 
 # Force a headless matplotlib backend so Snakemake worker threads don't try to spawn GUI windows.
+# This prevents issues in non-interactive environments like servers or CI/CD pipelines.
 os.environ["MPLBACKEND"] = "Agg"
 try:
     import matplotlib
-
     matplotlib.use("Agg", force=True)
 except Exception:
     matplotlib = None
 
-REPORTING_DIR = Path(__file__).resolve().parent
-BASE_DIR = REPORTING_DIR.parent
-DEFAULT_TEMPLATE = REPORTING_DIR / "report.md.j2"
-DEFAULT_OUTPUT = BASE_DIR / "output_workflow" / "report.md"
-DEFAULT_CONFIG = BASE_DIR / "config" / "open_data_config.yaml"
-DISABLE_FLOAT_TEX = REPORTING_DIR / "disable_float.tex"
+# Define constants for file paths relative to the script's location.
+REPORTING_DIR = Path(__file__).resolve().parent  # Directory of this script.
+BASE_DIR = REPORTING_DIR.parent  # Parent directory (likely the project root).
+DEFAULT_TEMPLATE = REPORTING_DIR / "report.md.j2"  # Default Jinja2 template file.
+DEFAULT_OUTPUT = BASE_DIR / "output_workflow" / "report.md"  # Default output Markdown file.
+DEFAULT_CONFIG = BASE_DIR / "config" / "open_data_config.yaml"  # Default config YAML file.
+DISABLE_FLOAT_TEX = REPORTING_DIR / "disable_float.tex"  # LaTeX file to disable floating figures in PDF export.
 
-
+# Helper function: Print verbose messages only if enabled.
 def _vprint(enabled: bool, message: str) -> None:
     if enabled:
         print(f"[report][verbose] {message}", file=sys.stderr)
 
-
+# Helper function: Get an absolute path string for clearer debugging output.
 def _abspath_for_display(path: Path) -> str:
-    """Return an absolute path string for clearer debugging."""
     try:
         return path.resolve().as_posix()
     except OSError:
         return path.as_posix()
 
-
+# Helper function: Convert text to a filesystem-friendly slug (e.g., for filenames).
 def _slug(text: str) -> str:
-    """Return a filesystem-friendly slug."""
     return "".join(ch if ch.isalnum() else "_" for ch in text).strip("_").lower()
 
-
+# Helper function: Resolve a path relative to a base directory if it's not absolute.
 def _resolve_relative(base: Path, maybe_path: Path | str) -> Path:
     path = Path(maybe_path)
     return path if path.is_absolute() else (base / path)
 
-
+# Define subdirectories for different output categories in the workflow.
 CATEGORY_OUTPUT_SUBDIRS = {
     "load": "load",
     "vre": "vre",
@@ -65,9 +64,8 @@ CATEGORY_OUTPUT_SUBDIRS = {
     "socioeconomic": "socioeconomic",
 }
 
-
+# Helper function: Resolve a category-specific output directory, preferring relative paths under the output root.
 def _resolve_category_output_dir(output_root: Path, relative: Optional[str], category: str) -> Path:
-    """Resolve a category-specific output directory much like the workflow does."""
     subdir = CATEGORY_OUTPUT_SUBDIRS.get(category)
     if subdir is None:
         raise ValueError(f"Unknown output category: {category}")
@@ -79,17 +77,15 @@ def _resolve_category_output_dir(output_root: Path, relative: Optional[str], cat
         return rel_path
     return base / rel_path
 
-
+# Helper function: Get a BASE_DIR-relative path string for concise display.
 def _relpath_for_display(path: Path) -> str:
-    """Return a BASE_DIR-relative path string when possible for concise display."""
     try:
         return path.relative_to(BASE_DIR).as_posix()
     except ValueError:
         return path.as_posix()
 
-
+# Helper function: Join a list of strings with commas and a final 'and' for readability.
 def _human_join(items: Sequence[str]) -> str:
-    """Join a list of strings with commas and a final 'and' for readability."""
     items = [item for item in items if isinstance(item, str)]
     if not items:
         return ""
@@ -99,9 +95,8 @@ def _human_join(items: Sequence[str]) -> str:
         return " and ".join(items)
     return ", ".join(items[:-1]) + f", and {items[-1]}"
 
-
+# Helper function: Get the most recent modification timestamp (UTC) among a list of paths.
 def _latest_mtime(paths: Iterable[Path]) -> Optional[datetime]:
-    """Return the most recent modification timestamp (UTC) among the provided paths."""
     timestamps = []
     for path in paths:
         try:
@@ -113,12 +108,11 @@ def _latest_mtime(paths: Iterable[Path]) -> Optional[datetime]:
         return None
     return datetime.fromtimestamp(max(timestamps), tz=timezone.utc)
 
-
+# Helper function: Return resolution label without appending extraction dates (placeholder for future use).
 def _resolution_with_date(resolution: str, paths: Sequence[Path]) -> str:
-    """Return resolution label without appending extraction dates."""
     return resolution
 
-
+# Helper function: Ensure a value is a sequence of strings.
 def _ensure_sequence(value) -> Sequence[str]:
     if value is None:
         return []
@@ -128,7 +122,7 @@ def _ensure_sequence(value) -> Sequence[str]:
         return list(value)
     return [value]
 
-
+# Function: Load and parse the YAML config file.
 def load_config(config_path: Path) -> Dict:
     if not config_path.exists():
         return {}
@@ -139,69 +133,68 @@ def load_config(config_path: Path) -> Dict:
             print(f"Warning: could not parse config {config_path}: {exc}", file=sys.stderr)
             return {}
 
-
+# Function: Pick a sensible default report output path under the workflow output root.
 def default_report_output(config_path: Path, output_dir_override: Optional[Path]) -> Path:
-    """Pick a sensible default report path under the workflow output root."""
     cfg = load_config(config_path)
     out_root = find_output_dir(cfg, output_dir_override)
     return out_root / "report.md"
 
-
+# Function: Pick an output directory, preferring explicit override or config.
 def find_output_dir(config: Dict, override: Optional[Path]) -> Path:
-    """Pick an output directory; prefer explicit override/config."""
     if override:
         return override.resolve()
-
     root = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "output_workflow"))
     return root.resolve()
 
-
+# Function: Get a readable country name from a slug using a mapping.
 def readable_country(slug: str, slug_map: Dict[str, str]) -> str:
     return slug_map.get(slug, slug.replace("_", " ").title())
 
-
+# Function: Collect load profile statistics, figures, heatmaps, and boxplots from CSV files.
 def collect_load_profiles(load_dir: Path, slug_map: Dict[str, str]) -> Tuple[List[Dict], List[Path], List[Path], List[Path]]:
+    # Initialize lists for stats, figures, heatmaps, and boxplots.
     stats: List[Dict] = []
     figures: List[Path] = []
     heatmaps: List[Path] = []
     boxplots: List[Path] = []
-
+    
+    # Loop through load profile CSV files.
     for csv_path in sorted(load_dir.glob("load_profile_*.csv")):
         df = pd.read_csv(csv_path)
         country_slug = csv_path.stem.replace("load_profile_", "")
         country_name = readable_country(country_slug, slug_map)
         if "load_mw" not in df.columns:
             continue
-
-        stats.append(
-            {
-                "Country": country_name,
-                "Average Load (MW)": df["load_mw"].mean(),
-                "Peak Load (MW)": df["load_mw"].max(),
-                "Minimum Load (MW)": df["load_mw"].min(),
-            }
-        )
-
+        
+        # Calculate stats for each country.
+        stats.append({
+            "Country": country_name,
+            "Average Load (MW)": df["load_mw"].mean(),
+            "Peak Load (MW)": df["load_mw"].max(),
+            "Minimum Load (MW)": df["load_mw"].min(),
+        })
+        
+        # Collect PDF figures, heatmaps, and boxplots if they exist.
         pdf_path = csv_path.with_suffix(".pdf")
         if pdf_path.exists():
             figures.append(pdf_path)
-
+        
         for heatmap_path in sorted(load_dir.glob(f"heatmap_load_{country_slug}.*")):
             heatmaps.append(heatmap_path)
-
+        
         for boxplot_path in sorted(load_dir.glob(f"boxplot_load_{country_slug}.*")):
             boxplots.append(boxplot_path)
-
+    
     return stats, figures, heatmaps, boxplots
 
-
+# Function: Summarize Renewables Ninja capacity factors and gather per-zone figures.
 def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[Dict[str, Optional[Path]]]], List[Path]]:
-    """Summarise Renewables Ninja capacity factors and gather per-zone figures."""
     summaries: List[Dict] = []
     zone_order: Dict[str, List[str]] = {"solar": [], "wind": []}
     zone_slug_map: Dict[str, Dict[str, str]] = {"solar": {}, "wind": {}}
     boxplots: List[Path] = []
-
+    
+    # Helper to determine tech from label.
     def _tech_key_from_label(label: str) -> Optional[str]:
         lower = label.lower()
         if "pv" in lower or "solar" in lower:
@@ -209,7 +202,8 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         if "wind" in lower:
             return "wind"
         return None
-
+    
+    # Helper to register a zone for a tech.
     def _register_zone(tech_key: str, zone_label: str) -> None:
         slug = _slug(str(zone_label))
         if not slug:
@@ -218,7 +212,8 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         if slug not in mapping:
             mapping[slug] = zone_label
             zone_order.setdefault(tech_key, []).append(slug)
-
+    
+    # Collect CSV files matching patterns.
     def _collect_csvs(patterns: Sequence[str]) -> List[Path]:
         paths: List[Path] = []
         for pattern in patterns:
@@ -230,29 +225,27 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
                 seen.add(path)
                 unique_paths.append(path)
         return unique_paths
-
+    
     csv_files = _collect_csvs(["rninja_data_*.csv", "vre_rninja_*.csv"])
     for csv_path in csv_files:
         tech = "solar" if "solar" in csv_path.stem.lower() or "_pv_" in csv_path.stem.lower() else "wind"
         df = pd.read_csv(csv_path)
-        # Exclude calendar/index columns so only capacity-factor series (e.g., yearly columns) are averaged
         meta_cols = {"zone", "season", "month", "day", "hour", "timestamp", "timestamp_utc"}
         value_cols = [c for c in df.columns if c not in meta_cols]
         for zone, group in df.groupby("zone"):
             for col in value_cols:
-                summaries.append(
-                    {
-                        "zone": zone,
-                        "tech": tech,
-                        "period": col,
-                        "mean_capacity_factor": float(group[col].mean()),
-                    }
-                )
+                summaries.append({
+                    "zone": zone,
+                    "tech": tech,
+                    "period": col,
+                    "mean_capacity_factor": float(group[col].mean()),
+                })
             if isinstance(zone, str) and zone.strip():
                 _register_zone(tech, zone)
-
+    
+    # Build per-zone paths for heatmaps and boxplots.
     per_zone_paths: Dict[str, Dict[str, Dict[str, Optional[Path]]]] = {"solar": {}, "wind": {}}
-
+    
     def _match_zone_slug(part: str, candidates: Sequence[str]) -> Optional[str]:
         best: Optional[str] = None
         for slug in candidates:
@@ -260,10 +253,8 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
                 if best is None or len(slug) > len(best):
                     best = slug
         return best
-
-    def _parse_filename(
-        stem: str, prefix: str, suffix: str
-    ) -> Tuple[Optional[str], Optional[str]]:
+    
+    def _parse_filename(stem: str, prefix: str, suffix: str) -> Tuple[Optional[str], Optional[str]]:
         if not stem.startswith(prefix) or not stem.endswith(suffix):
             return None, None
         body = stem[len(prefix) : -len(suffix)]
@@ -271,7 +262,8 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         if not tech_label or not zone_part:
             return None, None
         return tech_label, zone_part
-
+    
+    # Collect heatmap paths.
     for heatmap in sorted(vre_dir.glob("heatmap_*_rninja.*")):
         tech_label, slug_part = _parse_filename(heatmap.stem, "heatmap_", "_rninja")
         if not tech_label or not slug_part:
@@ -283,10 +275,9 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         zone_slug = _match_zone_slug(slug_part, slug_candidates)
         if not zone_slug:
             continue
-        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})[
-            "heatmap"
-        ] = heatmap
-
+        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})["heatmap"] = heatmap
+    
+    # Collect boxplot paths.
     for boxplot in sorted(vre_dir.glob("boxplot_*_rninja.*")):
         tech_label, slug_part = _parse_filename(boxplot.stem, "boxplot_", "_rninja")
         if not tech_label or not slug_part:
@@ -298,11 +289,10 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         zone_slug = _match_zone_slug(slug_part, slug_candidates)
         if not zone_slug:
             continue
-        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})[
-            "boxplot"
-        ] = boxplot
+        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})["boxplot"] = boxplot
         boxplots.append(boxplot)
-
+    
+    # Structure the output for zones.
     structured: Dict[str, List[Dict[str, Optional[Path]]]] = {}
     for tech_key in ("solar", "wind"):
         entries: List[Dict[str, Optional[Path]]] = []
@@ -313,55 +303,49 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
             data = per_zone_paths.get(tech_key, {}).get(slug)
             if not data or not (data.get("heatmap") or data.get("boxplot")):
                 continue
-            entries.append(
-                {
-                    "country": candidate_map.get(slug, slug.replace("_", " ").title()),
-                    "heatmap": data.get("heatmap"),
-                    "boxplot": data.get("boxplot"),
-                }
-            )
+            entries.append({
+                "country": candidate_map.get(slug, slug.replace("_", " ").title()),
+                "heatmap": data.get("heatmap"),
+                "boxplot": data.get("boxplot"),
+            })
             seen.add(slug)
         for slug, data in per_zone_paths.get(tech_key, {}).items():
             if slug in seen:
                 continue
             if not (data.get("heatmap") or data.get("boxplot")):
                 continue
-            entries.append(
-                {
-                    "country": candidate_map.get(slug, slug.replace("_", " ").title()),
-                    "heatmap": data.get("heatmap"),
-                    "boxplot": data.get("boxplot"),
-                }
-            )
+            entries.append({
+                "country": candidate_map.get(slug, slug.replace("_", " ").title()),
+                "heatmap": data.get("heatmap"),
+                "boxplot": data.get("boxplot"),
+            })
         if entries:
             structured[tech_key] = entries
-
+    
     return summaries, structured, boxplots
 
-
+# Function: Create a quick scatter plot for GAP-selected projects.
 def plot_gap_project_locations(df: pd.DataFrame, output_dir: Path) -> Optional[Path]:
-    """Quick scatter plot for GAP-selected projects (lat/lon, scaled by capacity)."""
     if df.empty or not {"Latitude", "Longitude"}.issubset(df.columns):
         return None
-
+    
     try:
         import matplotlib
-
         backend = getattr(matplotlib, "get_backend", lambda: "")()
         if str(backend).lower() != "agg":
-            matplotlib.use("Agg", force=True)  # headless backend for non-main-thread calls
+            matplotlib.use("Agg", force=True)
         import matplotlib.pyplot as plt
     except Exception:
         return None
-
+    
     output_dir.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(6.5, 4.5))
-
+    
     df_local = df.copy()
     df_local["capacity"] = pd.to_numeric(df_local["Capacity (MW)"], errors="coerce").fillna(0)
     df_local["size"] = 40 + 6 * df_local["capacity"].pow(0.5)
     color_map = {"solar": "#f4a261", "wind": "#2a9d8f"}
-
+    
     for tech, group in df_local.groupby("Type"):
         color = color_map.get(str(tech).lower(), "#577590")
         ax.scatter(
@@ -385,36 +369,36 @@ def plot_gap_project_locations(df: pd.DataFrame, output_dir: Path) -> Optional[P
                     fontsize=7,
                     alpha=0.8,
                 )
-
+    
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     ax.set_title("GIP-2025 selected projects")
     ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
     if len(df_local["Type"].unique()) > 1:
         ax.legend(title="Technology")
-
+    
     fig.tight_layout()
     plot_path = output_dir / "gap_project_locations.pdf"
     fig.savefig(plot_path, dpi=220)
     plt.close(fig)
     return plot_path
 
-
+# Function: Collect GAP projects summary and plot.
 def collect_gap_projects(
     supply_dir: Path, slug_map: Dict[str, str]
 ) -> Tuple[Optional[str], Optional[Path], Optional[Path]]:
     gap_files = sorted(supply_dir.glob("most_relevant_projects_*.csv"))
     if not gap_files:
         return None, None, None
-
+    
     gap_path = gap_files[0]
     df = pd.read_csv(gap_path)
-
+    
     if not {"Country", "Type", "Capacity (MW)", "Plant / Project name"}.issubset(df.columns):
         return None, gap_path, None
-
+    
     df["Country"] = df["Country"].apply(lambda x: readable_country(_slug(str(x)), slug_map) if isinstance(x, str) else x)
-
+    
     def _representative_location(group: pd.DataFrame) -> str:
         for col in ("City", "Plant / Project name"):
             for val in group.get(col, []):
@@ -425,53 +409,50 @@ def collect_gap_projects(
             if pd.notna(lat) and pd.notna(lon):
                 return f"{lat:.2f}, {lon:.2f}"
         return ""
-
+    
     summary_rows: List[Dict] = []
     for (country, tech), group in df.groupby(["Country", "Type"]):
-        summary_rows.append(
-            {
-                "Country": country,
-                "Technology": tech.title() if isinstance(tech, str) else tech,
-                "Total capacity (MW)": group["Capacity (MW)"].sum(),
-                "Example location": _representative_location(group) or "n/a",
-            }
-        )
-
+        summary_rows.append({
+            "Country": country,
+            "Technology": tech.title() if isinstance(tech, str) else tech,
+            "Total capacity (MW)": group["Capacity (MW)"].sum(),
+            "Example location": _representative_location(group) or "n/a",
+        })
+    
     summary = pd.DataFrame(summary_rows).sort_values(["Country", "Technology"])
     summary_md = summary.to_markdown(index=False, floatfmt=".0f")
-
+    
     plot_path = plot_gap_project_locations(df, supply_dir)
-
+    
     return summary_md, gap_path, plot_path
 
-
+# Function: Collect generation map data and summaries.
 def collect_generation_map(
     supply_dir: Path, config: Dict
 ) -> Tuple[List[Dict[str, object]], Optional[pd.DataFrame]]:
     gen_cfg = config.get("generation_map", {})
     sources_cfg = gen_cfg.get("sources") or []
     entries: List[Dict[str, object]] = []
-
+    
     def _read_csv(path: Path) -> Optional[pd.DataFrame]:
         if not path.exists():
             return None
         try:
             df = pd.read_csv(path)
             return None if df.empty else df
-        except Exception as exc:  # pragma: no cover - defensive logging only
+        except Exception as exc:
             print(f"Warning: could not read generation data {path}: {exc}", file=sys.stderr)
             return None
-
+    
     def _collect_single(entry_cfg: Dict, fallback_label: str = "gap") -> Dict[str, object]:
         label = entry_cfg.get("label") or entry_cfg.get("key") or fallback_label
         slug_label = _slug(label)
         map_name = entry_cfg.get("map_filename") or gen_cfg.get("map_filename") or "generation_map.html"
         data_name = entry_cfg.get("data_filename") or gen_cfg.get("data_filename") or "generation_sites.csv"
         summary_name = entry_cfg.get("summary_filename") or gen_cfg.get("summary_filename") or "generation_sites_summary.csv"
-
+        
         map_path = supply_dir / map_name
         if not map_path.exists():
-            # Fallback to any matching map with the label in the stem.
             candidates = sorted(
                 p for p in supply_dir.glob("generation_map*.html") if (label in p.stem or (slug_label and slug_label in p.stem))
             )
@@ -490,7 +471,7 @@ def collect_generation_map(
             fallback = supply_dir / "generation_sites.csv"
             if fallback.exists():
                 data_path = fallback
-
+        
         return {
             "label": label,
             "slug": slug_label,
@@ -498,7 +479,7 @@ def collect_generation_map(
             "summary": _read_csv(summary_path),
             "data": _read_csv(data_path),
         }
-
+    
     if sources_cfg:
         for cfg in sources_cfg:
             if not isinstance(cfg, dict):
@@ -506,45 +487,40 @@ def collect_generation_map(
             entries.append(_collect_single(cfg))
     else:
         entries.append(_collect_single({}))
-
+    
     comparison_df = None
     comparison_name = gen_cfg.get("comparison_filename") or "generation_sites_summary_comparison.csv"
     comparison_path = supply_dir / comparison_name
     if comparison_path.exists():
         comparison_df = _read_csv(comparison_path)
-
+    
     return entries, comparison_df
 
-
+# Function: Locate hydropower map and summary tables.
 def collect_hydro_reservoirs(
     output_root: Path, config: Dict
 ) -> Tuple[Optional[Path], Optional[pd.DataFrame], Optional[pd.DataFrame], Optional[Path], Optional[Path]]:
-    """Locate hydropower map + summary tables from the hydro_reservoirs workflow."""
     hydro_cfg = config.get("hydro_reservoirs", {})
     if not hydro_cfg.get("enabled", False):
         return None, None, None
-
+    
     search_dirs = []
-    # Preferred: supply/hydro_reservoirs (or configured subdir).
     try:
         hydro_dir = _resolve_category_output_dir(output_root, hydro_cfg.get("output_dir"), "supply")
         search_dirs.append(hydro_dir)
     except Exception:
         pass
-    # Fallbacks: standalone outputs or directly under pre-analysis.
-    search_dirs.extend(
-        [
-            BASE_DIR / "output_standalone" / "hydro_reservoirs",
-            BASE_DIR / "hydro_reservoirs",
-        ]
-    )
-
+    search_dirs.extend([
+        BASE_DIR / "output_standalone" / "hydro_reservoirs",
+        BASE_DIR / "hydro_reservoirs",
+    ])
+    
     map_path = None
     summary_df = None
     data_df = None
     summary_path = None
     data_path = None
-
+    
     for folder in search_dirs:
         if not folder.exists():
             continue
@@ -573,12 +549,11 @@ def collect_hydro_reservoirs(
                 print(f"Warning: could not read hydro data {candidate_data}: {exc}", file=sys.stderr)
         if map_path and summary_df is not None and data_df is not None:
             break
-
+    
     return map_path, summary_df, data_df, summary_path, data_path
 
-
+# Function: Prettify the OWID latest-year energy table.
 def _format_owid_latest(latest: pd.DataFrame) -> str:
-    """Prettify the latest-year OWID energy table."""
     if latest is None or latest.empty:
         return ""
     df = latest.copy()
@@ -593,7 +568,7 @@ def _format_owid_latest(latest: pd.DataFrame) -> str:
     }
     df = df.rename(columns=rename)
     numeric_cols = [col for col in rename.values() if col in df.columns and col not in ("Country", "Year")]
-
+    
     def _fmt(value: object, decimals: int = 1) -> str:
         try:
             if pd.isna(value):
@@ -601,19 +576,18 @@ def _format_owid_latest(latest: pd.DataFrame) -> str:
             return f"{float(value):.{decimals}f}"
         except Exception:
             return "-"
-
+    
     for col in numeric_cols:
         df[col] = df[col].apply(lambda v: _fmt(v, decimals=1))
-
+    
     return _wrap_table(df.to_markdown(index=False))
 
-
+# Function: Gather OWID energy figures and summaries.
 def collect_owid_energy(output_root: Path, config: Dict) -> Dict[str, object]:
-    """Gather OWID energy figures + summary tables from workflow outputs."""
     cfg = config.get("owid_energy", {}) or {}
     if not cfg.get("enabled", False):
         return {"figures": {}, "summary": "", "data_files": [], "outdir": None}
-
+    
     outdir = _resolve_category_output_dir(output_root, cfg.get("output_dir", "owid_energy"), "socioeconomic")
     basename = cfg.get("output_basename", "owid_energy")
     figures = {
@@ -626,7 +600,7 @@ def collect_owid_energy(output_root: Path, config: Dict) -> Dict[str, object]:
     data_files: List[Path] = []
     latest_path = outdir / f"{basename}_latest.csv"
     summary_path = outdir / f"{basename}_summary.csv"
-
+    
     table_df: Optional[pd.DataFrame] = None
     for candidate in (latest_path, summary_path):
         if candidate.exists():
@@ -636,33 +610,31 @@ def collect_owid_energy(output_root: Path, config: Dict) -> Dict[str, object]:
                     table_df = df
                     data_files.append(candidate)
                     break
-            except Exception as exc:  # pragma: no cover - defensive logging
+            except Exception as exc:
                 print(f"Warning: could not read OWID summary {candidate}: {exc}", file=sys.stderr)
     if table_df is not None:
         summary_md = _format_owid_latest(table_df)
-
+    
     return {"figures": figures, "summary": summary_md, "data_files": data_files, "outdir": outdir}
 
-
+# Function: Collect climate overview data and figures.
 def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, object]:
     cfg = config.get("climate_overview", {})
     if not cfg.get("enabled", False):
         return {"summary": "", "figures": {}, "period": "", "data_files": [], "countries": ""}
-
+    
     outdir = _resolve_relative(output_root, cfg.get("output_dir", "climate"))
     summary_md = ""
     summary_path = outdir / "climate_summary.csv"
     if summary_path.exists():
         try:
             df = pd.read_csv(summary_path)
-            # Build one table per variable; drop Period and include a caption with units.
-            required = {"Country", "Variable", "Mean", "Min", "Max", "Units"}
             if required.issubset(df.columns):
-                df = df[list(required)]  # drop Period and keep only needed stats
+                df = df[list(required)]
                 tables = []
                 for var, group in df.groupby("Variable"):
                     unit = group["Units"].iloc[0] if "Units" in group.columns else ""
-                    cols = ["Max", "Mean", "Min"]  # desired order
+                    cols = ["Max", "Mean", "Min"]
                     table = group[["Country", *cols]].set_index("Country")
                     table_md = table.to_markdown(index=True, floatfmt=".1f")
                     caption = f"_{var} ({unit})_"
@@ -670,9 +642,9 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
                 summary_md = "\n\n".join(tables)
             else:
                 summary_md = df.to_markdown(index=False, floatfmt=".1f")
-        except Exception as exc:  # pragma: no cover - defensive logging only
+        except Exception as exc:
             print(f"Warning: could not read climate summary {summary_path}: {exc}", file=sys.stderr)
-
+    
     figures = {
         "spatial": sorted(outdir.glob("spatial_mean_*.pdf")),
         "monthly": sorted(outdir.glob("monthly_mean_*.pdf")),
@@ -683,14 +655,14 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
     data_files = sorted(outdir.glob("*.nc"))
     if not data_files:
         data_files = sorted(outdir.glob("*.zip"))
-
+    
     start_year = cfg.get("start_year")
     end_year = cfg.get("end_year")
     if start_year and end_year:
         period = f"{start_year}–{end_year}"
     else:
         period = str(start_year or end_year or "")
-
+    
     countries_cfg = cfg.get("countries")
     if countries_cfg:
         countries = _ensure_sequence(countries_cfg)
@@ -698,7 +670,7 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
         labels = cfg.get("label_map") or {}
         countries = [labels.get(iso, iso) for iso in _ensure_sequence(cfg.get("iso_a2"))]
     countries_inline = _human_join([c for c in countries if c])
-
+    
     return {
         "summary": summary_md,
         "figures": figures,
@@ -708,9 +680,8 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
         "countries": countries_inline,
     }
 
-
+# Function: Collect representative-day diagnostic figures.
 def find_rep_day_figures(base_dir: Path, output_dir: Path) -> List[Path]:
-    """Collect representative-day diagnostic figures from common output locations."""
     candidate_dirs = [
         base_dir / "prepare-data" / "representative_days" / "output",
         base_dir / "representative_days" / "output",
@@ -731,9 +702,8 @@ def find_rep_day_figures(base_dir: Path, output_dir: Path) -> List[Path]:
             figs.extend(sorted(rep_dir.glob(ext)))
     return figs
 
-
+# Function: Load season map CSV and diagnostics for representative seasons.
 def load_representative_seasons(output_dir: Path, config: Dict) -> Tuple[str, Optional[Path], List[Path], Dict[int, int]]:
-    """Load season map CSV and diagnostics for representative seasons."""
     rep_season_cfg = config.get("representative_seasons", {}) or {}
     outdir_cfg = rep_season_cfg.get("output_dir") or "representative_seasons"
     candidate_dirs = []
@@ -744,7 +714,7 @@ def load_representative_seasons(output_dir: Path, config: Dict) -> Tuple[str, Op
         candidate_dirs.append(output_dir / outdir_path)
     candidate_dirs.append(output_dir / "representative_seasons")
     candidate_dirs.append(BASE_DIR / "prepare-data" / "representative_days" / "representative_seasons")
-
+    
     map_path: Optional[Path] = None
     figures: List[Path] = []
     seen_dirs: set[Path] = set()
@@ -768,7 +738,7 @@ def load_representative_seasons(output_dir: Path, config: Dict) -> Tuple[str, Op
             fpath = resolved / fname
             if fpath.exists() and fpath not in figures:
                 figures.append(fpath)
-
+    
     seasons_map: Dict[int, int] = {}
     table_md = ""
     if map_path and map_path.exists():
@@ -776,14 +746,13 @@ def load_representative_seasons(output_dir: Path, config: Dict) -> Tuple[str, Op
             df = pd.read_csv(map_path)
             seasons_map = {int(row["month"]): int(row["season"]) for _, row in df.iterrows()}
             table_md = df.to_markdown(index=False)
-        except Exception as exc:  # pragma: no cover - defensive
+        except Exception as exc:
             print(f"Warning: could not read seasons map {map_path}: {exc}", file=sys.stderr)
-
+    
     return table_md, map_path, figures, seasons_map
 
-
+# Helper function: Format a fractional value as a percentage with no decimal places.
 def _percent_no_decimals(value) -> str:
-    """Format a fractional value as a percentage with no decimal places."""
     if isinstance(value, str) and value.strip() == "-":
         return "-"
     try:
@@ -793,9 +762,8 @@ def _percent_no_decimals(value) -> str:
     except Exception:
         return "-"
 
-
+# Function: Load and prettify the representative_days_summary.csv table.
 def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[str, str]:
-    """Load and prettify the representative_days_summary.csv table."""
     rep_cfg = config.get("representative_days", {}) or {}
     rep_subdir = rep_cfg.get("epm_output_dir") or rep_cfg.get("output_dir") or "representative_days"
     summary_dir_cfg = rep_cfg.get("summary_dir")
@@ -811,7 +779,7 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
         output_dir / rep_subdir / "representative_days_summary.csv",
         BASE_DIR / "prepare-data" / "representative_days" / "output" / "representative_days_summary.csv",
     ]
-
+    
     summary_path: Optional[Path] = None
     seen: set[Path] = set()
     for candidate in candidates:
@@ -825,21 +793,21 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
         if resolved.exists():
             summary_path = resolved
             break
-
+    
     if not summary_path:
         return "", ""
-
+    
     try:
         df = pd.read_csv(summary_path)
     except Exception:
         return "", _relpath_for_display(summary_path)
     if df.empty:
         return "", _relpath_for_display(summary_path)
-
+    
     friendly = df.copy()
     rename = {"season": "Season", "day": "Day", "category": "Category", "weight_pct": "Weight"}
     friendly = friendly.rename(columns=rename)
-
+    
     def _clean_col(col: str) -> str:
         text = str(col)
         if text in rename.values():
@@ -848,14 +816,12 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
             base = text[: -len("_avg_cf")]
             return f"{base.replace('_', ' ')} Avg CF (%)"
         return text.replace("_", " ")
-
+    
     friendly.columns = [_clean_col(c) for c in friendly.columns]
-
-    # Keep season labels for grouping/separators; drop day for brevity.
+    
     if "Day" in friendly.columns:
         friendly = friendly.drop(columns=["Day"])
-
-    # Rename category label
+    
     if "Category" in friendly.columns:
         friendly["Category"] = (
             friendly["Category"]
@@ -863,33 +829,28 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
             .str.replace("_", " ", regex=False)
             .replace({"representative": "Repr. Days"})
         )
-
+    
     def _pct(value: object, decimals: int = 2) -> str:
-        """Format numeric values as percentages; pass through non-numeric placeholders."""
         try:
             if pd.isna(value):
                 return "-"
             return f"{float(value) * 100:.{decimals}f}%"
         except Exception:
             return "-"
-
-    # Format weights as percentages with no decimals
+    
     if "Weight" in friendly.columns:
         friendly["Weight"] = friendly["Weight"].apply(lambda v: _pct(v, decimals=0))
-
-    # Convert all Avg CF (%) columns to percentage strings without decimals
+    
     cf_cols = [c for c in friendly.columns if c.endswith("Avg CF (%)")]
     for col in cf_cols:
         friendly[col] = friendly[col].apply(lambda v: _pct(v, decimals=0))
-
-    # Rename Avg CF columns to use tech-ISO2 headers (drop repeated "Avg CF" text)
+    
     try:
         import pycountry
     except Exception:
         pycountry = None
-
+    
     def _iso2_from_name(name: str) -> str:
-        """Best-effort ISO2 lookup; fallback to original name on failure."""
         if not pycountry:
             return name
         try:
@@ -897,10 +858,10 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
             return country.alpha_2
         except Exception:
             return name
-
+    
     rename_cols = {}
     for col in cf_cols:
-        if not col.endswith("Avg CF (%)"):
+        if not col.endswith(" Avg CF (%)"):
             continue
         base = col[:-len(" Avg CF (%)")] if col.endswith(" Avg CF (%)") else col
         parts = base.split(" ", 1)
@@ -910,8 +871,7 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
             rename_cols[col] = f"{tech}-{iso}"
     if rename_cols:
         friendly = friendly.rename(columns=rename_cols)
-
-    # Insert horizontal separators between seasons and before benchmarks for readability.
+    
     season_labels = list(friendly["Season"]) if "Season" in friendly.columns else []
     season_breaks = []
     for idx in range(1, len(season_labels)):
@@ -922,16 +882,15 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
             continue
         if prev != curr:
             season_breaks.append(idx)
-
+    
     benchmark_idx: Optional[int] = None
     if "Category" in friendly.columns:
         benchmark_mask = friendly["Category"].astype(str).str.contains("benchmark", case=False, na=False)
         benchmark_hits = [i for i, flag in enumerate(benchmark_mask) if flag]
         if benchmark_hits:
             benchmark_idx = benchmark_hits[0]
-
+    
     def _insert_row_separators(table_md: str, n_cols: int, break_rows: List[int]) -> str:
-        """Inject markdown rows made of '---' to visually separate row groups."""
         if not table_md or n_cols <= 0 or not break_rows:
             return table_md
         lines = table_md.splitlines()
@@ -945,24 +904,22 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
                 lines.insert(insert_at, separator)
                 offset += 1
         return "\n".join(lines)
-
+    
     break_rows: List[int] = season_breaks.copy()
     if benchmark_idx is not None:
         break_rows.append(benchmark_idx)
-
+    
     summary_md = friendly.to_markdown(index=False)
     summary_md = _insert_row_separators(summary_md, len(friendly.columns), break_rows)
     summary_md = _wrap_table(summary_md)
-    # Add a brief caption explaining benchmarks/averages.
     caption = "_Capacity-factor columns are percent values per tech/ISO2; weights reflect representative-day optimisation._"
     return f"{summary_md}\n\n{caption}", _relpath_for_display(summary_path)
 
-
+# Define a placeholder signature for invalid figures.
 FIGURE_PLACEHOLDER_SIGNATURE = b"[PLACEHOLDER]"
 
-
+# Function: Check if a figure file is valid (exists and not a placeholder).
 def _is_valid_figure(path: Path) -> bool:
-    """Return True when a figure file exists and has content to avoid placeholders."""
     try:
         if not path.exists() or not path.is_file():
             return False
@@ -978,12 +935,12 @@ def _is_valid_figure(path: Path) -> bool:
     except OSError:
         return False
 
-
+# Function: Format figures as Markdown links, filtering invalid ones.
 def format_figures(fig_paths: Sequence[Path], label: str, add_link: bool = True) -> str:
     valid_paths = [path for path in fig_paths if _is_valid_figure(path)]
     if not valid_paths:
         return ""
-
+    
     supported_suffixes = {".png", ".jpg", ".jpeg", ".svg", ".pdf"}
     lines = []
     for path in valid_paths:
@@ -994,23 +951,20 @@ def format_figures(fig_paths: Sequence[Path], label: str, add_link: bool = True)
         lines.append(
             "::: {.nonfloat .center}\n"
             f"![{label}]({rel.as_posix()})\n"
-            ":::"
-        )
-
+            ":::"        )
+    
     if not lines:
         return ""
     return "\n\n".join(lines)
 
-
+# Function: Wrap Markdown tables in a scrollable div for better rendering.
 def _wrap_table(table_md: str) -> str:
-    """Wrap markdown tables in a scrollable div for better rendering."""
     if not table_md:
         return ""
     return f'<div style="overflow-x: auto;">\n\n{table_md}\n\n</div>'
 
-
+# Function: Render per-country hydro summary Markdown.
 def format_hydro_summary(summary_df: Optional[pd.DataFrame]) -> str:
-    """Render per-country hydro summary markdown."""
     if summary_df is None or summary_df.empty:
         return ""
     df = summary_df.copy()
@@ -1025,9 +979,8 @@ def format_hydro_summary(summary_df: Optional[pd.DataFrame]) -> str:
     df = df.rename(columns=rename)
     return _wrap_table(df.to_markdown(index=False, floatfmt=".1f"))
 
-
+# Function: Render per-country hydro plant tables for the appendix.
 def format_hydro_appendix(data_df: Optional[pd.DataFrame]) -> str:
-    """Render per-country hydro plant tables for the appendix."""
     if data_df is None or data_df.empty:
         return ""
     parts: List[str] = []
@@ -1047,9 +1000,8 @@ def format_hydro_appendix(data_df: Optional[pd.DataFrame]) -> str:
         parts.append(f"**{country}**\n\n{table}")
     return "\n\n".join(parts)
 
-
+# Helper function: Extract datetime index from DataFrame.
 def _extract_datetime_index(df: pd.DataFrame) -> pd.DatetimeIndex:
-    """Best-effort datetime extraction; fallback to synthetic hourly index."""
     for col in ("datetime", "timestamp"):
         if col in df.columns:
             dt = pd.to_datetime(df[col], errors="coerce")
@@ -1057,25 +1009,23 @@ def _extract_datetime_index(df: pd.DataFrame) -> pd.DatetimeIndex:
                 return pd.DatetimeIndex(dt)
     return pd.date_range("2015-01-01", periods=len(df), freq="h")
 
-
+# Function: Create monthly and daily average load plots.
 def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict[str, Path]:
-    """Create monthly and daily average load plots across countries."""
     try:
         import matplotlib
-
         backend = getattr(matplotlib, "get_backend", lambda: "")()
         if str(backend).lower() != "agg":
             matplotlib.use("Agg", force=True)
         import matplotlib.pyplot as plt
     except Exception:
         return {}
-
+    
     figures: Dict[str, Path] = {}
     load_dir.mkdir(parents=True, exist_ok=True)
     csv_paths = sorted(load_dir.glob("load_profile_*.csv"))
     if not csv_paths:
         return figures
-
+    
     monthly = {}
     daily = {}
     for csv_path in csv_paths:
@@ -1088,7 +1038,7 @@ def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict
         country_name = readable_country(country_slug, slug_map)
         monthly[country_name] = df.groupby("month")["load_mw"].mean()
         daily[country_name] = df.groupby("hour")["load_mw"].mean()
-
+    
     if monthly:
         fig, ax = plt.subplots(figsize=(6.5, 3.5))
         for country, series in monthly.items():
@@ -1103,7 +1053,7 @@ def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_month"] = path
-
+    
     if daily:
         fig, ax = plt.subplots(figsize=(6.5, 3.5))
         for country, series in daily.items():
@@ -1118,28 +1068,27 @@ def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_day"] = path
-
+    
     return figures
 
-
+# Function: Create a readable Markdown table for generation-map summaries.
 def format_generation_summary(df: Optional[pd.DataFrame]) -> str:
-    """Create a readable markdown table for generation-map summaries."""
     if df is None or df.empty:
         return ""
-
+    
     friendly = df.copy()
-
+    
     status_col = next((col for col in ("status", "Status", "Category") if col in friendly.columns), None)
     if status_col:
         friendly["_status_category"] = friendly[status_col].apply(_categorize_status)
         friendly = friendly[friendly["_status_category"] == "Operating"]
         friendly = friendly.drop(columns=["_status_category", status_col], errors="ignore")
-
+    
     if friendly.empty:
         return ""
-
+    
     friendly = friendly.drop(columns=[c for c in ["site_count", "avg_capacity_mw", "status", "Category"] if c in friendly.columns], errors="ignore")
-
+    
     rename = {
         "country": "Country",
         "technology": "Technology",
@@ -1147,21 +1096,20 @@ def format_generation_summary(df: Optional[pd.DataFrame]) -> str:
         "total_capacity_mw": "Total capacity (MW)",
     }
     friendly = friendly.rename(columns=rename)
-
+    
     if "Total capacity (MW)" in friendly.columns:
         friendly["Total capacity (MW)"] = pd.to_numeric(friendly["Total capacity (MW)"], errors="coerce").round(0)
-
+    
     ordered_cols = [c for c in ["Country", "Technology", "Total capacity (MW)"] if c in friendly.columns]
     tail = [c for c in friendly.columns if c not in ordered_cols]
     friendly = friendly[ordered_cols + tail]
-
+    
     return friendly.to_markdown(index=False, floatfmt=".0f")
 
-
+# Function: Create a comparison table across multiple generation sources.
 def format_generation_comparison(
     entries: Sequence[Dict[str, object]], comparison_df: Optional[pd.DataFrame] = None
 ) -> str:
-    """Create a comparison table across multiple generation sources."""
     label_lookup: Dict[str, str] = {}
     summary_map: Dict[str, pd.DataFrame] = {}
     for entry in entries:
@@ -1172,7 +1120,7 @@ def format_generation_comparison(
         summary_df = entry.get("summary")
         if isinstance(summary_df, pd.DataFrame) and not summary_df.empty:
             summary_map[slug] = summary_df
-
+    
     merged: Optional[pd.DataFrame] = None
     if comparison_df is not None and not comparison_df.empty:
         merged = comparison_df.copy()
@@ -1183,10 +1131,10 @@ def format_generation_comparison(
             cols = [col for col in ["country", "technology", f"{slug}_capacity_mw"] if col in working.columns]
             working = working[cols]
             merged = working if merged is None else merged.merge(working, on=["country", "technology"], how="outer")
-
+    
     if merged is None or merged.empty:
         return ""
-
+    
     renamed_cols: Dict[str, str] = {"country": "Country", "technology": "Technology"}
     cap_cols = [col for col in merged.columns if col not in {"country", "technology"}]
     for col in cap_cols:
@@ -1197,7 +1145,7 @@ def format_generation_comparison(
         label = label_lookup.get(base, base)
         renamed_cols[col] = f"{label} (MW)"
     merged = merged.rename(columns=renamed_cols)
-
+    
     ordered_caps: List[str] = []
     for entry in entries:
         slug = entry.get("slug") or _slug(entry.get("label") or "")
@@ -1207,22 +1155,21 @@ def format_generation_comparison(
             ordered_caps.append(col)
     if "Difference (MW)" in merged.columns:
         ordered_caps.append("Difference (MW)")
-
+    
     ordered_cols = [col for col in ["Country", "Technology", *ordered_caps] if col in merged.columns]
     tail = [col for col in merged.columns if col not in ordered_cols]
     merged = merged[ordered_cols + tail]
     for col in merged.columns:
         if col not in {"Country", "Technology"}:
             merged[col] = pd.to_numeric(merged[col], errors="coerce").round(0)
-
+    
     return merged.to_markdown(index=False, floatfmt=".0f")
 
-
+# Function: Create per-country capacity tables with totals.
 def format_generation_summary_per_country(df: Optional[pd.DataFrame]) -> str:
-    """Create per-country capacity tables with totals, plus an overall total table."""
     if df is None or df.empty:
         return ""
-
+    
     lines = []
     country_col = "country" if "country" in df.columns else "Country"
     for country, group in df.groupby(country_col):
@@ -1242,7 +1189,7 @@ def format_generation_summary_per_country(df: Optional[pd.DataFrame]) -> str:
             friendly = pd.concat([friendly, pd.DataFrame([total_row])], ignore_index=True)
         title = country if isinstance(country, str) else str(country)
         lines.append(f"#### {title}\n" + _wrap_table(friendly.to_markdown(index=False, floatfmt=".0f")))
-
+    
     overall = df.copy()
     overall = overall.rename(columns={"technology": "Technology", "capacity_mw": "Total capacity (MW)", "total_capacity_mw": "Total capacity (MW)"})
     if "Total capacity (MW)" in overall.columns:
@@ -1251,34 +1198,31 @@ def format_generation_summary_per_country(df: Optional[pd.DataFrame]) -> str:
     overall_total = pd.DataFrame([{"Technology": "Total", "Total capacity (MW)": overall_summary["Total capacity (MW)"].sum()}])
     overall_table = pd.concat([overall_summary, overall_total], ignore_index=True)
     lines.append("#### All countries\n" + _wrap_table(overall_table.to_markdown(index=False, floatfmt=".0f")))
-
+    
     return "\n\n".join(lines)
 
-
+# Function: Group raw statuses into buckets.
 def _categorize_status(status: str) -> str:
-    """Group raw statuses into three robust buckets."""
     text = str(status or "").strip().lower()
     normalized = " ".join(text.replace("_", " ").replace("-", " ").split())
-
+    
     if normalized in {"", "nan", "none", "na", "n/a"}:
         return "Announced / pre-construction"
-
+    
     def _has(tokens):
         return any(tok in normalized for tok in tokens)
-
+    
     if _has(["shelv", "cancel", "retir", "decomm", "mothball", "abandon", "suspend", "halt"]):
         return "Shelved / cancelled"
     if _has(["operat", "running", "commission", "in service", "active", "existing"]):
         return "Operating"
     if _has(["construct", "announ", "plan", "pre construction", "preconstruction", "proposal", "feasib", "develop", "permit", "license", "licence", "committed", "unknown"]):
         return "Announced / pre-construction"
-
-    # Default to the middle bucket so unexpected labels still show up.
+    
     return "Announced / pre-construction" if not normalized else "Other"
 
-
+# Helper function: Pick a concise plant name.
 def _short_name(row: pd.Series, max_len: int = 48) -> str:
-    """Pick a concise plant name from available columns."""
     for col in [
         "name",
         "Plant / Project name (other)",
@@ -1292,12 +1236,11 @@ def _short_name(row: pd.Series, max_len: int = 48) -> str:
             return candidate if len(candidate) <= max_len else candidate[: max_len - 3].rstrip() + "..."
     return "(unnamed)"
 
-
+# Function: Create plant-level tables per country grouped by status.
 def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
-    """Create plant-level tables per country grouped into three status categories."""
     if df is None or df.empty:
         return ""
-
+    
     working = df.copy()
     working = working.rename(columns={"country": "Country", "technology": "Technology", "status": "Status"})
     if "Country" not in working:
@@ -1306,17 +1249,17 @@ def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
         working["Technology"] = "Unknown"
     if "Status" not in working:
         working["Status"] = "Unknown"
-
+    
     working["Plant"] = working.apply(_short_name, axis=1)
     working["name"] = working.get("name", "")
     working["Generator"] = working["name"].apply(lambda val: " ".join(str(val).split()) if isinstance(val, str) else "")
     working["Generator"] = working["Generator"].where(working["Generator"] != "", working["Plant"])
     working["Capacity (MW)"] = pd.to_numeric(working.get("capacity_mw"), errors="coerce")
     working["Category"] = working["Status"].apply(_categorize_status)
-
+    
     category_order = ["Operating", "Announced / pre-construction", "Shelved / cancelled"]
     lines: List[str] = []
-
+    
     for country, group in working.groupby("Country"):
         lines.append(f"#### {country}")
         for category in category_order:
@@ -1327,27 +1270,26 @@ def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
             table_cols = ["Technology", "Generator", "Status", "Capacity (MW)"]
             subset_table = subset[table_cols]
             lines.append(f"**{category}**\n" + _wrap_table(subset_table.to_markdown(index=False, floatfmt=".0f")))
-
+        
         other = group[~group["Category"].isin(category_order)]
         if not other.empty:
-            other = other.sort_values(["Technology", "Capacity (MW)"] , ascending=[True, False])
+            other = other.sort_values(["Technology", "Capacity (MW)"], ascending=[True, False])
             lines.append(
                 "**Other**\n"
                 + _wrap_table(other[["Technology", "Generator", "Status", "Capacity (MW)"]].to_markdown(index=False, floatfmt=".0f"))
             )
-
+    
     return "\n\n".join(lines)
 
-
+# Function: Return human-readable key parameters and season mapping.
 def summarize_parameters(config: Dict, seasons_override: Optional[Dict[int, int]] = None) -> Dict[str, str]:
-    """Return human-readable key parameters and season mapping."""
     lines: List[str] = []
     rn_cfg = config.get("rninja", {})
     if rn_cfg:
         rn_start = rn_cfg.get("start_year")
         rn_end = rn_cfg.get("end_year")
         if rn_end is not None:
-            rn_end -= 1  # exclusive upper bound in config
+            rn_end -= 1
         rn_period = f"{rn_start}–{rn_end}" if rn_start and rn_end else rn_start or rn_end or ""
         lines.append(
             f"- Renewables Ninja: dataset `{rn_cfg.get('dataset', 'n/a')}`, years {rn_period}, "
@@ -1356,7 +1298,7 @@ def summarize_parameters(config: Dict, seasons_override: Optional[Dict[int, int]
             f"system loss {rn_cfg.get('system_loss', 'n/a')*100 if isinstance(rn_cfg.get('system_loss'), (int, float)) else rn_cfg.get('system_loss')}%, "
             f"turbine `{rn_cfg.get('turbine', 'n/a')}`."
         )
-
+    
     rep_cfg = config.get("representative_days", {})
     seasons_map = seasons_override or rep_cfg.get("seasons_map", {})
     season_buckets: Dict[str, List[str]] = {}
@@ -1369,10 +1311,10 @@ def summarize_parameters(config: Dict, seasons_override: Optional[Dict[int, int]
             f"- Representative days: {rep_cfg.get('n_representative_days', 'n/a')} days from {rep_cfg.get('n_clusters', 'n/a')} clusters; "
             f"{rep_cfg.get('n_bins', 'n/a')} bins in optimisation."
         )
-
+    
     return {"bullets": "\n".join(lines), "seasons": seasons_text}
 
-
+# Function: Create a reproducibility checklist block.
 def build_repro_checklist(
     workflow_path: Path,
     config_path: Path,
@@ -1380,12 +1322,11 @@ def build_repro_checklist(
     workflow_command: str,
     report_command: str,
 ) -> str:
-    """Create a reproducibility checklist block that can live in the appendix."""
     return "\n".join(
         [
             "- This project is built on the open-source **EPM** stack: [GitHub](https://github.com/ESMAP-World-Bank-Group/EPM) · [Docs](https://esmap-world-bank-group.github.io/EPM/home.html).",
             "- First clone EPM and follow the docs to set up the environment; then run from this repo (paths below are relative to the EPM folder, e.g., `EPM_WestBalkans`).",
-            f"- Workflow: `{_relpath_for_display(workflow_path)}` using config `{_relpath_for_display(config_path)}`; outputs stored in `{_relpath_for_display(output_dir)}`.",
+            f"- Workflow: {_relpath_for_display(workflow_path)} using config `{_relpath_for_display(config_path)}`; outputs stored in `{_relpath_for_display(output_dir)}`.",
             "- Re-run full open-data workflow (regenerates all inputs):",
             f"  `{workflow_command}`",
             "- Regenerate this report only:",
@@ -1394,7 +1335,7 @@ def build_repro_checklist(
         ]
     )
 
-
+# Function: Assemble appendix sections.
 def build_appendix_sections(
     repro_checklist: str,
     rninja_summary: List[Dict],
@@ -1414,24 +1355,20 @@ def build_appendix_sections(
     load_heatmaps: Sequence[Path] = (),
     load_boxplots: Sequence[Path] = (),
 ) -> List[Dict[str, str]]:
-    """Assemble appendix sections with headings and content (numbered A, B, C, ...)."""
     sections: List[Dict[str, str]] = []
     letter = ord("A")
-
+    
     def add_section(title: str, body: str):
         nonlocal letter
         if not body:
             return
         sections.append({"title": f"Appendix {chr(letter)}: {title}", "body": body})
         letter += 1
-
-    # Order mirrors the main narrative: Climate → Load → VRE → Generation → Hydro → Socio → Rep days → Repro.
-    # A. Climate (extras)
+    
     if extra_sections:
         climate_body = "\n\n".join(section.get("body", "") for section in extra_sections if section.get("body"))
         add_section("Climate", climate_body)
-
-    # B. Load diagnostics
+    
     load_parts: List[str] = []
     load_heatmap_fig = format_figures(load_heatmaps, "Load heatmap", add_link=False) if load_heatmaps else ""
     load_boxplot_fig = format_figures(load_boxplots, "Load distribution", add_link=False) if load_boxplots else ""
@@ -1439,12 +1376,10 @@ def build_appendix_sections(
         if fig:
             load_parts.append(fig)
     add_section("Load diagnostics", "\n\n".join(load_parts))
-
-    # C. VRE (boxplots or other diagnostics)
+    
     if boxplots:
         add_section("VRE diagnostics", format_figures(boxplots, "Capacity-factor distribution", add_link=False))
-
-    # D. Generation (assets + map)
+    
     gen_body_parts: List[str] = []
     if gen_status_tables:
         gen_body_parts.append(gen_status_tables)
@@ -1457,22 +1392,18 @@ def build_appendix_sections(
     if map_lines:
         gen_body_parts.append("\n\n".join(map_lines))
     add_section("Generation assets and map", "\n\n".join(part for part in gen_body_parts if part))
-
-    # E. Hydropower assets
+    
     add_section("Hydropower assets", hydro_appendix_body)
-
-    # F. Socio-economic maps
+    
     add_section("Socio-economic density maps", socio_map_fig)
-
-    # G. Representative days
+    
     rep_day_parts: List[str] = []
     if rep_days_body:
         rep_day_parts.append(rep_days_body)
     if rep_days_fig:
         rep_day_parts.append(rep_days_fig)
     add_section("Representative days", "\n\n".join(rep_day_parts))
-
-    # H. Reproducibility + workflow parameters
+    
     repro_parts: List[str] = []
     if workflow_parameters:
         body = workflow_parameters
@@ -1482,10 +1413,10 @@ def build_appendix_sections(
     if repro_checklist:
         repro_parts.append(repro_checklist)
     add_section("Reproducibility and workflow", "\n\n".join(repro_parts))
-
+    
     return sections
 
-
+# Main function: Render the report by collecting data, building context, and using Jinja2.
 def render_report(
     template_path: Path,
     output_path: Path,
@@ -1493,19 +1424,23 @@ def render_report(
     output_dir_override: Optional[Path] = None,
     verbose: bool = False,
 ) -> None:
+    # Print verbose info about paths.
     _vprint(verbose, f"Template: {_abspath_for_display(template_path)}")
     _vprint(verbose, f"Config: {_abspath_for_display(config_path)}")
     _vprint(verbose, f"Markdown output: {_abspath_for_display(output_path)}")
     if output_dir_override:
         _vprint(verbose, f"Output dir override: {_abspath_for_display(output_dir_override)}")
-
+    
+    # Load config and slug map.
     config = load_config(config_path)
     _vprint(verbose, f"Loaded config keys: {sorted(config.keys())}" if config else "Config empty or missing.")
     slug_map = {_slug(name): name for name in config.get("gap", {}).get("countries", [])}
-
+    
+    # Resolve output directory.
     output_dir = find_output_dir(config, output_dir_override)
     _vprint(verbose, f"Resolved workflow output dir: {_abspath_for_display(output_dir)}")
-
+    
+    # Define category directories.
     load_cfg = config.get("load_profile", {})
     rninja_cfg = config.get("rninja", {})
     genmap_cfg = config.get("generation_map", {})
@@ -1521,7 +1456,8 @@ def render_report(
     _vprint(verbose, f"Supply outputs: {_abspath_for_display(supply_dir)}")
     _vprint(verbose, f"Socio-economic maps: {_abspath_for_display(socio_dir)}")
     _vprint(verbose, f"OWID energy outputs: {_abspath_for_display(owid_dir)}")
-
+    
+    # Collect data from various sources.
     climate = collect_climate_overview(output_dir, config)
     load_stats, load_figs, load_heatmaps, load_boxplots = collect_load_profiles(load_dir, slug_map)
     load_agg_figs = build_load_aggregate_plots(load_dir, slug_map)
@@ -1600,9 +1536,9 @@ def render_report(
         except Exception as exc:
             print(f"Warning: could not read socio status {status_path}: {exc}", file=sys.stderr)
             return {}
-
+    
     socio_status = _load_socio_status(socio_dir)
-
+    
     socio_entries: List[Tuple[str, Path, str]] = []
     socio_warnings: List[str] = []
     if socio_cfg.get("enabled", False):
@@ -1661,7 +1597,7 @@ def render_report(
         rep_days_appendix_body = rep_summary_table
         if rep_summary_path:
             rep_days_appendix_body = f"{rep_days_appendix_body}\n\n_Source: {rep_summary_path}_"
-
+    
     period_candidates = [entry["period"] for entry in rninja_summary if "period" in entry]
     period_numbers = []
     for value in period_candidates:
@@ -1669,17 +1605,17 @@ def render_report(
             period_numbers.append(int(str(value)))
         except (TypeError, ValueError):
             continue
-
+    
     rn_cfg = config.get("rninja", {})
     rn_start = rn_cfg.get("start_year")
     rn_end = rn_cfg.get("end_year")
     if rn_end is not None:
-        rn_end = rn_end - 1  # end_year is exclusive in the workflow
+        rn_end = rn_end - 1
     if rn_start is None and period_numbers:
         rn_start = min(period_numbers)
     if rn_end is None and period_numbers:
         rn_end = max(period_numbers)
-
+    
     params = summarize_parameters(config, seasons_override=rep_seasons_map or None)
     season_map_desc = params.get("seasons", "")
     parameter_summary = params.get("bullets", "")
@@ -1687,22 +1623,21 @@ def render_report(
     rep_days_count = rep_cfg.get("n_representative_days") or ""
     rep_days_clusters = rep_cfg.get("n_clusters") or ""
     rep_days_bins = rep_cfg.get("n_bins") or ""
-
+    
     countries_cfg = config.get("gap", {}).get("countries")
     countries = _ensure_sequence(countries_cfg) if countries_cfg else []
     if not countries:
-        # Fallback to climate countries if GAP countries are absent.
         clim_countries = climate.get("countries")
         if clim_countries:
             countries = _ensure_sequence(clim_countries)
     countries_text = "\n".join(f"- {name}" for name in countries) if countries else ""
     countries_inline = _human_join(countries)
-
+    
     load_summary_table = ""
     if load_stats:
         df_load = pd.DataFrame(load_stats)
         load_summary_table = df_load.to_markdown(index=False, floatfmt=".0f")
-
+    
     gen_summary_comparison = format_generation_comparison(gen_entries, gen_comparison_df)
     gen_summary_country = gen_summary_comparison or format_generation_summary_per_country(gen_summary_df)
     gen_sites_by_status = format_generation_sites_by_status(gen_sites_df)
@@ -1719,7 +1654,7 @@ def render_report(
                 map_lines.append(f"- {label or 'Generation map'}: [{path.name}]({rel})")
         generation_map_text = "\n".join(map_lines)
     generation_source_label = ", ".join(generation_sources_list) if generation_sources_list else "Global Integrated Power (GIP) 2025 database"
-
+    
     load_csvs = sorted(load_dir.glob("load_profile_*.csv"))
     rninja_csvs = sorted(vre_dir.glob("rninja_data_*.csv"))
     if not rninja_csvs:
@@ -1736,7 +1671,7 @@ def render_report(
     gen_files.extend(static_map_files)
     hydro_files = [p for p in (hydro_map_path, hydro_summary_path, hydro_data_path) if p]
     socio_files = socio_files or []
-
+    
     rn_period_label = ""
     if rn_start and rn_end:
         rn_period_label = f"Jan–Dec {rn_start}" if rn_start == rn_end else f"Jan–Dec {rn_start} – {rn_end}"
@@ -1744,7 +1679,7 @@ def render_report(
         rn_period_label = f"Jan–Dec {rn_start}"
     elif rn_end:
         rn_period_label = f"Jan–Dec {rn_end}"
-
+    
     if rninja_summary:
         df_rn = pd.DataFrame(rninja_summary)
         tech_labels = {"solar": "Solar PV", "wind": "Wind"}
@@ -1764,7 +1699,7 @@ def render_report(
             df_rn_wide[col] = df_rn_wide[col].apply(lambda v: "-" if pd.isna(v) else f"{float(v)*100:.0f}%")
         rninja_period_text = f"Average capacity factors ({rn_period_label})" if rn_period_label else "Average capacity factors"
         rninja_avg_cf_table = f"**{rninja_period_text}**\n" + _wrap_table(df_rn_wide.to_markdown(index=False))
-
+    
     workflow_path = BASE_DIR / "Snakefile"
     report_script = REPORTING_DIR / "generate_report.py"
     workflow_path_rel = _relpath_for_display(workflow_path)
@@ -1779,7 +1714,7 @@ def render_report(
         f" --output {shlex.quote(_relpath_for_display(output_path))}"
     )
     repro_checklist_md = build_repro_checklist(workflow_path, config_path, output_dir, workflow_command, report_command)
-
+    
     data_overview_rows = [
         {
             "Dataset": "Socio-economic trends (OWID energy)",
@@ -1818,7 +1753,7 @@ def render_report(
         },
     ]
     data_overview_table = pd.DataFrame(data_overview_rows).to_markdown(index=False)
-
+    
     climate_spatial_fig = format_figures(climate.get("figures", {}).get("spatial", []), "Spatial mean climate", add_link=False)
     climate_monthly_fig = format_figures(climate.get("figures", {}).get("monthly", []), "Monthly climate averages", add_link=False)
     climate_precip_heatmap = format_figures(
@@ -1832,7 +1767,7 @@ def render_report(
         add_link=False,
     )
     climate_scatter_fig = format_figures(climate.get("figures", {}).get("scatter", []), "Temperature vs precipitation", add_link=False)
-
+    
     climate_appendix_sections: List[Dict[str, str]] = []
     climate_appendix_lines: List[str] = []
     if climate_monthly_fig:
@@ -1845,7 +1780,7 @@ def render_report(
         climate_appendix_sections.append(
             {"title": "Climate diagnostics", "body": "\n\n".join(climate_appendix_lines)}
         )
-
+    
     appendix_sections = build_appendix_sections(
         repro_checklist_md,
         rninja_summary,
@@ -1864,9 +1799,9 @@ def render_report(
         load_heatmaps=load_heatmaps,
         load_boxplots=load_boxplots,
     )
-
+    
     report_scope = countries_inline or "Energy System Modelling"
-
+    
     context = {
         "date": str(date.today()),
         "report_scope": report_scope,
@@ -1938,13 +1873,14 @@ def render_report(
         "report_command": report_command,
         "repro_checklist": repro_checklist_md,
     }
-
+    
+    # Render the template with the context.
     template = Template(template_path.read_text())
     rendered = template.render(**context)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(rendered, encoding="utf-8")
 
-
+# Function: Parse command-line arguments.
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Render pre-analysis/report.md from a Jinja template.")
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE, help="Path to the Jinja2 template.")
@@ -1968,31 +1904,28 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-
+# Function: Export the rendered Markdown to PDF and DOCX via Pandoc.
 def export_report_variants(
     markdown_path: Path,
     pdf_path: Optional[Path] = None,
     docx_path: Optional[Path] = None,
 ) -> Dict[str, Path]:
-    """Export a rendered Markdown report to PDF and DOCX via Pandoc."""
-
     def _run_pandoc(target: Path, args: Sequence[str], label: str) -> Optional[Path]:
         if not shutil.which("pandoc"):
             print(f"Warning: pandoc not found; skipping {label} export.", file=sys.stderr)
             return None
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
-            # Use BASE_DIR as the working directory so relative figure paths resolve.
             subprocess.run(args, check=True, cwd=BASE_DIR)
         except subprocess.CalledProcessError as exc:
             print(f"Warning: failed to export {label}: {exc}", file=sys.stderr)
             return None
         return target.resolve()
-
+    
     outputs: Dict[str, Path] = {}
     pdf_target = pdf_path or markdown_path.with_suffix(".pdf")
     docx_target = docx_path or markdown_path.with_suffix(".docx")
-
+    
     if pdf_target:
         pdf_args = [
             "pandoc",
@@ -2011,7 +1944,7 @@ def export_report_variants(
         pdf_output = _run_pandoc(pdf_target, pdf_args, "PDF")
         if pdf_output:
             outputs["pdf"] = pdf_output
-
+    
     if docx_target:
         docx_args = [
             "pandoc",
@@ -2024,12 +1957,11 @@ def export_report_variants(
         docx_output = _run_pandoc(docx_target, docx_args, "DOCX")
         if docx_output:
             outputs["docx"] = docx_output
-
+    
     return outputs
 
-
+# Main execution block: Run the script when called directly.
 if __name__ == "__main__":
-    
     # User-editable defaults for IDE runs (no CLI flags needed)
     USER_TEMPLATE: Path = DEFAULT_TEMPLATE
     USER_CONFIG: Path = DEFAULT_CONFIG
@@ -2041,10 +1973,10 @@ if __name__ == "__main__":
     config_path = USER_CONFIG
     output_dir_override = USER_OUTPUT_DIR_OVERRIDE
     output_path = USER_OUTPUT or default_report_output(config_path, output_dir_override)
-
+    
     _vprint(USER_VERBOSE, f"Final Markdown target: {_abspath_for_display(output_path)}")
     render_report(template_path, output_path, config_path, output_dir_override, verbose=USER_VERBOSE)
-
+    
     exports = export_report_variants(output_path)
     display_md = _relpath_for_display(output_path.resolve())
     messages = [f"Markdown: {display_md}"]
