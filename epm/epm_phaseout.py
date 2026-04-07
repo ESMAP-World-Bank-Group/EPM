@@ -71,7 +71,8 @@ PATH_GAMS = {
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
     'path_demand_file': 'generate_demand.gms',
-    'path_hydrogen_file': 'hydrogen_module.gms'
+    'path_hydrogen_file': 'hydrogen_module.gms',
+    'path_cplex_file': 'cplex.opt'
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -281,6 +282,7 @@ def launch_epm_checkpoint(scenario,
                path_reader_file='input_readers.gms',
                path_demand_file='generate_demand.gms',
                path_hydrogen_file='hydrogen_module.gms',
+               path_cplex_file='cplex.opt',
                folder_input=None,
                prefix='' #'simulation_'
                ):
@@ -326,6 +328,7 @@ def launch_epm_checkpoint(scenario,
         'READER_FILE': path_reader_file,
         'DEMAND_FILE': path_demand_file,
         'HYDROGEN_FILE': path_hydrogen_file,
+        'CPLEXFILE': path_cplex_file,
         'FOLDER_INPUT': folder_input,
     })
 
