@@ -136,7 +136,7 @@ def fetch_pvgis_data(lat: float, lon: float, tilt: float, year: int) -> pd.DataF
         # Ensure power is a Series with proper index
         if isinstance(power, pd.DataFrame):
             power = power.iloc[:, 4]  # take the fourth column
-        print(power.head())
+
         # Create DataFrame with consistent format
         result_df = power.to_frame('electricity')
         result_df.index.name = 'time'
@@ -325,8 +325,6 @@ def generate_country_files(countries: List[str], year: int, output_dir: str, use
     all_pv = pd.concat(pv_frames, ignore_index=True)
     all_wind = pd.concat(wind_frames, ignore_index=True)
 
-    print(all_pv.head())
-    print(all_wind.head())
 
 
     pv_csv = os.path.join(output_dir, f'pv_countries_{year}.csv')
