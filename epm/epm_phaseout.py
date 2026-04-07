@@ -354,6 +354,7 @@ def launch_epm(scenario,
                path_reader_file='input_readers.gms',
                path_demand_file='generate_demand.gms',
                path_hydrogen_file='hydrogen_module.gms',
+               path_cplex_file='cplex.opt',
                modeltype='MIP',
                folder_input=None,
                dict_montecarlo=None,
@@ -376,6 +377,8 @@ def launch_epm(scenario,
         The path to the GAMS base file
     path_report_file: str
         The path to the GAMS report file
+    path_cplex_file: str
+        The path to the CPLEX options file
     folder_input: str, optional, default None
     dict_montecarlo: dict, optional, default None
         Correspondence for solution when running montecarlo scenarios
@@ -422,7 +425,8 @@ def launch_epm(scenario,
                                                     "--READER_FILE {}".format(path_reader_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--HYDROGEN_FILE {}".format(path_hydrogen_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input)
+                                                    "--FOLDER_INPUT {}".format(folder_input),
+                                                    "--CPLEXFILE {}".format(path_cplex_file)
                                                     ] + path_args
 
     if debug:
