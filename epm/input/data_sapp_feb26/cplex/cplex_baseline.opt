@@ -9,4 +9,6 @@ scaind  1
 lpmethod 4
 threads 8
 predual -1
+memoryepmhasis 1
+nodefile 3
 
