@@ -40,7 +40,7 @@
 **/_untracked/
 
 # Project-specific outputs
-/epm/cplex.opt
+!/epm/cplex.opt
 epm/output/*
 epm/postprocessing/*
 !epm/output/tableau/
