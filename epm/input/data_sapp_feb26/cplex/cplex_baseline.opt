@@ -4,11 +4,14 @@
 * ------------------------------------------------------------
 
 * --- Key parameters (adjust first) ---
-startalg 4
+startalg 2
+subalg 2
+ordering 3
 scaind  1
-lpmethod 4
+lpmethod 2
 threads 8
 predual -1
-memoryepmhasis 1
-nodefile 3
+memoryemphasis 1
+nodefileind 3
+treememory 8192
 
