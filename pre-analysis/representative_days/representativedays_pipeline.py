@@ -32,7 +32,16 @@ from sklearn.preprocessing import StandardScaler
 from itertools import combinations
 from scipy.optimize import linprog
 from scipy.sparse import lil_matrix
-from IPython.display import display
+
+# Try to import IPython display for Jupyter; fallback to print for script use
+try:
+    from IPython.display import display
+except ImportError:  # pragma: no cover - fallback when run as script
+    def display(name, df):
+        """Fallback display function when IPython is not available."""
+        print(f"\n{name}")
+        print(df)
+
 try:
     from representative_days.utils import (
         _log_nan_time_index,
