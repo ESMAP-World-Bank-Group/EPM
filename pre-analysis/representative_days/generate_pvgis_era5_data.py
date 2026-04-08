@@ -166,7 +166,7 @@ def fetch_era5_wind_data(lat: float, lon: float, year: int, tmpfile: str) -> pd.
     # Process all months
     all_u, all_v = [], []
 
-    for month in range(1, 2):
+    for month in range(1, 13):
         print(f"Fetching {year}-{month:02d}...")
         month_cache = f'era5_wind_{lat:.4f}_{lon:.4f}_{year}_{month:02d}.nc'
         
@@ -327,9 +327,9 @@ def generate_country_files(countries: List[str], year: int, output_dir: str, use
 
 
 
-    pv_csv = os.path.join(output_dir, f'pv_countries_{year}.csv')
-    wind_csv = os.path.join(output_dir, f'wind_countries_{year}.csv')
-    excel_file = os.path.join(output_dir, f'renewables_countries_{year}.xlsx')
+    pv_csv = os.path.join(output_dir, f'pv_data.csv')
+    wind_csv = os.path.join(output_dir, f'wind_data.csv')
+    excel_file = os.path.join(output_dir, f'renewables_data_{year}.xlsx')
 
     # Save combined outputs for all countries in CSV and Excel formats.
     all_pv.to_csv(pv_csv, index=False)
@@ -361,7 +361,7 @@ def main() -> None:
     )
     parser.add_argument(
         '--output-dir',
-        default='pre-analysis/representative_days/',
+        default='input/',
         help='Output directory for generated files',
     )
     parser.add_argument(

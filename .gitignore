@@ -75,8 +75,9 @@ pre-analysis/output_workflow
 pre-analysis/reporting
 pre-analysis/prepare-data/*
 pre-analysis/representative_days/*
-!pre-analysis/representative_days/generate_pvgis_era5_data.py
-!pre-analysis/representative_days/.cdsapirc
+!pre-analysis/representative_days/*.py
+!pre-analysis/representative_days/*.ipynb
+pre-analysis/representative_days/.cdsapirc
 pre-analysis/api
 pre-analysis/.snakemake/
 pre-analysis/dataset/

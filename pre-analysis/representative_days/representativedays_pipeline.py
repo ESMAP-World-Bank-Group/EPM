@@ -60,7 +60,7 @@ def prepare_input_timeseries(
     output_dir: Union[str, Path],
     zones_to_exclude=None,
     value_column: str = 'value',
-    year_label: Union[int, str] = 2018,
+    year_label: Union[int, str] = 2019,
     verbose: bool = True,
 ) -> Tuple[Path, pd.DataFrame]:
     """Clean and season-aggregate a raw time-series CSV, mirroring the notebook pre-processing.
@@ -77,8 +77,8 @@ def prepare_input_timeseries(
         Zones to drop from the dataset.
     value_column : str, default 'value'
         Name of the column holding the time-series values. If not present, the first non-index column is used.
-    year_label : int or str, default 2018
-        Column name to use for the value series (e.g., rename ``value`` to ``2018`` to match historical year convention).
+    year_label : int or str, default 2019
+        Column name to use for the value series (e.g., rename ``value`` to ``2019`` to match historical year convention).
     verbose : bool, default True
         Whether to warn when the year is incomplete at zone/month/day/hour level.
 
@@ -155,6 +155,7 @@ def find_representative_year(df, method='average_profile'):
         dict_info.update({'year_repr': repr_year, 'std': temp.std(), 'median': temp.median()})
 
     elif method == 'average_profile':
+        #print(df)
         average_profile = df.mean(axis=1)
         deviations = {}
         for year in df.columns:
@@ -1083,7 +1084,7 @@ def run_representative_days_pipeline(
     summary_dir: Union[str, Path] = None,
     zones_to_exclude=None,
     value_column: str = 'value',
-    year_label: Union[int, str] = 2018,
+    year_label: Union[int, str] = 2019,
     n_representative_days: int = 2,
     n_clusters: int = 20,
     n_bins: int = 10,
@@ -1117,7 +1118,7 @@ def run_representative_days_pipeline(
         Zones to drop before processing.
     value_column : str, default 'value'
         Name of the value column in raw inputs. If absent and exactly one non-index column exists, it is used.
-    year_label : int or str, default 2018
+    year_label : int or str, default 2019
         Column name to assign to the value series (used to pick the representative year).
     n_representative_days : int, default 2
         Number of representative days to compute via the Poncelet optimization.
@@ -1848,9 +1849,9 @@ if __name__ == "__main__":
     sample_output_dir.mkdir(parents=True, exist_ok=True)
     
     sample_files = {
-        "PV": os.path.join(sample_input_dir, "vre_rninja_solar.csv"),
-        "Wind": os.path.join(sample_input_dir, "vre_rninja_wind.csv"),
-        "Load": os.path.join(sample_input_dir, "load_profiles.csv"),
+        "PV": os.path.join(sample_input_dir, "pv_data.csv"),
+        "Wind": os.path.join(sample_input_dir, "wind_data.csv"),
+        "Load": os.path.join(sample_input_dir, "load_data.csv"),
     }
 
     seasons_map = {
