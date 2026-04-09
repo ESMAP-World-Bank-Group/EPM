@@ -662,7 +662,7 @@ def format_optim_repr_days(df_energy, folder_process_data, data_dir=None):
 # GAMS optimization launcher and parsing
 # --------------------------------------------------------------------------- #
 
-def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
+def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=4,
                            main_file='OptimizationModelZone.gms', nbr_bins=10):
     """Launch the representative days optimization through GAMS.
 
@@ -744,12 +744,26 @@ def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
     print('Launch GAMS code')
     if sys.platform.startswith("win"):  # If running on Windows
         print("Command to execute:", ' '.join(command))
-        subprocess.run(' '.join(command), cwd=str(cwd), shell=True, stdout=subprocess.DEVNULL)
+        result = subprocess.run(' '.join(command), cwd=str(cwd), shell=True, 
+                               stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
     else:  # For Linux or macOS
-        subprocess.run(command, cwd=str(cwd), stdout=subprocess.DEVNULL)
+        result = subprocess.run(command, cwd=str(cwd), 
+                               stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    
+    # Check for GAMS execution errors
+    if result.returncode != 0:
+        error_msg = f"GAMS execution failed with return code {result.returncode}"
+        if result.stderr:
+            error_msg += f"\nGAMS stderr: {result.stderr}"
+        raise RuntimeError(error_msg)
+    
     print('End GAMS code')
 
-    # TODO: Check if the results exist
+    # Check if the results file exists
+    results_file = Path(cwd) / 'Results.gdx'
+    if not results_file.exists():
+        raise FileNotFoundError(f"GAMS execution completed but expected results file not found: {results_file}")
+
 
 
 def parse_repr_days(folder_process_data, special_days):
