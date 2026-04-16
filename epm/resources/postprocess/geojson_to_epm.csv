@@ -1,5 +1,8 @@
 ﻿Geojson,EPM,region,country,division
-Angola,Angola,,,
+Angola- North,Angola_North,northwest,Angola,NCSE
+Angola-East,Angola_East,northeast,Angola,NCSE
+Angola-Central,Angola_Central,center,Angola,NCSE
+Angola-South,Angola_South,south,Angola,NCSE
 Democratic Republic of the Congo - North,DRC,north,Democratic Republic of the Congo,NS
 Democratic Republic of the Congo - South,DRC_South,south,Democratic Republic of the Congo,NS
 Namibia,Namibia,,,
