@@ -5,12 +5,9 @@
 
 * --- Key parameters (adjust first) ---
 startalg 4
-ordering 3
 scaind  1
 lpmethod 4
 threads 16
 predual -1
-memoryemphasis 1
-nodefileind 3
-treememory 8192
+
 
