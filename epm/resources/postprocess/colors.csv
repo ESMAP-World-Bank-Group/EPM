@@ -11,6 +11,7 @@ ST-Biogas,chocolate
 ST-Woodchip,lightgreen
 Storage-Water,royalblue
 ST-Geothermal,sienna
+CSPPlant-CSP,darkorange
 Reservoir-Water,teal
 ROR-Water,lightsteelblue
 ReservoirHydro-Water,teal
@@ -64,7 +65,7 @@ Imports,thistle
 Net exchange,purple
 Storage Charge,crimson
 StorageEnergy,darkgreen
-Transmission,purple
+Transmission,rosybrown
 Unmet demand,firebrick
 Excess generation,yellow
 #Geography,
