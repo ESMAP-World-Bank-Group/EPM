@@ -6,9 +6,10 @@
 * --- Key parameters (adjust first) ---
 startalg 4
 scaind  1
-lpmethod 4
+lpmethod 2
 mipemphasis 0
 threads 16
 predual -1
 memoryemphasis 1
-nodefile 3
+nodefileind 3
+workmem 8192
