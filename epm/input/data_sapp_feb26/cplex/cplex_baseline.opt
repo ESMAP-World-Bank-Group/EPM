@@ -10,5 +10,5 @@ lpmethod 4
 mipemphasis 0
 threads 16
 predual -1
-
-
+memoryemphasis 1
+nodefile 3
