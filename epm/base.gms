@@ -63,12 +63,20 @@ Sets
    re(g)                  'Renewable technologies (broader than VRE)'
    RampRate(g)            'Generators subject to ramp constraints (filters out inflexible units)'
    VRE_noROR(g)           'VRE assets excluding run-of-river (used for spinning reserve sizing)'
-;
+
 
 
 * -------------------------------------------------------------
 * Mapping sets (generator-to-fuel/zone, network structure)
 * -------------------------------------------------------------
+************Bangladesh************
+GASAll(f)
+LNGAll(f)
+gc(g)              coal plants
+gw(g)              wind plants
+;
+
+
 Sets
    gfmap(g,f)             'Generator-to-fuel association'
    gzmap(g,z)             'Generator-to-zone association'
@@ -183,6 +191,15 @@ Parameters
    psVREForecastErrorPct          'Reserve add-on for VRE (note: duplicate naming with parameter above)'
    pCarbonPrice(y)                'Carbon price trajectory'
    pFuelCarbonContent(f)          'Fuel carbon intensity (tCO₂/MMBtu)'
+   pMaxFuelLimit(c,f,y)           ' Annua limit on fuel availability (mmBTU)'
+
+*******Bangadesh*****
+
+pMinREAnnual(y)
+pNumDays(q,d)
+pAvailabilityY(g,y,q)
+pMaxFuellimitDay(c,f,y)
+
 
 * Economic parameters
    pRR(y)                         'Discount factor (accumulated)'
@@ -521,6 +538,17 @@ Equations
    eMinUpRolling(g,AT2,y) 'Rolling minimum up-time enforcement for startups'
    eMinDownInitial(g,y) 'Initial minimum down-time accounting'
    eMinDownRolling(g,AT2,y) 'Rolling minimum down-time enforcement for shutdowns'
+
+************Bangladesh*********************
+eFuelLimitDayGas(c,q,d,y)              'fuel limit at country level'
+eFuelLimitDayLNG(c,q,d,y)              'fuel limit at country level'
+eFuelLimitGAS(c,y)               'fuel limit at country level'
+eFuelLimitLNG(c,y)               'fuel limit at country level'
+eMinREAnnual(y)                      'Minimum RE as percentage of total generation'
+
+eStorBal2(g,q,d,t,y)
+eStorBal3(g,q,d,y)
+eWindLimit(y)
 ;
 
 
@@ -765,8 +793,12 @@ eJointResCap(g,q,d,t,y)$FD(q,d,t)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y)
       =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
 
+****************Bangladesh..pAvailability changed to pAvailabilityY**************************
 eMaxCF(g,q,y)..
-   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailability(g,y,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityY(g,y,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+
+*eMaxCF(g,q,y)..
+*   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailabilityY(g,q,y)*vCap(g,y)*sum((d,t), pHours(q,d,y,t));
 
 * Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
 * dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
@@ -1018,15 +1050,24 @@ eStorageSOCInitDispatch(st,g,q,d,t,y)$((fDispatchMode and sFirstHour(t) and sFir
 eStorageSOCFinalDispatch(st,q,d,t,y)$((fDispatchMode and sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
 
+*********Bangladesh*****************
 * Representative-day mode: enforce SOC recursion on the first hour without cross-day anchoring.
 eStateOfChargeInitRep(st,q,d,t,y)$((not fDispatchMode) and fEnableStorage and sFirstHour(t) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
+   vStorage(st,q,d,t,y) =e= pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y))+0.1*vCapStor(st,y);
 
 * eStorageHourTransition rolls storage state forward using the previous chronological hour (t-1), assuming storage is enabled.
 eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-1,y)
       + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
+
+      
+
+eStorBal2(st,q,d,t,y)$(fEnableStorage and sLastHour(t))..    vStorage(st,q,d,t,y)  =e= vStorage(st,q,d,t-23,y)-(pStorageData(st,"efficiency")*vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f),vPwrOut(st,f,q,d,t-23,y))) ;
+
+eStorBal3(st,q,d,y)$(fEnableStorage)..  pStorageData(st,"efficiency")* sum(t,vStorInj(st,q,d,t,y)) =e=  Sum((gfmap(st,f),t),vPwrOut(st,f,q,d,t,y));
+
+
 
 * Dispatch mode: wrap the first hour of each day to the previous chronological hour (AT-1); no wrap in representative-day mode.
 eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour(t) and mapTS(q,d,t,AT) and ord(AT) > 1) and FD(q,d,t))..
@@ -1154,6 +1195,26 @@ eTotalEmissions(y)..
 eTotalEmissionsConstraint(y)$fApplySystemCo2Constraint..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
+*************Bangladesh***********
+eFuelLimitGAS(c,y)$(fApplyFuelConstraint and sum(GASALL,pMaxFuelLimit(c,GASALL,y)) > 0)..
+   sum((zcmap(z,c),zfmap(z,GASALL)), vFuel(z,GASALL,y)) =l= sum(GASALL, pMaxFuelLimit(c,GASALL,y))*1e6;
+   
+eFuelLimitLNG(c,y)$(fApplyFuelConstraint and sum(LNGALL,pMaxFuelLimit(c,LNGALL,y)) > 0)..
+   sum((zcmap(z,c),zfmap(z,LNGALL)), vFuel(z,LNGALL,y)) =l= sum(LNGALL,pMaxFuelLimit(c,LNGALL,y))*1e6;
+
+
+eFuelLimitDayLNG(c,q,d,y)$(fApplyFuelConstraint and sum(LNGALL,pMaxFuelLimitDay(c,LNGAll,y)) > 0)..
+ sum((zcmap(z,c),gzmap(g,z),gfmap(g,LNGAll),t), vPwrOut(g,LNGAll,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,LNGAll)) =l= sum(LNGALL,pMaxFuelLimitDay(c,LNGALL,y))*1e6*pNumDays(q,d);
+ 
+eFuelLimitDayGas(c,q,d,y)$(fApplyFuelConstraint and sum(GASALL,pMaxFuelLimitDay(c,GasAll,y)) > 0)..
+ sum((zcmap(z,c),gzmap(g,z),gfmap(g,GasAll),t), vPwrOut(g,GasAll,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,GasAll)) =l= sum(GASALL,pMaxFuelLimitDay(c,GASALL,y))*1e6*pNumDays(q,d);
+
+*eMinREAnnual(y)..      sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,y,t))     =g=   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)* pHours(q,d,y,t)*pMinREAnnual(y));
+
+eMinREAnnual(y)..      sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t))     =g=    sum((zcmap(z,c),gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))*pMinREAnnual(y);
+
+eWindLimit(y)..        sum(gw,vBuild(gw,y))=l=1000;
+*************************************************
 
 Model PA /
    eNPVCost
@@ -1197,6 +1258,9 @@ Model PA /
    eDispatchMaxGenPoint
    
    eFuel
+********Bangladesh********
+*  eFuelLimit
+************************
    eRampUpLimit
    eRampDnLimit
    eRampContinuity
@@ -1291,6 +1355,14 @@ Model PA /
    vNewTransmissionLine(sAdditionalTransfer)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
-   
+******Bangladesh*****
+eFuelLimitGAS
+eFuelLimitLNG
+eFuelLimitDayLNG
+eFuelLimitDayGas
+eMinREAnnual
+eStorBal2
+eStorBal3
+eWindLimit
   
 /;

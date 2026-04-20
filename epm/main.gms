@@ -48,7 +48,7 @@ $setglobal modeldir %system.fp%
 *-------------------------------------------------------------------------------------
 
 * Folder input
-$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_test"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_BD"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 *-------------------------------------------------------------------------------------
@@ -159,6 +159,10 @@ Sets
    mapTS(q,d,t,AT) 'Mapping from season/day/hour tuples to chronological AT index'
 ;
 
+*************Bangladesh***************
+set
+ftechmap(f,tech);
+
 alias (z,z2), (g,g1,g2);
 
 * Input data parameters 
@@ -235,7 +239,11 @@ Parameter
    pFuelDataH2(f)                                        'Hydrogen fuel properties'
    pCapexTrajectoryH2(hh,y)                              'H2 CAPEX trajectories'
    pExternalH2(z,q,y)                                    'External H2 demand (MMBtu) to be met'
-   
+*********Bangladesh*********
+pMinREAnnual(y)
+pNumDays(q,d)
+pAvailabilityY(g,y,q)
+pMaxFuellimitDay(c,f,y)   
 ;   
 
 
@@ -277,6 +285,8 @@ $load pPlanningReserveMargin
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxAnnualExternalTradeShare
+***Bangladesh*****
+$load pMaxFuellimitDay, pMinREAnnual
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -584,6 +594,8 @@ stg(g) = gtechmap(g,"Storage");
 
 * Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
 st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage");
+*st(g)  =  gtechmap(g,"Storage");
+
 
 * Define generators with capex trajectory data
 dc(g)  = sum(y, pCapexTrajectories(g,y));
@@ -613,6 +625,25 @@ nRE(g) = not re(g);
 nVRE(g)=not VRE(g);
 REH2(g)= sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'RETechnology'),1) - sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'HourlyVariation'),1);
 nREH2(g)= not REH2(g);
+
+*************Bangladesh*********************
+ftechmap(f, tech) = yes $ sum(g$(gfmap(g,f) and gtechmap(g,tech)), 1);
+gc(g) = sum(gfmap(g,f)$(sameas(f,'2.Coal_Dom_Ex')
+                      or sameas(f,'3.Coal_80In_20Au_Ex')
+                      or sameas(f,'4.Coal_50In_50Au_Ex')
+                      or sameas(f,'5.Coal_100In_Ex')
+                      or sameas(f,'6.Coal_Dom')
+                      or sameas(f,'7.Coal_80In_20Au')
+                      or sameas(f,'8.Coal_50In_50Au')
+                      or sameas(f,'9.Coal_100In')
+                      or sameas(f,'10.Coal_CCS')), 1);
+                      
+gw(g) = sum(gfmap(g,f)$(sameas(f,'23.Wind')),1); 
+
+pAvailabilityY(g,y,q)=pAvailabilityInput(g,q);
+pAvailabilityY(gc,y,q)$(ord(y)=2)=0.65;
+pAvailabilityY(gc,y,q)$(ord(y)=3)=0.7;
+pAvailabilityY(gc,y,q)$(ord(y)>3)=0.75;
 
 *-------------------------------------------------------------------
 * TOPOLOGY DEFINITION
@@ -646,17 +677,22 @@ pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
 * Identify hours that are close to the peak demand for capacity credit calculations
 pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pSettings("sPeakLoadProximityThreshold"));
 
+******Bangladesh*********
 * Default capacity credit for all generators is set to 1
-pCapacityCredit(g,y)= 1;
+*pCapacityCredit(g,y)= 1;
 
 * Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
 pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
 
+******Bangladesh*********
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
-pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
+*pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
+******Bangladesh*********
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+*pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+
+pCapacityCredit(g,y)=pGenData(g,"CapacityCredit"); 
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
@@ -899,6 +935,13 @@ sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystem
 *To avoid bugs when there is no candidate transmission expansion line
 pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
 
+
+
+**********Bangladesh***********
+GasAll(f) = yes$(sameas(f,'13.Gas') or sameas(f,'12.Gas_Ex'));
+LNGAll(f) = yes$(sameas(f,'15.LNG') or sameas(f,'14.LNG_Ex'));
+pNumDays(q,d)$sum(t, pHours(q,d,t)) = sum(t, pHours(q,d,t)) / 24;
+
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
 PA.HoldFixed=1;
@@ -912,6 +955,10 @@ if (card(mipopt),
  loop(mipline, put mipopt.te(mipline) /);
  putclose;
 ); 
+
+*********Bangalesh*********************
+display pRR, pWeightYear, pGenData, pCapacityCredit, pMinREAnnual,pMaxFuelLimit, pMaxFuelLimitDay,zExt, pTradePrice,   sImportPrice, GASALL, LNGALL;
+display pNumDays, tech, ftechmap, f, tech, vre, pAvailabilityY;
 
 * Enable the modeltype to read an external modeltype option file
 PA.optfile = 1;

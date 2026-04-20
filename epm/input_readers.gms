@@ -104,6 +104,9 @@ $if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/p
 $if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
 $if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
 $if not set pMaxGenerationByFuel $set pMaxGenerationByFuel %FOLDER_INPUT%/constraint/pMaxGenerationByFuel.csv
+***********Bangladesh*************
+$if not set pMaxFuellimitDay $set pMaxFuellimitDay %FOLDER_INPUT%/constraint/pMaxFuellimitDay.csv
+$if not set pMinREAnnual $set pMinREAnnual %FOLDER_INPUT%/constraint/pMinREAnnual.csv
 
 * H2 RELATED
 $if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
@@ -610,6 +613,31 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
+
+#********Bangladesh**********
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxFuellimitDay%
+    name: pMaxFuellimitDay
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pMinREAnnual%
+    name: pMinREAnnual
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
+
+#*********************************
+
 
 - CSVReader:
     trace: %TRACE%

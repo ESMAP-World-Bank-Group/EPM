@@ -1,3 +1,7 @@
 tech,f,Life,UnitSize,BuildLimitperYear,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
-Storage,Battery,20,,0,0,0.9,0.3,0,0,0,180,0,0,,1,1,0,,0,0,0,0,0,0,0
-Storage,Water,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
+STORAGE,26.BESS1H,20,,0,0,0.9,0.3,0,0,0,180,0,0,,1,1,0,,0,0,0,0,0,0,0
+STORAGE,27.BESS2H,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
+STORAGE,28.BESS3H,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
+STORAGE,29.BESS4H,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
+STORAGE,30.BESS5H,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
+STORAGE,31.BESS6H,50,,0,0,0.8,3.3,50000,0,0,150,0,0,,1,1,0,0.45,0,0,0,0,0,0,0
