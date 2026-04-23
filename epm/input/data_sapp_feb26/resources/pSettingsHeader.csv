@@ -45,3 +45,5 @@ fApplyStartupCost
 fApplyRampConstraint
 fApplyMUDT
 sPeakLoadProximityThreshold
+fApplyGenerationPhaseout
+fApplyCapacityExpansionLimit
