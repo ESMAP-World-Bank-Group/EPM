@@ -1,4 +1,4 @@
-paramNames,RefScen,RefScen_LimExp
+paramNames,baseline,baseline_LimExp
 modeltype,RMIP,RMIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
 pSettings,pSettings.csv,pSettings_alt.csv
