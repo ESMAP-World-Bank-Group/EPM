@@ -218,6 +218,7 @@ Parameters
    fApplyPlanningReserveConstraint 'Enable planning reserve constraint'
    sIntercoReserveContributionPct 'Share of interconnection capacity counted toward reserves'
    fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
+   fApplyCapacityExpansionLimit   'VRE capacity limit constraint'
    sReserveMarginPct              'Planning reserve margin target'
    pHeatrate(g,f)                 'Generator heat rate'
 
@@ -342,6 +343,8 @@ Integer variable
    vRetireCapVar(g,y)         'Integer retirement decision'
 ;
 
+Positive Variable vCapSlack(c,y);
+Scalar capPenalty /1e9/;
 
 * -------------------------------------------------------------
 * Core equations (objective, balances, constraints)
@@ -420,6 +423,7 @@ Equations
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
    eMaxGenerationByFuel(z,tech,f,q,d,t,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
+   eCountryBuildLimit(c,y)         'Maximum VRE capacity per Year'
 
 * ------------------------------
 * Ramp and reserve constraints
@@ -531,7 +535,7 @@ Equations
 * Adding system-level cost of reserves and CO2 backstop to the total cost
 eNPVCost..
    vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, 
-                                 vYearlyTotalCost(c,y)) + 
+                                 vYearlyTotalCost(c,y)+capPenalty*vCapSlack(c,y)) + 
                                  vYearlyUnmetPlanningReserveCostSystem(y) + 
                                  vYearlyUnmetSpinningReserveCostSystem(y) +
                                  vYearlyCO2BackstopCostSystem(y))
@@ -757,6 +761,10 @@ eBuiltCap(ng,y)$pGenData(ng,"DescreteCap")..
 eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")))..
    vRetire(eg,y) =e= pGenData(eg,"UnitSize")*vRetireCapVar(eg,y);
 
+* Limit annual sum of new builds in each country:
+eCountryBuildLimit(c,y)..
+    sum((vre,z)$( gzmap(vre,z) and zcmap(z,c) and ng(vre) ),vBuild(vre,y))
+    =l= pCountryBuildLimitY(c,y) + vCapSlack(c,y);
 * ------------------------------
 * Production equations
 * Constrains generator dispatch, ramping, and minimum output.
@@ -1284,6 +1292,7 @@ Model PA /
    eCapStorAnnualUpdateNG
    eCapStorInitialNG
    eBuildStorNew
+   eCountryBuildLimit
    
    eCapacityThermLimit
    eCapThermBalance1

@@ -54,9 +54,9 @@ $log FOLDER_INPUT is "%FOLDER_INPUT%"
 *-------------------------------------------------------------------------------------
 
 * By default modeltype is MIP
-$if not set MODELTYPE $set MODELTYPE MIP
+$if not set MODELTYPE $set MODELTYPE RMIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
-$if not set MODELTYPE   $set MODELTYPE MIP
+$if not set MODELTYPE   $set MODELTYPE RMIP
 
 * Use the relevant cplex file
 $if not set CPLEXFILE   $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
@@ -206,6 +206,7 @@ Parameter
    pEmissionsCountry(c,y)                                'Country emission limits (tons)'
    pEmissionsTotal(y)                                    'System-wide emission limits (tons)'
    pCarbonPrice(y)                                       'Carbon price (USD/ton CO2)'
+   pCountryBuildLimitY(c,y)                              'VRE build limit constraint per country'
    
 * Time and transfer parameters
    pHours(q<,d<,t<)                                      'Hours mapping'
@@ -269,7 +270,7 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pCountryBuildLimitY pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
@@ -470,6 +471,7 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
+*fApplyCapacityExpansionLimit     = pSettings("fApplyCapacityExpansionLimit");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
@@ -481,6 +483,8 @@ fApplyCountryCo2Constraint         = pSettings("fApplyCountryCo2Constraint");
 fApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
 fEnableCarbonPrice                     = pSettings("fEnableCarbonPrice");
 fEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
+
+       
 
 
 * --- Settings: Transmission and trade

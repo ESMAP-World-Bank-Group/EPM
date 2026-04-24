@@ -6,7 +6,7 @@
 * --- Key parameters (adjust first) ---
 startalg 4
 scaind  1
-lpmethod 2
+lpmethod 0
 mipemphasis 0
 threads 16
 predual -1

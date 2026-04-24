@@ -38,7 +38,7 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
-$if not set y $set y %FOLDER_INPUT%/y_alt.csv
+$if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
 $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
@@ -105,6 +105,7 @@ $if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/p
 $if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
 $if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
 $if not set pMaxGenerationByFuel $set pMaxGenerationByFuel %FOLDER_INPUT%/constraint/pMaxGenerationByFuel.csv
+$if not set pCountryBuildLimitY $set pCountryBuildLimitY %FOLDER_INPUT%/constraint/pCountryBuildLimitYear.csv
 
 * H2 RELATED
 $if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
@@ -593,6 +594,17 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pEmissionsCountry%
     name: pEmissionsCountry
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    header: [1]
+    type: par
+    
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pCountryBuildLimitY%
+    name: pCountryBuildLimitY
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
