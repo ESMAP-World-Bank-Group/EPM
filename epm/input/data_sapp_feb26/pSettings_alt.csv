@@ -57,7 +57,7 @@ RE share target year,sRenewableTargetYear,
 Apply fuel constraints,fApplyFuelConstraint,0
 Apply generation phase-out constraint,fApplyGenerationPhaseout,1
 Apply max capital constraint,fApplyCapitalConstraint,0
-Max build per Year,fApplyCapacityExpansionLimit,0
+Max build per Year,fApplyCapacityExpansionLimit,1
 "Total maximum capital investments, $ billion",sMaxCapitalInvestment,
 ,,
 PLANTS,,
