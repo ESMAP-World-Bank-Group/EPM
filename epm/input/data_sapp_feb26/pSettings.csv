@@ -16,7 +16,7 @@ PARAMETERS,,
 ,,
 INTERCONNECTION,,
 INTERNAL,,
-Activate exchange between internal zone,fEnableInternalExchange,0
+Activate exchange between internal zone,fEnableInternalExchange,1
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
