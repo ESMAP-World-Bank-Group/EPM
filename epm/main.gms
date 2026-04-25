@@ -471,7 +471,7 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
-*fApplyCapacityExpansionLimit     = pSettings("fApplyCapacityExpansionLimit");
+fApplyCapacityExpansionLimit     = pSettings("fApplyCapacityExpansionLimit");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");

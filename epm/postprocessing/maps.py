@@ -1687,7 +1687,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             title = f'Evolution Transmission Capacity [MW] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
-            selected_years = [2025, 2035, 2040]
+            selected_years = [2025, 2030, 2035, 2040, 2045]
             df = transmission_data[
                     (transmission_data['scenario'] == selected_scenario) &
                     (transmission_data['year'].isin(selected_years))
