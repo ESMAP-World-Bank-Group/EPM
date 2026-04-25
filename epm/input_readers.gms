@@ -36,7 +36,7 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 
 * Define by default path
 * SETTINGS
-$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings_alt.csv
+$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
@@ -44,14 +44,14 @@ $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
-$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted.csv
+$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted_v2.csv
 $if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
 $if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
 $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput.csv
+$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v2.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv

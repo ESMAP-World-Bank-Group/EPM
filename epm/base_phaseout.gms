@@ -449,7 +449,7 @@ Equations
    eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
    eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
    eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
-   eMaxAnnualInternalShareEnergy(z,y) 'Maximum import flow per country'
+   eMaxAnnualInternalShareEnergy(c,y) 'Maximum import flow per country'
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
    eYearlySurplusCost(z,y)         'Penalty on surplus energy'
@@ -762,7 +762,7 @@ eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")
    vRetire(eg,y) =e= pGenData(eg,"UnitSize")*vRetireCapVar(eg,y);
 
 * Limit annual sum of new builds in each country:
-eCountryBuildLimit(c,y)$fApplyCapacityExpansionLimit..
+eCountryBuildLimit(c,y)$(fApplyCapacityExpansionLimit and pCountryBuildLimitY(c,y))..
     sum((VRE_noROR,z)$( gzmap(VRE_noROR,z) and zcmap(z,c) and ng(VRE_noROR) ),vBuild(VRE_noROR,y))
     =l= pCountryBuildLimitY(c,y)*pWeightYear(y) + vCapSlack(c,y);
 * ------------------------------
@@ -947,10 +947,10 @@ eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
    
-*Enforces maximum net imports in all zones when specified
-eMaxAnnualInternalShareEnergy(z,y)$(fEnableInternalExchange and pMaxAnnualInternalTradeShare(y,z))..
-   sum((z2,q,d,t), (vFlow(z2,z,q,d,t,y)- vFlow(z,z2,q,d,t,y)) *pHours(q,d,t)) =l=
-   sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualInternalTradeShare(y,z);
+*Enforces maximum net imports in all zones when specified-old
+eMaxAnnualInternalShareEnergy(c,y)$(fEnableInternalExchange and pMaxAnnualInternalTradeShare(y,c))..
+  sum((z,z2,q,d,t)$(zcmap(z,c) and not zcmap(z2,c)),(vFlow(z2,z,q,d,t,y) - vFlow(z,z2,q,d,t,y)) * pHours(q,d,t))
+    =l= sum((z,q,d,t)$zcmap(z,c), pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)) * pMaxAnnualInternalTradeShare(y,c);
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..

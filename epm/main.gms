@@ -194,7 +194,7 @@ Parameter
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
-   pMaxAnnualInternalTradeShare(y,z)                     'Maximum trade share between zones'
+   pMaxAnnualInternalTradeShare(y,c)                     'Maximum trade share between zones'
    
    
 * Demand parameters
