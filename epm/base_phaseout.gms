@@ -449,7 +449,7 @@ Equations
    eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
    eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
    eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
-   eMaxAnnualInternalShareEnergy(c,y) 'Maximum import flow per country'
+   eMaxAnnualInternalShareEnergy(z,y) 'Maximum import flow per country'
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
    eYearlySurplusCost(z,y)         'Penalty on surplus energy'
@@ -948,9 +948,9 @@ eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t)
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
    
 *Enforces maximum net imports in all zones when specified
-eMaxAnnualInternalShareEnergy(c,y)$fEnableInternalExchange..
-   sum((z2,zcmap(z,c),q,d,t), vFlow(z2,z,q,d,t,y)*pHours(q,d,t)) - sum((zcmap(z,c),z2,q,d,t), vFlow(z,z2,q,d,t,y) *pHours(q,d,t)) =l=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualInternalTradeShare(y,c);
+eMaxAnnualInternalShareEnergy(z,y)$fEnableInternalExchange..
+   sum((z2,q,d,t), (vFlow(z2,z,q,d,t,y)- vFlow(z,z2,q,d,t,y)) *pHours(q,d,t)) =l=
+   sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualInternalTradeShare(y,z);
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
