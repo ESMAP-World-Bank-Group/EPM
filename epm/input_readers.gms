@@ -38,7 +38,7 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
-$if not set y $set y %FOLDER_INPUT%/y_alt.csv
+$if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
 $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
