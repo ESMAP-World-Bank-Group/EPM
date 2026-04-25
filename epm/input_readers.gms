@@ -36,7 +36,7 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 
 * Define by default path
 * SETTINGS
-$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
+$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings_alt.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
@@ -637,7 +637,7 @@ $onEmbeddedCode Connect:
     file: %pMaxGenerationByFuel%
     name: pMaxGenerationByFuel
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: EPS}
+    valueSubstitutions: {0: EPS,.nan: INF, "":INF}
     indexColumns: [1, 2, 3]
     header: [1]
     type: par

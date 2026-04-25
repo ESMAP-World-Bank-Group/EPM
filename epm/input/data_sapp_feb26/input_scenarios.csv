@@ -1,7 +1,7 @@
 paramNames,baseline,baseline_LimTrade,baseline_freeExp,baseline_freeExpLimTrade
 modeltype,RMIP,RMIP,RMIP,RMIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
-pSettings,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv
+pSettings,pSettings.csv,pSettings.csv,pSettings_alt.csv,pSettings_alt.csv
 y,y_alt.csv,y_alt.csv,y_alt.csv,y_alt.csv
 zcmap,zcmap.csv,zcmap.csv,zcmap.csv,zcmap.csv
 pHours,pHours.csv,pHours.csv,pHours.csv,pHours.csv
@@ -36,7 +36,7 @@ pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAn
 pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare_ensecu.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare_ensecu.csv
 pMinImport,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv
 pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv
-pCountryBuildLimitY,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv
+pCountryBuildLimitY,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv
 pNewTransmission,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv
 pTradePrice,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv
 pTransferLimit,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv

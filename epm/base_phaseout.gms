@@ -948,7 +948,7 @@ eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t)
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
    
 *Enforces maximum net imports in all zones when specified
-eMaxAnnualInternalShareEnergy(z,y)$fEnableInternalExchange..
+eMaxAnnualInternalShareEnergy(z,y)$(fEnableInternalExchange and pMaxAnnualInternalTradeShare(y,z))..
    sum((z2,q,d,t), (vFlow(z2,z,q,d,t,y)- vFlow(z,z2,q,d,t,y)) *pHours(q,d,t)) =l=
    sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualInternalTradeShare(y,z);
 
