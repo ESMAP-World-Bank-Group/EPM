@@ -1647,6 +1647,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
  
     if selected_scenarios is None:
         selected_scenarios = list(epm_results['pTransmissionCapacity'].scenario.unique())
+        print(selected_scenarios)
 
     years = epm_results['pTransmissionCapacity']['year'].unique()
 
@@ -1660,7 +1661,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
         log_info(f'Generating map for scenario {selected_scenario}')
         # Select first and last years
         #years = [min(years), max(years)]
-        years = [y for y in [2025, 2030, 2035, 2040] if y in years]
+        years = [y for y in [2025, 2030, 2035, 2040, 2045] if y in years]
 
         try:
             zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
@@ -1702,7 +1703,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             title = f'Evolution Transmission Utilization [%] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
-            selected_years = [2025, 2035, 2040]
+            selected_years = [2025, 2035, 2040, 2045]
             df = transmission_data[
                     (transmission_data['scenario'] == selected_scenario) &
                     (transmission_data['year'].isin(selected_years))

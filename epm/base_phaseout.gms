@@ -763,7 +763,7 @@ eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")
 
 * Limit annual sum of new builds in each country:
 eCountryBuildLimit(c,y)..
-    sum((vre,z)$( gzmap(vre,z) and zcmap(z,c) and ng(vre) ),vBuild(vre,y))
+    sum((vre,z)$( gzmap(VRE_noROR,z) and zcmap(z,c) and ng(VRE_noROR) ),vBuild(VRE_noROR,y))
     =l= pCountryBuildLimitY(c,y)*pWeightYear(y) + vCapSlack(c,y);
 * ------------------------------
 * Production equations

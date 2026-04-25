@@ -1,0 +1,22 @@
+--- . input_readers.gms(703) 4 Mb  310 secs
+--- Job main.gms Start 04/25/26 01:52:54 50.1.0 12b75dde WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\50\gmsprmNT.txt
+    C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    PageSize 0
+    ScrDir C:\Users\wb590499\Documents\Projects\EPM\epm\225a\
+    SysDir C:\GAMS\50\
+    LogOption 3
+    AppendLog 1
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+    --FOLDER_INPUT input/data_sapp_feb26
+    --DEBUG 1
+Licensee: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+          The World Bank, Energy Sector Management Assistance PrograDC12370
+          C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamslice.txt
+          v:2                                                              
