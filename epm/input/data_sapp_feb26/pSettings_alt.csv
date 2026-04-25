@@ -16,7 +16,7 @@ PARAMETERS,,
 ,,
 INTERCONNECTION,,
 INTERNAL,,
-Activate exchange between internal zone,fEnableInternalExchange,1
+Activate exchange between internal zone,fEnableInternalExchange,0
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
@@ -57,7 +57,7 @@ RE share target year,sRenewableTargetYear,
 Apply fuel constraints,fApplyFuelConstraint,0
 Apply generation phase-out constraint,fApplyGenerationPhaseout,1
 Apply max capital constraint,fApplyCapitalConstraint,0
-Max build per Year,fApplyCapacityExpansionLimit,0
+Max build per Year,fApplyCapacityExpansionLimit,1
 "Total maximum capital investments, $ billion",sMaxCapitalInvestment,
 ,,
 PLANTS,,
