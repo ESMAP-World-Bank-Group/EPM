@@ -34,7 +34,7 @@ pExtTransferLimit,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv,trade/
 pLossFactorInternal,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv
 pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv
 pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare_ensecu.csv,trade/pMaxAnnualInternalTradeShare.csv
-pMinImport,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv,trade/pMinImport.csv
+pMinImport,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv
 pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv
 pCountryBuildLimitY,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv
 pNewTransmission,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv
