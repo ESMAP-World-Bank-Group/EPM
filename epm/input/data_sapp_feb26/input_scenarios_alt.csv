@@ -1,7 +1,7 @@
 paramNames,baseline,baseline_limexpansion,baseline_limTrade,baseline_INGA
 modeltype,RMIP,RMIP,RMIP,RMIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
-pSettings,pSettings.csv,pSettings_alt.csv,pSettings.csv,pSettings.csv
+pSettings,pSettings_alt.csv,pSettings_alt.csv,pSettings.csv,pSettings.csv
 y,y_alt.csv,y_alt.csv,y_alt.csv,y_alt.csv
 zcmap,zcmap.csv,zcmap.csv,zcmap.csv,zcmap.csv
 pHours,pHours.csv,pHours.csv,pHours.csv,pHours.csv
