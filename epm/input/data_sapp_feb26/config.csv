@@ -45,7 +45,7 @@ Maximum internal trade share limit,pMaxAnnualInternalTradeShare,trade/pMaxAnnual
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport_mozalout.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
 Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
-Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv
+Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit_limitremove.csv
 ,H2,
 "Hydrogen asset data (Unit: varies; capacity in MW, cost in USD/MW)",pH2DataExcel,h2/pH2DataExcel.csv
 Hydrogen technology availability factors (Unit: per-unit availability),pAvailabilityH2,h2/pAvailabilityH2.csv
