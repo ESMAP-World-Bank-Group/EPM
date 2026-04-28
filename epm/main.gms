@@ -32,6 +32,12 @@ $offinline
 $inlinecom {  }
 $eolcom //
 
+option LP = Cplex;
+$onecho > cplex.opt
+iis 1
+$offecho
+
+
 $if not set DEBUG $set debug 0
 $if not set EPMVERSION    $set EPMVERSION    9.0
 
