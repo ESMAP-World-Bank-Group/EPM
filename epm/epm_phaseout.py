@@ -66,7 +66,7 @@ from postprocessing.utils import (
 from postprocessing.postprocessing import postprocess_output
 
 PATH_GAMS = {
-    'path_main_file': 'main.gms',
+    'path_main_file': 'main_fxstor.gms',
     'path_base_file': 'base_phaseout.gms',
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
@@ -275,7 +275,7 @@ def normalize_path(df):
 
 def launch_epm_checkpoint(scenario,
                scenario_name='',
-               path_main_file='main.gms',
+               path_main_file='main_fxstor.gms',
                path_base_file='base_phaseout.gms',
                path_report_file='generate_report.gms',
                path_reader_file='input_readers.gms',
@@ -332,7 +332,7 @@ def launch_epm_checkpoint(scenario,
     # Defining the GAMS workspace
     new_dir = os.path.abspath(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)), os.pardir))
     os.chdir(new_dir)
-    model_path, model_directory =  os.path.join(new_dir, 'main.gms'), new_dir # Get the paths
+    model_path, model_directory =  os.path.join(new_dir, 'main_fxstor.gms'), new_dir # Get the paths
     gams_model = read_gams_model(model_path) # Open model
     ws = initialize_workspace(model_directory) # Opening a gams workspace
     cp, job = create_checkpoint(ws, gams_model, options=options) # cp capture the current state of the model and job the work going on

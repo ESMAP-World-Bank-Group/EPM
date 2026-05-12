@@ -51,7 +51,7 @@ $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3_Zim.csv
+$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
