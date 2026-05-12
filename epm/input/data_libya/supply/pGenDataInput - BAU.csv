@@ -1,0 +1,21 @@
+g,z,tech,fuel,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinLimitShare,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,fuel2,HeatRate2,Unnamed: 31,MaxTotalBuild,MinUtilization,RETech
+West Tripoli,Libya,OCGT,Gas,1,2014,2044,30,1400,0,0,0,9,0,20000,4,0,0,1,1,0,0.2,,,,,,,,2,10,,0,0,0
+Benghazi North,Libya,CCGT,Gas,1,1995,2035,40,915,0,0,0,6.4,0,30000,2,0,0,1,1,0,0.2,,,,,,,,21,7.5,,0,0,0
+Tobruk METKA,Libya,OCGT,Gas,1,2023,2053,30,760,0,0,0,9,0,20000,4,0,0.15,1,1,0,0.2,,,,,,,,22,10,,0,0,0
+Zawiya CC,Libya,CCGT,Gas,1,2000,2040,40,1356,0,0,0,6.4,0,30000,2,0,0.15,1,1,0,0.2,,,,,,,,21,7.5,,0,0,0
+South Tripoli,Libya,OCGT,Gas,1,1994,2034,40,596,0,0,0,9,0,20000,4,0,0.15,1,1,0,0.2,,,,,,,,,10,,0,0,0
+Misrata,Libya,OCGT,Gas,1,2010,2040,30,1340,0,0,0,9,0,20000,4,0,0,1,1,0,0.2,,,,,,,,22,10,,0,0,0
+Gulf Plant,Libya,ST,Gas,1,2014,2054,40,1400,0,0,0,9,0,60000,3,0,0.15,1,1,0,0.2,,,,,,,,31,10.2,,0,0,0
+Al-Khoms,Libya,OCGT,Gas,1,2016,2046,30,1605,0,0,0,9,0,20000,4.2,0,0,1,1,0,0.2,,,,,,,,7,10,,0,0,0
+West Mountain,Libya,OCGT,Gas,1,2005,2035,30,900,0,0,0,9,0,20000,4,0,0,1,1,0,0.2,,,,,,,,,10,,0,0,0
+Zwitena,Libya,OCGT,Gas,1,1994,2034,40,500,0,0,0,9,0,20000,4,0,0,1,1,0,0.2,,,,,,,,,9.9,,0,0,0
+Obari,Libya,OCGT,HFO,1,2019,2049,30,640,0,0,0,9.9,0,20000,4,0,0.15,1,1,0,0.2,,,,,,,,2,9,,0,0,0
+Alsari,Libya,OCGT,Gas,1,2010,2040,30,750,0,0,0,9,0,20000,4,0,0,1,1,0,0.2,,,,,,,,,,,0,0,0
+Derna,Libya,ST,Diesel,1,1985,2025,40,130,0,0,0,10.5,0,60000,4,0,0,1,1,0,0.2,,,,,,,,,0,,0,0,0
+South Tripoli New,Libya,OCGT,Gas,2,2028,2058,30,1320,0,0,0,9,0.8,20000,4.05,0,0,1,1,0,0.2,,,,,,,,,0,,2910,0.05,0
+NGCC_GENC_LIB,Libya,CCGT,Gas,3,2029,2059,30,100000,400,400,1,7.7,1.01,30000,2,0,0.15,1,1,0,0.2,,,,,,,,,0,,10000,0,0
+NGSC_GENC_LIB,Libya,OCGT,Gas,3,2028,2058,30,100000,400,400,1,10.9,0.8,20000,4,0,0,1,1,0,0.2,,,,,,,,,0,,10000,0,0
+SOPC_GENC_LIB,Libya,PV,Solar,3,2028,2053,25,100000,0,200,0,0,0.8,15000,0,0,0,1,1,0,0,,,,,,,,,0,,2422.85,0,1
+SOPC_GENC3_LIB,Libya,PV,Solar,3,2035,2060,25,100000,0,300,0,0,0.8,15000,0,0,0,1,1,0,0,,,,,,,,,0,,2422.85,0,1
+WDLC_GENC_LIB,Libya,OnshoreWind,Wind,3,2031,2061,30,100000,0,100,0,0,1.31,40000,0,0,0,1,1,0,0,,,,,,,,,0,,2461.97,0,1
+WDLC_GENC3_LIB,Libya,OnshoreWind,Wind,3,2040,2070,30,100000,0,200,0,0,1.31,40000,0,0,0,1,1,0,0,,,,,,,,,0,,2461.97,0,1
