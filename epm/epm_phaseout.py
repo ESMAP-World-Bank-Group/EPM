@@ -345,7 +345,7 @@ def launch_epm_checkpoint(scenario,
 
 def launch_epm(scenario,
                scenario_name='',
-               path_main_file='main.gms',
+               path_main_file='main_fxstor.gms',
                path_base_file='base_phaseout.gms',
                path_report_file='generate_report.gms',
                path_reader_file='input_readers.gms',
