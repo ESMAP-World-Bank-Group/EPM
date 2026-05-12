@@ -38,20 +38,20 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
-$if not set y $set y %FOLDER_INPUT%/y.csv
+$if not set y $set y %FOLDER_INPUT%/y_alt.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
 $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
-$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted_v2.csv
+$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted_v2_mozalout.csv
 $if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
 $if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
 $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v2.csv
+$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3_Zim.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
@@ -94,10 +94,10 @@ $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTr
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMaxAnnualInternalTradeShare $set pMaxAnnualInternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualInternalTradeShare.csv
-$if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
-$if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
+$if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport_mozalout.csv
+$if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission_v2.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit_limitremove.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
@@ -105,6 +105,8 @@ $if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/p
 $if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
 $if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
 $if not set pMaxGenerationByFuel $set pMaxGenerationByFuel %FOLDER_INPUT%/constraint/pMaxGenerationByFuel.csv
+$if not set pMinGenByFuel $set pMinGenByFuel %FOLDER_INPUT%/constraint/pMinGenerationByFuel.csv
+$if not set pMaxShareGenerationByTech $set pMaxShareGenerationByTech %FOLDER_INPUT%/constraint/pMaxShareGenerationByTech.csv
 $if not set pCountryBuildLimitY $set pCountryBuildLimitY %FOLDER_INPUT%/constraint/pCountryBuildLimitYear.csv
 
 * H2 RELATED
@@ -642,6 +644,25 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxShareGenerationByTech%
+    name: pMaxShareGenerationByTech
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: EPS,.nan: INF, "":INF}
+    indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pMinGenByFuel%
+    name: pMinGenByFuel
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: EPS,.nan: EPS, "":EPS}
+    indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
 
 # H2 RELATED
 

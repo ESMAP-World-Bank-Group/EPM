@@ -40,5 +40,15 @@ EnergyBalance,Exports External,ExportsExternal,purple
 EnergyBalance,UnmetDemand,UnmetDemand,red
 EnergyBalance,Surplus,Surplus,brown
 INT,Import_SAR,Imports,tan
-INT,Import_MOZ,Imports,tan
+INT,Import_MOZ_EDM,Imports,tan
+INT,Import_MOZ_HCB,Imports,tan
+INT,Import_ZAM,Imports,tan
 INT,Import_SAPP,Imports,tan
+INT,Import_BWA,Imports,tan
+EXP,Export,Exports,darkgreen
+CCGT,Gas_Moz,CCGT-Gas_Moz,coral
+ST,Coal_Bula,ST-Coal_Bula,dimgray
+ST,Coal_Hara,ST-Coal_Hara,dimgray
+ST,Coal_Hwan,ST-Coal_Hwan,dimgray
+ST,Coal_Munya,ST-Coal_Munya,dimgray
+ST,Coal_Zhon,ST-Coal_Zhon,dimgray

@@ -424,6 +424,8 @@ Equations
    eFuelLimit(c,f,y)              'Fuel availability constraint'
    eMaxGenerationByFuel(z,tech,f,q,d,t,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
    eCountryBuildLimit(c,y)         'Maximum VRE capacity per Year'
+   eMinGenerationByFuel(c,tech,f,y) 'Minimum annual generation by zone-tech-fuel [GWh]'
+   eMaxShareGenTech(z,tech,y) 'Maximum annual generation of technology as share of total demand '
 
 * ------------------------------
 * Ramp and reserve constraints
@@ -792,6 +794,15 @@ eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
 * Phase-out constraint: limits annual instantaneous power output by zone-technology-fuel combination
 eMaxGenerationByFuel(z,tech,f,q,d,t,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
    sum((gzmap(eg,z),gtechmap(eg,tech),gfmap(eg,f)), vPwrOut(eg,f,q,d,t,y)) =l= pMaxGenerationByFuel(z,tech,f,y);
+   
+* Max generation for technology as share of the total demand (alternative import constraint)
+eMaxShareGenTech(z,tech,y)$(pMaxShareGenerationByTech(z,tech,y))..
+   sum((gzmap(g,z),gtechmap(g,tech),f,q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxShareGenerationByTech(z,tech,y);
+   
+*Applies minimum generation for specific technology and fuel
+eMinGenerationByFuel(c,tech,f,y)$(pMinGenByFuel(c,tech,f,y))..
+    sum((zcmap(z,c),gtechmap(g,tech),gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =e= pMinGenByFuel(c,tech,f,y);
 
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
@@ -1236,6 +1247,8 @@ Model PA /
    eVREProfile
    eFuelLimit
    eMaxGenerationByFuel
+   eMinGenerationByFuel
+   eMaxShareGenTech
    eCapitalConstraint
    eZonalEmissions
    eEmissionsCountry

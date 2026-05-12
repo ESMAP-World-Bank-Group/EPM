@@ -305,7 +305,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
 
             # Years to plot: first, last, plus 2030/2040 if available
             years_to_plot = {years_available[0], years_available[-1]} if len(years_available) > 1 else {years_available[0]}
-            for milestone_year in [2030, 2040]:
+            for milestone_year in [2030, 2035, 2040]:
                 if milestone_year in years_available:
                     years_to_plot.add(milestone_year)
             years_to_plot = sorted(years_to_plot)
