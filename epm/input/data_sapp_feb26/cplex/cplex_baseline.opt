@@ -12,4 +12,4 @@ threads 16
 predual -1
 memoryemphasis 1
 nodefileind 3
-workmem 32768
+workmem 65536
