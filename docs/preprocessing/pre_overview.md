@@ -6,18 +6,39 @@ Building an EPM model follows four phases — structural decisions, skeleton, co
 
 ## Overview
 
-```mermaid
-flowchart LR
-    P0["Phase 0\nStructural decisions\nZones · Time · Horizon · Tech"]
-    P1["Phase 1\nSkeleton\nDimension CSVs + first EPM run"]
-    P2["Phase 2\nCountry data\nDemand → Supply → VRE → Hydro → CAPEX"]
-    P3["Phase 3\nRegional & scenarios\nTransmission · Trade · Variants"]
+<div style="display: flex; align-items: stretch; margin: 1.5rem 0; gap: 0.5rem;">
 
-    P0 --> P1 --> P2 --> P3
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 0</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Structural decisions</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Zones · Time slices<br>Horizon · Tech set</div>
+  </div>
 
-    classDef phase fill:#FEF3C7,stroke:#D97706,color:#1a1a1a
-    class P0,P1,P2,P3 phase
-```
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
+
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 1</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Skeleton</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Dimension CSVs<br>First EPM run</div>
+  </div>
+
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
+
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 2</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Country data</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Demand · Supply · VRE<br>Hydro · CAPEX</div>
+  </div>
+
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
+
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 3</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Regional & scenarios</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Transmission · Trade<br>Scenario variants</div>
+  </div>
+
+</div>
 
 ---
 
@@ -25,9 +46,7 @@ flowchart LR
 
 These four decisions must be locked in before any data collection. They shape the dimensions of almost every CSV.
 
----
-
-**Zones**
+#### Zones
 
 How many zones, and which ones. Drives the `z` dimension of nearly every CSV.
 
@@ -40,9 +59,7 @@ Drivers for more zones: official bidding zones, documented grid congestion, RE c
 | [gridflow (ESMAP)](https://github.com/ESMAP-World-Bank-Group/gridflow) | Partitions a region into N zones using population, load, and RE rasters |
 | [PyPSA-Eur clustering](https://github.com/PyPSA/PyPSA-Eur) | Partitions using OSM substations weighted by load — best for regions with good OSM/ENTSO-E coverage |
 
----
-
-**Representative time-slices**
+#### Representative time-slices
 
 Number of representative days, hourly resolution, extreme days. Drives `pHours.csv` and every hourly profile shape.
 
@@ -53,17 +70,13 @@ Number of representative days, hourly resolution, extreme days. Drives `pHours.c
 | Maximum | Beyond 24–30 days, investment decisions rarely change |
 | Validation | NRMSE on load duration curve < 3% · NRMSE on RE curves < 5% |
 
-This is decided here but computed in Phase 1 once time series are available. The tool is integrated in the repo — see the Snakemake pipeline in Phase 1.
+This is decided here but computed in Phase 1 once time series are available — the tool is integrated in the repo.
 
----
-
-**Planning horizon**
+#### Planning horizon
 
 Drives `y.csv`. Base year: most recent year with complete data (typically 1–2 years before study start). Planning years: every 5 years is standard (2030, 2035, 2040, 2045, 2050). End year: 2050 for carbon neutrality studies.
 
----
-
-**Technology set**
+#### Technology set
 
 Drives `tech.csv`, `fuel.csv`, `pTechFuel.csv`. Use the same set across all countries — country-specific availability is controlled via max capacity = 0, not a different tech list. Include candidate technologies (offshore wind, green hydrogen) even if not yet deployed. Avoid editing the list after Phase 1: it propagates through many CSVs.
 
@@ -82,48 +95,28 @@ Fill the CSVs that depend only on Phase 0 decisions, then run EPM with dummy dat
 | 5 | `pSettings.csv` | VOLL, discount rate, features | Copy from `data_test` |
 | 6 | `pHours.csv` | Representative hours + weights | Snakemake pipeline ↓ |
 
-### The Snakemake pipeline
+#### The Snakemake pipeline
 
-`pHours.csv` and the associated hourly profiles are generated by the pipeline in `pre-analysis/`. Configure it once, run it, and copy the outputs to the study folder.
+`pHours.csv` and the associated hourly profiles are generated by the pipeline in `pre-analysis/`. Configure it once, run it, and the EPM-ready files land in `output_workflow/epm_export/`.
 
 ```mermaid
-flowchart TD
-    CFG["open_data_config.yaml\nCountries · years · modules enabled"]
+flowchart LR
+    CFG(["open_data_config.yaml"])
+    CL["ERA5 climate\nclimate_pipeline.py"]
+    VR["VRE profiles\nvre_pipeline.py"]
+    LD["Load profiles\nload_pipeline.py"]
+    GM["Generation fleet\ngenerators_pipeline.py"]
+    RD["Representative days\nPoncelet MILP"]
+    OUT(["epm_export/\npHours · pVREProfile\npDemandProfile · pGenDataInput"])
 
-    subgraph PIPE["pre-analysis/ — Snakemake"]
-        direction LR
-        CL["climate_pipeline.py\nERA5-Land monthly\ntemperature · precipitation"]
-        VR["vre_pipeline.py\nRenewables.ninja API + IRENA\nraw VRE time series"]
-        LD["load_pipeline.py\nToktarova 2019\nmodelled load profiles"]
-        GM["generators_pipeline.py\nGlobal Energy Monitor\npGenDataInput draft + map"]
-        RD["representative_days\nPoncelet MILP via GAMS"]
-    end
+    CFG --> CL & VR & LD & GM
+    VR & LD --> RD
+    CL -.-> RD
+    RD & GM --> OUT
 
-    subgraph OUT["output_workflow/epm_export/"]
-        PH["pHours.csv"]
-        PV["pVREProfile.csv"]
-        PD["pDemandProfile.csv"]
-        PG["pGenDataInput_gap.csv"]
-    end
-
-    EPM["epm/input/data_region/"]
-
-    CFG --> PIPE
-    VR --> RD
-    LD --> RD
-    CL -.->|informs seasons| RD
-    RD --> PH & PV & PD
-    GM --> PG
-    OUT --> EPM
-
-    classDef pipe fill:#FEF3C7,stroke:#D97706,color:#1a1a1a
-    classDef out fill:#FEF3C7,stroke:#D97706,color:#1a1a1a
-    classDef epm fill:#1b3a5c,color:#fff,stroke:#1b3a5c
-    classDef cfg fill:#fff,stroke:#D97706,color:#1a1a1a
-    class CL,VR,LD,GM,RD pipe
-    class PH,PV,PD,PG out
-    class EPM epm
-    class CFG cfg
+    classDef default fill:#FFFBF0,stroke:#D97706,color:#333333
+    classDef out fill:#F0F4F8,stroke:#4A6FA5,color:#1a1a1a
+    class OUT out
 ```
 
 **Setup:**
@@ -132,20 +125,18 @@ flowchart TD
 conda env create -f pre-analysis/open_data_env.yml -n epm-open-data
 conda activate epm-open-data
 
-# API keys (both free)
+# API keys — both free accounts
 cp pre-analysis/config/api_tokens.example.ini pre-analysis/config/api_tokens.ini
-# → renewables.ninja token:  renewables.ninja/profile
-# → CDS API key:             cds.climate.copernicus.eu
+# renewables.ninja token  →  renewables.ninja/profile
+# CDS API key             →  cds.climate.copernicus.eu
 ```
 
-**Configure** `pre-analysis/config/open_data_config.yaml` — set countries, years, and number of representative days. Then run:
+Configure `pre-analysis/config/open_data_config.yaml` (countries, years, number of representative days), then run:
 
 ```bash
 cd pre-analysis
 snakemake --snakefile Snakefile --cores 4
 ```
-
-Outputs land in `output_workflow/`. Copy `epm_export/` files to your study folder.
 
 **End-of-Phase-1 test** — fill all remaining CSVs with dummy zeros, then:
 
@@ -153,7 +144,7 @@ Outputs land in `output_workflow/`. Copy `epm_export/` files to your study folde
 python epm.py --folder_input data_<region> --diagnostic
 ```
 
-The model must complete without errors. Failures here are structural, not data quality issues.
+The model must complete without errors. Failures here are structural issues, not data quality problems.
 
 ---
 
@@ -174,15 +165,12 @@ flowchart LR
 
     D --> S --> V --> H --> C --> R
 
-    classDef step fill:#FEF3C7,stroke:#D97706,color:#1a1a1a
-    classDef epm fill:#1b3a5c,color:#fff,stroke:#1b3a5c
-    class D,S,V,H,C step
-    class R epm
+    classDef default fill:#FFFBF0,stroke:#D97706,color:#333333
+    classDef run fill:#F0F4F8,stroke:#4A6FA5,color:#1a1a1a
+    class R run
 ```
 
----
-
-**1. Demand**
+#### 1. Demand
 
 | CSV | Content | Source |
 |---|---|---|
@@ -191,9 +179,7 @@ flowchart LR
 
 `pDemandForecast` is always manual — no open database provides consistent country-level forecasts at the required granularity.
 
----
-
-**2. Supply fleet**
+#### 2. Supply fleet
 
 | CSV | Content | Source |
 |---|---|---|
@@ -201,21 +187,17 @@ flowchart LR
 | `pFuelPrice` | Fuel cost per zone/year | [IEA WEO](https://www.iea.org/data-and-statistics/) · [World Bank Commodity Forecasts](https://www.worldbank.org/en/research/commodity-markets) — manual |
 | `pAvailabilityCustom` | Plant-level availability overrides | Start from `pAvailabilityDefault.csv`; add rows only for plants that deviate |
 
----
-
-**3. VRE profiles**
+#### 3. VRE profiles
 
 | CSV | Content | Source |
 |---|---|---|
 | `pVREProfile` | Hourly capacity factors per zone/tech (representative days) | Snakemake `vre_pipeline.py` → Renewables.ninja API + IRENA MSR, fed through the representative days optimizer |
 
-The pipeline chains this automatically: raw VRE time series → Poncelet optimizer → `pVREProfile.csv` ready for EPM.
+The pipeline chains this automatically: raw VRE time series → Poncelet optimizer → `pVREProfile.csv`.
 
----
+#### 4. Hydro and storage
 
-**4. Hydro and storage**
-
-Hydropower availability cannot be automated — it requires matching plant locations to river discharge observations. The hydro notebooks in `pre-analysis/notebooks/` handle this and must be run manually in order:
+Hydropower availability cannot be automated — it requires matching plant locations to river discharge observations. The hydro notebooks in `pre-analysis/notebooks/` must be run manually in order:
 
 1. `hydro_inflow.ipynb` — loads GRDC river discharge, links to HydroRIVERS + plant locations, exports cleaned inflow profiles
 2. `hydro_basins.ipynb` — visualizes catchment polygons to verify which GRDC stations link to which plants
@@ -233,9 +215,7 @@ Data to download before running (place in `pre-analysis/dataset/`):
 
 Outputs: `pAvailabilityCustom.csv` (reservoir monthly factors) and `pVREgenProfile.csv` (run-of-river profiles).
 
----
-
-**5. CAPEX trajectories**
+#### 5. CAPEX trajectories
 
 | CSV | Content | Source |
 |---|---|---|
@@ -247,9 +227,7 @@ CAPEX is typically regional rather than country-specific — one table can cover
 
 ## Phase 3 — Regional layer and scenarios
 
-**Transmission and trade**
-
-Add the interconnection layer once all countries are filled:
+#### Transmission and trade
 
 | CSV | Content | Source |
 |---|---|---|
@@ -258,7 +236,7 @@ Add the interconnection layer once all countries are filled:
 | `pExtTransferLimit` | Capacities to/from external zones | Same |
 | `pLossesTransmission` | Line losses per link | Utility data, or ~2–3% as default |
 
-**Scenarios**
+#### Scenarios
 
 Scenarios overlay variant CSVs on top of the reference deployment — keep the reference clean.
 
@@ -285,6 +263,6 @@ See [Input Setup](../input/input_setup.md) for the full `scenarios.csv` syntax.
 
 - **Supply before demand.** Sizing generation before knowing the load means a fleet that doesn't match — everything has to be redone.
 - **Skipping the Phase 1 dummy run.** Fill 15 CSVs, run EPM, get 40 tangled errors. Test the structure with dummy zeros first.
-- **Trusting GEM data as-is.** The `pGenDataInput_gap.csv` from the pipeline is a draft. Always cross-check against utility data.
+- **Trusting GEM data as-is.** The pipeline's `pGenDataInput_gap.csv` is a draft — always cross-check against utility data.
 - **Scenarios during collection.** Keep the reference deployment clean. Scenarios are variants applied on top, last.
 - **Re-zoning mid-project.** Changing zonation mid-collection cascades through every CSV in the model.
