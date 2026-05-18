@@ -23,7 +23,7 @@
     
     
       
-        <title>Data Preparation Workflow Documentation - EPM — Electricity Planning Model</title>
+        <title>Snakemake Pipeline Reference - EPM — Electricity Planning Model</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#data-preparation-workflow-documentation" class="md-skip">
+        <a href="#snakemake-pipeline-reference" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Data Preparation Workflow Documentation
+              Snakemake Pipeline Reference
             
           </span>
         </div>
@@ -1786,10 +1786,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#summary-table" class="md-nav__link">
+  <a href="#what-the-pipeline-covers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Summary Table
+        What the pipeline covers
       
     </span>
   </a>
@@ -1797,10 +1797,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-define-perimeter-countrieszones" class="md-nav__link">
+  <a href="#repository-layout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Define Perimeter Countries/Zones
+        Repository layout
       
     </span>
   </a>
@@ -1808,10 +1808,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-run-the-climatic-overview-pre-analysisprepare-dataclimatic_overviewipynb" class="md-nav__link">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Run the Climatic Overview (pre-analysis/prepare-data/climatic_overview.ipynb)
+        Setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-conda-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Conda environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. API keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-manual-data-downloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Manual data downloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-open_data_configyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration — open_data_config.yaml
       
     </span>
   </a>
@@ -1819,10 +1869,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-refresh-renewable-resource-data-open-data-stage" class="md-nav__link">
+  <a href="#running" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Refresh Renewable Resource Data (open-data stage)
+        Running
       
     </span>
   </a>
@@ -1830,54 +1880,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-build-demand-profiles-load_profile_treatmentipynb-load_profileipynb-load_plotipynb" class="md-nav__link">
+  <a href="#pipeline-outputs-epm-inputs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Build Demand Profiles (load_profile_treatment.ipynb, load_profile.ipynb, load_plot.ipynb)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-generate-representative-days-pre-analysisprepare-datarepresentative_daysrepresentative_daysipynb" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Generate Representative Days (pre-analysis/prepare-data/representative_days/representative_days.ipynb)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-hydropower-preparation-hydro_availabilityipynb-helpers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Hydropower Preparation (hydro_availability.ipynb + helpers)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-supply-vs-demand-balance-pre-analysisprepare-datasupply_demand_balanceipynb" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Supply vs Demand Balance (pre-analysis/prepare-data/supply_demand_balance.ipynb)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
+        Pipeline outputs → EPM inputs
       
     </span>
   </a>
@@ -1904,141 +1910,230 @@
   
 
 
-<h1 id="data-preparation-workflow-documentation">Data Preparation Workflow Documentation<a class="headerlink" href="#data-preparation-workflow-documentation" title="Permanent link">&para;</a></h1>
-<p>Use this guide to run the <strong>pre-analysis</strong> notebooks in the right order and generate EPM-ready inputs. The primary workflows now live inside <code>pre-analysis/prepare-data/</code>, while <code>pre-analysis/open-data/</code> remains available whenever you need to refresh the underlying renewable or hydro datasets.</p>
+<h1 id="snakemake-pipeline-reference">Snakemake Pipeline Reference<a class="headerlink" href="#snakemake-pipeline-reference" title="Permanent link">&para;</a></h1>
+<p>The <code>pre-analysis/</code> Snakemake pipeline automates the data collection steps that have open, programmatic sources. This page is a technical reference for configuring and running it. For the full data preparation workflow including manual steps, see <a href="../pre_overview/">Data Preparation</a>.</p>
 <hr />
-<h2 id="summary-table">Summary Table<a class="headerlink" href="#summary-table" title="Permanent link">&para;</a></h2>
+<h2 id="what-the-pipeline-covers">What the pipeline covers<a class="headerlink" href="#what-the-pipeline-covers" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    subgraph IN["Inputs (pre-analysis/dataset/)"]
+        I1["Global-Integrated-Power-*.xlsx\n(Global Energy Monitor)"]
+        I2["SolarPV / Wind IRENA CSVs"]
+        I3["Toktarova2019_*.csv\n(load profiles)"]
+        I4["ERA5-Land via CDS API\n(auto-download)"]
+        I5["Renewables.ninja API\n(auto-fetch)"]
+    end
+
+    subgraph PIPE["Snakemake rules"]
+        R1["generators_pipeline.py\n→ generation fleet + map"]
+        R2["vre_pipeline.py\n→ solar &amp; wind profiles"]
+        R3["load_pipeline.py\n→ modelled load profiles"]
+        R4["climate_pipeline.py\n→ ERA5 temperature &amp; precipitation"]
+        R5["representative_days/\n→ Poncelet MILP optimizer"]
+        R6["owid_energy_pipeline.py\n→ energy context plots"]
+        R7["socioeconomic_map_pipeline.py\n→ GDP &amp; population maps"]
+        R8["reporting/\n→ PDF / DOCX report"]
+    end
+
+    subgraph OUT["output_workflow/"]
+        O1["supply/\npGenDataInput_gap.csv\ngeneration_map.html"]
+        O2["vre/\nvre_rninja_*.csv\nvre_irena_*.csv"]
+        O3["load/\nload_profile_*.csv"]
+        O4["climate/\nclimate_summary.csv\nplots"]
+        O5["epm_export/  ← copy these to EPM\npHours.csv\npVREProfile.csv\npDemandProfile.csv"]
+        O6["report/\nreport.pdf · report.docx"]
+    end
+
+    I1 --&gt; R1 --&gt; O1
+    I2 --&gt; R2
+    I5 --&gt; R2
+    R2 --&gt; O2
+    I3 --&gt; R3 --&gt; O3
+    I4 --&gt; R4 --&gt; O4
+
+    O2 --&gt; R5
+    O3 --&gt; R5
+    R5 --&gt; O5
+
+    R6 --&gt; O6
+    R7 --&gt; O6
+    R8 --&gt; O6
+
+    style OUT fill:#f1f8e9,stroke:#558B2F
+    style O5 fill:#c8e6c9,stroke:#2E7D32</code></pre>
+<hr />
+<h2 id="repository-layout">Repository layout<a class="headerlink" href="#repository-layout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pre-analysis/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── Snakefile                          ← single entry point
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── snakemake_helpers.py               ← shared utilities used by Snakefile
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── open_data_env.yml                  ← conda environment
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── config/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── open_data_config.yaml          ← edit this to configure the run
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   └── api_tokens.example.ini         ← copy to api_tokens.ini, add keys
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── pipelines/
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── climate_pipeline.py
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── vre_pipeline.py
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── load_pipeline.py
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── generators_pipeline.py
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── hydro_reservoirs_pipeline.py
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── entsoe_pipeline.py
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   ├── owid_energy_pipeline.py
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│   └── socioeconomic_map_pipeline.py
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>├── representative_days/
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   ├── representativedays_pipeline.py
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   ├── representativeseasons_pipeline.py
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│   └── gams/OptimizationModelZone.gms
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>├── reporting/
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   └── report.md.j2
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>├── dataset/                           ← raw inputs (git-ignored, put files here)
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>├── output_workflow/                   ← all outputs  (git-ignored)
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>└── notebooks/                         ← ad-hoc hydro notebooks (run manually)
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    ├── hydro_inflow.ipynb
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    ├── hydro_basins.ipynb
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ├── hydro_atlas_comparison.ipynb
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    └── hydro_capacity_factors.ipynb
+</code></pre></div>
+<hr />
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
+<h3 id="1-conda-environment">1. Conda environment<a class="headerlink" href="#1-conda-environment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>pre-analysis/open_data_env.yml<span class="w"> </span>-n<span class="w"> </span>epm-open-data
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>conda<span class="w"> </span>activate<span class="w"> </span>epm-open-data
+</code></pre></div>
+<h3 id="2-api-keys">2. API keys<a class="headerlink" href="#2-api-keys" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cp<span class="w"> </span>pre-analysis/config/api_tokens.example.ini<span class="w"> </span>pre-analysis/config/api_tokens.ini
+</code></pre></div>
+<p>Edit <code>api_tokens.ini</code> and fill in:</p>
 <table>
 <thead>
 <tr>
-<th>Step</th>
-<th>Notebook(s)</th>
-<th>Key inputs</th>
-<th>Outputs / Notes</th>
+<th>Key</th>
+<th>Where to get it</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td><code>zcmap.csv</code></td>
-<td>Country/zone perimeter</td>
-<td>Defines the modeling scope consumed by every notebook.</td>
+<td><code>renewables_ninja</code></td>
+<td>Free account at <a href="https://www.renewables.ninja/profile">renewables.ninja/profile</a></td>
 </tr>
 <tr>
-<td>2</td>
-<td><code>pre-analysis/prepare-data/climatic_overview.ipynb</code></td>
-<td><code>zcmap.csv</code>, ERA5-Land data</td>
-<td>Season definitions, precipitation/temperature plots, CSV summaries.</td>
-</tr>
-<tr>
-<td>3</td>
-<td><code>pre-analysis/open-data/get_renewables_irena_data.ipynb</code> or <code>get_renewable_ninja_data.ipynb</code></td>
-<td>SPLAT names or coordinates, API keys</td>
-<td>Fresh wind/solar capacity factors when you need to refresh raw inputs before re-running prepare-data notebooks.</td>
-</tr>
-<tr>
-<td>4</td>
-<td><code>pre-analysis/prepare-data/load_profile_treatment.ipynb</code> → <code>load_profile.ipynb</code></td>
-<td>Historical load measurements, monthly means</td>
-<td>Cleaned load history plus synthetic/forecast hourly load profiles.</td>
-</tr>
-<tr>
-<td>4b</td>
-<td><code>pre-analysis/prepare-data/load_plot.ipynb</code></td>
-<td>Outputs from step 4</td>
-<td>Shareable demand plots for QA/stakeholder review.</td>
-</tr>
-<tr>
-<td>5</td>
-<td><code>pre-analysis/prepare-data/representative_days/representative_days.ipynb</code></td>
-<td>Climate outputs (step 2), load profiles (step 4), renewables</td>
-<td><code>pHours.csv</code>, <code>load/pDemandProfile.csv</code>, <code>supply/pVREProfile.csv</code>.</td>
-</tr>
-<tr>
-<td>6</td>
-<td><code>pre-analysis/prepare-data/hydro_availability.ipynb</code> (+ <code>hydro_representative_years.ipynb</code> if sampling years)</td>
-<td>Hydropower profiles/Atlas tables, <code>pHours.csv</code>, <code>pGenDataInput_clean.csv</code></td>
-<td><code>pAvailabilityCustom.csv</code>, ROR <code>pVREgenProfile.csv</code>, optional scenario variants.</td>
-</tr>
-<tr>
-<td>7</td>
-<td><code>pre-analysis/prepare-data/supply_demand_balance.ipynb</code></td>
-<td>Demand, renewables, hydro availability, generation fleet</td>
-<td>Balance dashboards ensuring supply meets demand before launching GAMS runs.</td>
+<td>CDS API key</td>
+<td>Free account at <a href="https://cds.climate.copernicus.eu">cds.climate.copernicus.eu</a> — needed only if <code>climate_overview.download: true</code></td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><strong>Tip:</strong> open-data notebooks such as <code>hydro_inflow.ipynb</code>, <code>hydro_basins.ipynb</code>, and <code>get_generation_maps.ipynb</code> are your toolkit for refreshing the raw datasets that feed the prepare-data workflows above.</p>
-</blockquote>
+<h3 id="3-manual-data-downloads">3. Manual data downloads<a class="headerlink" href="#3-manual-data-downloads" title="Permanent link">&para;</a></h3>
+<p>Place these files in <code>pre-analysis/dataset/</code> before running:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Global-Integrated-Power-&lt;date&gt;.xlsx</code></td>
+<td><a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/">Global Energy Monitor</a></td>
+</tr>
+<tr>
+<td><code>SolarPV_BestMSRsToCover5%CountryArea.csv</code></td>
+<td><a href="https://www.irena.org/publications">IRENA MSR portal</a></td>
+</tr>
+<tr>
+<td><code>Wind_BestMSRsToCover5%CountryArea.csv</code></td>
+<td><a href="https://www.irena.org/publications">IRENA MSR portal</a></td>
+</tr>
+<tr>
+<td><code>Toktarova2019_...csv</code></td>
+<td><a href="https://doi.org/10.1016/j.ijepes.2019.105476">Paper supplement</a></td>
+</tr>
+</tbody>
+</table>
+<p>The pipeline validates all required files before running and prints clear instructions if any are missing.</p>
 <hr />
-<h2 id="1-define-perimeter-countrieszones">1. Define Perimeter Countries/Zones<a class="headerlink" href="#1-define-perimeter-countrieszones" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Populate <code>zcmap.csv</code> in the repo root with the countries or zones that match your study.</li>
-<li>Use consistent SPLAT/EPM names because these IDs drive joins in both <code>prepare-data</code> and <code>open-data</code>.</li>
-</ul>
+<h2 id="configuration-open_data_configyaml">Configuration — <code>open_data_config.yaml</code><a class="headerlink" href="#configuration-open_data_configyaml" title="Permanent link">&para;</a></h2>
+<p>All pipeline behaviour is controlled by a single YAML file. Key sections:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Declare countries once, reuse everywhere</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">countries_common</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;countries_common</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Senegal</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guinea</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Generation fleet from Global Energy Monitor</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nt">gap</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="nt">excel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global-Integrated-Power-April-2025.xlsx</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="nt">countries</span><span class="p">:</span><span class="w"> </span><span class="nv">*countries_common</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="nt">tech_types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">solar</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">wind</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># ERA5 climate data</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nt">climate_overview</span><span class="p">:</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="nt">countries</span><span class="p">:</span><span class="w"> </span><span class="nv">*countries_common</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="nt">start_year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2015</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="nt">end_year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2023</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c1"># VRE profiles via Renewables.ninja</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="nt">rninja</span><span class="p">:</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">  </span><span class="nt">start_year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2015</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">  </span><span class="nt">end_year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2020</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="c1"># VRE profiles via IRENA MSR</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="nt">irena</span><span class="p">:</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">  </span><span class="nt">countries</span><span class="p">:</span><span class="w"> </span><span class="nv">*countries_common</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="c1"># Modelled load profiles (Toktarova 2019)</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="nt">load_profile</span><span class="p">:</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">  </span><span class="nt">countries</span><span class="p">:</span><span class="w"> </span><span class="nv">*countries_common</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2020</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="c1"># Season clustering (monthly → season labels)</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="nt">representative_seasons</span><span class="p">:</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">  </span><span class="nt">K</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">           </span><span class="c1"># number of seasons</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="c1"># Representative days (Poncelet MILP)</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="nt">representative_days</span><span class="p">:</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">  </span><span class="nt">n_representative_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12</span><span class="w">   </span><span class="c1"># adjust based on Phase 0 decision</span>
+</code></pre></div>
+<p>Enable or disable each module independently with its <code>enabled:</code> flag. Disabled modules are skipped entirely — useful when you already have data for a particular input.</p>
 <hr />
-<h2 id="2-run-the-climatic-overview-pre-analysisprepare-dataclimatic_overviewipynb">2. Run the Climatic Overview (<code>pre-analysis/prepare-data/climatic_overview.ipynb</code>)<a class="headerlink" href="#2-run-the-climatic-overview-pre-analysisprepare-dataclimatic_overviewipynb" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Objective: quantify precipitation and temperature regimes so you can justify representative seasons or years.</li>
-<li>Inputs: zone list from <code>zcmap.csv</code>, ERA5-Land downloads placed in <code>pre-analysis/prepare-data/input/</code>.</li>
-<li>Outputs: plots (available under <code>pre-analysis/prepare-data/output/</code>) and summary CSVs that downstream notebooks read.</li>
-</ul>
-<p><img alt="Temperature &amp; Precipitation" src="dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.png" />
-<img alt="Monthly Precipitation" src="dwld/pre-analysis/monthly_precipitation_heatmap.png" /></p>
+<h2 id="running">Running<a class="headerlink" href="#running" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>conda<span class="w"> </span>activate<span class="w"> </span>epm-open-data
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>pre-analysis
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Full pipeline</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>--cores<span class="w"> </span><span class="m">4</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Dry run (shows what would run without executing)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>--cores<span class="w"> </span><span class="m">4</span><span class="w"> </span>--dry-run
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Specific target only</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>output_workflow/epm_export/pHours.csv<span class="w"> </span>--cores<span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Force re-run of a specific rule</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>--cores<span class="w"> </span><span class="m">4</span><span class="w"> </span>--forcerun<span class="w"> </span>representative_days
+</code></pre></div>
+<p>Outputs land in <code>output_workflow/</code>. The pipeline also generates a PDF and DOCX report (<code>output_workflow/report/</code>) summarising what was collected, with provenance and QA plots — useful as a data annex for the study.</p>
 <hr />
-<h2 id="3-refresh-renewable-resource-data-open-data-stage">3. Refresh Renewable Resource Data (open-data stage)<a class="headerlink" href="#3-refresh-renewable-resource-data-open-data-stage" title="Permanent link">&para;</a></h2>
-<p>When base-year renewable profiles are outdated, switch to <code>pre-analysis/open-data/</code>:</p>
-<ul>
-<li><strong>IRENA route</strong> — <code>get_renewables_irena_data.ipynb</code></li>
-<li>Inputs: list of SPLAT zones plus the IRENA workbook.</li>
-<li>Output format: <code>zone, season, day, hour, &lt;climatic_year&gt;</code> hourly capacity factors.</li>
-<li><strong>Renewable Ninja route</strong> — <code>get_renewable_ninja_data.ipynb</code></li>
-<li>Requires coordinates from <code>get_renewables_coordinate.ipynb</code>.</li>
-<li>Useful for scenario-specific solar/wind traces.</li>
-</ul>
-<p>Save the resulting CSVs under <code>pre-analysis/prepare-data/input/</code> before moving on. You can also use <code>get_generation_maps.ipynb</code> for quick QA plots of the generation fleet.</p>
-<hr />
-<h2 id="4-build-demand-profiles-load_profile_treatmentipynb-load_profileipynb-load_plotipynb">4. Build Demand Profiles (<code>load_profile_treatment.ipynb</code>, <code>load_profile.ipynb</code>, <code>load_plot.ipynb</code>)<a class="headerlink" href="#4-build-demand-profiles-load_profile_treatmentipynb-load_profileipynb-load_plotipynb" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>Treat historical data</strong> — run <code>load_profile_treatment.ipynb</code> to clean utility load logs (remove spikes, fill gaps).  </li>
-<li><strong>Generate the hourly profile</strong> — run <code>load_profile.ipynb</code> to blend treated history with monthly targets or growth assumptions.  </li>
-<li><strong>Plot for QA</strong> — use <code>load_plot.ipynb</code> to export PNG/HTML charts for stakeholder review.</li>
-</ol>
-<p>Deliverables: smoothed historical load, modeled hourly demand, and plots placed in <code>pre-analysis/prepare-data/output/</code>.</p>
-<hr />
-<h2 id="5-generate-representative-days-pre-analysisprepare-datarepresentative_daysrepresentative_daysipynb">5. Generate Representative Days (<code>pre-analysis/prepare-data/representative_days/representative_days.ipynb</code>)<a class="headerlink" href="#5-generate-representative-days-pre-analysisprepare-datarepresentative_daysrepresentative_daysipynb" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Inputs: load profiles from step 4, renewable capacity-factor tables (step 3), climate summaries (step 2).</li>
-<li>Process: cluster the full-year time series into a manageable subset of days while preserving seasonal statistics.</li>
-<li>Outputs ready for EPM:</li>
-<li><code>epm/input/data_capp/pHours.csv</code></li>
-<li><code>epm/input/data_capp/load/pDemandProfile.csv</code></li>
-<li><code>epm/input/data_capp/supply/pVREProfile.csv</code></li>
-</ul>
-<hr />
-<h2 id="6-hydropower-preparation-hydro_availabilityipynb-helpers">6. Hydropower Preparation (<code>hydro_availability.ipynb</code> + helpers)<a class="headerlink" href="#6-hydropower-preparation-hydro_availabilityipynb-helpers" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>hydro_availability.ipynb</code> ingests monthly hydro profiles or Atlas curves and exports:</li>
-<li><code>pAvailabilityCustom.csv</code> for reservoirs.</li>
-<li>Run-of-river <code>pVREgenProfile.csv</code>.</li>
-<li><code>hydro_representative_years.ipynb</code> (optional) samples wet/baseline/dry years before feeding them into <code>hydro_availability.ipynb</code>.</li>
-<li>Need new inflow data or basin checks? Use the open-data notebooks (<code>hydro_inflow.ipynb</code>, <code>hydro_basins.ipynb</code>, <code>hydro_atlas_comparison.ipynb</code>) to regenerate the raw profiles, then drop the outputs back into <code>prepare-data/input/</code>.</li>
-</ul>
-<hr />
-<h2 id="7-supply-vs-demand-balance-pre-analysisprepare-datasupply_demand_balanceipynb">7. Supply vs Demand Balance (<code>pre-analysis/prepare-data/supply_demand_balance.ipynb</code>)<a class="headerlink" href="#7-supply-vs-demand-balance-pre-analysisprepare-datasupply_demand_balanceipynb" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Objective: confirm that the cleaned generation fleet, renewable additions, and hydro schedules cover the demand from step 4.</li>
-<li>Inputs: <code>pGenDataInput_clean.csv</code>, demand/renewable outputs, hydro availability, <code>pHours</code>.</li>
-<li>Outputs: deficit tables, stacked supply-demand plots, and sanity checks prior to running <code>epm/main.gms</code>.</li>
-</ul>
-<hr />
-<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Keep naming conventions consistent across demand, renewable, and hydro files (zone, technology, scenario).</li>
-<li>Store raw downloads in <code>pre-analysis/open-data/input/</code> or <code>pre-analysis/prepare-data/input/</code> and only copy vetted CSVs into <code>epm/input</code>.</li>
-<li>Whenever you introduce a new data vintage, rerun the balance notebook (step 7) before executing the GAMS model.</li>
-</ul>
+<h2 id="pipeline-outputs-epm-inputs">Pipeline outputs → EPM inputs<a class="headerlink" href="#pipeline-outputs-epm-inputs" title="Permanent link">&para;</a></h2>
+<p>Once the pipeline completes, copy validated files to the study folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Time representation</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cp<span class="w"> </span>output_workflow/epm_export/pHours.csv<span class="w">           </span>../epm/input/data_&lt;region&gt;/config/
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Hourly profiles (representative days)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>cp<span class="w"> </span>output_workflow/epm_export/pVREProfile.csv<span class="w">       </span>../epm/input/data_&lt;region&gt;/supply/
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>cp<span class="w"> </span>output_workflow/epm_export/pDemandProfile.csv<span class="w">    </span>../epm/input/data_&lt;region&gt;/load/
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Generation fleet draft — review before use</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>cp<span class="w"> </span>output_workflow/epm_export/pGenDataInput_gap.csv<span class="w"> </span>../epm/input/data_&lt;region&gt;/supply/
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Always review <code>pGenDataInput_gap.csv</code></p>
+<p>The GEM dataset is a good starting point but typically needs corrections: recent retirements, sub-national plant locations, commissioning dates, and fuel type assignments. Cross-check against utility data before using it in EPM.</p>
+</div>
+<p>After copying, validate the full input folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>conda<span class="w"> </span>activate<span class="w"> </span>esmap_env
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_&lt;region&gt;<span class="w"> </span>--diagnostic
+</code></pre></div>
 
 
 
