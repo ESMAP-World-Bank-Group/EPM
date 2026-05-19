@@ -10,8 +10,8 @@ import json
 import sys
 from pathlib import Path
 
-# Match the same tolerance used in countries_10m.geojson so zone borders align with land layer
-_SIMPLIFY_TOL = 0.01
+# Internal zone borders only — outer boundary comes from clip_geom which is already simplified
+_INTERNAL_SIMPLIFY_TOL = 0.001
 
 _BASE   = Path(__file__).resolve().parent   # pre-analysis/
 _REPO   = _BASE.parent                       # EPM root  (…/black_sea_2026/EPM)
@@ -29,7 +29,7 @@ BSC_COUNTRIES = ["TUR", "ARM", "GEO", "AZE", "ROU", "BGR"]  # noqa: kept for ref
 
 def export_zones():
     import geopandas as gpd
-    from shapely.ops import unary_union
+    from shapely.ops import unary_union, snap as shapely_snap
 
     ZONES_OUT.mkdir(parents=True, exist_ok=True)
 
@@ -59,13 +59,18 @@ def export_zones():
             label = f"{iso}_{n}z"
             src_dir = Path(run["path"]) / "epm_export" / "spatial"
 
-            # zones.geojson — clip to reference country boundary then simplify
+            # zones.geojson — clip → simplify internal borders → snap outer boundary back
+            # snap tolerance slightly above simplify tolerance to restore any shifted outer vertices
             zones_src = src_dir / "zones.geojson"
             if zones_src.exists():
                 gdf = gpd.read_file(zones_src)
                 if clip_geom is not None:
                     gdf = gdf.clip(clip_geom)
-                gdf["geometry"] = gdf["geometry"].simplify(_SIMPLIFY_TOL, preserve_topology=True)
+                gdf["geometry"] = gdf["geometry"].simplify(_INTERNAL_SIMPLIFY_TOL, preserve_topology=True)
+                if clip_geom is not None:
+                    gdf["geometry"] = gdf["geometry"].apply(
+                        lambda g: shapely_snap(g, clip_geom, _INTERNAL_SIMPLIFY_TOL * 2)
+                    )
                 gdf.to_file(ZONES_OUT / f"{label}_zones.geojson", driver="GeoJSON")
                 print(f"  {label}_zones.geojson")
 
