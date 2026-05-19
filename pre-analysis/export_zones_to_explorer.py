@@ -57,8 +57,7 @@ def export_zones():
             label = f"{iso}_{n}z"
             src_dir = Path(run["path"]) / "epm_export" / "spatial"
 
-            # zones.geojson — clip to reference boundary only, no simplification
-            # preserves exact outer boundary match with the land layer
+            # zones.geojson + inner.geojson (shared edges only — no outer border)
             zones_src = src_dir / "zones.geojson"
             if zones_src.exists():
                 gdf = gpd.read_file(zones_src)
@@ -66,6 +65,16 @@ def export_zones():
                     gdf = gdf.clip(clip_geom)
                 gdf.to_file(ZONES_OUT / f"{label}_zones.geojson", driver="GeoJSON")
                 print(f"  {label}_zones.geojson")
+
+                # Internal borders = all zone boundaries minus the outer country boundary
+                # Buffer the outer boundary slightly to handle floating-point gaps
+                all_bounds = unary_union([g.boundary for g in gdf.geometry])
+                outer_bound = unary_union(gdf.geometry).boundary
+                inner_geom = all_bounds.difference(outer_bound.buffer(1e-6))
+                inner_lines = list(inner_geom.geoms) if hasattr(inner_geom, 'geoms') else ([inner_geom] if not inner_geom.is_empty else [])
+                inner_gdf = gpd.GeoDataFrame(geometry=inner_lines, crs=gdf.crs)
+                inner_gdf.to_file(ZONES_OUT / f"{label}_inner.geojson", driver="GeoJSON")
+                print(f"  {label}_inner.geojson  ({len(inner_lines)} edges)")
 
             # sTopology.csv -> topo.json
             topo_src = src_dir / "sTopology.csv"
