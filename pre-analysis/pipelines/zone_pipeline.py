@@ -146,6 +146,15 @@ def run_zone_pipeline(
                        cities, interzone_lines, rep_dir, log, corridors_df)
     )
 
+    # Export corridors GeoJSON to Explorer zones folder
+    _EXPLORER_ZONES = _BASE.parent.parents[1] / "epm-explorer-v2" / "public" / "data" / "zones"
+    if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
+        from .transmission_capacity import export_corridors_geojson
+        label = f"{'_'.join(countries)}_{n_zones}z"
+        corr_path = _EXPLORER_ZONES / f"{label}_corridors.geojson"
+        export_corridors_geojson(corridors_df, zones_gdf, corr_path)
+        output_paths[f"{label}_corridors.geojson"] = corr_path
+
     log("\n[zone_pipeline] Done.")
     for name, path in output_paths.items():
         log(f"  {name:<35} {path}")

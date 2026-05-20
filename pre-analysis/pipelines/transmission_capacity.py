@@ -426,3 +426,55 @@ def _effective_mw(row) -> int:
         return int(round(float(str(row.get("mw_osm", 0)))))
     except ValueError:
         return 0
+
+
+# ── GeoJSON export ────────────────────────────────────────────────────────────
+
+def export_corridors_geojson(corridors_df: pd.DataFrame, zones_gdf, output_path) -> None:
+    """
+    Write corridors as centroid-to-centroid LineString GeoJSON.
+
+    Properties per feature: zone_a, zone_b, mw, status, label.
+    Existing corridors use status='existing'; planned use 'planned' etc.
+    Skips any pair where zone centroids cannot be computed.
+    """
+    import json
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    centroids: dict[str, list] = {}
+    if zones_gdf is not None:
+        for _, row in zones_gdf.iterrows():
+            name = row["zone_name"]
+            try:
+                c = row.geometry.centroid
+                centroids[name] = [round(c.x, 5), round(c.y, 5)]
+            except Exception:
+                pass
+
+    features = []
+    for _, row in corridors_df.iterrows():
+        z1, z2 = str(row["z"]), str(row["zz"])
+        if z1 not in centroids or z2 not in centroids:
+            continue
+        mw = _effective_mw(row)
+        status = str(row.get("status", "existing")).lower()
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [centroids[z1], centroids[z2]],
+            },
+            "properties": {
+                "zone_a": z1,
+                "zone_b": z2,
+                "mw": mw,
+                "status": status,
+                "label": f"{mw:,} MW" if mw > 0 else "",
+            },
+        })
+
+    gj = {"type": "FeatureCollection", "features": features}
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(gj, f, separators=(",", ":"))

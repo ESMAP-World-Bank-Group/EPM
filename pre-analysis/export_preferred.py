@@ -31,7 +31,7 @@ sys.path.insert(0, str(_BASE / "resolution_advisor"))
 from fetch.osm import fetch_substations, fetch_hv_lines, fetch_generators
 from fetch.natural_earth import load_cities
 from pipelines.zone_pipeline import _find_interzone_lines
-from pipelines.transmission_capacity import build_corridors, _effective_mw
+from pipelines.transmission_capacity import build_corridors, _effective_mw, export_corridors_geojson
 
 _REFERENCE_LINES = _BASE / "data" / "reference_lines.csv"
 
@@ -619,6 +619,12 @@ def main():
     export_tabular(zones_gdf, zcmap_df, topo_df)
     print("\nExporting HD zones (10m-clipped, from Explorer files)...")
     export_tabular_hd(config)
+
+    # Export corridors GeoJSON to Explorer
+    if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
+        corr_path = _EXPLORER_ZONES / "blacksea_preferred_corridors.geojson"
+        export_corridors_geojson(corridors_df, zones_gdf, corr_path)
+        print(f"  corridors.geojson -> {corr_path}")
 
     print("\nGenerating HTML map...")
     make_html_map(
