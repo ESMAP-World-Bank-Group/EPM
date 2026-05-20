@@ -79,7 +79,12 @@ def run_zone_pipeline(
     n_zones: int,
     output_root: Optional[Path] = None,
     verbose: bool = True,
+    boundary_mode: str = "auto",
+    reference_lines_path: Optional[Path] = None,
 ) -> Dict[str, Path]:
+    """
+    boundary_mode: 'auto' (try admin-1, fallback Voronoi) | 'admin' | 'voronoi'
+    """
     """
     Run the full zone pipeline.
     Returns dict of output file paths.
@@ -107,10 +112,24 @@ def run_zone_pipeline(
     )
 
     # ── 3. Zone boundaries ────────────────────────────────────────────────────
-    log("[4/6] Generating zone boundaries (Voronoi + clip)...")
-    zones_gdf = _build_zone_boundaries(
-        cluster_centers, boundaries, zone_labels, point_df, countries
-    )
+    zones_gdf = None
+    if boundary_mode in ("auto", "admin"):
+        log("[4/6] Generating zone boundaries (admin-1 aggregation)...")
+        try:
+            zones_gdf = _build_zone_boundaries_admin(
+                cluster_centers, boundaries, zone_labels, point_df, countries, log
+            )
+        except Exception as e:
+            log(f"  [admin] Unexpected error: {e} — falling back to Voronoi")
+            zones_gdf = None
+
+    if zones_gdf is None:
+        if boundary_mode == "admin":
+            raise RuntimeError("Admin-1 boundary mode failed and fallback is disabled.")
+        log("[4/6] Generating zone boundaries (Voronoi)...")
+        zones_gdf = _build_zone_boundaries(
+            cluster_centers, boundaries, zone_labels, point_df, countries
+        )
 
     # ── 4. Inter-zone lines ───────────────────────────────────────────────────
     log("[5/6] Finding inter-zone lines...")
@@ -120,10 +139,11 @@ def run_zone_pipeline(
     # ── 5. Export ─────────────────────────────────────────────────────────────
     log("[6/6] Exporting EPM files and maps...")
     output_paths = {}
-    output_paths.update(_export_epm(zones_gdf, interzone_lines, countries, epm_dir))
+    epm_paths, corridors_df = _export_epm(zones_gdf, interzone_lines, countries, epm_dir, reference_lines_path)
+    output_paths.update(epm_paths)
     output_paths.update(
         _generate_maps(zones_gdf, no_plants, substations, hv_lines,
-                       cities, interzone_lines, rep_dir, log)
+                       cities, interzone_lines, rep_dir, log, corridors_df)
     )
 
     log("\n[zone_pipeline] Done.")
@@ -305,6 +325,191 @@ def _build_zone_boundaries(centers, boundaries, labels, point_df, countries):
     return gdf
 
 
+def _detect_exclave_components(countries, boundaries, admin1, n_zones, log):
+    """
+    Detect disconnected country components (exclaves like Nakhchivan).
+    Returns dict: admin1_idx -> component_id (0 = main body, 1+ = exclave).
+    Only applied for single-country runs where n_zones > number of exclaves.
+    """
+    from shapely.geometry import Point
+
+    admin_component = {i: 0 for i in range(len(admin1))}
+
+    if len(countries) != 1 or boundaries is None:
+        return admin_component
+
+    iso = countries[0]
+    country_rows = boundaries[boundaries["ISO_A3"] == iso]
+    if country_rows.empty:
+        return admin_component
+
+    try:
+        country_geom = country_rows.geometry.unary_union
+    except Exception:
+        return admin_component
+
+    if country_geom.geom_type != "MultiPolygon":
+        return admin_component
+
+    # Sort components by area desc (largest = main body = component 0)
+    components = sorted(country_geom.geoms, key=lambda g: g.area, reverse=True)
+    total_area = country_geom.area
+
+    # Only treat components < 40% of total area as exclaves (avoids splitting islands)
+    exclave_comps = [
+        (comp_id + 1, comp)
+        for comp_id, comp in enumerate(components[1:])
+        if comp.area / total_area < 0.40
+    ]
+    if not exclave_comps or n_zones <= len(exclave_comps):
+        return admin_component
+
+    log(f"  [admin] {iso}: {len(exclave_comps)} exclave(s) detected — assigning dedicated zone(s)")
+
+    for idx in range(len(admin1)):
+        centroid = admin1.loc[idx, "geometry"].centroid
+        for comp_id, comp in exclave_comps:
+            try:
+                if comp.contains(centroid) or comp.distance(centroid) < 0.3:
+                    admin_component[idx] = comp_id
+                    break
+            except Exception:
+                pass
+
+    return admin_component
+
+
+def _build_zone_boundaries_admin(centers, boundaries, labels, point_df, countries, log):
+    """
+    Build zone boundaries by aggregating admin-1 units to majority cluster.
+    Returns a zones GeoDataFrame on success, or None to signal Voronoi fallback.
+    Handles exclaves (e.g. Nakhchivan/AZE) by assigning them dedicated zones.
+    """
+    try:
+        import geopandas as gpd
+        from shapely.ops import unary_union
+        from shapely.geometry import Point
+    except ImportError as e:
+        log(f"  [admin] Missing dependency: {e} — falling back to Voronoi")
+        return None
+
+    # Load admin-1 polygons
+    try:
+        from fetch.natural_earth import load_admin1
+        admin1 = load_admin1(countries)
+    except Exception as e:
+        log(f"  [admin] Could not load admin-1: {e} — falling back to Voronoi")
+        return None
+
+    if admin1.empty:
+        log(f"  [admin] No admin-1 data for {countries} — falling back to Voronoi")
+        return None
+
+    n_zones = len(centers)
+    if len(admin1) < n_zones:
+        log(f"  [admin] Only {len(admin1)} admin-1 units for {n_zones} zones — falling back to Voronoi")
+        return None
+
+    admin1 = admin1.reset_index(drop=True)
+
+    # Detect exclaves and compute zone budget per component
+    admin_component = _detect_exclave_components(countries, boundaries, admin1, n_zones, log)
+    exclave_ids = sorted({v for v in admin_component.values() if v > 0})
+    main_budget = n_zones - len(exclave_ids)  # zones allocated to main body
+
+    # Spatial join: assign each weighted point to an admin-1 unit
+    subs_gdf = gpd.GeoDataFrame(
+        point_df[["lat", "lon", "zone_id"]].copy(),
+        geometry=gpd.points_from_xy(point_df["lon"], point_df["lat"]),
+        crs="EPSG:4326",
+    )
+    try:
+        joined = gpd.sjoin(subs_gdf, admin1[["geometry"]], how="left", predicate="within")
+    except Exception as e:
+        log(f"  [admin] Spatial join failed: {e} — falling back to Voronoi")
+        return None
+
+    # Majority vote per admin-1 unit (main body only)
+    admin_zone: dict[int, int] = {}
+    valid = joined.dropna(subset=["index_right"])
+    if not valid.empty:
+        # Only vote for main-body units
+        main_valid = valid[valid["index_right"].astype(int).map(
+            lambda i: admin_component.get(i, 0) == 0
+        )]
+        if not main_valid.empty:
+            votes = (
+                main_valid.groupby(["index_right", "zone_id"])
+                .size()
+                .reset_index(name="cnt")
+            )
+            for admin_idx, grp in votes.groupby("index_right"):
+                best_zone = int(grp.loc[grp["cnt"].idxmax(), "zone_id"])
+                admin_zone[int(admin_idx)] = best_zone
+
+    # Main body units with no points → nearest cluster center
+    centers_pts = [Point(float(c[1]), float(c[0])) for c in centers]
+    for idx in range(len(admin1)):
+        if admin_component.get(idx, 0) == 0 and idx not in admin_zone:
+            centroid = admin1.loc[idx, "geometry"].centroid
+            dists = [centroid.distance(cp) for cp in centers_pts]
+            admin_zone[idx] = int(np.argmin(dists))
+
+    # Remap main body zone_ids to 0..main_budget-1
+    if main_budget == 1:
+        for idx in range(len(admin1)):
+            if admin_component.get(idx, 0) == 0:
+                admin_zone[idx] = 0
+    else:
+        main_used = sorted({admin_zone[i] for i in range(len(admin1))
+                            if admin_component.get(i, 0) == 0 and i in admin_zone})
+        remap = {old: min(new, main_budget - 1) for new, old in enumerate(main_used)}
+        for idx in range(len(admin1)):
+            if admin_component.get(idx, 0) == 0 and idx in admin_zone:
+                admin_zone[idx] = remap.get(admin_zone[idx], 0)
+
+    # Force exclave zones: each exclave component → dedicated zone_id
+    for idx in range(len(admin1)):
+        comp = admin_component.get(idx, 0)
+        if comp > 0:
+            admin_zone[idx] = main_budget + exclave_ids.index(comp)
+
+    # Union admin-1 polygons per zone
+    zone_polys: dict[int, list] = {}
+    for admin_idx, zone_id in admin_zone.items():
+        zone_polys.setdefault(zone_id, []).append(admin1.loc[admin_idx, "geometry"])
+
+    rows = []
+    iso_counts: dict[str, int] = defaultdict(int)
+    total_zone_ids = list(range(main_budget)) + [main_budget + i for i in range(len(exclave_ids))]
+    for zone_id in total_zone_ids:
+        geoms = zone_polys.get(zone_id)
+        if not geoms:
+            continue
+        geom = unary_union(geoms)
+        if geom.is_empty:
+            continue
+        # Determine ISO from zone centroid
+        iso = (_point_to_country(geom.centroid.y, geom.centroid.x, boundaries)
+               or countries[0])
+        iso_counts[iso] += 1
+        rows.append({
+            "zone_id": zone_id,
+            "zone_name": f"{iso}_{iso_counts[iso]}",
+            "ISO_A3": iso,
+            "geometry": geom,
+        })
+
+    if not rows:
+        log("  [admin] No zones produced — falling back to Voronoi")
+        return None
+
+    result = gpd.GeoDataFrame(rows, crs="EPSG:4326")
+    exclave_note = f" (incl. {len(exclave_ids)} exclave zone(s))" if exclave_ids else ""
+    log(f"  [admin] {len(result)} zones from {len(admin1)} admin-1 units{exclave_note}")
+    return result
+
+
 def _point_to_country(lat, lon, boundaries) -> Optional[str]:
     try:
         from shapely.geometry import Point
@@ -370,7 +575,7 @@ def _point_in_zone(pt, zones_gdf) -> Optional[str]:
 
 # ── EPM export ────────────────────────────────────────────────────────────────
 
-def _export_epm(zones_gdf, interzone_lines, countries, epm_dir) -> Dict[str, Path]:
+def _export_epm(zones_gdf, interzone_lines, countries, epm_dir, reference_lines_path=None) -> Dict[str, Path]:
     paths = {}
 
     # zcmap.csv
@@ -400,40 +605,18 @@ def _export_epm(zones_gdf, interzone_lines, countries, epm_dir) -> Dict[str, Pat
     pd.DataFrame(topo_rows).to_csv(topo_path, index=False)
     paths["sTopology.csv"] = topo_path
 
-    # pTransferLimit_estimated.csv — aggregate all OSM lines per zone pair
-    transfer_path = epm_dir / "pTransferLimit_estimated.csv"
-    from collections import defaultdict
-    pair_agg: dict = defaultdict(lambda: {"mw_total": 0, "kvs": [], "n_lines": 0})
-    for line in interzone_lines:
-        pair = tuple(sorted([line["zone_from"], line["zone_to"]]))
-        v = line.get("voltage_kv", 0)
-        pair_agg[pair]["mw_total"] += _voltage_to_mw_proxy(v)
-        pair_agg[pair]["kvs"].append(v)
-        pair_agg[pair]["n_lines"] += 1
+    # corridors.csv + pTransferLimit_estimated.csv + pNewTransmission_estimated.csv
+    from .transmission_capacity import build_corridors, save_corridors, export_epm_csvs
 
-    transfer_rows = []
-    for pair, data in pair_agg.items():
-        kvs_unique = sorted({v for v in data["kvs"] if v > 0}, reverse=True)
-        kv_str = " + ".join(f"{v} kV" for v in kvs_unique) if kvs_unique else "unknown kV"
-        for year in [2025, 2030, 2035, 2040, 2045, 2050]:
-            transfer_rows.append({
-                "z": pair[0],
-                "zz": pair[1],
-                "y": year,
-                "pTransferLimit": data["mw_total"],
-                "voltage_kv": kv_str,
-                "n_osm_lines": data["n_lines"],
-                "note": "⚠ VERY APPROXIMATE — OSM line count × voltage proxy (400kV≈2000MW, 220kV≈1000MW, 150kV≈600MW, 110kV≈400MW) — validate against TSO data",
-            })
-    if transfer_rows:
-        pd.DataFrame(transfer_rows).to_csv(transfer_path, index=False)
-    else:
-        pd.DataFrame(columns=["z", "zz", "y", "pTransferLimit", "voltage_kv", "n_osm_lines", "note"]).to_csv(
-            transfer_path, index=False
-        )
-    paths["pTransferLimit_estimated.csv"] = transfer_path
+    corridors_path = epm_dir / "corridors.csv"
+    corridors_df = build_corridors(interzone_lines, zones_gdf, reference_lines_path)
+    save_corridors(corridors_df, corridors_path)
+    paths["corridors.csv"] = corridors_path
 
-    return paths
+    epm_paths = export_epm_csvs(corridors_df, epm_dir)
+    paths.update(epm_paths)
+
+    return paths, corridors_df
 
 
 def _adjacent_zone_pairs(zones_gdf) -> list[dict]:
@@ -472,7 +655,7 @@ def _voltage_to_mw_proxy(voltage_kv: int) -> int:
 # ── map generation ────────────────────────────────────────────────────────────
 
 def _generate_maps(zones_gdf, plants, substations, hv_lines, cities,
-                   interzone_lines, rep_dir, log) -> Dict[str, Path]:
+                   interzone_lines, rep_dir, log, corridors_df=None) -> Dict[str, Path]:
     paths = {}
     try:
         import folium
@@ -499,7 +682,7 @@ def _generate_maps(zones_gdf, plants, substations, hv_lines, cities,
 
         # Simplified map
         p = rep_dir / "zone_map_simplified.html"
-        _map_simplified(zones_gdf, cities, interzone_lines, p, folium)
+        _map_simplified(zones_gdf, cities, interzone_lines, p, folium, corridors_df)
         paths["zone_map_simplified.html"] = p
         log(f"  zone_map_simplified.html")
 
@@ -627,7 +810,12 @@ def _poly_centroid(geom) -> tuple[float, float]:
     return (c.y, c.x)
 
 
-def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium):
+def _mw_to_weight(mw: float) -> float:
+    """Line width in pixels, proportional to capacity."""
+    return max(1.5, min(7.0, 1.0 + mw / 250.0))
+
+
+def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium, corridors_df=None):
     centroids = {row["zone_name"]: _poly_centroid(row.geometry)
                  for _, row in zones_gdf.iterrows()}
     center_lat = sum(v[0] for v in centroids.values()) / max(len(centroids), 1)
@@ -638,6 +826,7 @@ def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium):
     colors = _zone_color_palette(len(zones_gdf))
 
     # Zone polygons
+    fg_zones = folium.FeatureGroup(name="Zones", show=True)
     for i, (_, row) in enumerate(zones_gdf.iterrows()):
         folium.GeoJson(
             row.geometry.__geo_interface__,
@@ -645,7 +834,7 @@ def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium):
                 "fillColor": c, "color": "#333", "weight": 1.5, "fillOpacity": 0.35,
             },
             tooltip=f"{row['zone_name']} ({row.get('ISO_A3', '')})",
-        ).add_to(m)
+        ).add_to(fg_zones)
         lat, lon = centroids[row["zone_name"]]
         folium.Marker(
             [lat, lon],
@@ -655,30 +844,71 @@ def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium):
                      f'border-radius:3px;white-space:nowrap">{row["zone_name"]}</div>',
                 icon_size=(130, 24), icon_anchor=(65, 12),
             ),
-        ).add_to(m)
+        ).add_to(fg_zones)
+    fg_zones.add_to(m)
 
-    # Aggregate inter-zone links for display
-    from collections import defaultdict
-    link_agg: dict = defaultdict(lambda: {"mw": 0, "kvs": set()})
-    for link in interzone_lines:
-        pair = tuple(sorted([link["zone_from"], link["zone_to"]]))
-        v = link.get("voltage_kv", 0)
-        link_agg[pair]["mw"] += _voltage_to_mw_proxy(v)
-        if v > 0:
-            link_agg[pair]["kvs"].add(v)
+    # Inter-zone corridors — two toggleable layers
+    fg_existing = folium.FeatureGroup(name="Connections — existing",  show=True)
+    fg_planned  = folium.FeatureGroup(name="Connections — planned",   show=True)
 
-    for (z1, z2), data in link_agg.items():
-        if z1 not in centroids or z2 not in centroids:
-            continue
-        kv_str = " / ".join(f"{v} kV" for v in sorted(data["kvs"], reverse=True)) or "? kV"
-        mw_str = f"~{data['mw']:,} MW (⚠ very approx.)"
-        folium.PolyLine(
-            [centroids[z1], centroids[z2]],
-            color="#555", weight=5, opacity=0.55, dash_array="6 4",
-            tooltip=folium.Tooltip(f"{z1} ↔ {z2} | {kv_str} | {mw_str}", sticky=True),
-        ).add_to(m)
+    if corridors_df is not None and not corridors_df.empty:
+        from .transmission_capacity import _effective_mw
+        for _, row in corridors_df.iterrows():
+            z1, z2 = str(row["z"]), str(row["zz"])
+            if z1 not in centroids or z2 not in centroids:
+                continue
+            mw = _effective_mw(row)
+            status = str(row.get("status", "existing")).lower()
+            kv = row.get("voltage_kv", "")
+            kv_str = f"{int(kv)} kV · " if str(kv).isdigit() and int(kv) > 0 else ""
+            src = "ref" if str(row.get("mw_override", "")).strip() not in ("", "0") else "OSM est."
+            tip = f"{z1} ↔ {z2} | {kv_str}{mw:,} MW ({src})"
+            if status in ("planned", "candidate", "long_term", "under_construction"):
+                entry = row.get("earliest_entry", "")
+                tip += f" | {status}" + (f" {entry}" if str(entry).isdigit() else "")
+                folium.PolyLine(
+                    [centroids[z1], centroids[z2]],
+                    color="#8a6a00", weight=_mw_to_weight(mw),
+                    opacity=0.75, dash_array="10 6",
+                    tooltip=folium.Tooltip(tip, sticky=True),
+                ).add_to(fg_planned)
+            elif status not in ("cold_standby",):
+                folium.PolyLine(
+                    [centroids[z1], centroids[z2]],
+                    color="#1a5fa8", weight=_mw_to_weight(mw),
+                    opacity=0.80,
+                    tooltip=folium.Tooltip(tip, sticky=True),
+                ).add_to(fg_existing)
+    else:
+        # Fallback: compute from raw OSM lines if no corridors_df
+        from collections import defaultdict
+        from .transmission_capacity import estimate_capacity_mw, _geodesic_km
+        link_agg: dict = defaultdict(lambda: {"mw": 0, "kvs": set()})
+        for link in interzone_lines:
+            pair = tuple(sorted([link["zone_from"], link["zone_to"]]))
+            v = float(link.get("voltage_kv") or 0)
+            nc = int(link.get("n_circuits") or 1)
+            coords = link.get("coords", [])
+            length = _geodesic_km(coords) if len(coords) >= 2 else 0.0
+            link_agg[pair]["mw"] += estimate_capacity_mw(v, length, nc)
+            if v > 0:
+                link_agg[pair]["kvs"].add(int(v))
+        for (z1, z2), data in link_agg.items():
+            if z1 not in centroids or z2 not in centroids:
+                continue
+            mw = data["mw"]
+            kv_str = " / ".join(f"{v} kV" for v in sorted(data["kvs"], reverse=True)) or "? kV"
+            folium.PolyLine(
+                [centroids[z1], centroids[z2]],
+                color="#1a5fa8", weight=_mw_to_weight(mw), opacity=0.80,
+                tooltip=folium.Tooltip(f"{z1} ↔ {z2} | {kv_str} | ~{mw:,} MW", sticky=True),
+            ).add_to(fg_existing)
+
+    fg_existing.add_to(m)
+    fg_planned.add_to(m)
 
     # Cities
+    fg_cities = folium.FeatureGroup(name="Cities", show=True)
     if cities is not None and len(cities) > 0:
         iso_col = next((c for c in cities.columns if "iso" in c.lower()), None)
         for _, zone_row in zones_gdf.iterrows():
@@ -693,8 +923,10 @@ def _map_simplified(zones_gdf, cities, interzone_lines, out_path, folium):
                     [city["lat"], city["lon"]], radius=4,
                     color="#1a237e", fill=True, fill_color="#5c6bc0", fill_opacity=0.65,
                     tooltip=city.get("name", ""),
-                ).add_to(m)
+                ).add_to(fg_cities)
+    fg_cities.add_to(m)
 
+    folium.LayerControl(collapsed=False).add_to(m)
     m.save(str(out_path))
 
 
