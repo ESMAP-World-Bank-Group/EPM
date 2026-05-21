@@ -177,6 +177,24 @@ def export_tabular(zones_gdf, zcmap_df, topo_df):
     print(f"  blacksea_preferred_topology.csv  ({len(topo_df)} links)")
 
 
+def export_inner_borders(hd_gdf: "gpd.GeoDataFrame", slug: str) -> None:
+    """Export only the shared (interior) zone borders to avoid double-rendering artefacts."""
+    import geopandas as gpd
+    from shapely.ops import unary_union
+
+    all_bounds  = unary_union([g.boundary for g in hd_gdf.geometry])
+    outer_union = unary_union(hd_gdf.geometry)
+    outer_bound = (outer_union.boundary
+                   if outer_union is not None and not outer_union.is_empty
+                   else None)
+    inner_geom  = all_bounds.difference(outer_bound.buffer(1e-6)) if outer_bound else all_bounds
+
+    inner_gdf = gpd.GeoDataFrame(geometry=[inner_geom], crs="EPSG:4326")
+    fname = f"blacksea_{slug}_inner_borders.geojson"
+    inner_gdf.to_file(_EXPLORER_ZONES / fname, driver="GeoJSON")
+    print(f"  inner borders -> {_EXPLORER_ZONES / fname}")
+
+
 def export_tabular_hd(config: dict[str, int], slug: str) -> "gpd.GeoDataFrame | None":
     """Generate HD zones from Explorer's 10m-clipped zone files. Returns the GeoDataFrame."""
     import geopandas as gpd
@@ -647,6 +665,8 @@ def main():
 
         print("\nExporting HD zones...")
         hd_gdf = export_tabular_hd(config, slug)
+        if hd_gdf is not None and _EXPLORER_ZONES.exists():
+            export_inner_borders(hd_gdf, slug)
 
         # Export corridors to Explorer
         if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
