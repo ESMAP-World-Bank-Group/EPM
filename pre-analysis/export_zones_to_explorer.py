@@ -13,7 +13,7 @@ from pathlib import Path
 
 _BASE   = Path(__file__).resolve().parent   # pre-analysis/
 _REPO   = _BASE.parent                       # EPM root  (…/black_sea_2026/EPM)
-_EXPLORER = _REPO.parents[1] / "epm-explorer-v2"   # …/EPM_Models/epm-explorer-v2
+_EXPLORER = _REPO.parents[1] / "regional-power-explorer"   # …/EPM_Models/regional-power-explorer
 
 sys.path.insert(0, str(_BASE))
 sys.path.insert(0, str(_BASE / "resolution_advisor"))
