@@ -69,8 +69,12 @@ def export_zones():
                 # Internal borders = all zone boundaries minus the outer country boundary
                 # Buffer the outer boundary slightly to handle floating-point gaps
                 all_bounds = unary_union([g.boundary for g in gdf.geometry])
-                outer_bound = unary_union(gdf.geometry).boundary
-                inner_geom = all_bounds.difference(outer_bound.buffer(1e-6))
+                country_union = unary_union(gdf.geometry)
+                outer_bound = country_union.boundary if country_union is not None and not country_union.is_empty else None
+                if outer_bound is None:
+                    inner_geom = all_bounds
+                else:
+                    inner_geom = all_bounds.difference(outer_bound.buffer(1e-6))
                 inner_lines = list(inner_geom.geoms) if hasattr(inner_geom, 'geoms') else ([inner_geom] if not inner_geom.is_empty else [])
                 inner_gdf = gpd.GeoDataFrame(geometry=inner_lines, crs=gdf.crs)
                 inner_gdf.to_file(ZONES_OUT / f"{label}_inner.geojson", driver="GeoJSON")
