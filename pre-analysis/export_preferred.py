@@ -1,14 +1,13 @@
 """
-Export preferred zoning config to merged GeoJSON, CSVs, and maps.
+Export all named zoning configs to merged GeoJSON files for the Explorer.
 
-Preferred config (preferred_config.json): TUR=3, ROU=2, ARM/AZE/BGR/GEO=1
+Configs defined in zoning_configs.json: {name: {ISO: n_zones, ...}, ...}
 
 Outputs (output_workflow/preferred/):
-  blacksea_preferred_zones.geojson
-  blacksea_preferred_zcmap.csv
-  blacksea_preferred_topology.csv
-  maps/blacksea_map.html        -- Folium interactive (6 layer groups)
-  maps/blacksea_map_static.png  -- matplotlib static
+  blacksea_{slug}_zones_hd.geojson   -- HD zone polygons for Explorer
+  blacksea_{slug}_corridors.geojson  -- inter-zone corridors for Explorer
+  maps/blacksea_{slug}_map.html      -- Folium interactive map
+  blacksea_configs.json              -- index written to Explorer zones/
 
 Data sources: OpenStreetMap (substations, HV lines, power plants),
               Natural Earth (cities). Not EPM model results.
@@ -35,12 +34,18 @@ from pipelines.transmission_capacity import build_corridors, _effective_mw, expo
 
 _REFERENCE_LINES = _BASE / "data" / "reference_lines.csv"
 
-STUDY_ROOT    = _BASE / "output_workflow" / "zoning_study"
-OUT_DIR       = _BASE / "output_workflow" / "preferred"
-MAPS_DIR      = OUT_DIR / "maps"
-CONFIG_PATH   = _BASE / "preferred_config.json"
-_EXPLORER     = _BASE.parent.parents[1] / "regional-power-explorer"
+STUDY_ROOT      = _BASE / "output_workflow" / "zoning_study"
+OUT_DIR         = _BASE / "output_workflow" / "preferred"
+MAPS_DIR        = OUT_DIR / "maps"
+CONFIGS_PATH    = _BASE / "zoning_configs.json"
+_EXPLORER       = _BASE.parent.parents[1] / "regional-power-explorer"
 _EXPLORER_ZONES = _EXPLORER / "public" / "data" / "zones"
+
+
+def _slug(name: str) -> str:
+    """'Turkey 9z' -> 'turkey9z'"""
+    import re
+    return re.sub(r"[^a-z0-9]", "", name.lower())
 
 _COUNTRY_COLORS = {
     "TUR": "#E8A87C",
@@ -68,8 +73,9 @@ _FUEL_COLORS = {
 
 # ── 1. Config ──────────────────────────────────────────────────────────────────
 
-def load_preferred_config() -> dict[str, int]:
-    with open(CONFIG_PATH, encoding="utf-8") as f:
+def load_all_configs() -> dict[str, dict[str, int]]:
+    """Returns {name: {ISO: n_zones}} from zoning_configs.json."""
+    with open(CONFIGS_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -171,8 +177,8 @@ def export_tabular(zones_gdf, zcmap_df, topo_df):
     print(f"  blacksea_preferred_topology.csv  ({len(topo_df)} links)")
 
 
-def export_tabular_hd(config: dict[str, int]):
-    """Generate HD preferred zones from Explorer's 10m-clipped zone files."""
+def export_tabular_hd(config: dict[str, int], slug: str) -> "gpd.GeoDataFrame | None":
+    """Generate HD zones from Explorer's 10m-clipped zone files. Returns the GeoDataFrame."""
     import geopandas as gpd
     import pandas as pd
 
@@ -192,19 +198,20 @@ def export_tabular_hd(config: dict[str, int]):
 
     if not zones_gdfs:
         print("  [WARN] No HD zones generated")
-        return
+        return None
 
     hd_gdf = gpd.GeoDataFrame(pd.concat(zones_gdfs, ignore_index=True), crs=zones_gdfs[0].crs)
+    fname = f"blacksea_{slug}_zones_hd.geojson"
 
-    # Write to output folder
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    hd_gdf.to_file(OUT_DIR / "blacksea_preferred_zones_hd.geojson", driver="GeoJSON")
-    print(f"  blacksea_preferred_zones_hd.geojson  ({len(hd_gdf)} zones)")
+    hd_gdf.to_file(OUT_DIR / fname, driver="GeoJSON")
+    print(f"  {fname}  ({len(hd_gdf)} zones)")
 
-    # Copy directly to Explorer
     if _EXPLORER_ZONES.exists():
-        hd_gdf.to_file(_EXPLORER_ZONES / "blacksea_preferred_zones_hd.geojson", driver="GeoJSON")
-        print(f"  -> {_EXPLORER_ZONES / 'blacksea_preferred_zones_hd.geojson'}")
+        hd_gdf.to_file(_EXPLORER_ZONES / fname, driver="GeoJSON")
+        print(f"  -> {_EXPLORER_ZONES / fname}")
+
+    return hd_gdf
 
 
 # ── 5. Capacity mix helpers ────────────────────────────────────────────────────
@@ -591,53 +598,78 @@ def make_static_map(zones_gdf, gens_df, cities_df, capacity_mix, out_path):
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main():
-    config = load_preferred_config()
-    print(f"Preferred config: {config}\n")
+    all_configs = load_all_configs()
+    print(f"Found {len(all_configs)} zoning config(s): {list(all_configs.keys())}\n")
 
-    print("Loading zone data...")
-    zones_gdf, zcmap_df, topo_df = load_zone_data(config)
-    print(f"  Total: {len(zones_gdf)} zones across {len(config)} countries\n")
-
+    # OSM data is per-country — fetch once for all countries used across configs
+    all_countries = sorted({iso for cfg in all_configs.values() for iso in cfg})
     print("Fetching OSM data (cached after first run)...")
-    subs_df, hvlines, gens_df = fetch_osm_data(zones_gdf)
+    # Build a fake zones_gdf just to get bboxes per country for OSM fetch
+    import geopandas as gpd, pandas as pd
+    bbox_gdfs = []
+    for iso in all_countries:
+        # Use 1z as reference for bbox (always exists)
+        src1z = STUDY_ROOT / f"{iso}_1z" / "epm_export" / "spatial" / "zones.geojson"
+        if src1z.exists():
+            g = gpd.read_file(src1z); g["country"] = iso; bbox_gdfs.append(g)
+    bbox_gdf = gpd.GeoDataFrame(pd.concat(bbox_gdfs, ignore_index=True), crs="EPSG:4326") if bbox_gdfs else None
+
+    subs_df, hvlines, gens_df = fetch_osm_data(bbox_gdf) if bbox_gdf is not None else (pd.DataFrame(), [], pd.DataFrame())
     print()
 
     print("Loading cities (Natural Earth)...")
-    cities_df = load_cities(countries=list(config.keys()), min_pop=100_000)
+    cities_df = load_cities(countries=all_countries, min_pop=100_000)
     print(f"  {len(cities_df)} cities\n")
 
-    print("Computing capacity mix per zone...")
-    capacity_mix = _zone_capacity_mix(zones_gdf, gens_df)
-    n_with_data = sum(1 for v in capacity_mix.values() if v)
-    print(f"  {n_with_data} zones have plant data\n")
+    index_entries = []
 
-    print("Building inter-zone corridors...")
-    corridors_df = build_preferred_corridors(zones_gdf, hvlines)
-    print()
+    for name, config in all_configs.items():
+        slug = _slug(name)
+        print(f"\n{'='*50}")
+        print(f"  Config: {name!r} (slug={slug!r})")
+        print(f"  Zones : {config}")
+        print(f"{'='*50}")
 
-    print("Exporting tabular data...")
-    export_tabular(zones_gdf, zcmap_df, topo_df)
-    print("\nExporting HD zones (10m-clipped, from Explorer files)...")
-    export_tabular_hd(config)
+        print("\nLoading zone data...")
+        zones_gdf, zcmap_df, topo_df = load_zone_data(config)
+        print(f"  Total: {len(zones_gdf)} zones across {len(config)} countries")
 
-    # Export corridors GeoJSON to Explorer
-    if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
-        corr_path = _EXPLORER_ZONES / "blacksea_preferred_corridors.geojson"
-        export_corridors_geojson(corridors_df, zones_gdf, corr_path)
-        print(f"  corridors.geojson -> {corr_path}")
+        print("\nComputing capacity mix per zone...")
+        capacity_mix = _zone_capacity_mix(zones_gdf, gens_df)
+        n_with_data = sum(1 for v in capacity_mix.values() if v)
+        print(f"  {n_with_data} zones have plant data")
 
-    print("\nGenerating HTML map...")
-    make_html_map(
-        zones_gdf, subs_df, hvlines, gens_df, cities_df, capacity_mix,
-        MAPS_DIR / "blacksea_map.html",
-        corridors_df=corridors_df,
-    )
+        print("\nBuilding inter-zone corridors...")
+        corridors_df = build_preferred_corridors(zones_gdf, hvlines)
 
-    print("\nGenerating static PNG map...")
-    make_static_map(
-        zones_gdf, gens_df, cities_df, capacity_mix,
-        MAPS_DIR / "blacksea_map_static.png",
-    )
+        print("\nExporting tabular data...")
+        export_tabular(zones_gdf, zcmap_df, topo_df)
+
+        print("\nExporting HD zones...")
+        hd_gdf = export_tabular_hd(config, slug)
+
+        # Export corridors to Explorer
+        if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
+            corr_fname = f"blacksea_{slug}_corridors.geojson"
+            corr_path  = _EXPLORER_ZONES / corr_fname
+            export_corridors_geojson(corridors_df, zones_gdf if hd_gdf is None else hd_gdf, corr_path)
+            print(f"  corridors -> {corr_path}")
+
+        print("\nGenerating HTML map...")
+        make_html_map(
+            zones_gdf, subs_df, hvlines, gens_df, cities_df, capacity_mix,
+            MAPS_DIR / f"blacksea_{slug}_map.html",
+            corridors_df=corridors_df,
+        )
+
+        index_entries.append({"name": name, "slug": slug, "zones": config})
+
+    # Write config index to Explorer
+    if _EXPLORER_ZONES.exists():
+        idx_path = _EXPLORER_ZONES / "blacksea_configs.json"
+        with open(idx_path, "w", encoding="utf-8") as f:
+            json.dump(index_entries, f, indent=2)
+        print(f"\n  blacksea_configs.json -> {idx_path}")
 
     print(f"\nDone. All outputs in: {OUT_DIR}")
 

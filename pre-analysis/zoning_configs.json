@@ -1,0 +1,18 @@
+{
+  "Recommended": {
+    "TUR": 3,
+    "ROU": 2,
+    "ARM": 1,
+    "AZE": 2,
+    "BGR": 1,
+    "GEO": 1
+  },
+  "Turkey 9z": {
+    "TUR": 9,
+    "ROU": 1,
+    "ARM": 1,
+    "AZE": 1,
+    "BGR": 1,
+    "GEO": 1
+  }
+}
