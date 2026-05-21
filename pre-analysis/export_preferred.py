@@ -32,7 +32,8 @@ from fetch.natural_earth import load_cities
 from pipelines.zone_pipeline import _find_interzone_lines
 from pipelines.transmission_capacity import build_corridors, _effective_mw, export_corridors_geojson
 
-_REFERENCE_LINES = _BASE / "data" / "reference_lines.csv"
+_REFERENCE_LINES     = _BASE / "data" / "reference_lines.csv"
+_REFERENCE_CORRIDORS = _BASE / "data" / "reference_corridors.csv"
 
 STUDY_ROOT      = _BASE / "output_workflow" / "zoning_study"
 OUT_DIR         = _BASE / "output_workflow" / "preferred"
@@ -159,6 +160,161 @@ def build_preferred_corridors(zones_gdf, hvlines):
     print(f"  {len(corridors_df)} corridors built "
           f"({(corridors_df['mw_override'] != '').sum()} with reference override)")
     return corridors_df
+
+
+# ── 4b. NTC corridor enrichment ───────────────────────────────────────────────
+
+def apply_corridor_ntc(corridors_df, ntc_path=None):
+    """
+    Enrich corridors_df with existing/committed/candidate MW from reference_corridors.csv.
+
+    Rules:
+    - If ntc_path exists and a zone pair is listed → use those values (override OSM estimate).
+    - If a zone pair is listed with all-zero MW → corridor is removed (e.g. closed borders).
+    - If a zone pair is in ntc_path but absent from OSM → add it (e.g. submarine cables).
+    - If ntc_path doesn't exist → existing_mw = OSM estimate, committed/candidate = 0.
+    Returns enriched DataFrame with mw_existing, mw_committed, mw_candidate, projects columns.
+    """
+    import pandas as pd
+
+    def _parse_mw(val):
+        try:
+            return max(0, int(round(float(str(val).replace(",", ".").strip() or "0"))))
+        except (ValueError, TypeError):
+            return 0
+
+    if ntc_path is None or not Path(ntc_path).exists():
+        out = corridors_df.copy()
+        out["mw_existing"]  = out.apply(_effective_mw, axis=1)
+        out["mw_committed"] = 0
+        out["mw_candidate"] = 0
+        out["projects"]     = ""
+        return out
+
+    ntc = pd.read_csv(ntc_path, comment="#")
+    ntc_lookup = {}
+    for _, r in ntc.iterrows():
+        key = frozenset([str(r["z"]).strip().lower(), str(r["zz"]).strip().lower()])
+        ntc_lookup[key] = r
+
+    result, seen = [], set()
+
+    for _, row in corridors_df.iterrows():
+        z, zz = str(row["z"]), str(row["zz"])
+        if z.lower() == zz.lower():
+            continue  # skip self-loops from reference_lines intra-country entries
+        key   = frozenset([z.lower(), zz.lower()])
+        seen.add(key)
+        nr    = row.to_dict()
+
+        if key in ntc_lookup:
+            ref = ntc_lookup[key]
+            ex  = _parse_mw(ref.get("existing_mw",  0))
+            com = _parse_mw(ref.get("committed_mw", 0))
+            can = _parse_mw(ref.get("candidate_mw", 0))
+            if ex == 0 and com == 0 and can == 0:
+                continue  # explicitly zeroed → skip (e.g. closed borders)
+            nr["mw_existing"]  = ex
+            nr["mw_committed"] = com
+            nr["mw_candidate"] = can
+            proj = ref.get("projects", "")
+            nr["projects"]     = "" if (proj != proj or str(proj).strip() in ("", "nan")) else str(proj).strip()
+        else:
+            nr["mw_existing"]  = _effective_mw(row)
+            nr["mw_committed"] = 0
+            nr["mw_candidate"] = 0
+            nr["projects"]     = ""
+        result.append(nr)
+
+    # Add NTC-only corridors absent from OSM (e.g. planned submarine cables)
+    for _, ref in ntc.iterrows():
+        z, zz = str(ref["z"]).strip(), str(ref["zz"]).strip()
+        key   = frozenset([z.lower(), zz.lower()])
+        if key in seen:
+            continue
+        ex  = _parse_mw(ref.get("existing_mw",  0))
+        com = _parse_mw(ref.get("committed_mw", 0))
+        can = _parse_mw(ref.get("candidate_mw", 0))
+        if ex + com + can == 0:
+            continue
+        proj = ref.get("projects", "")
+        proj = "" if (proj != proj or str(proj).strip() in ("", "nan")) else str(proj).strip()
+        result.append({
+            "z": z, "zz": zz,
+            "mw_osm": 0, "mw_override": ex, "status": "existing" if ex > 0 else "candidate",
+            "mw_existing": ex, "mw_committed": com, "mw_candidate": can,
+            "projects": proj,
+        })
+
+    return pd.DataFrame(result) if result else corridors_df.iloc[0:0].copy()
+
+
+def export_corridors_ntc_geojson(corridors_df, zones_gdf, output_path):
+    """
+    Write corridors GeoJSON with mw_existing / mw_committed / mw_candidate properties.
+    Falls back to mw/status for regions without NTC data (backward-compatible).
+    """
+    import json
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    centroids = {}
+    if zones_gdf is not None:
+        for _, row in zones_gdf.iterrows():
+            name = row["zone_name"]
+            try:
+                c = row.geometry.centroid
+                centroids[name] = [round(c.x, 5), round(c.y, 5)]
+            except Exception:
+                pass
+
+    has_ntc = "mw_existing" in corridors_df.columns
+    features = []
+
+    for _, row in corridors_df.iterrows():
+        z1, z2 = str(row["z"]), str(row["zz"])
+        if z1 not in centroids or z2 not in centroids:
+            continue
+
+        if has_ntc:
+            ex  = int(row.get("mw_existing",  0) or 0)
+            com = int(row.get("mw_committed", 0) or 0)
+            can = int(row.get("mw_candidate", 0) or 0)
+            mw  = ex or com or can
+        else:
+            ex = com = can = 0
+            mw = _effective_mw(row)
+
+        if mw == 0 and ex + com + can == 0:
+            continue
+
+        label_parts = []
+        if ex  > 0: label_parts.append(f"{ex:,}")
+        if com > 0: label_parts.append(f"+{com:,} comm.")
+        if can > 0: label_parts.append(f"+{can:,} cand.")
+        label = " / ".join(label_parts) + " MW" if label_parts else ""
+
+        props = {
+            "zone_a":        z1,
+            "zone_b":        z2,
+            "mw":            mw,
+            "mw_existing":   ex,
+            "mw_committed":  com,
+            "mw_candidate":  can,
+            "status":        str(row.get("status", "existing")),
+            "projects":      str(row.get("projects", "") or ""),
+            "label":         label,
+        }
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "LineString", "coordinates": [centroids[z1], centroids[z2]]},
+            "properties": props,
+        })
+
+    gj = {"type": "FeatureCollection", "features": features}
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(gj, f, separators=(",", ":"))
 
 
 # ── 5. Tabular export ──────────────────────────────────────────────────────────
@@ -668,12 +824,15 @@ def main():
         if hd_gdf is not None and _EXPLORER_ZONES.exists():
             export_inner_borders(hd_gdf, slug)
 
-        # Export corridors to Explorer
-        if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
-            corr_fname = f"blacksea_{slug}_corridors.geojson"
-            corr_path  = _EXPLORER_ZONES / corr_fname
-            export_corridors_geojson(corridors_df, zones_gdf if hd_gdf is None else hd_gdf, corr_path)
-            print(f"  corridors -> {corr_path}")
+        # Enrich corridors with NTC reference data then export
+        if corridors_df is not None and len(corridors_df):
+            ntc_path     = _REFERENCE_CORRIDORS if _REFERENCE_CORRIDORS.exists() else None
+            corridors_ntc = apply_corridor_ntc(corridors_df, ntc_path)
+            if _EXPLORER_ZONES.exists():
+                corr_fname = f"blacksea_{slug}_corridors.geojson"
+                corr_path  = _EXPLORER_ZONES / corr_fname
+                export_corridors_ntc_geojson(corridors_ntc, hd_gdf if hd_gdf is not None else zones_gdf, corr_path)
+                print(f"  corridors -> {corr_path}")
 
         print("\nGenerating HTML map...")
         make_html_map(

@@ -1,0 +1,25 @@
+# Zone-pair NTC reference data — applies to any zoning config where zone names match
+# existing_mw  : current NTC (MW)
+# committed_mw : firmly planned/committed additions (MW incremental)
+# candidate_mw : candidate/study-stage additions (MW incremental)
+# projects     : project name(s)
+# Sources: ENTSO-E TYNDP, TEIAS, CESA, World Bank assessments
+# Zone names must match zone_name values in the zoning GeoJSON (case-insensitive)
+z,zz,existing_mw,committed_mw,candidate_mw,projects
+TUR_1,TUR_3,13000,0,0,
+TUR_3,TUR_2,15000,0,0,
+TUR_1,BGR_1,334,0,600,
+TUR_2,GEO_1,700,0,350,BSTN; BSTN Extension
+TUR_2,AZE_2,50,0,1000,AZ-TR-Europe Green Corridor
+GEO_1,AZE_1,2100,0,0,
+GEO_1,ARM_1,0,0,350,CTN (Caucasus Transmission Network)
+GEO_1,Dobrogea,0,0,5200,BSSC (1300 MW); GECO (3x1300 MW)
+AZE_1,AZE_2,0,1000,0,Zangezur corridor
+Dobrogea,Romania,3500,1000,3000,
+Romania,BGR_1,1500,0,0,
+# Closed / no-capacity borders — explicit zeros suppress OSM phantom estimates
+TUR_1,TUR_2,0,0,0,
+ARM_1,TUR_2,0,0,0,
+ARM_1,AZE_1,0,0,0,
+ARM_1,AZE_2,0,0,0,
+AZE_1,TUR_1,0,0,0,
