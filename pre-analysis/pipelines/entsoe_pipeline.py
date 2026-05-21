@@ -53,6 +53,11 @@ COUNTRY_NAME_TO_ISO2_OVERRIDES = {
     "north macedonia": "MK",
     "north macedonia-": "MK",
     "macedonia": "MK",
+    "turkey": "TR",
+    "türkiye": "TR",
+    "georgia": "GE",
+    "armenia": "AM",
+    "azerbaijan": "AZ",
 }
 
 
@@ -532,7 +537,7 @@ def run_entsoe_pipeline(
         print(f"  Outputs will land under {output_dir.resolve()}")
         return 0
 
-    token = load_api_token("enstoe", config_path=api_tokens_path)
+    token = load_api_token("entsoe", config_path=api_tokens_path)
     if _EntsoePandasClient is None:
         raise ImportError(
             "entsoe-py is required to fetch ENTSO-E data. "
