@@ -289,11 +289,7 @@ def export_corridors_ntc_geojson(corridors_df, zones_gdf, output_path):
         if mw == 0 and ex + com + can == 0:
             continue
 
-        label_parts = []
-        if ex  > 0: label_parts.append(f"{ex:,}")
-        if com > 0: label_parts.append(f"+{com:,} comm.")
-        if can > 0: label_parts.append(f"+{can:,} cand.")
-        label = " / ".join(label_parts) + " MW" if label_parts else ""
+        label = f"{ex:,} MW" if ex > 0 else ""
 
         props = {
             "zone_a":        z1,
