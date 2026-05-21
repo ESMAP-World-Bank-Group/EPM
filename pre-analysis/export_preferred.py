@@ -39,7 +39,7 @@ STUDY_ROOT    = _BASE / "output_workflow" / "zoning_study"
 OUT_DIR       = _BASE / "output_workflow" / "preferred"
 MAPS_DIR      = OUT_DIR / "maps"
 CONFIG_PATH   = _BASE / "preferred_config.json"
-_EXPLORER     = _BASE.parent.parents[1] / "epm-explorer-v2"
+_EXPLORER     = _BASE.parent.parents[1] / "regional-power-explorer"
 _EXPLORER_ZONES = _EXPLORER / "public" / "data" / "zones"
 
 _COUNTRY_COLORS = {
