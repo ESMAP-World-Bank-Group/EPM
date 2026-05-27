@@ -109,16 +109,13 @@ Equation eH2UnservedCost;
 eH2UnservedCost(z,y)..
    vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y)) * pH2UnservedCost $fEnableH2Production;
 
-* --- Hydrogen Supply Contribution to Demand Balance ---
-Equation eSupply_H2Contribution;
-
-* TODO: Change that
-eSupply_H2Contribution(z,q,d,t,y)..
-*   vSupply(z,q,d,t,y) =e=vSupply(z,q,d,t,y)
-*        -sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
-    0 =e=
-     + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(fEnableH2Production)
-     + vPwrREGrid(z,q,d,t,y)$fEnableH2Production;
+* --- Redefine demand balance to include H2 electrolyzer load ---
+* H2 plants consume electricity (load), not generate it.
+* This replaces the base.gms definition of eDemSupply since hydrogen_module.gms
+* is included after base.gms and GAMS uses the last equation definition.
+eDemSupply(z,q,d,t,y)$FD(q,d,t)..
+    pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)
+    + sum(h2zmap(hh,z), vH2PwrIn(hh,q,d,t,y))$fEnableH2Production =e= vSupply(z,q,d,t,y);
 
 * =============================
 * Hydrogen Specific Equations
@@ -223,7 +220,6 @@ Model PA /
     eTotalAnnualizedCapex_H2Contribution,
     eYearlyVOMCost_H2Contribution,
     eH2UnservedCost,
-    eSupply_H2Contribution
 
    vH2PwrIn(sH2PwrIn)
    eBuildNewH2
