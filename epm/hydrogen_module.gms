@@ -113,9 +113,12 @@ eH2UnservedCost(z,y)..
 * H2 plants consume electricity (load), not generate it.
 * This replaces the base.gms definition of eDemSupply since hydrogen_module.gms
 * is included after base.gms and GAMS uses the last equation definition.
+* $onMulti allows intentional redefinition of an equation already declared in base.gms
+$onMulti
 eDemSupply(z,q,d,t,y)$FD(q,d,t)..
     pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)
     + sum(h2zmap(hh,z), vH2PwrIn(hh,q,d,t,y))$fEnableH2Production =e= vSupply(z,q,d,t,y);
+$offMulti
 
 * =============================
 * Hydrogen Specific Equations
