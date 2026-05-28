@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: gams/gams:latest
+      image: gams/gams:48
 
     steps:
       - name: Check out repository
