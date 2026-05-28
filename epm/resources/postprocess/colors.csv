@@ -42,12 +42,25 @@ Trade,thistle
 Exports,lime
 # Fuels,
 Coal,dimgray
+Coal_Bula,dimgray
+Coal_Hara,dimgray
+Coal_Hwan,dimgray
+Coal_Munya,dimgray
+Coal_Zhon,dimgray
 Gas,firebrick
+Gas_Moz,firebrick
 LNG,lightcoral
 Water,darkblue
 Solar,orange
 Wind,darkturquoise
 Import,thistle
+Import_SAR,tan
+Import_MOZ_EDM,tan
+Import_MOZ_HCB,tan
+Import_ZAM,tan
+Import_SAPP,tan
+Import_BWA,tan
+Export,green
 HFO,saddlebrown
 LFO,sandybrown
 Uranium,olive
@@ -86,6 +99,7 @@ South_Africa,cyan
 # Fuels (standalone),
 Coal,dimgray
 Gas,firebrick
+Gas_Moz,firebrick
 LNG,lightcoral
 Water,darkblue
 Solar,orange

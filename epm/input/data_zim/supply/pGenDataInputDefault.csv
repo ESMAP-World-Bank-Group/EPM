@@ -1,10 +1,10 @@
 ﻿z,tech,fuel,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
-Zimbabwe,ST ,Coal,,0.33,0.33,0,0.05,45000,3,0,2,30
-Zimbabwe,ST ,Coal_Bula,,0.33,0.33,0,0.05,45000,3,0,2,30
-Zimbabwe,ST ,Coal_Hara,,0.33,0.33,0,0.05,45000,3,0,2,30
-Zimbabwe,ST ,Coal_Hwan,,0.33,0.33,0,0.05,45000,3,0,2,30
-Zimbabwe,ST ,Coal_Munya,,0.33,0.33,0,0.05,45000,3,0,2,30
-Zimbabwe,ST ,Coal_Zhon,,0.33,0.33,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal,,0.05,0.05,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal_Bula,,0.05,0.05,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal_Hara,,0.05,0.05,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal_Hwan,,0.05,0.05,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal_Munya,,0.05,0.05,0,0.05,45000,3,0,2,30
+Zimbabwe,ST ,Coal_Zhon,,0.05,0.05,0,0.05,45000,3,0,2,30
 Zimbabwe,ICE,Diesel,,0.15,0.15,0,0.2,46550,5.58,0,0.8,30
 Zimbabwe,OCGT,HFO,,1,1,0,0.2,20000,4.4,0,0.8,30
 Zimbabwe,ICE,HFO,,1,1,0,0.4,8000,6.4,0,0.8,30
