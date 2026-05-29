@@ -1,0 +1,33 @@
+id: epso_armenia_load_2022
+name: "CESI/EPSO — Armenia Review of Demand Data and Assumptions for Load Forecast"
+type: client_confidential
+date: "2022"
+file: "Armenia - Data used and Assumptions LOAD FORECAST.pptx"
+access_note: "Available in project data folder: Data/Armenia/reply from EPSO/"
+
+coverage:
+  countries: [Armenia]
+  years: "2000–2021 (historical); 2021–2050 (forecast charts, not tabulated)"
+
+fills_epm_resources:
+  - resource: pDemandForecast
+    location: "Slides 8, 9, 10, 25, 26"
+    coverage: >
+      Historical final consumption 2000–2021 (slide 8, tabulated);
+      T&D losses % 1990–2017 (slide 9, tabulated);
+      Demand growth rate 1.14%/yr (slide 25, text);
+      Peak demand scenarios chart (slide 26, chart only — not tabulated).
+      Note: forecast values are in charts drawn as freeform vectors; not machine-readable.
+      Use epso_armenia_plexos_2022 (slide 10) for the actual tabulated forecast.
+
+quality:
+  confidence: medium
+  notes: >
+    CESI top-down demand model using GDP + population as explanatory variables.
+    Historical data from Armenia State Statistical Committee.
+    Key figures extractable as text: avg annual growth 1.14%/yr (slide 25),
+    historical final consumption 5,810 GWh in 2020 (slide 8),
+    T&D losses ~8.8% in 2017 (slide 9).
+    Forecast charts (slides 25–27) are freeform vector shapes — data not extractable
+    programmatically; rely on tabulated values in epso_armenia_plexos_2022.
+  used_in_studies: [data_blacksea]

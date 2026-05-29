@@ -1,0 +1,37 @@
+id: epso_armenia_plexos_2022
+name: "CESI/EPSO — Armenia Data and Assumptions PLEXOS STUDY"
+type: client_confidential
+date: "2022"
+file: "Armenia - Data used and Assumptions PLEXOS STUDY.pptx"
+access_note: "Available in project data folder: Data/Armenia/reply from EPSO/"
+
+coverage:
+  countries: [Armenia]
+  years: "2030, 2035, 2040, 2045, 2050"
+
+fills_epm_resources:
+  - resource: pDemandForecast
+    location: "Slide 10"
+    coverage: "Peak [MW] and Energy [GWh] — Low/Base/High scenarios, 5-year steps 2030–2050"
+
+  - resource: pGenDataInput
+    location: "Slides 8, 9, 11"
+    coverage: "Existing capacity (slide 8), Master Plan pipeline (slide 9), installed capacity scenarios (slide 11)"
+
+  - resource: pFuelPrice
+    location: "Slide 5"
+    coverage: "Natural Gas, Coal, Lignite, Heavy Oil — 5-year steps 2030–2050 in EUR/GJ"
+
+  - resource: pAvailabilityCustom
+    location: "Slide 8 (notes)"
+    coverage: "Nuclear ANPP: lifetime extension to 2026; thermal retirement notes"
+
+quality:
+  confidence: medium
+  notes: >
+    CESI elaboration, submitted to EPSO for validation as part of the Georgia-Romania
+    Interconnection PLEXOS study. Demand forecast covers 5-year milestone years only
+    (2030-2050); intermediate years require interpolation. Fuel prices in EUR/GJ —
+    convert to USD/GJ before use in pFuelPrice (multiply by ~1.08 EUR/USD).
+    CO2 price for Armenia is empty (no carbon market).
+  used_in_studies: [data_blacksea]

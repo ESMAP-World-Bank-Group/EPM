@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EPM Data Source Catalog Entry",
+  "description": "Schema for a single reusable data source entry in the EPM catalog.",
+  "type": "object",
+  "required": ["id", "name", "type", "coverage", "fills_epm_resources", "quality"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique snake_case identifier, e.g. epso_armenia_plexos_2022",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the source"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["open_source", "internal_wb", "client_confidential", "assumption"],
+      "description": "Access level of the source"
+    },
+    "date": {
+      "type": "string",
+      "description": "Year or date of the source document, e.g. '2022' or '2022-07'"
+    },
+    "file": {
+      "type": "string",
+      "description": "Filename of the source document (no full path)"
+    },
+    "url": {
+      "type": "string",
+      "description": "Public URL if open_source"
+    },
+    "access_note": {
+      "type": "string",
+      "description": "Where to find this file internally (for non-public sources)"
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["countries"],
+      "properties": {
+        "countries": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "ISO3 or common names of countries covered"
+        },
+        "years": {
+          "type": "string",
+          "description": "Year range or list, e.g. '2030-2050' or '2030,2035,2040,2045,2050'"
+        }
+      }
+    },
+    "fills_epm_resources": {
+      "type": "array",
+      "description": "Which EPM CSV resources this source can fill",
+      "items": {
+        "type": "object",
+        "required": ["resource"],
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "EPM resource name matching datapackage.json"
+          },
+          "location": {
+            "type": "string",
+            "description": "Slide, page, table or section reference within the source"
+          },
+          "coverage": {
+            "type": "string",
+            "description": "What aspect of the resource is covered"
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": ["confidence"],
+      "properties": {
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"],
+          "description": "high = validated official data; medium = modeller elaboration; low = proxy/assumption"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Known caveats, limitations, or validation status"
+        },
+        "used_in_studies": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of EPM deployments that used this source"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

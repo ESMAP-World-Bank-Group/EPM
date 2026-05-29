@@ -1,0 +1,19 @@
+id: epm_blacksea_turkiye_profiles
+name: "EPM Black Sea — Turkiye demand and VRE profiles"
+type: internal_wb
+date: "2025"
+file: "epm/input/data_blacksea/load/pDemandProfile.csv"
+access_note: "Embedded in EPM data_blacksea — derived from TEIAS/EPM v8.5 Turkiye calibration"
+coverage:
+  countries: [Turkiye]
+  years: "representative year (8760 h)"
+fills_epm_resources:
+  - resource: pDemandProfile
+    location: "pDemandProfile.csv — zones WestMed, WestAna, EastMed, EastAna, SouthEast, NorthWest, CenterAna, CenterBlack, Trakia"
+    coverage: "Q1–Q4, d1–d6, t01–t24 (normalised 0–1)"
+quality:
+  confidence: medium
+  notes: >
+    Single national profile applied uniformly to all 9 Turkish zones.
+    Used as proxy for Armenia (LOW confidence) — see Armenia provenance note for limitations.
+  used_in_studies: [data_blacksea]
