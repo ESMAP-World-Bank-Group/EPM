@@ -102,6 +102,91 @@ def source_short(source_id, catalog):
     return f"{short} ({d})" if d else short
 
 
+def source_url(source_id, catalog):
+    """Extract a browseable URL from a catalog entry."""
+    s = catalog.get(source_id, {})
+    url = s.get("url", "")
+    if not url:
+        note = s.get("access_note", "")
+        m = re.search(r'https?://\S+', str(note))
+        if m:
+            url = m.group(0).rstrip(".,)")
+    return url
+
+
+def sources_display_md(info, catalog):
+    """Format primary + secondary sources for MD table cells."""
+    proxy_of = info.get("proxy_of", "")
+    if proxy_of:
+        return f"proxy of {proxy_of}"
+    src_id = info.get("source_id")
+    secondary = info.get("secondary_source_ids", [])
+    parts = []
+    if src_id:
+        parts.append(source_short(src_id, catalog))
+    for sid in secondary:
+        s = catalog.get(sid, {})
+        name = s.get("name", sid)
+        short = re.split(r" [—–\-] ", name)[0].strip()
+        url = source_url(sid, catalog)
+        parts.append(f"[{short}]({url})" if url else short)
+    return " + ".join(parts) if parts else "documented"
+
+
+def sources_display_html(info, catalog):
+    """Format primary + secondary sources for HTML table cells."""
+    proxy_of = info.get("proxy_of", "")
+    if proxy_of:
+        return h(f"proxy of {proxy_of}")
+    src_id = info.get("source_id")
+    secondary = info.get("secondary_source_ids", [])
+    parts = []
+    if src_id:
+        parts.append(h(source_short(src_id, catalog)))
+    for sid in secondary:
+        s = catalog.get(sid, {})
+        name = s.get("name", sid)
+        short = re.split(r" [—–\-] ", name)[0].strip()
+        url = source_url(sid, catalog)
+        if url:
+            parts.append(f'<a href="{h(url)}" target="_blank">{h(short)}</a>')
+        else:
+            parts.append(h(short))
+    return " + ".join(parts) if parts else "documented"
+
+
+def render_secondary_sources_md(info, catalog):
+    """Render 'Also uses' block for MD detail sections when secondary sources are present."""
+    secondary = info.get("secondary_source_ids", [])
+    if not secondary:
+        return ""
+    lines = []
+    for sid in secondary:
+        s = catalog.get(sid, {})
+        name = s.get("name", sid)
+        url = source_url(sid, catalog)
+        label = f"[{name}]({url})" if url else f"{name} (`{sid}`)"
+        lines.append(f"**Also uses**: {label}\n")
+    return "\n".join(lines)
+
+
+def render_secondary_sources_html(info, catalog):
+    """Render 'Also uses' block for HTML detail sections when secondary sources are present."""
+    secondary = info.get("secondary_source_ids", [])
+    if not secondary:
+        return ""
+    parts = []
+    for sid in secondary:
+        s = catalog.get(sid, {})
+        name = s.get("name", sid)
+        url = source_url(sid, catalog)
+        if url:
+            parts.append(f'<a href="{h(url)}" target="_blank">{h(name)}</a>')
+        else:
+            parts.append(f'{h(name)} <code>({h(sid)})</code>')
+    return f'<p><strong>Also uses</strong>: {", ".join(parts)}</p>'
+
+
 def get_info(country, param_id, provenance):
     c = provenance.get(country)
     if not isinstance(c, dict):
@@ -180,8 +265,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
         for country in countries:
             info = get_info(country, pid, provenance)
             if info:
-                src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-                cells.append(source_short(src_id, catalog) if src_id else "documented")
+                cells.append(sources_display_md(info, catalog))
             else:
                 cells.append("—")
         lines.append(f"| {cat} | {item} | `{pid}` | {desc} | " + " | ".join(cells) + " |")
@@ -224,11 +308,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
             info = cdata.get(pid)
             if not info:
                 continue
-            src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            proxy_of = info.get("proxy_of", "")
-            src_display = source_short(src_id, catalog) if src_id else "—"
-            if proxy_of:
-                src_display = f"proxy of {proxy_of}"
+            src_display = sources_display_md(info, catalog)
             conf = info.get("confidence", "")
             conf_label = CONFIDENCE_LABEL.get(conf, conf.upper()) if conf else "—"
             lines.append(f"| [`{pid}`](#{anchor(country, pid)}) | {src_display} | {conf_label} |")
@@ -253,6 +333,9 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
                 if src_id:
                     s = catalog.get(src_id, {})
                     lines.append(f"**Source**: {s.get('name', src_id)} (`{src_id}`)\n")
+                secondary_note = render_secondary_sources_md(info, catalog)
+                if secondary_note:
+                    lines.append(secondary_note)
 
             method = info.get("method", "")
             if method:
@@ -391,14 +474,9 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
         for country in countries:
             info = get_info(country, pid, provenance)
             if info:
-                proxy_of = info.get("proxy_of", "")
-                src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-                if proxy_of:
-                    cell_text = f"proxy of {proxy_of}"
-                else:
-                    cell_text = source_short(src_id, catalog) if src_id else "documented"
+                cell_html = sources_display_html(info, catalog)
                 link = anchor(country, pid)
-                out.append(f'<td class="status-done"><a href="#{link}">{h(cell_text)}</a></td>')
+                out.append(f'<td class="status-done"><a href="#{link}">{cell_html}</a></td>')
             else:
                 out.append('<td class="status-pending">&mdash;</td>')
         out.append('</tr>')
@@ -443,12 +521,7 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
             info = cdata.get(pid)
             if not info:
                 continue
-            proxy_of = info.get("proxy_of", "")
-            src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            if proxy_of:
-                src_display = h(f"proxy of {proxy_of}")
-            else:
-                src_display = h(source_short(src_id, catalog)) if src_id else "&mdash;"
+            src_display = sources_display_html(info, catalog)
             conf = info.get("confidence", "")
             conf_html = f'<span class="conf">[{h(conf.upper())}]</span>' if conf else ""
             link = anchor(country, pid)
@@ -477,6 +550,9 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
                         f'<p><strong>Source</strong>: {h(s.get("name", src_id))} '
                         f'<code>({h(src_id)})</code></p>'
                     )
+                secondary_note = render_secondary_sources_html(info, catalog)
+                if secondary_note:
+                    out.append(secondary_note)
 
             method = info.get("method", "")
             if method:

@@ -90,7 +90,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pGenDataInput</code></td>
 <td>Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&amp;M, operating constraints</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-done"><a href="#armenia-pgendatainput">CESI/EPSO (2022)</a></td>
+<td class="status-done"><a href="#armenia-pgendatainput">CESI/EPSO (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -104,7 +104,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pAvailabilityCustom</code></td>
 <td>Seasonal capacity factors for thermal, hydro, and other dispatchable units</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-done"><a href="#armenia-pavailabilitycustom">World Nuclear Association (updated annually)</a></td>
+<td class="status-done"><a href="#armenia-pavailabilitycustom">World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 </tr>
 <tr>
 <td>Storage assumptions</td>
@@ -202,9 +202,9 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span></td></tr>
-<tr><td><a href="#armenia-pgendatainput"><code>pGenDataInput</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
+<tr><td><a href="#armenia-pgendatainput"><code>pGenDataInput</code></a></td><td>CESI/EPSO (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pfuelprice"><code>pFuelPrice</code></a></td><td>TYNDP / IEA World Energy Outlo… (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
-<tr><td><a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>World Nuclear Association (updated annually)</td><td><span class="conf">[HIGH]</span></td></tr>
+<tr><td><a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[HIGH]</span></td></tr>
 </tbody></table>
 <h3 id="armenia-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
@@ -231,6 +231,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3 id="armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
 <p><strong>Source</strong>: World Nuclear Association — Reactor Database <code>(wna_reactor_database)</code></p>
+<p><strong>Also uses</strong>: <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></p>
 <p><strong>Method</strong>: DIRECT (Armenia_ANPP) — EPM generic for all other techs</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Armenia_ANPP: 0.70 flat (Q1–Q4), mean of WNA Energy Availability 2023 (67.3%) and 2024 (70.4%). All other Armenia generators rely on pAvailabilityGeneric defaults (CCGT=0.85, Hydro=0.85, PV/Wind=1.0).
@@ -241,6 +242,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3 id="armenia-pgendatainput"><code>pGenDataInput</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
 <p><strong>Source</strong>: CESI/EPSO — Armenia Data and Assumptions PLEXOS STUDY <code>(epso_armenia_plexos_2022)</code></p>
+<p><strong>Also uses</strong>: <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></p>
 <p><strong>Method</strong>: DIRECT (capacity, dates from CESI) — tech params from EPM defaults</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Capacity and dates (StYr, RetrYr) from CESI PLEXOS study slides. HeatRate, RampUpRate, RampDnRate, ResLimShare, FOMperMW, VOM left blank — filled automatically at runtime from pGenDataInputGeneric (EPM parameter guide: https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/). Nuclear and ST/Gas defaults added to pGenDataInputGeneric for this deployment.

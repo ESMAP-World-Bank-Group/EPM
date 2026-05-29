@@ -55,6 +55,7 @@ Armenia:
 
   pAvailabilityCustom:
     source_id: wna_reactor_database
+    secondary_source_ids: [epm_generic_defaults]
     method: "DIRECT (Armenia_ANPP) — EPM generic for all other techs"
     method_table:
       - period: "2024–2053"
@@ -73,6 +74,7 @@ Armenia:
 
   pGenDataInput:
     source_id: epso_armenia_plexos_2022
+    secondary_source_ids: [epm_generic_defaults]
     method: "DIRECT (capacity, dates from CESI) — tech params from EPM defaults"
     method_table:
       - period: "2024–2053"

@@ -1,0 +1,25 @@
+id: epm_generic_defaults
+name: "EPM Generic Defaults"
+type: internal
+url: "https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/"
+date: ""
+access_note: >
+  Default technical parameters by technology/fuel combination, applied automatically
+  when fields are left blank in pGenDataInput, pAvailabilityCustom, pCapexTrajectories.
+  Stored in epm/resources/pGenDataInputGeneric.csv, pAvailabilityGeneric.csv, etc.
+  See EPM parameter guide: https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/
+coverage:
+  countries: all
+  years: "all"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "HeatRate, RampUpRate, RampDnRate, ResLimShare, FOMperMW, VOM, Life, UnitSize"
+  - resource: pAvailabilityCustom
+    coverage: "Seasonal availability by tech/fuel (CCGT=0.85, Hydro=0.85, PV/Wind=1.0, etc.)"
+  - resource: pCapexTrajectories
+    coverage: "Capex trajectories by technology"
+quality:
+  confidence: medium
+  notes: >
+    Values sourced from EPM CCDR methodology and cross-validated against IRENA, IEA, NREL ATB.
+    Plant-specific data from national studies should override these defaults when available.
