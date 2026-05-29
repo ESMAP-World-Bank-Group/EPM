@@ -52,7 +52,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <body>
 <h1>Data Sources — EPM — Black Sea 2026</h1>
 <p class="meta">
-  Generated 2026-05-29 &nbsp;&middot;&nbsp;
+  Generated 2026-05-30 &nbsp;&middot;&nbsp;
   Turkiye, Armenia &nbsp;&middot;&nbsp;
   Data horizon: 2024–2053 · step: 1 year
 </p>
@@ -90,7 +90,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pGenDataInput</code></td>
 <td>Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&amp;M, operating constraints</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-pending">&mdash;</td>
+<td class="status-done"><a href="#armenia-pgendatainput">CESI/EPSO (2022)</a></td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -189,7 +189,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#armenia"><strong>Armenia</strong></a>
  &mdash; 
-<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
+<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
 </li>
 </ul></div>
 <hr>
@@ -202,6 +202,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span></td></tr>
+<tr><td><a href="#armenia-pgendatainput"><code>pGenDataInput</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pfuelprice"><code>pFuelPrice</code></a></td><td>TYNDP / IEA World Energy Outlo… (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 </tbody></table>
 <h3 id="armenia-pdemandforecast"><code>pDemandForecast</code></h3>
@@ -226,6 +227,16 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </tbody></table>
 <blockquote>No Armenia SCADA or hourly load data available. Proxied from the Turkiye profile (shared across all TR zones, including EastAna). Key limitation: Armenia's residential sector relies heavily on direct electric heating (unlike Turkiye which has significant gas penetration), implying a sharper winter morning peak and a higher load factor in Q1. Profile should be replaced with GSE/ANRE SCADA data when available.</blockquote>
 <p class="back">Confidence: [LOW] · Last updated: 2026-05-29</p>
+<h3 id="armenia-pgendatainput"><code>pGenDataInput</code></h3>
+<p class="back"><a href="#armenia">&#8593; Armenia</a></p>
+<p><strong>Source</strong>: CESI/EPSO — Armenia Data and Assumptions PLEXOS STUDY <code>(epso_armenia_plexos_2022)</code></p>
+<p><strong>Method</strong>: DIRECT (capacity, dates from CESI) — tech params from EPM defaults</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Capacity and dates (StYr, RetrYr) from CESI PLEXOS study slides. HeatRate, RampUpRate, RampDnRate, ResLimShare, FOMperMW, VOM left blank — filled automatically at runtime from pGenDataInputGeneric (EPM parameter guide: https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/). Nuclear and ST/Gas defaults added to pGenDataInputGeneric for this deployment.
+</td></tr>
+</tbody></table>
+<blockquote>14 generators: 12 Status-1 (existing), 2 Status-2 (committed), 3 Status-3 (candidates). DOUBT — Armenia_Hrazdan_ST: units 1–4 all mothballed per GEM (2024); Capacity set to 0 MW pending confirmation. CESI shows 300–410 MW nameplate but none dispatchable. DOUBT — Armenia_SHC RetrYr=2047: no explicit retirement date found; estimated from post-ADB rehabilitation life extension (loan matures 2029). Commissioned 1960–1962.</blockquote>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-05-30</p>
 <h3 id="armenia-pfuelprice"><code>pFuelPrice</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
 <p><strong>Source</strong>: TYNDP / IEA World Energy Outlook 2022 — commodity prices <code>(tyndp_iea_weo_2022)</code></p>
