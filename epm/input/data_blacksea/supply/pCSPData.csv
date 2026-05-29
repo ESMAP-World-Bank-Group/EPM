@@ -1,0 +1,3 @@
+uni_0,uni_1,Capacity,Capex,Life,FixedOM,Availability,Efficiency
+CSP_North,STORAGE,5000000.0,70.0,30.0,10000.0,1.0,0.9
+CSP_North,Thermal Field,50000.0,1.8,30.0,25000.0,1.0,0.9
