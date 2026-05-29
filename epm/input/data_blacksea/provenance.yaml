@@ -5,6 +5,8 @@
 # Run: python pre-analysis/catalog/generate_docs.py --deployment data_blacksea
 # -------------------------------------------------------------------
 
+model_name: "Black Sea 2026"
+
 Armenia:
 
   pDemandForecast:
@@ -35,7 +37,8 @@ Armenia:
     last_updated: 2026-05-29
 
   pDemandProfile:
-    source_id: epm_blacksea_turkiye_profiles
+    source_id: teias_hourly_load
+    proxy_of: "Turkiye/EastAna"
     method: "PROXY_TurkiyeEastAna"
     method_table:
       - period: "2024–2053"

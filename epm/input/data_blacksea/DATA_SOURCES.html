@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Sources — data_blacksea</title>
+<title>Data Sources — EPM — Black Sea 2026</title>
 <style>
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -45,21 +45,21 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 .legend span { font-size: 0.82em; color: #666; }
 .legend .dot-done { color: #276327; font-weight: 700; }
 .legend .dot-pending { color: #bbb; font-weight: 700; }
+.proxy-chain { background: #fafaf2; border-left: 3px solid #e0c840;
+               padding: 6px 12px; margin: 8px 0; font-size: 0.88em; }
 </style>
 </head>
 <body>
-<h1>Data Sources — data_blacksea</h1>
+<h1>Data Sources — EPM — Black Sea 2026</h1>
 <p class="meta">
   Generated 2026-05-29 &nbsp;&middot;&nbsp;
-  Countries: Turkiye, Armenia &nbsp;&middot;&nbsp;
-  Horizon: 2025–2030 (2025, 2030)
-  <br><em>Do not edit manually &mdash; regenerate with
-  <code>python pre-analysis/catalog/generate_docs.py --deployment data_blacksea</code></em>
+  Turkiye, Armenia &nbsp;&middot;&nbsp;
+  Data horizon: 2024–2053 · step: 1 year
 </p>
 
 <div class="legend">
-<span><span class="dot-done">&#9632;</span> Documented (source linked)</span>
-<span><span class="dot-pending">&#8212;</span> Not yet documented</span>
+<span><span class="dot-done">&#9632;</span> Documented</span>
+<span><span class="dot-pending">&mdash;</span> Not yet documented</span>
 </div>
 
 <h2 id="overview">Model overview</h2>
@@ -82,7 +82,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pDemandProfile</code></td>
 <td>Typical hourly load curve (8760 h) for a representative year</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-done"><a href="#armenia-pdemandprofile">EPM Black Sea (2025)</a></td>
+<td class="status-done"><a href="#armenia-pdemandprofile">proxy of Turkiye/EastAna</a></td>
 </tr>
 <tr class="cat-row"><td colspan="5">Supply</td></tr>
 <tr>
@@ -201,7 +201,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3>Summary</h3>
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
-<tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>EPM Black Sea (2025)</td><td><span class="conf">[LOW]</span></td></tr>
+<tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span></td></tr>
 </tbody></table>
 <h3 id="armenia-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
@@ -218,7 +218,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-05-29</p>
 <h3 id="armenia-pdemandprofile"><code>pDemandProfile</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
-<p><strong>Source</strong>: EPM Black Sea — Turkiye demand and VRE profiles <code>(epm_blacksea_turkiye_profiles)</code></p>
+<div class="proxy-chain"><p><strong>Proxied from</strong>: <code>Turkiye/EastAna</code><br><strong>Original source</strong>: TEİAŞ — Turkiye hourly load data (likely) <code>(teias_hourly_load)</code></p></div>
 <p><strong>Method</strong>: PROXY_TurkiyeEastAna</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2024–2053</td><td><code>PROXY_TurkiyeEastAna</code></td><td>EastAna (East Anatolia) hourly shape copied verbatim — nearest zone geographically, same model</td></tr>

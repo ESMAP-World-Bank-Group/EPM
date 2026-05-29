@@ -1,19 +1,19 @@
-# Data Sources — data_blacksea
+# Data Sources — EPM — Black Sea 2026
 
-*Auto-generated 2026-05-29. Run `python pre-analysis/catalog/generate_docs.py --deployment data_blacksea` to regenerate.*
+*Generated 2026-05-29*
 
 ---
 
 ## Model overview
 
 **Countries**: Turkiye, Armenia  
-**Planning horizon**: 2025–2030 (2 milestone years: 2025, 2030)
+**Data horizon**: 2024–2053 · step: 1 year
 
 
 | Category | Item | Parameter | Description | Turkiye | Armenia |
 |---|---|---|---|---|---|
 | Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI/EPSO (2022) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | EPM Black Sea (2025) |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | TEİAŞ (~2022) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | — |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | — |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | — |
@@ -60,7 +60,7 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#armenia-pdemandforecast) | CESI/EPSO (2022) | [MEDIUM] |
-| [`pDemandProfile`](#armenia-pdemandprofile) | EPM Black Sea (2025) | [LOW] |
+| [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Turkiye/EastAna | [LOW] |
 
 <a id="armenia-pdemandforecast"></a>
 
@@ -91,7 +91,8 @@
 
 [&#8593; Armenia](#armenia)
 
-**Source**: EPM Black Sea — Turkiye demand and VRE profiles (`epm_blacksea_turkiye_profiles`)
+**Proxied from**: Turkiye/EastAna  
+**Original source**: TEİAŞ — Turkiye hourly load data (likely)
 
 **Method**: PROXY_TurkiyeEastAna
 

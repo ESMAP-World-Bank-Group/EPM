@@ -1,0 +1,22 @@
+id: teias_hourly_load
+name: "TEİAŞ — Turkiye hourly load data (likely)"
+type: open_source
+date: "~2022"
+access_note: >
+  Likely sourced from TEİAŞ (Türkiye Elektrik İletim A.Ş.) hourly SCADA load data,
+  as used in EPM v8.5 Turkiye calibration (July 2022). Original provenance not
+  explicitly documented in available model files — to be confirmed with original model team.
+coverage:
+  countries: [Turkiye]
+  years: "representative year (8760 h), ~2020–2022"
+fills_epm_resources:
+  - resource: pDemandProfile
+    location: "DemandProfile sheet — input_epm_Turkiye_v7.xlsx"
+    coverage: "9 zones (WestMed, WestAna, EastMed, EastAna, SouthEast, NorthWest, CenterAna, CenterBlack, Trakia) — Q1–Q4, d1–d6, t01–t24 (normalised 0–1)"
+quality:
+  confidence: low
+  notes: >
+    Source institution not confirmed in available files. Attributed to TEİAŞ based on
+    standard EPM Turkiye modelling practice. Used as LOW-confidence proxy for Armenia
+    pDemandProfile — see Armenia provenance note for limitations.
+  used_in_studies: [data_blacksea]

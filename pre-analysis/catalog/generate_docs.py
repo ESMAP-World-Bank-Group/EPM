@@ -51,17 +51,26 @@ def load_zcmap(deployment):
     return seen
 
 
-def load_years(deployment):
-    y_path = REPO_ROOT / "epm" / "input" / deployment / "y.csv"
+def load_horizon(deployment):
+    """Return (min_year, max_year, step_str) from pDemandForecast year columns."""
+    path = REPO_ROOT / "epm" / "input" / deployment / "load" / "pDemandForecast.csv"
+    if not path.exists():
+        return None, None, None
+    with open(path, encoding="utf-8") as fh:
+        header = next(csv.reader(fh))
     years = []
-    if y_path.exists():
-        with open(y_path, encoding="utf-8") as fh:
-            reader = csv.reader(fh)
-            next(reader, None)
-            for row in reader:
-                if row and row[0].strip():
-                    years.append(row[0].strip())
-    return years
+    for col in header:
+        try:
+            years.append(int(col))
+        except ValueError:
+            pass
+    if not years:
+        return None, None, None
+    years.sort()
+    steps = [years[i+1] - years[i] for i in range(len(years)-1)]
+    step = max(set(steps), key=steps.count) if steps else 1
+    step_str = f"{step} year" + ("s" if step > 1 else "")
+    return years[0], years[-1], step_str
 
 
 def load_params():
@@ -71,10 +80,17 @@ def load_params():
         return yaml.safe_load(fh) or []
 
 
+def model_name(deployment, provenance):
+    """Derive a human-readable model name."""
+    if isinstance(provenance, dict) and "model_name" in provenance:
+        return provenance["model_name"]
+    name = re.sub(r"^data_", "", deployment).replace("_", " ").title()
+    return name
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def source_short(source_id, catalog):
-    """Return a compact source label for table cells."""
     if source_id not in catalog:
         return source_id
     s = catalog[source_id]
@@ -87,7 +103,6 @@ def source_short(source_id, catalog):
 
 
 def get_info(country, param_id, provenance):
-    """Return provenance info dict for a country/param, or None."""
     c = provenance.get(country)
     if not isinstance(c, dict):
         return None
@@ -103,36 +118,55 @@ def anchor(country, resource=None):
 
 
 def h(text):
-    """Minimal HTML escaping."""
     return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def render_proxy_note_md(info, catalog):
+    """Return a proxy chain line for MD if proxy_of is set."""
+    proxy_of = info.get("proxy_of", "")
+    if not proxy_of:
+        return ""
+    src_id = info.get("source_id", "")
+    src_name = catalog.get(src_id, {}).get("name", src_id) if src_id else ""
+    return f"**Proxied from**: {proxy_of}  \n**Original source**: {src_name}\n"
+
+
+def render_proxy_note_html(info, catalog):
+    """Return HTML proxy chain paragraph if proxy_of is set."""
+    proxy_of = info.get("proxy_of", "")
+    if not proxy_of:
+        return ""
+    src_id = info.get("source_id", "")
+    src_name = catalog.get(src_id, {}).get("name", src_id) if src_id else ""
+    return (
+        f'<p><strong>Proxied from</strong>: <code>{h(proxy_of)}</code>'
+        f'<br><strong>Original source</strong>: {h(src_name)}'
+        f' <code>({h(src_id)})</code></p>'
+    )
 
 
 # ── Markdown ──────────────────────────────────────────────────────────────────
 
-def render_md(deployment, countries, years, params, provenance, catalog):
+def render_md(deployment, countries, horizon, params, provenance, catalog):
     lines = []
     today = date.today()
+    mname = model_name(deployment, provenance)
+    yr_min, yr_max, step_str = horizon
 
     lines += [
-        f"# Data Sources — {deployment}\n",
-        f"*Auto-generated {today}. "
-        f"Run `python pre-analysis/catalog/generate_docs.py --deployment {deployment}` to regenerate.*\n",
+        f"# Data Sources — EPM — {mname}\n",
+        f"*Generated {today}*\n",
         "---\n",
     ]
 
     # Model overview
-    lines += [
-        "## Model overview\n",
-        f"**Countries**: {', '.join(countries)}  ",
-    ]
-    if years:
-        lines.append(
-            f"**Planning horizon**: {years[0]}–{years[-1]} "
-            f"({len(years)} milestone year{'s' if len(years) != 1 else ''}: {', '.join(years)})\n"
-        )
+    lines += ["## Model overview\n"]
+    lines.append(f"**Countries**: {', '.join(countries)}  ")
+    if yr_min:
+        lines.append(f"**Data horizon**: {yr_min}–{yr_max} · step: {step_str}\n")
     lines.append("")
 
-    # Overview matrix table — Category | Item | Parameter | Description | Countries
+    # Overview matrix
     header = "| Category | Item | Parameter | Description | " + " | ".join(countries) + " |"
     sep = "|---|---|---|---|" + "---|" * len(countries)
     lines += [header, sep]
@@ -142,7 +176,6 @@ def render_md(deployment, countries, years, params, provenance, catalog):
         pid = p["id"]
         item = p.get("item", pid).replace("|", "\\|")
         desc = p.get("description", "").replace("|", "\\|")
-
         cells = []
         for country in countries:
             info = get_info(country, pid, provenance)
@@ -151,13 +184,12 @@ def render_md(deployment, countries, years, params, provenance, catalog):
                 cells.append(source_short(src_id, catalog) if src_id else "documented")
             else:
                 cells.append("—")
-
         lines.append(f"| {cat} | {item} | `{pid}` | {desc} | " + " | ".join(cells) + " |")
 
     lines += ["", "---\n"]
 
     # TOC
-    lines += [f'<a id="toc"></a>\n', "## Contents\n"]
+    lines += ['<a id="toc"></a>\n', "## Contents\n"]
     for country in countries:
         cid = anchor(country)
         cdata = provenance.get(country, {})
@@ -180,28 +212,26 @@ def render_md(deployment, countries, years, params, provenance, catalog):
             f"## {country}\n",
             "[&#8593; Contents](#toc)\n",
         ]
-
         cdata = provenance.get(country, {})
         if not isinstance(cdata, dict) or not cdata:
             lines += ["*No data documented yet for this country.*\n", "---\n"]
             continue
 
-        # Country recap table
-        lines += [
-            "### Summary\n",
-            "| Parameter | Source | Confidence |",
-            "|---|---|---|",
-        ]
+        # Recap table
+        lines += ["### Summary\n", "| Parameter | Source | Confidence |", "|---|---|---|"]
         for p in params:
             pid = p["id"]
             info = cdata.get(pid)
             if not info:
                 continue
             src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            src = source_short(src_id, catalog) if src_id else "—"
+            proxy_of = info.get("proxy_of", "")
+            src_display = source_short(src_id, catalog) if src_id else "—"
+            if proxy_of:
+                src_display = f"proxy of {proxy_of}"
             conf = info.get("confidence", "")
             conf_label = CONFIDENCE_LABEL.get(conf, conf.upper()) if conf else "—"
-            lines.append(f"| [`{pid}`](#{anchor(country, pid)}) | {src} | {conf_label} |")
+            lines.append(f"| [`{pid}`](#{anchor(country, pid)}) | {src_display} | {conf_label} |")
         lines.append("")
 
         # Per-parameter detail
@@ -215,20 +245,21 @@ def render_md(deployment, countries, years, params, provenance, catalog):
                 f"[&#8593; {country}](#{cid})\n",
             ]
 
-            src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            if src_id:
-                s = catalog.get(src_id, {})
-                lines.append(f"**Source**: {s.get('name', src_id)} (`{src_id}`)\n")
+            proxy_note = render_proxy_note_md(info, catalog)
+            if proxy_note:
+                lines.append(proxy_note)
+            else:
+                src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
+                if src_id:
+                    s = catalog.get(src_id, {})
+                    lines.append(f"**Source**: {s.get('name', src_id)} (`{src_id}`)\n")
 
             method = info.get("method", "")
             if method:
                 lines.append(f"**Method**: {method}\n")
 
             if "method_table" in info:
-                lines += [
-                    "| Period | Method | Notes |",
-                    "|--------|--------|-------|",
-                ]
+                lines += ["| Period | Method | Notes |", "|--------|--------|-------|"]
                 for row in info["method_table"]:
                     lines.append(
                         f"| {row.get('period', '')} "
@@ -299,12 +330,17 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 .legend span { font-size: 0.82em; color: #666; }
 .legend .dot-done { color: #276327; font-weight: 700; }
 .legend .dot-pending { color: #bbb; font-weight: 700; }
+.proxy-chain { background: #fafaf2; border-left: 3px solid #e0c840;
+               padding: 6px 12px; margin: 8px 0; font-size: 0.88em; }
 """
 
 
-def render_html(deployment, countries, years, params, provenance, catalog):
+def render_html(deployment, countries, horizon, params, provenance, catalog):
     today = date.today()
-    year_range = f"{years[0]}–{years[-1]}" if years else "—"
+    mname = model_name(deployment, provenance)
+    yr_min, yr_max, step_str = horizon
+    country_list = ", ".join(countries)
+    horizon_str = f"{yr_min}–{yr_max} · step: {step_str}" if yr_min else "—"
     n_base = 3  # Item | Parameter | Description
 
     out = [f"""<!DOCTYPE html>
@@ -312,24 +348,21 @@ def render_html(deployment, countries, years, params, provenance, catalog):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Sources — {h(deployment)}</title>
+<title>Data Sources — EPM — {h(mname)}</title>
 <style>{_CSS}</style>
 </head>
 <body>
-<h1>Data Sources — {h(deployment)}</h1>
+<h1>Data Sources — EPM — {h(mname)}</h1>
 <p class="meta">
   Generated {today} &nbsp;&middot;&nbsp;
-  Countries: {h(', '.join(countries))} &nbsp;&middot;&nbsp;
-  Horizon: {h(year_range)} ({h(', '.join(years))})
-  <br><em>Do not edit manually &mdash; regenerate with
-  <code>python pre-analysis/catalog/generate_docs.py --deployment {h(deployment)}</code></em>
+  {h(country_list)} &nbsp;&middot;&nbsp;
+  Data horizon: {h(horizon_str)}
 </p>
 """]
 
-    # ── Legend ────────────────────────────────────────────────────────────────
     out.append('<div class="legend">')
-    out.append('<span><span class="dot-done">&#9632;</span> Documented (source linked)</span>')
-    out.append('<span><span class="dot-pending">&#8212;</span> Not yet documented</span>')
+    out.append('<span><span class="dot-done">&#9632;</span> Documented</span>')
+    out.append('<span><span class="dot-pending">&mdash;</span> Not yet documented</span>')
     out.append('</div>\n')
 
     # ── Overview table ────────────────────────────────────────────────────────
@@ -358,10 +391,14 @@ def render_html(deployment, countries, years, params, provenance, catalog):
         for country in countries:
             info = get_info(country, pid, provenance)
             if info:
+                proxy_of = info.get("proxy_of", "")
                 src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-                short = source_short(src_id, catalog) if src_id else "documented"
+                if proxy_of:
+                    cell_text = f"proxy of {proxy_of}"
+                else:
+                    cell_text = source_short(src_id, catalog) if src_id else "documented"
                 link = anchor(country, pid)
-                out.append(f'<td class="status-done"><a href="#{link}">{h(short)}</a></td>')
+                out.append(f'<td class="status-done"><a href="#{link}">{h(cell_text)}</a></td>')
             else:
                 out.append('<td class="status-pending">&mdash;</td>')
         out.append('</tr>')
@@ -398,7 +435,7 @@ def render_html(deployment, countries, years, params, provenance, catalog):
             out.append('<p><em>No data documented yet for this country.</em></p><hr>')
             continue
 
-        # Country recap table
+        # Recap table
         out.append('<h3>Summary</h3>')
         out.append('<table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>')
         for p in params:
@@ -406,14 +443,18 @@ def render_html(deployment, countries, years, params, provenance, catalog):
             info = cdata.get(pid)
             if not info:
                 continue
+            proxy_of = info.get("proxy_of", "")
             src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            src = h(source_short(src_id, catalog)) if src_id else "&mdash;"
+            if proxy_of:
+                src_display = h(f"proxy of {proxy_of}")
+            else:
+                src_display = h(source_short(src_id, catalog)) if src_id else "&mdash;"
             conf = info.get("confidence", "")
             conf_html = f'<span class="conf">[{h(conf.upper())}]</span>' if conf else ""
             link = anchor(country, pid)
             out.append(
                 f'<tr><td><a href="#{link}"><code>{h(pid)}</code></a></td>'
-                f'<td>{src}</td><td>{conf_html}</td></tr>'
+                f'<td>{src_display}</td><td>{conf_html}</td></tr>'
             )
         out.append('</tbody></table>')
 
@@ -422,29 +463,27 @@ def render_html(deployment, countries, years, params, provenance, catalog):
             if not isinstance(info, dict):
                 continue
             rid = anchor(country, pid)
-            out.append(
-                f'<h3 id="{rid}"><code>{h(pid)}</code></h3>'
-            )
+            out.append(f'<h3 id="{rid}"><code>{h(pid)}</code></h3>')
             out.append(f'<p class="back"><a href="#{cid}">&#8593; {h(country)}</a></p>')
 
-            src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
-            if src_id:
-                s = catalog.get(src_id, {})
-                out.append(
-                    f'<p><strong>Source</strong>: {h(s.get("name", src_id))} '
-                    f'<code>({h(src_id)})</code></p>'
-                )
+            proxy_note = render_proxy_note_html(info, catalog)
+            if proxy_note:
+                out.append(f'<div class="proxy-chain">{proxy_note}</div>')
+            else:
+                src_id = info.get("source_id") or (info.get("source_ids") or [None])[0]
+                if src_id:
+                    s = catalog.get(src_id, {})
+                    out.append(
+                        f'<p><strong>Source</strong>: {h(s.get("name", src_id))} '
+                        f'<code>({h(src_id)})</code></p>'
+                    )
 
             method = info.get("method", "")
             if method:
                 out.append(f'<p><strong>Method</strong>: {h(method)}</p>')
 
             if "method_table" in info:
-                out.append(
-                    '<table><thead><tr>'
-                    '<th>Period</th><th>Method</th><th>Notes</th>'
-                    '</tr></thead><tbody>'
-                )
+                out.append('<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>')
                 for row in info["method_table"]:
                     out.append(
                         f'<tr><td>{h(row.get("period", ""))}</td>'
@@ -478,26 +517,25 @@ def main():
         description="Generate DATA_SOURCES docs for an EPM deployment"
     )
     parser.add_argument("--deployment", required=True, help="e.g. data_blacksea")
-    parser.add_argument("--format", choices=["md", "html", "both"], default="both",
-                        help="Output format (default: both)")
+    parser.add_argument("--format", choices=["md", "html", "both"], default="both")
     args = parser.parse_args()
 
     catalog = load_catalog()
     provenance = load_provenance(args.deployment)
     countries = load_zcmap(args.deployment)
-    years = load_years(args.deployment)
+    horizon = load_horizon(args.deployment)
     params = load_params()
 
     base = REPO_ROOT / "epm" / "input" / args.deployment
 
     if args.format in ("md", "both"):
-        md = render_md(args.deployment, countries, years, params, provenance, catalog)
+        md = render_md(args.deployment, countries, horizon, params, provenance, catalog)
         out = base / "DATA_SOURCES.md"
         out.write_text(md, encoding="utf-8")
         print(f"Written: {out}")
 
     if args.format in ("html", "both"):
-        html_content = render_html(args.deployment, countries, years, params, provenance, catalog)
+        html_content = render_html(args.deployment, countries, horizon, params, provenance, catalog)
         out = base / "DATA_SOURCES.html"
         out.write_text(html_content, encoding="utf-8")
         print(f"Written: {out}")
