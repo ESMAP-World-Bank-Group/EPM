@@ -53,6 +53,27 @@ Armenia:
       Profile should be replaced with GSE/ANRE SCADA data when available.
     last_updated: 2026-05-29
 
+  pGenDataInput:
+    source_id: epso_armenia_plexos_2022
+    method: "DIRECT (capacity, dates from CESI) — tech params from EPM defaults"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Capacity and dates (StYr, RetrYr) from CESI PLEXOS study slides.
+          HeatRate, RampUpRate, RampDnRate, ResLimShare, FOMperMW, VOM left blank —
+          filled automatically at runtime from pGenDataInputGeneric (EPM parameter guide:
+          https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/).
+          Nuclear and ST/Gas defaults added to pGenDataInputGeneric for this deployment.
+    confidence: medium
+    notes: >
+      14 generators: 12 Status-1 (existing), 2 Status-2 (committed), 3 Status-3 (candidates).
+      DOUBT — Armenia_Hrazdan_ST: units 1–4 all mothballed per GEM (2024); Capacity set to
+      0 MW pending confirmation. CESI shows 300–410 MW nameplate but none dispatchable.
+      DOUBT — Armenia_SHC RetrYr=2047: no explicit retirement date found; estimated from
+      post-ADB rehabilitation life extension (loan matures 2029). Commissioned 1960–1962.
+    last_updated: 2026-05-30
+
   pFuelPrice:
     source_id: tyndp_iea_weo_2022
     method: "DIRECT (2030–2050 anchors) + INTERP (intermediates) + EXTRAP (2024, 2051–2053)"
