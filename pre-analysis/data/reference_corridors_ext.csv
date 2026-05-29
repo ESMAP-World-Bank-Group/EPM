@@ -1,0 +1,24 @@
+# External zone connections — links from Black Sea zones to neighboring countries.
+# ext_zone keys map to EXTERNAL_ANCHORS in make_external_corridors_map.py
+# existing_mw  : current NTC (MW)
+# committed_mw : firmly planned/committed additions (MW incremental)
+# candidate_mw : candidate/study-stage additions (MW incremental)
+# Sources: ENTSO-E TYNDP, TEIAS, CESA, World Bank assessments
+z,ext_zone,existing_mw,committed_mw,candidate_mw,projects
+TUR_1,GRC,166,0,0,Maritsa E / Nea Santa (400 kV HVAC)
+TUR_2,IRN,600,0,0,
+TUR_2,IRQ,600,0,0,
+TUR_2,SYR,100,500,0,
+Romania,SRB,1000,0,0,
+Romania,HUN,1000,0,0,
+Romania,MDA,750,0,0,
+Romania,UKR,300,0,0,
+Dobrogea,MDA,500,630,0,
+Dobrogea,UKR,400,0,0,
+BGR_1,GRC,2000,0,0,
+BGR_1,SRB,600,0,0,
+GEO_1,RUS,570,0,0,
+ARM_1,IRN,350,850,0,
+AZE_1,RUS,700,0,0,
+AZE_1,IRN,600,0,0,
+AZE_2,IRN,50,0,0,

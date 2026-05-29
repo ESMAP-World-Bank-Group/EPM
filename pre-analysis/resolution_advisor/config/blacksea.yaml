@@ -1,0 +1,98 @@
+##############################################################################
+# Resolution Advisor — Black Sea Model Configuration
+# Edit this file to adjust assumptions for your region.
+# Run: python pre-analysis/resolution_advisor/advise.py --config <this file>
+##############################################################################
+
+region:
+  name: "Black Sea"
+  countries:
+
+    TUR:
+      name: "Türkiye"
+      area_km2: 783562
+      n_bidding_zones: 1          # TEİAŞ operates as single bidding zone
+      known_congestion_splits: 2  # documented East/West Anatolia constraint + NW/South
+      re_cf_spread: 0.35          # large spread: solar SE coast vs wind NW coast
+      distant_load_centers: true  # Istanbul (NW) vs Ankara (center) vs Adana/Gaziantep (SE)
+      hydro_concentration: true   # major hydro in East Anatolia, far from load centers
+      data_quality: medium        # ENTSO-E NTC data; zonal generation data incomplete
+
+    ROU:
+      name: "Romania"
+      area_km2: 238397
+      n_bidding_zones: 1
+      known_congestion_splits: 1  # Dobrogea wind zone (SE) constraints vs rest of country
+      re_cf_spread: 0.28          # Dobrogea wind vs Transylvania solar
+      distant_load_centers: false
+      hydro_concentration: true   # Danube hydro concentrated in SW
+      data_quality: good          # ENTSO-E member, full transparency data
+
+    BGR:
+      name: "Bulgaria"
+      area_km2: 110879
+      n_bidding_zones: 1
+      known_congestion_splits: 0
+      re_cf_spread: 0.18
+      distant_load_centers: false
+      hydro_concentration: false
+      data_quality: good          # ENTSO-E member
+
+    GEO:
+      name: "Georgia"
+      area_km2: 69700
+      n_bidding_zones: 1
+      known_congestion_splits: 0
+      re_cf_spread: 0.20          # Enguri hydro (NW) vs Mktvari valley (E)
+      distant_load_centers: false
+      hydro_concentration: true   # dominant hydro in mountainous NW/central
+      data_quality: limited       # IEA/IRENA only; no hourly zonal data
+
+    ARM:
+      name: "Armenia"
+      area_km2: 29743
+      n_bidding_zones: 1
+      known_congestion_splits: 0
+      re_cf_spread: 0.12
+      distant_load_centers: false
+      hydro_concentration: false
+      data_quality: limited
+
+    AZE:
+      name: "Azerbaijan"
+      area_km2: 86600
+      n_bidding_zones: 1
+      known_congestion_splits: 0
+      re_cf_spread: 0.20          # Caspian coast wind vs inland solar
+      distant_load_centers: false
+      hydro_concentration: false
+      data_quality: limited
+
+
+model_use:
+  # What questions does the model need to answer?
+  # Affects the required temporal resolution
+  primary_questions:
+    - re_integration          # integrating high shares of solar/wind
+    - interconnections        # cross-border trade flows, adequacy
+  # Approximate RE (solar + wind) share in target year
+  re_penetration_target: 0.45
+  # Is storage (batteries, pumped hydro) important in this model?
+  storage_relevance: high     # choices: low / medium / high
+  # Is seasonal hydro variation important (e.g., snowmelt, dry season)?
+  hydro_seasonality: high
+  # Planning years (affects tractability ceiling)
+  multi_period_years: [2025, 2030, 2035, 2040, 2045, 2050]
+  # Number of scenarios to run simultaneously
+  n_scenarios: 3
+
+
+constraints:
+  # Maximum acceptable single-scenario runtime
+  max_runtime_hours: 6
+  # Available solver
+  available_solver: cplex        # choices: cplex / glpk / gurobi
+  # Available RAM (GB) — affects what CPLEX can handle
+  ram_gb: 64
+  # Are you willing to invest extra time collecting fine-grained zonal data?
+  willing_to_collect_zonal_data: false

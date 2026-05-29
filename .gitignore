@@ -200,6 +200,10 @@ ENV/
 env.bak/
 venv.bak/
 /config/api_tokens.ini
+pre-analysis/config/api_tokens.ini
+pre-analysis/.eptr2-tgt
+pre-analysis/resolution_advisor/cache/
+pre-analysis/resolution_advisor/output/
 /.python-version
 
 # PEP 582

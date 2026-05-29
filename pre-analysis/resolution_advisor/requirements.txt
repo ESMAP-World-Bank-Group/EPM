@@ -1,0 +1,19 @@
+# Core (required for all modes)
+pyyaml>=6.0
+pandas>=1.5
+requests>=2.28
+
+# Required for --auto mode and zone_pipeline
+geopandas>=0.13
+scikit-learn>=1.2
+networkx>=3.0
+scipy>=1.10
+shapely>=2.0
+folium>=0.14
+matplotlib>=3.6
+numpy>=1.24
+
+# Optional backends (uncomment to enable):
+# tsam>=2.3          # temporal aggregation
+# pypsa>=0.26        # spatial clustering (PyPSA-Eur approach)
+# gridflow           # ESMAP spatial partitioning (private repo)
