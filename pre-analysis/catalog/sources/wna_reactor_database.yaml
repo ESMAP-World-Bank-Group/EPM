@@ -1,0 +1,24 @@
+id: wna_reactor_database
+name: "World Nuclear Association — Reactor Database"
+type: open_source
+date: "updated annually"
+access_note: >
+  https://world-nuclear.org/nuclear-reactor-database/
+  Per-reactor page: load factor, energy availability, electricity supplied by year.
+  Use Energy Availability (not Load Factor) for pAvailabilityCustom — it excludes
+  both planned and unplanned outages.
+coverage:
+  countries: all
+  years: "annual, historical to present"
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    location: "Per-reactor page — Energy Availability (%)"
+    coverage: "Nuclear plants — plant-specific availability factor"
+quality:
+  confidence: high
+  notes: >
+    Actual operational data reported by operators to WNA. Energy Availability is
+    the appropriate metric for EPM pAvailabilityCustom — reflects fraction of time
+    the unit was available at full capacity, excluding all outages.
+    Do not use Load Factor (lower, includes economic curtailment).
+  used_in_studies: [data_blacksea]

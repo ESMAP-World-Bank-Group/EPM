@@ -53,6 +53,24 @@ Armenia:
       Profile should be replaced with GSE/ANRE SCADA data when available.
     last_updated: 2026-05-29
 
+  pAvailabilityCustom:
+    source_id: wna_reactor_database
+    method: "DIRECT (Armenia_ANPP) — EPM generic for all other techs"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Armenia_ANPP: 0.70 flat (Q1–Q4), mean of WNA Energy Availability
+          2023 (67.3%) and 2024 (70.4%). All other Armenia generators rely
+          on pAvailabilityGeneric defaults (CCGT=0.85, Hydro=0.85, PV/Wind=1.0).
+    confidence: high
+    notes: >
+      Nuclear excluded from pAvailabilityGeneric — availability is plant-specific
+      (aging VVER-270 at 0.70 vs new builds at 0.85–0.90).
+      Other countries with nuclear plants should add their own custom entry
+      referencing wna_reactor_database.
+    last_updated: 2026-05-30
+
   pGenDataInput:
     source_id: epso_armenia_plexos_2022
     method: "DIRECT (capacity, dates from CESI) — tech params from EPM defaults"
