@@ -52,3 +52,32 @@ Armenia:
       gas penetration), implying a sharper winter morning peak and a higher load factor in Q1.
       Profile should be replaced with GSE/ANRE SCADA data when available.
     last_updated: 2026-05-29
+
+  pFuelPrice:
+    source_id: tyndp_iea_weo_2022
+    method: "DIRECT (2030–2050 anchors) + INTERP (intermediates) + EXTRAP (2024, 2051–2053)"
+    method_table:
+      - period: "2030–2050"
+        method: DIRECT
+        notes: "PLEXOS slide 5 anchors — Gas: 4.680/4.838/4.996/5.101/5.206 €/GJ; HFO: 6.16 €/GJ flat"
+      - period: "2031–2049"
+        method: INTERP
+        notes: "Linear interpolation between successive 5-year anchors (slopes: +0.0316 €/GJ/yr on 2030–2040, +0.021 on 2040–2050)"
+      - period: "2024"
+        method: EXTRAP
+        notes: "Gas: 4.680 − 6 × 0.0316 = 4.490 €/GJ (extrapolation arrière au taux 2030–2035); HFO: flat"
+      - period: "2025–2029"
+        method: INTERP
+        notes: "Linear between 2024 and 2030 anchor"
+      - period: "2051–2053"
+        method: EXTRAP
+        notes: "Gas: +0.021 €/GJ/yr (taux 2045–2050); HFO: flat"
+    confidence: medium
+    notes: >
+      EUR/USD conversion at 1.05 (BCE 2022 annual average). Fuels included: Gas, HFO.
+      Uranium proxied flat from Turkiye (0.97 $/GJ — not covered by TYNDP/IEA WEO).
+      Coal and Lignite excluded — no coal generation in Armenia existing or planned fleet.
+      Gas price reflects TYNDP/IEA market trajectory, not Armenia–Gazprom bilateral
+      contract price (~4.5 $/GJ in 2022); difference is small but methodology diverges
+      from actual cost structure for near-term years.
+    last_updated: 2026-05-29

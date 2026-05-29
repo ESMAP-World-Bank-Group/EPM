@@ -1,0 +1,25 @@
+id: tyndp_iea_weo_2022
+name: "TYNDP / IEA World Energy Outlook 2022 — commodity prices"
+type: open_source
+date: "2022"
+access_note: >
+  ENTSO-E Ten-Year Network Development Plan (TYNDP) commodity price scenarios,
+  cross-referenced with IEA World Energy Outlook 2022. Embedded in CESI PLEXOS
+  study for the Armenia / Black Sea region (slide 5 of PLEXOS PPTX).
+  IEA WEO 2022: https://www.iea.org/reports/world-energy-outlook-2022
+  ENTSO-E TYNDP: https://tyndp.entsoe.eu/
+coverage:
+  countries: [Armenia, Georgia, Romania]
+  years: "2030, 2035, 2040, 2045, 2050"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Slide 5 — Armenia Data and Assumptions PLEXOS STUDY.pptx"
+    coverage: "Natural Gas, Heavy Oil, Coal, Lignite (€/GJ) — 5-year steps 2030–2050"
+quality:
+  confidence: medium
+  notes: >
+    European/global reference prices, not Armenia-specific contract prices.
+    Armenia gas price is set by bilateral Gazprom contract (not market-based),
+    so TYNDP values represent a planning trajectory rather than actual costs.
+    EUR/USD conversion at 1.05 (BCE 2022 annual average).
+  used_in_studies: [data_blacksea]

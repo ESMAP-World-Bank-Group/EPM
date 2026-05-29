@@ -97,7 +97,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pFuelPrice</code></td>
 <td>Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ)</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-pending">&mdash;</td>
+<td class="status-done"><a href="#armenia-pfuelprice">TYNDP / IEA World Energy Outlo… (2022)</a></td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -189,7 +189,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#armenia"><strong>Armenia</strong></a>
  &mdash; 
-<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>
+<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
 </li>
 </ul></div>
 <hr>
@@ -202,6 +202,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span></td></tr>
+<tr><td><a href="#armenia-pfuelprice"><code>pFuelPrice</code></a></td><td>TYNDP / IEA World Energy Outlo… (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 </tbody></table>
 <h3 id="armenia-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
@@ -225,6 +226,19 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </tbody></table>
 <blockquote>No Armenia SCADA or hourly load data available. Proxied from the Turkiye profile (shared across all TR zones, including EastAna). Key limitation: Armenia's residential sector relies heavily on direct electric heating (unlike Turkiye which has significant gas penetration), implying a sharper winter morning peak and a higher load factor in Q1. Profile should be replaced with GSE/ANRE SCADA data when available.</blockquote>
 <p class="back">Confidence: [LOW] · Last updated: 2026-05-29</p>
+<h3 id="armenia-pfuelprice"><code>pFuelPrice</code></h3>
+<p class="back"><a href="#armenia">&#8593; Armenia</a></p>
+<p><strong>Source</strong>: TYNDP / IEA World Energy Outlook 2022 — commodity prices <code>(tyndp_iea_weo_2022)</code></p>
+<p><strong>Method</strong>: DIRECT (2030–2050 anchors) + INTERP (intermediates) + EXTRAP (2024, 2051–2053)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2030–2050</td><td><code>DIRECT</code></td><td>PLEXOS slide 5 anchors — Gas: 4.680/4.838/4.996/5.101/5.206 €/GJ; HFO: 6.16 €/GJ flat</td></tr>
+<tr><td>2031–2049</td><td><code>INTERP</code></td><td>Linear interpolation between successive 5-year anchors (slopes: +0.0316 €/GJ/yr on 2030–2040, +0.021 on 2040–2050)</td></tr>
+<tr><td>2024</td><td><code>EXTRAP</code></td><td>Gas: 4.680 − 6 × 0.0316 = 4.490 €/GJ (extrapolation arrière au taux 2030–2035); HFO: flat</td></tr>
+<tr><td>2025–2029</td><td><code>INTERP</code></td><td>Linear between 2024 and 2030 anchor</td></tr>
+<tr><td>2051–2053</td><td><code>EXTRAP</code></td><td>Gas: +0.021 €/GJ/yr (taux 2045–2050); HFO: flat</td></tr>
+</tbody></table>
+<blockquote>EUR/USD conversion at 1.05 (BCE 2022 annual average). Fuels included: Gas, HFO. Uranium proxied flat from Turkiye (0.97 $/GJ — not covered by TYNDP/IEA WEO). Coal and Lignite excluded — no coal generation in Armenia existing or planned fleet. Gas price reflects TYNDP/IEA market trajectory, not Armenia–Gazprom bilateral contract price (~4.5 $/GJ in 2022); difference is small but methodology diverges from actual cost structure for near-term years.</blockquote>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-05-29</p>
 <hr>
 </body>
 </html>
