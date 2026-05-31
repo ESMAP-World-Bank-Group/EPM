@@ -39,6 +39,8 @@ Armenia:
   pDemandProfile:
     source_id: teias_hourly_load
     proxy_of: "Turkiye/EastAna"
+    needs_review: true
+    review_note: "Obtain GSE/ANRE SCADA hourly load data for Armenia to replace Turkiye/EastAna proxy"
     method: "PROXY_TurkiyeEastAna"
     method_table:
       - period: "2024–2053"
@@ -52,6 +54,29 @@ Armenia:
       gas penetration), implying a sharper winter morning peak and a higher load factor in Q1.
       Profile should be replaced with GSE/ANRE SCADA data when available.
     last_updated: 2026-05-29
+
+  pVREProfile:
+    source_id: renewables_ninja
+    secondary_source_ids: [teias_hourly_load]
+    needs_review: true
+    review_note: "Rerun representative days pipeline with all Black Sea countries — d1–d6 currently share same seasonal mean (within-season variability lost). ROR proxied from EastAna."
+    method: "DIRECT seasonal mean (PV, Wind) — PROXY_EastAna (ROR)"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          PV + Wind: 6-year mean (2018–2023) from Renewables Ninja at Armenia centroid
+          (44.5°E, 40.2°N). All d1–d6 within a season share the same mean hourly profile.
+      - period: "2024–2053"
+        method: PROXY_EastAna
+        notes: "ROR: EastAna Turkiye zone rows copied verbatim — nearest zone, similar snowmelt hydrology"
+    confidence: low
+    notes: >
+      Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season
+      share the same mean profile. This is a known limitation of the current approach.
+      To fix: rerun the full representative days pipeline including Armenia alongside
+      all other Black Sea countries (run_blacksea_data.py already supports this).
+    last_updated: 2026-05-30
 
   pAvailabilityCustom:
     source_id: wna_reactor_database

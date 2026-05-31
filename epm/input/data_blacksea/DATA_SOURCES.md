@@ -13,12 +13,12 @@
 | Category | Item | Parameter | Description | Turkiye | Armenia |
 |---|---|---|---|---|---|
 | Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI/EPSO (2022) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | proxy of Turkiye/EastAna |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI/EPSO (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | — |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — |
 | Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — |
 | Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — |
@@ -35,7 +35,7 @@
 ## Contents
 
 - [Turkiye](#turkiye) — *not yet documented*
-- [Armenia](#armenia) — [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
+- [Armenia](#armenia) — [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pVREProfile`](#armenia-pvreprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
 
 ---
 
@@ -60,10 +60,11 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#armenia-pdemandforecast) | CESI/EPSO (2022) | [MEDIUM] |
-| [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Turkiye/EastAna | [LOW] |
+| [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Turkiye/EastAna | [LOW] ⚠ |
 | [`pGenDataInput`](#armenia-pgendatainput) | CESI/EPSO (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] |
 | [`pFuelPrice`](#armenia-pfuelprice) | TYNDP / IEA World Energy Outlo… (2022) | [MEDIUM] |
 | [`pAvailabilityCustom`](#armenia-pavailabilitycustom) | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [HIGH] |
+| [`pVREProfile`](#armenia-pvreprofile) | Renewables Ninja (2018–2023) + TEİAŞ | [LOW] ⚠ |
 
 <a id="armenia-pdemandforecast"></a>
 
@@ -97,6 +98,8 @@
 **Proxied from**: Turkiye/EastAna  
 **Original source**: TEİAŞ — Turkiye hourly load data (likely)
 
+> ⚠ **Needs review**: Obtain GSE/ANRE SCADA hourly load data for Armenia to replace Turkiye/EastAna proxy
+
 **Method**: PROXY_TurkiyeEastAna
 
 | Period | Method | Notes |
@@ -106,6 +109,31 @@
 > No Armenia SCADA or hourly load data available. Proxied from the Turkiye profile (shared across all TR zones, including EastAna). Key limitation: Armenia's residential sector relies heavily on direct electric heating (unlike Turkiye which has significant gas penetration), implying a sharper winter morning peak and a higher load factor in Q1. Profile should be replaced with GSE/ANRE SCADA data when available.
 
 *Confidence: [LOW] · Last updated: 2026-05-29*
+
+
+<a id="armenia-pvreprofile"></a>
+
+### `pVREProfile`
+
+[&#8593; Armenia](#armenia)
+
+**Source**: Renewables Ninja — PV and Wind capacity factors (`renewables_ninja`)
+
+**Also uses**: TEİAŞ — Turkiye hourly load data (likely) (`teias_hourly_load`)
+
+> ⚠ **Needs review**: Rerun representative days pipeline with all Black Sea countries — d1–d6 currently share same seasonal mean (within-season variability lost). ROR proxied from EastAna.
+
+**Method**: DIRECT seasonal mean (PV, Wind) — PROXY_EastAna (ROR)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | PV + Wind: 6-year mean (2018–2023) from Renewables Ninja at Armenia centroid (44.5°E, 40.2°N). All d1–d6 within a season share the same mean hourly profile.
+ |
+| 2024–2053 | `PROXY_EastAna` | ROR: EastAna Turkiye zone rows copied verbatim — nearest zone, similar snowmelt hydrology |
+
+> Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season share the same mean profile. This is a known limitation of the current approach. To fix: rerun the full representative days pipeline including Armenia alongside all other Black Sea countries (run_blacksea_data.py already supports this).
+
+*Confidence: [LOW] · Last updated: 2026-05-30*
 
 
 <a id="armenia-pavailabilitycustom"></a>

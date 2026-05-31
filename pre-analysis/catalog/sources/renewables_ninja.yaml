@@ -1,0 +1,24 @@
+id: renewables_ninja
+name: "Renewables Ninja — PV and Wind capacity factors"
+type: open_source
+url: "https://www.renewables.ninja/"
+date: "2018–2023"
+access_note: >
+  https://www.renewables.ninja/
+  API-based hourly capacity factor time series at arbitrary lat/lon.
+  Solar: fixed-tilt 35°, azimuth 180°, 10% system losses, MERRA-2 reanalysis.
+  Wind: Gamesa G114-2000 turbine, 100m hub height, MERRA-2 reanalysis.
+coverage:
+  countries: all
+  years: "2018–2023 (6-year mean used for EPM profiles)"
+fills_epm_resources:
+  - resource: pVREProfile
+    location: "API query at zone centroid coordinates"
+    coverage: "PV and OnshoreWind hourly capacity factors (normalised 0–1)"
+quality:
+  confidence: medium
+  notes: >
+    Single-point estimate at zone centroid — does not capture spatial variability
+    within zone. MERRA-2 reanalysis has known biases for complex terrain (mountains).
+    6-year mean (2018–2023) reduces inter-annual variability.
+  used_in_studies: [data_blacksea]

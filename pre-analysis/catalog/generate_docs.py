@@ -265,7 +265,10 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
         for country in countries:
             info = get_info(country, pid, provenance)
             if info:
-                cells.append(sources_display_md(info, catalog))
+                cell = sources_display_md(info, catalog)
+                if info.get("needs_review"):
+                    cell = f"⚠ {cell}"
+                cells.append(cell)
             else:
                 cells.append("—")
         lines.append(f"| {cat} | {item} | `{pid}` | {desc} | " + " | ".join(cells) + " |")
@@ -311,6 +314,8 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
             src_display = sources_display_md(info, catalog)
             conf = info.get("confidence", "")
             conf_label = CONFIDENCE_LABEL.get(conf, conf.upper()) if conf else "—"
+            if info.get("needs_review"):
+                conf_label += " ⚠"
             lines.append(f"| [`{pid}`](#{anchor(country, pid)}) | {src_display} | {conf_label} |")
         lines.append("")
 
@@ -336,6 +341,10 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
                 secondary_note = render_secondary_sources_md(info, catalog)
                 if secondary_note:
                     lines.append(secondary_note)
+
+            if info.get("needs_review"):
+                review_note = info.get("review_note", "Further data collection needed")
+                lines.append(f"> ⚠ **Needs review**: {review_note}\n")
 
             method = info.get("method", "")
             if method:
@@ -409,10 +418,16 @@ blockquote { border-left: 3px solid #d5d8dc; margin: 10px 0; padding: 6px 14px;
 .toc a { color: #1a5276; text-decoration: none; }
 .toc a:hover { text-decoration: underline; }
 hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
-.legend { display: flex; gap: 24px; margin: 4px 0 24px; }
+.legend { display: flex; gap: 24px; margin: 4px 0 24px; flex-wrap: wrap; }
 .legend span { font-size: 0.82em; color: #666; }
 .legend .dot-done { color: #276327; font-weight: 700; }
 .legend .dot-pending { color: #bbb; font-weight: 700; }
+.legend .dot-review { color: #b85c00; font-weight: 700; }
+.status-review { background: #fff4e5; }
+.status-review a { color: #b85c00; text-decoration: none; }
+.status-review a:hover { text-decoration: underline; }
+.review-box { background: #fff4e5; border-left: 3px solid #e07b00;
+              padding: 8px 14px; margin: 10px 0; font-size: 0.88em; color: #7a3d00; }
 .proxy-chain { background: #fafaf2; border-left: 3px solid #e0c840;
                padding: 6px 12px; margin: 8px 0; font-size: 0.88em; }
 """
@@ -445,6 +460,7 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
 
     out.append('<div class="legend">')
     out.append('<span><span class="dot-done">&#9632;</span> Documented</span>')
+    out.append('<span><span class="dot-review">&#9651;</span> Needs review (further data collection needed)</span>')
     out.append('<span><span class="dot-pending">&mdash;</span> Not yet documented</span>')
     out.append('</div>\n')
 
@@ -476,7 +492,11 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
             if info:
                 cell_html = sources_display_html(info, catalog)
                 link = anchor(country, pid)
-                out.append(f'<td class="status-done"><a href="#{link}">{cell_html}</a></td>')
+                needs_review = info.get("needs_review", False)
+                if needs_review:
+                    out.append(f'<td class="status-review"><a href="#{link}">&#9651; {cell_html}</a></td>')
+                else:
+                    out.append(f'<td class="status-done"><a href="#{link}">{cell_html}</a></td>')
             else:
                 out.append('<td class="status-pending">&mdash;</td>')
         out.append('</tr>')
@@ -524,10 +544,12 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
             src_display = sources_display_html(info, catalog)
             conf = info.get("confidence", "")
             conf_html = f'<span class="conf">[{h(conf.upper())}]</span>' if conf else ""
+            needs_review = info.get("needs_review", False)
+            review_html = ' <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span>' if needs_review else ""
             link = anchor(country, pid)
             out.append(
                 f'<tr><td><a href="#{link}"><code>{h(pid)}</code></a></td>'
-                f'<td>{src_display}</td><td>{conf_html}</td></tr>'
+                f'<td>{src_display}</td><td>{conf_html}{review_html}</td></tr>'
             )
         out.append('</tbody></table>')
 
@@ -553,6 +575,10 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
                 secondary_note = render_secondary_sources_html(info, catalog)
                 if secondary_note:
                     out.append(secondary_note)
+
+            if info.get("needs_review"):
+                review_note = info.get("review_note", "Further data collection needed")
+                out.append(f'<div class="review-box">&#9651; <strong>Needs review</strong>: {h(review_note)}</div>')
 
             method = info.get("method", "")
             if method:

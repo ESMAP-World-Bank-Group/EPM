@@ -41,10 +41,16 @@ blockquote { border-left: 3px solid #d5d8dc; margin: 10px 0; padding: 6px 14px;
 .toc a { color: #1a5276; text-decoration: none; }
 .toc a:hover { text-decoration: underline; }
 hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
-.legend { display: flex; gap: 24px; margin: 4px 0 24px; }
+.legend { display: flex; gap: 24px; margin: 4px 0 24px; flex-wrap: wrap; }
 .legend span { font-size: 0.82em; color: #666; }
 .legend .dot-done { color: #276327; font-weight: 700; }
 .legend .dot-pending { color: #bbb; font-weight: 700; }
+.legend .dot-review { color: #b85c00; font-weight: 700; }
+.status-review { background: #fff4e5; }
+.status-review a { color: #b85c00; text-decoration: none; }
+.status-review a:hover { text-decoration: underline; }
+.review-box { background: #fff4e5; border-left: 3px solid #e07b00;
+              padding: 8px 14px; margin: 10px 0; font-size: 0.88em; color: #7a3d00; }
 .proxy-chain { background: #fafaf2; border-left: 3px solid #e0c840;
                padding: 6px 12px; margin: 8px 0; font-size: 0.88em; }
 </style>
@@ -59,6 +65,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 
 <div class="legend">
 <span><span class="dot-done">&#9632;</span> Documented</span>
+<span><span class="dot-review">&#9651;</span> Needs review (further data collection needed)</span>
 <span><span class="dot-pending">&mdash;</span> Not yet documented</span>
 </div>
 
@@ -82,7 +89,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pDemandProfile</code></td>
 <td>Typical hourly load curve (8760 h) for a representative year</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-done"><a href="#armenia-pdemandprofile">proxy of Turkiye/EastAna</a></td>
+<td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
 </tr>
 <tr class="cat-row"><td colspan="5">Supply</td></tr>
 <tr>
@@ -118,7 +125,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td><code>pVREProfile</code></td>
 <td>Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1)</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#armenia-pvreprofile">&#9651; Renewables Ninja (2018–2023) + TEİAŞ</a></td>
 </tr>
 <tr class="cat-row"><td colspan="5">Resources</td></tr>
 <tr>
@@ -189,7 +196,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#armenia"><strong>Armenia</strong></a>
  &mdash; 
-<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a>, <a href="#armenia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
+<a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pvreprofile"><code>pVREProfile</code></a>, <a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a>, <a href="#armenia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
 </li>
 </ul></div>
 <hr>
@@ -201,10 +208,11 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3>Summary</h3>
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a></td><td>CESI/EPSO (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
-<tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span></td></tr>
+<tr><td><a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of Turkiye/EastAna</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#armenia-pgendatainput"><code>pGenDataInput</code></a></td><td>CESI/EPSO (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pfuelprice"><code>pFuelPrice</code></a></td><td>TYNDP / IEA World Energy Outlo… (2022)</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[HIGH]</span></td></tr>
+<tr><td><a href="#armenia-pvreprofile"><code>pVREProfile</code></a></td><td>Renewables Ninja (2018–2023) + TEİAŞ</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="armenia-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
@@ -222,12 +230,26 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3 id="armenia-pdemandprofile"><code>pDemandProfile</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
 <div class="proxy-chain"><p><strong>Proxied from</strong>: <code>Turkiye/EastAna</code><br><strong>Original source</strong>: TEİAŞ — Turkiye hourly load data (likely) <code>(teias_hourly_load)</code></p></div>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Obtain GSE/ANRE SCADA hourly load data for Armenia to replace Turkiye/EastAna proxy</div>
 <p><strong>Method</strong>: PROXY_TurkiyeEastAna</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2024–2053</td><td><code>PROXY_TurkiyeEastAna</code></td><td>EastAna (East Anatolia) hourly shape copied verbatim — nearest zone geographically, same model</td></tr>
 </tbody></table>
 <blockquote>No Armenia SCADA or hourly load data available. Proxied from the Turkiye profile (shared across all TR zones, including EastAna). Key limitation: Armenia's residential sector relies heavily on direct electric heating (unlike Turkiye which has significant gas penetration), implying a sharper winter morning peak and a higher load factor in Q1. Profile should be replaced with GSE/ANRE SCADA data when available.</blockquote>
 <p class="back">Confidence: [LOW] · Last updated: 2026-05-29</p>
+<h3 id="armenia-pvreprofile"><code>pVREProfile</code></h3>
+<p class="back"><a href="#armenia">&#8593; Armenia</a></p>
+<p><strong>Source</strong>: Renewables Ninja — PV and Wind capacity factors <code>(renewables_ninja)</code></p>
+<p><strong>Also uses</strong>: TEİAŞ — Turkiye hourly load data (likely) <code>(teias_hourly_load)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Rerun representative days pipeline with all Black Sea countries — d1–d6 currently share same seasonal mean (within-season variability lost). ROR proxied from EastAna.</div>
+<p><strong>Method</strong>: DIRECT seasonal mean (PV, Wind) — PROXY_EastAna (ROR)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>PV + Wind: 6-year mean (2018–2023) from Renewables Ninja at Armenia centroid (44.5°E, 40.2°N). All d1–d6 within a season share the same mean hourly profile.
+</td></tr>
+<tr><td>2024–2053</td><td><code>PROXY_EastAna</code></td><td>ROR: EastAna Turkiye zone rows copied verbatim — nearest zone, similar snowmelt hydrology</td></tr>
+</tbody></table>
+<blockquote>Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season share the same mean profile. This is a known limitation of the current approach. To fix: rerun the full representative days pipeline including Armenia alongside all other Black Sea countries (run_blacksea_data.py already supports this).</blockquote>
+<p class="back">Confidence: [LOW] · Last updated: 2026-05-30</p>
 <h3 id="armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></h3>
 <p class="back"><a href="#armenia">&#8593; Armenia</a></p>
 <p><strong>Source</strong>: World Nuclear Association — Reactor Database <code>(wna_reactor_database)</code></p>
