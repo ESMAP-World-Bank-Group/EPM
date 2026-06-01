@@ -31,6 +31,7 @@ PV,PV,1
 CSP,CSP,1
 Wind,Wind,1
 Biogas,Biogas,0.85
+Nuclear,Uranium,0.85
 ST,Gas,0.65
 ST,HFO,0.65
 ST,Diesel,0.65
