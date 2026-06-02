@@ -1996,7 +1996,7 @@
 
 
 <h1 id="performance-threads">Performance &amp; Threads<a class="headerlink" href="#performance-threads" title="Permanent link">&para;</a></h1>
-<p>EPM peut lancer plusieurs scénarios en parallèle avec le flag <code>--cpu</code>. Cette page explique comment dimensionner correctement ce paramètre selon votre machine.</p>
+<p>EPM peut lancer plusieurs scénarios en parallèle avec le flag <code>--parallel</code>. Cette page explique comment dimensionner correctement ce paramètre selon votre machine.</p>
 <hr />
 <h2 id="concepts-cles">Concepts clés<a class="headerlink" href="#concepts-cles" title="Permanent link">&para;</a></h2>
 <table>
@@ -2020,7 +2020,7 @@
 <td>En cloud/VM, 1 vCPU ≈ 1 thread</td>
 </tr>
 <tr>
-<td><strong><code>--cpu</code></strong></td>
+<td><strong><code>--parallel</code></strong></td>
 <td>Nombre de scénarios EPM lancés simultanément</td>
 </tr>
 <tr>
@@ -2030,15 +2030,15 @@
 </tbody>
 </table>
 <blockquote>
-<p><strong>Note</strong> — Le flag <code>--cpu</code> contrôle en réalité le nombre de <strong>jobs parallèles</strong>, pas les CPUs directement. Ce nom sera renommé dans une prochaine version pour éviter la confusion.</p>
+<p><strong>Note</strong> — Le flag <code>--parallel</code> contrôle en réalité le nombre de <strong>jobs parallèles</strong>, pas les CPUs directement. Ce nom sera renommé dans une prochaine version pour éviter la confusion.</p>
 </blockquote>
 <hr />
 <h2 id="les-deux-plafonds-a-respecter">Les deux plafonds à respecter<a class="headerlink" href="#les-deux-plafonds-a-respecter" title="Permanent link">&para;</a></h2>
-<p>Lancer <code>--cpu N</code> signifie que N scénarios tournent en même temps. Chaque scénario consomme de la RAM <strong>et</strong> des threads CPU. Il y a donc <strong>deux plafonds indépendants</strong> :</p>
+<p>Lancer <code>--parallel N</code> signifie que N scénarios tournent en même temps. Chaque scénario consomme de la RAM <strong>et</strong> des threads CPU. Il y a donc <strong>deux plafonds indépendants</strong> :</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Plafond RAM  = RAM totale ÷ RAM par scénario
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Plafond CPU  = vCPU totaux ÷ threads par scénario
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--cpu = min(Plafond RAM, Plafond CPU)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--parallel = min(Plafond RAM, Plafond CPU)
 </code></pre></div>
 <p>Le plafond le plus bas est celui qui limite. Dépasser l'un ou l'autre provoque une contention des ressources et ralentit l'ensemble des jobs.</p>
 <hr />
@@ -2057,11 +2057,11 @@ C'est l'empreinte mémoire maximale de ce scénario. Utilisez cette valeur.</p>
 </code></pre></div>
 Si la ligne est absente, CPLEX utilise tous les threads disponibles — à éviter en contexte parallèle.<br />
 Voir <a href="../options_solver/">Options du solveur</a> pour modifier cette valeur.</p>
-<p><strong>Étape 4 — Calculer <code>--cpu</code></strong></p>
+<p><strong>Étape 4 — Calculer <code>--parallel</code></strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Plafond RAM  = RAM totale ÷ RAM par scénario
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Plafond CPU  = vCPU totaux ÷ threads
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>--cpu = min(Plafond RAM, Plafond CPU)
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>--parallel = min(Plafond RAM, Plafond CPU)
 </code></pre></div>
 <hr />
 <h2 id="exemple-concret">Exemple concret<a class="headerlink" href="#exemple-concret" title="Permanent link">&para;</a></h2>
@@ -2069,10 +2069,10 @@ Voir <a href="../options_solver/">Options du solveur</a> pour modifier cette val
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Plafond RAM  = 256 ÷ 32  = 8 jobs
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Plafond CPU  = 32 ÷ 8    = 4 jobs
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>--cpu = min(8, 4) = 4
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>--parallel = min(8, 4) = 4
 </code></pre></div>
-<p>Ici le CPU est limitant. On lance avec <code>--cpu 4</code>, ce qui laisse ~64 Go de RAM inutilisée.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>config.csv<span class="w"> </span>--scenarios<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+<p>Ici le CPU est limitant. On lance avec <code>--parallel 4</code>, ce qui laisse ~64 Go de RAM inutilisée.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>config.csv<span class="w"> </span>--scenarios<span class="w"> </span>--parallel<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <hr />
 <h2 id="arbitrage-threads-vs-scenarios-paralleles">Arbitrage : threads vs. scénarios parallèles<a class="headerlink" href="#arbitrage-threads-vs-scenarios-paralleles" title="Permanent link">&para;</a></h2>
@@ -2080,12 +2080,12 @@ Voir <a href="../options_solver/">Options du solveur</a> pour modifier cette val
 <p><strong>Beaucoup de scénarios à passer (longue file)</strong><br />
 → Préférez <strong>moins de threads, plus de jobs parallèles</strong>.<br />
 La parallélisation entre scénarios est quasi parfaite (chaque job indépendant), alors que le gain en threads dans un solve est à rendement décroissant — passer de 4 à 8 threads accélère peu un solve donné. Davantage de solves en parallèle finissent une longue file plus rapidement.</p>
-<p><em>Exemple : baisser à <code>threads = 5</code> → Plafond CPU = 32 ÷ 5 = 6 jobs → <code>--cpu 6</code> au lieu de 4.</em></p>
+<p><em>Exemple : baisser à <code>threads = 5</code> → Plafond CPU = 32 ÷ 5 = 6 jobs → <code>--parallel 6</code> au lieu de 4.</em></p>
 <p><strong>Peu de scénarios lourds (MIP sans <code>--simple</code>)</strong><br />
 → Préférez <strong>plus de threads, moins de jobs parallèles</strong>.<br />
 Concentrez les ressources sur chaque solve pour le terminer plus vite.</p>
 <blockquote>
-<p><strong>Note</strong> — Il est possible de dépasser légèrement le plafond CPU (ex. <code>--cpu 6</code> avec <code>threads = 8</code> sur 32 vCPU). L'OS partage alors le temps CPU entre les threads et les jobs s'exécutent plus lentement. Les résultats restent corrects mais le débit global est réduit par rapport à une allocation équilibrée.</p>
+<p><strong>Note</strong> — Il est possible de dépasser légèrement le plafond CPU (ex. <code>--parallel 6</code> avec <code>threads = 8</code> sur 32 vCPU). L'OS partage alors le temps CPU entre les threads et les jobs s'exécutent plus lentement. Les résultats restent corrects mais le débit global est réduit par rapport à une allocation équilibrée.</p>
 </blockquote>
 <hr />
 <h2 id="recapitulatif">Récapitulatif<a class="headerlink" href="#recapitulatif" title="Permanent link">&para;</a></h2>
@@ -2099,15 +2099,15 @@ Concentrez les ressources sur chaque solve pour le terminer plus vite.</p>
 <tbody>
 <tr>
 <td>Longue file de scénarios RMIP</td>
-<td>Baisser <code>threads</code>, augmenter <code>--cpu</code></td>
+<td>Baisser <code>threads</code>, augmenter <code>--parallel</code></td>
 </tr>
 <tr>
 <td>Peu de scénarios MIP lourds</td>
-<td>Garder <code>threads</code> élevé, <code>--cpu</code> plus bas</td>
+<td>Garder <code>threads</code> élevé, <code>--parallel</code> plus bas</td>
 </tr>
 <tr>
 <td>Machine partagée (2 modélisateurs)</td>
-<td>Diviser <code>--cpu</code> par 2</td>
+<td>Diviser <code>--parallel</code> par 2</td>
 </tr>
 </tbody>
 </table>

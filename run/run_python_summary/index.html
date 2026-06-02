@@ -1863,7 +1863,7 @@
 <h1 id="run-epm-with-python-summary">Run EPM with Python - Summary<a class="headerlink" href="#run-epm-with-python-summary" title="Permanent link">&para;</a></h1>
 <p>First, navigate to the <code>epm</code> directory.</p>
 <p>Example: Specify the input folder, enable sensitivity analysis, and use 4 CPU cores for parallel execution.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--parallel<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <p>Other command-line options allow for further customization of the simulation run, such as specifying scenarios, enabling Monte Carlo analysis, and more.</p>
 <h3 id="general-configuration">General Configuration<a class="headerlink" href="#general-configuration" title="Permanent link">&para;</a></h3>
@@ -1922,11 +1922,11 @@
 <td><code>--simple DiscreteCap y</code></td>
 </tr>
 <tr>
-<td><code>--cpu</code></td>
+<td><code>--parallel</code></td>
 <td>integer</td>
 <td>1</td>
-<td>Number of CPU cores to use</td>
-<td><code>--cpu 4</code></td>
+<td>Number of scenarios to run in parallel (<code>--cpu</code> deprecated)</td>
+<td><code>--parallel 4</code></td>
 </tr>
 </tbody>
 </table>

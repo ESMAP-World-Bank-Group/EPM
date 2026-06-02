@@ -2132,7 +2132,7 @@
 <p><strong>MCP (Model Context Protocol)</strong> is a way for AI assistants (like the one in Cursor) to interact with your code and tools. Think of it as a bridge that lets the AI assistant run your Python scripts directly.</p>
 <p>Instead of you having to:
 1. Open terminal
-2. Type: <code>python epm/epm.py --folder_input data_test --cpu 4</code>
+2. Type: <code>python epm/epm.py --folder_input data_test --parallel 4</code>
 3. Wait for results
 4. Copy/paste results back to Cursor</p>
 <p>With MCP, you can just <strong>ask the AI in Cursor</strong> to run EPM, and it will do it for you!</p>
@@ -2155,7 +2155,7 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>MCP Server (tools/mcp_server.py)
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Executes: python epm/epm.py --folder_input data_test --cpu 4
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Executes: python epm/epm.py --folder_input data_test --parallel 4
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Results come back to you in Cursor
 </code></pre></div>
@@ -2230,12 +2230,12 @@
 <h3 id="example-1-simple-run">Example 1: Simple Run<a class="headerlink" href="#example-1-simple-run" title="Permanent link">&para;</a></h3>
 <p><strong>You:</strong> "Run EPM with the default test data"</p>
 <p><strong>AI:</strong> <em>Uses the tool to run:</em>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--cpu<span class="w"> </span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--parallel<span class="w"> </span><span class="m">1</span>
 </code></pre></div></p>
 <h3 id="example-2-complex-run">Example 2: Complex Run<a class="headerlink" href="#example-2-complex-run" title="Permanent link">&para;</a></h3>
 <p><strong>You:</strong> "Run EPM with data_test_region, enable sensitivity analysis, use 4 CPUs, and run only the baseline scenario"</p>
 <p><strong>AI:</strong> <em>Uses the tool to run:</em>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--selected_scenarios<span class="w"> </span>baseline
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--parallel<span class="w"> </span><span class="m">4</span><span class="w"> </span>--selected_scenarios<span class="w"> </span>baseline
 </code></pre></div></p>
 <h2 id="testing-if-it-works">Testing if It Works<a class="headerlink" href="#testing-if-it-works" title="Permanent link">&para;</a></h2>
 <h3 id="test-1-check-if-mcp-server-runs">Test 1: Check if MCP server runs<a class="headerlink" href="#test-1-check-if-mcp-server-runs" title="Permanent link">&para;</a></h3>

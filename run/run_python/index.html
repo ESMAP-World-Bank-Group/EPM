@@ -2169,7 +2169,7 @@
 </div>
 <div class="tabbed-block">
 <p>Run all scenarios defined in a <code>scenarios.csv</code> file, using 4 CPU cores in parallel:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>my_country/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>my_country/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>--parallel<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <p>Run only a subset of scenarios:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>my_country/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>-S<span class="w"> </span>baseline<span class="w"> </span>HighDemand
@@ -2180,7 +2180,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>my_country/config.csv<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--uncertainties<span class="w"> </span>my_country/uncertainties.csv<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--cpu<span class="w"> </span><span class="m">8</span><span class="w"> </span>--reduced_output
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--parallel<span class="w"> </span><span class="m">8</span><span class="w"> </span>--reduced_output
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Windows prerequisite</p>
@@ -2272,9 +2272,9 @@
 </thead>
 <tbody>
 <tr>
-<td><code>--cpu</code></td>
+<td><code>--parallel</code></td>
 <td><code>1</code></td>
-<td>Number of CPU cores for parallel scenario runs</td>
+<td>Number of scenarios to run in parallel (<code>--cpu</code> is a deprecated alias)</td>
 </tr>
 <tr>
 <td><code>--reduced_output</code></td>
