@@ -44,28 +44,28 @@ $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
-$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted_v2_mozalout.csv
-$if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
+$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted_v2_mozalout_agg.csv
+$if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile_agg.csv
 $if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
 $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3_Zim.csv
-$if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
+$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3_reduced_agg.csv
+$if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault_agg.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
-$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
+$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault_agg.csv
 $if not set pEvolutionAvailability $set pEvolutionAvailability %FOLDER_INPUT%/supply/pEvolutionAvailability.csv
 $if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv
-$if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile.csv
+$if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile_agg.csv
 $if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
-$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
+$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault_agg.csv
 $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
-$if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
-$if not set pStorageDataInputDefault $set pStorageDataInputDefault %FOLDER_INPUT%/supply/pStorageDataInputDefault.csv
+$if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput_agg.csv
+$if not set pStorageDataInputDefault $set pStorageDataInputDefault %FOLDER_INPUT%/supply/pStorageDataInputDefault_agg.csv
 
 * RESOURCES (shared across all input folders)
 $if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/headers/pSettingsHeader.csv
@@ -91,13 +91,13 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INP
 $if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
 $if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/headers/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
-$if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
+$if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal_agg.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMaxAnnualInternalTradeShare $set pMaxAnnualInternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualInternalTradeShare.csv
-$if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport_mozalout.csv
-$if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission_v2.csv
+$if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport_mozalout_agg.csv
+$if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission_agg.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit_limitremove.csv
+$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit_agg.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
