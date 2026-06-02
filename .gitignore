@@ -41,11 +41,12 @@
 
 # Project-specific outputs
 /epm/cplex.opt
-epm/output/*
-!epm/output/tableau/
-epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
+# Keep heavy/generated files out of output runs; CSVs and geojson are tracked
+epm/output/simulations_run_*/**/img/
+epm/output/simulations_run_*/**/*.pdf
+epm/output/simulations_run_*/*/cplex.opt
 epm/postprocessing/*.ipynb
 epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results
