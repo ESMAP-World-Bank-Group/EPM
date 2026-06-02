@@ -1,0 +1,52 @@
+[project]
+name = "epm"
+version = "9.0.1-beta"
+description = "Electricity Planning Model — least-cost power system capacity expansion and dispatch optimization"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "ESMAP Power Systems Planning Group", email = "cnicolas@worldbank.org" }
+]
+keywords = ["energy", "power system", "capacity expansion", "GAMS", "optimization", "World Bank"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+    "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "pandas",
+    "matplotlib",
+    "dash>=2.17.0",
+    "dash-bootstrap-components>=1.6.0",
+    "dash-ag-grid>=31.0.0",
+    "plotly>=5.22.0",
+    "gunicorn>=21.2.0",
+    "gamsapi>=48.2.0",
+    "seaborn",
+    "numpy",
+    "geopandas",
+    "requests",
+    "folium",
+    "timezonefinder",
+    "geopy",
+    "jinja2",
+    "PyYAML",
+    "rasterio",
+    "entsoe-py",
+    "pycountry",
+    "mcp",
+]
+
+[project.urls]
+Homepage = "https://esmap-world-bank-group.github.io/EPM/"
+Repository = "https://github.com/ESMAP-World-Bank-Group/EPM"
+Documentation = "https://esmap-world-bank-group.github.io/EPM/"
+"Bug Tracker" = "https://github.com/ESMAP-World-Bank-Group/EPM/issues"
+Changelog = "https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.backends.legacy:build"

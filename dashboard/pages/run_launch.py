@@ -224,7 +224,7 @@ def show_config(cfg):
         if modeltype and modeltype != "MIP":
             parts.append(f"--modeltype {modeltype}")
         if cpu and cpu > 1:
-            parts.append(f"--cpu {cpu}")
+            parts.append(f"--parallel {cpu}")
         parts.append("--scenarios scenarios.csv")
         if scenarios:
             parts.append("--selected_scenarios " + " ".join(scenarios))

@@ -69,7 +69,7 @@ Then run:
 ```sh
 conda activate epm_env
 cd /Data/your_project_folder/EPM/epm
-python epm.py --folder_input your_data --config your_data/config.csv --scenarios --cpu 8 --output_zip
+python epm.py --folder_input your_data --config your_data/config.csv --scenarios --parallel 8 --output_zip
 ```
 
 Use `--output_zip` to compress results into a single file (the server only allows downloading files, not folders).

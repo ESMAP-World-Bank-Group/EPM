@@ -80,9 +80,9 @@ async def list_tools() -> list[Tool]:
                         "description": "Solver type to use in GAMS (e.g., 'MIP', 'RMIP'). If not provided, uses config default.",
                         "default": None
                     },
-                    "cpu": {
+                    "parallel": {
                         "type": "integer",
-                        "description": "Number of CPU cores to use for parallel execution (default: 1)",
+                        "description": "Number of scenarios to run in parallel (default: 1)",
                         "default": 1,
                         "minimum": 1
                     },
@@ -132,9 +132,9 @@ async def list_tools() -> list[Tool]:
                         "description": "Input folder name (default: 'data_test')",
                         "default": "data_test"
                     },
-                    "cpu": {
+                    "parallel": {
                         "type": "integer",
-                        "description": "Number of CPU cores (default: 1)",
+                        "description": "Number of scenarios to run in parallel (default: 1)",
                         "default": 1
                     }
                 }
@@ -176,8 +176,8 @@ async def run_epm(args: dict[str, Any]) -> list[TextContent]:
     if args.get("modeltype"):
         test_args.extend(["--modeltype", args["modeltype"]])
     
-    if args.get("cpu", 1) > 1:
-        test_args.extend(["--cpu", str(args["cpu"])])
+    if args.get("parallel", 1) > 1:
+        test_args.extend(["--parallel", str(args["parallel"])])
     
     if args.get("sensitivity", False):
         test_args.append("--sensitivity")
@@ -275,7 +275,7 @@ async def run_epm_simple(args: dict[str, Any]) -> list[TextContent]:
     """Run EPM with simple/default configuration."""
     simple_args = {
         "folder_input": args.get("folder_input", "data_test"),
-        "cpu": args.get("cpu", 1)
+        "cpu": args.get("parallel", 1)
     }
     return await run_epm(simple_args)
 

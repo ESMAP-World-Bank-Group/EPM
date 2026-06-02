@@ -74,7 +74,7 @@ python epm.py --simple
 ### Full Model Test
 ```bash
 conda activate esmap_env
-python epm.py --folder_input data_test --cpu 4
+python epm.py --folder_input data_test --parallel 4
 ```
 
 ### Input Validation Only

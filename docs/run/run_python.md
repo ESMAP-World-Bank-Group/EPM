@@ -43,7 +43,7 @@ Results are written to `output/simulations_run_<timestamp>/`.
     Run all scenarios defined in a `scenarios.csv` file, using 4 CPU cores in parallel:
 
     ```sh
-    python epm.py --folder_input my_country --config my_country/config.csv --scenarios --cpu 4
+    python epm.py --folder_input my_country --config my_country/config.csv --scenarios --parallel 4
     ```
 
     Run only a subset of scenarios:
@@ -60,7 +60,7 @@ Results are written to `output/simulations_run_<timestamp>/`.
     python epm.py --folder_input my_country --config my_country/config.csv \
       --montecarlo --montecarlo_samples 50 \
       --uncertainties my_country/uncertainties.csv \
-      --cpu 8 --reduced_output
+      --parallel 8 --reduced_output
     ```
 
     !!! note "Windows prerequisite"
@@ -116,7 +116,7 @@ The tables below list every argument you can pass to `python epm.py`. Arguments 
 
 | Argument | Default | Description |
 |---|---|---|
-| `--cpu` | `1` | Number of CPU cores for parallel scenario runs |
+| `--parallel` | `1` | Number of scenarios to run in parallel (`--cpu` is a deprecated alias) |
 | `--reduced_output` | `False` | Generate smaller output files (recommended for large Monte Carlo runs) |
 | `--output_zip` | `False` | Zip the output folder after processing |
 

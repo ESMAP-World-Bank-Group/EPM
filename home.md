@@ -63,8 +63,8 @@ pip install -r requirements.txt
 # 2. Run the test dataset (takes ~1 min)
 python epm.py --simple
 
-# 3. Run a full solve with 4 CPU cores
-python epm.py --folder_input data_test --cpu 4
+# 3. Run a full solve with 4 parallel jobs
+python epm.py --folder_input data_test --parallel 4
 ```
 
 Results are written to `output/simulations_run_<timestamp>/` as CSV and GDX files, with Excel, Python, and Tableau templates available for post-processing.

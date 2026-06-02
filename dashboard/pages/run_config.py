@@ -297,7 +297,7 @@ def build_command(folder, sc_selected, modeltype, cpu, analysis, output_opts, la
         parts.append(f"--modeltype {modeltype}")
 
     if cpu and cpu > 1:
-        parts.append(f"--cpu {cpu}")
+        parts.append(f"--parallel {cpu}")
 
     # Scenarios
     parts.append("--scenarios scenarios.csv")

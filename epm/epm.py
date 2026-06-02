@@ -869,10 +869,18 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--cpu",
+        "--parallel",
         type=int,
         default=1,
-        help="Number of CPUs (default: 1)"
+        dest="parallel",
+        help="Number of scenarios to run in parallel (default: 1)"
+    )
+    parser.add_argument(
+        "--cpu",
+        type=int,
+        default=None,
+        dest="parallel",
+        help="Deprecated: use --parallel instead"
     )
 
     parser.add_argument(
@@ -1041,7 +1049,7 @@ def main(test_args=None):
                                                         montecarlo_nb_samples=args.montecarlo_samples,
                                                         uncertainties=args.uncertainties,
                                                         selected_scenarios=args.selected_scenarios,
-                                                        cpu=args.cpu,
+                                                        cpu=args.parallel,
                                                         project_assessment=args.project_assessment,
                                                         generator_assessment=args.generator_assessment,
                                                         interco_assessment=args.interco_assessment,

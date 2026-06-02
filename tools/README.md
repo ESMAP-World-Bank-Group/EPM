@@ -18,6 +18,6 @@ The MCP server enables running EPM from within Cursor's AI chat. See the main pr
 Quick way to test EPM without MCP:
 
 ```bash
-python tools/test_epm_simple.py --folder_input data_test --cpu 1
+python tools/test_epm_simple.py --folder_input data_test --parallel 1
 ```
 

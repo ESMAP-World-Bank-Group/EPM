@@ -58,7 +58,7 @@ def launch_run(
     folder_input : str
         Name of the input data folder (e.g. 'data_eapp').
     cpu : int
-        Number of CPU cores to pass via --cpu.
+        Number of parallel jobs to pass via --parallel.
     run_name : str
         Optional label for display in the UI.
     scenarios : list, optional
@@ -101,7 +101,7 @@ def launch_run(
         parts.append(f"--modeltype {modeltype}")
 
     if cpu and cpu > 1:
-        parts.append(f"--cpu {cpu}")
+        parts.append(f"--parallel {cpu}")
 
     # Always pass scenarios file; add selected subset if specified
     parts.append("--scenarios scenarios.csv")
