@@ -1,0 +1,45 @@
+
+--- Job main_fxstor.gms Start 06/03/26 02:09:14 50.1.0 12b75dde WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\50\gmsprmNT.txt
+    C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\wb590499\Documents\Projects\EPM\epm\main_fxstor.gms
+    PageSize 0
+    ScrDir C:\Users\wb590499\Documents\Projects\EPM\epm\225b\
+    SysDir C:\GAMS\50\
+    LogOption 3
+    AppendLog 1
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+    --FOLDER_INPUT input/data_sapp_feb26
+    --DEBUG 1
+Licensee: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+          The World Bank, Energy Sector Management Assistance PrograDC12370
+          C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamslice.txt
+          v:2                                                              
+          The maintenance period of the license expired on Dec 31, 2025
+          Please contact GAMS or your distributor for further information
+System information: 12 physical cores and 32 Gb physical memory detected
+GAMS 50.1.0   Copyright (C) 1987-2025 GAMS Development. All rights reserved
+--- Starting compilation
+--- main_fxstor.gms(36) 2 Mb
+--- $echo File C:\Users\wb590499\Documents\Projects\EPM\epm\cplex.opt
+FOLDER_INPUT is "input/data_sapp_feb26"
+LOG: Solving with MODELTYPE = "RMIP"
+CPLEXFILE is "input/data_sapp_feb26/cplex/cplex_baseline.opt"
+--- main_fxstor.gms(72) 2 Mb
+--- call rm -f cplex.opt
+--- main_fxstor.gms(73) 2 Mb
+--- call cp "input/data_sapp_feb26/cplex/cplex_baseline.opt" cplex.opt
+--- main_fxstor.gms(74) 2 Mb
+BASE_FILE is "base_phaseout.gms"
+REPORT_FILE is "generate_report.gms"
+READER_FILE is "input_readers.gms"
+DEMAND_FILE is "generate_demand.gms"
+HYDROGEN_FILE is "hydrogen_module.gms"
+--- main_fxstor.gms(261) 4 Mb
+### reading using Connect and CSV Input with Python
+--- . input_readers.gms(724) 4 Mb
