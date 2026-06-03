@@ -39,7 +39,7 @@ VRE capacity build limit per year,pCountryBuildLimitY,constraint/pCountryBuildLi
 ,TRADE,
 External trading zones (Unit: unitless),zext,trade/zext.csv
 Seasonal import and export limits with external zones (Unit: MW),pExtTransferLimit,trade/pExtTransferLimit.csv
-Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
+Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal_agg.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Maximum internal trade share limit,pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport_mozalout_agg.csv

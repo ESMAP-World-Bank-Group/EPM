@@ -32,7 +32,7 @@ pMaxFuellimit,constraint/pMaxFuellimit.csv,constraint/pMaxFuellimit.csv
 pCarbonPrice,constraint/pCarbonPrice.csv,constraint/pCarbonPrice.csv
 zext,trade/zext.csv,trade/zext.csv
 pExtTransferLimit,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv
-pLossFactorInternal,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv
+pLossFactorInternal,trade/pLossFactorInternal_agg.csv,trade/pLossFactorInternal_agg.csv
 pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv
 pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv
 pMinImport,trade/pMinImport_mozalout_agg.csv,trade/pMinImport_mozalout_agg.csv
