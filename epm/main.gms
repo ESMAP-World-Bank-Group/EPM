@@ -867,8 +867,8 @@ vCapH2.fx(eh,y)$((pSettings("fEnableEconomicRetirement") = 0 and pH2Data(eh,"StY
 
 sH2PwrIn(hh,q,d,t,y) = yes;
 
-vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
-vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
+vREPwr2H2.fx(nRE,f,q,d,t,y)$(not fEnableH2Production)=0;
+vREPwr2Grid.fx(nRE,f,q,d,t,y)$(not fEnableH2Production)=0;
 
 *******************************************************************************************************************
 
