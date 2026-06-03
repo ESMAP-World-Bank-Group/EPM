@@ -1,12 +1,17 @@
 * ------------------------------------------------------------
-* CPLEX MIP Fast Configuration
-* Purpose: prioritize speed over precision (exploratory runs)
+* CPLEX RMIP Memory-Efficient Configuration
+* Purpose: reduce RAM usage on memory-constrained servers
 * ------------------------------------------------------------
 
 * --- Key parameters (adjust first) ---
 startalg 4
 scaind  1
 lpmethod 4
-threads 8
+threads 1
 predual -1
+
+* --- Memory management ---
+memoryemphasis 1
+nodefileind 3
+workmem 4096
 
