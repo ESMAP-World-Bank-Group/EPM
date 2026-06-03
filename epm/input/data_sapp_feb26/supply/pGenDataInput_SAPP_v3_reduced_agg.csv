@@ -25,7 +25,7 @@ ChishimbaFallsExt_HY_ZMB,Zambia,ROR,Water,2026,2106,9,2,,,,,,0.107375,,,0,2.8,,9
 CTMJICA1_TH_MOZ,Mozambique,OCGT,Gas,2018,2068,106,1,,10.425987,0.3,0.3,,,,,,0,,0,0,7,11.125987,0.5,0,
 Biomass_Candidate_TZA,Tanzania,ST,Biomass,2025,2060,32,3,,10,0.9,0.9,,,,,0,1.5,,32,,,,,,
 Existing_HY_MOZ,Mozambique,ReservoirHydro,Water,2000,2060,85,1,,,,,,0.406440138,,,0,0,50,,0,,0,0,0,0
-Luapula_HY_ZMB,Zambia,ROR,Water,2033,2110,1200,3,,,,,,0.278070484,,,,3.12,50,300,0,,0,0,0,0
+Luapula_HY_ZMB,Zambia,ROR,Water,2033,2110,400,3,,,,,,0.278070484,,,,3.12,50,300,0,,0,0,0,0
 Luapula_PV_ZMB,Zambia,PV,Solar,2026,2056,50,2,,,,,,,,,,0.8,,50,,,,,1,
 AH_Matala_HY_AGO_SO,Angola_South,ROR,Water,1959,2060,41,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
 Francistown_TH_BWA,Botswana,ICE,HFO,2000,2026,73,1,,10.41544727,,,,,,,,0,,,0,,0,0,0,0
@@ -250,7 +250,7 @@ CuambaII_PV_MOZ,Mozambique,PV,Solar,2028,2060,30,3,,0,1,1,,,,,,0.8,,30,,,,,,
 New_PV_DRC,DRC,PV,Solar,2026,2060,20000,3,,,,,,,,,,,,300,,,,,1,
 New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,,,,,,,,,0.8,,40,,,,,1,
 New_PV_LSO,Lesotho,PV,Solar,2029,2060,500,3,,,,,,,,,,0.8,,12,,,,,1,
-New_PV_2040_TZA,Tanzania,PV,Solar,2027,2067,8000,3,,,,,,,,,,0.8,,350,,,,,,
+New_PV_2040_TZA,Tanzania,PV,Solar,2027,2067,5000,3,,,,,,,,,,0.8,,150,,,,,,
 LeopardsHill_Hybrid_PV_ZMB,Zambia,PV,Solar,2028,2058,250,2,,,,,,,,,,0.8,,250,,,,,,
 7Yards_PV_ZMB,Zambia,PV,Solar,2027,2060,100,3,,,,,,,,,,0.8,,50,,,,,1,
 Lufubu_HY_ZMB,Zambia,ReservoirHydro,Water,2029,2109,163,3,,,,,,0.278070484,,,,3.12,50,163,0,,0,0,0,0
