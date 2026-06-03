@@ -264,6 +264,8 @@ ESSENTIAL_FILES = [
     'pPrice',
     # Settings
     'pSettings',
+    # Energy balance (demand, generation by fuel, imports, exports, unmet demand, surplus — annual GWh by zone)
+    'pEnergyBalance',
 ]
 
 
