@@ -34,3 +34,6 @@ BESS Power Park 1st Phase,Burkina,Storage,Battery,2,2026,2050,20,30,30,30,120,,0
 BESS Power Park 2nd Phase,Burkina,Storage,Battery,2,2028,2050,20,45,45,45,180,,0.85,,13873.86,250,,,1,1,,0.5,,,
 4.5 MW BESS P1,Gambia,Storage,Battery,2,2027,2050,20,4.5,4.5,4.5,18,,0.85,,13873.86,250,,,1,1,,0.5,,,
 Battery Bafata,GuineaBissau,Storage,Battery,3,2029,2050,20,1.25,1.25,1.25,5,,0.85,,13873.86,250,,,1,1,,0.5,,,
+BESS Comm,Africana,Storage,Battery,2,2028,2050,20,60,60,60,240,,0.85,,13873.86,250,,,1,1,,0.5,,,
+Storage_CAND_2027_4h,Africana,Storage,Battery,3,2028,2050,20,200,60,60,800,,0.85,,13873.86,250,,,1,1,,0.5,,,
+Storage_CAND_2027_2h,Africana,Storage,Battery,3,2028,2050,20,200,60,60,400,,0.85,,13873.86,250,,,1,1,,0.5,,,
