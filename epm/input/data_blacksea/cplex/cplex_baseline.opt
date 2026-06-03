@@ -13,5 +13,5 @@ predual -1
 * --- Memory management ---
 memoryemphasis 1
 nodefileind 3
-workmem 4096
+workmem 60000
 
