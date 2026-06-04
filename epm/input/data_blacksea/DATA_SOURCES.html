@@ -84,7 +84,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Historical and projected electricity demand (GWh and MW peak) by year</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pdemandforecast">CESI/EPSO (2022)</a></td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#georgia-pdemandforecast">&#9651; Georgia Hourly Load Profile wi… (2022)</a></td>
 </tr>
 <tr>
 <td>Hourly demand profile</td>
@@ -92,7 +92,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Typical hourly load curve (8760 h) for a representative year</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#georgia-pdemandprofile">&#9651; Georgia Hourly Load Profile wi… (2022)</a></td>
 </tr>
 <tr class="cat-row"><td colspan="6">Supply</td></tr>
 <tr>
@@ -216,7 +216,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#georgia"><strong>Georgia</strong></a>
  &mdash; 
-<a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>
+<a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a>
 </li>
 </ul></div>
 <hr>
@@ -310,6 +310,8 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <p class="back"><a href="#toc">&#8593; Contents</a></p>
 <h3>Summary</h3>
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
+<tr><td><a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a></td><td>Georgia Hourly Load Profile wi… (2022)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a></td><td>Georgia Hourly Load Profile wi… (2022)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#georgia-pgendatainput"><code>pGenDataInput</code></a></td><td>SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="georgia-pgendatainput"><code>pGenDataInput</code></h3>
@@ -325,6 +327,29 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <tr><td>committed</td><td><code>DIRECT</code></td><td>4 committed rows (Status=2): Khudoni 702 MW (StYr=2032), Namakhvani 433 MW (StYr=2030), Nenskra 280 MW (StYr=2029) from List_of_PPAs_May2022 'Construction' stage; Georgia_HydroSHP_Com 549 MW aggregate from PPA construction pipeline.
 </td></tr>
 <tr><td>candidates</td><td><code>DIRECT</code></td><td>4 candidate rows (Status=3): Wind (300 MW, Capex=1.3 $M/MW), PV (200 MW, Capex=0.8 $M/MW) from RE Pipeline; SmallHydro (300 MW), BESS (200 MW) — engineering estimates.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-04</p>
+<h3 id="georgia-pdemandforecast"><code>pDemandForecast</code></h3>
+<p class="back"><a href="#georgia">&#8593; Georgia</a></p>
+<p><strong>Source</strong>: Georgia Hourly Load Profile with 3% Annual Growth (2021–2040) <code>(georgia_demand_load_2022)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Peak demand (MW) has no independent cross-validation — only georgia_demand_load_2022 provides peak figures. Energy figures validated against historical balance (error &lt;1% for 2023–2024). Growth rate of 3%/yr is undocumented — confirm with GSE/GNERC official load forecasts. Obtain electrification scenario for post-2030 period (EV, heat pumps) as 3%/yr may underestimate long-term growth.
+</div>
+<p><strong>Method</strong>: DIRECT (2024–2040 from hourly file) + EXTRAP (2041–2053 at 3%/yr)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2040</td><td><code>DIRECT</code></td><td>Annual peak (MW) = max hourly value per year from Av. 3% Load growth file. Annual energy (GWh) = sum of hourly values / 1000 per year. File covers 2021–2040; 2024 is the first model-relevant year.
+</td></tr>
+<tr><td>2041–2053</td><td><code>EXTRAP</code></td><td>Extrapolation at 3%/yr from 2040 base (same growth rate as file assumption).</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-04</p>
+<h3 id="georgia-pdemandprofile"><code>pDemandProfile</code></h3>
+<p class="back"><a href="#georgia">&#8593; Georgia</a></p>
+<p><strong>Source</strong>: Georgia Hourly Load Profile with 3% Annual Growth (2021–2040) <code>(georgia_demand_load_2022)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season share the same seasonal mean profile. Same limitation as Armenia pDemandProfile. To fix: obtain GSE SCADA hourly load data and rerun the representative days pipeline including Georgia.
+</div>
+<p><strong>Method</strong>: DIRECT seasonal mean from 2025 hourly data, normalized by peak</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Seasonal mean hourly profile extracted from 2025 data in Av. 3% Load growth file (2025 chosen as first model year). Mean computed per (season, hour) → 96 unique hourly values. Normalized by max seasonal-mean value (2105 MW in Q4 evening peak). All d1–d6 daytypes within a season share the same profile (simplified approach).
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-04</p>

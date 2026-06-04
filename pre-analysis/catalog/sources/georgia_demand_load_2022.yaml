@@ -1,0 +1,29 @@
+id: georgia_demand_load_2022
+name: "Georgia Hourly Load Profile with 3% Annual Growth (2021–2040)"
+type: internal
+date: "2022"
+access_note: >
+  File: Team/Av. 3% Load growth (hourly profiles) 2021-2040.xlsx
+  Sheet: Data — 175,320 rows: datetime (hourly) + load (MW), covering 2021–2040.
+  Base year 2021, 3% annual growth applied uniformly to all hours.
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "2021–2040 (3%/yr extrapolated beyond 2040)"
+fills_epm_resources:
+  - resource: pDemandForecast
+    location: "Aggregated from hourly series: annual max → Peak (MW), annual sum/1000 → Energy (GWh)"
+    coverage: "2024–2040 direct; 2041–2053 extrapolated at 3%/yr from 2040"
+  - resource: pDemandProfile
+    location: "Seasonal mean hourly profile from 2025 data, normalized by seasonal-mean peak"
+    coverage: "4 seasons × 6 daytypes × 24 hours (d1–d6 share same seasonal mean — simplified)"
+quality:
+  confidence: high
+  notes: >
+    Cross-validated against official sources:
+    - 2023 energy: file=14,780 GWh vs. Balance 2023-2024=14,788 GWh (error <0.1%) ✓
+    - 2024 energy: file=15,265 GWh vs. Balance 2023-2024=15,381 GWh (error 0.8%) ✓
+    No independent source for peak demand (MW) — only this file provides peak figures.
+    Growth assumption (3%/yr) is embedded in filename, not formally documented.
+    Profile shape is based on seasonal mean — within-season variability (d1–d6) is lost.
+  used_in_studies: [data_blacksea]

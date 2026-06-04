@@ -192,3 +192,46 @@ Georgia:
       (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine.
       (6) DomesticCoal for Tkibuli: no entry in pFuelPrice for Georgia yet — needs adding.
     last_updated: 2026-06-04
+
+  pDemandForecast:
+    source_id: georgia_demand_load_2022
+    method: "DIRECT (2024–2040 from hourly file) + EXTRAP (2041–2053 at 3%/yr)"
+    method_table:
+      - period: "2024–2040"
+        method: DIRECT
+        notes: >
+          Annual peak (MW) = max hourly value per year from Av. 3% Load growth file.
+          Annual energy (GWh) = sum of hourly values / 1000 per year.
+          File covers 2021–2040; 2024 is the first model-relevant year.
+      - period: "2041–2053"
+        method: EXTRAP
+        notes: "Extrapolation at 3%/yr from 2040 base (same growth rate as file assumption)."
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Peak demand (MW) has no independent cross-validation — only georgia_demand_load_2022 provides
+      peak figures. Energy figures validated against historical balance (error <1% for 2023–2024).
+      Growth rate of 3%/yr is undocumented — confirm with GSE/GNERC official load forecasts.
+      Obtain electrification scenario for post-2030 period (EV, heat pumps) as 3%/yr
+      may underestimate long-term growth.
+    last_updated: 2026-06-04
+
+  pDemandProfile:
+    source_id: georgia_demand_load_2022
+    method: "DIRECT seasonal mean from 2025 hourly data, normalized by peak"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Seasonal mean hourly profile extracted from 2025 data in Av. 3% Load growth file
+          (2025 chosen as first model year). Mean computed per (season, hour) → 96 unique
+          hourly values. Normalized by max seasonal-mean value (2105 MW in Q4 evening peak).
+          All d1–d6 daytypes within a season share the same profile (simplified approach).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season
+      share the same seasonal mean profile. Same limitation as Armenia pDemandProfile.
+      To fix: obtain GSE SCADA hourly load data and rerun the representative days pipeline
+      including Georgia.
+    last_updated: 2026-06-04
