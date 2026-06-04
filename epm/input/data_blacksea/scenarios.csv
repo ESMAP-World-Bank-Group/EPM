@@ -2,7 +2,7 @@ paramNames,ArTur
 modeltype,
 cplexfile,
 SETTINGS,
-pSettings,pSettings_tx_exp.csv
+pSettings,
 y,
 zcmap,
 pHours,
@@ -40,7 +40,7 @@ pLossFactorInternal,
 pMaxPriceImportShare,
 pMaxAnnualExternalTradeShare,
 pMinImport,
-pNewTransmission,
+pNewTransmission,trade/pNewTransmissionExp.csv
 pTradePrice,
 pTransferLimit,
 H2,
