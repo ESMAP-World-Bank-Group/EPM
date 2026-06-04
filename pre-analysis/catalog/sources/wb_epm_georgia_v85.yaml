@@ -1,0 +1,35 @@
+id: wb_epm_georgia_v85
+name: "WB EPM Georgia v8.5 (2022) — Technical Parameters"
+type: internal
+date: "2022"
+access_note: >
+  File: EPM_Georgia2022/Baseline/WB_EPM_v8_5.xlsb (binary Excel)
+  Sheet: GenData — 168 generators with 31 technical/economic parameters.
+  Model: WB EPM version 8.5, older architecture than current EPM CSV format.
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "calibrated to 2022 conditions"
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "GenData sheet, column HeatRate"
+    coverage: >
+      HeatRate for existing thermal plants:
+      Mtkvari/GOGC No.9 (ST Gas) = 10.295 MMBtu/MWh;
+      Gardabani CCGT = 6.93 MMBtu/MWh.
+      Note: Mtkvari heat rate (10.3) is consistent with old steam turbine, not modern CCGT —
+      used as-is since it reflects actual plant performance rather than nameplate tech.
+  - resource: pGenDataInput
+    location: "GenData sheet, column MinLimitShare"
+    coverage: >
+      Minimum generation share: Mtkvari=0.55, Gardabani CCGT=0.45.
+      Note: these are in pGenDataInputDefault not in pGenDataInput CSV directly.
+quality:
+  confidence: medium
+  notes: >
+    Older EPM architecture (v8.5 Excel-based vs current CSV format). Unit conventions
+    for CAPEX are ambiguous — CAPEX values NOT used in current EPM.
+    HeatRate and MinGen values are used as they are plant-specific calibrated data.
+    FOM values (e.g., Gardabani $187,306/MW/yr) appear anomalous — NOT used; generic defaults applied.
+    VOM for Mtkvari (0.06 $/MWh) is unusually low — noted in provenance as uncertain.
+  used_in_studies: [data_blacksea]

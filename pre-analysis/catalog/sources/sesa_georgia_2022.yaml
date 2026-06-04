@@ -1,0 +1,28 @@
+id: sesa_georgia_2022
+name: "SESA/WB Georgia Generation Dataset 2022"
+type: internal
+date: "2022-07-01"
+access_note: >
+  File: EPM_Georgia/2022/1. Data/Generation_1.07.2022.xlsx
+  Sheet: GENERATION_2022 — 113 power plants with capacity (MW), status (with Reservoir /
+  Seasonal / Small HPP / TPP), and tariff regime (PSO / PPA).
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "snapshot July 2022"
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "Sheet GENERATION_2022, columns: Power Plant, Capacity (MW), Status, Regulation"
+    coverage: "g (plant name), Capacity, Status=1 (all plants are existing in July 2022)"
+  - resource: pGenDataInput
+    location: "Sheet GENERATION_2022, column: Status (with Reservoir / Seasonal / Small HPP / TPP)"
+    coverage: "tech mapping: with Reservoir→ReservoirHydro, Seasonal/Small→ROR, TPP→CCGT/OCGT/ST"
+quality:
+  confidence: high
+  notes: >
+    Official Georgian generation inventory compiled by SESA (System for Electricity System Analysis)
+    for the World Bank EPM study. Total installed capacity 4,526.72 MW across 113 plants.
+    Wind (Qartli, 20.7 MW) and solar not included in existing fleet.
+    Note: Kirnati capacity discrepancy — this file shows 27.47 MW, GE_Power_Sector_Data_Repository
+    shows 51.22 MW (2018). Likely reflects pre-expansion capacity. Using this file's value.
+  used_in_studies: [data_blacksea]

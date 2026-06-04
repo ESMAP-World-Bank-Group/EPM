@@ -1,0 +1,28 @@
+id: ge_power_sector_data_repository
+name: "Georgia Power Sector Data Repository (WB Internal)"
+type: internal
+date: "2022"
+access_note: >
+  File: Team/GE_Power Sector_Data Repository.xlsx
+  Sheet: Power Plant List — 112 plants with commissioning year, technology type
+  (Reservoir Hydro / Daily Regulation Hydro / Run-of-River / Small HPP / Thermal / Wind),
+  number of units, and public/private ownership.
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "historical (1927–2021)"
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "Sheet 'Power Plant List', column 'Year' (commissioning year)"
+    coverage: "StYr for all Georgian generators"
+  - resource: pGenDataInput
+    location: "Sheet 'Power Plant List', columns 'Type', 'Source'"
+    coverage: "tech classification (Reservoir/RoR/Thermal/Wind), confirms CCGT vs other for thermal"
+quality:
+  confidence: high
+  notes: >
+    Compiled by WB team. Technology classifications cross-validated with Generation_1.07.2022.xlsx.
+    Note: GOGC No.3&4 (Tbilsresi, 1963) labeled 'CCGT' — engineering judgment suggests this is
+    an old steam turbine that was informally classified as CCGT. Treated as CCGT in EPM
+    consistent with source. Heat rate from WB_EPM_v8_5 overrides the generic CCGT value.
+  used_in_studies: [data_blacksea]
