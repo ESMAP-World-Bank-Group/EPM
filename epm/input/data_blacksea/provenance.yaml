@@ -423,3 +423,29 @@ Azerbaijan:
       If WB study requires economic (opportunity) cost approach, use ~$6.5/MMBtu.
       IMF data covers 2015-2025; forward trajectory based on Armenia CAGR.
     last_updated: 2026-06-05
+
+  pAvailabilityCustom:
+    source_id: wb_epm_georgia_v85
+    method: "PROXY from Georgia Kura River calibration — same river system"
+    method_table:
+      - period: "2024–2053"
+        method: PROXY_Georgia_Kura
+        notes: >
+          5 ReservoirHydro plants (Mingechevir, Shamkir, Yenikend, Khudafarin,
+          Gyz Galasy): all on Kura River downstream of Georgia.
+          Seasonal pattern proxied from WB EPM Georgia v8.5 Enguri calibration
+          (Q1=0.21, Q2=0.48, Q3=0.52, Q4=0.20) — physically justified: same
+          catchment, same snowmelt-driven seasonal cycle.
+          All 5 plants share same seasonal CF (no plant-specific data available).
+          Thermal/Biomass/VRE: no custom — generic defaults apply.
+    confidence: low
+    needs_review: true
+    review_note: >
+      Proxy from Georgia Enguri calibration — no Azerbaijan-specific
+      hydrological data used. Should be replaced with actual Mingechevir
+      seasonal generation data when available (e.g., GRDC Kura discharge
+      at Mingechevir gauge, or AzerEnerji annual generation reports).
+      Mingechevir has 16 km3 storage capacity — actual seasonal dispatch
+      also depends on irrigation releases and operational decisions,
+      not just inflows.
+    last_updated: 2026-06-05
