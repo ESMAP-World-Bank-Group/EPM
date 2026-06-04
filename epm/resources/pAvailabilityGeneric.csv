@@ -1,5 +1,6 @@
 tech,fuel,value
 ST,Coal,0.65
+ST,DomesticCoal,0.65
 ST,Lignite,0.65
 OCGT,Gas,0.85
 CCGT,Gas,0.85
