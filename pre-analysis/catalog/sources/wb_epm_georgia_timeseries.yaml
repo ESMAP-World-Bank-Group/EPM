@@ -1,0 +1,31 @@
+id: wb_epm_georgia_timeseries
+name: "WB EPM Georgia 2022 — VRE Timeseries (Typical Year)"
+type: internal
+date: "2022"
+access_note: >
+  File: EPM_Georgia/2022/1. Data/Timeseries all data.xlsx
+  Sheet: RE data — 8,760 rows (typical year, T=1→8760), columns: T(h), RoR, PV, Wind.
+  Values are capacity factors (0-1). Prepared for WB EPM v8.5 Georgia 2022 study.
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "typical year (single representative year, likely 2019 or 2021)"
+fills_epm_resources:
+  - resource: pVREProfile
+    location: "Sheet 'RE data', columns RoR, PV, Wind"
+    coverage: >
+      ROR, OnshoreWind, PV seasonal mean hourly profiles for Georgia zone.
+      Seasonal mean computed per (season, hour), normalized by tech-specific
+      annual peak of seasonal means.
+quality:
+  confidence: medium
+  notes: >
+    Single typical year — no multi-year averaging. Year of the profile is not
+    documented in the file (likely 2019 or 2021 based on study context).
+    Wind profile discrepancy: Timeseries shows mean CF ~0.27 across seasons,
+    while actual Qartli generation data (2021) implies CF ~0.46 — Timeseries
+    represents a generic Georgian wind site, not Qartli's exceptional location.
+    PV data origin unclear (possibly modeled from global radiation maps).
+    For higher accuracy: rerun with Renewables Ninja multi-year averages and
+    run the representative days pipeline for Georgia.
+  used_in_studies: [data_blacksea]

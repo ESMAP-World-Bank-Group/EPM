@@ -235,3 +235,32 @@ Georgia:
       To fix: obtain GSE SCADA hourly load data and rerun the representative days pipeline
       including Georgia.
     last_updated: 2026-06-04
+
+  pVREProfile:
+    source_id: wb_epm_georgia_timeseries
+    method: "DIRECT seasonal mean from typical-year hourly CFs, normalized by tech peak"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Three techs (ROR, OnshoreWind, PV) from Timeseries all data.xlsx (sheet RE data).
+          Seasonal mean computed per (season, hour) for 8,760 hourly CF values.
+          Normalized by the maximum seasonal-mean hourly value across all seasons/hours
+          for each tech separately. All d1–d6 daytypes share the same seasonal mean.
+          Seasonal CF characteristics:
+          ROR — Q2 peak (spring snowmelt) cf_mean=0.977, Q4 minimum cf_mean=0.566.
+          Wind — Q2 highest cf_mean=0.902, Q3 lowest cf_mean=0.738.
+          PV — Q3 highest (more sun hours), Q1 lowest.
+    confidence: medium
+    needs_review: true
+    review_note: >
+      (1) Single typical year — no multi-year average.
+      (2) Wind profile: Timeseries mean CF ~0.27 vs actual Qartli 2021 CF ~0.46 —
+      Timeseries likely represents a generic Georgian wind site, not Qartli's
+      specific high-wind location. Existing Georgia_Qartli_Wind may be
+      under-dispatched in the model; consider a separate pVREProfile entry or
+      pAvailabilityCustom override for Qartli.
+      (3) PV data origin undocumented — replace with Renewables Ninja multi-year
+      average when running representative days pipeline for Georgia.
+      (4) d1–d6 all share same seasonal mean (within-season variability lost).
+    last_updated: 2026-06-04
