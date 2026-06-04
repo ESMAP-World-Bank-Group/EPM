@@ -329,3 +329,67 @@ Georgia:
       (3) ROR aggregate: individual plant availability variability lost (Rioni ~0.70 flat
       vs Vartsikhe Q3=0.35 in old model). Acceptable for planning model.
     last_updated: 2026-06-04
+
+Azerbaijan:
+
+  pGenDataInput:
+    source_id: gem_gipt
+    secondary_source_ids: [epm_generic_defaults]
+    method: "DIRECT from GEM GIPT September 2025 via compute_epm_gendata.py"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          57 GEM/GIPT plants mapped to 39 EPM rows (plants with RetrYr<2025 excluded).
+          Gas: year<2000 -> ST, year>=2000 -> CCGT. Hydro -> ReservoirHydro.
+          Technical params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults.
+          Committed: Mingecevir CCGT 4x320 MW (StYr=2025).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      All tech params from generic defaults — no country-specific calibrated model.
+      Committed large CCGT (Mingecevir 1280 MW) status/year to confirm.
+      Old Soviet-era plants (8x300 MW ST Gas, 1990) excluded as pre-2025 retirees.
+    last_updated: 2026-06-05
+
+  pDemandForecast:
+    source_id: owid_energy_data
+    method: "DIRECT from OWID electricity_demand + CAGR extrapolation + load-factor peak"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT_EXTRAPOLATED
+        notes: >
+          Anchor: OWID electricity_demand 2025 = 27.17 TWh (net consumption).
+          CAGR = 1.9%/yr computed from OWID 2020-2025 trend.
+          Peak estimated via load_factor=0.58: Peak_MW = (demand_TWh*1e6/8760) / 0.58.
+          2024: Energy=26666 GWh, Peak=5248 MW.
+          Computed via compute_epm_demand.py --country AZE.
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Peak demand estimated from energy via load factor (0.58) — no independent
+      peak data source. CAGR 1.9%/yr based on 5-year trend; may underestimate
+      if electrification accelerates. Confirm with SOCAR/Ministry energy balance.
+    last_updated: 2026-06-05
+
+  pDemandProfile:
+    source_id: run_blacksea_data_proxy
+    method: "PROXY Turkey shape from ENTSO-E, scaled to AZ demand, seasonal mean"
+    method_table:
+      - period: "2024–2053"
+        method: PROXY_Turkey
+        notes: >
+          Load shape: Turkey ENTSO-E hourly profile scaled to AZ annual energy
+          (from run_blacksea_data.py, AZE_ANNUAL_MWH=29.3 TWh).
+          Seasonal mean per quarter (Q1-Q4), all d1-d6 share same mean profile.
+          Q1_mean=0.737 (winter heating peak), Q3_mean=0.651 (summer).
+          Computed via compute_epm_demand.py --country AZE --profile.
+    confidence: low
+    needs_review: true
+    review_note: >
+      PROXY — no Azerbaijan-specific hourly load data. Turkey shape used as proxy
+      (similar climate: continental, hot summers, cold winters).
+      TO RECOMPUTE: run full representative-days pipeline for all Black Sea countries
+      (including AZ) with VRE profiles when all country data is available.
+      Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
+    last_updated: 2026-06-05

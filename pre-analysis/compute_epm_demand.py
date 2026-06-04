@@ -26,6 +26,8 @@ Options:
     --force-download      Re-download OWID dataset even if cached
     --growth FLOAT        Override CAGR growth rate for all countries (e.g. 0.025)
     --load-factor FLOAT   Peak/average ratio inverse (default 0.58)
+    --profile             Also build pDemandProfile from Load.csv (representative days output)
+    --load-csv PATH       Path to Load.csv (default: auto-detect from blacksea_run1 output)
 """
 from __future__ import annotations
 
@@ -36,9 +38,15 @@ from typing import Dict, List, Optional
 
 import pandas as pd
 
-_BASE_DIR = Path(__file__).resolve().parent
-_EPM_DIR  = _BASE_DIR.parent / "epm"
+_BASE_DIR   = Path(__file__).resolve().parent
+_EPM_DIR    = _BASE_DIR.parent / "epm"
 _OUTPUT_DIR = _BASE_DIR / "output_demand"
+_DEFAULT_LOAD_CSV = (
+    _BASE_DIR / "output_workflow" / "blacksea_run1" / "reprdays_input" / "Load.csv"
+)
+
+MONTH_TO_SEASON = {1:"Q1",2:"Q1",3:"Q1",4:"Q2",5:"Q2",6:"Q2",
+                   7:"Q3",8:"Q3",9:"Q3",10:"Q4",11:"Q4",12:"Q4"}
 
 sys.path.insert(0, str(_BASE_DIR))
 from pipelines.owid_energy_pipeline import (
@@ -111,6 +119,54 @@ def build_forecast_rows(
     return pd.DataFrame(rows, columns=cols)
 
 
+def build_profile_rows(
+    iso3_list: List[str],
+    load_csv: Path,
+) -> pd.DataFrame:
+    """Extract pDemandProfile rows from Load.csv for given countries.
+
+    Load.csv format: zone, month, day, hour, value (normalized 0-1).
+    Output: zone, season, daytype, t01-t24 (seasonal mean, same for all d1-d6).
+
+    NOTE: d1-d6 all share the same seasonal mean profile — within-season
+    variability is lost. Recompute via full representative-days pipeline when
+    all region data + VRE profiles are available.
+    """
+    load = pd.read_csv(load_csv)
+    load["season"] = load["month"].map(MONTH_TO_SEASON)
+
+    rows = []
+    for iso3 in iso3_list:
+        zone = _zone_for_iso(iso3)
+        sub  = load[load["zone"] == zone]
+        if sub.empty:
+            print(f"  WARNING: zone '{zone}' not found in Load.csv — skipping profile")
+            continue
+
+        # Seasonal mean hourly profile (4 seasons × 24 hours)
+        mean_profile = (
+            sub.groupby(["season", "hour"])["value"].mean()
+        )
+
+        seasons  = ["Q1", "Q2", "Q3", "Q4"]
+        daytypes = ["d1", "d2", "d3", "d4", "d5", "d6"]
+        for season in seasons:
+            hourly = [mean_profile.get((season, h), 0.0) for h in range(24)]
+            for dt in daytypes:
+                row = {"zone": zone, "season": season, "daytype": dt}
+                for h in range(24):
+                    row[f"t{h+1:02d}"] = hourly[h]
+                rows.append(row)
+
+        print(f"  [profile] {iso3} ({zone}): Q1_mean={mean_profile.xs('Q1').mean():.3f}  "
+              f"Q2_mean={mean_profile.xs('Q2').mean():.3f}  "
+              f"Q3_mean={mean_profile.xs('Q3').mean():.3f}  "
+              f"Q4_mean={mean_profile.xs('Q4').mean():.3f}")
+
+    t_cols = [f"t{h:02d}" for h in range(1, 25)]
+    return pd.DataFrame(rows, columns=["zone", "season", "daytype"] + t_cols)
+
+
 def print_report(df: pd.DataFrame):
     first_yr = df.columns[2]
     mid_yr   = "2030" if "2030" in df.columns else df.columns[len(df.columns) // 2]
@@ -143,6 +199,10 @@ def main():
     parser.add_argument("--load-factor", type=float, default=0.58,
                         dest="load_factor",
                         help="Load factor for peak estimation (default 0.58)")
+    parser.add_argument("--profile", action="store_true",
+                        help="Also build pDemandProfile from Load.csv")
+    parser.add_argument("--load-csv", default=None, dest="load_csv",
+                        help="Path to Load.csv (default: blacksea_run1 output)")
     args = parser.parse_args()
 
     if args.all:
@@ -173,8 +233,20 @@ def main():
 
     print_report(df)
 
+    # ── pDemandProfile (optional) ─────────────────────────────────────────────
+    profile_df = None
+    if args.profile:
+        load_csv = Path(args.load_csv) if args.load_csv else _DEFAULT_LOAD_CSV
+        if not load_csv.exists():
+            print(f"  WARNING: Load.csv not found at {load_csv} — skipping profile")
+        else:
+            print(f"\n[profile] Building pDemandProfile from {load_csv.name}")
+            profile_df = build_profile_rows(iso3_list, load_csv)
+
     if args.dry_run:
         print("\n[demand] DRY RUN — not writing files.")
+        if profile_df is not None:
+            print(f"[profile] Would write {len(profile_df)} pDemandProfile rows")
         return
 
     _OUTPUT_DIR.mkdir(exist_ok=True)
@@ -183,10 +255,16 @@ def main():
     df.to_csv(out_csv, index=False)
     print(f"\n[demand] Written: {out_csv}")
 
+    if profile_df is not None:
+        out_prof = _OUTPUT_DIR / f"pDemandProfile_{tag}.csv"
+        profile_df.to_csv(out_prof, index=False)
+        print(f"[profile] Written: {out_prof}")
+
     if args.append:
+        # pDemandForecast
         target = _EPM_DIR / "input" / args.deployment / "load" / "pDemandForecast.csv"
         if not target.exists():
-            print(f"  WARNING: {target} not found — skipping append")
+            print(f"  WARNING: {target} not found — skipping forecast append")
         else:
             existing = pd.read_csv(target)
             zones_to_replace = df["z"].unique().tolist()
@@ -195,6 +273,20 @@ def main():
             updated.to_csv(target, index=False)
             print(f"  Replaced {zones_to_replace} rows in {target.name} "
                   f"({len(updated)} total rows)")
+
+        # pDemandProfile
+        if profile_df is not None:
+            prof_target = _EPM_DIR / "input" / args.deployment / "load" / "pDemandProfile.csv"
+            if not prof_target.exists():
+                print(f"  WARNING: {prof_target} not found — skipping profile append")
+            else:
+                existing_prof = pd.read_csv(prof_target)
+                zones_to_replace = profile_df["zone"].unique().tolist()
+                existing_prof = existing_prof[~existing_prof["zone"].isin(zones_to_replace)]
+                updated_prof = pd.concat([existing_prof, profile_df], ignore_index=True)
+                updated_prof.to_csv(prof_target, index=False)
+                print(f"  Replaced {zones_to_replace} rows in {prof_target.name} "
+                      f"({len(updated_prof)} total rows)")
 
     print("[demand] Done.")
 
