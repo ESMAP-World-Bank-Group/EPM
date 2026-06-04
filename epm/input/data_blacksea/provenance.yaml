@@ -293,3 +293,39 @@ Georgia:
       DomesticCoal: Tkibuli coal quality is sub-bituminous (low calorific value) —
       price may be expressed per ton not per energy unit in actual contracts.
     last_updated: 2026-06-04
+
+  pAvailabilityCustom:
+    source_id: georgia_generation_profiles_2019_2022
+    secondary_source_ids: [wb_epm_georgia_v85]
+    method: "DIRECT plant-specific from monthly balance (Enguri/Vardnili/Khrami) + SCALED from aggregate (Jinvali/Dzevruli/Shaori) + aggregate for ROR"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Enguri, Vardnili, Khrami-1, Khrami-2: quarterly CF from monthly generation
+          data (Georgia Electricity Balance_2020-22) divided by installed capacity.
+          2-3 clean observations per quarter averaged (December 2022 and Enguri
+          Feb-Mar 2021 excluded as anomalous). Results: Enguri Q1=0.12/Q2=0.43/Q3=0.47/Q4=0.24;
+          Vardnili Q1=0.19/Q2=0.54/Q3=0.52/Q4=0.30.
+      - period: "2024–2053"
+        method: SCALED
+        notes: >
+          Jinvali, Dzevruli, Shaori: annual CF from WB EPM v8.5 EPMRESULTS PlantUtilization
+          sheet (0.246/0.187/0.361 respectively). Aggregate seasonal pattern scaled by ratio
+          of plant annual CF to aggregate annual CF (0.408).
+      - period: "2024–2053"
+        method: DIRECT_aggregate
+        notes: >
+          All 24 ROR plants (23 individual ≥10 MW + AGG_SmallHydro + committed/candidate):
+          Q1=0.45, Q2=0.81, Q3=0.54, Q4=0.40. Derived from 4-year average (2019-2022)
+          of total RoR hourly generation / total installed RoR capacity (~802 MW).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      (1) Enguri Q1 based on only 2020 and 2022 data (2021 excluded due to maintenance).
+      2020 Q1 CF=0.144, 2022 Q1 CF=0.085 — high variability. Long-term average unclear.
+      (2) Committed large hydro (Khudoni/Namakhvani/Nenskra): use average of measured
+      plants (0.18/0.38/0.39/0.26) as proxy — no plant-specific data.
+      (3) Zhinvali/Dzevruli/Shaori: derived indirectly, not from actual plant data.
+      (4) Individual ROR plants all share same aggregate CF — plant-level variability lost.
+    last_updated: 2026-06-04

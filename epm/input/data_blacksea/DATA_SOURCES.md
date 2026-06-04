@@ -16,7 +16,7 @@
 | Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ Georgia Hourly Load Profile wi… (2022) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI/EPSO (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) |
-| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | — |
+| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ Georgia Hourly Generation Prof… (2023) + WB EPM Georgia v8.5 (2022) |
 | Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — |
 | Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ WB EPM Georgia 2022 (2022) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — |
@@ -36,7 +36,7 @@
 
 - [Turkiye](#turkiye) — *not yet documented*
 - [Armenia](#armenia) — [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pVREProfile`](#armenia-pvreprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
-- [Georgia](#georgia) — [`pGenDataInput`](#georgia-pgendatainput) · [`pDemandForecast`](#georgia-pdemandforecast) · [`pDemandProfile`](#georgia-pdemandprofile) · [`pVREProfile`](#georgia-pvreprofile) · [`pFuelPrice`](#georgia-pfuelprice)
+- [Georgia](#georgia) — [`pGenDataInput`](#georgia-pgendatainput) · [`pDemandForecast`](#georgia-pdemandforecast) · [`pDemandProfile`](#georgia-pdemandprofile) · [`pVREProfile`](#georgia-pvreprofile) · [`pFuelPrice`](#georgia-pfuelprice) · [`pAvailabilityCustom`](#georgia-pavailabilitycustom)
 
 ---
 
@@ -220,6 +220,7 @@
 | [`pDemandProfile`](#georgia-pdemandprofile) | Georgia Hourly Load Profile wi… (2022) | [MEDIUM] ⚠ |
 | [`pGenDataInput`](#georgia-pgendatainput) | SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#georgia-pfuelprice) | Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [LOW] ⚠ |
+| [`pAvailabilityCustom`](#georgia-pavailabilitycustom) | Georgia Hourly Generation Prof… (2023) + WB EPM Georgia v8.5 (2022) | [MEDIUM] ⚠ |
 | [`pVREProfile`](#georgia-pvreprofile) | WB EPM Georgia 2022 (2022) | [MEDIUM] ⚠ |
 
 <a id="georgia-pgendatainput"></a>
@@ -340,6 +341,33 @@
  |
 
 *Confidence: [LOW] · Last updated: 2026-06-04*
+
+
+<a id="georgia-pavailabilitycustom"></a>
+
+### `pAvailabilityCustom`
+
+[&#8593; Georgia](#georgia)
+
+**Source**: Georgia Hourly Generation Profiles by Technology 2019–2022 (`georgia_generation_profiles_2019_2022`)
+
+**Also uses**: WB EPM Georgia v8.5 (2022) — Technical Parameters (`wb_epm_georgia_v85`)
+
+> ⚠ **Needs review**: (1) Enguri Q1 based on only 2020 and 2022 data (2021 excluded due to maintenance). 2020 Q1 CF=0.144, 2022 Q1 CF=0.085 — high variability. Long-term average unclear. (2) Committed large hydro (Khudoni/Namakhvani/Nenskra): use average of measured plants (0.18/0.38/0.39/0.26) as proxy — no plant-specific data. (3) Zhinvali/Dzevruli/Shaori: derived indirectly, not from actual plant data. (4) Individual ROR plants all share same aggregate CF — plant-level variability lost.
+
+
+**Method**: DIRECT plant-specific from monthly balance (Enguri/Vardnili/Khrami) + SCALED from aggregate (Jinvali/Dzevruli/Shaori) + aggregate for ROR
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | Enguri, Vardnili, Khrami-1, Khrami-2: quarterly CF from monthly generation data (Georgia Electricity Balance_2020-22) divided by installed capacity. 2-3 clean observations per quarter averaged (December 2022 and Enguri Feb-Mar 2021 excluded as anomalous). Results: Enguri Q1=0.12/Q2=0.43/Q3=0.47/Q4=0.24; Vardnili Q1=0.19/Q2=0.54/Q3=0.52/Q4=0.30.
+ |
+| 2024–2053 | `SCALED` | Jinvali, Dzevruli, Shaori: annual CF from WB EPM v8.5 EPMRESULTS PlantUtilization sheet (0.246/0.187/0.361 respectively). Aggregate seasonal pattern scaled by ratio of plant annual CF to aggregate annual CF (0.408).
+ |
+| 2024–2053 | `DIRECT_aggregate` | All 24 ROR plants (23 individual ≥10 MW + AGG_SmallHydro + committed/candidate): Q1=0.45, Q2=0.81, Q3=0.54, Q4=0.40. Derived from 4-year average (2019-2022) of total RoR hourly generation / total installed RoR capacity (~802 MW).
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-04*
 
 
 ---

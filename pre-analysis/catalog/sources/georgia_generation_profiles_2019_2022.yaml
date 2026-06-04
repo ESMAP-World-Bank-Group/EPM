@@ -1,0 +1,51 @@
+id: georgia_generation_profiles_2019_2022
+name: "Georgia Hourly Generation Profiles by Technology 2019–2022"
+type: internal
+date: "2023"
+access_note: >
+  File 1: Team/Generation Balance/Generation hourly profiles 2019-2022.xlsx
+  Sheets: 2019, 2020, 2021, 2022 — hourly generation (MW) by category:
+  Reservoir HPP, RoR (Run-of-River), TPP (Thermal), Wind.
+  Covers 4 complete years (2019–2022), ~8,760 rows per year.
+
+  File 2: Team/Generation Balance/Georgia Electricity Balance_2020-22.xlsx
+  Sheets: 2020, 2021, 2022 — monthly generation (GWh) by individual plant.
+  Plants: Enguri (Engurhesi), Vardnili, Khrami-1, Khrami-2. Zhinvali, Dzevruli,
+  Shaori not found in this file.
+
+  File 3: EPM_Georgia2022/Baseline/EPMRESULTS.xlsx, Sheet 32 PlantUtilization.
+  Annual capacity factors for all 7 reservoir plants from WB EPM v8.5 baseline:
+  Enguri=0.353, Vardnili=0.389, Khrami-1=0.256, Khrami-2=0.256,
+  Shaori=0.361, Dzevruli=0.187, Zhinvali=0.246.
+
+  All available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "2019–2022 (actual hourly generation)"
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    location: >
+      Reservoir HPP column (Generation hourly profiles) → quarterly mean MW /
+      installed capacity → seasonal CF.
+      Individual plants (Enguri, Vardnili, Khrami-1, Khrami-2) from
+      Georgia Electricity Balance_2020-22 monthly data.
+      Zhinvali, Dzevruli, Shaori from EPMRESULTS annual CF scaled by aggregate pattern.
+    coverage: >
+      7 existing ReservoirHydro plants (plant-specific seasonal CF),
+      3 committed large reservoir plants (aggregate pattern),
+      24 ROR plants (aggregate seasonal CF from RoR column 2019-2022).
+quality:
+  confidence: medium
+  notes: >
+    Reservoir HPP data quality issues:
+    - December 2022 monthly values for all plants contain data anomalies
+      (Enguri Dec 2022 = 3648.7 GWh, clearly wrong) — excluded.
+    - Enguri Feb-Mar 2021 = 0 GWh (maintenance/outage) — excluded from Q1 average.
+    - May 2020 missing for several plants — Q2 2020 excluded where May absent.
+    - 2-3 clean quarterly observations per plant used for averaging.
+    Zhinvali, Dzevruli, Shaori: derived by scaling aggregate seasonal pattern
+    by each plant's annual CF from WB EPM v8.5 results — not based on
+    actual plant-level monthly data.
+    ROR seasonal CF: 4-year average (2019-2022) of total RoR column / total
+    installed RoR capacity. All individual RoR plants share the same CF.
+  used_in_studies: [data_blacksea]
