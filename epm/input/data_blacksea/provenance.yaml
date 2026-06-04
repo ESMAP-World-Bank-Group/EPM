@@ -295,37 +295,37 @@ Georgia:
     last_updated: 2026-06-04
 
   pAvailabilityCustom:
-    source_id: georgia_generation_profiles_2019_2022
-    secondary_source_ids: [wb_epm_georgia_v85]
-    method: "DIRECT plant-specific from monthly balance (Enguri/Vardnili/Khrami) + SCALED from aggregate (Jinvali/Dzevruli/Shaori) + aggregate for ROR"
+    source_id: wb_epm_georgia_v85
+    secondary_source_ids: [georgia_generation_profiles_2019_2022]
+    method: "DIRECT from WB EPM v8.5 GenAvailability (ReservoirHydro) + AGGREGATE 2019-2022 (ROR)"
     method_table:
       - period: "2024–2053"
         method: DIRECT
         notes: >
-          Enguri, Vardnili, Khrami-1, Khrami-2: quarterly CF from monthly generation
-          data (Georgia Electricity Balance_2020-22) divided by installed capacity.
-          2-3 clean observations per quarter averaged (December 2022 and Enguri
-          Feb-Mar 2021 excluded as anomalous). Results: Enguri Q1=0.12/Q2=0.43/Q3=0.47/Q4=0.24;
-          Vardnili Q1=0.19/Q2=0.54/Q3=0.52/Q4=0.30.
-      - period: "2024–2053"
-        method: SCALED
-        notes: >
-          Jinvali, Dzevruli, Shaori: annual CF from WB EPM v8.5 EPMRESULTS PlantUtilization
-          sheet (0.246/0.187/0.361 respectively). Aggregate seasonal pattern scaled by ratio
-          of plant annual CF to aggregate annual CF (0.408).
+          7 existing ReservoirHydro plants: quarterly CFs from WB_EPM_v8_5.xlsb
+          GenAvailability sheet (monthly factors m1-m12 averaged to quarters).
+          Plant-specific hydrological calibration from WB EPM Georgia 2022 study:
+          Enguri Q1=0.21/Q2=0.48/Q3=0.52/Q4=0.20; Vardnili Q1=0.30/Q2=0.49/Q3=0.48/Q4=0.28;
+          Khrami-1&2 Q1=0.12/Q2=0.31/Q3=0.27/Q4=0.32;
+          Jinvali Q1=0.28/Q2=0.30/Q3=0.22/Q4=0.18;
+          Dzevruli Q1=0.38/Q2=0.17/Q3=0.04/Q4=0.17 (very low summer — specific hydrology);
+          Shaori Q1=0.56/Q2=0.30/Q3=0.14/Q4=0.44 (peaks in winter — specific regime).
+          3 committed reservoir plants (Khudoni/Namakhvani/Nenskra): proxy from Enguri
+          (western Georgia large reservoir profile).
       - period: "2024–2053"
         method: DIRECT_aggregate
         notes: >
-          All 24 ROR plants (23 individual ≥10 MW + AGG_SmallHydro + committed/candidate):
-          Q1=0.45, Q2=0.81, Q3=0.54, Q4=0.40. Derived from 4-year average (2019-2022)
-          of total RoR hourly generation / total installed RoR capacity (~802 MW).
+          26 ROR plants (23 individual ≥10 MW + AGG_SmallHydro + committed + candidate):
+          uniform Q1=0.45, Q2=0.81, Q3=0.54, Q4=0.40 from georgia_generation_profiles_2019_2022.
+          4-year average (2019-2022) of total RoR hourly generation / installed RoR capacity.
+          pVREProfile for ROR set to 1.0 flat — all seasonal variation in pAvailabilityCustom.
     confidence: medium
     needs_review: true
     review_note: >
-      (1) Enguri Q1 based on only 2020 and 2022 data (2021 excluded due to maintenance).
-      2020 Q1 CF=0.144, 2022 Q1 CF=0.085 — high variability. Long-term average unclear.
-      (2) Committed large hydro (Khudoni/Namakhvani/Nenskra): use average of measured
-      plants (0.18/0.38/0.39/0.26) as proxy — no plant-specific data.
-      (3) Zhinvali/Dzevruli/Shaori: derived indirectly, not from actual plant data.
-      (4) Individual ROR plants all share same aggregate CF — plant-level variability lost.
+      (1) Dzevruli Q3=0.04 and Shaori Q1=0.56 are unusual patterns from old model calibration —
+      verify against actual plant hydrology with CESI.
+      (2) Committed large reservoir (Khudoni/Namakhvani/Nenskra): proxy from Enguri — no
+      plant-specific hydrological data available.
+      (3) ROR aggregate: individual plant availability variability lost (Rioni ~0.70 flat
+      vs Vartsikhe Q3=0.35 in old model). Acceptable for planning model.
     last_updated: 2026-06-04

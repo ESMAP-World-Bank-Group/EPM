@@ -24,6 +24,14 @@ fills_epm_resources:
     coverage: >
       Minimum generation share: Mtkvari=0.55, Gardabani CCGT=0.45.
       Note: these are in pGenDataInputDefault not in pGenDataInput CSV directly.
+  - resource: pAvailabilityCustom
+    location: "GenAvailability sheet — monthly availability factors m1-m12 per plant"
+    coverage: >
+      7 existing ReservoirHydro plants (Type 4: Enguri, Vardnili, Khrami-1, Khrami-2,
+      Jinvali/Zhinvali, Dzevruli, Shaori) — monthly factors averaged to quarterly.
+      Values reflect plant-specific hydrological calibration from WB EPM Georgia 2022 study.
+      Note: Dzevruli has very low Q3 (0.04) and Shaori peaks in Q1 (0.56) — these
+      unusual patterns are from the old model calibration, not simple seasonal averages.
 quality:
   confidence: medium
   notes: >
