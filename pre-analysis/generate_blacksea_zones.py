@@ -19,6 +19,11 @@ KEEP = {
         'c': 'Georgia',
         'z_override': 'Georgia',
     },
+    'AZE': {
+        'zones': ['AZE_1'],
+        'c': 'Azerbaijan',
+        'z_override': 'Azerbaijan',
+    },
 }
 
 
