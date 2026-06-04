@@ -59,7 +59,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h1>Data Sources — EPM — Black Sea 2026</h1>
 <p class="meta">
   Generated 2026-06-04 &nbsp;&middot;&nbsp;
-  Turkiye, Armenia &nbsp;&middot;&nbsp;
+  Turkiye, Armenia, Georgia &nbsp;&middot;&nbsp;
   Data horizon: 2024–2053 · step: 1 year
 </p>
 
@@ -74,15 +74,17 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <thead><tr><th>Item</th><th>Parameter</th><th>Description</th>
 <th>Turkiye</th>
 <th>Armenia</th>
+<th>Georgia</th>
 </tr></thead>
 <tbody>
-<tr class="cat-row"><td colspan="5">Load</td></tr>
+<tr class="cat-row"><td colspan="6">Load</td></tr>
 <tr>
 <td>Annual demand forecast</td>
 <td><code>pDemandForecast</code></td>
 <td>Historical and projected electricity demand (GWh and MW peak) by year</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pdemandforecast">CESI/EPSO (2022)</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Hourly demand profile</td>
@@ -90,14 +92,16 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Typical hourly load curve (8760 h) for a representative year</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="5">Supply</td></tr>
+<tr class="cat-row"><td colspan="6">Supply</td></tr>
 <tr>
 <td>Generator database</td>
 <td><code>pGenDataInput</code></td>
 <td>Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&amp;M, operating constraints</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pgendatainput">CESI/EPSO (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
+<td class="status-review"><a href="#georgia-pgendatainput">&#9651; SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -105,6 +109,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ)</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pfuelprice">TYNDP / IEA World Energy Outlo… (2022)</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -112,11 +117,13 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Seasonal capacity factors for thermal, hydro, and other dispatchable units</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pavailabilitycustom">World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Storage assumptions</td>
 <td><code>pStorageDataInput</code></td>
 <td>For BESS and PSH: capacity, duration, efficiency, cost assumptions</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 </tr>
@@ -126,12 +133,14 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1)</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-review"><a href="#armenia-pvreprofile">&#9651; Renewables Ninja (2018–2023) + TEİAŞ</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="5">Resources</td></tr>
+<tr class="cat-row"><td colspan="6">Resources</td></tr>
 <tr>
 <td>Maximum installable capacity</td>
 <td><code>pMaxGenerationByFuel</code></td>
 <td>Maximum new capacity by technology (resource potential and spatial constraints)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 </tr>
@@ -141,12 +150,14 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>VRE curtailment, variability handling, and balancing cost assumptions</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="5">Trade</td></tr>
+<tr class="cat-row"><td colspan="6">Trade</td></tr>
 <tr>
 <td>Cross-border transmission</td>
 <td><code>pTransferLimit</code></td>
 <td>Existing and planned cross-border interconnectors: capacity (MW), year, routing options</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 </tr>
@@ -156,6 +167,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Cross-border interconnector losses (% by corridor)</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Trade prices</td>
@@ -163,20 +175,23 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Import/export prices with temporal variability ($/MWh) — external zones</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="5">Reserves</td></tr>
+<tr class="cat-row"><td colspan="6">Reserves</td></tr>
 <tr>
 <td>Reserve margin</td>
 <td><code>pPlanningReserveMargin</code></td>
 <td>Planning reserve margin (%) and operating reserve assumptions</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="5">Other</td></tr>
+<tr class="cat-row"><td colspan="6">Other</td></tr>
 <tr>
 <td>Carbon pricing</td>
 <td><code>pCarbonPrice</code></td>
 <td>Carbon price or emission constraint applied in planning (NDC, ETS membership)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 </tr>
@@ -184,6 +199,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Fuel and import limits</td>
 <td><code>pMaxFuelLimit</code></td>
 <td>Caps or floors on fuel use or electricity imports (e.g. gas import quotas)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 </tr>
@@ -197,6 +213,10 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <li><a href="#armenia"><strong>Armenia</strong></a>
  &mdash; 
 <a href="#armenia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#armenia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#armenia-pvreprofile"><code>pVREProfile</code></a>, <a href="#armenia-pavailabilitycustom"><code>pAvailabilityCustom</code></a>, <a href="#armenia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#armenia-pfuelprice"><code>pFuelPrice</code></a>
+</li>
+<li><a href="#georgia"><strong>Georgia</strong></a>
+ &mdash; 
+<a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>
 </li>
 </ul></div>
 <hr>
@@ -285,6 +305,29 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </tbody></table>
 <blockquote>EUR/USD conversion at 1.05 (BCE 2022 annual average). Fuels included: Gas, HFO. Uranium proxied flat from Turkiye (0.97 $/GJ — not covered by TYNDP/IEA WEO). Coal and Lignite excluded — no coal generation in Armenia existing or planned fleet. Gas price reflects TYNDP/IEA market trajectory, not Armenia–Gazprom bilateral contract price (~4.5 $/GJ in 2022); difference is small but methodology diverges from actual cost structure for near-term years.</blockquote>
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-05-29</p>
+<hr>
+<h2 id="georgia">Georgia</h2>
+<p class="back"><a href="#toc">&#8593; Contents</a></p>
+<h3>Summary</h3>
+<table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
+<tr><td><a href="#georgia-pgendatainput"><code>pGenDataInput</code></a></td><td>SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+</tbody></table>
+<h3 id="georgia-pgendatainput"><code>pGenDataInput</code></h3>
+<p class="back"><a href="#georgia">&#8593; Georgia</a></p>
+<p><strong>Source</strong>: SESA/WB Georgia Generation Dataset 2022 <code>(sesa_georgia_2022)</code></p>
+<p><strong>Also uses</strong>: Georgia Power Sector Data Repository (WB Internal) <code>(ge_power_sector_data_repository)</code>, WB EPM Georgia v8.5 (2022) — Technical Parameters <code>(wb_epm_georgia_v85)</code>, <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: (1) Committed large hydro (Khudoni 702 MW, Namakhvani 433 MW, Nenskra 280 MW): all politically contested/delayed — StYr estimates uncertain ±3 years. Namakhvani suspended due to protests (2021–2022); may need to downgrade to Status=3. (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm operational status with CESI/GSE. (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW, ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value. (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify. (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine. (6) DomesticCoal for Tkibuli: no entry in pFuelPrice for Georgia yet — needs adding.
+</div>
+<p><strong>Method</strong>: DIRECT (capacity, dates, tech) — old EPM for HeatRate thermal — generic for all other params</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>113 plants from sesa_georgia_2022 reduced to 46 rows: plants ≥10 MW kept individual; plants &lt;10 MW aggregated into Georgia_AGG_SmallHydro (~224 MW). Capacity: sesa_georgia_2022. StYr: ge_power_sector_data_repository (commissioning year per plant). tech: mapped from Status column (with Reservoir→ReservoirHydro, Seasonal/Small→ROR) cross-checked with ge_power_sector_data_repository type column. HeatRate for Mtkvari (10.3 MMBtu/MWh) and Gardabani CCGT (6.93 MMBtu/MWh) from wb_epm_georgia_v85. All other technical params (VOM, FOM, Capex, RampRate, ResLimShare, Life) left blank → filled at runtime from pGenDataInputGeneric (EPM generic defaults).
+</td></tr>
+<tr><td>committed</td><td><code>DIRECT</code></td><td>4 committed rows (Status=2): Khudoni 702 MW (StYr=2032), Namakhvani 433 MW (StYr=2030), Nenskra 280 MW (StYr=2029) from List_of_PPAs_May2022 'Construction' stage; Georgia_HydroSHP_Com 549 MW aggregate from PPA construction pipeline.
+</td></tr>
+<tr><td>candidates</td><td><code>DIRECT</code></td><td>4 candidate rows (Status=3): Wind (300 MW, Capex=1.3 $M/MW), PV (200 MW, Capex=0.8 $M/MW) from RE Pipeline; SmallHydro (300 MW), BESS (200 MW) — engineering estimates.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-04</p>
 <hr>
 </body>
 </html>
