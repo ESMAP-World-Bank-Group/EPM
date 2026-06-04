@@ -14,6 +14,11 @@ KEEP = {
         'c': 'Armenia',
         'z_override': 'Armenia',
     },
+    'GEO': {
+        'zones': ['GEO_1'],
+        'c': 'Georgia',
+        'z_override': 'Georgia',
+    },
 }
 
 
