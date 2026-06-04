@@ -87,6 +87,10 @@ status_map:
   construction: 2     # committed
   planned:      3     # candidate
 
+# ── Model horizon ────────────────────────────────────────────────────────────
+# Plants whose RetrYr < model_start_year are excluded (already retired).
+model_start_year: 2025
+
 # ── Aggregation ───────────────────────────────────────────────────────────────
 # Plants smaller than this threshold are aggregated per tech/fuel group.
 aggregate_below_mw: 10

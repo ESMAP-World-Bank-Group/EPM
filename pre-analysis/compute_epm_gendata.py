@@ -127,15 +127,16 @@ def plants_to_epm_rows(
 ) -> pd.DataFrame:
     """Convert a DataFrame of GEM plants to EPM pGenDataInput rows."""
 
-    fuel_map       = cfg["fuel_map"]
-    life_by_tech   = cfg["life_by_tech"]
-    status_map     = cfg["status_map"]
-    agg_threshold  = cfg.get("aggregate_below_mw", 10)
-    capex_by_tech  = cfg.get("capex_by_tech", {})
-    fuel_overrides = cfg.get("fuel_overrides", {})
-    cand_defaults  = cfg.get("candidate_defaults", {})
-    default_styr   = cand_defaults.get("StYr_if_unknown", 2030)
-    blpy_frac      = cand_defaults.get("BuildLimitperYear_fraction", 0.2)
+    fuel_map         = cfg["fuel_map"]
+    life_by_tech     = cfg["life_by_tech"]
+    status_map       = cfg["status_map"]
+    agg_threshold    = cfg.get("aggregate_below_mw", 10)
+    capex_by_tech    = cfg.get("capex_by_tech", {})
+    fuel_overrides   = cfg.get("fuel_overrides", {})
+    cand_defaults    = cfg.get("candidate_defaults", {})
+    default_styr     = cand_defaults.get("StYr_if_unknown", 2030)
+    blpy_frac        = cand_defaults.get("BuildLimitperYear_fraction", 0.2)
+    model_start_year = cfg.get("model_start_year", 2025)
 
     rows = []
     agg_buckets: dict[tuple, list] = {}
@@ -171,6 +172,11 @@ def plants_to_epm_rows(
         else:
             st_yr = None                 # existing plant with no year data
         retr_yr = compute_retr_yr(st_yr, tech, life_by_tech)
+
+        # Skip plants already retired before model start
+        if retr_yr is not None and retr_yr < model_start_year:
+            continue
+
         capacity = round(mw, 1) if mw else ""
         build_lim = (
             round(capacity * blpy_frac, 1) if epm_status == 3 and capacity else ""
