@@ -264,3 +264,32 @@ Georgia:
       average when running representative days pipeline for Georgia.
       (4) d1–d6 all share same seasonal mean (within-season variability lost).
     last_updated: 2026-06-04
+
+  pFuelPrice:
+    source_id: georgia_fuel_subsidies_2022
+    secondary_source_ids: [tyndp_iea_weo_2022]
+    method: "Gas: South Caucasus wholesale proxy + Armenia growth rate. DomesticCoal: DIRECT from fuel-subsidies file."
+    method_table:
+      - period: "2024–2053"
+        method: PROXY_Armenia
+        notes: >
+          Gas: base 4.50 USD/MMBtu in 2024 (South Caucasus wholesale price estimate for
+          Azerbaijan→Georgia gas at ~$150/1000m3 ÷ 35.3 GJ/1000m3 ÷ 0.9478 MMBtu/GJ).
+          Year-on-year growth applied from Armenia trajectory (tyndp_iea_weo_2022):
+          +0.033 USD/MMBtu/yr to 2040, +0.022 USD/MMBtu/yr beyond.
+          Result: 2024=4.50 → 2030=4.70 → 2040=5.03 → 2053=5.32 USD/MMBtu.
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          DomesticCoal: 3.82 USD/MMBtu flat (= 3.62 USD/GJ from georgia_fuel_subsidies_2022
+          power sector coal price, 2021). Tkibuli domestic coal, minimal price variation.
+    confidence: low
+    needs_review: true
+    review_note: >
+      Gas price HIGHLY uncertain. georgia_fuel_subsidies_2022 retail price (11.99 USD/GJ)
+      is ~3× the estimated wholesale price. South Caucasus proxy (4.5 USD/MMBtu) is based
+      on trade data estimates, not confirmed generator-level tariffs.
+      Confirm actual Gardabani/Mtkvari/GPower fuel cost with CESI or GNERC tariff orders.
+      DomesticCoal: Tkibuli coal quality is sub-bituminous (low calorific value) —
+      price may be expressed per ton not per energy unit in actual contracts.
+    last_updated: 2026-06-04

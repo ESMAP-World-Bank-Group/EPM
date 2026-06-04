@@ -109,7 +109,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ)</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pfuelprice">TYNDP / IEA World Energy Outlo… (2022)</a></td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#georgia-pfuelprice">&#9651; Georgia Fuel Subsidies Databas… (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -216,7 +216,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#georgia"><strong>Georgia</strong></a>
  &mdash; 
-<a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#georgia-pvreprofile"><code>pVREProfile</code></a>
+<a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#georgia-pvreprofile"><code>pVREProfile</code></a>, <a href="#georgia-pfuelprice"><code>pFuelPrice</code></a>
 </li>
 </ul></div>
 <hr>
@@ -313,6 +313,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <tr><td><a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a></td><td>Georgia Hourly Load Profile wi… (2022)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a></td><td>Georgia Hourly Load Profile wi… (2022)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#georgia-pgendatainput"><code>pGenDataInput</code></a></td><td>SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#georgia-pfuelprice"><code>pFuelPrice</code></a></td><td>Georgia Fuel Subsidies Databas… (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#georgia-pvreprofile"><code>pVREProfile</code></a></td><td>WB EPM Georgia 2022 (2022)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="georgia-pgendatainput"><code>pGenDataInput</code></h3>
@@ -365,6 +366,20 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-04</p>
+<h3 id="georgia-pfuelprice"><code>pFuelPrice</code></h3>
+<p class="back"><a href="#georgia">&#8593; Georgia</a></p>
+<p><strong>Source</strong>: Georgia Fuel Subsidies Database 2022 (IMF/World Bank methodology) <code>(georgia_fuel_subsidies_2022)</code></p>
+<p><strong>Also uses</strong>: <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022 — commodity prices</a></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Gas price HIGHLY uncertain. georgia_fuel_subsidies_2022 retail price (11.99 USD/GJ) is ~3× the estimated wholesale price. South Caucasus proxy (4.5 USD/MMBtu) is based on trade data estimates, not confirmed generator-level tariffs. Confirm actual Gardabani/Mtkvari/GPower fuel cost with CESI or GNERC tariff orders. DomesticCoal: Tkibuli coal quality is sub-bituminous (low calorific value) — price may be expressed per ton not per energy unit in actual contracts.
+</div>
+<p><strong>Method</strong>: Gas: South Caucasus wholesale proxy + Armenia growth rate. DomesticCoal: DIRECT from fuel-subsidies file.</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>PROXY_Armenia</code></td><td>Gas: base 4.50 USD/MMBtu in 2024 (South Caucasus wholesale price estimate for Azerbaijan→Georgia gas at ~$150/1000m3 ÷ 35.3 GJ/1000m3 ÷ 0.9478 MMBtu/GJ). Year-on-year growth applied from Armenia trajectory (tyndp_iea_weo_2022): +0.033 USD/MMBtu/yr to 2040, +0.022 USD/MMBtu/yr beyond. Result: 2024=4.50 → 2030=4.70 → 2040=5.03 → 2053=5.32 USD/MMBtu.
+</td></tr>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>DomesticCoal: 3.82 USD/MMBtu flat (= 3.62 USD/GJ from georgia_fuel_subsidies_2022 power sector coal price, 2021). Tkibuli domestic coal, minimal price variation.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [LOW] · Last updated: 2026-06-04</p>
 <hr>
 </body>
 </html>

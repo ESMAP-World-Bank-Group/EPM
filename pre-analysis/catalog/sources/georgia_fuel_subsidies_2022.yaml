@@ -1,0 +1,31 @@
+id: georgia_fuel_subsidies_2022
+name: "Georgia Fuel Subsidies Database 2022 (IMF/World Bank methodology)"
+type: internal
+date: "2022"
+access_note: >
+  File: Team/Georgia_fuel-subsidies_2022.xlsx
+  Sheet: Single_Country_Fuel — Georgia 2021 fuel prices by sector (power, industrial,
+  residential) and by type (consumer price vs. supply cost/wholesale).
+  Covers 2017-2025 historical data and projections.
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia]
+  years: "2017–2025"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Sheet Single_Country_Fuel, Natural Gas / Power sector (consumer price)"
+    coverage: >
+      DomesticCoal power sector price only: 3.62 USD/GJ = 3.82 USD/MMBtu (2021).
+      NOTE: Natural gas prices from this file (11.99 USD/GJ) are retail/end-user
+      prices including distribution and taxes — NOT used for Gas in pFuelPrice.
+      Georgia Gas uses South Caucasus wholesale proxy instead (see provenance).
+quality:
+  confidence: medium
+  notes: >
+    Prices reported are end-user/consumer prices, not wholesale commodity prices at
+    the generation meter. Natural gas power sector price (11.99 USD/GJ) is approximately
+    3x the actual SOCAR Azerbaijan export price to Georgia (~3.6-4.6 USD/GJ based on
+    contract volumes ~130-165 USD/1000m3 reported in trade data).
+    DomesticCoal power price (3.62 USD/GJ) is considered closer to the commodity price
+    since Tkibuli coal has minimal distribution markup (mine-to-plant pipeline).
+  used_in_studies: [data_blacksea]
