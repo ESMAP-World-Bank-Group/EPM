@@ -405,6 +405,169 @@ def build_owid_energy_outputs(
     return outputs
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# EPM DEMAND FORECAST — fetch OWID from web + produce pDemandForecast rows
+# ═══════════════════════════════════════════════════════════════════════════════
+
+import io
+import math
+import urllib.request
+
+OWID_URL = (
+    "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"
+)
+_OWID_CACHE_DIR = BASE_DIR / "cache" / "owid"
+_OWID_CACHE_FILE = _OWID_CACHE_DIR / "owid-energy-data.csv"
+
+# ISO-3 → OWID country name (OWID uses full names, not ISO codes directly)
+_ISO3_TO_OWID: Dict[str, str] = {
+    "AZE": "Azerbaijan",
+    "ARM": "Armenia",
+    "GEO": "Georgia",
+    "TUR": "Turkey",
+    "ROU": "Romania",
+    "BGR": "Bulgaria",
+    "RUS": "Russia",
+    "IRN": "Iran",
+    "UKR": "Ukraine",
+    "MDA": "Moldova",
+    # add more as needed
+}
+
+
+def fetch_owid_dataset(
+    cache_dir: Optional[Path] = None,
+    force: bool = False,
+) -> Path:
+    """Download (or return cached) OWID energy CSV from GitHub.
+
+    The file (~10 MB) is cached locally and reused unless *force* is True.
+    Falls back to the pre-analysis/dataset/ folder if it exists.
+    """
+    cache_dir = Path(cache_dir) if cache_dir else _OWID_CACHE_DIR
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    dest = cache_dir / "owid-energy-data.csv"
+
+    # Local cache hit
+    if dest.exists() and not force:
+        print(f"  [owid] Using cached dataset: {dest}")
+        return dest
+
+    # Also check legacy dataset/ folder used by existing owid_energy_pipeline
+    legacy = BASE_DIR / "dataset" / "owid-energy-data.csv"
+    if legacy.exists() and not force:
+        print(f"  [owid] Using existing dataset: {legacy}")
+        return legacy
+
+    print(f"  [owid] Downloading OWID energy data (~10 MB)...")
+    try:
+        urllib.request.urlretrieve(OWID_URL, dest)
+        print(f"  [owid] Saved {dest.stat().st_size / 1e6:.1f} MB -> {dest.name}")
+        return dest
+    except Exception as e:
+        print(f"  [owid] Download failed: {e}")
+        raise RuntimeError(
+            "OWID dataset unavailable. Check internet or place owid-energy-data.csv "
+            f"in {cache_dir}."
+        ) from e
+
+
+def load_owid_demand(
+    iso3_codes: List[str],
+    cache_dir: Optional[Path] = None,
+    force: bool = False,
+) -> pd.DataFrame:
+    """Load OWID electricity demand for given ISO-3 country codes.
+
+    Returns a DataFrame with columns: iso3, year, demand_twh, generation_twh,
+    net_imports_twh — one row per (country, year).
+    """
+    path = fetch_owid_dataset(cache_dir=cache_dir, force=force)
+    df = pd.read_csv(path, low_memory=False)
+
+    # Build reverse map: OWID country name → iso3
+    owid_names = {v: k for k, v in _ISO3_TO_OWID.items()}
+    targets = {_ISO3_TO_OWID[iso]: iso for iso in iso3_codes if iso in _ISO3_TO_OWID}
+
+    if not targets:
+        raise ValueError(f"None of {iso3_codes} found in _ISO3_TO_OWID mapping.")
+
+    sub = df[df["country"].isin(targets.keys())].copy()
+    sub["iso3"] = sub["country"].map(owid_names)
+    sub["year"] = pd.to_numeric(sub["year"], errors="coerce").astype("Int64")
+    sub["demand_twh"]     = pd.to_numeric(sub.get("electricity_demand",     pd.NA), errors="coerce")
+    sub["generation_twh"] = pd.to_numeric(sub.get("electricity_generation", pd.NA), errors="coerce")
+    sub["net_imports_twh"]= pd.to_numeric(sub.get("net_elec_imports",       pd.NA), errors="coerce")
+
+    return (
+        sub[["iso3", "country", "year", "demand_twh", "generation_twh", "net_imports_twh"]]
+        .dropna(subset=["year", "demand_twh"])
+        .sort_values(["iso3", "year"])
+        .reset_index(drop=True)
+    )
+
+
+def get_demand_forecast(
+    owid_df: pd.DataFrame,
+    iso3: str,
+    model_years: List[int],
+    load_factor: float = 0.58,
+    growth_rate: Optional[float] = None,
+    cagr_window: int = 5,
+) -> Dict[str, Dict[int, float]]:
+    """Compute pDemandForecast (Peak MW + Energy GWh) for one country.
+
+    Args:
+        owid_df:     Output of load_owid_demand().
+        iso3:        ISO-3 country code.
+        model_years: List of years to produce forecasts for (e.g. 2024-2053).
+        load_factor: Annual load factor used to estimate peak from energy
+                     (default 0.58 = 58% → typical Caucasus/MENA).
+        growth_rate: Fixed annual growth rate. If None, computed from OWID
+                     CAGR over the last *cagr_window* years of data.
+        cagr_window: Number of historical years used to compute CAGR.
+
+    Returns:
+        {"Peak": {year: MW, ...}, "Energy": {year: GWh, ...}}
+    """
+    cdf = owid_df[owid_df["iso3"] == iso3].sort_values("year")
+    if cdf.empty:
+        raise ValueError(f"No OWID demand data for {iso3}.")
+
+    # Last available data point as anchor
+    anchor_row  = cdf.dropna(subset=["demand_twh"]).iloc[-1]
+    anchor_year = int(anchor_row["year"])
+    anchor_twh  = float(anchor_row["demand_twh"])
+
+    # Compute CAGR from historical data if growth_rate not provided
+    if growth_rate is None:
+        window = cdf.dropna(subset=["demand_twh"]).tail(cagr_window + 1)
+        if len(window) >= 2:
+            start_twh = float(window.iloc[0]["demand_twh"])
+            end_twh   = float(window.iloc[-1]["demand_twh"])
+            n_years   = int(window.iloc[-1]["year"]) - int(window.iloc[0]["year"])
+            growth_rate = (end_twh / start_twh) ** (1 / n_years) - 1 if n_years > 0 else 0.02
+        else:
+            growth_rate = 0.02  # fallback 2%/yr
+        print(f"  [owid] {iso3}: anchor={anchor_year} {anchor_twh:.1f} TWh, "
+              f"CAGR={growth_rate*100:.1f}%/yr (last {cagr_window} yrs)")
+
+    peak_mw: Dict[int, float] = {}
+    energy_gwh: Dict[int, float] = {}
+
+    for yr in model_years:
+        delta  = yr - anchor_year
+        twh    = anchor_twh * ((1 + growth_rate) ** delta)
+        gwh    = round(twh * 1000, 2)
+        # Peak = average demand / load_factor
+        avg_mw = twh * 1e6 / 8760          # TWh → average MW
+        peak   = round(avg_mw / load_factor, 2)
+        energy_gwh[yr] = gwh
+        peak_mw[yr]    = peak
+
+    return {"Peak": peak_mw, "Energy": energy_gwh}
+
+
 if __name__ == "__main__":  # pragma: no cover - convenience manual run
     build_owid_energy_outputs(
         dataset_path=None,
