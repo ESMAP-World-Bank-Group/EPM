@@ -393,3 +393,33 @@ Azerbaijan:
       (including AZ) with VRE profiles when all country data is available.
       Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
     last_updated: 2026-06-05
+
+  pFuelPrice:
+    source_id: imf_energy_subsidies
+    secondary_source_ids: [tyndp_iea_weo_2022]
+    method: "DIRECT supply price from IMF subsidy database (Gas) + flat estimate (Biomass)"
+    method_table:
+      - period: "2024–2025"
+        method: DIRECT
+        notes: >
+          Gas: mit_sp_nga_pow (supply price paid by power generators) from
+          Georgia_fuel-subsidies_2022.xlsx 'data' sheet, country=AZE.
+          2024 = 4.225 USD/GJ = 4.46 USD/MMBtu (converted at 1 GJ = 0.9478 MMBtu).
+          This is NOT the domestic subsidized retail price (~$1.5-2/MMBtu) NOR
+          the full export/opportunity cost (~$6-8/MMBtu) — it is the actual
+          price charged to power generators by SOCAR.
+      - period: "2026–2053"
+        method: EXTRAPOLATED
+        notes: >
+          Growth trajectory applied from Armenia (tyndp_iea_weo_2022): same
+          year-on-year increments (+0.033/yr to 2040, +0.022/yr beyond).
+          Biomass: 0.50 USD/MMBtu flat (Balakhani landfill gas, quasi-free fuel).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Supply price (4.46 $/MMBtu) is between domestic subsidized retail
+      (~$1.5-2/MMBtu) and export opportunity cost (~$6-8/MMBtu via TANAP).
+      Choice justification: reflects actual generator economics for planning model.
+      If WB study requires economic (opportunity) cost approach, use ~$6.5/MMBtu.
+      IMF data covers 2015-2025; forward trajectory based on Armenia CAGR.
+    last_updated: 2026-06-05
