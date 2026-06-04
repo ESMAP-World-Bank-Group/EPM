@@ -1,0 +1,143 @@
+# epm_gendata_config.yaml
+# Configuration for compute_epm_gendata.py — maps GEM/GIPT data to EPM pGenDataInput format.
+#
+# GEM fuel types: coal, gas, hydro, solar, wind, nuclear, biomass, geothermal, oil
+# EPM tech types: CCGT, ST, OCGT, ICE, ReservoirHydro, ROR, PV, OnshoreWind,
+#                 OffshoreWind, Nuclear, BiomassPlant, Storage
+
+# ── Fuel → EPM tech/fuel mapping ─────────────────────────────────────────────
+# Each GEM fuel can map differently based on commissioning year.
+# Rules are evaluated in order; first match wins.
+# 'year_before': applies to plants commissioned strictly before this year
+# 'year_from':   applies to plants commissioned in this year or later
+# 'default':     applies when year is unknown
+
+fuel_map:
+  gas:
+    - year_before: 2000
+      tech: ST
+      fuel: Gas
+    - default: true
+      tech: CCGT
+      fuel: Gas
+
+  coal:
+    - default: true
+      tech: ST
+      fuel: Coal            # override per country if DomesticCoal needed
+
+  hydro:
+    - mw_below: 10          # small ROR
+      tech: ROR
+      fuel: Water
+    - default: true
+      tech: ReservoirHydro  # large hydro — EPM treats as dispatchable reservoir
+      fuel: Water
+
+  solar:
+    - default: true
+      tech: PV
+      fuel: Solar
+
+  wind:
+    - default: true
+      tech: OnshoreWind
+      fuel: Wind
+
+  nuclear:
+    - default: true
+      tech: Nuclear
+      fuel: Uranium
+
+  biomass:
+    - default: true
+      tech: BiomassPlant
+      fuel: Biomass
+
+  geothermal:
+    - default: true
+      tech: ST
+      fuel: Geothermal
+
+  oil:
+    - default: true
+      tech: OCGT
+      fuel: HFO
+
+# ── Plant life assumptions (years) ────────────────────────────────────────────
+# Used to compute RetrYr = StYr + Life
+# Set to 99 to disable automatic retirement (large hydro, nuclear)
+
+life_by_tech:
+  CCGT:            30
+  ST:              30
+  OCGT:            25
+  ICE:             25
+  ReservoirHydro:  99    # no planned retirement for large hydro
+  ROR:             99
+  PV:              25
+  OnshoreWind:     25
+  OffshoreWind:    25
+  Nuclear:         60
+  BiomassPlant:    30
+
+# ── GEM status → EPM Status column ───────────────────────────────────────────
+status_map:
+  operating:    1     # existing
+  construction: 2     # committed
+  planned:      3     # candidate
+
+# ── Aggregation ───────────────────────────────────────────────────────────────
+# Plants smaller than this threshold are aggregated per tech/fuel group.
+aggregate_below_mw: 10
+
+# ── Countries → EPM zones ─────────────────────────────────────────────────────
+# Single-zone countries only. Multi-zone (e.g. TUR) require geographic
+# zone assignment (future enhancement).
+
+countries:
+  AZE:
+    zone:    Azerbaijan
+    country: Azerbaijan
+  ARM:
+    zone:    Armenia
+    country: Armenia
+  GEO:
+    zone:    Georgia
+    country: Georgia
+  ROU:
+    zone:    Romania
+    country: Romania
+  BGR:
+    zone:    Bulgaria
+    country: Bulgaria
+
+# ── Country-level fuel overrides ──────────────────────────────────────────────
+# Override default fuel mapping for specific country+fuel combinations.
+# Useful e.g. for domestic coal (different fuel price from imported coal).
+
+fuel_overrides:
+  AZE:
+    # No overrides — all gas is imported/SOCAR at market price
+  GEO:
+    coal: DomesticCoal   # Tkibuli mine
+  BGR:
+    coal: Coal           # Bulgaria uses imported coal
+
+# ── Default candidate parameters ─────────────────────────────────────────────
+# These apply to planned plants (Status=3) when no year data available.
+candidate_defaults:
+  StYr_if_unknown: 2030
+  BuildLimitperYear_fraction: 0.2  # 20% of capacity per year
+
+# Capex by tech (for candidates, in $M/MW — same as EPM generic guide)
+capex_by_tech:
+  CCGT:          1.0
+  ST:            1.5
+  OCGT:          0.8
+  ReservoirHydro: 3.5
+  ROR:           3.0
+  PV:            0.8
+  OnshoreWind:   1.3
+  Nuclear:       6.0
+  BiomassPlant:  2.0
