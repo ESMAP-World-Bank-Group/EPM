@@ -1,0 +1,3 @@
+scenario,Objective (Billion USD),Time,Peak Memory (Mb)
+baseline,143.14,32.78 min,8805.44
+ArTur,143.14,32.39 min,8805.44
