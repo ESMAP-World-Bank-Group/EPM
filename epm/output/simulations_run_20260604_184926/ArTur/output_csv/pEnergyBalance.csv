@@ -1,0 +1,1228 @@
+c,z,y,uni,value
+Armenia,Armenia,2025,Demand: GWh,6721.000000000002
+Armenia,Armenia,2025,Total Demand: GWh,6721.000000000002
+Armenia,Armenia,2025,Total production: GWh,6721.000000000002
+Armenia,Armenia,2026,Demand: GWh,6792.000000000008
+Armenia,Armenia,2026,Surplus generation: GWh,0.6530223175447325
+Armenia,Armenia,2026,Total Demand: GWh,6792.000000000008
+Armenia,Armenia,2026,Total production: GWh,6792.653022317543
+Armenia,Armenia,2027,Demand: GWh,6861.999999999994
+Armenia,Armenia,2027,Exports exchange: GWh,8682.27906243667
+Armenia,Armenia,2027,Imports exchange: GWh,0.6791195509060957
+Armenia,Armenia,2027,Net interchange Ratio: GWh,-1.2651704959029104
+Armenia,Armenia,2027,Net interchange: GWh,-8681.599942885763
+Armenia,Armenia,2027,Total Demand: GWh,6861.999999999994
+Armenia,Armenia,2027,Total production: GWh,15543.613361536289
+Armenia,Armenia,2028,Demand: GWh,6932.999999999995
+Armenia,Armenia,2028,Exports exchange: GWh,8673.913838466697
+Armenia,Armenia,2028,Imports exchange: GWh,0.601972822441111
+Armenia,Armenia,2028,Net interchange Ratio: GWh,-1.2510185872846185
+Armenia,Armenia,2028,Net interchange: GWh,-8673.311865644255
+Armenia,Armenia,2028,Total Demand: GWh,6932.999999999995
+Armenia,Armenia,2028,Total production: GWh,15606.32375996083
+Armenia,Armenia,2029,Demand: GWh,7004.000000000001
+Armenia,Armenia,2029,Exports exchange: GWh,8708.411372384608
+Armenia,Armenia,2029,Imports exchange: GWh,0.5248260939761389
+Armenia,Armenia,2029,Net interchange Ratio: GWh,-1.2432733504127111
+Armenia,Armenia,2029,Net interchange: GWh,-8707.88654629063
+Armenia,Armenia,2029,Total Demand: GWh,7004.000000000001
+Armenia,Armenia,2029,Total production: GWh,15711.89691627326
+Armenia,Armenia,2030,Demand: GWh,7074.999999999987
+Armenia,Armenia,2030,Exports exchange: GWh,8684.013852098793
+Armenia,Armenia,2030,Imports exchange: GWh,0.539736669847841
+Armenia,Armenia,2030,Net interchange Ratio: GWh,-1.2273461647249415
+Armenia,Armenia,2030,Net interchange: GWh,-8683.474115428946
+Armenia,Armenia,2030,Total Demand: GWh,7074.999999999987
+Armenia,Armenia,2030,Total production: GWh,15758.484780028026
+Armenia,Armenia,2031,Demand: GWh,7154.999999999986
+Armenia,Armenia,2031,Exports exchange: GWh,8522.908986684713
+Armenia,Armenia,2031,Imports exchange: GWh,1.4969834199193277
+Armenia,Armenia,2031,Net interchange Ratio: GWh,-1.1909730263123424
+Armenia,Armenia,2031,Net interchange: GWh,-8521.412003264793
+Armenia,Armenia,2031,Total Demand: GWh,7154.999999999986
+Armenia,Armenia,2031,Total production: GWh,15676.441581999983
+Armenia,Armenia,2032,Demand: GWh,7234.999999999995
+Armenia,Armenia,2032,Exports exchange: GWh,8414.40643011722
+Armenia,Armenia,2032,Imports exchange: GWh,1.818733523615688
+Armenia,Armenia,2032,Net interchange Ratio: GWh,-1.162762639473892
+Armenia,Armenia,2032,Net interchange: GWh,-8412.587696593604
+Armenia,Armenia,2032,Total Demand: GWh,7234.999999999995
+Armenia,Armenia,2032,Total production: GWh,15647.62363275468
+Armenia,Armenia,2033,Demand: GWh,7314.999999999995
+Armenia,Armenia,2033,Exports exchange: GWh,8356.924003764156
+Armenia,Armenia,2033,Imports exchange: GWh,4.536170120531216
+Armenia,Armenia,2033,Net interchange Ratio: GWh,-1.1418165186115694
+Armenia,Armenia,2033,Net interchange: GWh,-8352.387833643625
+Armenia,Armenia,2033,Total Demand: GWh,7314.999999999995
+Armenia,Armenia,2033,Total production: GWh,15667.477463343645
+Armenia,Armenia,2034,Demand: GWh,7393.999999999999
+Armenia,Armenia,2034,Exports exchange: GWh,8360.667864439123
+Armenia,Armenia,2034,Imports exchange: GWh,2.6392922352454
+Armenia,Armenia,2034,Net interchange Ratio: GWh,-1.130379844766551
+Armenia,Armenia,2034,Net interchange: GWh,-8358.028572203877
+Armenia,Armenia,2034,Total Demand: GWh,7393.999999999999
+Armenia,Armenia,2034,Total production: GWh,15752.080721696737
+Armenia,Armenia,2035,Demand: GWh,7473.999999999996
+Armenia,Armenia,2035,Exports exchange: GWh,8329.575485729276
+Armenia,Armenia,2035,Imports exchange: GWh,3.2576024687908056
+Armenia,Armenia,2035,Net interchange Ratio: GWh,-1.1140377151806915
+Armenia,Armenia,2035,Net interchange: GWh,-8326.317883260484
+Armenia,Armenia,2035,Total Demand: GWh,7473.999999999996
+Armenia,Armenia,2035,Total production: GWh,15800.38224987909
+Armenia,Armenia,2036,Demand: GWh,7559.999999999999
+Armenia,Armenia,2036,Exports exchange: GWh,8329.320879457733
+Armenia,Armenia,2036,Imports exchange: GWh,2.688136963934651
+Armenia,Armenia,2036,Net interchange Ratio: GWh,-1.1014064474198149
+Armenia,Armenia,2036,Net interchange: GWh,-8326.632742493799
+Armenia,Armenia,2036,Total Demand: GWh,7559.999999999999
+Armenia,Armenia,2036,Total production: GWh,15886.68585710442
+Armenia,Armenia,2037,Demand: GWh,7644.999999999998
+Armenia,Armenia,2037,Exports exchange: GWh,7911.025568780965
+Armenia,Armenia,2037,Imports exchange: GWh,33.69999071843419
+Armenia,Armenia,2037,Net interchange Ratio: GWh,-1.03038921884402
+Armenia,Armenia,2037,Net interchange: GWh,-7877.32557806253
+Armenia,Armenia,2037,Total Demand: GWh,7644.999999999998
+Armenia,Armenia,2037,Total production: GWh,15522.991452573233
+Armenia,Armenia,2038,Demand: GWh,7730.999999999999
+Armenia,Armenia,2038,Exports exchange: GWh,7353.844150892824
+Armenia,Armenia,2038,Imports exchange: GWh,39.71693006682492
+Armenia,Armenia,2038,Net interchange Ratio: GWh,-0.9460777675366704
+Armenia,Armenia,2038,Net interchange: GWh,-7314.127220825999
+Armenia,Armenia,2038,Total Demand: GWh,7730.999999999999
+Armenia,Armenia,2038,Total production: GWh,15045.91198339747
+Armenia,Armenia,2039,Demand: GWh,7815.999999999994
+Armenia,Armenia,2039,Exports exchange: GWh,7321.576067320153
+Armenia,Armenia,2039,Imports exchange: GWh,84.59470327755422
+Armenia,Armenia,2039,Net interchange Ratio: GWh,-0.9259188029737212
+Armenia,Armenia,2039,Net interchange: GWh,-7236.981364042599
+Armenia,Armenia,2039,Total Demand: GWh,7815.999999999994
+Armenia,Armenia,2039,Total production: GWh,15054.652861733011
+Armenia,Armenia,2040,Demand: GWh,7902.000000000007
+Armenia,Armenia,2040,Exports exchange: GWh,5721.401763592136
+Armenia,Armenia,2040,Imports exchange: GWh,264.5045949919887
+Armenia,Armenia,2040,Net interchange Ratio: GWh,-0.6905716487724807
+Armenia,Armenia,2040,Net interchange: GWh,-5456.897168600147
+Armenia,Armenia,2040,Total Demand: GWh,7902.000000000007
+Armenia,Armenia,2040,Total production: GWh,13364.123486590594
+Azerbaijan,Azerbaijan,2025,Demand: GWh,27170.0
+Azerbaijan,Azerbaijan,2025,Total Demand: GWh,27170.0
+Azerbaijan,Azerbaijan,2025,Total production: GWh,27169.999999999985
+Azerbaijan,Azerbaijan,2026,Demand: GWh,27683.92
+Azerbaijan,Azerbaijan,2026,Total Demand: GWh,27683.92
+Azerbaijan,Azerbaijan,2026,Total production: GWh,27683.92
+Azerbaijan,Azerbaijan,2027,Demand: GWh,28207.570000000072
+Azerbaijan,Azerbaijan,2027,Total Demand: GWh,28207.570000000072
+Azerbaijan,Azerbaijan,2027,Total production: GWh,28207.570000000025
+Azerbaijan,Azerbaijan,2028,Demand: GWh,28741.11000000001
+Azerbaijan,Azerbaijan,2028,Total Demand: GWh,28741.11000000001
+Azerbaijan,Azerbaijan,2028,Total production: GWh,28741.11000000003
+Azerbaijan,Azerbaijan,2029,Demand: GWh,29284.74999999991
+Azerbaijan,Azerbaijan,2029,Total Demand: GWh,29284.74999999991
+Azerbaijan,Azerbaijan,2029,Total production: GWh,29284.74999999997
+Azerbaijan,Azerbaijan,2030,Demand: GWh,29838.679999999946
+Azerbaijan,Azerbaijan,2030,Total Demand: GWh,29838.679999999946
+Azerbaijan,Azerbaijan,2030,Total production: GWh,29838.67999999997
+Azerbaijan,Azerbaijan,2031,Demand: GWh,30403.07999999996
+Azerbaijan,Azerbaijan,2031,Total Demand: GWh,30403.07999999996
+Azerbaijan,Azerbaijan,2031,Total production: GWh,30403.080000000005
+Azerbaijan,Azerbaijan,2032,Demand: GWh,30978.16000000002
+Azerbaijan,Azerbaijan,2032,Total Demand: GWh,30978.16000000002
+Azerbaijan,Azerbaijan,2032,Total production: GWh,30978.160000000044
+Azerbaijan,Azerbaijan,2033,Demand: GWh,31564.110000000022
+Azerbaijan,Azerbaijan,2033,Total Demand: GWh,31564.110000000022
+Azerbaijan,Azerbaijan,2033,Total production: GWh,31564.11
+Azerbaijan,Azerbaijan,2034,Demand: GWh,32161.150000000005
+Azerbaijan,Azerbaijan,2034,Total Demand: GWh,32161.150000000005
+Azerbaijan,Azerbaijan,2034,Total production: GWh,32161.15000000001
+Azerbaijan,Azerbaijan,2035,Demand: GWh,32769.48000000005
+Azerbaijan,Azerbaijan,2035,Total Demand: GWh,32769.48000000005
+Azerbaijan,Azerbaijan,2035,Total production: GWh,32769.480000000054
+Azerbaijan,Azerbaijan,2036,Demand: GWh,33389.32000000002
+Azerbaijan,Azerbaijan,2036,Total Demand: GWh,33389.32000000002
+Azerbaijan,Azerbaijan,2036,Total production: GWh,33389.320000000065
+Azerbaijan,Azerbaijan,2037,Demand: GWh,34020.87999999986
+Azerbaijan,Azerbaijan,2037,Total Demand: GWh,34020.87999999986
+Azerbaijan,Azerbaijan,2037,Total production: GWh,34020.87999999995
+Azerbaijan,Azerbaijan,2038,Demand: GWh,34664.37999999993
+Azerbaijan,Azerbaijan,2038,Total Demand: GWh,34664.37999999993
+Azerbaijan,Azerbaijan,2038,Total production: GWh,34405.061391678006
+Azerbaijan,Azerbaijan,2038,Unmet demand: GWh,259.3186083219897
+Azerbaijan,Azerbaijan,2039,Demand: GWh,35320.059999999954
+Azerbaijan,Azerbaijan,2039,Total Demand: GWh,35320.059999999954
+Azerbaijan,Azerbaijan,2039,Total production: GWh,34004.98262293677
+Azerbaijan,Azerbaijan,2039,Unmet demand: GWh,1315.0773770632684
+Azerbaijan,Azerbaijan,2040,Demand: GWh,35988.14999999996
+Azerbaijan,Azerbaijan,2040,Total Demand: GWh,35988.14999999996
+Azerbaijan,Azerbaijan,2040,Total production: GWh,31967.552043262844
+Azerbaijan,Azerbaijan,2040,Unmet demand: GWh,4020.597956737133
+Georgia,Georgia,2025,Demand: GWh,15775.629999999986
+Georgia,Georgia,2025,Total Demand: GWh,15775.629999999986
+Georgia,Georgia,2025,Total production: GWh,15233.298178913625
+Georgia,Georgia,2025,Unmet demand: GWh,542.3318210863516
+Georgia,Georgia,2026,Demand: GWh,16313.920000000013
+Georgia,Georgia,2026,Total Demand: GWh,16313.920000000013
+Georgia,Georgia,2026,Total production: GWh,16091.860174918089
+Georgia,Georgia,2026,Unmet demand: GWh,222.05982508193603
+Georgia,Georgia,2027,Demand: GWh,16884.34999999996
+Georgia,Georgia,2027,Total Demand: GWh,16884.34999999996
+Georgia,Georgia,2027,Total production: GWh,16609.76119616757
+Georgia,Georgia,2027,Unmet demand: GWh,274.5888038324138
+Georgia,Georgia,2028,Demand: GWh,17487.939999999988
+Georgia,Georgia,2028,Total Demand: GWh,17487.939999999988
+Georgia,Georgia,2028,Total production: GWh,16214.028400218644
+Georgia,Georgia,2028,Unmet demand: GWh,1273.9115997813742
+Georgia,Georgia,2029,Demand: GWh,18131.209999999992
+Georgia,Georgia,2029,Total Demand: GWh,18131.209999999992
+Georgia,Georgia,2029,Total production: GWh,17134.443546317892
+Georgia,Georgia,2029,Unmet demand: GWh,996.7664536821328
+Georgia,Georgia,2030,Demand: GWh,18824.630000000016
+Georgia,Georgia,2030,Total Demand: GWh,18824.630000000016
+Georgia,Georgia,2030,Total production: GWh,18110.37584945043
+Georgia,Georgia,2030,Unmet demand: GWh,714.2541505495927
+Georgia,Georgia,2031,Demand: GWh,19171.58999999998
+Georgia,Georgia,2031,Total Demand: GWh,19171.58999999998
+Georgia,Georgia,2031,Total production: GWh,17510.379181683762
+Georgia,Georgia,2031,Unmet demand: GWh,1661.2108183162145
+Georgia,Georgia,2032,Demand: GWh,19718.28000000004
+Georgia,Georgia,2032,Total Demand: GWh,19718.28000000004
+Georgia,Georgia,2032,Total production: GWh,18053.20675179727
+Georgia,Georgia,2032,Unmet demand: GWh,1665.073248202748
+Georgia,Georgia,2033,Demand: GWh,20264.969999999983
+Georgia,Georgia,2033,Total Demand: GWh,20264.969999999983
+Georgia,Georgia,2033,Total production: GWh,18295.205764897084
+Georgia,Georgia,2033,Unmet demand: GWh,1969.764235102919
+Georgia,Georgia,2034,Demand: GWh,20811.66000000006
+Georgia,Georgia,2034,Total Demand: GWh,20811.66000000006
+Georgia,Georgia,2034,Total production: GWh,18543.95806102675
+Georgia,Georgia,2034,Unmet demand: GWh,2267.7019389732613
+Georgia,Georgia,2035,Demand: GWh,21358.35000000004
+Georgia,Georgia,2035,Total Demand: GWh,21358.35000000004
+Georgia,Georgia,2035,Total production: GWh,18792.71035715643
+Georgia,Georgia,2035,Unmet demand: GWh,2565.6396428436087
+Georgia,Georgia,2036,Demand: GWh,21905.039999999983
+Georgia,Georgia,2036,Total Demand: GWh,21905.039999999983
+Georgia,Georgia,2036,Total production: GWh,19049.665202806817
+Georgia,Georgia,2036,Unmet demand: GWh,2855.374797193167
+Georgia,Georgia,2037,Demand: GWh,22451.730000000032
+Georgia,Georgia,2037,Total Demand: GWh,22451.730000000032
+Georgia,Georgia,2037,Total production: GWh,19351.30708492036
+Georgia,Georgia,2037,Unmet demand: GWh,3100.422915079675
+Georgia,Georgia,2038,Demand: GWh,22998.42000000004
+Georgia,Georgia,2038,Total Demand: GWh,22998.42000000004
+Georgia,Georgia,2038,Total production: GWh,19533.89364233841
+Georgia,Georgia,2038,Unmet demand: GWh,3464.5263576616185
+Georgia,Georgia,2039,Demand: GWh,23545.10999999996
+Georgia,Georgia,2039,Total Demand: GWh,23545.10999999996
+Georgia,Georgia,2039,Total production: GWh,19822.68752811401
+Georgia,Georgia,2039,Unmet demand: GWh,3722.422471885988
+Georgia,Georgia,2040,Demand: GWh,24091.800000000003
+Georgia,Georgia,2040,Total Demand: GWh,24091.800000000003
+Georgia,Georgia,2040,Total production: GWh,20078.850506506493
+Georgia,Georgia,2040,Unmet demand: GWh,4012.949493493488
+Turkiye,CenterAna,2025,Demand: GWh,48004.993149999886
+Turkiye,CenterAna,2025,Exports exchange: GWh,11569.869390325495
+Turkiye,CenterAna,2025,Imports exchange: GWh,38158.64684870733
+Turkiye,CenterAna,2025,Net interchange Ratio: GWh,0.5538752474206299
+Turkiye,CenterAna,2025,Net interchange: GWh,26588.777458381832
+Turkiye,CenterAna,2025,Total Demand: GWh,48004.993149999886
+Turkiye,CenterAna,2025,Total production: GWh,22170.188311726462
+Turkiye,CenterAna,2026,Demand: GWh,49709.53657000004
+Turkiye,CenterAna,2026,Exports exchange: GWh,7938.866348854362
+Turkiye,CenterAna,2026,Imports exchange: GWh,34102.99464336994
+Turkiye,CenterAna,2026,Net interchange Ratio: GWh,0.5263402175892696
+Turkiye,CenterAna,2026,Net interchange: GWh,26164.128294515576
+Turkiye,CenterAna,2026,Total Demand: GWh,49709.53657000004
+Turkiye,CenterAna,2026,Total production: GWh,24219.245697622377
+Turkiye,CenterAna,2027,Demand: GWh,51414.079990000006
+Turkiye,CenterAna,2027,Exports exchange: GWh,7963.770650021002
+Turkiye,CenterAna,2027,Imports exchange: GWh,34630.54969247098
+Turkiye,CenterAna,2027,Net interchange Ratio: GWh,0.5186668524971495
+Turkiye,CenterAna,2027,Net interchange: GWh,26666.779042449976
+Turkiye,CenterAna,2027,Total Demand: GWh,51414.079990000006
+Turkiye,CenterAna,2027,Total production: GWh,25431.56227345468
+Turkiye,CenterAna,2028,Demand: GWh,53118.62341000008
+Turkiye,CenterAna,2028,Exports exchange: GWh,14257.258844227124
+Turkiye,CenterAna,2028,Imports exchange: GWh,43305.38754305292
+Turkiye,CenterAna,2028,Net interchange Ratio: GWh,0.546853943759341
+Turkiye,CenterAna,2028,Net interchange: GWh,29048.1286988258
+Turkiye,CenterAna,2028,Total Demand: GWh,53118.62341000008
+Turkiye,CenterAna,2028,Total production: GWh,24926.16122996101
+Turkiye,CenterAna,2029,Demand: GWh,54823.16683000004
+Turkiye,CenterAna,2029,Exports exchange: GWh,17577.62999069111
+Turkiye,CenterAna,2029,Imports exchange: GWh,48674.89795994134
+Turkiye,CenterAna,2029,Net interchange Ratio: GWh,0.5672285963647279
+Turkiye,CenterAna,2029,Net interchange: GWh,31097.26796925023
+Turkiye,CenterAna,2029,Total Demand: GWh,54823.16683000004
+Turkiye,CenterAna,2029,Total production: GWh,24687.660961326143
+Turkiye,CenterAna,2030,Demand: GWh,56527.71024000001
+Turkiye,CenterAna,2030,Exports exchange: GWh,21463.62304442648
+Turkiye,CenterAna,2030,Imports exchange: GWh,56635.08531607616
+Turkiye,CenterAna,2030,Net interchange Ratio: GWh,0.6221986017534059
+Turkiye,CenterAna,2030,Net interchange: GWh,35171.46227164969
+Turkiye,CenterAna,2030,Total Demand: GWh,56527.71024000001
+Turkiye,CenterAna,2030,Total production: GWh,22475.2945591565
+Turkiye,CenterAna,2031,Demand: GWh,57600.941289999966
+Turkiye,CenterAna,2031,Exports exchange: GWh,22552.05429952784
+Turkiye,CenterAna,2031,Imports exchange: GWh,60186.51790015562
+Turkiye,CenterAna,2031,Net interchange Ratio: GWh,0.6533654269841154
+Turkiye,CenterAna,2031,Net interchange: GWh,37634.46360062779
+Turkiye,CenterAna,2031,Total Demand: GWh,57600.941289999966
+Turkiye,CenterAna,2031,Total production: GWh,21155.696656603937
+Turkiye,CenterAna,2032,Demand: GWh,58674.17232999998
+Turkiye,CenterAna,2032,Exports exchange: GWh,20666.096814309803
+Turkiye,CenterAna,2032,Imports exchange: GWh,59397.880603827
+Turkiye,CenterAna,2032,Net interchange Ratio: GWh,0.6601164064433461
+Turkiye,CenterAna,2032,Net interchange: GWh,38731.7837895172
+Turkiye,CenterAna,2032,Total Demand: GWh,58674.17232999998
+Turkiye,CenterAna,2032,Total production: GWh,21116.02490776052
+Turkiye,CenterAna,2033,Demand: GWh,59747.403369999935
+Turkiye,CenterAna,2033,Exports exchange: GWh,20297.528504508075
+Turkiye,CenterAna,2033,Imports exchange: GWh,59876.69432787858
+Turkiye,CenterAna,2033,Net interchange Ratio: GWh,0.6624416056756
+Turkiye,CenterAna,2033,Net interchange: GWh,39579.16582337051
+Turkiye,CenterAna,2033,Total Demand: GWh,59747.403369999935
+Turkiye,CenterAna,2033,Total production: GWh,21351.334743047704
+Turkiye,CenterAna,2034,Demand: GWh,60820.63440999997
+Turkiye,CenterAna,2034,Exports exchange: GWh,19840.24509296832
+Turkiye,CenterAna,2034,Imports exchange: GWh,60176.53006460967
+Turkiye,CenterAna,2034,Net interchange Ratio: GWh,0.6632006614684269
+Turkiye,CenterAna,2034,Net interchange: GWh,40336.28497164135
+Turkiye,CenterAna,2034,Total Demand: GWh,60820.63440999997
+Turkiye,CenterAna,2034,Total production: GWh,21673.371057016506
+Turkiye,CenterAna,2035,Demand: GWh,61893.86545000003
+Turkiye,CenterAna,2035,Exports exchange: GWh,18983.53104897309
+Turkiye,CenterAna,2035,Imports exchange: GWh,59966.12208260841
+Turkiye,CenterAna,2035,Net interchange Ratio: GWh,0.6621430207286446
+Turkiye,CenterAna,2035,Net interchange: GWh,40982.59103363531
+Turkiye,CenterAna,2035,Total Demand: GWh,61893.86545000003
+Turkiye,CenterAna,2035,Total production: GWh,22096.138606219927
+Turkiye,CenterAna,2036,Demand: GWh,65803.97593
+Turkiye,CenterAna,2036,Exports exchange: GWh,17771.20918339059
+Turkiye,CenterAna,2036,Imports exchange: GWh,62045.72167654802
+Turkiye,CenterAna,2036,Net interchange Ratio: GWh,0.672824276457932
+Turkiye,CenterAna,2036,Net interchange: GWh,44274.51249315743
+Turkiye,CenterAna,2036,Total Demand: GWh,65803.97593
+Turkiye,CenterAna,2036,Total production: GWh,22755.41821255717
+Turkiye,CenterAna,2037,Demand: GWh,69714.08641000009
+Turkiye,CenterAna,2037,Exports exchange: GWh,18263.150959057937
+Turkiye,CenterAna,2037,Imports exchange: GWh,62169.45493180544
+Turkiye,CenterAna,2037,Net interchange Ratio: GWh,0.6298053411261427
+Turkiye,CenterAna,2037,Net interchange: GWh,43906.3039727475
+Turkiye,CenterAna,2037,Total Demand: GWh,69714.08641000009
+Turkiye,CenterAna,2037,Total production: GWh,27036.18204511832
+Turkiye,CenterAna,2038,Demand: GWh,73624.19689
+Turkiye,CenterAna,2038,Exports exchange: GWh,20839.477008800623
+Turkiye,CenterAna,2038,Imports exchange: GWh,64424.2755256173
+Turkiye,CenterAna,2038,Net interchange Ratio: GWh,0.5919901385401268
+Turkiye,CenterAna,2038,Net interchange: GWh,43584.79851681668
+Turkiye,CenterAna,2038,Total Demand: GWh,73624.19689
+Turkiye,CenterAna,2038,Total production: GWh,31312.350739896538
+Turkiye,CenterAna,2039,Demand: GWh,77534.30737000002
+Turkiye,CenterAna,2039,Exports exchange: GWh,20705.67195380479
+Turkiye,CenterAna,2039,Imports exchange: GWh,63988.321492774216
+Turkiye,CenterAna,2039,Net interchange Ratio: GWh,0.558238681780197
+Turkiye,CenterAna,2039,Net interchange: GWh,43282.64953896943
+Turkiye,CenterAna,2039,Total Demand: GWh,77534.30737000002
+Turkiye,CenterAna,2039,Total production: GWh,35565.18667432505
+Turkiye,CenterAna,2040,Demand: GWh,81444.41785
+Turkiye,CenterAna,2040,Exports exchange: GWh,21684.72673809235
+Turkiye,CenterAna,2040,Imports exchange: GWh,64862.31716069415
+Turkiye,CenterAna,2040,Net interchange Ratio: GWh,0.5301479409199534
+Turkiye,CenterAna,2040,Net interchange: GWh,43177.5904226018
+Turkiye,CenterAna,2040,Total Demand: GWh,81444.41785
+Turkiye,CenterAna,2040,Total production: GWh,39935.290631108575
+Turkiye,CenterBlack,2025,Demand: GWh,17087.905009999995
+Turkiye,CenterBlack,2025,Exports exchange: GWh,39209.96294719004
+Turkiye,CenterBlack,2025,Imports exchange: GWh,22092.72898169833
+Turkiye,CenterBlack,2025,Net interchange Ratio: GWh,-1.0017163575917911
+Turkiye,CenterBlack,2025,Net interchange: GWh,-17117.233965491712
+Turkiye,CenterBlack,2025,Total Demand: GWh,17087.905009999995
+Turkiye,CenterBlack,2025,Total production: GWh,34641.66684351919
+Turkiye,CenterBlack,2026,Demand: GWh,17694.655980000007
+Turkiye,CenterBlack,2026,Exports exchange: GWh,36689.12850875561
+Turkiye,CenterBlack,2026,Imports exchange: GWh,18706.98943648528
+Turkiye,CenterBlack,2026,Net interchange Ratio: GWh,-1.0162468879075846
+Turkiye,CenterBlack,2026,Net interchange: GWh,-17982.139072270336
+Turkiye,CenterBlack,2026,Total Demand: GWh,17694.655980000007
+Turkiye,CenterBlack,2026,Total production: GWh,36046.42445489812
+Turkiye,CenterBlack,2027,Demand: GWh,18301.406939999983
+Turkiye,CenterBlack,2027,Exports exchange: GWh,38376.23371198926
+Turkiye,CenterBlack,2027,Imports exchange: GWh,20159.157672658825
+Turkiye,CenterBlack,2027,Net interchange Ratio: GWh,-0.99539210832555
+Turkiye,CenterBlack,2027,Net interchange: GWh,-18217.07603933044
+Turkiye,CenterBlack,2027,Total Demand: GWh,18301.406939999983
+Turkiye,CenterBlack,2027,Total production: GWh,36916.80561875474
+Turkiye,CenterBlack,2028,Demand: GWh,18908.15791000001
+Turkiye,CenterBlack,2028,Exports exchange: GWh,40935.42720535971
+Turkiye,CenterBlack,2028,Imports exchange: GWh,23954.46197932993
+Turkiye,CenterBlack,2028,Net interchange Ratio: GWh,-0.8980761270799946
+Turkiye,CenterBlack,2028,Net interchange: GWh,-16980.965226029773
+Turkiye,CenterBlack,2028,Total Demand: GWh,18908.15791000001
+Turkiye,CenterBlack,2028,Total production: GWh,36362.43678715193
+Turkiye,CenterBlack,2029,Demand: GWh,19514.90888000001
+Turkiye,CenterBlack,2029,Exports exchange: GWh,40115.33847829868
+Turkiye,CenterBlack,2029,Imports exchange: GWh,23705.22534136412
+Turkiye,CenterBlack,2029,Net interchange Ratio: GWh,-0.8409013456246563
+Turkiye,CenterBlack,2029,Net interchange: GWh,-16410.113136934564
+Turkiye,CenterBlack,2029,Total Demand: GWh,19514.90888000001
+Turkiye,CenterBlack,2029,Total production: GWh,36393.41102799551
+Turkiye,CenterBlack,2030,Demand: GWh,20121.659850000007
+Turkiye,CenterBlack,2030,Exports exchange: GWh,38110.02837467873
+Turkiye,CenterBlack,2030,Imports exchange: GWh,24183.130456882856
+Turkiye,CenterBlack,2030,Net interchange Ratio: GWh,-0.6921346460290089
+Turkiye,CenterBlack,2030,Net interchange: GWh,-13926.897917795875
+Turkiye,CenterBlack,2030,Total Demand: GWh,20121.659850000007
+Turkiye,CenterBlack,2030,Total production: GWh,34526.38965489864
+Turkiye,CenterBlack,2031,Demand: GWh,20503.68823000002
+Turkiye,CenterBlack,2031,Exports exchange: GWh,33429.130912747605
+Turkiye,CenterBlack,2031,Imports exchange: GWh,21432.44351586711
+Turkiye,CenterBlack,2031,Net interchange Ratio: GWh,-0.585098995961493
+Turkiye,CenterBlack,2031,Net interchange: GWh,-11996.687396880494
+Turkiye,CenterBlack,2031,Total Demand: GWh,20503.68823000002
+Turkiye,CenterBlack,2031,Total production: GWh,32923.8569850392
+Turkiye,CenterBlack,2032,Demand: GWh,20885.716619999977
+Turkiye,CenterBlack,2032,Exports exchange: GWh,32108.944257657586
+Turkiye,CenterBlack,2032,Imports exchange: GWh,20569.40199791464
+Turkiye,CenterBlack,2032,Net interchange Ratio: GWh,-0.5525088015746027
+Turkiye,CenterBlack,2032,Net interchange: GWh,-11539.54225974295
+Turkiye,CenterBlack,2032,Total Demand: GWh,20885.716619999977
+Turkiye,CenterBlack,2032,Total production: GWh,32831.68749289379
+Turkiye,CenterBlack,2033,Demand: GWh,21267.745009999977
+Turkiye,CenterBlack,2033,Exports exchange: GWh,30794.6554814252
+Turkiye,CenterBlack,2033,Imports exchange: GWh,19260.63912978785
+Turkiye,CenterBlack,2033,Net interchange Ratio: GWh,-0.5423243670739006
+Turkiye,CenterBlack,2033,Net interchange: GWh,-11534.016351637349
+Turkiye,CenterBlack,2033,Total Demand: GWh,21267.745009999977
+Turkiye,CenterBlack,2033,Total production: GWh,33182.33026931453
+Turkiye,CenterBlack,2034,Demand: GWh,21649.773390000024
+Turkiye,CenterBlack,2034,Exports exchange: GWh,30447.680431895325
+Turkiye,CenterBlack,2034,Imports exchange: GWh,19348.7151482196
+Turkiye,CenterBlack,2034,Net interchange Ratio: GWh,-0.512659651615675
+Turkiye,CenterBlack,2034,Net interchange: GWh,-11098.965283675723
+Turkiye,CenterBlack,2034,Total Demand: GWh,21649.773390000024
+Turkiye,CenterBlack,2034,Total production: GWh,33131.04786597696
+Turkiye,CenterBlack,2035,Demand: GWh,22031.80178000003
+Turkiye,CenterBlack,2035,Exports exchange: GWh,29072.63983278357
+Turkiye,CenterBlack,2035,Imports exchange: GWh,18373.8050977944
+Turkiye,CenterBlack,2035,Net interchange Ratio: GWh,-0.4856087051718726
+Turkiye,CenterBlack,2035,Net interchange: GWh,-10698.834734989174
+Turkiye,CenterBlack,2035,Total Demand: GWh,22031.80178000003
+Turkiye,CenterBlack,2035,Total production: GWh,33093.68256391947
+Turkiye,CenterBlack,2036,Demand: GWh,23423.64859
+Turkiye,CenterBlack,2036,Exports exchange: GWh,27903.723102121345
+Turkiye,CenterBlack,2036,Imports exchange: GWh,17571.311262781663
+Turkiye,CenterBlack,2036,Net interchange Ratio: GWh,-0.441110265108348
+Turkiye,CenterBlack,2036,Net interchange: GWh,-10332.411839339682
+Turkiye,CenterBlack,2036,Total Demand: GWh,23423.64859
+Turkiye,CenterBlack,2036,Total production: GWh,34103.250088450775
+Turkiye,CenterBlack,2037,Demand: GWh,24815.49539
+Turkiye,CenterBlack,2037,Exports exchange: GWh,27968.83383337754
+Turkiye,CenterBlack,2037,Imports exchange: GWh,17771.354965874136
+Turkiye,CenterBlack,2037,Net interchange Ratio: GWh,-0.4109319079567005
+Turkiye,CenterBlack,2037,Net interchange: GWh,-10197.478867503403
+Turkiye,CenterBlack,2037,Total Demand: GWh,24815.49539
+Turkiye,CenterBlack,2037,Total production: GWh,35364.11655873924
+Turkiye,CenterBlack,2038,Demand: GWh,26207.34219999998
+Turkiye,CenterBlack,2038,Exports exchange: GWh,27614.71166190114
+Turkiye,CenterBlack,2038,Imports exchange: GWh,17837.09388090173
+Turkiye,CenterBlack,2038,Net interchange Ratio: GWh,-0.3730869657205993
+Turkiye,CenterBlack,2038,Net interchange: GWh,-9777.617780999408
+Turkiye,CenterBlack,2038,Total Demand: GWh,26207.34219999998
+Turkiye,CenterBlack,2038,Total production: GWh,36414.88438737472
+Turkiye,CenterBlack,2039,Demand: GWh,27599.189010000013
+Turkiye,CenterBlack,2039,Exports exchange: GWh,28140.50936007268
+Turkiye,CenterBlack,2039,Imports exchange: GWh,16352.156616062224
+Turkiye,CenterBlack,2039,Net interchange Ratio: GWh,-0.4271267804187718
+Turkiye,CenterBlack,2039,Net interchange: GWh,-11788.352744010455
+Turkiye,CenterBlack,2039,Total Demand: GWh,27599.189010000013
+Turkiye,CenterBlack,2039,Total production: GWh,40073.072075273805
+Turkiye,CenterBlack,2040,Demand: GWh,28991.03582000003
+Turkiye,CenterBlack,2040,Exports exchange: GWh,31024.59242677144
+Turkiye,CenterBlack,2040,Imports exchange: GWh,15312.214783916888
+Turkiye,CenterBlack,2040,Net interchange Ratio: GWh,-0.5419736549052537
+Turkiye,CenterBlack,2040,Net interchange: GWh,-15712.377642854546
+Turkiye,CenterBlack,2040,Total Demand: GWh,28991.03582000003
+Turkiye,CenterBlack,2040,Total production: GWh,45369.468491735664
+Turkiye,EastAna,2025,Demand: GWh,9656.535030000005
+Turkiye,EastAna,2025,Exports exchange: GWh,22611.616253283624
+Turkiye,EastAna,2025,Imports exchange: GWh,2875.75700278765
+Turkiye,EastAna,2025,Net interchange Ratio: GWh,-2.0437827014744405
+Turkiye,EastAna,2025,Net interchange: GWh,-19735.85925049597
+Turkiye,EastAna,2025,Total Demand: GWh,9656.535030000005
+Turkiye,EastAna,2025,Total production: GWh,29392.39428049611
+Turkiye,EastAna,2026,Demand: GWh,9999.415680000002
+Turkiye,EastAna,2026,Exports exchange: GWh,19750.97584629765
+Turkiye,EastAna,2026,Net interchange Ratio: GWh,-1.9752130002757964
+Turkiye,EastAna,2026,Net interchange: GWh,-19750.97584629765
+Turkiye,EastAna,2026,Total Demand: GWh,9999.415680000002
+Turkiye,EastAna,2026,Total production: GWh,29750.39152629777
+Turkiye,EastAna,2027,Demand: GWh,10342.296330000005
+Turkiye,EastAna,2027,Exports exchange: GWh,28132.37605477762
+Turkiye,EastAna,2027,Imports exchange: GWh,8682.27906243667
+Turkiye,EastAna,2027,Net interchange Ratio: GWh,-1.8806362118944373
+Turkiye,EastAna,2027,Net interchange: GWh,-19450.09699234095
+Turkiye,EastAna,2027,Total Demand: GWh,10342.296330000005
+Turkiye,EastAna,2027,Total production: GWh,29963.94554533189
+Turkiye,EastAna,2028,Demand: GWh,10685.176979999977
+Turkiye,EastAna,2028,Exports exchange: GWh,31269.90935244437
+Turkiye,EastAna,2028,Imports exchange: GWh,8673.913838466697
+Turkiye,EastAna,2028,Net interchange Ratio: GWh,-2.1147048435671043
+Turkiye,EastAna,2028,Net interchange: GWh,-22595.995513977672
+Turkiye,EastAna,2028,Total Demand: GWh,10685.176979999977
+Turkiye,EastAna,2028,Total production: GWh,33452.55942940325
+Turkiye,EastAna,2029,Demand: GWh,11028.057630000008
+Turkiye,EastAna,2029,Exports exchange: GWh,31040.252832223567
+Turkiye,EastAna,2029,Imports exchange: GWh,8708.411372384608
+Turkiye,EastAna,2029,Net interchange Ratio: GWh,-2.025002245099706
+Turkiye,EastAna,2029,Net interchange: GWh,-22331.84145983896
+Turkiye,EastAna,2029,Total Demand: GWh,11028.057630000008
+Turkiye,EastAna,2029,Total production: GWh,33531.96765834601
+Turkiye,EastAna,2030,Demand: GWh,11370.938279999997
+Turkiye,EastAna,2030,Exports exchange: GWh,31869.646105803407
+Turkiye,EastAna,2030,Imports exchange: GWh,8684.013852098793
+Turkiye,EastAna,2030,Net interchange Ratio: GWh,-2.03902542453204
+Turkiye,EastAna,2030,Net interchange: GWh,-23185.63225370461
+Turkiye,EastAna,2030,Total Demand: GWh,11370.938279999997
+Turkiye,EastAna,2030,Total production: GWh,34728.15703421886
+Turkiye,EastAna,2031,Demand: GWh,11586.82608999999
+Turkiye,EastAna,2031,Exports exchange: GWh,31169.213143659505
+Turkiye,EastAna,2031,Imports exchange: GWh,8522.908986684713
+Turkiye,EastAna,2031,Net interchange Ratio: GWh,-1.9544872755550968
+Turkiye,EastAna,2031,Net interchange: GWh,-22646.30415697479
+Turkiye,EastAna,2031,Total Demand: GWh,11586.82608999999
+Turkiye,EastAna,2031,Total production: GWh,34401.533493691546
+Turkiye,EastAna,2032,Demand: GWh,11802.713909999991
+Turkiye,EastAna,2032,Exports exchange: GWh,30533.546688049195
+Turkiye,EastAna,2032,Imports exchange: GWh,8414.40643011722
+Turkiye,EastAna,2032,Net interchange Ratio: GWh,-1.8740723893333773
+Turkiye,EastAna,2032,Net interchange: GWh,-22119.140257931977
+Turkiye,EastAna,2032,Total Demand: GWh,11802.713909999991
+Turkiye,EastAna,2032,Total production: GWh,34088.113524243265
+Turkiye,EastAna,2033,Demand: GWh,12018.601729999998
+Turkiye,EastAna,2033,Exports exchange: GWh,30122.58577407108
+Turkiye,EastAna,2033,Imports exchange: GWh,8356.924003764156
+Turkiye,EastAna,2033,Net interchange Ratio: GWh,-1.810997839788384
+Turkiye,EastAna,2033,Net interchange: GWh,-21765.661770306928
+Turkiye,EastAna,2033,Total Demand: GWh,12018.601729999998
+Turkiye,EastAna,2033,Total production: GWh,33949.38706750655
+Turkiye,EastAna,2034,Demand: GWh,12234.48954
+Turkiye,EastAna,2034,Exports exchange: GWh,29805.107189155737
+Turkiye,EastAna,2034,Imports exchange: GWh,8360.667864439123
+Turkiye,EastAna,2034,Net interchange Ratio: GWh,-1.7527857827337368
+Turkiye,EastAna,2034,Net interchange: GWh,-21444.43932471661
+Turkiye,EastAna,2034,Total Demand: GWh,12234.48954
+Turkiye,EastAna,2034,Total production: GWh,33844.12640645871
+Turkiye,EastAna,2035,Demand: GWh,12450.377359999986
+Turkiye,EastAna,2035,Exports exchange: GWh,29462.19540965948
+Turkiye,EastAna,2035,Imports exchange: GWh,8329.575485729276
+Turkiye,EastAna,2035,Net interchange Ratio: GWh,-1.6973477439988398
+Turkiye,EastAna,2035,Net interchange: GWh,-21132.619923930208
+Turkiye,EastAna,2035,Total Demand: GWh,12450.377359999986
+Turkiye,EastAna,2035,Total production: GWh,33747.58047468825
+Turkiye,EastAna,2036,Demand: GWh,13236.92301
+Turkiye,EastAna,2036,Exports exchange: GWh,28708.76838877724
+Turkiye,EastAna,2036,Imports exchange: GWh,8329.320879457733
+Turkiye,EastAna,2036,Net interchange Ratio: GWh,-1.5395909981438731
+Turkiye,EastAna,2036,Net interchange: GWh,-20379.4475093195
+Turkiye,EastAna,2036,Total Demand: GWh,13236.92301
+Turkiye,EastAna,2036,Total production: GWh,33923.71198983288
+Turkiye,EastAna,2037,Demand: GWh,14023.468670000017
+Turkiye,EastAna,2037,Exports exchange: GWh,28488.78212574388
+Turkiye,EastAna,2037,Imports exchange: GWh,7912.705815732067
+Turkiye,EastAna,2037,Net interchange Ratio: GWh,-1.4672601190338588
+Turkiye,EastAna,2037,Net interchange: GWh,-20576.076310011813
+Turkiye,EastAna,2037,Total Demand: GWh,14023.468670000017
+Turkiye,EastAna,2037,Total production: GWh,35065.382974595865
+Turkiye,EastAna,2038,Demand: GWh,14810.014329999984
+Turkiye,EastAna,2038,Exports exchange: GWh,32665.829466482875
+Turkiye,EastAna,2038,Imports exchange: GWh,7375.553103546637
+Turkiye,EastAna,2038,Net interchange Ratio: GWh,-1.707646988005059
+Turkiye,EastAna,2038,Net interchange: GWh,-25290.27636293624
+Turkiye,EastAna,2038,Total Demand: GWh,14810.014329999984
+Turkiye,EastAna,2038,Total production: GWh,40593.1449469917
+Turkiye,EastAna,2039,Demand: GWh,15596.559980000004
+Turkiye,EastAna,2039,Exports exchange: GWh,32050.91492011977
+Turkiye,EastAna,2039,Imports exchange: GWh,7365.47491347409
+Turkiye,EastAna,2039,Net interchange Ratio: GWh,-1.582749018905493
+Turkiye,EastAna,2039,Net interchange: GWh,-24685.44000664568
+Turkiye,EastAna,2039,Total Demand: GWh,15596.559980000004
+Turkiye,EastAna,2039,Total production: GWh,40763.33369614104
+Turkiye,EastAna,2040,Demand: GWh,16383.105640000003
+Turkiye,EastAna,2040,Exports exchange: GWh,31223.774337804607
+Turkiye,EastAna,2040,Imports exchange: GWh,5759.68859430169
+Turkiye,EastAna,2040,Net interchange Ratio: GWh,-1.5542892967332969
+Turkiye,EastAna,2040,Net interchange: GWh,-25464.08574350292
+Turkiye,EastAna,2040,Total Demand: GWh,16383.105640000003
+Turkiye,EastAna,2040,Total production: GWh,42304.97882737785
+Turkiye,EastMed,2025,Demand: GWh,32923.336069999976
+Turkiye,EastMed,2025,Exports exchange: GWh,17878.792939288276
+Turkiye,EastMed,2025,Imports exchange: GWh,357.3408346584044
+Turkiye,EastMed,2025,Net interchange Ratio: GWh,-0.532189449677172
+Turkiye,EastMed,2025,Net interchange: GWh,-17521.452104629872
+Turkiye,EastMed,2025,Total Demand: GWh,32923.336069999976
+Turkiye,EastMed,2025,Total production: GWh,50451.84883394636
+Turkiye,EastMed,2026,Demand: GWh,34092.365629999986
+Turkiye,EastMed,2026,Exports exchange: GWh,16862.2065696179
+Turkiye,EastMed,2026,Imports exchange: GWh,346.7082871988537
+Turkiye,EastMed,2026,Net interchange Ratio: GWh,-0.4844339187740623
+Turkiye,EastMed,2026,Net interchange: GWh,-16515.49828241905
+Turkiye,EastMed,2026,Total Demand: GWh,34092.365629999986
+Turkiye,EastMed,2026,Total production: GWh,50614.714484368
+Turkiye,EastMed,2027,Demand: GWh,35261.39519000003
+Turkiye,EastMed,2027,Exports exchange: GWh,15800.10184968569
+Turkiye,EastMed,2027,Imports exchange: GWh,416.1472224161086
+Turkiye,EastMed,2027,Net interchange Ratio: GWh,-0.4362832084316505
+Turkiye,EastMed,2027,Net interchange: GWh,-15383.954627269582
+Turkiye,EastMed,2027,Total Demand: GWh,35261.39519000003
+Turkiye,EastMed,2027,Total production: GWh,50653.57242570951
+Turkiye,EastMed,2028,Demand: GWh,36430.42474000001
+Turkiye,EastMed,2028,Exports exchange: GWh,24338.0151610848
+Turkiye,EastMed,2028,Imports exchange: GWh,347.9952427192899
+Turkiye,EastMed,2028,Net interchange Ratio: GWh,-0.6585160642397028
+Turkiye,EastMed,2028,Net interchange: GWh,-23990.019918365502
+Turkiye,EastMed,2028,Total Demand: GWh,36430.42474000001
+Turkiye,EastMed,2028,Total production: GWh,60427.32065913086
+Turkiye,EastMed,2029,Demand: GWh,37599.45429999995
+Turkiye,EastMed,2029,Exports exchange: GWh,32775.61960749503
+Turkiye,EastMed,2029,Imports exchange: GWh,192.35688083747092
+Turkiye,EastMed,2029,Net interchange Ratio: GWh,-0.8665887134074072
+Turkiye,EastMed,2029,Net interchange: GWh,-32583.26272665756
+Turkiye,EastMed,2029,Total Demand: GWh,37599.45429999995
+Turkiye,EastMed,2029,Total production: GWh,70186.51778568383
+Turkiye,EastMed,2030,Demand: GWh,38768.48384999998
+Turkiye,EastMed,2030,Exports exchange: GWh,40594.7954070731
+Turkiye,EastMed,2030,Imports exchange: GWh,314.31078458159175
+Turkiye,EastMed,2030,Net interchange Ratio: GWh,-1.039000771305415
+Turkiye,EastMed,2030,Net interchange: GWh,-40280.48462249151
+Turkiye,EastMed,2030,Total Demand: GWh,38768.48384999998
+Turkiye,EastMed,2030,Total production: GWh,79055.17890565279
+Turkiye,EastMed,2031,Demand: GWh,39504.53949999997
+Turkiye,EastMed,2031,Exports exchange: GWh,48471.520715275765
+Turkiye,EastMed,2031,Imports exchange: GWh,653.6663517928521
+Turkiye,EastMed,2031,Net interchange Ratio: GWh,-1.2104394828721632
+Turkiye,EastMed,2031,Net interchange: GWh,-47817.85436348291
+Turkiye,EastMed,2031,Total Demand: GWh,39504.53949999997
+Turkiye,EastMed,2031,Total production: GWh,87335.30958698566
+Turkiye,EastMed,2032,Demand: GWh,40240.595139999976
+Turkiye,EastMed,2032,Exports exchange: GWh,47397.994864973
+Turkiye,EastMed,2032,Imports exchange: GWh,941.533465157434
+Turkiye,EastMed,2032,Net interchange Ratio: GWh,-1.1544675529323098
+Turkiye,EastMed,2032,Net interchange: GWh,-46456.46139981557
+Turkiye,EastMed,2032,Total Demand: GWh,40240.595139999976
+Turkiye,EastMed,2032,Total production: GWh,86715.66019880954
+Turkiye,EastMed,2033,Demand: GWh,40976.65078999998
+Turkiye,EastMed,2033,Exports exchange: GWh,46600.41293161168
+Turkiye,EastMed,2033,Imports exchange: GWh,1103.088447848928
+Turkiye,EastMed,2033,Net interchange Ratio: GWh,-1.1103231622547831
+Turkiye,EastMed,2033,Net interchange: GWh,-45497.32448376274
+Turkiye,EastMed,2033,Total Demand: GWh,40976.65078999998
+Turkiye,EastMed,2033,Total production: GWh,86495.7710803733
+Turkiye,EastMed,2034,Demand: GWh,41712.706440000045
+Turkiye,EastMed,2034,Exports exchange: GWh,46805.51502024071
+Turkiye,EastMed,2034,Imports exchange: GWh,1142.5524760758135
+Turkiye,EastMed,2034,Net interchange Ratio: GWh,-1.0947015056394611
+Turkiye,EastMed,2034,Net interchange: GWh,-45662.9625441649
+Turkiye,EastMed,2034,Total Demand: GWh,41712.706440000045
+Turkiye,EastMed,2034,Total production: GWh,87398.24455628656
+Turkiye,EastMed,2035,Demand: GWh,42448.76208000002
+Turkiye,EastMed,2035,Exports exchange: GWh,45833.75978158811
+Turkiye,EastMed,2035,Imports exchange: GWh,1225.2367241431589
+Turkiye,EastMed,2035,Net interchange Ratio: GWh,-1.050879245273975
+Turkiye,EastMed,2035,Net interchange: GWh,-44608.52305744495
+Turkiye,EastMed,2035,Total Demand: GWh,42448.76208000002
+Turkiye,EastMed,2035,Total production: GWh,87098.20173533577
+Turkiye,EastMed,2036,Demand: GWh,45130.43899000003
+Turkiye,EastMed,2036,Exports exchange: GWh,43662.004739510354
+Turkiye,EastMed,2036,Imports exchange: GWh,1427.9638393240043
+Turkiye,EastMed,2036,Net interchange Ratio: GWh,-0.9358216282705456
+Turkiye,EastMed,2036,Net interchange: GWh,-42234.04090018635
+Turkiye,EastMed,2036,Total Demand: GWh,45130.43899000003
+Turkiye,EastMed,2036,Total production: GWh,87498.68854806267
+Turkiye,EastMed,2037,Demand: GWh,47812.11589000007
+Turkiye,EastMed,2037,Exports exchange: GWh,46675.58937594615
+Turkiye,EastMed,2037,Imports exchange: GWh,1402.2278129229387
+Turkiye,EastMed,2037,Net interchange Ratio: GWh,-0.9469014437090026
+Turkiye,EastMed,2037,Net interchange: GWh,-45273.36156302321
+Turkiye,EastMed,2037,Total Demand: GWh,47812.11589000007
+Turkiye,EastMed,2037,Total production: GWh,93464.4646481413
+Turkiye,EastMed,2038,Demand: GWh,50493.79279000004
+Turkiye,EastMed,2038,Exports exchange: GWh,46951.11803735306
+Turkiye,EastMed,2038,Imports exchange: GWh,1502.4950417303007
+Turkiye,EastMed,2038,Net interchange Ratio: GWh,-0.9000833663781255
+Turkiye,EastMed,2038,Net interchange: GWh,-45448.62299562276
+Turkiye,EastMed,2038,Total Demand: GWh,50493.79279000004
+Turkiye,EastMed,2038,Total production: GWh,96352.74333287428
+Turkiye,EastMed,2039,Demand: GWh,53175.4697
+Turkiye,EastMed,2039,Exports exchange: GWh,45881.84339220233
+Turkiye,EastMed,2039,Imports exchange: GWh,1977.1500484856565
+Turkiye,EastMed,2039,Net interchange Ratio: GWh,-0.825656897652503
+Turkiye,EastMed,2039,Net interchange: GWh,-43904.69334371667
+Turkiye,EastMed,2039,Total Demand: GWh,53175.4697
+Turkiye,EastMed,2039,Total production: GWh,97513.55782215264
+Turkiye,EastMed,2040,Demand: GWh,55857.14660000002
+Turkiye,EastMed,2040,Exports exchange: GWh,46146.41826071135
+Turkiye,EastMed,2040,Imports exchange: GWh,2253.604383724448
+Turkiye,EastMed,2040,Net interchange Ratio: GWh,-0.7858047993627172
+Turkiye,EastMed,2040,Net interchange: GWh,-43892.8138769869
+Turkiye,EastMed,2040,Total Demand: GWh,55857.14660000002
+Turkiye,EastMed,2040,Total production: GWh,100186.77583022912
+Turkiye,NorthWest,2025,Demand: GWh,82892.47724000001
+Turkiye,NorthWest,2025,Exports exchange: GWh,10054.919346953957
+Turkiye,NorthWest,2025,Imports exchange: GWh,48534.07854624932
+Turkiye,NorthWest,2025,Net interchange Ratio: GWh,0.4642056852503755
+Turkiye,NorthWest,2025,Net interchange: GWh,38479.15919929536
+Turkiye,NorthWest,2025,Total Demand: GWh,82892.47724000001
+Turkiye,NorthWest,2025,Total production: GWh,45372.29770555354
+Turkiye,NorthWest,2026,Demand: GWh,85835.79245000004
+Turkiye,NorthWest,2026,Exports exchange: GWh,5981.04616994721
+Turkiye,NorthWest,2026,Imports exchange: GWh,42346.716767163874
+Turkiye,NorthWest,2026,Net interchange Ratio: GWh,0.4236655777180589
+Turkiye,NorthWest,2026,Net interchange: GWh,36365.67059721667
+Turkiye,NorthWest,2026,Total Demand: GWh,85835.79245000004
+Turkiye,NorthWest,2026,Total production: GWh,50306.84609828698
+Turkiye,NorthWest,2027,Demand: GWh,88779.10765999992
+Turkiye,NorthWest,2027,Exports exchange: GWh,5647.641342678172
+Turkiye,NorthWest,2027,Imports exchange: GWh,42214.47325863304
+Turkiye,NorthWest,2027,Net interchange Ratio: GWh,0.4118855537047746
+Turkiye,NorthWest,2027,Net interchange: GWh,36566.83191595486
+Turkiye,NorthWest,2027,Total Demand: GWh,88779.10765999992
+Turkiye,NorthWest,2027,Total production: GWh,53046.387004213815
+Turkiye,NorthWest,2028,Demand: GWh,91722.42287000004
+Turkiye,NorthWest,2028,Exports exchange: GWh,7983.97137471346
+Turkiye,NorthWest,2028,Imports exchange: GWh,47882.93139910384
+Turkiye,NorthWest,2028,Net interchange Ratio: GWh,0.4349967955048456
+Turkiye,NorthWest,2028,Net interchange: GWh,39898.960024390384
+Turkiye,NorthWest,2028,Total Demand: GWh,91722.42287000004
+Turkiye,NorthWest,2028,Total production: GWh,52769.57656365077
+Turkiye,NorthWest,2029,Demand: GWh,94665.73808000004
+Turkiye,NorthWest,2029,Exports exchange: GWh,5149.903096086253
+Turkiye,NorthWest,2029,Imports exchange: GWh,50364.037693589446
+Turkiye,NorthWest,2029,Net interchange Ratio: GWh,0.4776187828303168
+Turkiye,NorthWest,2029,Net interchange: GWh,45214.1345975032
+Turkiye,NorthWest,2029,Total Demand: GWh,94665.73808000004
+Turkiye,NorthWest,2029,Total production: GWh,50446.74111433244
+Turkiye,NorthWest,2030,Demand: GWh,97609.05329000004
+Turkiye,NorthWest,2030,Exports exchange: GWh,7663.525019711733
+Turkiye,NorthWest,2030,Imports exchange: GWh,56815.95298391845
+Turkiye,NorthWest,2030,Net interchange Ratio: GWh,0.5035642320817625
+Turkiye,NorthWest,2030,Net interchange: GWh,49152.42796420671
+Turkiye,NorthWest,2030,Total Demand: GWh,97609.05329000004
+Turkiye,NorthWest,2030,Total production: GWh,49579.24566149554
+Turkiye,NorthWest,2031,Demand: GWh,99462.25175999982
+Turkiye,NorthWest,2031,Exports exchange: GWh,7855.040726075707
+Turkiye,NorthWest,2031,Imports exchange: GWh,58634.79429571048
+Turkiye,NorthWest,2031,Net interchange Ratio: GWh,0.5105429715402501
+Turkiye,NorthWest,2031,Net interchange: GWh,50779.75356963478
+Turkiye,NorthWest,2031,Total Demand: GWh,99462.25175999982
+Turkiye,NorthWest,2031,Total production: GWh,49841.0568169311
+Turkiye,NorthWest,2032,Demand: GWh,101315.45019999996
+Turkiye,NorthWest,2032,Exports exchange: GWh,10969.796243959205
+Turkiye,NorthWest,2032,Imports exchange: GWh,59953.50074047026
+Turkiye,NorthWest,2032,Net interchange Ratio: GWh,0.4834771439086107
+Turkiye,NorthWest,2032,Net interchange: GWh,48983.70449651106
+Turkiye,NorthWest,2032,Total Demand: GWh,101315.45019999996
+Turkiye,NorthWest,2032,Total production: GWh,53516.36050959528
+Turkiye,NorthWest,2033,Demand: GWh,103168.6487
+Turkiye,NorthWest,2033,Exports exchange: GWh,13548.541504195144
+Turkiye,NorthWest,2033,Imports exchange: GWh,59264.4096791748
+Turkiye,NorthWest,2033,Net interchange Ratio: GWh,0.4431178342552009
+Turkiye,NorthWest,2033,Net interchange: GWh,45715.86817497965
+Turkiye,NorthWest,2033,Total Demand: GWh,103168.6487
+Turkiye,NorthWest,2033,Total production: GWh,58623.77965457933
+Turkiye,NorthWest,2034,Demand: GWh,105021.8472
+Turkiye,NorthWest,2034,Exports exchange: GWh,14793.715044866338
+Turkiye,NorthWest,2034,Imports exchange: GWh,56893.92644556097
+Turkiye,NorthWest,2034,Net interchange Ratio: GWh,0.4008709856390207
+Turkiye,NorthWest,2034,Net interchange: GWh,42100.21140069463
+Turkiye,NorthWest,2034,Total Demand: GWh,105021.8472
+Turkiye,NorthWest,2034,Total production: GWh,64045.7968042931
+Turkiye,NorthWest,2035,Demand: GWh,106875.04559999994
+Turkiye,NorthWest,2035,Exports exchange: GWh,15556.351451837942
+Turkiye,NorthWest,2035,Imports exchange: GWh,54080.80566251105
+Turkiye,NorthWest,2035,Net interchange Ratio: GWh,0.360462575659225
+Turkiye,NorthWest,2035,Net interchange: GWh,38524.45421067311
+Turkiye,NorthWest,2035,Total Demand: GWh,106875.04559999994
+Turkiye,NorthWest,2035,Total production: GWh,69419.1682417663
+Turkiye,NorthWest,2036,Demand: GWh,113626.8171000001
+Turkiye,NorthWest,2036,Exports exchange: GWh,15346.91376141352
+Turkiye,NorthWest,2036,Imports exchange: GWh,53642.36379864056
+Turkiye,NorthWest,2036,Net interchange Ratio: GWh,0.3370282739111153
+Turkiye,NorthWest,2036,Net interchange: GWh,38295.45003722704
+Turkiye,NorthWest,2036,Total Demand: GWh,113626.8171000001
+Turkiye,NorthWest,2036,Total production: GWh,76391.28078933741
+Turkiye,NorthWest,2037,Demand: GWh,120378.58860000005
+Turkiye,NorthWest,2037,Exports exchange: GWh,16696.948578484633
+Turkiye,NorthWest,2037,Imports exchange: GWh,54114.99939148992
+Turkiye,NorthWest,2037,Net interchange Ratio: GWh,0.3108364306989829
+Turkiye,NorthWest,2037,Net interchange: GWh,37418.05081300528
+Turkiye,NorthWest,2037,Total Demand: GWh,120378.58860000005
+Turkiye,NorthWest,2037,Total production: GWh,84029.79026966615
+Turkiye,NorthWest,2038,Demand: GWh,127130.36009999985
+Turkiye,NorthWest,2038,Exports exchange: GWh,17147.3188497115
+Turkiye,NorthWest,2038,Imports exchange: GWh,54912.311624157126
+Turkiye,NorthWest,2038,Net interchange Ratio: GWh,0.2970572312132204
+Turkiye,NorthWest,2038,Net interchange: GWh,37764.99277444562
+Turkiye,NorthWest,2038,Total Demand: GWh,127130.36009999985
+Turkiye,NorthWest,2038,Total production: GWh,90450.37381531854
+Turkiye,NorthWest,2039,Demand: GWh,133882.1315999999
+Turkiye,NorthWest,2039,Exports exchange: GWh,16106.15168371335
+Turkiye,NorthWest,2039,Imports exchange: GWh,54994.57631060359
+Turkiye,NorthWest,2039,Net interchange Ratio: GWh,0.2904676237384486
+Turkiye,NorthWest,2039,Net interchange: GWh,38888.42462689024
+Turkiye,NorthWest,2039,Total Demand: GWh,133882.1315999999
+Turkiye,NorthWest,2039,Total production: GWh,96080.33892201127
+Turkiye,NorthWest,2040,Demand: GWh,140633.90309999994
+Turkiye,NorthWest,2040,Exports exchange: GWh,13812.44055572551
+Turkiye,NorthWest,2040,Imports exchange: GWh,57989.88062052333
+Turkiye,NorthWest,2040,Net interchange Ratio: GWh,0.3141307969912829
+Turkiye,NorthWest,2040,Net interchange: GWh,44177.44006479783
+Turkiye,NorthWest,2040,Total Demand: GWh,140633.90309999994
+Turkiye,NorthWest,2040,Total production: GWh,97602.27888146578
+Turkiye,SouthEast,2025,Demand: GWh,50613.87463999992
+Turkiye,SouthEast,2025,Exports exchange: GWh,23819.01965575277
+Turkiye,SouthEast,2025,Imports exchange: GWh,552.029327926724
+Turkiye,SouthEast,2025,Net interchange Ratio: GWh,-0.4596958935334749
+Turkiye,SouthEast,2025,Net interchange: GWh,-23266.990327826046
+Turkiye,SouthEast,2025,Total Demand: GWh,50613.87463999992
+Turkiye,SouthEast,2025,Total production: GWh,73891.77245624938
+Turkiye,SouthEast,2026,Demand: GWh,52411.05324999998
+Turkiye,SouthEast,2026,Exports exchange: GWh,22930.860592431287
+Turkiye,SouthEast,2026,Imports exchange: GWh,1070.9864098123765
+Turkiye,SouthEast,2026,Net interchange Ratio: GWh,-0.4170851915214834
+Turkiye,SouthEast,2026,Net interchange: GWh,-21859.87418261891
+Turkiye,SouthEast,2026,Total Demand: GWh,52411.05324999998
+Turkiye,SouthEast,2026,Total production: GWh,74292.0889384948
+Turkiye,SouthEast,2027,Demand: GWh,54208.23185999999
+Turkiye,SouthEast,2027,Exports exchange: GWh,23496.333286433888
+Turkiye,SouthEast,2027,Imports exchange: GWh,7999.539262567895
+Turkiye,SouthEast,2027,Net interchange Ratio: GWh,-0.2858752903781945
+Turkiye,SouthEast,2027,Net interchange: GWh,-15496.794023865994
+Turkiye,SouthEast,2027,Total Demand: GWh,54208.23185999999
+Turkiye,SouthEast,2027,Total production: GWh,69863.08792420432
+Turkiye,SouthEast,2028,Demand: GWh,56005.410469999966
+Turkiye,SouthEast,2028,Exports exchange: GWh,22735.389995436504
+Turkiye,SouthEast,2028,Imports exchange: GWh,7341.845400291986
+Turkiye,SouthEast,2028,Net interchange Ratio: GWh,-0.2748581693440185
+Turkiye,SouthEast,2028,Net interchange: GWh,-15393.544595144518
+Turkiye,SouthEast,2028,Total Demand: GWh,56005.410469999966
+Turkiye,SouthEast,2028,Total production: GWh,71544.02180283138
+Turkiye,SouthEast,2029,Demand: GWh,57802.58908000001
+Turkiye,SouthEast,2029,Exports exchange: GWh,22230.425646064115
+Turkiye,SouthEast,2029,Imports exchange: GWh,8421.640913985711
+Turkiye,SouthEast,2029,Net interchange Ratio: GWh,-0.2388956092082095
+Turkiye,SouthEast,2029,Net interchange: GWh,-13808.784732078404
+Turkiye,SouthEast,2029,Total Demand: GWh,57802.58908000001
+Turkiye,SouthEast,2029,Total production: GWh,71777.77611378225
+Turkiye,SouthEast,2030,Demand: GWh,59599.76768999999
+Turkiye,SouthEast,2030,Exports exchange: GWh,30549.15777074103
+Turkiye,SouthEast,2030,Imports exchange: GWh,15890.593656527615
+Turkiye,SouthEast,2030,Net interchange Ratio: GWh,-0.2459500209876307
+Turkiye,SouthEast,2030,Net interchange: GWh,-14658.564114213412
+Turkiye,SouthEast,2030,Total Demand: GWh,59599.76768999999
+Turkiye,SouthEast,2030,Total production: GWh,74572.31234397918
+Turkiye,SouthEast,2031,Demand: GWh,60731.324590000026
+Turkiye,SouthEast,2031,Exports exchange: GWh,35818.384163575785
+Turkiye,SouthEast,2031,Imports exchange: GWh,26162.261396313417
+Turkiye,SouthEast,2031,Net interchange Ratio: GWh,-0.1589974009697845
+Turkiye,SouthEast,2031,Net interchange: GWh,-9656.122767262368
+Turkiye,SouthEast,2031,Total Demand: GWh,60731.324590000026
+Turkiye,SouthEast,2031,Total production: GWh,70904.38468083015
+Turkiye,SouthEast,2032,Demand: GWh,61862.88148999995
+Turkiye,SouthEast,2032,Exports exchange: GWh,34364.5448776717
+Turkiye,SouthEast,2032,Imports exchange: GWh,26635.503086436864
+Turkiye,SouthEast,2032,Net interchange Ratio: GWh,-0.124938276476569
+Turkiye,SouthEast,2032,Net interchange: GWh,-7729.0417912348385
+Turkiye,SouthEast,2032,Total Demand: GWh,61862.88148999995
+Turkiye,SouthEast,2032,Total production: GWh,70118.2113367209
+Turkiye,SouthEast,2033,Demand: GWh,62994.43838999998
+Turkiye,SouthEast,2033,Exports exchange: GWh,33712.05801547995
+Turkiye,SouthEast,2033,Imports exchange: GWh,27415.84111391528
+Turkiye,SouthEast,2033,Net interchange Ratio: GWh,-0.099948774248683
+Turkiye,SouthEast,2033,Net interchange: GWh,-6296.21690156468
+Turkiye,SouthEast,2033,Total Demand: GWh,62994.43838999998
+Turkiye,SouthEast,2033,Total production: GWh,69832.36196263948
+Turkiye,SouthEast,2034,Demand: GWh,64125.99529999998
+Turkiye,SouthEast,2034,Exports exchange: GWh,32893.68162575703
+Turkiye,SouthEast,2034,Imports exchange: GWh,27716.184292679067
+Turkiye,SouthEast,2034,Net interchange Ratio: GWh,-0.0807394459743842
+Turkiye,SouthEast,2034,Net interchange: GWh,-5177.497333077965
+Turkiye,SouthEast,2034,Total Demand: GWh,64125.99529999998
+Turkiye,SouthEast,2034,Total production: GWh,69851.13375288526
+Turkiye,SouthEast,2035,Demand: GWh,65257.55220000006
+Turkiye,SouthEast,2035,Exports exchange: GWh,32159.134495504
+Turkiye,SouthEast,2035,Imports exchange: GWh,28210.57564436234
+Turkiye,SouthEast,2035,Net interchange Ratio: GWh,-0.0605073086259838
+Turkiye,SouthEast,2035,Net interchange: GWh,-3948.5588511416536
+Turkiye,SouthEast,2035,Total Demand: GWh,65257.55220000006
+Turkiye,SouthEast,2035,Total production: GWh,69763.52079676698
+Turkiye,SouthEast,2036,Demand: GWh,69380.16171999997
+Turkiye,SouthEast,2036,Exports exchange: GWh,31070.01115243036
+Turkiye,SouthEast,2036,Imports exchange: GWh,27035.0908627755
+Turkiye,SouthEast,2036,Net interchange Ratio: GWh,-0.0581566861423404
+Turkiye,SouthEast,2036,Net interchange: GWh,-4034.92028965486
+Turkiye,SouthEast,2036,Total Demand: GWh,69380.16171999997
+Turkiye,SouthEast,2036,Total production: GWh,73949.26547725768
+Turkiye,SouthEast,2037,Demand: GWh,73502.77123000007
+Turkiye,SouthEast,2037,Exports exchange: GWh,30679.67904164321
+Turkiye,SouthEast,2037,Imports exchange: GWh,30660.30026500071
+Turkiye,SouthEast,2037,Net interchange Ratio: GWh,-0.000263646884576
+Turkiye,SouthEast,2037,Net interchange: GWh,-19.37877664249754
+Turkiye,SouthEast,2037,Total Demand: GWh,73502.77123000007
+Turkiye,SouthEast,2037,Total production: GWh,74127.96359892645
+Turkiye,SouthEast,2038,Demand: GWh,77625.38075000004
+Turkiye,SouthEast,2038,Exports exchange: GWh,33703.28329709063
+Turkiye,SouthEast,2038,Imports exchange: GWh,36261.21339216989
+Turkiye,SouthEast,2038,Net interchange Ratio: GWh,0.0329522389502643
+Turkiye,SouthEast,2038,Net interchange: GWh,2557.930095079253
+Turkiye,SouthEast,2038,Total Demand: GWh,77625.38075000004
+Turkiye,SouthEast,2038,Total production: GWh,75783.9320903868
+Turkiye,SouthEast,2039,Demand: GWh,81747.99026999986
+Turkiye,SouthEast,2039,Exports exchange: GWh,30903.94087026871
+Turkiye,SouthEast,2039,Imports exchange: GWh,37713.48343919347
+Turkiye,SouthEast,2039,Net interchange Ratio: GWh,0.0832992046218382
+Turkiye,SouthEast,2039,Net interchange: GWh,6809.54256892476
+Turkiye,SouthEast,2039,Total Demand: GWh,81747.99026999986
+Turkiye,SouthEast,2039,Total production: GWh,75683.6243850074
+Turkiye,SouthEast,2040,Demand: GWh,85870.59977999992
+Turkiye,SouthEast,2040,Exports exchange: GWh,28155.008650786767
+Turkiye,SouthEast,2040,Imports exchange: GWh,39141.42982807481
+Turkiye,SouthEast,2040,Net interchange Ratio: GWh,0.1279415912481711
+Turkiye,SouthEast,2040,Net interchange: GWh,10986.421177288044
+Turkiye,SouthEast,2040,Total Demand: GWh,85870.59977999992
+Turkiye,SouthEast,2040,Total production: GWh,75657.56992655178
+Turkiye,Trakia,2025,Demand: GWh,59023.72770000008
+Turkiye,Trakia,2025,Exports exchange: GWh,3284.4
+Turkiye,Trakia,2025,Imports exchange: GWh,34891.66568579452
+Turkiye,Trakia,2025,Net interchange Ratio: GWh,0.5355010081105819
+Turkiye,Trakia,2025,Net interchange: GWh,31607.26568579452
+Turkiye,Trakia,2025,Total Demand: GWh,59023.72770000008
+Turkiye,Trakia,2025,Total production: GWh,28105.882703082923
+Turkiye,Trakia,2026,Demand: GWh,61119.520240000034
+Turkiye,Trakia,2026,Exports exchange: GWh,3284.4
+Turkiye,Trakia,2026,Imports exchange: GWh,30765.743409649403
+Turkiye,Trakia,2026,Net interchange Ratio: GWh,0.4496328390952269
+Turkiye,Trakia,2026,Net interchange: GWh,27481.3434096494
+Turkiye,Trakia,2026,Total Demand: GWh,61119.520240000034
+Turkiye,Trakia,2026,Total production: GWh,34246.07386244732
+Turkiye,Trakia,2027,Demand: GWh,63215.31278
+Turkiye,Trakia,2027,Exports exchange: GWh,3284.4
+Turkiye,Trakia,2027,Imports exchange: GWh,30880.366800913405
+Turkiye,Trakia,2027,Net interchange Ratio: GWh,0.4365392748581668
+Turkiye,Trakia,2027,Net interchange: GWh,27595.966800913404
+Turkiye,Trakia,2027,Total Demand: GWh,63215.31278
+Turkiye,Trakia,2027,Total production: GWh,36229.50784250654
+Turkiye,Trakia,2028,Demand: GWh,65311.10532000006
+Turkiye,Trakia,2028,Exports exchange: GWh,3284.4
+Turkiye,Trakia,2028,Imports exchange: GWh,33176.633155426425
+Turkiye,Trakia,2028,Net interchange Ratio: GWh,0.457689898355963
+Turkiye,Trakia,2028,Net interchange: GWh,29892.233155426424
+Turkiye,Trakia,2028,Total Demand: GWh,65311.10532000006
+Turkiye,Trakia,2028,Total production: GWh,36074.40570919188
+Turkiye,Trakia,2029,Demand: GWh,67406.89786000004
+Turkiye,Trakia,2029,Exports exchange: GWh,3285.6265855632746
+Turkiye,Trakia,2029,Imports exchange: GWh,29588.935974689048
+Turkiye,Trakia,2029,Net interchange Ratio: GWh,0.3902168802331791
+Turkiye,Trakia,2029,Net interchange: GWh,26303.30938912577
+Turkiye,Trakia,2029,Total Demand: GWh,67406.89786000004
+Turkiye,Trakia,2029,Total production: GWh,41688.23309078191
+Turkiye,Trakia,2030,Demand: GWh,69502.6904
+Turkiye,Trakia,2030,Exports exchange: GWh,3393.936003108394
+Turkiye,Trakia,2030,Imports exchange: GWh,31157.85459973094
+Turkiye,Trakia,2030,Net interchange Ratio: GWh,0.3994653794959072
+Turkiye,Trakia,2030,Net interchange: GWh,27763.91859662255
+Turkiye,Trakia,2030,Total Demand: GWh,69502.6904
+Turkiye,Trakia,2030,Total production: GWh,42354.41651852312
+Turkiye,Trakia,2031,Demand: GWh,70822.26349000001
+Turkiye,Trakia,2031,Exports exchange: GWh,3659.285797275406
+Turkiye,Trakia,2031,Imports exchange: GWh,30205.277766711228
+Turkiye,Trakia,2031,Net interchange Ratio: GWh,0.3748255232365465
+Turkiye,Trakia,2031,Net interchange: GWh,26545.99196943582
+Turkiye,Trakia,2031,Total Demand: GWh,70822.26349000001
+Turkiye,Trakia,2031,Total production: GWh,44873.09437199187
+Turkiye,Trakia,2032,Demand: GWh,72141.83656999993
+Turkiye,Trakia,2032,Exports exchange: GWh,3576.7336390402725
+Turkiye,Trakia,2032,Imports exchange: GWh,33065.467044911114
+Turkiye,Trakia,2032,Net interchange Ratio: GWh,0.4087605030301334
+Turkiye,Trakia,2032,Net interchange: GWh,29488.733405870844
+Turkiye,Trakia,2032,Total Demand: GWh,72141.83656999993
+Turkiye,Trakia,2032,Total production: GWh,43306.44018946457
+Turkiye,Trakia,2033,Demand: GWh,73461.40965000013
+Turkiye,Trakia,2033,Exports exchange: GWh,3546.555542125586
+Turkiye,Trakia,2033,Imports exchange: GWh,35385.841675737094
+Turkiye,Trakia,2033,Net interchange Ratio: GWh,0.433415126190836
+Turkiye,Trakia,2033,Net interchange: GWh,31839.28613361151
+Turkiye,Trakia,2033,Total Demand: GWh,73461.40965000013
+Turkiye,Trakia,2033,Total production: GWh,42321.30857577437
+Turkiye,Trakia,2034,Demand: GWh,74780.98273000009
+Turkiye,Trakia,2034,Exports exchange: GWh,3440.527217283393
+Turkiye,Trakia,2034,Imports exchange: GWh,36168.57442116832
+Turkiye,Trakia,2034,Net interchange Ratio: GWh,0.4376520073566153
+Turkiye,Trakia,2034,Net interchange: GWh,32728.04720388493
+Turkiye,Trakia,2034,Total Demand: GWh,74780.98273000009
+Turkiye,Trakia,2034,Total production: GWh,42767.58651806552
+Turkiye,Trakia,2035,Demand: GWh,76100.55581000009
+Turkiye,Trakia,2035,Exports exchange: GWh,3654.463482652647
+Turkiye,Trakia,2035,Imports exchange: GWh,34957.29845820306
+Turkiye,Trakia,2035,Net interchange Ratio: GWh,0.4113351688745094
+Turkiye,Trakia,2035,Net interchange: GWh,31302.834975550417
+Turkiye,Trakia,2035,Total Demand: GWh,76100.55581000009
+Turkiye,Trakia,2035,Total production: GWh,45488.43835425429
+Turkiye,Trakia,2036,Demand: GWh,80908.16603999998
+Turkiye,Trakia,2036,Exports exchange: GWh,4545.4634664282485
+Turkiye,Trakia,2036,Imports exchange: GWh,32266.93983227121
+Turkiye,Trakia,2036,Net interchange Ratio: GWh,0.3426289053707856
+Turkiye,Trakia,2036,Net interchange: GWh,27721.47636584296
+Turkiye,Trakia,2036,Total Demand: GWh,80908.16603999998
+Turkiye,Trakia,2036,Total production: GWh,53824.24868574028
+Turkiye,Trakia,2037,Demand: GWh,85715.77627
+Turkiye,Trakia,2037,Exports exchange: GWh,5413.409317516502
+Turkiye,Trakia,2037,Imports exchange: GWh,30832.17277173915
+Turkiye,Trakia,2037,Net interchange Ratio: GWh,0.2965470833998509
+Turkiye,Trakia,2037,Net interchange: GWh,25418.76345422265
+Turkiye,Trakia,2037,Total Demand: GWh,85715.77627
+Turkiye,Trakia,2037,Total production: GWh,60906.22241853162
+Turkiye,Trakia,2038,Demand: GWh,90523.38650999984
+Turkiye,Trakia,2038,Exports exchange: GWh,5632.462021446422
+Turkiye,Trakia,2038,Imports exchange: GWh,29429.094664126216
+Turkiye,Trakia,2038,Net interchange Ratio: GWh,0.2628782854920153
+Turkiye,Trakia,2038,Net interchange: GWh,23796.6326426798
+Turkiye,Trakia,2038,Total Demand: GWh,90523.38650999984
+Turkiye,Trakia,2038,Total production: GWh,67308.24019987546
+Turkiye,Trakia,2039,Demand: GWh,95330.99674
+Turkiye,Trakia,2039,Exports exchange: GWh,6279.537636456717
+Turkiye,Trakia,2039,Imports exchange: GWh,26249.2957994404
+Turkiye,Trakia,2039,Net interchange Ratio: GWh,0.2094781219737794
+Turkiye,Trakia,2039,Net interchange: GWh,19969.75816298369
+Turkiye,Trakia,2039,Total Demand: GWh,95330.99674
+Turkiye,Trakia,2039,Total production: GWh,75879.89560404276
+Turkiye,Trakia,2040,Demand: GWh,100138.607
+Turkiye,Trakia,2040,Exports exchange: GWh,7321.553745958214
+Turkiye,Trakia,2040,Imports exchange: GWh,22818.804201083112
+Turkiye,Trakia,2040,Net interchange Ratio: GWh,0.1547579991313929
+Turkiye,Trakia,2040,Net interchange: GWh,15497.2504551249
+Turkiye,Trakia,2040,Total Demand: GWh,100138.607
+Turkiye,Trakia,2040,Total production: GWh,85092.23085547225
+Turkiye,WestAna,2025,Demand: GWh,51466.53500999997
+Turkiye,WestAna,2025,Exports exchange: GWh,32657.861651004023
+Turkiye,WestAna,2025,Imports exchange: GWh,125.1344866002444
+Turkiye,WestAna,2025,Net interchange Ratio: GWh,-0.6321141914465906
+Turkiye,WestAna,2025,Net interchange: GWh,-32532.72716440378
+Turkiye,WestAna,2025,Total Demand: GWh,51466.53500999997
+Turkiye,WestAna,2025,Total production: GWh,84001.73469333511
+Turkiye,WestAna,2026,Demand: GWh,53293.989569999925
+Turkiye,WestAna,2026,Exports exchange: GWh,32228.387269683783
+Turkiye,WestAna,2026,Imports exchange: GWh,99.74719003422182
+Turkiye,WestAna,2026,Net interchange Ratio: GWh,-0.6028567262251897
+Turkiye,WestAna,2026,Net interchange: GWh,-32128.64007964956
+Turkiye,WestAna,2026,Total Demand: GWh,53293.989569999925
+Turkiye,WestAna,2026,Total production: GWh,85424.60054370445
+Turkiye,WestAna,2027,Demand: GWh,55121.44413
+Turkiye,WestAna,2027,Exports exchange: GWh,32892.92490180304
+Turkiye,WestAna,2027,Imports exchange: GWh,103.99356704629204
+Turkiye,WestAna,2027,Net interchange Ratio: GWh,-0.5948489168285647
+Turkiye,WestAna,2027,Net interchange: GWh,-32788.931334756744
+Turkiye,WestAna,2027,Total Demand: GWh,55121.44413
+Turkiye,WestAna,2027,Total production: GWh,87912.43026252075
+Turkiye,WestAna,2028,Demand: GWh,56948.89867999995
+Turkiye,WestAna,2028,Exports exchange: GWh,31553.91563749505
+Turkiye,WestAna,2028,Imports exchange: GWh,125.5614269140162
+Turkiye,WestAna,2028,Net interchange Ratio: GWh,-0.5518693941243582
+Turkiye,WestAna,2028,Net interchange: GWh,-31428.35421058104
+Turkiye,WestAna,2028,Total Demand: GWh,56948.89867999995
+Turkiye,WestAna,2028,Total production: GWh,88379.73384538027
+Turkiye,WestAna,2029,Demand: GWh,58776.35324
+Turkiye,WestAna,2029,Exports exchange: GWh,30180.525031616107
+Turkiye,WestAna,2029,Imports exchange: GWh,204.6698544919467
+Turkiye,WestAna,2029,Net interchange Ratio: GWh,-0.5099985542608353
+Turkiye,WestAna,2029,Net interchange: GWh,-29975.85517712416
+Turkiye,WestAna,2029,Total Demand: GWh,58776.35324
+Turkiye,WestAna,2029,Total production: GWh,88756.2524668794
+Turkiye,WestAna,2030,Demand: GWh,60603.80780000003
+Turkiye,WestAna,2030,Exports exchange: GWh,33713.05610498843
+Turkiye,WestAna,2030,Imports exchange: GWh,271.2554753749584
+Turkiye,WestAna,2030,Net interchange Ratio: GWh,-0.551810221891923
+Turkiye,WestAna,2030,Net interchange: GWh,-33441.80062961347
+Turkiye,WestAna,2030,Total Demand: GWh,60603.80780000003
+Turkiye,WestAna,2030,Total production: GWh,94050.96813752704
+Turkiye,WestAna,2031,Demand: GWh,61754.42733000002
+Turkiye,WestAna,2031,Exports exchange: GWh,38671.17115215958
+Turkiye,WestAna,2031,Imports exchange: GWh,1521.8500430129634
+Turkiye,WestAna,2031,Net interchange Ratio: GWh,-0.6015653081945048
+Turkiye,WestAna,2031,Net interchange: GWh,-37149.321109146615
+Turkiye,WestAna,2031,Total Demand: GWh,61754.42733000002
+Turkiye,WestAna,2031,Total production: GWh,98933.81851130856
+Turkiye,WestAna,2032,Demand: GWh,62905.046869999984
+Turkiye,WestAna,2032,Exports exchange: GWh,46469.34087160877
+Turkiye,WestAna,2032,Imports exchange: GWh,2024.6468029393216
+Turkiye,WestAna,2032,Net interchange Ratio: GWh,-0.7065362205439442
+Turkiye,WestAna,2032,Net interchange: GWh,-44444.69406866945
+Turkiye,WestAna,2032,Total Demand: GWh,62905.046869999984
+Turkiye,WestAna,2032,Total production: GWh,107389.74571821147
+Turkiye,WestAna,2033,Demand: GWh,64055.666410000056
+Turkiye,WestAna,2033,Exports exchange: GWh,50244.73348357267
+Turkiye,WestAna,2033,Imports exchange: GWh,2411.1231346424142
+Turkiye,WestAna,2033,Net interchange Ratio: GWh,-0.7467506472067974
+Turkiye,WestAna,2033,Net interchange: GWh,-47833.610348930255
+Turkiye,WestAna,2033,Total Demand: GWh,64055.666410000056
+Turkiye,WestAna,2033,Total production: GWh,111936.91788295754
+Turkiye,WestAna,2034,Demand: GWh,65206.28593999998
+Turkiye,WestAna,2034,Exports exchange: GWh,50697.57283465605
+Turkiye,WestAna,2034,Imports exchange: GWh,2483.6840769100763
+Turkiye,WestAna,2034,Net interchange Ratio: GWh,-0.739405535259443
+Turkiye,WestAna,2034,Net interchange: GWh,-48213.888757745975
+Turkiye,WestAna,2034,Total Demand: GWh,65206.28593999998
+Turkiye,WestAna,2034,Total production: GWh,113469.24954566742
+Turkiye,WestAna,2035,Demand: GWh,66356.90547999996
+Turkiye,WestAna,2035,Exports exchange: GWh,49980.43974751714
+Turkiye,WestAna,2035,Imports exchange: GWh,2430.9649453245747
+Turkiye,WestAna,2035,Net interchange Ratio: GWh,-0.7165716131311162
+Turkiye,WestAna,2035,Net interchange: GWh,-47549.47480219257
+Turkiye,WestAna,2035,Total Demand: GWh,66356.90547999996
+Turkiye,WestAna,2035,Total production: GWh,113954.41345843396
+Turkiye,WestAna,2036,Demand: GWh,70548.96603000011
+Turkiye,WestAna,2036,Exports exchange: GWh,53769.986137932334
+Turkiye,WestAna,2036,Imports exchange: GWh,998.2212473812382
+Turkiye,WestAna,2036,Net interchange Ratio: GWh,-0.7480161348943162
+Turkiye,WestAna,2036,Net interchange: GWh,-52771.76489055109
+Turkiye,WestAna,2036,Total Demand: GWh,70548.96603000011
+Turkiye,WestAna,2036,Total production: GWh,123398.1106110948
+Turkiye,WestAna,2037,Demand: GWh,74741.0265700001
+Turkiye,WestAna,2037,Exports exchange: GWh,53680.39116907475
+Turkiye,WestAna,2037,Imports exchange: GWh,822.993167379452
+Turkiye,WestAna,2037,Net interchange Ratio: GWh,-0.7072072786181324
+Turkiye,WestAna,2037,Net interchange: GWh,-52857.3980016953
+Turkiye,WestAna,2037,Total Demand: GWh,74741.0265700001
+Turkiye,WestAna,2037,Total production: GWh,128341.19940828806
+Turkiye,WestAna,2038,Demand: GWh,78933.08711999998
+Turkiye,WestAna,2038,Exports exchange: GWh,51623.934517689246
+Turkiye,WestAna,2038,Imports exchange: GWh,1018.0399168857724
+Turkiye,WestAna,2038,Net interchange Ratio: GWh,-0.6411239753472281
+Turkiye,WestAna,2038,Net interchange: GWh,-50605.89460080348
+Turkiye,WestAna,2038,Total Demand: GWh,78933.08711999998
+Turkiye,WestAna,2038,Total production: GWh,130431.13338385196
+Turkiye,WestAna,2039,Demand: GWh,83125.14767000005
+Turkiye,WestAna,2039,Exports exchange: GWh,49196.945046356894
+Turkiye,WestAna,2039,Imports exchange: GWh,1526.7866351894756
+Turkiye,WestAna,2039,Net interchange Ratio: GWh,-0.5734745711419845
+Turkiye,WestAna,2039,Net interchange: GWh,-47670.15841116742
+Turkiye,WestAna,2039,Total Demand: GWh,83125.14767000005
+Turkiye,WestAna,2039,Total production: GWh,131688.3606491917
+Turkiye,WestAna,2040,Demand: GWh,87317.2082199999
+Turkiye,WestAna,2040,Exports exchange: GWh,48527.48017276021
+Turkiye,WestAna,2040,Imports exchange: GWh,1993.214154360279
+Turkiye,WestAna,2040,Net interchange Ratio: GWh,-0.5329335072320981
+Turkiye,WestAna,2040,Net interchange: GWh,-46534.26601839993
+Turkiye,WestAna,2040,Total Demand: GWh,87317.2082199999
+Turkiye,WestAna,2040,Total production: GWh,134725.2963560763
+Turkiye,WestMed,2025,Demand: GWh,28530.61614000001
+Turkiye,WestMed,2025,Exports exchange: GWh,197.96122970724088
+Turkiye,WestMed,2025,Imports exchange: GWh,12567.268192568656
+Turkiye,WestMed,2025,Net interchange Ratio: GWh,0.433545034645067
+Turkiye,WestMed,2025,Net interchange: GWh,12369.306962861414
+Turkiye,WestMed,2025,Total Demand: GWh,28530.61614000001
+Turkiye,WestMed,2025,Total production: GWh,16409.624484657863
+Turkiye,WestMed,2026,Demand: GWh,29543.670629999982
+Turkiye,WestMed,2026,Exports exchange: GWh,169.64296739731748
+Turkiye,WestMed,2026,Imports exchange: GWh,12483.22812927123
+Turkiye,WestMed,2026,Net interchange Ratio: GWh,0.4167926631760557
+Turkiye,WestMed,2026,Net interchange: GWh,12313.585161873913
+Turkiye,WestMed,2026,Total Demand: GWh,29543.670629999982
+Turkiye,WestMed,2026,Total production: GWh,17476.74023702693
+Turkiye,WestMed,2027,Demand: GWh,30556.72511999999
+Turkiye,WestMed,2027,Exports exchange: GWh,128.88635786406667
+Turkiye,WestMed,2027,Imports exchange: GWh,13405.361558995295
+Turkiye,WestMed,2027,Net interchange Ratio: GWh,0.4344861940863391
+Turkiye,WestMed,2027,Net interchange: GWh,13276.47520113123
+Turkiye,WestMed,2027,Total Demand: GWh,30556.72511999999
+Turkiye,WestMed,2027,Total production: GWh,17545.125023539244
+Turkiye,WestMed,2028,Demand: GWh,31569.77961
+Turkiye,WestMed,2028,Exports exchange: GWh,154.65593013293628
+Turkiye,WestMed,2028,Imports exchange: GWh,14465.125381233054
+Turkiye,WestMed,2028,Net interchange Ratio: GWh,0.453296463513073
+Turkiye,WestMed,2028,Net interchange: GWh,14310.469451100118
+Turkiye,WestMed,2028,Total Demand: GWh,31569.77961
+Turkiye,WestMed,2028,Total production: GWh,17545.125023539244
+Turkiye,WestMed,2029,Demand: GWh,32582.834109999985
+Turkiye,WestMed,2029,Exports exchange: GWh,334.1524211597852
+Turkiye,WestMed,2029,Imports exchange: GWh,15624.7842442048
+Turkiye,WestMed,2029,Net interchange Ratio: GWh,0.4692848931257387
+Turkiye,WestMed,2029,Net interchange: GWh,15290.631823045016
+Turkiye,WestMed,2029,Total Demand: GWh,32582.834109999985
+Turkiye,WestMed,2029,Total production: GWh,17600.93072698431
+Turkiye,WestMed,2030,Demand: GWh,33595.88860000003
+Turkiye,WestMed,2030,Exports exchange: GWh,304.056582863472
+Turkiye,WestMed,2030,Imports exchange: GWh,16480.70140363239
+Turkiye,WestMed,2030,Net interchange Ratio: GWh,0.4815066811707699
+Turkiye,WestMed,2030,Net interchange: GWh,16176.644820768915
+Turkiye,WestMed,2030,Total Demand: GWh,33595.88860000003
+Turkiye,WestMed,2030,Total production: GWh,17744.884194830393
+Turkiye,WestMed,2031,Demand: GWh,34233.73771999996
+Turkiye,WestMed,2031,Exports exchange: GWh,1282.6759208180215
+Turkiye,WestMed,2031,Imports exchange: GWh,18197.768578131647
+Turkiye,WestMed,2031,Net interchange Ratio: GWh,0.4941059254371609
+Turkiye,WestMed,2031,Net interchange: GWh,16915.092657313624
+Turkiye,WestMed,2031,Total Demand: GWh,34233.73771999996
+Turkiye,WestMed,2031,Total production: GWh,17678.212824860428
+Turkiye,WestMed,2032,Demand: GWh,34871.58685
+Turkiye,WestMed,2032,Exports exchange: GWh,1659.626514515831
+Turkiye,WestMed,2032,Imports exchange: GWh,19244.472296604978
+Turkiye,WestMed,2032,Net interchange Ratio: GWh,0.5042743210319133
+Turkiye,WestMed,2032,Net interchange: GWh,17584.845782089145
+Turkiye,WestMed,2032,Total Demand: GWh,34871.58685
+Turkiye,WestMed,2032,Total production: GWh,17666.990536860903
+Turkiye,WestMed,2033,Demand: GWh,35509.43596999998
+Turkiye,WestMed,2033,Exports exchange: GWh,2347.706864643508
+Turkiye,WestMed,2033,Imports exchange: GWh,20580.204422527466
+Turkiye,WestMed,2033,Net interchange Ratio: GWh,0.5134550031514896
+Turkiye,WestMed,2033,Net interchange: GWh,18232.49755788396
+Turkiye,WestMed,2033,Total Demand: GWh,35509.43596999998
+Turkiye,WestMed,2033,Total production: GWh,17683.58046921887
+Turkiye,WestMed,2034,Demand: GWh,36147.285100000016
+Turkiye,WestMed,2034,Exports exchange: GWh,2388.5683276536583
+Turkiye,WestMed,2034,Imports exchange: GWh,21267.406567017777
+Turkiye,WestMed,2034,Net interchange Ratio: GWh,0.5222754125831738
+Turkiye,WestMed,2034,Net interchange: GWh,18878.83823936412
+Turkiye,WestMed,2034,Total Demand: GWh,36147.285100000016
+Turkiye,WestMed,2034,Total production: GWh,17688.6672713811
+Turkiye,WestMed,2035,Demand: GWh,36785.13421999996
+Turkiye,WestMed,2035,Exports exchange: GWh,2229.355356457179
+Turkiye,WestMed,2035,Imports exchange: GWh,21771.40438955752
+Turkiye,WestMed,2035,Net interchange Ratio: GWh,0.5312485450297852
+Turkiye,WestMed,2035,Net interchange: GWh,19542.049033100346
+Turkiye,WestMed,2035,Total Demand: GWh,36785.13421999996
+Turkiye,WestMed,2035,Total production: GWh,17673.26403669262
+Turkiye,WestMed,2036,Demand: GWh,39109.01458999995
+Turkiye,WestMed,2036,Exports exchange: GWh,1447.0394442291731
+Turkiye,WestMed,2036,Imports exchange: GWh,23322.41871954692
+Turkiye,WestMed,2036,Net interchange Ratio: GWh,0.5593436578407478
+Turkiye,WestMed,2036,Net interchange: GWh,21875.379275317744
+Turkiye,WestMed,2036,Total Demand: GWh,39109.01458999995
+Turkiye,WestMed,2036,Total production: GWh,17694.460490662947
+Turkiye,WestMed,2037,Demand: GWh,41432.894960000005
+Turkiye,WestMed,2037,Exports exchange: GWh,885.0749579447685
+Turkiye,WestMed,2037,Imports exchange: GWh,25030.57581490794
+Turkiye,WestMed,2037,Net interchange Ratio: GWh,0.5827616168330413
+Turkiye,WestMed,2037,Net interchange: GWh,24145.50085696317
+Turkiye,WestMed,2037,Total Demand: GWh,41432.894960000005
+Turkiye,WestMed,2037,Total production: GWh,17781.970572291975
+Turkiye,WestMed,2038,Demand: GWh,43756.77533000002
+Turkiye,WestMed,2038,Exports exchange: GWh,1092.1563981278766
+Turkiye,WestMed,2038,Imports exchange: GWh,25911.94133029437
+Turkiye,WestMed,2038,Net interchange Ratio: GWh,0.5672215272945362
+Turkiye,WestMed,2038,Net interchange: GWh,24819.78493216649
+Turkiye,WestMed,2038,Total Demand: GWh,43756.77533000002
+Turkiye,WestMed,2038,Total production: GWh,19448.981674001025
+Turkiye,WestMed,2039,Demand: GWh,46080.65568999999
+Turkiye,WestMed,2039,Exports exchange: GWh,2824.140971784269
+Turkiye,WestMed,2039,Imports exchange: GWh,23246.991943598965
+Turkiye,WestMed,2039,Net interchange Ratio: GWh,0.4431979247258558
+Turkiye,WestMed,2039,Net interchange: GWh,20422.850971814696
+Turkiye,WestMed,2039,Total Demand: GWh,46080.65568999999
+Turkiye,WestMed,2039,Total production: GWh,26117.13954457079
+Turkiye,WestMed,2040,Demand: GWh,48404.53606
+Turkiye,WestMed,2040,Exports exchange: GWh,4644.688453300718
+Turkiye,WestMed,2040,Imports exchange: GWh,21954.02678383257
+Turkiye,WestMed,2040,Net interchange Ratio: GWh,0.3575974431213639
+Turkiye,WestMed,2040,Net interchange: GWh,17309.338330531857
+Turkiye,WestMed,2040,Total Demand: GWh,48404.53606
+Turkiye,WestMed,2040,Total production: GWh,31644.780017641453
