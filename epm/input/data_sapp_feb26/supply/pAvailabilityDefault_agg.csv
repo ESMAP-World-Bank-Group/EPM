@@ -203,7 +203,7 @@ Tanzania,OffshoreWind,Wind,1,1,1,1
 Tanzania,ST,Geothermal,0.85,0.85,0.85,0.85
 Tanzania,Storage,Battery,1,1,1,1
 Tanzania,Storage,Water,0.85,0.85,0.85,0.85
-Tanzania,ReservoirHydro,Water,0.85,0.85,0.85,0.85
+Tanzania,ReservoirHydro,Water,0.15,0.15,0.15,0.15
 Zambia,ST,Coal,0.91,0.91,0.91,0.91
 Zambia,OCGT,Gas,0.85,0.85,0.85,0.85
 Zambia,CCGT,Gas,0.85,0.85,0.85,0.85
