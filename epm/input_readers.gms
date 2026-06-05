@@ -53,7 +53,7 @@ $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/
 * SUPPLY DATA
 $if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput_SAPP_v3_reduced_agg.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault_agg.csv
-$if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
+$if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom_agg.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault_agg.csv
 $if not set pEvolutionAvailability $set pEvolutionAvailability %FOLDER_INPUT%/supply/pEvolutionAvailability.csv
 $if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv

@@ -1,0 +1,25 @@
+- GDXReader:
+    file: C:\Users\wb590499\Documents\Projects\EPM\epm\epmresults.gdx
+    symbols: 
+      - name: pFuelConsumption
+      - name: pEnergyBalance
+      - name: pCostsPerMWh
+- ExcelWriter:
+    file: C:\Users\wb590499\Documents\Projects\EPM\epm\epmresults_export2.xlsx
+    valueSubstitutions: {
+      EPS: EPS,
+      INF: INF,
+      -INF: -INF,
+      UNDEF: UNDEF,
+      NA: NA
+    }
+    symbols:
+      - name: pFuelConsumption
+        range: pFuelConsumption!A1
+        columnDimension: 0
+      - name: pEnergyBalance
+        range: pEnergyBalance!A1
+        columnDimension: 0
+      - name: pCostsPerMWh
+        range: pCostsPerMWh!A1
+        columnDimension: 0

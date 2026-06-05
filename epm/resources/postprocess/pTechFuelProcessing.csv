@@ -29,7 +29,7 @@ OffshoreWind,Wind,Offshore Wind,paleturquoise
 OnshoreWind,Wind,Onshore Wind,darkturquoise
 PV,Solar,PV,orange
 pvwsto,Solar,PV+Storage,orange
-STOPV,Solar,Solar Thermal,darkkhaki
+STOPV,Battery,Solar Thermal,darkkhaki
 Storage,Battery,Battery,darkkhaki
 Storage,Water,PSH,blue
 ImportTransmission,Imports,Imports,tan

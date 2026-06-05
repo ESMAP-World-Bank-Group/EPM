@@ -97,7 +97,7 @@ option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR
 
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
-$set BASE_FILE "base_phaseout.gms"
+$set BASE_FILE "base_limimp.gms"
 $endIf
 $if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
 
@@ -570,7 +570,7 @@ pStorageData(g,pStorageDataHeader) = sum((z,tech,f), pStorageDataInput(g,z,tech,
 * gsmap(g2,g) means storage g is linked to generator g2
 * For standalone storage (empty "Linked plant"), gsmap remains empty
 * Note: If linked storage is needed, the "Linked plant" column should contain the generator name
-gsmap(g2,g) = no;
+*gsmap(g2,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
@@ -616,6 +616,9 @@ RampRate(g) = pGenData(g,"RampDnRate");
 
 * Map zones (`z`) to fuels (`f`) based on generator-fuel assignments (`gzmap` and `gfmap`)
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
+
+* Recreate gsmaps
+gsmap(g2,g)$(so(g2) and stp(g)) = yes;
 
 * H2 model specific sets
 nh(hh)  = H2statusmap(hh,'candidate');

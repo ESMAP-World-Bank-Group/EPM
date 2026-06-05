@@ -471,7 +471,7 @@ Diesel,Africana,ICE,Diesel,2,2035,2035,,,,,,,10,0.15,0.15,,0.15,,6980,10,
 OFSHORE_WIND,Africana,OnshoreWind,Wind,3,2035,2055,,,,,,25,,1,1,,,0.9,10000,7,
 PV_CAND,Africana,PV,Solar,3,2028,2050,800,,,,150,25,,1,1,,,0.97,17000,,300
 PV_Comm,Africana,PV,Solar,2,2025,2045,16,,,,16,20,,1,1,,,0.9,10000,,16
-PV_comm_2,Africana,PV,Solar,2,2028,2045,160,,,,160,20,,1,1,,,0.9,10000,,160
+PV_comm_2,Africana,PVwSTO,Solar,2,2028,2045,160,,,,160,20,,1,1,,,0.9,10000,,160
 SP2_161_Afr,Africana,ReservoirHydro,Water,2,2046,2080,154,,,,154,50,,1,1,,0.15,3.73,7431.818182,1.124821429,154
 Hydro1_ROR,Africana,ReservoirHydro,Water,1,2017,2050,88,,,,88,,,1,1,,0.15,,6000,1.124821429,
 Hydro1_ROR_ext,Africana,ReservoirHydro,Water,2,2028,2050,60,,,,60,,,1,1,,0.15,3,6000,1.124821429,60
