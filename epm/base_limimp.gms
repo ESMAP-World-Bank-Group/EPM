@@ -802,7 +802,7 @@ eMaxShareGenTech(z,tech,y)$(pMaxShareGenerationByTech(z,tech,y))..
    
 *Applies minimum generation for specific technology and fuel
 eMinGenerationByFuel(c,tech,f,y)$(pMinGenByFuel(c,tech,f,y))..
-    sum((zcmap(z,c),gtechmap(g,tech),gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =e= pMinGenByFuel(c,tech,f,y);
+    sum((zcmap(z,c),gtechmap(g,tech),gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =g= pMinGenByFuel(c,tech,f,y);
 
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
