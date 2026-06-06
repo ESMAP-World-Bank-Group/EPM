@@ -5,7 +5,7 @@
       - name: pEnergyBalance
       - name: pCostsPerMWh
 - ExcelWriter:
-    file: C:\Users\wb590499\Documents\Projects\EPM\epm\epmresults_export2.xlsx
+    file: C:\Users\wb590499\Documents\Projects\EPM\epm\epmresults_export.xlsx
     valueSubstitutions: {
       EPS: EPS,
       INF: INF,

@@ -30,7 +30,7 @@ Include energy efficiency,fEnableEnergyEfficiency,0
 Include CSP optimization,fEnableCSP,0
 Include Storage operation,fEnableStorage,1
 Initial state of charge for batteries (%),InitialSOCforBattery,0.5
-Retire plants on economic grounds,fEnableEconomicRetirement,0
+Retire plants on economic grounds,fEnableEconomicRetirement,1
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
 ,,
@@ -41,7 +41,7 @@ Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
 ,,
 SPINNING RESERVES,,
 Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,1
-Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,0
+Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,1
 "Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0.15
 "Contribution of transmission lines to country spinning reserves need, %",sIntercoReserveContributionPct,0
 ,,
