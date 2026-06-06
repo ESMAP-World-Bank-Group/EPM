@@ -40,7 +40,7 @@ Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
 "System planning reserve margin, %",sReserveMarginPct,0.1
 ,,
 SPINNING RESERVES,,
-Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,1
+Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,0
 Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,1
 "Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0.15
 "Contribution of transmission lines to country spinning reserves need, %",sIntercoReserveContributionPct,0
