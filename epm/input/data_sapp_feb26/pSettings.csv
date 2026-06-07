@@ -20,9 +20,9 @@ Activate exchange between internal zone,fEnableInternalExchange,1
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
-Activate exchange between external zone,fEnableExternalExchange,1
-"Maximum external import share, %",sMaxHourlyImportExternalShare,1
-"Maximum external export share, %",sMaxHourlyExportExternalShare,1
+Activate exchange between external zone,fEnableExternalExchange,0
+"Maximum external import share, %",sMaxHourlyImportExternalShare,0
+"Maximum external export share, %",sMaxHourlyExportExternalShare,0
 ,,
 OPTIONAL FEATURES,,
 Include carbon price ,fEnableCarbonPrice,1
@@ -30,7 +30,7 @@ Include energy efficiency,fEnableEnergyEfficiency,0
 Include CSP optimization,fEnableCSP,0
 Include Storage operation,fEnableStorage,1
 Initial state of charge for batteries (%),InitialSOCforBattery,0.5
-Retire plants on economic grounds,fEnableEconomicRetirement,1
+Retire plants on economic grounds,fEnableEconomicRetirement,0
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
 ,,
