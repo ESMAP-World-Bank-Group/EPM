@@ -59,7 +59,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h1>Data Sources — EPM — Black Sea 2026</h1>
 <p class="meta">
   Generated 2026-06-11 &nbsp;&middot;&nbsp;
-  Turkiye, Armenia, Georgia, Azerbaijan &nbsp;&middot;&nbsp;
+  Turkiye, Armenia, Georgia, Azerbaijan, Romania &nbsp;&middot;&nbsp;
   Data horizon: 2024–2053 · step: 1 year
 </p>
 
@@ -76,9 +76,10 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <th>Armenia</th>
 <th>Georgia</th>
 <th>Azerbaijan</th>
+<th>Romania</th>
 </tr></thead>
 <tbody>
-<tr class="cat-row"><td colspan="7">Load</td></tr>
+<tr class="cat-row"><td colspan="8">Load</td></tr>
 <tr>
 <td>Annual demand forecast</td>
 <td><code>pDemandForecast</code></td>
@@ -87,6 +88,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-done"><a href="#armenia-pdemandforecast">CESI (World Bank consultant) /… (2022)</a></td>
 <td class="status-review"><a href="#georgia-pdemandforecast">&#9651; World Bank (internal) (2022)</a></td>
 <td class="status-review"><a href="#azerbaijan-pdemandforecast">&#9651; Our World in Data (OWID) (2025) + <a href="https://statistika.nmr.az/" target="_blank">SSC</a></a></td>
+<td class="status-review"><a href="#romania-pdemandforecast">&#9651; Our World in Data (OWID) (2025)</a></td>
 </tr>
 <tr>
 <td>Hourly demand profile</td>
@@ -96,8 +98,9 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
 <td class="status-review"><a href="#georgia-pdemandprofile">&#9651; World Bank (internal) (2022)</a></td>
 <td class="status-review"><a href="#azerbaijan-pdemandprofile">&#9651; proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy)</a></td>
+<td class="status-done"><a href="#romania-pdemandprofile">proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</a></td>
 </tr>
-<tr class="cat-row"><td colspan="7">Supply</td></tr>
+<tr class="cat-row"><td colspan="8">Supply</td></tr>
 <tr>
 <td>Generator database</td>
 <td><code>pGenDataInput</code></td>
@@ -106,6 +109,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-done"><a href="#armenia-pgendatainput">CESI (World Bank consultant) /… (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 <td class="status-review"><a href="#georgia-pgendatainput">&#9651; SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 <td class="status-done"><a href="#azerbaijan-pgendatainput">Global Energy Monitor (GEM) (2025-09) + <a href="https://stat.gov.az/source/balance_energy/" target="_blank">SSC Azerbaijan</a> + <a href="https://statistika.nmr.az/" target="_blank">SSC</a> + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
+<td class="status-review"><a href="#romania-pgendatainput">&#9651; World Bank EPM Romania v8.5 (2… (2024) + <a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank">Global Energy Monitor (GEM)</a></a></td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -115,6 +119,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-done"><a href="#armenia-pfuelprice">TYNDP / IEA World Energy Outlo… (2022)</a></td>
 <td class="status-review"><a href="#georgia-pfuelprice">&#9651; Georgia Fuel Subsidies Databas… (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
 <td class="status-review"><a href="#azerbaijan-pfuelprice">&#9651; IMF (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
+<td class="status-review"><a href="#romania-pfuelprice">&#9651; World Bank EPM Romania v8.5 (2… (2024)</a></td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -124,11 +129,13 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-done"><a href="#armenia-pavailabilitycustom">World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 <td class="status-review"><a href="#georgia-pavailabilitycustom">&#9651; World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022</a></td>
 <td class="status-review"><a href="#azerbaijan-pavailabilitycustom">&#9651; World Bank EPM Georgia v8.5 (2… (2022) + <a href="https://stat.gov.az/source/balance_energy/" target="_blank">SSC Azerbaijan</a> + <a href="https://statistika.nmr.az/" target="_blank">SSC</a></a></td>
+<td class="status-done"><a href="#romania-pavailabilitycustom">World Bank EPM Romania v8.5 (2… (2024)</a></td>
 </tr>
 <tr>
 <td>Storage assumptions</td>
 <td><code>pStorageDataInput</code></td>
 <td>For BESS and PSH: capacity, duration, efficiency, cost assumptions</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
@@ -142,12 +149,14 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#armenia-pvreprofile">&#9651; Renewables Ninja (2018–2023) + TEİAŞ</a></td>
 <td class="status-review"><a href="#georgia-pvreprofile">&#9651; World Bank EPM Georgia 2022 (i… (2022)</a></td>
 <td class="status-pending">&mdash;</td>
+<td class="status-done"><a href="#romania-pvreprofile">Global Energy Monitor (GEM) (2025-09)</a></td>
 </tr>
-<tr class="cat-row"><td colspan="7">Resources</td></tr>
+<tr class="cat-row"><td colspan="8">Resources</td></tr>
 <tr>
 <td>Maximum installable capacity</td>
 <td><code>pMaxGenerationByFuel</code></td>
 <td>Maximum new capacity by technology (resource potential and spatial constraints)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
@@ -161,8 +170,9 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="7">Trade</td></tr>
+<tr class="cat-row"><td colspan="8">Trade</td></tr>
 <tr>
 <td>Cross-border transmission</td>
 <td><code>pTransferLimit</code></td>
@@ -171,11 +181,13 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-review"><a href="#azerbaijan-ptransferlimit">&#9651; Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Transmission losses</td>
 <td><code>pLossFactorInternal</code></td>
 <td>Cross-border interconnector losses (% by corridor)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
@@ -189,8 +201,9 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="7">Reserves</td></tr>
+<tr class="cat-row"><td colspan="8">Reserves</td></tr>
 <tr>
 <td>Reserve margin</td>
 <td><code>pPlanningReserveMargin</code></td>
@@ -199,12 +212,14 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
+<td class="status-pending">&mdash;</td>
 </tr>
-<tr class="cat-row"><td colspan="7">Other</td></tr>
+<tr class="cat-row"><td colspan="8">Other</td></tr>
 <tr>
 <td>Carbon pricing</td>
 <td><code>pCarbonPrice</code></td>
 <td>Carbon price or emission constraint applied in planning (NDC, ETS membership)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
@@ -214,6 +229,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td>Fuel and import limits</td>
 <td><code>pMaxFuelLimit</code></td>
 <td>Caps or floors on fuel use or electricity imports (e.g. gas import quotas)</td>
+<td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
@@ -237,6 +253,10 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <li><a href="#azerbaijan"><strong>Azerbaijan</strong></a>
  &mdash; 
 <a href="#azerbaijan-pgendatainput"><code>pGenDataInput</code></a>, <a href="#azerbaijan-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#azerbaijan-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#azerbaijan-pfuelprice"><code>pFuelPrice</code></a>, <a href="#azerbaijan-pavailabilitycustom"><code>pAvailabilityCustom</code></a>, <a href="#azerbaijan-ptransferlimit"><code>pTransferLimit</code></a>
+</li>
+<li><a href="#romania"><strong>Romania</strong></a>
+ &mdash; 
+<a href="#romania-pgendatainput"><code>pGenDataInput</code></a>, <a href="#romania-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#romania-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#romania-pvreprofile"><code>pVREProfile</code></a>, <a href="#romania-pfuelprice"><code>pFuelPrice</code></a>, <a href="#romania-pavailabilitycustom"><code>pAvailabilityCustom</code></a>
 </li>
 </ul></div>
 <hr>
@@ -495,6 +515,84 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-10</p>
+<hr>
+<h2 id="romania">Romania</h2>
+<p class="back"><a href="#toc">&#8593; Contents</a></p>
+<h3>Summary</h3>
+<table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
+<tr><td><a href="#romania-pdemandforecast"><code>pDemandForecast</code></a></td><td>Our World in Data (OWID) (2025)</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#romania-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</td><td><span class="conf">[HIGH]</span></td></tr>
+<tr><td><a href="#romania-pgendatainput"><code>pGenDataInput</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024) + <a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank">Global Energy Monitor (GEM)</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#romania-pfuelprice"><code>pFuelPrice</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#romania-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024)</td><td><span class="conf">[HIGH]</span></td></tr>
+<tr><td><a href="#romania-pvreprofile"><code>pVREProfile</code></a></td><td>Global Energy Monitor (GEM) (2025-09)</td><td><span class="conf">[HIGH]</span></td></tr>
+</tbody></table>
+<h3 id="romania-pgendatainput"><code>pGenDataInput</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<p><strong>Source</strong>: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented <code>(wb_epm_romania_v8)</code></p>
+<p><strong>Also uses</strong>: <a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank">Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT)</a></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Cernavoda-3 and Cernavoda-4 (Status=2, committed, 720 MW each): timing (StYr 2035/2036) from WB EPM v8.5. Current status uncertain; Romania–Korea nuclear agreement 2024 suggests construction start ~2028, COD ~2035–2037. Verify with NUCLEARELECTRICA. HPP Portile de Fier I (1166 MW) retires 2026 (life=50 from 1972) → extension "HPP Portile de Fier I_ext" starts 2027. Real extension pending Romania–Serbia feasibility study; recommend sensitivity scenario. Gas price trajectory: xlsb 18.35 USD/GJ in 2024 → 9.81 flat from 2025. The 2024 value reflects high 2022 spot price; 9.81 from 2025 may be too low or too high depending on TTF evolution. Cross-check with IEA WEO 2024 NPS. Onshore wind capacity 2,968 MW existing appears low vs RWEA data (~4 GW by end 2023) — some parks may have commissioned after xlsb calibration date.
+</div>
+<p><strong>Method</strong>: DIRECT from WB EPM Romania v8.5 xlsb (cleaned + fuel-normalised); GEM GIPT cross-check</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>162 generators extracted and cleaned from WB_EPM_RO_12_42.xlsb via pre-analysis/extract_epm_excel.py + pre-analysis/prepare_romania_for_blacksea.py. Key fuel normalisation: Coal→DomesticCoal (domestic lignite), WindLow1/2/3 &amp; WindMed1/2/3→Wind (multi-tier resource atlas consolidated to single Wind profile). GasCCS → Gas (CCS plants simplified). Geothermal, Hydrogen/H2 candidates dropped. 9 Generic Onshore Wind resource-class entries collapsed to:
+  "Generic Onshore Wind Romania" (120 GW potential, 2 GW/yr build limit).
+  "Generic Offshore Wind Romania" (94 GW Black Sea potential, 500 MW/yr build limit).
+TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggregate dropped (no documented capacity). GEM GIPT (September 2025) used for cross-check: key differences noted in nuclear commissioning (Cernavoda-3&amp;4 Status=2), gas committed pipeline, and Wind/PV installed capacity growth 2024–2025.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-11</p>
+<h3 id="romania-pdemandforecast"><code>pDemandForecast</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<p><strong>Source</strong>: Our World in Data (OWID) — Energy Dataset (IEA source) <code>(owid_energy_data)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: CAGR of -1.3%/yr reflects recent historical decline — not appropriate as a planning scenario. Romania is expected to have significant electrification (EVs, heat pumps, green hydrogen) that would reverse this trend. Override recommended: use --growth 0.02 for moderate-growth scenario or replace with Romania energy strategy official forecast (ANRE/MoE). 2053 value (37,952 GWh) is likely understated by 30-50% for a transition scenario. Flag for revision before model submission.
+</div>
+<p><strong>Method</strong>: OWID/IEA base 54.4 TWh (2025) + CAGR -1.3%/yr (5-yr historical trend)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT_EXTRAPOLATED</code></td><td>Anchor: OWID electricity_demand 2025 = 54.4 TWh. CAGR = -1.3%/yr from OWID 2020–2025 trend (industrial contraction + efficiency gains). Peak estimated via load_factor=0.58. 2024: Energy=55,094 GWh, Peak=10,843 MW. 2030: Energy=51,005 GWh (declining).
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [LOW] · Last updated: 2026-06-11</p>
+<h3 id="romania-pdemandprofile"><code>pDemandProfile</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<div class="proxy-chain"><p><strong>Proxied from</strong>: <code>ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</code><br><strong>Original source</strong>: TEİAŞ — Turkiye hourly load data (likely) <code>(teias_hourly_load)</code></p></div>
+<p><strong>Method</strong>: DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load data). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring), Q3_mean=0.651 (summer AC), Q4_mean=0.698. All d1–d6 daytypes within a season share the same seasonal mean profile. Computed via compute_epm_demand.py --country ROU --profile.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [HIGH] · Last updated: 2026-06-11</p>
+<h3 id="romania-pvreprofile"><code>pVREProfile</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<p><strong>Source</strong>: Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT) <code>(gem_gipt)</code></p>
+<p><strong>Method</strong>: Renewables Ninja multi-year seasonal mean CF (2010-2019), Romania centroid</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>PV and OnshoreWind profiles from Renewables Ninja API output (blacksea_run1/ninja/ directory, Romania centroid coordinates). Multi-year seasonal mean per (season, hour), normalized by tech maximum. PV: Q1=0.204, Q2=0.313 (spring solar), Q3=0.326 (summer peak), Q4=0.183. OnshoreWind: Q1=0.910 (winter wind), Q2=0.666, Q3=0.592 (summer low), Q4=0.805. All d1–d6 daytypes share the same seasonal mean (simplified). Computed via compute_epm_vre.py --country ROU.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [HIGH] · Last updated: 2026-06-11</p>
+<h3 id="romania-pfuelprice"><code>pFuelPrice</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<p><strong>Source</strong>: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented <code>(wb_epm_romania_v8)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Gas price trajectory from xlsb is flat from 2025 (9.81 USD/GJ = ~10.4 USD/MMBtu). As of 2025-2026, European TTF forward prices are 7-9 USD/MMBtu — trajectory may be slightly high. Cross-check with IEA WEO 2024 Stated Policies European gas price. DomesticCoal: 4.4 USD/GJ is a benchmark; actual Oltenia/CE Oltenia generator fuel cost should be verified with ANRE tariff filings.
+</div>
+<p><strong>Method</strong>: DIRECT from WB EPM Romania v8.5 xlsb (Gas trajectory + Uranium trajectory)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024</td><td><code>DIRECT</code></td><td>Gas: 18.35 USD/GJ (high 2022 spot price still in WB EPM v8.5 2024 calibration). This value reflects TTF peak period — likely should be revised downward.
+</td></tr>
+<tr><td>2025–2053</td><td><code>DIRECT</code></td><td>Gas: 9.81 USD/GJ flat (WB EPM v8.5 baseline European gas assumption from 2025). DomesticCoal (lignite): 4.4 USD/GJ flat (Oltenia Basin domestic lignite price). Uranium: trajectory from 1.5 USD/GJ (2024) → 5.6 USD/GJ (2053), reflecting nuclear fuel cycle cost escalation (WB EPM v8.5 assumption). Biomass: 5.0 USD/GJ flat (added; European biomass pellet market price estimate).
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-11</p>
+<h3 id="romania-pavailabilitycustom"><code>pAvailabilityCustom</code></h3>
+<p class="back"><a href="#romania">&#8593; Romania</a></p>
+<p><strong>Source</strong>: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented <code>(wb_epm_romania_v8)</code></p>
+<p><strong>Method</strong>: DIRECT from WB EPM Romania v8.5 GenAvailability (Cernavoda + hydro + gas)</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>181 generators with quarterly CFs from GenAvailability sheet of WB_EPM_RO_12_42.xlsb. Key entries: Cernavoda-1: Q1=0.823, Q2=0.755, Q3=0.823, Q4=0.823 (annual outage in Q2). Cernavoda-1_refurbished: Q1=0.915, Q2=0.821, Q3=0.892, Q4=0.892 (post-refurb CF). Cernavoda-2: Q1=0.900, Q2=0.798, Q3=0.900, Q4=0.900 (planned outage Q2). Cernavoda-3&amp;4: Q1=Q2=Q3=Q4=0.930 (new build assumption). Hydro seasonal CFs: individual plant-specific quarterly availability (12 ROR + 12 ReservoirHydro plants, reflecting Olt/Danube/Bistrita seasonal regimes). Gas plants: 0.88–0.95 flat quarterly (plant-specific from WB EPM model).
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [HIGH] · Last updated: 2026-06-11</p>
 <hr>
 </body>
 </html>

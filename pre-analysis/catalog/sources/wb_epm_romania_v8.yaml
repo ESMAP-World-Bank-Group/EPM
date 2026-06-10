@@ -1,0 +1,49 @@
+id: wb_epm_romania_v8
+name: "World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented"
+type: internal
+date: "2024"
+file: "WB_EPM_RO_12_42.xlsb"
+access_note: >
+  World Bank internal EPM model for Romania, version 8.5 (2024 calibration).
+  File: WB_EPM_RO_12_42.xlsb (binary Excel format, 12 zones → 42 years).
+  Extracted via pre-analysis/extract_epm_excel.py --country Romania.
+  Zone name in xlsb: RomaniaZ → mapped to Romania.
+  Primary data sources used in original model are partially documented in xlsb notes
+  (ANRE, OPCOM, TRANSELECTRICA, ENTSO-E, Romania energy strategy, IEA).
+
+coverage:
+  countries: [Romania]
+  zones: [Romania]
+  years: "2024–2065 (model horizon)"
+
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: >
+      179 generators: gas (CCGT/OCGT), nuclear (Cernavoda 1-4, refurbished-1, Doicești SMR),
+      coal (all retiring 2024-2033), biomass (Radauti), run-of-river hydro (12 plants + R-Hydro
+      aggregate), reservoir hydro (12 plants), onshore wind (23 parks + resource-tier generics),
+      PV (22 parks + Generic Solar Fixed 400 GW), committed INECP pipeline.
+  - resource: pFuelPrice
+    coverage: >
+      Gas, Coal, Uranium, Hydrogen, H2domestic, GasCCS trajectories 2024-2053.
+      Gas: 18.35 USD/GJ in 2024 (spot price), 9.81 from 2025 (flat baseline).
+      Uranium: trajectory 1.5→5.6 USD/GJ.
+  - resource: pDemandForecast
+    coverage: >
+      Energy and Peak 2024-2053. Units appear to be in a different normalisation
+      than data_blacksea (3,765 GWh 2024 vs ~55,000 GWh actual). NOT used —
+      replaced by compute_epm_demand.py OWID-based forecast.
+  - resource: pAvailabilityCustom
+    coverage: >
+      181 generators: Cernavoda nuclear seasonal CFs, gas plant availability (~0.88-0.95),
+      hydro seasonal factors for all named plants.
+
+quality:
+  confidence: medium
+  notes: >
+    Well-established World Bank EPM model for Romania. Plant inventory is detailed
+    (Cernavoda lifecycle, coal retirement schedule, INECP committed pipeline).
+    Demand data NOT used — units inconsistent with data_blacksea.
+    Fuel WindLow1/2/3 and WindMed1/2/3 represent different resource quality tiers
+    (resource atlas approach); consolidated to single Wind fuel for data_blacksea.
+  used_in_studies: [data_blacksea]

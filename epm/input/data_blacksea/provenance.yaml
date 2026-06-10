@@ -767,3 +767,150 @@ Nakhchivan:
       2029-2030 COD recommended.
       HVDC Nakhchivan↔Türkiye (1000 MW, post-2030, no FID) not modeled.
     last_updated: 2026-06-10
+
+
+Romania:
+
+  pGenDataInput:
+    source_id: wb_epm_romania_v8
+    secondary_source_ids: [gem_gipt]
+    method: "DIRECT from WB EPM Romania v8.5 xlsb (cleaned + fuel-normalised); GEM GIPT cross-check"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          162 generators extracted and cleaned from WB_EPM_RO_12_42.xlsb via
+          pre-analysis/extract_epm_excel.py + pre-analysis/prepare_romania_for_blacksea.py.
+          Key fuel normalisation: Coal→DomesticCoal (domestic lignite), WindLow1/2/3 &
+          WindMed1/2/3→Wind (multi-tier resource atlas consolidated to single Wind profile).
+          GasCCS → Gas (CCS plants simplified). Geothermal, Hydrogen/H2 candidates dropped.
+          9 Generic Onshore Wind resource-class entries collapsed to:
+            "Generic Onshore Wind Romania" (120 GW potential, 2 GW/yr build limit).
+            "Generic Offshore Wind Romania" (94 GW Black Sea potential, 500 MW/yr build limit).
+          TPP Mintia capacity set to 495 MW (2 remaining units as of 2024).
+          R-Coal aggregate dropped (no documented capacity).
+          GEM GIPT (September 2025) used for cross-check: key differences noted in
+          nuclear commissioning (Cernavoda-3&4 Status=2), gas committed pipeline,
+          and Wind/PV installed capacity growth 2024–2025.
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Cernavoda-3 and Cernavoda-4 (Status=2, committed, 720 MW each): timing (StYr 2035/2036)
+      from WB EPM v8.5. Current status uncertain; Romania–Korea nuclear agreement 2024
+      suggests construction start ~2028, COD ~2035–2037. Verify with NUCLEARELECTRICA.
+      HPP Portile de Fier I (1166 MW) retires 2026 (life=50 from 1972) → extension
+      "HPP Portile de Fier I_ext" starts 2027. Real extension pending Romania–Serbia
+      feasibility study; recommend sensitivity scenario.
+      Gas price trajectory: xlsb 18.35 USD/GJ in 2024 → 9.81 flat from 2025. The
+      2024 value reflects high 2022 spot price; 9.81 from 2025 may be too low or too
+      high depending on TTF evolution. Cross-check with IEA WEO 2024 NPS.
+      Onshore wind capacity 2,968 MW existing appears low vs RWEA data (~4 GW by end 2023)
+      — some parks may have commissioned after xlsb calibration date.
+    last_updated: 2026-06-11
+
+  pDemandForecast:
+    source_id: owid_energy_data
+    method: "OWID/IEA base 54.4 TWh (2025) + CAGR -1.3%/yr (5-yr historical trend)"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT_EXTRAPOLATED
+        notes: >
+          Anchor: OWID electricity_demand 2025 = 54.4 TWh. CAGR = -1.3%/yr from
+          OWID 2020–2025 trend (industrial contraction + efficiency gains).
+          Peak estimated via load_factor=0.58.
+          2024: Energy=55,094 GWh, Peak=10,843 MW.
+          2030: Energy=51,005 GWh (declining).
+    confidence: low
+    needs_review: true
+    review_note: >
+      CAGR of -1.3%/yr reflects recent historical decline — not appropriate as a
+      planning scenario. Romania is expected to have significant electrification
+      (EVs, heat pumps, green hydrogen) that would reverse this trend.
+      Override recommended: use --growth 0.02 for moderate-growth scenario or
+      replace with Romania energy strategy official forecast (ANRE/MoE).
+      2053 value (37,952 GWh) is likely understated by 30-50% for a transition
+      scenario. Flag for revision before model submission.
+    last_updated: 2026-06-11
+
+  pDemandProfile:
+    source_id: teias_hourly_load
+    proxy_of: "ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)"
+    method: "DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load data).
+          Seasonal mean per (season, hour), normalized by peak.
+          Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring),
+          Q3_mean=0.651 (summer AC), Q4_mean=0.698.
+          All d1–d6 daytypes within a season share the same seasonal mean profile.
+          Computed via compute_epm_demand.py --country ROU --profile.
+    confidence: high
+    needs_review: false
+    last_updated: 2026-06-11
+
+  pVREProfile:
+    source_id: gem_gipt
+    method: "Renewables Ninja multi-year seasonal mean CF (2010-2019), Romania centroid"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          PV and OnshoreWind profiles from Renewables Ninja API output
+          (blacksea_run1/ninja/ directory, Romania centroid coordinates).
+          Multi-year seasonal mean per (season, hour), normalized by tech maximum.
+          PV: Q1=0.204, Q2=0.313 (spring solar), Q3=0.326 (summer peak), Q4=0.183.
+          OnshoreWind: Q1=0.910 (winter wind), Q2=0.666, Q3=0.592 (summer low), Q4=0.805.
+          All d1–d6 daytypes share the same seasonal mean (simplified).
+          Computed via compute_epm_vre.py --country ROU.
+    confidence: high
+    needs_review: false
+    last_updated: 2026-06-11
+
+  pFuelPrice:
+    source_id: wb_epm_romania_v8
+    method: "DIRECT from WB EPM Romania v8.5 xlsb (Gas trajectory + Uranium trajectory)"
+    method_table:
+      - period: "2024"
+        method: DIRECT
+        notes: >
+          Gas: 18.35 USD/GJ (high 2022 spot price still in WB EPM v8.5 2024 calibration).
+          This value reflects TTF peak period — likely should be revised downward.
+      - period: "2025–2053"
+        method: DIRECT
+        notes: >
+          Gas: 9.81 USD/GJ flat (WB EPM v8.5 baseline European gas assumption from 2025).
+          DomesticCoal (lignite): 4.4 USD/GJ flat (Oltenia Basin domestic lignite price).
+          Uranium: trajectory from 1.5 USD/GJ (2024) → 5.6 USD/GJ (2053), reflecting
+          nuclear fuel cycle cost escalation (WB EPM v8.5 assumption).
+          Biomass: 5.0 USD/GJ flat (added; European biomass pellet market price estimate).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Gas price trajectory from xlsb is flat from 2025 (9.81 USD/GJ = ~10.4 USD/MMBtu).
+      As of 2025-2026, European TTF forward prices are 7-9 USD/MMBtu — trajectory may
+      be slightly high. Cross-check with IEA WEO 2024 Stated Policies European gas price.
+      DomesticCoal: 4.4 USD/GJ is a benchmark; actual Oltenia/CE Oltenia generator
+      fuel cost should be verified with ANRE tariff filings.
+    last_updated: 2026-06-11
+
+  pAvailabilityCustom:
+    source_id: wb_epm_romania_v8
+    method: "DIRECT from WB EPM Romania v8.5 GenAvailability (Cernavoda + hydro + gas)"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          181 generators with quarterly CFs from GenAvailability sheet of WB_EPM_RO_12_42.xlsb.
+          Key entries:
+          Cernavoda-1: Q1=0.823, Q2=0.755, Q3=0.823, Q4=0.823 (annual outage in Q2).
+          Cernavoda-1_refurbished: Q1=0.915, Q2=0.821, Q3=0.892, Q4=0.892 (post-refurb CF).
+          Cernavoda-2: Q1=0.900, Q2=0.798, Q3=0.900, Q4=0.900 (planned outage Q2).
+          Cernavoda-3&4: Q1=Q2=Q3=Q4=0.930 (new build assumption).
+          Hydro seasonal CFs: individual plant-specific quarterly availability
+          (12 ROR + 12 ReservoirHydro plants, reflecting Olt/Danube/Bistrita seasonal regimes).
+          Gas plants: 0.88–0.95 flat quarterly (plant-specific from WB EPM model).
+    confidence: high
+    needs_review: false
+    last_updated: 2026-06-11

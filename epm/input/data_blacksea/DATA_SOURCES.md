@@ -6,27 +6,27 @@
 
 ## Model overview
 
-**Countries**: Turkiye, Armenia, Georgia, Azerbaijan  
+**Countries**: Turkiye, Armenia, Georgia, Azerbaijan, Romania  
 **Data horizon**: 2024–2053 · step: 1 year
 
 
-| Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan |
-|---|---|---|---|---|---|---|---|
-| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) |
-| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
-| Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) |
-| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) |
-| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — |
-| Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — |
-| Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — |
-| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment |
-| Trade | Transmission losses | `pLossFactorInternal` | Cross-border interconnector losses (% by corridor) | — | — | — | — |
-| Trade | Trade prices | `pTradePrice` | Import/export prices with temporal variability ($/MWh) — external zones | — | — | — | — |
-| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | — | — | — | — |
-| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | — | — | — | — |
-| Other | Fuel and import limits | `pMaxFuelLimit` | Caps or floors on fuel use or electricity imports (e.g. gas import quotas) | — | — | — | — |
+| Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | Romania |
+|---|---|---|---|---|---|---|---|---|
+| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1) |
+| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) |
+| Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) |
+| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) |
+| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) |
+| Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — |
+| Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — |
+| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — |
+| Trade | Transmission losses | `pLossFactorInternal` | Cross-border interconnector losses (% by corridor) | — | — | — | — | — |
+| Trade | Trade prices | `pTradePrice` | Import/export prices with temporal variability ($/MWh) — external zones | — | — | — | — | — |
+| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | — | — | — | — | — |
+| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | — | — | — | — | — |
+| Other | Fuel and import limits | `pMaxFuelLimit` | Caps or floors on fuel use or electricity imports (e.g. gas import quotas) | — | — | — | — | — |
 
 ---
 
@@ -38,6 +38,7 @@
 - [Armenia](#armenia) — [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pVREProfile`](#armenia-pvreprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
 - [Georgia](#georgia) — [`pGenDataInput`](#georgia-pgendatainput) · [`pDemandForecast`](#georgia-pdemandforecast) · [`pDemandProfile`](#georgia-pdemandprofile) · [`pVREProfile`](#georgia-pvreprofile) · [`pFuelPrice`](#georgia-pfuelprice) · [`pAvailabilityCustom`](#georgia-pavailabilitycustom)
 - [Azerbaijan](#azerbaijan) — [`pGenDataInput`](#azerbaijan-pgendatainput) · [`pDemandForecast`](#azerbaijan-pdemandforecast) · [`pDemandProfile`](#azerbaijan-pdemandprofile) · [`pFuelPrice`](#azerbaijan-pfuelprice) · [`pAvailabilityCustom`](#azerbaijan-pavailabilitycustom) · [`pTransferLimit`](#azerbaijan-ptransferlimit)
+- [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom)
 
 ---
 
@@ -525,6 +526,150 @@
  |
 
 *Confidence: [MEDIUM] · Last updated: 2026-06-10*
+
+
+---
+
+<a id="romania"></a>
+
+## Romania
+
+[&#8593; Contents](#toc)
+
+### Summary
+
+| Parameter | Source | Confidence |
+|---|---|---|
+| [`pDemandForecast`](#romania-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
+| [`pDemandProfile`](#romania-pdemandprofile) | proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1) | [HIGH] |
+| [`pGenDataInput`](#romania-pgendatainput) | World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | [MEDIUM] ⚠ |
+| [`pFuelPrice`](#romania-pfuelprice) | World Bank EPM Romania v8.5 (2… (2024) | [MEDIUM] ⚠ |
+| [`pAvailabilityCustom`](#romania-pavailabilitycustom) | World Bank EPM Romania v8.5 (2… (2024) | [HIGH] |
+| [`pVREProfile`](#romania-pvreprofile) | Global Energy Monitor (GEM) (2025-09) | [HIGH] |
+
+<a id="romania-pgendatainput"></a>
+
+### `pGenDataInput`
+
+[&#8593; Romania](#romania)
+
+**Source**: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented (`wb_epm_romania_v8`)
+
+**Also uses**: [Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/)
+
+> ⚠ **Needs review**: Cernavoda-3 and Cernavoda-4 (Status=2, committed, 720 MW each): timing (StYr 2035/2036) from WB EPM v8.5. Current status uncertain; Romania–Korea nuclear agreement 2024 suggests construction start ~2028, COD ~2035–2037. Verify with NUCLEARELECTRICA. HPP Portile de Fier I (1166 MW) retires 2026 (life=50 from 1972) → extension "HPP Portile de Fier I_ext" starts 2027. Real extension pending Romania–Serbia feasibility study; recommend sensitivity scenario. Gas price trajectory: xlsb 18.35 USD/GJ in 2024 → 9.81 flat from 2025. The 2024 value reflects high 2022 spot price; 9.81 from 2025 may be too low or too high depending on TTF evolution. Cross-check with IEA WEO 2024 NPS. Onshore wind capacity 2,968 MW existing appears low vs RWEA data (~4 GW by end 2023) — some parks may have commissioned after xlsb calibration date.
+
+
+**Method**: DIRECT from WB EPM Romania v8.5 xlsb (cleaned + fuel-normalised); GEM GIPT cross-check
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | 162 generators extracted and cleaned from WB_EPM_RO_12_42.xlsb via pre-analysis/extract_epm_excel.py + pre-analysis/prepare_romania_for_blacksea.py. Key fuel normalisation: Coal→DomesticCoal (domestic lignite), WindLow1/2/3 & WindMed1/2/3→Wind (multi-tier resource atlas consolidated to single Wind profile). GasCCS → Gas (CCS plants simplified). Geothermal, Hydrogen/H2 candidates dropped. 9 Generic Onshore Wind resource-class entries collapsed to:
+  "Generic Onshore Wind Romania" (120 GW potential, 2 GW/yr build limit).
+  "Generic Offshore Wind Romania" (94 GW Black Sea potential, 500 MW/yr build limit).
+TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggregate dropped (no documented capacity). GEM GIPT (September 2025) used for cross-check: key differences noted in nuclear commissioning (Cernavoda-3&4 Status=2), gas committed pipeline, and Wind/PV installed capacity growth 2024–2025.
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-11*
+
+
+<a id="romania-pdemandforecast"></a>
+
+### `pDemandForecast`
+
+[&#8593; Romania](#romania)
+
+**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+
+> ⚠ **Needs review**: CAGR of -1.3%/yr reflects recent historical decline — not appropriate as a planning scenario. Romania is expected to have significant electrification (EVs, heat pumps, green hydrogen) that would reverse this trend. Override recommended: use --growth 0.02 for moderate-growth scenario or replace with Romania energy strategy official forecast (ANRE/MoE). 2053 value (37,952 GWh) is likely understated by 30-50% for a transition scenario. Flag for revision before model submission.
+
+
+**Method**: OWID/IEA base 54.4 TWh (2025) + CAGR -1.3%/yr (5-yr historical trend)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 54.4 TWh. CAGR = -1.3%/yr from OWID 2020–2025 trend (industrial contraction + efficiency gains). Peak estimated via load_factor=0.58. 2024: Energy=55,094 GWh, Peak=10,843 MW. 2030: Energy=51,005 GWh (declining).
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-11*
+
+
+<a id="romania-pdemandprofile"></a>
+
+### `pDemandProfile`
+
+[&#8593; Romania](#romania)
+
+**Proxied from**: ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)  
+**Original source**: TEİAŞ — Turkiye hourly load data (likely)
+
+**Method**: DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load data). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring), Q3_mean=0.651 (summer AC), Q4_mean=0.698. All d1–d6 daytypes within a season share the same seasonal mean profile. Computed via compute_epm_demand.py --country ROU --profile.
+ |
+
+*Confidence: [HIGH] · Last updated: 2026-06-11*
+
+
+<a id="romania-pvreprofile"></a>
+
+### `pVREProfile`
+
+[&#8593; Romania](#romania)
+
+**Source**: Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT) (`gem_gipt`)
+
+**Method**: Renewables Ninja multi-year seasonal mean CF (2010-2019), Romania centroid
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | PV and OnshoreWind profiles from Renewables Ninja API output (blacksea_run1/ninja/ directory, Romania centroid coordinates). Multi-year seasonal mean per (season, hour), normalized by tech maximum. PV: Q1=0.204, Q2=0.313 (spring solar), Q3=0.326 (summer peak), Q4=0.183. OnshoreWind: Q1=0.910 (winter wind), Q2=0.666, Q3=0.592 (summer low), Q4=0.805. All d1–d6 daytypes share the same seasonal mean (simplified). Computed via compute_epm_vre.py --country ROU.
+ |
+
+*Confidence: [HIGH] · Last updated: 2026-06-11*
+
+
+<a id="romania-pfuelprice"></a>
+
+### `pFuelPrice`
+
+[&#8593; Romania](#romania)
+
+**Source**: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented (`wb_epm_romania_v8`)
+
+> ⚠ **Needs review**: Gas price trajectory from xlsb is flat from 2025 (9.81 USD/GJ = ~10.4 USD/MMBtu). As of 2025-2026, European TTF forward prices are 7-9 USD/MMBtu — trajectory may be slightly high. Cross-check with IEA WEO 2024 Stated Policies European gas price. DomesticCoal: 4.4 USD/GJ is a benchmark; actual Oltenia/CE Oltenia generator fuel cost should be verified with ANRE tariff filings.
+
+
+**Method**: DIRECT from WB EPM Romania v8.5 xlsb (Gas trajectory + Uranium trajectory)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024 | `DIRECT` | Gas: 18.35 USD/GJ (high 2022 spot price still in WB EPM v8.5 2024 calibration). This value reflects TTF peak period — likely should be revised downward.
+ |
+| 2025–2053 | `DIRECT` | Gas: 9.81 USD/GJ flat (WB EPM v8.5 baseline European gas assumption from 2025). DomesticCoal (lignite): 4.4 USD/GJ flat (Oltenia Basin domestic lignite price). Uranium: trajectory from 1.5 USD/GJ (2024) → 5.6 USD/GJ (2053), reflecting nuclear fuel cycle cost escalation (WB EPM v8.5 assumption). Biomass: 5.0 USD/GJ flat (added; European biomass pellet market price estimate).
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-11*
+
+
+<a id="romania-pavailabilitycustom"></a>
+
+### `pAvailabilityCustom`
+
+[&#8593; Romania](#romania)
+
+**Source**: World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented (`wb_epm_romania_v8`)
+
+**Method**: DIRECT from WB EPM Romania v8.5 GenAvailability (Cernavoda + hydro + gas)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | 181 generators with quarterly CFs from GenAvailability sheet of WB_EPM_RO_12_42.xlsb. Key entries: Cernavoda-1: Q1=0.823, Q2=0.755, Q3=0.823, Q4=0.823 (annual outage in Q2). Cernavoda-1_refurbished: Q1=0.915, Q2=0.821, Q3=0.892, Q4=0.892 (post-refurb CF). Cernavoda-2: Q1=0.900, Q2=0.798, Q3=0.900, Q4=0.900 (planned outage Q2). Cernavoda-3&4: Q1=Q2=Q3=Q4=0.930 (new build assumption). Hydro seasonal CFs: individual plant-specific quarterly availability (12 ROR + 12 ReservoirHydro plants, reflecting Olt/Danube/Bistrita seasonal regimes). Gas plants: 0.88–0.95 flat quarterly (plant-specific from WB EPM model).
+ |
+
+*Confidence: [HIGH] · Last updated: 2026-06-11*
 
 
 ---
