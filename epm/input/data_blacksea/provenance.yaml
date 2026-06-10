@@ -348,14 +348,23 @@ AzerbaijanMain:
           listed as Azerbaijan have been moved to the Nakhchivan zone. Nakhchivan
           capacity no longer appears in AzerbaijanMain supply.
           Sarsang ReservoirHydro (50 MW, Tartar River, Karabakh) retained in AzerbaijanMain.
+          HeatRate (GJ/MWh) calibrated from SSC 002_53-55en ÷ 005_4en by vintage:
+            Old CCGTs (StYr 2001-2009): 10.2 GJ/MWh — matches SSC 2020-2023 system
+            average of 10.18 GJ/MWh (gas consumed in TJ / thermal electricity in MWh).
+            Modern CCGTs (Janub 2013, Shimal 2019, Gobu 2022): 7.5 GJ/MWh — estimated
+            from GE Frame 9/Siemens SGT5 design specifications (~48% LHV efficiency).
+            Committed CCGTs (Mingecevir 4x320 MW, Status=2): 7.0 GJ/MWh (new build).
+            Nakhchivan_CCGT (2007 vintage): 10.2 GJ/MWh (same as old AZ fleet).
+            Nakhchivan_GasTurbine_OCGT (2005): 12.0 GJ/MWh (open cycle, ~30% eff).
     confidence: medium
     needs_review: true
     review_note: >
-      All tech params from generic defaults — no country-specific calibrated model.
+      HeatRate includes gas consumed for district heat (CHP) per SSC definition —
+      the fuel/electricity ratio (10.2 GJ/MWh for old plants) reflects actual AZ
+      power sector gas cost per MWh, not nameplate design efficiency.
+      Modern plants (Janub/Shimal/Gobu) use design efficiency estimate (7.5 GJ/MWh),
+      not SSC data (individual plant fuel data not available from SSC).
       Committed large CCGT (Mingecevir 1280 MW) status/year to confirm.
-      Old Soviet-era plants (8x300 MW ST Gas, 1990) excluded as pre-2025 retirees.
-      TODO: Derive HeatRate for CCGT generators from SSC 002_53-55en ÷ 005_4en
-      (HIGH priority recommendation from Azerbaijan_SSC_Data_Index.xlsx).
     last_updated: 2026-06-10
 
   pDemandForecast:
