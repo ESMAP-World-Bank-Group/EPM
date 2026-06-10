@@ -58,7 +58,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <body>
 <h1>Data Sources — EPM — Black Sea 2026</h1>
 <p class="meta">
-  Generated 2026-06-05 &nbsp;&middot;&nbsp;
+  Generated 2026-06-10 &nbsp;&middot;&nbsp;
   Turkiye, Armenia, Georgia, Azerbaijan &nbsp;&middot;&nbsp;
   Data horizon: 2024–2053 · step: 1 year
 </p>
@@ -86,7 +86,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pdemandforecast">CESI/EPSO (2022)</a></td>
 <td class="status-review"><a href="#georgia-pdemandforecast">&#9651; Georgia Hourly Load Profile wi… (2022)</a></td>
-<td class="status-review"><a href="#azerbaijan-pdemandforecast">&#9651; owid_energy_data</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Hourly demand profile</td>
@@ -95,7 +95,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
 <td class="status-review"><a href="#georgia-pdemandprofile">&#9651; Georgia Hourly Load Profile wi… (2022)</a></td>
-<td class="status-review"><a href="#azerbaijan-pdemandprofile">&#9651; run_blacksea_data_proxy</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr class="cat-row"><td colspan="7">Supply</td></tr>
 <tr>
@@ -105,7 +105,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pgendatainput">CESI/EPSO (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 <td class="status-review"><a href="#georgia-pgendatainput">&#9651; SESA/WB Georgia Generation Dat… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + WB EPM Georgia v8.5 (2022) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
-<td class="status-review"><a href="#azerbaijan-pgendatainput">&#9651; gem_gipt + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -114,7 +114,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pfuelprice">TYNDP / IEA World Energy Outlo… (2022)</a></td>
 <td class="status-review"><a href="#georgia-pfuelprice">&#9651; Georgia Fuel Subsidies Databas… (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
-<td class="status-review"><a href="#azerbaijan-pfuelprice">&#9651; imf_energy_subsidies + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -123,7 +123,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-pending">&mdash;</td>
 <td class="status-done"><a href="#armenia-pavailabilitycustom">World Nuclear Association (updated annually) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 <td class="status-review"><a href="#georgia-pavailabilitycustom">&#9651; WB EPM Georgia v8.5 (2022) (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022</a></td>
-<td class="status-review"><a href="#azerbaijan-pavailabilitycustom">&#9651; WB EPM Georgia v8.5 (2022) (2022)</a></td>
+<td class="status-pending">&mdash;</td>
 </tr>
 <tr>
 <td>Storage assumptions</td>
@@ -235,8 +235,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <a href="#georgia-pgendatainput"><code>pGenDataInput</code></a>, <a href="#georgia-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#georgia-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#georgia-pvreprofile"><code>pVREProfile</code></a>, <a href="#georgia-pfuelprice"><code>pFuelPrice</code></a>, <a href="#georgia-pavailabilitycustom"><code>pAvailabilityCustom</code></a>
 </li>
 <li><a href="#azerbaijan"><strong>Azerbaijan</strong></a>
- &mdash; 
-<a href="#azerbaijan-pgendatainput"><code>pGenDataInput</code></a>, <a href="#azerbaijan-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#azerbaijan-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#azerbaijan-pfuelprice"><code>pFuelPrice</code></a>, <a href="#azerbaijan-pavailabilitycustom"><code>pAvailabilityCustom</code></a>
+ <em>not yet documented</em>
 </li>
 </ul></div>
 <hr>
@@ -418,73 +417,6 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <hr>
 <h2 id="azerbaijan">Azerbaijan</h2>
 <p class="back"><a href="#toc">&#8593; Contents</a></p>
-<h3>Summary</h3>
-<table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
-<tr><td><a href="#azerbaijan-pdemandforecast"><code>pDemandForecast</code></a></td><td>owid_energy_data</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-<tr><td><a href="#azerbaijan-pdemandprofile"><code>pDemandProfile</code></a></td><td>run_blacksea_data_proxy</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-<tr><td><a href="#azerbaijan-pgendatainput"><code>pGenDataInput</code></a></td><td>gem_gipt + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-<tr><td><a href="#azerbaijan-pfuelprice"><code>pFuelPrice</code></a></td><td>imf_energy_subsidies + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-<tr><td><a href="#azerbaijan-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>WB EPM Georgia v8.5 (2022) (2022)</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-</tbody></table>
-<h3 id="azerbaijan-pgendatainput"><code>pGenDataInput</code></h3>
-<p class="back"><a href="#azerbaijan">&#8593; Azerbaijan</a></p>
-<p><strong>Source</strong>: gem_gipt <code>(gem_gipt)</code></p>
-<p><strong>Also uses</strong>: <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: All tech params from generic defaults — no country-specific calibrated model. Committed large CCGT (Mingecevir 1280 MW) status/year to confirm. Old Soviet-era plants (8x300 MW ST Gas, 1990) excluded as pre-2025 retirees.
-</div>
-<p><strong>Method</strong>: DIRECT from GEM GIPT September 2025 via compute_epm_gendata.py</p>
-<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>57 GEM/GIPT plants mapped to 39 EPM rows (plants with RetrYr&lt;2025 excluded). Gas: year&lt;2000 -&gt; ST, year&gt;=2000 -&gt; CCGT. Hydro -&gt; ReservoirHydro. Technical params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults. Committed: Mingecevir CCGT 4x320 MW (StYr=2025).
-</td></tr>
-</tbody></table>
-<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-05</p>
-<h3 id="azerbaijan-pdemandforecast"><code>pDemandForecast</code></h3>
-<p class="back"><a href="#azerbaijan">&#8593; Azerbaijan</a></p>
-<p><strong>Source</strong>: owid_energy_data <code>(owid_energy_data)</code></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: Peak demand estimated from energy via load factor (0.58) — no independent peak data source. CAGR 1.9%/yr based on 5-year trend; may underestimate if electrification accelerates. Confirm with SOCAR/Ministry energy balance.
-</div>
-<p><strong>Method</strong>: DIRECT from OWID electricity_demand + CAGR extrapolation + load-factor peak</p>
-<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>DIRECT_EXTRAPOLATED</code></td><td>Anchor: OWID electricity_demand 2025 = 27.17 TWh (net consumption). CAGR = 1.9%/yr computed from OWID 2020-2025 trend. Peak estimated via load_factor=0.58: Peak_MW = (demand_TWh*1e6/8760) / 0.58. 2024: Energy=26666 GWh, Peak=5248 MW. Computed via compute_epm_demand.py --country AZE.
-</td></tr>
-</tbody></table>
-<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-05</p>
-<h3 id="azerbaijan-pdemandprofile"><code>pDemandProfile</code></h3>
-<p class="back"><a href="#azerbaijan">&#8593; Azerbaijan</a></p>
-<p><strong>Source</strong>: run_blacksea_data_proxy <code>(run_blacksea_data_proxy)</code></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: PROXY — no Azerbaijan-specific hourly load data. Turkey shape used as proxy (similar climate: continental, hot summers, cold winters). TO RECOMPUTE: run full representative-days pipeline for all Black Sea countries (including AZ) with VRE profiles when all country data is available. Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
-</div>
-<p><strong>Method</strong>: PROXY Turkey shape from ENTSO-E, scaled to AZ demand, seasonal mean</p>
-<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>PROXY_Turkey</code></td><td>Load shape: Turkey ENTSO-E hourly profile scaled to AZ annual energy (from run_blacksea_data.py, AZE_ANNUAL_MWH=29.3 TWh). Seasonal mean per quarter (Q1-Q4), all d1-d6 share same mean profile. Q1_mean=0.737 (winter heating peak), Q3_mean=0.651 (summer). Computed via compute_epm_demand.py --country AZE --profile.
-</td></tr>
-</tbody></table>
-<p class="back">Confidence: [LOW] · Last updated: 2026-06-05</p>
-<h3 id="azerbaijan-pfuelprice"><code>pFuelPrice</code></h3>
-<p class="back"><a href="#azerbaijan">&#8593; Azerbaijan</a></p>
-<p><strong>Source</strong>: imf_energy_subsidies <code>(imf_energy_subsidies)</code></p>
-<p><strong>Also uses</strong>: <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022 — commodity prices</a></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: Supply price (4.46 $/MMBtu) is between domestic subsidized retail (~$1.5-2/MMBtu) and export opportunity cost (~$6-8/MMBtu via TANAP). Choice justification: reflects actual generator economics for planning model. If WB study requires economic (opportunity) cost approach, use ~$6.5/MMBtu. IMF data covers 2015-2025; forward trajectory based on Armenia CAGR.
-</div>
-<p><strong>Method</strong>: DIRECT supply price from IMF subsidy database (Gas) + flat estimate (Biomass)</p>
-<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2025</td><td><code>DIRECT</code></td><td>Gas: mit_sp_nga_pow (supply price paid by power generators) from Georgia_fuel-subsidies_2022.xlsx 'data' sheet, country=AZE. 2024 = 4.225 USD/GJ = 4.46 USD/MMBtu (converted at 1 GJ = 0.9478 MMBtu). This is NOT the domestic subsidized retail price (~$1.5-2/MMBtu) NOR the full export/opportunity cost (~$6-8/MMBtu) — it is the actual price charged to power generators by SOCAR.
-</td></tr>
-<tr><td>2026–2053</td><td><code>EXTRAPOLATED</code></td><td>Growth trajectory applied from Armenia (tyndp_iea_weo_2022): same year-on-year increments (+0.033/yr to 2040, +0.022/yr beyond). Biomass: 0.50 USD/MMBtu flat (Balakhani landfill gas, quasi-free fuel).
-</td></tr>
-</tbody></table>
-<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-05</p>
-<h3 id="azerbaijan-pavailabilitycustom"><code>pAvailabilityCustom</code></h3>
-<p class="back"><a href="#azerbaijan">&#8593; Azerbaijan</a></p>
-<p><strong>Source</strong>: WB EPM Georgia v8.5 (2022) — Technical Parameters <code>(wb_epm_georgia_v85)</code></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: Proxy from Georgia Enguri calibration — no Azerbaijan-specific hydrological data used. Should be replaced with actual Mingechevir seasonal generation data when available (e.g., GRDC Kura discharge at Mingechevir gauge, or AzerEnerji annual generation reports). Mingechevir has 16 km3 storage capacity — actual seasonal dispatch also depends on irrigation releases and operational decisions, not just inflows.
-</div>
-<p><strong>Method</strong>: PROXY from Georgia Kura River calibration — same river system</p>
-<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>PROXY_Georgia_Kura</code></td><td>5 ReservoirHydro plants (Mingechevir, Shamkir, Yenikend, Khudafarin, Gyz Galasy): all on Kura River downstream of Georgia. Seasonal pattern proxied from WB EPM Georgia v8.5 Enguri calibration (Q1=0.21, Q2=0.48, Q3=0.52, Q4=0.20) — physically justified: same catchment, same snowmelt-driven seasonal cycle. All 5 plants share same seasonal CF (no plant-specific data available). Thermal/Biomass/VRE: no custom — generic defaults apply.
-</td></tr>
-</tbody></table>
-<p class="back">Confidence: [LOW] · Last updated: 2026-06-05</p>
-<hr>
+<p><em>No data documented yet for this country.</em></p><hr>
 </body>
 </html>

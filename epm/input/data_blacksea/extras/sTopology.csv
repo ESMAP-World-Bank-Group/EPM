@@ -45,5 +45,10 @@ Romania,Bulgaria
 Bulgaria,Romania
 Georgia,Armenia
 Armenia,Georgia
-Georgia,Azerbaijan
-Azerbaijan,Georgia
+Georgia,AzerbaijanMain
+AzerbaijanMain,Georgia
+Nakhchivan,AzerbaijanMain
+AzerbaijanMain,Nakhchivan
+Nakhchivan,EastAna
+EastAna,Nakhchivan
+Nakhchivan,Inter_Nakhchivan_Iran

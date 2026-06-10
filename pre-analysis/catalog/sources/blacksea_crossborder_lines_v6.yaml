@@ -1,0 +1,31 @@
+id: blacksea_crossborder_lines_v6
+name: "Black Sea Cross-Border Lines Database v6"
+type: internal
+url: ""
+date: "2026"
+access_note: >
+  Internal database of cross-border transmission infrastructure for the
+  Black Sea region. Compiled from ENTSO-E, national TSO publications,
+  project documentation, and expert knowledge.
+  Local file: Data/blacksea_crossborder_lines_v6.xlsx
+  Nakhchivan-specific entries:
+    - Nakhchivan ↔ Iran: Babek/Julfa → Khoy/Marand, 132/220 kV, ~50–100 MW, 2005
+    - Nakhchivan ↔ Türkiye: Sederek/Babek → Iğdır, 154 kV, ~50 MW, existing
+    - Nakhchivan ↔ Türkiye HVDC: 400 kV, ~1000 MW, post-2030, no FID
+    - AzerbaijanMain ↔ Nakhchivan: 330 kV double-circuit (Zangezur), 1000 MW,
+      committed, construction launched Jan 2026, COD 2027–2028
+coverage:
+  countries: [Armenia, Azerbaijan, Georgia, Turkey, Bulgaria, Romania, Moldova, Ukraine]
+  years: "current infrastructure + planned to 2035"
+fills_epm_resources:
+  - resource: pTransferLimit
+    coverage: "Nakhchivan ↔ EastAna (50 MW), AzerbaijanMain ↔ Nakhchivan (0→1000 MW at 2028)"
+  - resource: pExtTransferLimit
+    coverage: "Nakhchivan ↔ Inter_Nakhchivan_Iran (50 MW import/export)"
+quality:
+  confidence: medium
+  notes: >
+    Cross-border capacities are indicative (rated line capacity, not
+    operational transmission limit). Actual NTC may differ due to
+    operational constraints, voltage stability, and aging equipment.
+    Iran swap line capacity (50–100 MW rated) uses 50 MW as conservative estimate.

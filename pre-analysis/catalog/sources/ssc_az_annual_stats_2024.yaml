@@ -1,0 +1,28 @@
+id: ssc_az_annual_stats_2024
+name: "SSC Azerbaijan — Annual Energy Statistics (1913–2024)"
+type: official_statistics
+url: "https://stat.gov.az/source/balance_energy/"
+date: "2024"
+access_note: >
+  State Statistical Committee (SSC) of Azerbaijan Republic, annual energy
+  statistics publication. Key tables used:
+    005_3en.xls — Installed plant capacity by type (MW), 2024 final row = 7115 MW
+    005_4en.xls — Electricity production by type (million kWh), 2024 = 28413 GWh
+    005_7en.xls — Natural gas consumption by region (million m³), 2015–2024
+    005_8en.xls — Residential electricity by region (million kWh), 2015–2024
+  Local files: Data/Azerbaijan/SSC/005_3en.xls, 005_4en.xls, 005_7en.xls, 005_8en.xls
+coverage:
+  countries: [Azerbaijan]
+  years: "historical 1913–2024"
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    coverage: "Solar CF (556.4 GWh / 257.6 MW installed = 24.6% in 2024)"
+  - resource: pGenDataInput
+    coverage: "Capacity cross-check; HeatRate derivation (002_53-55en ÷ 005_4en, TODO)"
+quality:
+  confidence: high
+  notes: >
+    Official SSC data. 2024 preliminary values may be revised. Regional
+    breakdown (for Nakhchivan residential consumption) only in 005_8en.
+    Heat rate derivation (fuel consumed / electricity produced) requires
+    002_53-55en table (fuel consumption by plant type) — not yet processed.

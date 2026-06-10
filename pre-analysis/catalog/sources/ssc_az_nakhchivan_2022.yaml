@@ -1,0 +1,30 @@
+id: ssc_az_nakhchivan_2022
+name: "SSC Nakhchivan — Capacity, generation mix, GDP/electricity (2003–2022)"
+type: official_statistics
+url: "https://statistika.nmr.az/"
+date: "2022"
+access_note: >
+  Data extracted from: Mammadova, Aytan (Nakhchivan State University / NSU),
+  "Alternative Energy Production in Nakhchivan Autonomous Republic" — tables
+  sourced from statistika.nmr.az (Statistical Committee of Nakhchivan AR).
+  Local files:
+    Data/Azerbaijan/SSC/Nakh_capacity_installed_2022.csv
+    Data/Azerbaijan/SSC/Nakh_generation_mix_2003-2021.csv
+    Data/Azerbaijan/SSC/Nakh_gdp_electricity_2003-2021.csv
+coverage:
+  countries: [Azerbaijan]
+  zones: [Nakhchivan]
+  years: "2003–2022 (generation mix breakdown only for 2020–2021)"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "Nakhchivan installed capacity by plant (thermal, hydro, solar, wind)"
+  - resource: pDemandForecast
+    coverage: "Nakhchivan energy demand via generation-balance method"
+  - resource: pAvailabilityCustom
+    coverage: "Nakhchivan hydro seasonal CF (Arpachay), solar CF"
+quality:
+  confidence: medium
+  notes: >
+    Official Nakhchivan AR statistical authority. Generation mix breakdown
+    only available for 2020–2021. Capacity snapshot is ~Oct 2022 (last event:
+    Julfa wind farm inauguration). No individual plant-level operational data.
