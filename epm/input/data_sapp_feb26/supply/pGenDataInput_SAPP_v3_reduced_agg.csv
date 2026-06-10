@@ -255,7 +255,7 @@ New_PV_ZMB,Zambia,PV,Solar,2028,2060,5000,3,,,,,,,,,,0.8,,200,,,,,1,
 Muzarabani_TH_ZWE,Zimbabwe,CCGT,Gas,2027,2052,500,3,0.2,9.75,0.1,0.1,,0.2,,,,,,200,,,,0.05,,
 New_PV_2040_LSO,Lesotho,PV,Solar,2040,2070,500,3,,,,,,,,,,0.8,,12,,,,,1,
 Nzoro_HY_DRC,DRC,ReservoirHydro,Water,2024,2104,378,3,,,,,,,,,,,,109,0,,0,0,0,0
-PV_2027_MWI,Malawi,PV,Solar,2027,2060,6000,3,,,,,,,,,,0.8,,50,,,,,1,
+PV_2027_MWI,Malawi,PV,Solar,2027,2060,6000,3,,,,,,,,,,0.8,,40,,,,,1,
 Mtera_HY_TZA,Tanzania,ReservoirHydro,Water,1988,2060,80,1,,,0.25,0.25,,0.24,,,0,,50,,,,,,,
 PV_Tender3_BESS_SWZ,Eswatini,PV,Solar,2030,2060,5000,3,,,,,,,,,,1.5,25,50,,,,,,
 New_Pangani_Falls_HY_TZA,Tanzania,ROR,Water,1995,2060,68,1,,,0.25,0.25,,0.2,,,0,,,,,,,,,
