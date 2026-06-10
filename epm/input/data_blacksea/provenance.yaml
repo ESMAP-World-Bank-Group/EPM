@@ -344,7 +344,7 @@ AzerbaijanMain:
           Gas: year<2000 -> ST, year>=2000 -> CCGT. Hydro -> ReservoirHydro.
           Technical params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults.
           Committed: Mingecevir CCGT 4x320 MW (StYr=2025).
-          Note: Nakhchivan_CCGT (87 MW) and Nakhchivan_Solar_PV (35 MW) previously
+          Note: Nakhchivan_CCGT (87 MW) and Nakhchivan_Solar_PV (20 MW) previously
           listed as Azerbaijan have been moved to the Nakhchivan zone. Nakhchivan
           capacity no longer appears in AzerbaijanMain supply.
           Sarsang ReservoirHydro (50 MW, Tartar River, Karabakh) retained in AzerbaijanMain.
@@ -356,15 +356,39 @@ AzerbaijanMain:
             Committed CCGTs (Mingecevir 4x320 MW, Status=2): 7.0 GJ/MWh (new build).
             Nakhchivan_CCGT (2007 vintage): 10.2 GJ/MWh (same as old AZ fleet).
             Nakhchivan_GasTurbine_OCGT (2005): 12.0 GJ/MWh (open cycle, ~30% eff).
+          Calibration corrections (2026-06-10):
+            Azerbaijan_CHP_Legacy (985 MW, StYr=1985, RetrYr=2029): aggregate of CHP
+            and district-heating plants that generate ~4300 GWh/yr in 2024 and are not
+            captured in GEM/GIPT utility plant list. HeatRate=12.5 GJ/MWh (old CHP,
+            ~28% efficiency). Derived from SSC 003_1.18en CHP row vs SSC 005_3en
+            thermal capacity.
+            Azerbaijan_Khudafarin_Khoda_Afa_ReservoirHydro and Gyz_Galasy_ReservoirHydro
+            StYr shifted 2024→2026: SSC 005_3en shows hydro capacity dropping 1209→1062 MW
+            in 2024, inconsistent with commissioning. Plants not yet counted by SSC.
+            Azerbaijan_AGG_SmallPV reduced 40.5→8 MW: SSC 2024 non-Garadagh solar = 27.6 MW
+            total (257.6 - 230 Garadagh). After allocating ~20 MW to Nakhchivan, ~8 MW
+            residual for mainland small PV.
+            Nakhchivan_Solar_PV reduced 35→20 MW: SSC Nakhchivan capacity data (2022) and
+            SSC 003_1.18en solar residual consistent with ~20 MW installed.
+            Azerbaijan_Khizi_Wind added 14 MW (StYr=2009, RetrYr=2034): SSC wind 64 MW vs
+            model 50 MW (Yeni Yashma); residual ~14 MW attributed to small Khizi-area
+            turbines predating the Khizi-Absheron committed project.
+          Demand perimeter note: pDemandForecast is calibrated to OWID total supply
+          (~27 TWh = production + imports - exports), which includes CHP/autoproducer
+          self-consumption. As CHP declines (−34% in 2020–2024), utility capacity
+          must grow to replace it. Azerbaijan_CHP_Legacy explicitly bridges this
+          transition: it covers the CHP gap in 2024–2029 and retires as Mingecevir
+          CCGTs (4×320 MW, StYr=2025) come online.
     confidence: medium
-    needs_review: true
+    needs_review: false
     review_note: >
       HeatRate includes gas consumed for district heat (CHP) per SSC definition —
       the fuel/electricity ratio (10.2 GJ/MWh for old plants) reflects actual AZ
       power sector gas cost per MWh, not nameplate design efficiency.
       Modern plants (Janub/Shimal/Gobu) use design efficiency estimate (7.5 GJ/MWh),
       not SSC data (individual plant fuel data not available from SSC).
-      Committed large CCGT (Mingecevir 1280 MW) status/year to confirm.
+      Khudafarin + Gyz Galasy commissioning year (2026) is an estimate — confirm
+      with AZENERGY / ADB project status when available.
     last_updated: 2026-06-10
 
   pDemandForecast:
