@@ -1,11 +1,13 @@
 id: wb_epm_georgia_v85
-name: "WB EPM Georgia v8.5 (2022) — Technical Parameters"
+name: "World Bank EPM Georgia v8.5 (2022, internal model) — primary data sources not documented"
 type: internal
 date: "2022"
 access_note: >
   File: EPM_Georgia2022/Baseline/WB_EPM_v8_5.xlsb (binary Excel)
   Sheet: GenData — 168 generators with 31 technical/economic parameters.
-  Model: WB EPM version 8.5, older architecture than current EPM CSV format.
+  Model: World Bank EPM version 8.5, older Excel-based architecture.
+  Original data sources for capacity, HeatRate, and availability are not documented
+  in the file — parameters reflect calibrated values from the 2022 WB Georgia study.
   Available in WB project internal drive.
 coverage:
   countries: [Georgia]

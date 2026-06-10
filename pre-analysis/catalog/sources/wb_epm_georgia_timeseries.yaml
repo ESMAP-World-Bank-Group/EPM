@@ -1,12 +1,14 @@
 id: wb_epm_georgia_timeseries
-name: "WB EPM Georgia 2022 — VRE Timeseries (Typical Year)"
+name: "World Bank EPM Georgia 2022 (internal) — VRE Timeseries; PV/Wind original source undocumented"
 type: internal
 date: "2022"
 access_note: >
   File: EPM_Georgia/2022/1. Data/Timeseries all data.xlsx
   Sheet: RE data — 8,760 rows (typical year, T=1→8760), columns: T(h), RoR, PV, Wind.
-  Values are capacity factors (0-1). Prepared for WB EPM v8.5 Georgia 2022 study.
-  Available in WB project internal drive.
+  Values are capacity factors (0-1). Prepared for World Bank EPM v8.5 Georgia 2022 study.
+  The original source for PV and Wind profiles is undocumented in the file (possibly
+  modeled from global radiation / reanalysis data, year not specified).
+  ROR likely from GSE/GNERC historical generation data. Available in WB project internal drive.
 coverage:
   countries: [Georgia]
   years: "typical year (single representative year, likely 2019 or 2021)"

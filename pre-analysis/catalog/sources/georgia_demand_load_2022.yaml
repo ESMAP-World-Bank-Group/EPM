@@ -1,12 +1,13 @@
 id: georgia_demand_load_2022
-name: "Georgia Hourly Load Profile with 3% Annual Growth (2021–2040)"
+name: "World Bank (internal) — Georgia Hourly Load Profile, 3% Annual Growth (2021–2040); original source undocumented"
 type: internal
 date: "2022"
 access_note: >
   File: Team/Av. 3% Load growth (hourly profiles) 2021-2040.xlsx
   Sheet: Data — 175,320 rows: datetime (hourly) + load (MW), covering 2021–2040.
-  Base year 2021, 3% annual growth applied uniformly to all hours.
-  Available in WB project internal drive.
+  Base year 2021: actual GSE/GNERC historical load (source not documented in file).
+  Growth applied uniformly to all hours at 3%/yr — growth assumption undocumented.
+  Prepared by World Bank project team. Available in WB project internal drive.
 coverage:
   countries: [Georgia]
   years: "2021–2040 (3%/yr extrapolated beyond 2040)"

@@ -1,0 +1,33 @@
+id: imf_energy_subsidies
+name: "IMF — Energy Subsidies Database (IMF/World Bank methodology, 2022)"
+type: internal
+date: "2022"
+access_note: >
+  File: Team/Georgia_fuel-subsidies_2022.xlsx — Sheet: data (multi-country).
+  Methodology: IMF Energy Subsidies framework (Coady et al.) — distinguishes
+  consumer price (mit_cp_*), supply price (mit_sp_*), and pre-tax gap.
+  Column mit_sp_nga_pow = supply price of natural gas paid by power generators
+  (i.e., actual fuel cost at the generator meter, not retail/subsidized price).
+  Covers multiple countries including Azerbaijan (country code AZE).
+  Available in WB project internal drive.
+coverage:
+  countries: [Georgia, Azerbaijan, Armenia]
+  years: "2015–2025"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Sheet 'data', column mit_sp_nga_pow, country=AZE"
+    coverage: >
+      Azerbaijan natural gas supply price to power generators: 4.225 USD/GJ (2024).
+      This is NOT the domestic subsidized retail price (~1.5-2 USD/MMBtu) NOR
+      the full export opportunity cost (~6-8 USD/MMBtu via TANAP).
+      Represents actual price charged by SOCAR to power generators.
+quality:
+  confidence: medium
+  notes: >
+    IMF supply price methodology is consistent and internationally comparable.
+    Georgia domestic gas price (11.99 USD/GJ retail from same file) is ~3x
+    the Azerbaijan generator supply price — the difference reflects distribution
+    markup and subsidy regime, not commodity price differences.
+    For economic (opportunity cost) analysis, use TANAP export price (~6.5 USD/MMBtu)
+    instead of the supply price.
+  used_in_studies: [data_blacksea]

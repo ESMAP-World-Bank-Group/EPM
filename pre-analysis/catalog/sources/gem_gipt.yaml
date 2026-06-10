@@ -1,0 +1,34 @@
+id: gem_gipt
+name: "Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT)"
+type: public_database
+url: "https://globalenergymonitor.org/projects/global-integrated-power-tracker/"
+date: "2025-09"
+access_note: >
+  Global Energy Monitor — Global Integrated Power Tracker, September 2025 download.
+  Covers power plants worldwide: technology, installed capacity (MW), status
+  (operating / construction / announced / retired), commissioning year, owner/operator,
+  coordinates. Free download from GEM website after free registration.
+  Local file: Data/Azerbaijan/GEM/GEM_GIPT_September_2025.xlsx
+coverage:
+  countries: [Azerbaijan, Armenia, Georgia, Turkiye]
+  years: "snapshot September 2025"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: >
+      Plant name, technology, installed capacity (MW), commissioning year → StYr,
+      expected retirement (if available) → RetrYr, operating status.
+      Used for AzerbaijanMain zone: 57 GEM plants mapped to 39 EPM rows after
+      removing plants retired before 2025 and excluding Nakhchivan capacity.
+      Technology mapping: Gas (pre-2000 vintage) → ST, Gas (post-2000) → CCGT.
+quality:
+  confidence: medium
+  notes: >
+    Public database maintained by GEM researchers and volunteers. Quality is generally
+    high for large utility plants; small hydro, distributed CHP, and autoproducer
+    plants may be missing or incomplete. For Azerbaijan, CHP/autoproducer capacity
+    (~985 MW, ~4,300 GWh in 2024) is absent from GEM — supplemented by
+    Azerbaijan_CHP_Legacy entry in pGenDataInput (derived from SSC 003_1.18en balance).
+    Commissioning and retirement years should be cross-checked against official
+    statistics (SSC Azerbaijan 005_3en) for high-stakes capacity decisions.
+    September 2025 snapshot: excludes changes announced after that date.
+  used_in_studies: [data_blacksea]

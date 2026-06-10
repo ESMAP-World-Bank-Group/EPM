@@ -1,0 +1,34 @@
+id: owid_energy_data
+name: "Our World in Data (OWID) — Energy Dataset (IEA source)"
+type: public_database
+url: "https://ourworldindata.org/energy"
+date: "2025"
+access_note: >
+  Our World in Data — Energy dataset, downloaded 2025. Primary underlying source:
+  International Energy Agency (IEA) — World Energy Statistics and Balances.
+  Full CSV available on OWID GitHub: https://github.com/owid/energy-data
+  Column used: electricity_demand (TWh per year). This equals total electricity supply
+  (domestic production + net imports), i.e. gross consumption before T&D losses,
+  including autoproducer/CHP self-consumption.
+  Local file: Data/OWID/owid-energy-data.csv
+coverage:
+  countries: [Azerbaijan, all global]
+  years: "historical 1900–2024, provisional 2025"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: >
+      Azerbaijan electricity_demand 2025 = 27.17 TWh, used as demand base year anchor.
+      CAGR 1.9%/yr derived from OWID 2020–2025 trend.
+      Cross-check: OWID 2023 = 27.17 TWh vs SSC 003_1.18en row 19 = 27.53 TWh (~1.3% gap).
+      Includes CHP/autoproducer self-consumption — intentional, for consistency with
+      Azerbaijan_CHP_Legacy bridge capacity in pGenDataInput.
+quality:
+  confidence: high
+  notes: >
+    OWID aggregates IEA data with consistent methodology across all countries and years.
+    electricity_demand definition (production + imports - exports) includes industrial
+    autoproducer and CHP self-consumption, making it the appropriate demand anchor when
+    the generation side also models CHP capacity. Cross-checked against SSC 003_1.18en
+    (row 19: Total supply) — agreement within 1-2%.
+    2025 value is provisional; IEA typically publishes final 2025 statistics in late 2026.
+  used_in_studies: [data_blacksea]

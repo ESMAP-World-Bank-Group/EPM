@@ -330,6 +330,132 @@ Georgia:
       vs Vartsikhe Q3=0.35 in old model). Acceptable for planning model.
     last_updated: 2026-06-04
 
+Azerbaijan:
+# -------------------------------------------------------------------
+# Country-level summary for DATA_SOURCES generation (generate_docs.py
+# reads country "Azerbaijan" from zcmap.csv, covering both AzerbaijanMain
+# and Nakhchivan zones). Detailed zone-level provenance below.
+# -------------------------------------------------------------------
+
+  pGenDataInput:
+    source_id: gem_gipt
+    secondary_source_ids: [ssc_az_annual_stats_2024, ssc_az_nakhchivan_2022, epm_generic_defaults]
+    method: "AzerbaijanMain: GEM/GIPT 39 rows (calibrated vs SSC 2024) + Nakhchivan: NSU capacity table 4 rows"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          AzerbaijanMain (39 generators): GEM GIPT September 2025.
+          Gas vintage pre-2000 → ST, post-2000 → CCGT. HeatRate calibrated from
+          SSC fuel-consumption data. Committed: 4×Mingecevir CCGT 320 MW (StYr=2025).
+          Bridge: Azerbaijan_CHP_Legacy 985 MW (retires 2029, covers 4,300 GWh CHP gap
+          absent from GEM). Calibration corrections June 2026 vs SSC 005_3en/005_4en.
+          Nakhchivan (4 generators from ssc_az_nakhchivan_2022): CCGT 87 MW, OCGT 50 MW,
+          Arpachay ReservoirHydro 48.4 MW, Solar PV 20 MW (NSU/statistika.nmr.az, ~2022).
+          Tech params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults.
+    confidence: medium
+    needs_review: false
+    last_updated: 2026-06-10
+
+  pDemandForecast:
+    source_id: owid_energy_data
+    secondary_source_ids: [ssc_az_nakhchivan_2022]
+    method: "OWID/IEA 2025 base + 1.9%/yr CAGR; Nakhchivan split ~500 GWh / 84 MW"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT_EXTRAPOLATED
+        notes: >
+          Anchor: OWID electricity_demand 2025 = 27.17 TWh (includes CHP self-consumption).
+          CAGR 1.9%/yr from OWID 2020–2025 trend. Peak via load_factor=0.58.
+          Nakhchivan split: 500 GWh / 84 MW (NSU generation balance, 2021).
+          AzerbaijanMain 2024: Energy=26,165 GWh, Peak=5,164 MW. Both zones grow proportionally.
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Peak estimated from load factor (0.58) — no independent peak data available.
+      Nakhchivan split inferred from generation balance; no official demand statistics.
+    last_updated: 2026-06-10
+
+  pDemandProfile:
+    source_id: teias_hourly_load
+    proxy_of: "Turkiye (ENTSO-E hourly shape, scaled to AZ energy)"
+    method: "PROXY Turkey ENTSO-E hourly shape, seasonal mean per quarter"
+    method_table:
+      - period: "2024–2053"
+        method: PROXY_Turkey
+        notes: >
+          Turkey ENTSO-E hourly load profile scaled to AZ annual energy.
+          Seasonal mean per (season, hour), normalized by peak. Q1=0.737 (winter),
+          Q3=0.651 (summer). Same profile applied to AzerbaijanMain and Nakhchivan.
+          No Azerbaijan-specific SCADA data available.
+    confidence: low
+    needs_review: true
+    review_note: "No AZ hourly load data. Replace with AZENERGY/TANAP SCADA when available."
+    last_updated: 2026-06-05
+
+  pFuelPrice:
+    source_id: imf_energy_subsidies
+    secondary_source_ids: [tyndp_iea_weo_2022]
+    method: "IMF supply price Gas 2024 + Armenia TYNDP/IEA WEO growth trajectory. AzerbaijanMain only."
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Gas: 4.225 USD/GJ (2024, IMF supply price for AZ power generators from
+          Georgia_fuel-subsidies_2022.xlsx 'data' sheet, country=AZE, column mit_sp_nga_pow).
+          Forward: Armenia TYNDP/IEA WEO trajectory (+0.033/yr to 2040, +0.022/yr beyond).
+          Nakhchivan uses same gas prices (supplied via Iran swap or Türkiye pipeline).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Supply price (4.46 $/MMBtu) between domestic subsidized (~1.5–2 $/MMBtu) and
+      export opportunity cost (~6–8 $/MMBtu via TANAP). Confirm with SOCAR generator tariffs.
+    last_updated: 2026-06-05
+
+  pAvailabilityCustom:
+    source_id: wb_epm_georgia_v85
+    secondary_source_ids: [ssc_az_annual_stats_2024, ssc_az_nakhchivan_2022]
+    method: "Kura hydro: Georgia Enguri proxy (WB EPM v8.5). Solar: SSC 2024 CF. Nakhchivan Arpachay: NSU data."
+    method_table:
+      - period: "2024–2053"
+        method: PROXY_Georgia_Kura
+        notes: >
+          6 AzMain ReservoirHydro (Kura/Tartar system): World Bank EPM Georgia v8.5 Enguri
+          seasonal profile (Q1=0.21, Q2=0.48, Q3=0.52, Q4=0.20). Same snowmelt catchment.
+          Nakhchivan Arpachay ReservoirHydro: Q1=0.20, Q2=0.50, Q3=0.30, Q4=0.20
+          (from NSU generation data 2020–2021, mountain snowmelt logic).
+          Solar PV (Garadagh 230 MW + small): CF=0.246 flat quarterly
+          (SSC 2024: 556.4 GWh / 257.6 MW installed / 8,760 h = 24.6%).
+    confidence: low
+    needs_review: true
+    review_note: >
+      Hydro seasonal profiles are proxies — no AZ-specific gauge or seasonal generation data.
+      Replace with Mingechevir seasonal data (AzerEnerji annual reports) when available.
+    last_updated: 2026-06-10
+
+  pTransferLimit:
+    source_id: blacksea_crossborder_lines_v6
+    secondary_source_ids: [epm_expert_judgment]
+    method: "DIRECT from crossborder infrastructure database + committed Zangezur corridor (2028)"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Nakhchivan ↔ EastAna (Türkiye): 50 MW flat (Sederek→Iğdır 154 kV).
+          Nakhchivan ↔ Iran (external zone): 50 MW import+export (Babek→Khoy 132/220 kV).
+          AzerbaijanMain ↔ Nakhchivan (Zangezur corridor): 0 MW 2024–2027, 1,000 MW from 2028.
+          AzerbaijanMain ↔ Armenia / Georgia: from blacksea_crossborder_lines_v6.
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Zangezur corridor COD target 2027–2028; modeled as 2028. Run sensitivity with 2029–2030.
+    last_updated: 2026-06-10
+
+# -------------------------------------------------------------------
+# Zone-level provenance (not rendered by generate_docs.py — for internal
+# reference only; generate_docs.py uses the Azerbaijan: key above)
+# -------------------------------------------------------------------
+
 AzerbaijanMain:
 
   pGenDataInput:
