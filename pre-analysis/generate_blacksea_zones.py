@@ -1,8 +1,25 @@
+"""
+generate_blacksea_zones.py
+Builds epm/input/data_blacksea/zones.geojson from two sources:
+  1. blacksea_turkey9z_zones_hd.geojson — Turkiye (9 zones), Armenia, Georgia, Azerbaijan
+  2. Natural Earth (epm/resources/postprocess/zones.geojson) — Romania, Bulgaria
+     (countries not in the Turkiye-centric HD source)
+
+Run from repo root after adding a new country.
+"""
 import json
 import math
+from pathlib import Path
 
 SRC = r'C:\Users\wb590892\Documents\EPM_Models\epm-data-explorer\public\data\zones\blacksea_turkey9z_zones_hd.geojson'
 DST = r'C:\Users\wb590892\Documents\EPM_Models\black_sea_2026\EPM\epm\input\data_blacksea\zones.geojson'
+NE_SRC = str(Path(DST).resolve().parent.parent.parent / 'resources/postprocess/zones.geojson')
+
+# Countries served by Romania/Bulgaria polygons from Natural Earth (not in HD source)
+NE_EXTRA = {
+    'ROU': {'z': 'Romania', 'c': 'Romania'},
+    # 'BGR': {'z': 'Bulgaria', 'c': 'Bulgaria'},  # add when Bulgaria is integrated
+}
 
 KEEP = {
     'TUR': {
@@ -75,6 +92,20 @@ for ft in src_gj['features']:
         'type': 'Feature',
         'properties': {'z': z, 'c': cfg['c'], 'ISO_A3': iso},
         'geometry': simplified,
+    })
+
+# Append countries from Natural Earth (not in the HD source)
+with open(NE_SRC) as f:
+    ne_gj = json.load(f)
+for iso, cfg in NE_EXTRA.items():
+    ne_ft = next((f for f in ne_gj['features'] if f['properties'].get('ISO_A3') == iso), None)
+    if ne_ft is None:
+        print(f"WARNING: {iso} not found in Natural Earth source")
+        continue
+    features.append({
+        'type': 'Feature',
+        'properties': {'z': cfg['z'], 'c': cfg['c'], 'ISO_A3': iso},
+        'geometry': simplify_geometry(ne_ft['geometry']),
     })
 
 out = {'type': 'FeatureCollection', 'features': features}
