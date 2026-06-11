@@ -833,15 +833,14 @@ Romania:
     last_updated: 2026-06-11
 
   pDemandProfile:
-    source_id: teias_hourly_load
-    proxy_of: "ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)"
+    source_id: entsoe_hourly_load
     method: "DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes"
     method_table:
       - period: "2024–2053"
         method: DIRECT
         notes: >
-          Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load data).
-          Seasonal mean per (season, hour), normalized by peak.
+          Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load,
+          RO bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak.
           Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring),
           Q3_mean=0.651 (summer AC), Q4_mean=0.698.
           All d1–d6 daytypes within a season share the same seasonal mean profile.
@@ -898,6 +897,7 @@ Romania:
   pAvailabilityCustom:
     source_id: wb_epm_romania_v8
     method: "DIRECT from WB EPM Romania v8.5 GenAvailability (Cernavoda + hydro + gas)"
+
     method_table:
       - period: "2024–2053"
         method: DIRECT
@@ -914,3 +914,49 @@ Romania:
     confidence: high
     needs_review: false
     last_updated: 2026-06-11
+
+
+Bulgaria:
+
+  pDemandForecast:
+    source_id: owid_energy_data
+    method: "OWID/IEA base 36.5 TWh (2025) + CAGR -0.1%/yr (5-yr historical trend)"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT_EXTRAPOLATED
+        notes: >
+          Anchor: OWID electricity_demand 2025 = 36.5 TWh. CAGR = -0.1%/yr from
+          OWID 2020–2025 trend (historical near-stagnation).
+          Peak estimated via load_factor=0.58.
+          2024: Energy=36,570 GWh, Peak=7,198 MW.
+          2030: Energy=36,331 GWh (near-flat).
+    confidence: low
+    needs_review: true
+    review_note: >
+      CAGR of -0.1%/yr reflects historical near-stagnation — not appropriate for a
+      planning scenario. Bulgaria is expected to see demand growth from electrification
+      (EVs, heat pumps, potential green hydrogen exports). Override recommended:
+      consult ESO Bulgaria official load forecast or use moderate growth assumption
+      (e.g. +1.0–1.5%/yr). 2053 value (35,430 GWh) likely understates long-run demand.
+    last_updated: 2026-06-12
+
+  pDemandProfile:
+    source_id: entsoe_hourly_load
+    method: "DIRECT seasonal mean from ENTSO-E Bulgaria hourly load, all d1-d6 daytypes"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          Bulgaria zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load,
+          BG bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak.
+          Q1_mean=0.691 (winter), Q2_mean=0.518 (spring), Q3_mean=0.533 (summer),
+          Q4_mean=0.624. All d1–d6 daytypes share the same seasonal mean profile.
+          Computed via compute_epm_demand.py --country BGR --profile.
+    confidence: high
+    needs_review: true
+    review_note: >
+      Profile to be recalculated once Bulgaria is fully integrated in the representative
+      days pipeline (run_blacksea_data.py). Current profiles are valid ENTSO-E data but
+      within-season variability (d1–d6 differentiation) is lost — all daytypes share the
+      same seasonal mean. Rerun when all Black Sea countries are integrated.
+    last_updated: 2026-06-12

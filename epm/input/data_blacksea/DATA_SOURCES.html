@@ -98,7 +98,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#armenia-pdemandprofile">&#9651; proxy of Turkiye/EastAna</a></td>
 <td class="status-review"><a href="#georgia-pdemandprofile">&#9651; World Bank (internal) (2022)</a></td>
 <td class="status-review"><a href="#azerbaijan-pdemandprofile">&#9651; proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy)</a></td>
-<td class="status-done"><a href="#romania-pdemandprofile">proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</a></td>
+<td class="status-done"><a href="#romania-pdemandprofile">ENTSO-E Transparency Platform (2025)</a></td>
 </tr>
 <tr class="cat-row"><td colspan="8">Supply</td></tr>
 <tr>
@@ -521,7 +521,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <h3>Summary</h3>
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#romania-pdemandforecast"><code>pDemandForecast</code></a></td><td>Our World in Data (OWID) (2025)</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
-<tr><td><a href="#romania-pdemandprofile"><code>pDemandProfile</code></a></td><td>proxy of ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</td><td><span class="conf">[HIGH]</span></td></tr>
+<tr><td><a href="#romania-pdemandprofile"><code>pDemandProfile</code></a></td><td>ENTSO-E Transparency Platform (2025)</td><td><span class="conf">[HIGH]</span></td></tr>
 <tr><td><a href="#romania-pgendatainput"><code>pGenDataInput</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024) + <a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank">Global Energy Monitor (GEM)</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#romania-pfuelprice"><code>pFuelPrice</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024)</td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#romania-pavailabilitycustom"><code>pAvailabilityCustom</code></a></td><td>World Bank EPM Romania v8.5 (2… (2024)</td><td><span class="conf">[HIGH]</span></td></tr>
@@ -555,10 +555,10 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 <p class="back">Confidence: [LOW] · Last updated: 2026-06-11</p>
 <h3 id="romania-pdemandprofile"><code>pDemandProfile</code></h3>
 <p class="back"><a href="#romania">&#8593; Romania</a></p>
-<div class="proxy-chain"><p><strong>Proxied from</strong>: <code>ENTSO-E Romania hourly load (reprdays_input/Load.csv, blacksea_run1)</code><br><strong>Original source</strong>: TEİAŞ — Turkiye hourly load data (likely) <code>(teias_hourly_load)</code></p></div>
+<p><strong>Source</strong>: ENTSO-E Transparency Platform — Actual Total Load (hourly) <code>(entsoe_hourly_load)</code></p>
 <p><strong>Method</strong>: DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load data). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring), Q3_mean=0.651 (summer AC), Q4_mean=0.698. All d1–d6 daytypes within a season share the same seasonal mean profile. Computed via compute_epm_demand.py --country ROU --profile.
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, RO bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring), Q3_mean=0.651 (summer AC), Q4_mean=0.698. All d1–d6 daytypes within a season share the same seasonal mean profile. Computed via compute_epm_demand.py --country ROU --profile.
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [HIGH] · Last updated: 2026-06-11</p>

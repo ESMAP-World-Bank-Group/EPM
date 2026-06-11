@@ -1,0 +1,34 @@
+id: entsoe_hourly_load
+name: "ENTSO-E Transparency Platform — Actual Total Load (hourly)"
+type: public_database
+url: "https://transparency.entsoe.eu/"
+date: "2025"
+access_note: >
+  ENTSO-E Transparency Platform, dataset: Actual Total Load per Bidding Zone.
+  Downloaded via entsoe-py Python client (pre-analysis/run_blacksea_data.py,
+  step_entsoe_download()). Coverage: 2018–2024 hourly data for Romania and Bulgaria
+  (ENTSO-E bidding zones RO and BG). Georgia is NOT available on ENTSO-E Transparency
+  Platform — proxied from internal WB data.
+  Processed into representative-days format (reprdays_input/Load.csv) via the
+  compute_representative_days pipeline (blacksea_run1).
+  Each zone normalized to a load factor profile (0–1) for use in pDemandProfile.
+coverage:
+  countries: [Romania, Bulgaria]
+  years: "2018–2024 hourly"
+fills_epm_resources:
+  - resource: pDemandProfile
+    coverage: >
+      Romania (RO bidding zone) and Bulgaria (BG bidding zone).
+      Seasonal mean per (season, hour) across 6 representative daytypes (d1–d6).
+      All d1–d6 daytypes within a season share the same mean profile (simplified approach;
+      within-season variability is lost).
+      Computed via pre-analysis/compute_epm_demand.py --country ROU/BGR --profile.
+quality:
+  confidence: high
+  notes: >
+    ENTSO-E Actual Total Load is TSO-reported metered consumption, the authoritative
+    source for European country-level hourly demand shapes. High quality for both
+    Romania and Bulgaria. Known limitation: all daytypes within a season share the
+    same mean profile — within-season peak-vs-off-peak differentiation is lost until
+    the full representative days pipeline is rerun with per-daytype segmentation.
+  used_in_studies: [data_blacksea]
