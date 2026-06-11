@@ -1,0 +1,38 @@
+id: teias_annual_statistics
+name: "TEİAŞ — Turkiye annual electricity statistics (official)"
+type: open_source
+date: "2026-06"
+url: "https://www.teias.gov.tr/tr-TR/turkiye-elektrik-istatistikleri"
+access_note: >
+  Official annual statistics published by TEİAŞ (Türkiye Elektrik İletim A.Ş.).
+  Files downloaded June 2026 from the TEİAŞ statistics portal.
+  Raw XLS files stored in Data/Turkey/TEIAS/.
+  Processed CSVs at Data/Turkey/: turkiye_generation_hist.csv,
+  turkiye_capacity_hist.csv, turkiye_demand_hist.csv.
+  See Data/Turkey/TEIAS/DATA_INDEX.md for full file inventory.
+coverage:
+  countries: [Turkiye]
+  years: "generation 2000–2024 · capacity 2006–2024 · demand+peak 1980–2024"
+derived_files:
+  - path: "Data/Turkey/turkiye_generation_hist.csv"
+    description: "Annual generation by source (GWh): Coal, Gas, Hydro, Geothermal+Wind, Solar, Other"
+    source_file: "TEIAS file 63"
+  - path: "Data/Turkey/turkiye_capacity_hist.csv"
+    description: "Annual installed capacity by source (MW): Coal, Gas, OtherThermal, Hydro, Geothermal, Wind, Solar"
+    source_file: "TEIAS file 9"
+  - path: "Data/Turkey/turkiye_demand_hist.csv"
+    description: "Annual gross demand (GWh) + instantaneous peak (MW) + hourly peak (MW)"
+    source_file: "TEIAS file 26"
+  - path: "Data/Turkey/TEIAS/DATA_INDEX.md"
+    description: "Index of all TEIAS files downloaded and their content"
+used_in:
+  - notebook: "Data/Turkey/turkiye_xborder_analysis.ipynb"
+    charts: ["Chart 3 — Generation Mix Evolution 2000–2024", "Chart 4 — Capacity Mix Evolution 2006–2024"]
+quality:
+  confidence: high
+  notes: >
+    TEİAŞ is the official Turkish transmission operator and primary source for
+    electricity statistics. Data is authoritative. Known limitation: file 63 reports
+    Geothermal + Wind as a single combined column — cannot be separated from this source.
+    Capacity file 9 has them separate from 2008.
+  used_in_studies: [data_blacksea]

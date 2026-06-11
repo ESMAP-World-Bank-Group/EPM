@@ -20,7 +20,7 @@ Activate exchange between internal zone,fEnableInternalExchange,1
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
-Activate exchange between external zone,fEnableExternalExchange,1
+Activate exchange between external zone,fEnableExternalExchange,0
 "Maximum external import share, %",sMaxHourlyImportExternalShare,1
 "Maximum external export share, %",sMaxHourlyExportExternalShare,1
 ,,
