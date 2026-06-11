@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "z": "Bulgaria", "c": "Bulgaria", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [26.5, 41.9] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "z": "Greece", "c": "Greece", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [23.0, 40.9] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "z": "Iraq", "c": "Iraq", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [43.1, 36.3] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "z": "Syria", "c": "Syria", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [37.4, 36.2] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "z": "Iran", "c": "Iran", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [46.5, 38.5] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "z": "Russia", "c": "Russia", "type": "external" },
+      "geometry": { "type": "Point", "coordinates": [43.5, 43.5] }
+    }
+  ]
+}
