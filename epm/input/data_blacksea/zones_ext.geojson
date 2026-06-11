@@ -4,32 +4,32 @@
     {
       "type": "Feature",
       "properties": { "z": "Bulgaria", "c": "Bulgaria", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [26.5, 41.9] }
+      "geometry": { "type": "Point", "coordinates": [25.240008, 42.725332] }
     },
     {
       "type": "Feature",
       "properties": { "z": "Greece", "c": "Greece", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [23.0, 40.9] }
+      "geometry": { "type": "Point", "coordinates": [21.824495, 39.749900] }
     },
     {
       "type": "Feature",
       "properties": { "z": "Iraq", "c": "Iraq", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [43.1, 36.3] }
+      "geometry": { "type": "Point", "coordinates": [43.521498, 35.248892] }
     },
     {
       "type": "Feature",
       "properties": { "z": "Syria", "c": "Syria", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [37.4, 36.2] }
+      "geometry": { "type": "Point", "coordinates": [38.918230, 35.309498] }
     },
     {
       "type": "Feature",
       "properties": { "z": "Iran", "c": "Iran", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [46.5, 38.5] }
+      "geometry": { "type": "Point", "coordinates": [46.850252, 37.703328] }
     },
     {
       "type": "Feature",
       "properties": { "z": "Russia", "c": "Russia", "type": "external" },
-      "geometry": { "type": "Point", "coordinates": [43.5, 43.5] }
+      "geometry": { "type": "Point", "coordinates": [45.757777, 44.203141] }
     }
   ]
 }
