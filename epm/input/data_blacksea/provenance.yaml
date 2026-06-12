@@ -1103,3 +1103,63 @@ Bulgaria:
       Gas price trajectory should be cross-checked against ENTSOG/Bulgarian gas market data
       once the 2026 Bulgaria NECP gas price assumptions are published.
     last_updated: 2026-06-12
+
+  pAvailabilityCustom:
+    source_id: pAvailabilityCustom_existing
+    secondary_source_ids: [wna_pris_kozloduy, entsoe_gen_bg_2019_2023, bg_ccdr_kinesys_2026]
+    method: "PATTERN (lignite/coal) + SCALED (nuclear: PRIS EAF x ENTSO-E shape) + SCALED (hydro: ENTSO-E shape x Kinesys level)"
+    method_table:
+      - period: "2024-2053"
+        method: PATTERN
+        notes: >
+          Bulgaria_Agg_Lignite: Q1=0.50, Q2=0.45, Q3=0.50, Q4=0.50.
+          Copied from Trakia_Agg_Lignite (all Turkiye zone lignite entries are identical).
+          Reflects technical availability of ageing steam turbine fleet on domestic lignite.
+          Generic default (0.65) is too optimistic for old Soviet-era plant.
+          Q2 dip represents spring maintenance outage season.
+      - period: "2024-2053"
+        method: PATTERN
+        notes: >
+          Bulgaria_Agg_Coal: Q1=0.85, Q2=0.60, Q3=0.85, Q4=0.85.
+          Copied from SouthEast_Agg_ImpCoal. Hard coal plants are more reliable than
+          lignite (newer, better maintained). Generic default (0.65) is too conservative.
+          Q2 dip reflects spring maintenance period.
+      - period: "2024-2053"
+        method: SCALED
+        notes: >
+          Bulgaria_Kozloduy_5: Q1=1.00, Q2=0.761, Q3=0.943, Q4=0.830 (mean=0.883).
+          Bulgaria_Kozloduy_6: Q1=0.987, Q2=0.749, Q3=0.928, Q4=0.817 (mean=0.870).
+          Method: ENTSO-E 2019-2023 actual BG nuclear generation (hourly, combined K5+K6)
+          averaged to quarterly shape, then scaled so annual mean matches IAEA PRIS EAF.
+          PRIS EAF (2015-2024 average): K5=88.4%, K6=87.0% (world-nuclear.org reactor database).
+          Q2 deep dip (to ~0.75) reflects annual refueling outage — confirmed by ENTSO-E data
+          (much deeper than Cernavoda CANDU pattern ~10%; VVER-1000 refueling ~25% reduction).
+          Q1 theoretical CF slightly >1.0 from ENTSO-E (uprating artefact: actual combined
+          capacity ~2006 MW not 2080 MW); capped at 1.00 for K5, 0.987 for K6 after scaling.
+          Kozloduy_7/8 (committed VVER-1200): no custom entry — Generic_Nuclear 0.85 flat used.
+      - period: "2024-2053"
+        method: SCALED
+        notes: >
+          All 13 existing + 3 candidate ReservoirHydro plants: uniform profile
+          Q1=0.214, Q2=0.248, Q3=0.160, Q4=0.156 (mean=0.195).
+          CRITICAL: EPM has no separate hydro energy budget constraint (no pHydroEnergy).
+          pAvailabilityCustom is the ONLY quarterly water availability cap for reservoir hydro.
+          Without custom entry, model dispatches at Generic default 0.85 — ~4x actual output.
+          Method: ENTSO-E 2019-2023 quarterly shape (Hydro Water Reservoir, 1719 MW basis,
+          shape Q1:Q2:Q3:Q4 = 1.10:1.27:0.82:0.80) scaled so mean = Kinesys 2025 CF (0.195).
+          ENTSO-E historical mean = 0.146 (drier-than-average 2019-2023); Kinesys forward
+          projection used for level as more representative of future water availability.
+          Seasonal pattern: spring peak (Q2, snowmelt Rhodopes/Arda/Vacha systems),
+          summer-autumn low (Q3/Q4). Consistent with Bulgarian hydrology.
+          Limitation: single uniform profile for all plants; individual plant hydrological
+          data not available. High inter-annual variability (CF range 0.12-0.29 across years).
+    confidence: medium
+    needs_review: true
+    review_note: >
+      Nuclear: K5/K6 share same seasonal shape (only combined BG nuclear in ENTSO-E).
+      Individual refueling schedules differ — verify with NEK (Kozloduy operator) annual
+      outage plans. Q2 dip may shift to Q1 or Q3 in specific years.
+      Hydro: high inter-annual variability (std ~0.07 across 2019-2023). Single profile
+      approximation may mis-dispatch hydro in dry vs wet year scenarios.
+      Confirm with ESO (Bulgarian grid operator) or NEK hydro generation data if available.
+    last_updated: 2026-06-12

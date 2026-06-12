@@ -16,7 +16,7 @@
 | Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ENTSO-E Transparency Platform (2025) | ⚠ run_blacksea_data_proxy | run_blacksea_data_proxy | ⚠ ENTSO-E Transparency Platform (2025) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance |
-| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | — |
+| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | ⚠ pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR |
 | Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — | — | — | — |
 | Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) | — | — | ⚠ Renewables Ninja (2018–2023) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — |
@@ -41,7 +41,7 @@
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom)
 - [AzerbaijanMain](#azerbaijanmain) — [`pGenDataInput`](#azerbaijanmain-pgendatainput) · [`pDemandForecast`](#azerbaijanmain-pdemandforecast) · [`pDemandProfile`](#azerbaijanmain-pdemandprofile) · [`pFuelPrice`](#azerbaijanmain-pfuelprice) · [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom)
 - [Nakhchivan](#nakhchivan) — [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
-- [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile) · [`pGenDataInput`](#bulgaria-pgendatainput) · [`pFuelPrice`](#bulgaria-pfuelprice)
+- [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile) · [`pGenDataInput`](#bulgaria-pgendatainput) · [`pFuelPrice`](#bulgaria-pfuelprice) · [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom)
 
 ---
 
@@ -999,6 +999,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 | [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] ⚠ |
 | [`pGenDataInput`](#bulgaria-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#bulgaria-pfuelprice) | World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance | [MEDIUM] |
+| [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom) | pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR | [MEDIUM] ⚠ |
 | [`pVREProfile`](#bulgaria-pvreprofile) | Renewables Ninja (2018–2023) | [HIGH] ⚠ |
 
 <a id="bulgaria-pdemandforecast"></a>
@@ -1146,6 +1147,39 @@ Uranium: copied from Romania pFuelPrice trajectory (same BG-CCDR study).
   EPM requires a non-zero fuel price for dispatch economics.
   Romania trajectory (1.50->3.40->5.61 $/MMBtu) used as proxy.
 Biomass: flat 5.0 $/MMBtu (Romania reference value, no Bulgaria-specific data).
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-12*
+
+
+<a id="bulgaria-pavailabilitycustom"></a>
+
+### `pAvailabilityCustom`
+
+[&#8593; Bulgaria](#bulgaria)
+
+**Source**: pAvailabilityCustom_existing (`pAvailabilityCustom_existing`)
+
+**Also uses**: wna_pris_kozloduy (`wna_pris_kozloduy`)
+
+**Also uses**: entsoe_gen_bg_2019_2023 (`entsoe_gen_bg_2019_2023`)
+
+**Also uses**: World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026) (`bg_ccdr_kinesys_2026`)
+
+> ⚠ **Needs review**: Nuclear: K5/K6 share same seasonal shape (only combined BG nuclear in ENTSO-E). Individual refueling schedules differ — verify with NEK (Kozloduy operator) annual outage plans. Q2 dip may shift to Q1 or Q3 in specific years. Hydro: high inter-annual variability (std ~0.07 across 2019-2023). Single profile approximation may mis-dispatch hydro in dry vs wet year scenarios. Confirm with ESO (Bulgarian grid operator) or NEK hydro generation data if available.
+
+
+**Method**: PATTERN (lignite/coal) + SCALED (nuclear: PRIS EAF x ENTSO-E shape) + SCALED (hydro: ENTSO-E shape x Kinesys level)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024-2053 | `PATTERN` | Bulgaria_Agg_Lignite: Q1=0.50, Q2=0.45, Q3=0.50, Q4=0.50. Copied from Trakia_Agg_Lignite (all Turkiye zone lignite entries are identical). Reflects technical availability of ageing steam turbine fleet on domestic lignite. Generic default (0.65) is too optimistic for old Soviet-era plant. Q2 dip represents spring maintenance outage season.
+ |
+| 2024-2053 | `PATTERN` | Bulgaria_Agg_Coal: Q1=0.85, Q2=0.60, Q3=0.85, Q4=0.85. Copied from SouthEast_Agg_ImpCoal. Hard coal plants are more reliable than lignite (newer, better maintained). Generic default (0.65) is too conservative. Q2 dip reflects spring maintenance period.
+ |
+| 2024-2053 | `SCALED` | Bulgaria_Kozloduy_5: Q1=1.00, Q2=0.761, Q3=0.943, Q4=0.830 (mean=0.883). Bulgaria_Kozloduy_6: Q1=0.987, Q2=0.749, Q3=0.928, Q4=0.817 (mean=0.870). Method: ENTSO-E 2019-2023 actual BG nuclear generation (hourly, combined K5+K6) averaged to quarterly shape, then scaled so annual mean matches IAEA PRIS EAF. PRIS EAF (2015-2024 average): K5=88.4%, K6=87.0% (world-nuclear.org reactor database). Q2 deep dip (to ~0.75) reflects annual refueling outage — confirmed by ENTSO-E data (much deeper than Cernavoda CANDU pattern ~10%; VVER-1000 refueling ~25% reduction). Q1 theoretical CF slightly >1.0 from ENTSO-E (uprating artefact: actual combined capacity ~2006 MW not 2080 MW); capped at 1.00 for K5, 0.987 for K6 after scaling. Kozloduy_7/8 (committed VVER-1200): no custom entry — Generic_Nuclear 0.85 flat used.
+ |
+| 2024-2053 | `SCALED` | All 13 existing + 3 candidate ReservoirHydro plants: uniform profile Q1=0.214, Q2=0.248, Q3=0.160, Q4=0.156 (mean=0.195). CRITICAL: EPM has no separate hydro energy budget constraint (no pHydroEnergy). pAvailabilityCustom is the ONLY quarterly water availability cap for reservoir hydro. Without custom entry, model dispatches at Generic default 0.85 — ~4x actual output. Method: ENTSO-E 2019-2023 quarterly shape (Hydro Water Reservoir, 1719 MW basis, shape Q1:Q2:Q3:Q4 = 1.10:1.27:0.82:0.80) scaled so mean = Kinesys 2025 CF (0.195). ENTSO-E historical mean = 0.146 (drier-than-average 2019-2023); Kinesys forward projection used for level as more representative of future water availability. Seasonal pattern: spring peak (Q2, snowmelt Rhodopes/Arda/Vacha systems), summer-autumn low (Q3/Q4). Consistent with Bulgarian hydrology. Limitation: single uniform profile for all plants; individual plant hydrological data not available. High inter-annual variability (CF range 0.12-0.29 across years).
  |
 
 *Confidence: [MEDIUM] · Last updated: 2026-06-12*
