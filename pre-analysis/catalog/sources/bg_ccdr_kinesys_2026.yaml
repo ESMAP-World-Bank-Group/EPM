@@ -1,0 +1,43 @@
+id: bg_ccdr_kinesys_2026
+name: "World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026)"
+type: internal
+date: "2026"
+file: "BG-CCDR - Kinesys_2101_b2.20.26.xlsx"
+access_note: >
+  World Bank Bulgaria Country Climate and Development Report (CCDR) energy model.
+  Implemented in Kinesys/TIMES. File: BG-CCDR - Kinesys_2101_b2.20.26.xlsx.
+  Local path: Data/Bulgaria/BG-CCDR - Kinesys_2101_b2.20.26.xlsx.
+  Two main scenarios:
+    WEM (cl_wb7-WEM.Nuc-Y.Clim-HDNucRet-Y): IEA Stated Policies baseline.
+      Includes Kozloduy 7&8, nuclear retirement in high-demand climate conditions.
+    EU-NZE (EU-NZE.cl_wb7-Decarb.Nuc-Y.Geo-HighC.LULUCF-High.Clim-HDNucRet-Y):
+      EU-aligned Net Zero Emissions scenario, aggressive electrification.
+coverage:
+  countries: [Bulgaria]
+  years: "2020–2050 (5-year milestones)"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: >
+      Bulgaria electricity final energy consumption (FEC) by sector from KeyCommBalance
+      sheet. WEM scenario used as planning baseline. Calibrated to OWID 2025 gross
+      supply anchor (36.5 TWh) to account for T&D losses (~14.8%).
+      Trajectory: 2025=36.5 TWh → 2030=35.8 (slight decline) → 2040=39.4 (electrification
+      upturn) → 2050=43.7 TWh. Interpolated to annual values.
+  - resource: pGenDataInput
+    coverage: >
+      Ele capacity sheet: aggregate installed capacity by technology (GW) at 5-year
+      milestones. Used for cross-checking GEM GIPT plant-level data.
+      Technologies: Lignite, Coal, Gas, Hydro, Nuclear, Solar, Wind, Storage.
+  - resource: pFuelPrice
+    coverage: >
+      ELCFuel price sheet: fuel price trajectories for power sector.
+quality:
+  confidence: medium
+  notes: >
+    Kinesys/TIMES is a bottom-up techno-economic optimization model. The WEM scenario
+    represents the IEA Stated Policies baseline — it includes enacted policies and
+    announced targets but not aspirational pledges. Suitable as a planning baseline
+    for the EPM Black Sea 2026 study. NZE scenario provides an upper-bound sensitivity.
+    Demand projections include sectoral electrification (EVs from ~2030, heat pumps,
+    green hydrogen) which drives the post-2035 demand recovery.
+  used_in_studies: [data_blacksea]

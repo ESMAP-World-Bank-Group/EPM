@@ -94,7 +94,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#romania-pdemandforecast">&#9651; Our World in Data (OWID) (2025)</a></td>
 <td class="status-review"><a href="#azerbaijanmain-pdemandforecast">&#9651; Our World in Data (OWID) (2025) + <a href="https://statistika.nmr.az/" target="_blank">SSC</a></a></td>
 <td class="status-review"><a href="#nakhchivan-pdemandforecast">&#9651; SSC + <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID)</a></a></td>
-<td class="status-review"><a href="#bulgaria-pdemandforecast">&#9651; Our World in Data (OWID) (2025)</a></td>
+<td class="status-done"><a href="#bulgaria-pdemandforecast">World Bank Bulgaria CCDR (2026) + <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID)</a></a></td>
 </tr>
 <tr>
 <td>Hourly demand profile</td>
@@ -845,21 +845,23 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <p class="back"><a href="#toc">&#8593; Contents</a></p>
 <h3>Summary</h3>
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
-<tr><td><a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a></td><td>Our World in Data (OWID) (2025)</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a></td><td>World Bank Bulgaria CCDR (2026) + <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID)</a></td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a></td><td>ENTSO-E Transparency Platform (2025)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a></td><td>Renewables Ninja (2018–2023)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="bulgaria-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
-<p><strong>Source</strong>: Our World in Data (OWID) — Energy Dataset (IEA source) <code>(owid_energy_data)</code></p>
-<div class="review-box">&#9651; <strong>Needs review</strong>: CAGR of -0.1%/yr reflects historical near-stagnation — not appropriate for a planning scenario. Bulgaria is expected to see demand growth from electrification (EVs, heat pumps, potential green hydrogen exports). Override recommended: consult ESO Bulgaria official load forecast or use moderate growth assumption (e.g. +1.0–1.5%/yr). 2053 value (35,430 GWh) likely understates long-run demand.
-</div>
-<p><strong>Method</strong>: OWID/IEA base 36.5 TWh (2025) + CAGR -0.1%/yr (5-yr historical trend)</p>
+<p><strong>Source</strong>: World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026) <code>(bg_ccdr_kinesys_2026)</code></p>
+<p><strong>Also uses</strong>: <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID) — Energy Dataset (IEA source)</a></p>
+<p><strong>Method</strong>: Kinesys WEM scenario FEC calibrated to OWID 2025 anchor, interpolated annually</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
-<tr><td>2024–2053</td><td><code>DIRECT_EXTRAPOLATED</code></td><td>Anchor: OWID electricity_demand 2025 = 36.5 TWh. CAGR = -0.1%/yr from OWID 2020–2025 trend (historical near-stagnation). Peak estimated via load_factor=0.58. 2024: Energy=36,570 GWh, Peak=7,198 MW. 2030: Energy=36,331 GWh (near-flat).
+<tr><td>2025–2050</td><td><code>DIRECT</code></td><td>Kinesys WEM scenario (cl_wb7-WEM.Nuc-Y.Clim-HDNucRet-Y), KeyCommBalance sheet. Total electricity FEC = sum of demand sectors (Agriculture, Commercial, Energy, Hydrogen, Industry, Mining, Residential, Transport) in PJ, converted to TWh. Calibration factor applied to align 2025 FEC (31.84 TWh) with OWID gross supply anchor (36.5 TWh), implying ~14.8% T&amp;D loss margin. Factor=1.146 applied flat to all years. 5-year milestones: 2025=36.5, 2030=35.8, 2035=36.4, 2040=39.4, 2045=41.7, 2050=43.7 TWh (gross). Demand driven by transport electrification from 2030+.
+</td></tr>
+<tr><td>2024</td><td><code>EXTRAP</code></td><td>Extrapolated backward from 2025–2030 slope (−0.13 TWh/yr).</td></tr>
+<tr><td>2026–2053</td><td><code>INTERP_EXTRAP</code></td><td>Linear interpolation between 5-year Kinesys anchors. 2051–2053 extrapolated at 2045–2050 rate (+0.41 TWh/yr). Peak = Energy_GWh × 1e6 / (8760 × 0.58 load_factor).
 </td></tr>
 </tbody></table>
-<p class="back">Confidence: [LOW] · Last updated: 2026-06-12</p>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-12</p>
 <h3 id="bulgaria-pdemandprofile"><code>pDemandProfile</code></h3>
 <p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
 <p><strong>Source</strong>: ENTSO-E Transparency Platform — Actual Total Load (hourly) <code>(entsoe_hourly_load)</code></p>

@@ -12,7 +12,7 @@
 
 | Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | Romania | AzerbaijanMain | Nakhchivan | Bulgaria |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) |
+| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
 | Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ENTSO-E Transparency Platform (2025) | ⚠ run_blacksea_data_proxy | run_blacksea_data_proxy | ⚠ ENTSO-E Transparency Platform (2025) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | — |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | — |
@@ -995,7 +995,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 
 | Parameter | Source | Confidence |
 |---|---|---|
-| [`pDemandForecast`](#bulgaria-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
+| [`pDemandForecast`](#bulgaria-pdemandforecast) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [MEDIUM] |
 | [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] ⚠ |
 | [`pVREProfile`](#bulgaria-pvreprofile) | Renewables Ninja (2018–2023) | [HIGH] ⚠ |
 
@@ -1005,19 +1005,21 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 
 [&#8593; Bulgaria](#bulgaria)
 
-**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+**Source**: World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026) (`bg_ccdr_kinesys_2026`)
 
-> ⚠ **Needs review**: CAGR of -0.1%/yr reflects historical near-stagnation — not appropriate for a planning scenario. Bulgaria is expected to see demand growth from electrification (EVs, heat pumps, potential green hydrogen exports). Override recommended: consult ESO Bulgaria official load forecast or use moderate growth assumption (e.g. +1.0–1.5%/yr). 2053 value (35,430 GWh) likely understates long-run demand.
+**Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
 
-
-**Method**: OWID/IEA base 36.5 TWh (2025) + CAGR -0.1%/yr (5-yr historical trend)
+**Method**: Kinesys WEM scenario FEC calibrated to OWID 2025 anchor, interpolated annually
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 36.5 TWh. CAGR = -0.1%/yr from OWID 2020–2025 trend (historical near-stagnation). Peak estimated via load_factor=0.58. 2024: Energy=36,570 GWh, Peak=7,198 MW. 2030: Energy=36,331 GWh (near-flat).
+| 2025–2050 | `DIRECT` | Kinesys WEM scenario (cl_wb7-WEM.Nuc-Y.Clim-HDNucRet-Y), KeyCommBalance sheet. Total electricity FEC = sum of demand sectors (Agriculture, Commercial, Energy, Hydrogen, Industry, Mining, Residential, Transport) in PJ, converted to TWh. Calibration factor applied to align 2025 FEC (31.84 TWh) with OWID gross supply anchor (36.5 TWh), implying ~14.8% T&D loss margin. Factor=1.146 applied flat to all years. 5-year milestones: 2025=36.5, 2030=35.8, 2035=36.4, 2040=39.4, 2045=41.7, 2050=43.7 TWh (gross). Demand driven by transport electrification from 2030+.
+ |
+| 2024 | `EXTRAP` | Extrapolated backward from 2025–2030 slope (−0.13 TWh/yr). |
+| 2026–2053 | `INTERP_EXTRAP` | Linear interpolation between 5-year Kinesys anchors. 2051–2053 extrapolated at 2045–2050 rate (+0.41 TWh/yr). Peak = Energy_GWh × 1e6 / (8760 × 0.58 load_factor).
  |
 
-*Confidence: [LOW] · Last updated: 2026-06-12*
+*Confidence: [MEDIUM] · Last updated: 2026-06-12*
 
 
 <a id="bulgaria-pdemandprofile"></a>
