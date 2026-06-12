@@ -34,10 +34,10 @@ Z = 'Bulgaria'
 rows = []
 
 # ── LIGNITE aggregate (Kinesys WEM 2025: 3966 MW; phase-out by 2033) ────
-rows.append(R('Bulgaria_Agg_Lignite', Z, 'ST', 'Lignite', 1, 2000, 2033, 3966, hr=HR_LIGNITE))
+rows.append(R('Bulgaria_Agg_Lignite', Z, 'ST', 'DomesticCoal', 1, 2000, 2033, 3966, hr=HR_LIGNITE))
 
 # ── HARD COAL aggregate (Kinesys WEM 2025: 669 MW) ──────────────────────
-rows.append(R('Bulgaria_Agg_Coal', Z, 'ST', 'Coal', 1, 2000, 2035, 669))
+rows.append(R('Bulgaria_Agg_Coal', Z, 'ST', 'ImportedCoal', 1, 2000, 2035, 669))
 
 # ── GAS CCGT existing (GEM, post-2000 only: 303 MW) ─────────────────────
 rows.append(R('Bulgaria_Plovdiv_North_CCGT', Z, 'CCGT', 'Gas', 1, 2011, 2041, 50,  hr=HR_GAS_CCGT))

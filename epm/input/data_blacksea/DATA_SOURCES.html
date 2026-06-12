@@ -134,7 +134,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#romania-pfuelprice">&#9651; World Bank EPM Romania v8.5 (2… (2024)</a></td>
 <td class="status-review"><a href="#azerbaijanmain-pfuelprice">&#9651; IMF (2022) + <a href="https://www.iea.org/reports/world-energy-outlook-2022" target="_blank">TYNDP / IEA World Energy Outlook 2022</a></a></td>
 <td class="status-pending">&mdash;</td>
-<td class="status-pending">&mdash;</td>
+<td class="status-done"><a href="#bulgaria-pfuelprice">World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance</a></td>
 </tr>
 <tr>
 <td>Plant availability</td>
@@ -316,7 +316,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#bulgaria"><strong>Bulgaria</strong></a>
  &mdash; 
-<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a>, <a href="#bulgaria-pgendatainput"><code>pGenDataInput</code></a>
+<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a>, <a href="#bulgaria-pgendatainput"><code>pGenDataInput</code></a>, <a href="#bulgaria-pfuelprice"><code>pFuelPrice</code></a>
 </li>
 </ul></div>
 <hr>
@@ -848,6 +848,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <tr><td><a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a></td><td>World Bank Bulgaria CCDR (2026) + <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID)</a></td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a></td><td>ENTSO-E Transparency Platform (2025)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#bulgaria-pgendatainput"><code>pGenDataInput</code></a></td><td>Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#bulgaria-pfuelprice"><code>pFuelPrice</code></a></td><td>World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance</td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a></td><td>Renewables Ninja (2018–2023)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="bulgaria-pdemandforecast"><code>pDemandForecast</code></h3>
@@ -895,10 +896,13 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2025–2053</td><td><code>DIRECT_GEM</code></td><td>Individual plants from GEM GIPT September 2025 snapshot (BGR): Solar PV: 40+ operating plants (10–250 MW each) + AGG_SmallPV (841 MW). 2 committed solar farms (Tenovo 238 MW + Bobov Dol 100 MW). 5 candidate solar projects (160–800 MW) + Generic_Solar_Bulgaria (10,000 MW slot). Wind: 20 operating plants (10–156 MW). 3 candidate wind projects (40–250 MW) + Generic_Wind_Bulgaria (10,000 MW slot). Hydro: 13 reservoir hydro plants (60–375 MW), 3 large candidate projects (800–840 MW). Chaira PSP (864 MW) reclassified from ReservoirHydro → Storage/Water. Nuclear: Kozloduy 5 (1040 MW, StYr=1993) and 6 (1040 MW, StYr=1988) as existing. Kozloduy 7 (1000 MW, StYr=2033) and 8 (1000 MW, StYr=2036) as Committed (Status=2, upgraded from GEM "planned" per Kinesys WEM confirmed pipeline). Gas CCGTs: Plovdiv North (50 MW), Varna (210 MW), Toplofikacia Pleven (43 MW). 3 gas CCGT candidates (42–276 MW) from GEM pipeline.
 </td></tr>
-<tr><td>2025–2053</td><td><code>KINESYS_AGGREGATE</code></td><td>Kinesys WEM 2025 used as authoritative source for plants not (or incompletely) captured by GEM due to retirement filter or CHP misclassification: Bulgaria_Agg_Lignite: 3966 MW ST/Lignite, StYr=2000, RetrYr=2033.
+<tr><td>2025–2053</td><td><code>KINESYS_AGGREGATE</code></td><td>Kinesys WEM 2025 used as authoritative source for plants not (or incompletely) captured by GEM due to retirement filter or CHP misclassification: Bulgaria_Agg_Lignite: 3966 MW ST/DomesticCoal, StYr=2000, RetrYr=2033.
+  Fuel mapped to DomesticCoal (not a separate Lignite type) for consistency
+  with Romania and to ensure pEmissionFactor lookup works in EPM.
   Kinesys WEM shows 3966 MW lignite operating in 2025, phasing to 925 MW
   by 2030 and 0 by 2035. RetrYr=2033 represents midpoint of phase-out.
-Bulgaria_Agg_Coal: 669 MW ST/Coal, StYr=2000, RetrYr=2035.
+Bulgaria_Agg_Coal: 669 MW ST/ImportedCoal, StYr=2000, RetrYr=2035.
+  Hard coal is imported (no domestic bituminous coal reserves in Bulgaria).
   Kinesys WEM coal 2025=669 MW, declining to 559 MW (2030) and 110 MW (2035).
 Bulgaria_Agg_Gas_Old: 1054 MW OCGT/Gas, StYr=2000, RetrYr=2040.
   Gap between Kinesys 2025 total gas (1357 MW) and GEM modern CCGTs (303 MW).
@@ -907,13 +911,40 @@ Bulgaria_Battery: 728 MW Storage/Battery, StYr=2024, RetrYr=2034.
   Kinesys WEM 2025 shows 728 MW battery storage; absent from GIPT.
   10-year life assumed (battery replacement cycle).
 </td></tr>
-<tr><td>2025–2053</td><td><code>KINESYS_HEAT_RATES</code></td><td>Heat rates derived from Kinesys WEM 2025 PowerUtility-Cons sheet (fuel consumption PJ) divided by Ele generation sheet (TWh): ST/Lignite: 97.26 PJ / 8.34 TWh = 11.7 GJ/MWh (old Maritza East fleet,
+<tr><td>2025–2053</td><td><code>KINESYS_HEAT_RATES</code></td><td>Heat rates derived from Kinesys WEM 2025 PowerUtility-Cons sheet (fuel consumption PJ) divided by Ele generation sheet (TWh): ST/DomesticCoal (lignite): 97.26 PJ / 8.34 TWh = 11.7 GJ/MWh (old Maritza East fleet,
   higher than generic 10.3 GJ/MWh due to low-grade lignite quality).
 Nuclear VVER-1000: 164.77 PJ / 14.65 TWh = 11.3 GJ/MWh (Kozloduy actual
   operating efficiency, better than generic 12.5 GJ/MWh).
 CCGT Gas: 15.70 PJ / 2.64 TWh = 5.9 GJ/MWh (modern Bulgarian CCGTs,
   slightly better than generic 6.4 GJ/MWh).
 Coal heat rate from Kinesys (4.5 GJ/MWh) rejected — CHP attribution artifact (Deven CFB is cogenerating; fuel allocated partly to heat sector). OCGT/Gas old: generic 9.0 GJ/MWh (no Kinesys signal for old units). All other params (FOM, VOM, Life, Ramp, ResLimShare) left blank → model reads from pGenDataInputGeneric.csv (epm_generic_defaults).
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-12</p>
+<h3 id="bulgaria-pfuelprice"><code>pFuelPrice</code></h3>
+<p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
+<p><strong>Source</strong>: World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026) <code>(bg_ccdr_kinesys_2026)</code></p>
+<p><strong>Also uses</strong>: epm_blacksea_provenance <code>(epm_blacksea_provenance)</code></p>
+<p><strong>Method</strong>: Kinesys WEM ELCFuel sheet (scenario cl_wb7-WEM.Nuc-Y.Clim-HDNucRet-Y), 5-year milestones linearly interpolated to annual 2024-2053. Kinesys units assumed $/GJ (IEA/TIMES convention) → converted ×1.055 to $/MMBtu. Uranium trajectory copied from Romania (same study); Biomass flat at 5.0 $/MMBtu.
+</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>KINESYS_WEM</code></td><td>Gas (ELCNGA): 5.62 (2025) -&gt; 6.31 (2030) -&gt; 5.70 (2035) -&gt; 6.56 (2040) -&gt; 8.55 (2050)
+  $/MMBtu. Dip in 2035 reflects WEM policy scenario (diversification of gas supply,
+  increased LNG/interconnector use offset by carbon pricing effects).
+DomesticCoal / lignite (ELCCOB): 2.26 (2025) -&gt; 2.32 (2030) $/MMBtu, flat thereafter.
+  Lignite priced as DomesticCoal to match pEmissionFactor table; price reflects
+  Kinesys ELCCOB (brown coal/lignite fuel cost). Flat post-2030 because Kinesys shows
+  near-zero lignite consumption by 2033 and does not model the price reliably after
+  Bulgaria_Agg_Lignite retires (RetrYr=2033).
+ImportedCoal (ELCCOA): 4.09 (2025) -&gt; 3.93 (2030) -&gt; 3.85 (2050) $/MMBtu.
+  Slight declining trend in Kinesys WEM consistent with IEA coal price assumptions
+  under stated policies.
+Uranium: copied from Romania pFuelPrice trajectory (same BG-CCDR study).
+  Kinesys ELCNUC (0.014 $/GJ) rejected — near-zero fuel cost is a modeling
+  convention in Kinesys where all nuclear costs are in capacity/fixed charges;
+  EPM requires a non-zero fuel price for dispatch economics.
+  Romania trajectory (1.50-&gt;3.40-&gt;5.61 $/MMBtu) used as proxy.
+Biomass: flat 5.0 $/MMBtu (Romania reference value, no Bulgaria-specific data).
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-12</p>

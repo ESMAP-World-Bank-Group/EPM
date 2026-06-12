@@ -1019,10 +1019,13 @@ Bulgaria:
         notes: >
           Kinesys WEM 2025 used as authoritative source for plants not (or incompletely)
           captured by GEM due to retirement filter or CHP misclassification:
-          Bulgaria_Agg_Lignite: 3966 MW ST/Lignite, StYr=2000, RetrYr=2033.
+          Bulgaria_Agg_Lignite: 3966 MW ST/DomesticCoal, StYr=2000, RetrYr=2033.
+            Fuel mapped to DomesticCoal (not a separate Lignite type) for consistency
+            with Romania and to ensure pEmissionFactor lookup works in EPM.
             Kinesys WEM shows 3966 MW lignite operating in 2025, phasing to 925 MW
             by 2030 and 0 by 2035. RetrYr=2033 represents midpoint of phase-out.
-          Bulgaria_Agg_Coal: 669 MW ST/Coal, StYr=2000, RetrYr=2035.
+          Bulgaria_Agg_Coal: 669 MW ST/ImportedCoal, StYr=2000, RetrYr=2035.
+            Hard coal is imported (no domestic bituminous coal reserves in Bulgaria).
             Kinesys WEM coal 2025=669 MW, declining to 559 MW (2030) and 110 MW (2035).
           Bulgaria_Agg_Gas_Old: 1054 MW OCGT/Gas, StYr=2000, RetrYr=2040.
             Gap between Kinesys 2025 total gas (1357 MW) and GEM modern CCGTs (303 MW).
@@ -1035,7 +1038,7 @@ Bulgaria:
         notes: >
           Heat rates derived from Kinesys WEM 2025 PowerUtility-Cons sheet
           (fuel consumption PJ) divided by Ele generation sheet (TWh):
-          ST/Lignite: 97.26 PJ / 8.34 TWh = 11.7 GJ/MWh (old Maritza East fleet,
+          ST/DomesticCoal (lignite): 97.26 PJ / 8.34 TWh = 11.7 GJ/MWh (old Maritza East fleet,
             higher than generic 10.3 GJ/MWh due to low-grade lignite quality).
           Nuclear VVER-1000: 164.77 PJ / 14.65 TWh = 11.3 GJ/MWh (Kozloduy actual
             operating efficiency, better than generic 12.5 GJ/MWh).
@@ -1061,4 +1064,42 @@ Bulgaria:
       (5) Chaira PSP capacity 864 MW (GEM) vs Kinesys "Stg-Pumped" 216 MW — discrepancy
       unresolved; likely Kinesys models Chaira under Hydro and the 216 MW is a separate
       small pumped scheme. EPM uses 864 MW as Storage/Water (generation capacity).
+    last_updated: 2026-06-12
+
+  pFuelPrice:
+    source_id: bg_ccdr_kinesys_2026
+    secondary_source_ids: [epm_blacksea_provenance]
+    method: >
+      Kinesys WEM ELCFuel sheet (scenario cl_wb7-WEM.Nuc-Y.Clim-HDNucRet-Y),
+      5-year milestones linearly interpolated to annual 2024-2053.
+      Kinesys units assumed $/GJ (IEA/TIMES convention) → converted ×1.055 to $/MMBtu.
+      Uranium trajectory copied from Romania (same study); Biomass flat at 5.0 $/MMBtu.
+    method_table:
+      - period: "2024–2053"
+        method: KINESYS_WEM
+        notes: >
+          Gas (ELCNGA): 5.62 (2025) -> 6.31 (2030) -> 5.70 (2035) -> 6.56 (2040) -> 8.55 (2050)
+            $/MMBtu. Dip in 2035 reflects WEM policy scenario (diversification of gas supply,
+            increased LNG/interconnector use offset by carbon pricing effects).
+          DomesticCoal / lignite (ELCCOB): 2.26 (2025) -> 2.32 (2030) $/MMBtu, flat thereafter.
+            Lignite priced as DomesticCoal to match pEmissionFactor table; price reflects
+            Kinesys ELCCOB (brown coal/lignite fuel cost). Flat post-2030 because Kinesys shows
+            near-zero lignite consumption by 2033 and does not model the price reliably after
+            Bulgaria_Agg_Lignite retires (RetrYr=2033).
+          ImportedCoal (ELCCOA): 4.09 (2025) -> 3.93 (2030) -> 3.85 (2050) $/MMBtu.
+            Slight declining trend in Kinesys WEM consistent with IEA coal price assumptions
+            under stated policies.
+          Uranium: copied from Romania pFuelPrice trajectory (same BG-CCDR study).
+            Kinesys ELCNUC (0.014 $/GJ) rejected — near-zero fuel cost is a modeling
+            convention in Kinesys where all nuclear costs are in capacity/fixed charges;
+            EPM requires a non-zero fuel price for dispatch economics.
+            Romania trajectory (1.50->3.40->5.61 $/MMBtu) used as proxy.
+          Biomass: flat 5.0 $/MMBtu (Romania reference value, no Bulgaria-specific data).
+    confidence: medium
+    needs_review: false
+    review_note: >
+      Kinesys unit assumption ($/GJ) should be verified against source documentation.
+      If units are $/MMBtu, all prices should be divided by 1.055.
+      Gas price trajectory should be cross-checked against ENTSOG/Bulgarian gas market data
+      once the 2026 Bulgaria NECP gas price assumptions are published.
     last_updated: 2026-06-12
