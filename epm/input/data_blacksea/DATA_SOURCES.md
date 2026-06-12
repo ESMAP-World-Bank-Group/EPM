@@ -6,27 +6,27 @@
 
 ## Model overview
 
-**Countries**: Turkiye, Armenia, Georgia, Azerbaijan, Romania  
+**Countries**: Turkiye, Armenia, Georgia, Azerbaijan, Romania, AzerbaijanMain, Nakhchivan, Bulgaria  
 **Data horizon**: 2024–2053 · step: 1 year
 
 
-| Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | Romania |
-|---|---|---|---|---|---|---|---|---|
-| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ENTSO-E Transparency Platform (2025) |
-| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) |
-| Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) |
-| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) |
-| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) |
-| Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — |
-| Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — |
-| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — |
-| Trade | Transmission losses | `pLossFactorInternal` | Cross-border interconnector losses (% by corridor) | — | — | — | — | — |
-| Trade | Trade prices | `pTradePrice` | Import/export prices with temporal variability ($/MWh) — external zones | — | — | — | — | — |
-| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | — | — | — | — | — |
-| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | — | — | — | — | — |
-| Other | Fuel and import limits | `pMaxFuelLimit` | Caps or floors on fuel use or electricity imports (e.g. gas import quotas) | — | — | — | — | — |
+| Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | Romania | AzerbaijanMain | Nakhchivan | Bulgaria |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ENTSO-E Transparency Platform (2025) | ⚠ run_blacksea_data_proxy | run_blacksea_data_proxy | ⚠ ENTSO-E Transparency Platform (2025) |
+| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | — |
+| Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | — |
+| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | — |
+| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — | — | — | — |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) | — | — | — |
+| Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — |
+| Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — | — | — | — |
+| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — |
+| Trade | Transmission losses | `pLossFactorInternal` | Cross-border interconnector losses (% by corridor) | — | — | — | — | — | — | — | — |
+| Trade | Trade prices | `pTradePrice` | Import/export prices with temporal variability ($/MWh) — external zones | — | — | — | — | — | — | — | — |
+| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | — | — | — | — | — | — | — | — |
+| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | — | — | — | — | — | — | — | — |
+| Other | Fuel and import limits | `pMaxFuelLimit` | Caps or floors on fuel use or electricity imports (e.g. gas import quotas) | — | — | — | — | — | — | — | — |
 
 ---
 
@@ -39,6 +39,9 @@
 - [Georgia](#georgia) — [`pGenDataInput`](#georgia-pgendatainput) · [`pDemandForecast`](#georgia-pdemandforecast) · [`pDemandProfile`](#georgia-pdemandprofile) · [`pVREProfile`](#georgia-pvreprofile) · [`pFuelPrice`](#georgia-pfuelprice) · [`pAvailabilityCustom`](#georgia-pavailabilitycustom)
 - [Azerbaijan](#azerbaijan) — [`pGenDataInput`](#azerbaijan-pgendatainput) · [`pDemandForecast`](#azerbaijan-pdemandforecast) · [`pDemandProfile`](#azerbaijan-pdemandprofile) · [`pFuelPrice`](#azerbaijan-pfuelprice) · [`pAvailabilityCustom`](#azerbaijan-pavailabilitycustom) · [`pTransferLimit`](#azerbaijan-ptransferlimit)
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom)
+- [AzerbaijanMain](#azerbaijanmain) — [`pGenDataInput`](#azerbaijanmain-pgendatainput) · [`pDemandForecast`](#azerbaijanmain-pdemandforecast) · [`pDemandProfile`](#azerbaijanmain-pdemandprofile) · [`pFuelPrice`](#azerbaijanmain-pfuelprice) · [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom)
+- [Nakhchivan](#nakhchivan) — [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
+- [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile)
 
 ---
 
@@ -669,6 +672,372 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
  |
 
 *Confidence: [HIGH] · Last updated: 2026-06-11*
+
+
+---
+
+<a id="azerbaijanmain"></a>
+
+## AzerbaijanMain
+
+[&#8593; Contents](#toc)
+
+### Summary
+
+| Parameter | Source | Confidence |
+|---|---|---|
+| [`pDemandForecast`](#azerbaijanmain-pdemandforecast) | Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | [MEDIUM] ⚠ |
+| [`pDemandProfile`](#azerbaijanmain-pdemandprofile) | run_blacksea_data_proxy | [LOW] ⚠ |
+| [`pGenDataInput`](#azerbaijanmain-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
+| [`pFuelPrice`](#azerbaijanmain-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] ⚠ |
+| [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | [LOW] ⚠ |
+
+<a id="azerbaijanmain-pgendatainput"></a>
+
+### `pGenDataInput`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT) (`gem_gipt`)
+
+**Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
+
+**Also uses**: [SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)](https://statistika.nmr.az/)
+
+**Method**: DIRECT from GEM GIPT September 2025; Nakhchivan capacity removed to Nakhchivan zone
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | 57 GEM/GIPT plants mapped to 39 EPM rows (plants with RetrYr<2025 excluded). Gas: year<2000 -> ST, year>=2000 -> CCGT. Hydro -> ReservoirHydro. Technical params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults. Committed: Mingecevir CCGT 4x320 MW (StYr=2025). Note: Nakhchivan_CCGT (87 MW) and Nakhchivan_Solar_PV (20 MW) previously listed as Azerbaijan have been moved to the Nakhchivan zone. Nakhchivan capacity no longer appears in AzerbaijanMain supply. Sarsang ReservoirHydro (50 MW, Tartar River, Karabakh) retained in AzerbaijanMain. HeatRate (GJ/MWh) calibrated from SSC 002_53-55en ÷ 005_4en by vintage:
+  Old CCGTs (StYr 2001-2009): 10.2 GJ/MWh — matches SSC 2020-2023 system
+  average of 10.18 GJ/MWh (gas consumed in TJ / thermal electricity in MWh).
+  Modern CCGTs (Janub 2013, Shimal 2019, Gobu 2022): 7.5 GJ/MWh — estimated
+  from GE Frame 9/Siemens SGT5 design specifications (~48% LHV efficiency).
+  Committed CCGTs (Mingecevir 4x320 MW, Status=2): 7.0 GJ/MWh (new build).
+  Nakhchivan_CCGT (2007 vintage): 10.2 GJ/MWh (same as old AZ fleet).
+  Nakhchivan_GasTurbine_OCGT (2005): 12.0 GJ/MWh (open cycle, ~30% eff).
+Calibration corrections (2026-06-10):
+  Azerbaijan_CHP_Legacy (985 MW, StYr=1985, RetrYr=2029): aggregate of CHP
+  and district-heating plants that generate ~4300 GWh/yr in 2024 and are not
+  captured in GEM/GIPT utility plant list. HeatRate=12.5 GJ/MWh (old CHP,
+  ~28% efficiency). Derived from SSC 003_1.18en CHP row vs SSC 005_3en
+  thermal capacity.
+  Azerbaijan_Khudafarin_Khoda_Afa_ReservoirHydro and Gyz_Galasy_ReservoirHydro
+  StYr shifted 2024→2026: SSC 005_3en shows hydro capacity dropping 1209→1062 MW
+  in 2024, inconsistent with commissioning. Plants not yet counted by SSC.
+  Azerbaijan_AGG_SmallPV reduced 40.5→8 MW: SSC 2024 non-Garadagh solar = 27.6 MW
+  total (257.6 - 230 Garadagh). After allocating ~20 MW to Nakhchivan, ~8 MW
+  residual for mainland small PV.
+  Nakhchivan_Solar_PV reduced 35→20 MW: SSC Nakhchivan capacity data (2022) and
+  SSC 003_1.18en solar residual consistent with ~20 MW installed.
+  Azerbaijan_Khizi_Wind added 14 MW (StYr=2009, RetrYr=2034): SSC wind 64 MW vs
+  model 50 MW (Yeni Yashma); residual ~14 MW attributed to small Khizi-area
+  turbines predating the Khizi-Absheron committed project.
+Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 TWh = production + imports - exports), which includes CHP/autoproducer self-consumption. As CHP declines (−34% in 2020–2024), utility capacity must grow to replace it. Azerbaijan_CHP_Legacy explicitly bridges this transition: it covers the CHP gap in 2024–2029 and retires as Mingecevir CCGTs (4×320 MW, StYr=2025) come online.
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+
+
+<a id="azerbaijanmain-pdemandforecast"></a>
+
+### `pDemandForecast`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+
+**Also uses**: [SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)](https://statistika.nmr.az/)
+
+> ⚠ **Needs review**: Peak demand estimated from energy via load factor (0.58) — no independent peak data source. Nakhchivan split based on generation balance method (Nakh_generation_mix_2003-2021.csv: 2021 total generation 444.8 GWh, net Iran swap ~0, so consumption ≈ 480-500 GWh). Peak estimated from load factor assuming similar shape to main AZ (load factor ~0.68).
+
+
+**Method**: DIRECT from OWID + CAGR, minus Nakhchivan (~500 GWh / 84 MW split to Nakhchivan zone)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 27.17 TWh (net consumption) for all AZ. CAGR = 1.9%/yr computed from OWID 2020-2025 trend. Peak estimated via load_factor=0.58. Nakhchivan split: 500 GWh / 84 MW (1.876% energy, 1.60% peak) moved to Nakhchivan zone. AzerbaijanMain 2024: Energy=26165 GWh, Peak=5164 MW. Both zones grow at the same proportional rate as the OWID AZ trajectory.
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+
+
+<a id="azerbaijanmain-pdemandprofile"></a>
+
+### `pDemandProfile`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: run_blacksea_data_proxy (`run_blacksea_data_proxy`)
+
+> ⚠ **Needs review**: PROXY — no Azerbaijan-specific hourly load data. Turkey shape used as proxy (similar climate: continental, hot summers, cold winters). TO RECOMPUTE: run full representative-days pipeline for all Black Sea countries (including AZ) with VRE profiles when all country data is available. Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
+
+
+**Method**: PROXY Turkey shape from ENTSO-E, scaled to AZ demand, seasonal mean
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `PROXY_Turkey` | Load shape: Turkey ENTSO-E hourly profile scaled to AZ annual energy (from run_blacksea_data.py, AZE_ANNUAL_MWH=29.3 TWh). Seasonal mean per quarter (Q1-Q4), all d1-d6 share same mean profile. Q1_mean=0.737 (winter heating peak), Q3_mean=0.651 (summer). Computed via compute_epm_demand.py --country AZE --profile.
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-05*
+
+
+<a id="azerbaijanmain-pfuelprice"></a>
+
+### `pFuelPrice`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: IMF — Energy Subsidies Database (IMF/World Bank methodology, 2022) (`imf_energy_subsidies`)
+
+**Also uses**: [TYNDP / IEA World Energy Outlook 2022 — commodity prices](https://www.iea.org/reports/world-energy-outlook-2022)
+
+> ⚠ **Needs review**: Supply price (4.46 $/MMBtu) is between domestic subsidized retail (~$1.5-2/MMBtu) and export opportunity cost (~$6-8/MMBtu via TANAP). Choice justification: reflects actual generator economics for planning model. If WB study requires economic (opportunity) cost approach, use ~$6.5/MMBtu. IMF data covers 2015-2025; forward trajectory based on Armenia CAGR.
+
+
+**Method**: DIRECT supply price from IMF subsidy database (Gas) + flat estimate (Biomass)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2025 | `DIRECT` | Gas: mit_sp_nga_pow (supply price paid by power generators) from Georgia_fuel-subsidies_2022.xlsx 'data' sheet, country=AZE. 2024 = 4.225 USD/GJ = 4.46 USD/MMBtu (converted at 1 GJ = 0.9478 MMBtu). This is NOT the domestic subsidized retail price (~$1.5-2/MMBtu) NOR the full export/opportunity cost (~$6-8/MMBtu) — it is the actual price charged to power generators by SOCAR.
+ |
+| 2026–2053 | `EXTRAPOLATED` | Growth trajectory applied from Armenia (tyndp_iea_weo_2022): same year-on-year increments (+0.033/yr to 2040, +0.022/yr beyond). Biomass: 0.50 USD/MMBtu flat (Balakhani landfill gas, quasi-free fuel).
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-05*
+
+
+<a id="azerbaijanmain-pavailabilitycustom"></a>
+
+### `pAvailabilityCustom`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: World Bank EPM Georgia v8.5 (2022, internal model) — primary data sources not documented (`wb_epm_georgia_v85`)
+
+**Also uses**: [SSC Azerbaijan — Annual Energy Statistics (1913–2024)](https://stat.gov.az/source/balance_energy/)
+
+> ⚠ **Needs review**: Kura hydro proxy from Georgia Enguri calibration — no AZ-specific hydrological data. Replace with Mingechevir actual seasonal generation data when available (AzerEnerji annual reports, GRDC Kura gauge). Solar CF: 556.4 GWh / 257.6 MW SSC 2024 data. Excludes ~52 GWh Nakhchivan solar (already split out). Seasonal variation not modeled — flat CF applied. Wind CF (~9% apparent from SSC 50.9 GWh / 66 MW) is suspect; needs review before adding custom entry (may indicate curtailment or data gap).
+
+
+**Method**: Kura River proxy (hydro) + SSC solar CF calibration
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `PROXY_Georgia_Kura` | 6 ReservoirHydro plants (Mingechevir, Shamkir, Yenikend, Khudafarin, Gyz Galasy, Sarsang): all on Kura/Tartar River system. Seasonal pattern proxied from WB EPM Georgia v8.5 Enguri calibration (Q1=0.21, Q2=0.48, Q3=0.52, Q4=0.20) — physically justified: same catchment, same snowmelt-driven seasonal cycle. All 6 plants share same seasonal CF (no plant-specific data available).
+ |
+| 2024–2053 | `DIRECT` | Solar PV (Garadagh 230 MW, AGG_SmallPV 40.5 MW): CF=0.246 flat quarterly. Derived from SSC 005_4en.xls 2024: 556.4 GWh solar generation / (257.6 MW installed × 8760 h) = 24.6%. Flat quarterly CF (no seasonal variation data available for AZ main solar).
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-10*
+
+
+---
+
+<a id="nakhchivan"></a>
+
+## Nakhchivan
+
+[&#8593; Contents](#toc)
+
+### Summary
+
+| Parameter | Source | Confidence |
+|---|---|---|
+| [`pDemandForecast`](#nakhchivan-pdemandforecast) | SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [LOW] ⚠ |
+| [`pDemandProfile`](#nakhchivan-pdemandprofile) | run_blacksea_data_proxy | [LOW] |
+| [`pGenDataInput`](#nakhchivan-pgendatainput) | SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
+| [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) | SSC + World Bank EPM Georgia v8.5 (2022, internal model) | [LOW] ⚠ |
+| [`pTransferLimit`](#nakhchivan-ptransferlimit) | Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | [MEDIUM] ⚠ |
+
+<a id="nakhchivan-pgendatainput"></a>
+
+### `pGenDataInput`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022) (`ssc_az_nakhchivan_2022`)
+
+**Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
+
+> ⚠ **Needs review**: Capacity snapshot is ~2022. No updates to 2024 available. Nakhchivan_CCGT retirement year (2037) may be extended — modular plant could be refurbished. Confirm with NAR energy authority. Nakhchivan_GasTurbine_OCGT retirement 2030 is uncertain (age ~20 yr by then). No CAPEX/FOM/VOM specific to Nakhchivan — generic defaults used.
+
+
+**Method**: DIRECT from Mammadova (NSU) / statistika.nmr.az capacity table (~late 2022)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | Source: Nakh_capacity_installed_2022.csv (NSU paper via statistika.nmr.az). 12 power plants, total 248.8 MW (snapshot ~Oct 2022). Modeled as 4 EPM generators: (1) Nakhchivan_CCGT: 87 MW CCGT Gas (Modular PP, StYr=2007, RetrYr=2037).
+    Formerly Azerbaijan_Nakhchivan_CCGT in Azerbaijan zone.
+(2) Nakhchivan_GasTurbine_OCGT: 50 MW OCGT Gas (Gas-Turbine PS, StYr=2005,
+    RetrYr=2030). New entry — not previously in model.
+(3) Nakhchivan_Arpachay_ReservoirHydro: 48.4 MW (Heydar Aliyev 4.5 MW +
+    Bilav 22 MW + Arpachay-1 20.5 MW + Arpachay-2 1.4 MW, StYr=2003).
+    New entry — not previously in model.
+(4) Nakhchivan_Solar_PV: 35 MW PV (Nakhchivan SPP 22 MW + Kangarli 5 MW +
+    Sharur 8 MW, StYr=2015, RetrYr=2040). Updated from 20 MW.
+Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params from epm_generic_defaults.
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+
+
+<a id="nakhchivan-pdemandforecast"></a>
+
+### `pDemandForecast`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022) (`ssc_az_nakhchivan_2022`)
+
+**Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
+
+> ⚠ **Needs review**: No official Nakhchivan demand statistics — consumption inferred from generation balance. Iran swap volumes (~33 GWh each way) assumed symmetric. CAGR 1.9%/yr from main AZ applied — may overestimate if Nakhchivan growth is slower (historical 2015-2021: ~0.5%/yr stagnation period). Recalibrate once AZ Ministry publishes Nakhchivan-specific demand data.
+
+
+**Method**: Generation-balance estimate from Nakh generation mix + proportional CAGR
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DERIVED_GENERATION_BALANCE` | Anchor 2024: Energy=500 GWh, Peak=84 MW. Methodology: Nakhchivan consumption ≈ local generation + net imports. Generation data (Nakh_generation_mix_2003-2021.csv): 2021 total=444.8 GWh. Net Iran swap flow ~0 (symmetric swap, ~33 GWh each direction per blacksea_crossborder_lines_v6.xlsx). Consumption estimate ≈ 480–500 GWh. Anchor set at 500 GWh (2024, extrapolating 2021 at ~1.5%/yr CAGR). Peak: load factor ~0.68 → Peak = 500e6/(0.68×8760) ≈ 84 MW. Forward trajectory: proportional to AzerbaijanMain OWID CAGR (1.9%/yr). 2053: Energy≈861 GWh, Peak≈145 MW.
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-10*
+
+
+<a id="nakhchivan-pdemandprofile"></a>
+
+### `pDemandProfile`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: run_blacksea_data_proxy (`run_blacksea_data_proxy`)
+
+**Method**: PROXY from AzerbaijanMain load shape (same Turkey ENTSO-E origin)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `PROXY_AzerbaijanMain` | Same 24-hour × 4-quarter × 6-daytype profile as AzerbaijanMain. Nakhchivan has similar climate to southern AZ (continental, hot summers). No Nakhchivan-specific hourly load data available.
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-10*
+
+
+<a id="nakhchivan-pavailabilitycustom"></a>
+
+### `pAvailabilityCustom`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022) (`ssc_az_nakhchivan_2022`)
+
+**Also uses**: World Bank EPM Georgia v8.5 (2022, internal model) — primary data sources not documented (`wb_epm_georgia_v85`)
+
+> ⚠ **Needs review**: Arpachay hydro profile is a simplified 4-quarter proxy. No gauge data used — inferred from total annual generation and mountain snowmelt logic. Seasonal profile should be validated against GRDC Araz River discharge or statistika.nmr.az monthly generation data if available. Solar CF (17%) is from 2021 data; capacity has grown since.
+
+
+**Method**: Arpachay seasonal proxy (snowmelt) + SSC solar CF calibration
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DERIVED_HYDRO_SEASONAL` | Nakhchivan_Arpachay_ReservoirHydro (48.4 MW): Arpachay/Araz rivers, Nakhchivan AR. Seasonal profile: Q1=0.20, Q2=0.50, Q3=0.30, Q4=0.20. Derived from generation data (Nakh_generation_mix_2003-2021.csv): 2020 hydro CF = 157.1/(48.4×8760) = 37.1% annual. 2021 hydro CF = 129.6/(48.4×8760) = 30.6% annual. Quarterly distribution: mountain snowmelt peak in spring/early summer (Q2), lower Q1/Q4, moderate Q3. Distinct from Kura River (Enguri proxy) which peaks Q2/Q3; Arpachay drains smaller catchment at higher altitude.
+ |
+| 2024–2053 | `DERIVED_SSC` | Nakhchivan_Solar_PV (35 MW): CF=0.17 flat quarterly. Derived from Nakh_generation_mix_2003-2021.csv 2021 data: 50.8 GWh / (35 MW × 8760 h) = 16.6% ≈ 17%. (In 2021, installed solar was ~27 MW; 50.8/27×8760 = 21.5% CF — 35 MW denominator gives 17% as conservative planning estimate).
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-10*
+
+
+<a id="nakhchivan-ptransferlimit"></a>
+
+### `pTransferLimit`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: Black Sea Cross-Border Lines Database v6 (`blacksea_crossborder_lines_v6`)
+
+**Also uses**: epm_expert_judgment (`epm_expert_judgment`)
+
+> ⚠ **Needs review**: Nakhchivan↔Türkiye (50 MW) and ↔Iran (50 MW) capacities from infrastructure database — actual operational limits may differ from rated capacity (line aging, operational constraints). Zangezur corridor COD 2027-2028 is the official target; modeled as available from 2028. COD slippage possible — sensitivity test with 2029-2030 COD recommended. HVDC Nakhchivan↔Türkiye (1000 MW, post-2030, no FID) not modeled.
+
+
+**Method**: DIRECT from crossborder infrastructure database + committed Zangezur corridor
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | Three connections for Nakhchivan: (1) Nakhchivan ↔ EastAna (Türkiye): 50 MW flat all years.
+    Source: Sederek/Babek → Iğdır, 154 kV line (~50 MW).
+    blacksea_crossborder_lines_v6.xlsx.
+(2) Nakhchivan ↔ Inter_Nakhchivan_Iran (external): 50 MW Import+Export.
+    Source: Babek/Julfa → Khoy/Marand, 132/220 kV (~50 MW, 2005 swap).
+    Historical: ~33 GWh each direction/year (near capacity at 50 MW peak).
+    Modeled as external zone (pExtTransferLimit) — Iran not in model.
+(3) AzerbaijanMain ↔ Nakhchivan (Zangezur corridor):
+    0 MW 2024–2027; 1000 MW from 2028 (all quarters).
+    Source: 330 kV double-circuit line, construction launched Jan 2026,
+    COD 2027–2028 per official statements. Committed project (Status=2).
+    Capacity: 1000 MW rated (2×330 kV circuits, each ~500 MW).
+ |
+
+*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+
+
+---
+
+<a id="bulgaria"></a>
+
+## Bulgaria
+
+[&#8593; Contents](#toc)
+
+### Summary
+
+| Parameter | Source | Confidence |
+|---|---|---|
+| [`pDemandForecast`](#bulgaria-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
+| [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] ⚠ |
+
+<a id="bulgaria-pdemandforecast"></a>
+
+### `pDemandForecast`
+
+[&#8593; Bulgaria](#bulgaria)
+
+**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+
+> ⚠ **Needs review**: CAGR of -0.1%/yr reflects historical near-stagnation — not appropriate for a planning scenario. Bulgaria is expected to see demand growth from electrification (EVs, heat pumps, potential green hydrogen exports). Override recommended: consult ESO Bulgaria official load forecast or use moderate growth assumption (e.g. +1.0–1.5%/yr). 2053 value (35,430 GWh) likely understates long-run demand.
+
+
+**Method**: OWID/IEA base 36.5 TWh (2025) + CAGR -0.1%/yr (5-yr historical trend)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 36.5 TWh. CAGR = -0.1%/yr from OWID 2020–2025 trend (historical near-stagnation). Peak estimated via load_factor=0.58. 2024: Energy=36,570 GWh, Peak=7,198 MW. 2030: Energy=36,331 GWh (near-flat).
+ |
+
+*Confidence: [LOW] · Last updated: 2026-06-12*
+
+
+<a id="bulgaria-pdemandprofile"></a>
+
+### `pDemandProfile`
+
+[&#8593; Bulgaria](#bulgaria)
+
+**Source**: ENTSO-E Transparency Platform — Actual Total Load (hourly) (`entsoe_hourly_load`)
+
+> ⚠ **Needs review**: Profile to be recalculated once Bulgaria is fully integrated in the representative days pipeline (run_blacksea_data.py). Current profiles are valid ENTSO-E data but within-season variability (d1–d6 differentiation) is lost — all daytypes share the same seasonal mean. Rerun when all Black Sea countries are integrated.
+
+
+**Method**: DIRECT seasonal mean from ENTSO-E Bulgaria hourly load, all d1-d6 daytypes
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | Bulgaria zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, BG bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.691 (winter), Q2_mean=0.518 (spring), Q3_mean=0.533 (summer), Q4_mean=0.624. All d1–d6 daytypes share the same seasonal mean profile. Computed via compute_epm_demand.py --country BGR --profile.
+ |
+
+*Confidence: [HIGH] · Last updated: 2026-06-12*
 
 
 ---

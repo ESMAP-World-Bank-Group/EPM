@@ -624,7 +624,11 @@ def main():
 
     catalog = load_catalog()
     provenance = load_provenance(args.deployment)
+    # Country list = zcmap (active) + provenance keys not yet in zcmap (in-progress)
     countries = load_zcmap(args.deployment)
+    for c in provenance:
+        if c and c != "model_name" and isinstance(provenance[c], dict) and c not in countries:
+            countries.append(c)
     horizon = load_horizon(args.deployment)
     params = load_params()
 
