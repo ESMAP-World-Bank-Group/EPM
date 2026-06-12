@@ -10,7 +10,7 @@ access_note: >
   coordinates. Free download from GEM website after free registration.
   Local file: Data/Azerbaijan/GEM/GEM_GIPT_September_2025.xlsx
 coverage:
-  countries: [Azerbaijan, Armenia, Georgia, Turkiye]
+  countries: [Azerbaijan, Armenia, Georgia, Turkiye, Bulgaria]
   years: "snapshot September 2025"
 fills_epm_resources:
   - resource: pGenDataInput
@@ -20,6 +20,10 @@ fills_epm_resources:
       Used for AzerbaijanMain zone: 57 GEM plants mapped to 39 EPM rows after
       removing plants retired before 2025 and excluding Nakhchivan capacity.
       Technology mapping: Gas (pre-2000 vintage) → ST, Gas (post-2000) → CCGT.
+      For Bulgaria: solar PV, wind, hydro, nuclear, and modern gas CCGTs. Lignite,
+      old gas, and battery aggregates supplemented from Kinesys (GEM retirement
+      filter removes pre-2000 units). Chaira PSP (864 MW) reclassified to Storage/Water.
+      Kozloduy 7+8 status upgraded from "planned" to Committed (Status=2) per Kinesys WEM.
 quality:
   confidence: medium
   notes: >

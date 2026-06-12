@@ -121,7 +121,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-review"><a href="#romania-pgendatainput">&#9651; World Bank EPM Romania v8.5 (2… (2024) + <a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank">Global Energy Monitor (GEM)</a></a></td>
 <td class="status-done"><a href="#azerbaijanmain-pgendatainput">Global Energy Monitor (GEM) (2025-09) + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a> + <a href="https://statistika.nmr.az/" target="_blank">SSC</a></a></td>
 <td class="status-review"><a href="#nakhchivan-pgendatainput">&#9651; SSC + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#bulgaria-pgendatainput">&#9651; Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></a></td>
 </tr>
 <tr>
 <td>Fuel prices</td>
@@ -316,7 +316,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#bulgaria"><strong>Bulgaria</strong></a>
  &mdash; 
-<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a>
+<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a>, <a href="#bulgaria-pgendatainput"><code>pGenDataInput</code></a>
 </li>
 </ul></div>
 <hr>
@@ -847,6 +847,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a></td><td>World Bank Bulgaria CCDR (2026) + <a href="https://ourworldindata.org/energy" target="_blank">Our World in Data (OWID)</a></td><td><span class="conf">[MEDIUM]</span></td></tr>
 <tr><td><a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a></td><td>ENTSO-E Transparency Platform (2025)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#bulgaria-pgendatainput"><code>pGenDataInput</code></a></td><td>Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></td><td><span class="conf">[MEDIUM]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a></td><td>Renewables Ninja (2018–2023)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="bulgaria-pdemandforecast"><code>pDemandForecast</code></h3>
@@ -884,6 +885,38 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [HIGH] · Last updated: 2026-06-12</p>
+<h3 id="bulgaria-pgendatainput"><code>pGenDataInput</code></h3>
+<p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
+<p><strong>Source</strong>: Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT) <code>(gem_gipt)</code></p>
+<p><strong>Also uses</strong>: World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026) <code>(bg_ccdr_kinesys_2026)</code>, <a href="https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/" target="_blank">EPM Generic Defaults</a></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: (1) Lignite/coal aggregates use approximate StYr=2000 — replace with weighted-average commissioning year if unit-level data becomes available from ESO Bulgaria or EUROSTAT. (2) Kozloduy 7+8 commissioned year estimates (~2033/2036) from WNA and Kinesys WEM; update when official COD confirmed by NEC/BNRA licensing decision. (3) GEM hydro candidates (Turnu Magurele 840 MW, Batak 800 MW, Dospat 800 MW) conflict with Kinesys flat hydro trajectory — model will build these if economically viable; consider removing if not in national energy plan. (4) Generic Solar/Wind slots (10,000 MW each) are unconstrained expansion; calibrate BuildLimitperYear against national NECP targets once available. (5) Chaira PSP capacity 864 MW (GEM) vs Kinesys "Stg-Pumped" 216 MW — discrepancy unresolved; likely Kinesys models Chaira under Hydro and the 216 MW is a separate small pumped scheme. EPM uses 864 MW as Storage/Water (generation capacity).
+</div>
+<p><strong>Method</strong>: GEM GIPT plant-level (solar, wind, hydro, nuclear, gas) + Kinesys WEM aggregates (lignite, coal, old gas, battery) + Kinesys-derived heat rates</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2025–2053</td><td><code>DIRECT_GEM</code></td><td>Individual plants from GEM GIPT September 2025 snapshot (BGR): Solar PV: 40+ operating plants (10–250 MW each) + AGG_SmallPV (841 MW). 2 committed solar farms (Tenovo 238 MW + Bobov Dol 100 MW). 5 candidate solar projects (160–800 MW) + Generic_Solar_Bulgaria (10,000 MW slot). Wind: 20 operating plants (10–156 MW). 3 candidate wind projects (40–250 MW) + Generic_Wind_Bulgaria (10,000 MW slot). Hydro: 13 reservoir hydro plants (60–375 MW), 3 large candidate projects (800–840 MW). Chaira PSP (864 MW) reclassified from ReservoirHydro → Storage/Water. Nuclear: Kozloduy 5 (1040 MW, StYr=1993) and 6 (1040 MW, StYr=1988) as existing. Kozloduy 7 (1000 MW, StYr=2033) and 8 (1000 MW, StYr=2036) as Committed (Status=2, upgraded from GEM "planned" per Kinesys WEM confirmed pipeline). Gas CCGTs: Plovdiv North (50 MW), Varna (210 MW), Toplofikacia Pleven (43 MW). 3 gas CCGT candidates (42–276 MW) from GEM pipeline.
+</td></tr>
+<tr><td>2025–2053</td><td><code>KINESYS_AGGREGATE</code></td><td>Kinesys WEM 2025 used as authoritative source for plants not (or incompletely) captured by GEM due to retirement filter or CHP misclassification: Bulgaria_Agg_Lignite: 3966 MW ST/Lignite, StYr=2000, RetrYr=2033.
+  Kinesys WEM shows 3966 MW lignite operating in 2025, phasing to 925 MW
+  by 2030 and 0 by 2035. RetrYr=2033 represents midpoint of phase-out.
+Bulgaria_Agg_Coal: 669 MW ST/Coal, StYr=2000, RetrYr=2035.
+  Kinesys WEM coal 2025=669 MW, declining to 559 MW (2030) and 110 MW (2035).
+Bulgaria_Agg_Gas_Old: 1054 MW OCGT/Gas, StYr=2000, RetrYr=2040.
+  Gap between Kinesys 2025 total gas (1357 MW) and GEM modern CCGTs (303 MW).
+  Represents old gas turbines and CHP units not in GIPT or retired by GIPT filter.
+Bulgaria_Battery: 728 MW Storage/Battery, StYr=2024, RetrYr=2034.
+  Kinesys WEM 2025 shows 728 MW battery storage; absent from GIPT.
+  10-year life assumed (battery replacement cycle).
+</td></tr>
+<tr><td>2025–2053</td><td><code>KINESYS_HEAT_RATES</code></td><td>Heat rates derived from Kinesys WEM 2025 PowerUtility-Cons sheet (fuel consumption PJ) divided by Ele generation sheet (TWh): ST/Lignite: 97.26 PJ / 8.34 TWh = 11.7 GJ/MWh (old Maritza East fleet,
+  higher than generic 10.3 GJ/MWh due to low-grade lignite quality).
+Nuclear VVER-1000: 164.77 PJ / 14.65 TWh = 11.3 GJ/MWh (Kozloduy actual
+  operating efficiency, better than generic 12.5 GJ/MWh).
+CCGT Gas: 15.70 PJ / 2.64 TWh = 5.9 GJ/MWh (modern Bulgarian CCGTs,
+  slightly better than generic 6.4 GJ/MWh).
+Coal heat rate from Kinesys (4.5 GJ/MWh) rejected — CHP attribution artifact (Deven CFB is cogenerating; fuel allocated partly to heat sector). OCGT/Gas old: generic 9.0 GJ/MWh (no Kinesys signal for old units). All other params (FOM, VOM, Life, Ramp, ResLimShare) left blank → model reads from pGenDataInputGeneric.csv (epm_generic_defaults).
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [MEDIUM] · Last updated: 2026-06-12</p>
 <hr>
 </body>
 </html>
