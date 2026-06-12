@@ -18,7 +18,7 @@
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ World Bank EPM Romania v8.5 (2… (2024) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | — |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | — |
 | Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — | — | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) | — | — | — |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | Global Energy Monitor (GEM) (2025-09) | — | — | ⚠ Renewables Ninja (2018–2023) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — |
 | Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — | — | — | — |
 | Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — |
@@ -41,7 +41,7 @@
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom)
 - [AzerbaijanMain](#azerbaijanmain) — [`pGenDataInput`](#azerbaijanmain-pgendatainput) · [`pDemandForecast`](#azerbaijanmain-pdemandforecast) · [`pDemandProfile`](#azerbaijanmain-pdemandprofile) · [`pFuelPrice`](#azerbaijanmain-pfuelprice) · [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom)
 - [Nakhchivan](#nakhchivan) — [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
-- [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile)
+- [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile)
 
 ---
 
@@ -997,6 +997,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 |---|---|---|
 | [`pDemandForecast`](#bulgaria-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
 | [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] ⚠ |
+| [`pVREProfile`](#bulgaria-pvreprofile) | Renewables Ninja (2018–2023) | [HIGH] ⚠ |
 
 <a id="bulgaria-pdemandforecast"></a>
 
@@ -1035,6 +1036,27 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 | Period | Method | Notes |
 |--------|--------|-------|
 | 2024–2053 | `DIRECT` | Bulgaria zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, BG bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.691 (winter), Q2_mean=0.518 (spring), Q3_mean=0.533 (summer), Q4_mean=0.624. All d1–d6 daytypes share the same seasonal mean profile. Computed via compute_epm_demand.py --country BGR --profile.
+ |
+
+*Confidence: [HIGH] · Last updated: 2026-06-12*
+
+
+<a id="bulgaria-pvreprofile"></a>
+
+### `pVREProfile`
+
+[&#8593; Bulgaria](#bulgaria)
+
+**Source**: Renewables Ninja — PV and Wind capacity factors (`renewables_ninja`)
+
+> ⚠ **Needs review**: Single centroid point for entire Bulgaria — does not capture regional variation (Black Sea coast wind is stronger than interior; Rhodope/Rila have different solar). Within-season variability (d1–d6) lost — all daytypes share seasonal mean. Offshore wind not included (Bulgaria has Black Sea offshore potential, not yet modeled). Rerun with per-daytype segmentation once full representative days pipeline is updated for all Black Sea countries.
+
+
+**Method**: Renewables Ninja multi-year seasonal mean CF (2018–2023), Bulgaria centroid
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `DIRECT` | PV and OnshoreWind from Renewables Ninja API output (blacksea_run1/ninja/ directory, Bulgaria centroid 25.5°E, 42.7°N). 6-year mean (2018–2023) seasonal mean per (season, hour), normalized by tech maximum. PV: Q1=0.219, Q2=0.307 (spring), Q3=0.323 (summer peak), Q4=0.191. OnshoreWind: Q1=0.943 (strong winter), Q2=0.706, Q3=0.702, Q4=0.757. All d1–d6 daytypes share the same seasonal mean (simplified approach). Computed via compute_epm_vre.py --country BGR.
  |
 
 *Confidence: [HIGH] · Last updated: 2026-06-12*

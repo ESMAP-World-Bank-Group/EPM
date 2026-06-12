@@ -960,3 +960,28 @@ Bulgaria:
       within-season variability (d1–d6 differentiation) is lost — all daytypes share the
       same seasonal mean. Rerun when all Black Sea countries are integrated.
     last_updated: 2026-06-12
+
+  pVREProfile:
+    source_id: renewables_ninja
+    method: "Renewables Ninja multi-year seasonal mean CF (2018–2023), Bulgaria centroid"
+    method_table:
+      - period: "2024–2053"
+        method: DIRECT
+        notes: >
+          PV and OnshoreWind from Renewables Ninja API output
+          (blacksea_run1/ninja/ directory, Bulgaria centroid 25.5°E, 42.7°N).
+          6-year mean (2018–2023) seasonal mean per (season, hour), normalized by tech maximum.
+          PV: Q1=0.219, Q2=0.307 (spring), Q3=0.323 (summer peak), Q4=0.191.
+          OnshoreWind: Q1=0.943 (strong winter), Q2=0.706, Q3=0.702, Q4=0.757.
+          All d1–d6 daytypes share the same seasonal mean (simplified approach).
+          Computed via compute_epm_vre.py --country BGR.
+    confidence: high
+    needs_review: true
+    review_note: >
+      Single centroid point for entire Bulgaria — does not capture regional variation
+      (Black Sea coast wind is stronger than interior; Rhodope/Rila have different solar).
+      Within-season variability (d1–d6) lost — all daytypes share seasonal mean.
+      Offshore wind not included (Bulgaria has Black Sea offshore potential, not yet modeled).
+      Rerun with per-daytype segmentation once full representative days pipeline is
+      updated for all Black Sea countries.
+    last_updated: 2026-06-12

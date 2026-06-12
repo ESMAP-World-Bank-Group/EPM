@@ -173,7 +173,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 <td class="status-done"><a href="#romania-pvreprofile">Global Energy Monitor (GEM) (2025-09)</a></td>
 <td class="status-pending">&mdash;</td>
 <td class="status-pending">&mdash;</td>
-<td class="status-pending">&mdash;</td>
+<td class="status-review"><a href="#bulgaria-pvreprofile">&#9651; Renewables Ninja (2018–2023)</a></td>
 </tr>
 <tr class="cat-row"><td colspan="11">Resources</td></tr>
 <tr>
@@ -316,7 +316,7 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
 </li>
 <li><a href="#bulgaria"><strong>Bulgaria</strong></a>
  &mdash; 
-<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>
+<a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a>, <a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a>, <a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a>
 </li>
 </ul></div>
 <hr>
@@ -847,6 +847,7 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <table><thead><tr><th>Parameter</th><th>Source</th><th>Confidence</th></tr></thead><tbody>
 <tr><td><a href="#bulgaria-pdemandforecast"><code>pDemandForecast</code></a></td><td>Our World in Data (OWID) (2025)</td><td><span class="conf">[LOW]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 <tr><td><a href="#bulgaria-pdemandprofile"><code>pDemandProfile</code></a></td><td>ENTSO-E Transparency Platform (2025)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
+<tr><td><a href="#bulgaria-pvreprofile"><code>pVREProfile</code></a></td><td>Renewables Ninja (2018–2023)</td><td><span class="conf">[HIGH]</span> <span class="conf" style="color:#b85c00">[&#9651; REVIEW]</span></td></tr>
 </tbody></table>
 <h3 id="bulgaria-pdemandforecast"><code>pDemandForecast</code></h3>
 <p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
@@ -867,6 +868,17 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 <p><strong>Method</strong>: DIRECT seasonal mean from ENTSO-E Bulgaria hourly load, all d1-d6 daytypes</p>
 <table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
 <tr><td>2024–2053</td><td><code>DIRECT</code></td><td>Bulgaria zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, BG bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.691 (winter), Q2_mean=0.518 (spring), Q3_mean=0.533 (summer), Q4_mean=0.624. All d1–d6 daytypes share the same seasonal mean profile. Computed via compute_epm_demand.py --country BGR --profile.
+</td></tr>
+</tbody></table>
+<p class="back">Confidence: [HIGH] · Last updated: 2026-06-12</p>
+<h3 id="bulgaria-pvreprofile"><code>pVREProfile</code></h3>
+<p class="back"><a href="#bulgaria">&#8593; Bulgaria</a></p>
+<p><strong>Source</strong>: Renewables Ninja — PV and Wind capacity factors <code>(renewables_ninja)</code></p>
+<div class="review-box">&#9651; <strong>Needs review</strong>: Single centroid point for entire Bulgaria — does not capture regional variation (Black Sea coast wind is stronger than interior; Rhodope/Rila have different solar). Within-season variability (d1–d6) lost — all daytypes share seasonal mean. Offshore wind not included (Bulgaria has Black Sea offshore potential, not yet modeled). Rerun with per-daytype segmentation once full representative days pipeline is updated for all Black Sea countries.
+</div>
+<p><strong>Method</strong>: Renewables Ninja multi-year seasonal mean CF (2018–2023), Bulgaria centroid</p>
+<table><thead><tr><th>Period</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2024–2053</td><td><code>DIRECT</code></td><td>PV and OnshoreWind from Renewables Ninja API output (blacksea_run1/ninja/ directory, Bulgaria centroid 25.5°E, 42.7°N). 6-year mean (2018–2023) seasonal mean per (season, hour), normalized by tech maximum. PV: Q1=0.219, Q2=0.307 (spring), Q3=0.323 (summer peak), Q4=0.191. OnshoreWind: Q1=0.943 (strong winter), Q2=0.706, Q3=0.702, Q4=0.757. All d1–d6 daytypes share the same seasonal mean (simplified approach). Computed via compute_epm_vre.py --country BGR.
 </td></tr>
 </tbody></table>
 <p class="back">Confidence: [HIGH] · Last updated: 2026-06-12</p>
