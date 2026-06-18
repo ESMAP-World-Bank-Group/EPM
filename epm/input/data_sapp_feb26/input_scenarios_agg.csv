@@ -1,4 +1,4 @@
-paramNames,baseline
+paramNames,baseline_5y
 modeltype,RMIP
 cplexfile,cplex/cplex_baseline.opt
 pSettings,pSettings.csv
@@ -40,7 +40,7 @@ pMinGenByFuel,constraint/pMinGenerationByFuel.csv
 pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv
 pMaxShareGenerationByTech,constraint/pMaxShareGenerationByTech.csv
 pCountryBuildLimitY,constraint/pCountryBuildLimitYear_none.csv
-pNewTransmission,trade/pNewTransmission_agg.csv
+pNewTransmission,trade/pNewTransmission_agg_MAZA_5y.csv
 pTradePrice,trade/pTradePrice.csv
 pTransferLimit,trade/pTransferLimit_agg.csv
 pH2DataExcel,h2/pH2DataExcel.csv
