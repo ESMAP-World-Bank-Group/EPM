@@ -656,7 +656,7 @@ def _check_transfer_limits(gams, db):
         seasons = set(p_hours_records["q"].unique())
         season_issues = []
 
-        for (z, z2), group in records.groupby(["z", "z2"], observed=False):
+        for (z, z2), group in records.groupby(["z", "z2"], observed=True):
             unique_seasons = set(group["q"].unique())
             missing_seasons = seasons - unique_seasons
             if missing_seasons:
