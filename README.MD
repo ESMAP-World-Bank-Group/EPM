@@ -69,6 +69,8 @@ Install EPM and choose how you want to run it:
 
 Full installation instructions are available [here](https://esmap-world-bank-group.github.io/EPM/run/run_installation/).
 
+> **GAMS version:** EPM is tested on **GAMS 53.x** (CI pinned to 53.5.1). **GAMS 54.x is not yet supported** — it changes data types returned by `gams-transfer` and breaks input processing. Please use GAMS < 54 for now. Tracking: [#126](https://github.com/ESMAP-World-Bank-Group/EPM/issues/126).
+
 ---
 
 ## Works deploying EPM
