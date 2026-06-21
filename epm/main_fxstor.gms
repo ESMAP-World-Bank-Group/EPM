@@ -762,6 +762,10 @@ vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) =
 *Fix the upper limit of storage assets
 vBuildStor.up(ng,y)$(not gstatusmap(ng, 'committed')) = pStorageData(ng, "BuildLimitperYear")*pWeightYear(y);
 
+*Force the committed storage (status=2) to be build at their start year
+vBuildStor.lo(ng,y)$(gstatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
+vBuildStor.up(ng,y)$(gstatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
+
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
 vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;
 

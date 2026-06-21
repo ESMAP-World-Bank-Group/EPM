@@ -14,3 +14,5 @@ memoryemphasis 1
 nodefileind 3
 workmem 65536
 iis 1
+disp 4
+mipinterval 1000
