@@ -20,5 +20,8 @@ rasterio
 entsoe-py
 pycountry
 mcp
+# Data publishing/sync to private store (R2/S3) — see tools/README.md
+dvc[s3]
+s3fs
 # Optional (Monte Carlo analysis only):
 # chaospy==4.3.18

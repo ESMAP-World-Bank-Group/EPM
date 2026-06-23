@@ -43,6 +43,8 @@
 /epm/cplex.opt
 # output_view = zone de staging locale pour publier vers EPM View (R2) — pas dans le repo
 epm/output_view/
+# Cles du data store — NE JAMAIS committer (repo public !)
+tools/.env
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 # Keep heavy/generated files out of output runs; CSVs and geojson are tracked

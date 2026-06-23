@@ -6,6 +6,7 @@ This directory contains utility scripts and tools for working with EPM.
 
 - **`mcp_server.py`** - MCP (Model Context Protocol) server that allows Cursor AI to run EPM directly
 - **`test_epm_simple.py`** - Simple test script to run EPM with minimal configuration
+- **Data publishing/sync** (`publish.ps1`, `sync.ps1`/`sync.sh`, `upload_*.py`) - publish model data to / pull it from the private store (R2/S3). See **[DATA_PUBLISH.md](DATA_PUBLISH.md)** and the `Publish.bat` / `Sync.bat` double-click launchers at the repo root.
 
 ## MCP Server
 
