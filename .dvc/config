@@ -1,0 +1,5 @@
+[core]
+    remote = r2
+['remote "r2"']
+    url = s3://epm-view-data/dvcstore
+    endpointurl = https://25d26c21c96631ccd04cb2178ed3fb6b.r2.cloudflarestorage.com

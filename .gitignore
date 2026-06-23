@@ -102,8 +102,8 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
-!epm/input/data_blacksea/
-!epm/input/data_blacksea/**
+# data_blacksea : sorti du repo, géré par DVC (-> R2). On ne garde que le pointeur.
+!epm/input/data_blacksea.dvc
 
 !epm/input/datapackage.json
 !epm/input/validate.py
