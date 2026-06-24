@@ -2254,6 +2254,11 @@ are sent). <code>epm/output_view/</code> is a local staging folder (git-ignored)
 </div>
 <p>This runs <code>git pull</code> (code + pointers) then <code>dvc pull</code> (data from the store) — then you can
 run the model with up-to-date data.</p>
+<div class="admonition note">
+<p class="admonition-title">First sync after a model is migrated</p>
+<p><code>git pull</code> briefly <strong>empties the data folder</strong> (the data has left git) — this is normal.
+<code>dvc pull</code>, run right after by <strong>Sync</strong>, <strong>restores it</strong> from the store. Nothing is lost.</p>
+</div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <ul>
