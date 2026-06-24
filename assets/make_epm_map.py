@@ -71,29 +71,38 @@ recent = {c: v for c, v in rows.items() if v[2] > 0}
 def hover(name, before, after):
     return f"<b>{name}</b><br>Before 2025: {before}<br>Since 2025: {after}"
 
+BLUE   = "#1E6DB8"   # Recent (at least one study since 2025)
+YELLOW = "#E9B73A"   # Former (studies only before 2025)
+
 fig = go.Figure()
-# Former (grey)
+# Former (yellow)
 fig.add_trace(go.Choropleth(
-    locations=list(former), z=[1]*len(former),
-    colorscale=[[0, "#dde5ee"], [1, "#dde5ee"]], showscale=False,
+    locations=list(former), z=[0]*len(former),
+    colorscale=[[0, YELLOW], [1, YELLOW]], showscale=False,
     text=[hover(*v) for v in former.values()], hoverinfo="text",
-    marker_line_color="white", marker_line_width=0.4, name="Former",
+    marker_line_color="white", marker_line_width=0.4,
 ))
-# Recent (blue gradient by 'since 2025' count)
+# Recent (blue)
 fig.add_trace(go.Choropleth(
-    locations=list(recent), z=[v[2] for v in recent.values()],
-    colorscale="Blues", zmin=0, zmax=max(v[2] for v in recent.values()),
-    colorbar=dict(title="Studies<br>since&nbsp;2025", thickness=12, len=0.6, x=0.0, xanchor="left",
-                  tickfont=dict(size=10)),
+    locations=list(recent), z=[0]*len(recent),
+    colorscale=[[0, BLUE], [1, BLUE]], showscale=False,
     text=[hover(*v) for v in recent.values()], hoverinfo="text",
-    marker_line_color="white", marker_line_width=0.4, name="Recent",
+    marker_line_color="white", marker_line_width=0.4,
 ))
+# Legend (two dummy markers — choropleth traces don't show in the legend)
+fig.add_trace(go.Scattergeo(lon=[None], lat=[None], mode="markers",
+    marker=dict(size=11, color=BLUE), name="Recent (since 2025)"))
+fig.add_trace(go.Scattergeo(lon=[None], lat=[None], mode="markers",
+    marker=dict(size=11, color=YELLOW), name="Earlier only (before 2025)"))
 
 fig.update_geos(showframe=False, showcoastlines=False, projection_type="natural earth",
                 bgcolor="rgba(0,0,0,0)", landcolor="#f4f6f9", showcountries=True,
                 countrycolor="white", showland=True)
 fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), height=480, paper_bgcolor="white",
-                  dragmode=False)
+                  dragmode=False,
+                  legend=dict(orientation="h", x=0.5, xanchor="center", y=0.04,
+                              bgcolor="rgba(255,255,255,0.75)", borderwidth=0,
+                              font=dict(size=11)))
 
 fig.write_html(OUT, include_plotlyjs="cdn", full_html=True,
                config={"displayModeBar": False, "scrollZoom": False})
