@@ -1,2 +1,3 @@
-﻿g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
-New_BESS_ZWE_2h,Zimbabwe,Storage,Battery,,2,2026,2048,,200,,,100000,,0.9,0.3,40000,,,,,,,,1,1,,0.5,,,,,,,
+﻿g,z,tech,f,StorageDuration,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+New_BESS_ZWE_3h,Zimbabwe,Storage,Battery,,,2,2028,2048,,200,,,100000,,0.9,0.3,40000,,,,,,,,1,1,,0.5,,,,,,,
+New_BESS_ZWE_5h,Zimbabwe,Storage,Battery,,,3,2030,2048,,600,,100,100000,,0.9,0.3,40000,,,,,,,,1,1,,0.5,,,,,,,
