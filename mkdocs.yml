@@ -48,6 +48,7 @@ nav:
     - Run from Python: run/run_python.md
     - Run from GAMS Studio: run/run_gams_studio.md
     - Run on Remote Server: run/run_remote_server.md
+    - Publish & Sync Data (DVC): run/run_data_sync.md
     - Dispatch Mode: run/run_dispatch.md
     - Solver Options: run/options_solver.md
     - Performance & Threads: run/options_thread.md
