@@ -2081,9 +2081,12 @@ same "publish" action — you don't manage this by hand.</p>
 <hr />
 <h2 id="one-time-setup-per-machine">One-time setup (per machine)<a class="headerlink" href="#one-time-setup-per-machine" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Install the dependencies (DVC is included):
+<li>Install the dependencies (DVC + <code>pip-system-certs</code> on Windows are included):
    <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-</code></pre></div></li>
+</code></pre></div>
+   On a corporate (e.g. World Bank) laptop, <code>pip-system-certs</code> makes Python trust the
+   network's TLS proxy — without it, publishing fails intermittently with
+   <code>CERTIFICATE_VERIFY_FAILED</code>.</li>
 <li>Add your store keys: copy <code>tools/.env.example</code> to <code>tools/.env</code> and paste the 4 values
    (ask the store admin).
    <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tools/.env        ← your keys   (git-ignored — NEVER commit real keys)
