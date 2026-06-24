@@ -856,10 +856,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-time-setup-per-machine" class="md-nav__link">
+  <a href="#1-set-up-your-machine-once" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One-time setup (per machine)
+        1. Set up your machine (once)
       
     </span>
   </a>
@@ -867,10 +867,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#publish-your-data" class="md-nav__link">
+  <a href="#2-is-your-model-already-on-the-store" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Publish your data
+        2. Is your model already on the store?
       
     </span>
   </a>
@@ -878,10 +878,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-the-data-another-machine-the-server" class="md-nav__link">
+  <a href="#3-onboard-a-new-model-once-per-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get the data (another machine / the server)
+        3. Onboard a new model (once per model)
       
     </span>
   </a>
@@ -889,10 +889,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#onboarding-a-new-model-one-time-per-model" class="md-nav__link">
+  <a href="#4-publish-your-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Onboarding a new model (one-time per model)
+        4. Publish your data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-get-the-data-back-any-machine-the-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Get the data back (any machine / the server)
       
     </span>
   </a>
@@ -1962,10 +1973,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#one-time-setup-per-machine" class="md-nav__link">
+  <a href="#1-set-up-your-machine-once" class="md-nav__link">
     <span class="md-ellipsis">
       
-        One-time setup (per machine)
+        1. Set up your machine (once)
       
     </span>
   </a>
@@ -1973,10 +1984,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#publish-your-data" class="md-nav__link">
+  <a href="#2-is-your-model-already-on-the-store" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Publish your data
+        2. Is your model already on the store?
       
     </span>
   </a>
@@ -1984,10 +1995,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-the-data-another-machine-the-server" class="md-nav__link">
+  <a href="#3-onboard-a-new-model-once-per-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Get the data (another machine / the server)
+        3. Onboard a new model (once per model)
       
     </span>
   </a>
@@ -1995,10 +2006,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#onboarding-a-new-model-one-time-per-model" class="md-nav__link">
+  <a href="#4-publish-your-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Onboarding a new model (one-time per model)
+        4. Publish your data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-get-the-data-back-any-machine-the-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Get the data back (any machine / the server)
       
     </span>
   </a>
@@ -2049,80 +2071,141 @@
 
 <h1 id="publishing-syncing-data-dvc">Publishing &amp; Syncing Data (DVC)<a class="headerlink" href="#publishing-syncing-data-dvc" title="Permanent link">&para;</a></h1>
 <p>EPM <strong>code</strong> is public, but the <strong>data</strong> (input CSVs, results) is kept in a <strong>private
-store</strong> — not in this public repository. The repo only keeps tiny <strong>pointers</strong>; the real
-data lives in the store and is fetched on demand.</p>
-<p>This page explains, from scratch, how to <strong>publish</strong> your data and how to <strong>get it back</strong>
-on another machine or on the server. No prior knowledge of DVC is assumed.</p>
+store</strong> — not in this public repository. The repo only keeps tiny <strong>pointer files</strong>
+(<code>*.dvc</code>); the real data lives in the store and is fetched on demand.</p>
+<p>This page is a step-by-step guide: install once, then <strong>publish</strong> your data and <strong>get it
+back</strong> on any machine (your laptop, the server). No prior knowledge of DVC is assumed.</p>
 <div class="admonition note">
 <p class="admonition-title">Prototype</p>
-<p>The store is currently a Cloudflare R2 bucket (test data). For confidential data,
-the production store will be the World Bank S3 — same workflow, different endpoint.</p>
+<p>The store is currently a Cloudflare R2 bucket (test data). For confidential data, the
+production store will be the World Bank S3 — same workflow, different endpoint.</p>
 </div>
 <hr />
 <h2 id="the-idea-in-one-picture">The idea in one picture<a class="headerlink" href="#the-idea-in-one-picture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>YOU (laptop) — you edit inputs/outputs in EPM
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        │  one action (double-click Publish):
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        │   ├─ git push  → GitHub : code + .dvc pointers   (no data)
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        │   ├─ dvc push  → STORE  : the data               (for runs)
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        │   └─ publish   → STORE  : a readable copy         (for EPM View)
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        ▼
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   ┌──────────────── PRIVATE STORE (R2 / S3) ────────────────┐
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   └───────────────┬─────────────────────────┬──────────────┘
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                   │ dvc pull                 │ gated read
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>            SERVER (run the model)        EPM View (display)
-</code></pre></div>
-<p><strong>What is DVC?</strong> Think <em>"git for data"</em>. Git stays light because the data is replaced by a
-6-line pointer file (<code>*.dvc</code> = a hash + a path, <strong>no values</strong>). The real data lives in the
-store, moved with <code>dvc push</code> / <code>dvc pull</code>.</p>
-<p>The store keeps <strong>two layouts</strong> of the same data: a hash-addressed copy for DVC (runs), and
-a readable copy by path for EPM View (the browser can't speak DVC). Both are written by the
-same "publish" action — you don't manage this by hand.</p>
+<p><img alt="How publishing works" src="../../images/publish_flow.svg" /></p>
+<p><strong>What is DVC?</strong> Think <em>"git for data"</em>. A large CSV is replaced in git by a 6-line pointer
+(<code>pVREProfile.csv.dvc</code> = a hash + a path, <strong>no values</strong>). The real file lives in the store
+and is moved with <code>dvc push</code> / <code>dvc pull</code>. So git stays light, and the data stays private.</p>
 <hr />
-<h2 id="one-time-setup-per-machine">One-time setup (per machine)<a class="headerlink" href="#one-time-setup-per-machine" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Install the dependencies (DVC + <code>pip-system-certs</code> on Windows are included):
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<h2 id="1-set-up-your-machine-once">1. Set up your machine (once)<a class="headerlink" href="#1-set-up-your-machine-once" title="Permanent link">&para;</a></h2>
+<p>You work in <strong>your clone of the EPM repo</strong> — the same folder you run EPM from.</p>
+<p><strong>A. If you already run EPM on this machine</strong> (Python env ready) — just add the data tools:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># in your EPM Python environment (the one you use to run EPM)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </code></pre></div>
-   On a corporate (e.g. World Bank) laptop, <code>pip-system-certs</code> makes Python trust the
-   network's TLS proxy — without it, publishing fails intermittently with
-   <code>CERTIFICATE_VERIFY_FAILED</code>.</li>
-<li>Add your store keys: copy <code>tools/.env.example</code> to <code>tools/.env</code> and paste the 4 values
-   (ask the store admin).
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tools/.env        ← your keys   (git-ignored — NEVER commit real keys)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>tools/.env.example ← template
+This installs <strong>DVC</strong>, <code>s3fs</code>, and (on Windows) <code>pip-system-certs</code>.</p>
+<p><strong>B. If it's a fresh machine</strong> — set EPM up first, then the line above:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>EPM
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>&lt;your-branch&gt;<span class="w">                 </span><span class="c1"># e.g. blacksea_2026</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>conda<span class="w"> </span>activate<span class="w"> </span>&lt;your-epm-env&gt;<span class="w">              </span><span class="c1"># your EPM Python environment</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div>
+<p><strong>Then (both cases) add your store keys — once:</strong></p>
+<ol>
+<li>Copy the template: <code>tools/.env.example</code> → <code>tools/.env</code></li>
+<li>Open <code>tools/.env</code> and paste the 4 values (ask the store admin):
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>AWS_ACCESS_KEY_ID=...
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>AWS_SECRET_ACCESS_KEY=...
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>STORE_ENDPOINT=https://....r2.cloudflarestorage.com
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>STORE_BUCKET=...
 </code></pre></div></li>
 </ol>
-<p>That's it. The remote URL/endpoint is already in the repo (<code>.dvc/config</code>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Never commit your keys</p>
+<p><code>tools/.env</code> is <strong>git-ignored</strong> on purpose (this repo is public). Only the empty
+<code>tools/.env.example</code> is committed.</p>
+</div>
+<p>That's it — the store URL/endpoint is already in the repo (<code>.dvc/config</code>).</p>
 <hr />
-<h2 id="publish-your-data">Publish your data<a class="headerlink" href="#publish-your-data" title="Permanent link">&para;</a></h2>
-<p>After you change inputs (or want to show results), <strong>publish in one action</strong>:</p>
+<h2 id="2-is-your-model-already-on-the-store">2. Is your model already on the store?<a class="headerlink" href="#2-is-your-model-already-on-the-store" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Look in <code>epm/input/</code>. If you see a <strong>pointer file</strong> like <code>data_&lt;model&gt;.dvc</code> (and the data
+  folder is git-ignored) → your model is <strong>already migrated</strong>. <strong>Skip to step 4 (Publish).</strong></li>
+<li>If the data folder is still committed in git (no <code>.dvc</code> pointer) → your model is <strong>not yet
+  migrated</strong>. Do <strong>step 3</strong> first (once per model).</li>
+</ul>
+<hr />
+<h2 id="3-onboard-a-new-model-once-per-model">3. Onboard a new model (once per model)<a class="headerlink" href="#3-onboard-a-new-model-once-per-model" title="Permanent link">&para;</a></h2>
+<p>This moves a model's data <strong>out of git</strong> into the store. Do it <strong>once</strong>, by whoever sets the
+model up; afterwards everyone just uses <em>setup + publish/sync</em>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 1. Initialise DVC for the repo (once per repo)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dvc<span class="w"> </span>init
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 2. Point DVC at the store</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>dvc<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>-d<span class="w"> </span>store<span class="w"> </span>s3://&lt;bucket&gt;/dvcstore
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>dvc<span class="w"> </span>remote<span class="w"> </span>modify<span class="w"> </span>store<span class="w"> </span>endpointurl<span class="w"> </span>&lt;endpoint&gt;
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># 3. In .gitignore: remove the line that force-tracks your data folder,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1">#    and add an exception for its pointer:</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1">#        !epm/input/data_&lt;model&gt;.dvc</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># 4. Stop tracking the data in git (files stay on your disk), then hand it to DVC</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>git<span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>--cached<span class="w"> </span>epm/input/data_&lt;model&gt;
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>dvc<span class="w"> </span>add<span class="w"> </span>epm/input/data_&lt;model&gt;<span class="w">             </span><span class="c1"># creates the .dvc pointer</span>
+</code></pre></div>
+<p>Then <strong>publish</strong> (step 4). Finally, to make <strong>EPM View</strong> read this model from the store, add
+its branch name to <code>R2_BRANCHES</code> in <code>src/utils/epmFetch.js</code> of the <code>epm-data-explorer</code> repo.</p>
+<hr />
+<h2 id="4-publish-your-data">4. Publish your data<a class="headerlink" href="#4-publish-your-data" title="Permanent link">&para;</a></h2>
+<p>Whenever you change inputs (or want to show new results), <strong>publish in one action</strong>:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">Command line</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Double-click <strong><code>Publish.bat</code></strong> at the repo root.</p>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>powershell<span class="w"> </span>-File<span class="w"> </span>tools/publish.ps1<span class="w">   </span><span class="c1"># Windows</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>powershell<span class="w"> </span>-File<span class="w"> </span>tools/publish.ps1
 </code></pre></div>
 </div>
 </div>
 </div>
-<p>This does everything: re-hash the data (<code>dvc add</code>) → commit + push the pointer →
-<code>dvc push</code> (data to the store, for the server) → upload readable copies (inputs +
-<code>epm/output_view/</code>) for EPM View.</p>
+<p>Publishing does <strong>four things, in order</strong> — note it uses <strong>both git and DVC</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Command</th>
+<th>What it sends, and where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>dvc add</code></td>
+<td>re-hashes your changed data → updates the small <code>.dvc</code> <strong>pointer</strong> (local only)</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong><code>git</code> commit + push</strong></td>
+<td>sends the <strong>pointer</strong> (a tiny text file) to <strong>GitHub</strong> — <em>yes, a real git commit on your branch</em></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>dvc push</code></td>
+<td>uploads the <strong>actual data</strong> to the <strong>store</strong> (so the server can pull it)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>upload</td>
+<td>copies a <strong>readable</strong> version (inputs + <code>epm/output_view/</code>) to the store (for <strong>EPM View</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>So your code and pointer go to <strong>GitHub</strong> (git); the data goes to the <strong>store</strong> (DVC + the
+readable copy). The data itself <strong>never</strong> goes to GitHub.</p>
 <div class="admonition tip">
 <p class="admonition-title">Showing results in EPM View</p>
 <p>Copy the runs you want to display into
-<code>epm/output_view/&lt;run&gt;/&lt;scenario&gt;/output_csv/</code> <strong>before</strong> publishing (only <code>.csv</code>
-files are sent). <code>epm/output_view/</code> is a local staging folder (git-ignored).</p>
+<code>epm/output_view/&lt;run&gt;/&lt;scenario&gt;/output_csv/</code> <strong>before</strong> publishing (only <code>.csv</code> files
+are sent). <code>epm/output_view/</code> is a local staging folder (git-ignored).</p>
 </div>
 <hr />
-<h2 id="get-the-data-another-machine-the-server">Get the data (another machine / the server)<a class="headerlink" href="#get-the-data-another-machine-the-server" title="Permanent link">&para;</a></h2>
+<h2 id="5-get-the-data-back-any-machine-the-server">5. Get the data back (any machine / the server)<a class="headerlink" href="#5-get-the-data-back-any-machine-the-server" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Server (Linux)</label><label for="__tabbed_2_2">Windows</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>bash<span class="w"> </span>tools/sync.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bash<span class="w"> </span>tools/sync.sh
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -2133,27 +2216,14 @@ files are sent). <code>epm/output_view/</code> is a local staging folder (git-ig
 <p>This runs <code>git pull</code> (code + pointers) then <code>dvc pull</code> (data from the store) — then you can
 run the model with up-to-date data.</p>
 <hr />
-<h2 id="onboarding-a-new-model-one-time-per-model">Onboarding a new model (one-time per model)<a class="headerlink" href="#onboarding-a-new-model-one-time-per-model" title="Permanent link">&para;</a></h2>
-<p>Moving a model's data out of git into the store (the "switch"):</p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dvc<span class="w"> </span>init<span class="w">                                          </span><span class="c1"># once per repo</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dvc<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>-d<span class="w"> </span>store<span class="w"> </span>s3://&lt;bucket&gt;/dvcstore
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>dvc<span class="w"> </span>remote<span class="w"> </span>modify<span class="w"> </span>store<span class="w"> </span>endpointurl<span class="w"> </span>&lt;endpoint&gt;
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># in .gitignore: remove the whitelist of the data folder, add  !epm/input/&lt;data&gt;.dvc</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>git<span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>--cached<span class="w"> </span>epm/input/&lt;data_folder&gt;<span class="w">        </span><span class="c1"># untrack (files stay on disk)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>dvc<span class="w"> </span>add<span class="w"> </span>epm/input/&lt;data_folder&gt;<span class="w">                   </span><span class="c1"># create the pointer</span>
-</code></pre></div>
-Then publish (<code>Publish.bat</code>). After this, everyone just does <em>setup + publish/sync</em>.</p>
-<p>To make <strong>EPM View</strong> read this branch from the store, add the branch name to <code>R2_BRANCHES</code>
-in <code>src/utils/epmFetch.js</code> of the <code>epm-data-explorer</code> repo.</p>
-<hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong><code>Unable to locate credentials</code></strong> → keys not loaded. On the server, either
   <code>export AWS_ACCESS_KEY_ID=… AWS_SECRET_ACCESS_KEY=…</code>, or set them once with
   <code>dvc remote modify --local store access_key_id …</code> (stays in git-ignored <code>config.local</code>).</li>
-<li><strong><code>CERTIFICATE_VERIFY_FAILED</code> / SSL</strong> → a corporate TLS proxy is intercepting the
-  connection. Try off-VPN, or <code>pip install pip-system-certs</code> (makes Python trust the OS
-  certificate store). The AWS server is not affected.</li>
+<li><strong><code>CERTIFICATE_VERIFY_FAILED</code> / SSL</strong> (corporate laptop) → a TLS proxy is intercepting.
+  <code>pip-system-certs</code> (installed by <code>requirements.txt</code> on Windows) fixes it by trusting the OS
+  certificate store. If it persists, try off-VPN. The AWS server is not affected.</li>
 <li><strong><code>dvc</code> command not found</strong> (server) → use <code>python -m dvc …</code>, or add <code>~/.local/bin</code> to
   your <code>PATH</code>.</li>
 </ul>

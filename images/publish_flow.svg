@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 Z" fill="#5a6b7b"/>
+    </marker>
+    <style>
+      .lbl{fill:#5a6b7b;font-size:12px}
+      .h{fill:#fff;font-weight:600;font-size:14px}
+      .hsub{fill:#cdddf0;font-size:11px}
+      .b{fill:#1f3b5c;font-size:13px}
+      .bsub{fill:#5a6b7b;font-size:11px}
+      .mono{font-family:Consolas,Menlo,monospace}
+    </style>
+  </defs>
+
+  <!-- YOU -->
+  <rect x="280" y="14" width="200" height="52" rx="9" fill="#1B3A5C"/>
+  <text x="380" y="36" text-anchor="middle" class="h">YOU (laptop)</text>
+  <text x="380" y="54" text-anchor="middle" class="hsub">edit inputs / outputs in EPM</text>
+
+  <!-- arrow + action label -->
+  <path d="M380,66 L380,96" stroke="#5a6b7b" stroke-width="1.6" marker-end="url(#arr)"/>
+  <text x="392" y="86" class="lbl">one action — double-click <tspan class="mono">Publish.bat</tspan></text>
+
+  <!-- Publish does 3 things -->
+  <rect x="120" y="104" width="520" height="120" rx="9" fill="#eef4fb" stroke="#c5d8ee"/>
+  <text x="138" y="126" class="b" font-weight="600">Publish does, in order:</text>
+  <text x="138" y="150" class="b"><tspan class="mono" fill="#1B3A5C">git push</tspan>  → GitHub : code + the <tspan class="mono">.dvc</tspan> pointer  <tspan class="bsub">(no data)</tspan></text>
+  <text x="138" y="176" class="b"><tspan class="mono" fill="#1B3A5C">dvc push</tspan> → STORE : the actual data  <tspan class="bsub">(for the server)</tspan></text>
+  <text x="138" y="202" class="b"><tspan class="mono" fill="#1B3A5C">publish</tspan>  → STORE : a readable copy  <tspan class="bsub">(for EPM View)</tspan></text>
+
+  <!-- arrow to store -->
+  <path d="M380,224 L380,256" stroke="#5a6b7b" stroke-width="1.6" marker-end="url(#arr)"/>
+
+  <!-- STORE -->
+  <rect x="250" y="264" width="260" height="50" rx="9" fill="#1B3A5C"/>
+  <text x="380" y="294" text-anchor="middle" class="h">PRIVATE STORE  (R2 / S3)</text>
+
+  <!-- split arrows -->
+  <path d="M330,314 L210,372" stroke="#5a6b7b" stroke-width="1.6" marker-end="url(#arr)"/>
+  <path d="M430,314 L550,372" stroke="#5a6b7b" stroke-width="1.6" marker-end="url(#arr)"/>
+  <text x="150" y="350" class="lbl mono">dvc pull</text>
+  <text x="520" y="350" class="lbl">gated read</text>
+
+  <!-- SERVER -->
+  <rect x="70" y="380" width="270" height="58" rx="9" fill="#eef4fb" stroke="#c5d8ee"/>
+  <text x="205" y="404" text-anchor="middle" class="b" font-weight="600">SERVER</text>
+  <text x="205" y="423" text-anchor="middle" class="bsub">pulls the data → runs the model</text>
+
+  <!-- EPM VIEW -->
+  <rect x="420" y="380" width="270" height="58" rx="9" fill="#eef4fb" stroke="#c5d8ee"/>
+  <text x="555" y="404" text-anchor="middle" class="b" font-weight="600">EPM View</text>
+  <text x="555" y="423" text-anchor="middle" class="bsub">reads the readable copy → displays</text>
+
+  <!-- footnote -->
+  <text x="380" y="470" text-anchor="middle" class="bsub">The repo keeps only tiny <tspan class="mono">.dvc</tspan> pointers (a hash + a path). The real data lives in the store.</text>
+  <text x="380" y="488" text-anchor="middle" class="bsub">Get it back on any machine with one command: <tspan class="mono" fill="#1B3A5C">Sync</tspan>  (git pull + dvc pull).</text>
+</svg>
