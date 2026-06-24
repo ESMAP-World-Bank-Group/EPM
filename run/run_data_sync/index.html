@@ -2091,6 +2091,20 @@ and is moved with <code>dvc push</code> / <code>dvc pull</code>. So git stays li
 <hr />
 <h2 id="1-set-up-your-machine-once">1. Set up your machine (once)<a class="headerlink" href="#1-set-up-your-machine-once" title="Permanent link">&para;</a></h2>
 <p>You work in <strong>your clone of the EPM repo</strong> — the same folder you run EPM from.</p>
+<details class="tip">
+<summary>New to the command line? — how to open a terminal (read me first)</summary>
+<p>A few steps below are <strong>commands</strong> you type in a <strong>terminal</strong> opened <strong>inside your EPM
+folder</strong>. To open one:</p>
+<ul>
+<li><strong>Easiest — in VS Code:</strong> open your EPM folder in VS Code, then menu <strong>Terminal → New
+  Terminal</strong>. A panel opens at the bottom, already pointing at your EPM folder.</li>
+<li><strong>Or — in Windows:</strong> open your EPM folder in File Explorer, click the <strong>address bar</strong> at
+  the top, type <code>powershell</code>, and press <strong>Enter</strong>. A blue window opens in that folder.</li>
+</ul>
+<p>Then <strong>paste a command and press Enter</strong>. On Windows this terminal is <strong>PowerShell</strong>.
+(Day-to-day, publishing and syncing are just <strong>double-clicks</strong> — <code>Publish.bat</code> / <code>Sync.bat</code>
+— no terminal needed.)</p>
+</details>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Already running EPM here</label><label for="__tabbed_1_2">Fresh machine</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -2138,9 +2152,20 @@ Installs <strong>DVC</strong>, <code>s3fs</code>, and (on Windows) <code>pip-sys
 <h2 id="3-onboard-a-new-model-once-per-model">3. Onboard a new model (once per model)<a class="headerlink" href="#3-onboard-a-new-model-once-per-model" title="Permanent link">&para;</a></h2>
 <p>This moves a model's data <strong>out of git</strong> into the store. Do it <strong>once</strong>, by whoever sets the
 model up; afterwards everyone just uses <em>setup + publish/sync</em>.</p>
-<p><strong>One command</strong> (from the repo root) — it asks for confirmation, then makes the change locally:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>powershell<span class="w"> </span>-File<span class="w"> </span>tools/setup_model.ps1<span class="w"> </span>data_&lt;model&gt;<span class="w">     </span><span class="c1"># e.g. data_sapp</span>
+<p>It's <strong>one command</strong>:</p>
+<ol>
+<li><strong>Open a terminal in your EPM folder</strong> (see the <em>"how to open a terminal"</em> tip in step 1).</li>
+<li>If you use conda, activate your EPM environment: <code>conda activate &lt;your-epm-env&gt;</code>.</li>
+<li>
+<p>Run the command below, replacing <code>data_sapp</code> with <strong>your</strong> data folder name:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.\</span><span class="n">tools</span><span class="p">\</span><span class="n">setup_model</span><span class="p">.</span><span class="n">ps1</span> <span class="n">data_sapp</span>
 </code></pre></div>
+</li>
+<li>
+<p>It prints a short summary, then asks <strong><code>Continue? (y/N)</code></strong> — type <strong><code>y</code></strong> to proceed, or
+   <strong><code>N</code></strong> to cancel. Nothing changes until you type <code>y</code> (safe to just look).</p>
+</li>
+</ol>
 <p>Then <strong>review</strong> (<code>git status</code>) and <strong>publish</strong> (double-click <code>Publish.bat</code>). Finally, to make
 <strong>EPM View</strong> show this model, add its branch name to <code>R2_BRANCHES</code> in <code>src/utils/epmFetch.js</code>
 of the <code>epm-data-explorer</code> repo.</p>
