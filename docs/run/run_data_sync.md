@@ -29,6 +29,19 @@ and is moved with `dvc push` / `dvc pull`. So git stays light, and the data stay
 
 You work in **your clone of the EPM repo** — the same folder you run EPM from.
 
+??? tip "New to the command line? — how to open a terminal (read me first)"
+    A few steps below are **commands** you type in a **terminal** opened **inside your EPM
+    folder**. To open one:
+
+    - **Easiest — in VS Code:** open your EPM folder in VS Code, then menu **Terminal → New
+      Terminal**. A panel opens at the bottom, already pointing at your EPM folder.
+    - **Or — in Windows:** open your EPM folder in File Explorer, click the **address bar** at
+      the top, type `powershell`, and press **Enter**. A blue window opens in that folder.
+
+    Then **paste a command and press Enter**. On Windows this terminal is **PowerShell**.
+    (Day-to-day, publishing and syncing are just **double-clicks** — `Publish.bat` / `Sync.bat`
+    — no terminal needed.)
+
 === "Already running EPM here"
 
     Your Python environment is ready — just add the data tools:
@@ -81,11 +94,18 @@ That's it — the store URL/endpoint is already in the repo (`.dvc/config`).
 This moves a model's data **out of git** into the store. Do it **once**, by whoever sets the
 model up; afterwards everyone just uses *setup + publish/sync*.
 
-**One command** (from the repo root) — it asks for confirmation, then makes the change locally:
+It's **one command**:
 
-```bash
-powershell -File tools/setup_model.ps1 data_<model>     # e.g. data_sapp
-```
+1. **Open a terminal in your EPM folder** (see the *"how to open a terminal"* tip in step 1).
+2. If you use conda, activate your EPM environment: `conda activate <your-epm-env>`.
+3. Run the command below, replacing `data_sapp` with **your** data folder name:
+
+    ```powershell
+    .\tools\setup_model.ps1 data_sapp
+    ```
+
+4. It prints a short summary, then asks **`Continue? (y/N)`** — type **`y`** to proceed, or
+   **`N`** to cancel. Nothing changes until you type `y` (safe to just look).
 
 Then **review** (`git status`) and **publish** (double-click `Publish.bat`). Finally, to make
 **EPM View** show this model, add its branch name to `R2_BRANCHES` in `src/utils/epmFetch.js`
