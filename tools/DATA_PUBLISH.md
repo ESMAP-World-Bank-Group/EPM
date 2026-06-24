@@ -1,5 +1,8 @@
 # Publier / récupérer les données du modèle (store privé)
 
+> 📖 **Guide complet (doc EPM) :** `docs/run/run_data_sync.md` — *Installation & Run →
+> Publish & Sync Data (DVC)*. Ce fichier-ci est un aide-mémoire rapide à côté des scripts.
+
 Les **données** d'EPM (input/output) ne vivent plus dans ce repo public : elles sont
 dans un **store privé** (R2 aujourd'hui, S3 WB plus tard). Le repo ne garde que de
 petits **pointeurs `.dvc`**. Ce dossier fournit l'outillage pour publier et récupérer.
