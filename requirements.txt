@@ -23,5 +23,6 @@ mcp
 # Data publishing/sync to private store (R2/S3) — see docs/run/run_data_sync.md
 dvc[s3]
 s3fs
+pip-system-certs ; platform_system == "Windows"  # trust corporate TLS proxy (avoids SSL errors on WB laptops)
 # Optional (Monte Carlo analysis only):
 # chaospy==4.3.18

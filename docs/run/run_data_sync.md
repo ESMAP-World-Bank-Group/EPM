@@ -41,10 +41,13 @@ same "publish" action — you don't manage this by hand.
 
 ## One-time setup (per machine)
 
-1. Install the dependencies (DVC is included):
+1. Install the dependencies (DVC + `pip-system-certs` on Windows are included):
    ```bash
    pip install -r requirements.txt
    ```
+   On a corporate (e.g. World Bank) laptop, `pip-system-certs` makes Python trust the
+   network's TLS proxy — without it, publishing fails intermittently with
+   `CERTIFICATE_VERIFY_FAILED`.
 2. Add your store keys: copy `tools/.env.example` to `tools/.env` and paste the 4 values
    (ask the store admin).
    ```
