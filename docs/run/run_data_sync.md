@@ -1,5 +1,7 @@
 # Publishing & Syncing Data (DVC)
 
+<style>.md-typeset { font-size: 0.8rem; }</style>
+
 EPM **code** is public, but the **data** (input CSVs, results) is kept in a **private
 store** — not in this public repository. The repo only keeps tiny **pointer files**
 (`*.dvc`); the real data lives in the store and is fetched on demand.
@@ -27,23 +29,24 @@ and is moved with `dvc push` / `dvc pull`. So git stays light, and the data stay
 
 You work in **your clone of the EPM repo** — the same folder you run EPM from.
 
-**A. If you already run EPM on this machine** (Python env ready) — just add the data tools:
+=== "Already running EPM here"
 
-```bash
-# in your EPM Python environment (the one you use to run EPM)
-pip install -r requirements.txt
-```
-This installs **DVC**, `s3fs`, and (on Windows) `pip-system-certs`.
+    Your Python environment is ready — just add the data tools:
+    ```bash
+    pip install -r requirements.txt
+    ```
+    Installs **DVC**, `s3fs`, and (on Windows) `pip-system-certs`.
 
-**B. If it's a fresh machine** — set EPM up first, then the line above:
+=== "Fresh machine"
 
-```bash
-git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
-cd EPM
-git checkout <your-branch>                 # e.g. blacksea_2026
-conda activate <your-epm-env>              # your EPM Python environment
-pip install -r requirements.txt
-```
+    Set EPM up first, then install:
+    ```bash
+    git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
+    cd EPM
+    git checkout <your-branch>             # e.g. blacksea_2026
+    conda activate <your-epm-env>          # your EPM Python environment
+    pip install -r requirements.txt
+    ```
 
 **Then (both cases) add your store keys — once:**
 
@@ -78,25 +81,32 @@ That's it — the store URL/endpoint is already in the repo (`.dvc/config`).
 This moves a model's data **out of git** into the store. Do it **once**, by whoever sets the
 model up; afterwards everyone just uses *setup + publish/sync*.
 
+**One command** (from the repo root) — it asks for confirmation, then makes the change locally:
+
 ```bash
-# 1. Initialise DVC for the repo (once per repo)
-dvc init
-
-# 2. Point DVC at the store
-dvc remote add -d store s3://<bucket>/dvcstore
-dvc remote modify store endpointurl <endpoint>
-
-# 3. In .gitignore: remove the line that force-tracks your data folder,
-#    and add an exception for its pointer:
-#        !epm/input/data_<model>.dvc
-
-# 4. Stop tracking the data in git (files stay on your disk), then hand it to DVC
-git rm -r --cached epm/input/data_<model>
-dvc add epm/input/data_<model>             # creates the .dvc pointer
+powershell -File tools/setup_model.ps1 data_<model>     # e.g. data_sapp
 ```
 
-Then **publish** (step 4). Finally, to make **EPM View** read this model from the store, add
-its branch name to `R2_BRANCHES` in `src/utils/epmFetch.js` of the `epm-data-explorer` repo.
+Then **review** (`git status`) and **publish** (double-click `Publish.bat`). Finally, to make
+**EPM View** show this model, add its branch name to `R2_BRANCHES` in `src/utils/epmFetch.js`
+of the `epm-data-explorer` repo.
+
+??? info "What `setup_model.ps1` does under the hood (the manual steps)"
+    The script automates exactly these — your files **stay on disk**, and it commits/pushes
+    nothing (you review, then publish):
+
+    ```bash
+    # 1. Initialise DVC for the repo (once per repo)
+    dvc init
+    # 2. Point DVC at the store (once — already set in this repo's .dvc/config)
+    dvc remote add -d store s3://<bucket>/dvcstore
+    dvc remote modify store endpointurl <endpoint>
+    # 3. .gitignore: drop the whitelist of the data folder, keep its pointer tracked
+    #        !epm/input/data_<model>.dvc
+    # 4. Stop tracking the data in git (files stay), then hand the folder to DVC
+    git rm -r --cached epm/input/data_<model>
+    dvc add epm/input/data_<model>            # creates the .dvc pointer
+    ```
 
 ---
 
@@ -163,5 +173,6 @@ run the model with up-to-date data.
 |------|------|
 | `publish.ps1` | engine behind `Publish.bat` |
 | `sync.ps1` / `sync.sh` | get code + data (Windows / server) |
+| `setup_model.ps1` | onboard a new model's data to the store (one-time, step 3) |
 | `upload_to_r2.py`, `upload_output_view_to_r2.py` | upload the readable copies |
 | `.env.example` | keys template (copy to `.env`, git-ignored) |
