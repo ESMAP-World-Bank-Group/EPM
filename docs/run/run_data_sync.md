@@ -172,6 +172,10 @@ readable copy). The data itself **never** goes to GitHub.
 This runs `git pull` (code + pointers) then `dvc pull` (data from the store) — then you can
 run the model with up-to-date data.
 
+!!! note "First sync after a model is migrated"
+    `git pull` briefly **empties the data folder** (the data has left git) — this is normal.
+    `dvc pull`, run right after by **Sync**, **restores it** from the store. Nothing is lost.
+
 ---
 
 ## Troubleshooting
