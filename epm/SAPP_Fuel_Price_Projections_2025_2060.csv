@@ -1,0 +1,3025 @@
+Country,Fuel,Year,Price_Reference_USD_GJ,Price_HighFossil_USD_GJ,Price_AccelTransition_USD_GJ
+Angola,HFO,2025,11.50,13.50,10.50
+Angola,HFO,2026,11.70,13.90,10.30
+Angola,HFO,2027,11.90,14.30,10.10
+Angola,HFO,2028,12.10,14.70,9.90
+Angola,HFO,2029,12.30,15.10,9.70
+Angola,HFO,2030,12.50,15.50,9.50
+Angola,HFO,2031,12.60,15.80,9.30
+Angola,HFO,2032,12.70,16.10,9.10
+Angola,HFO,2033,12.80,16.40,8.90
+Angola,HFO,2034,12.90,16.70,8.70
+Angola,HFO,2035,13.00,17.00,8.50
+Angola,HFO,2036,13.10,17.20,8.20
+Angola,HFO,2037,13.20,17.40,7.90
+Angola,HFO,2038,13.30,17.60,7.60
+Angola,HFO,2039,13.40,17.80,7.30
+Angola,HFO,2040,13.50,18.00,7.00
+Angola,HFO,2041,13.50,18.10,6.70
+Angola,HFO,2042,13.50,18.20,6.40
+Angola,HFO,2043,13.50,18.30,6.10
+Angola,HFO,2044,13.50,18.40,5.80
+Angola,HFO,2045,13.50,18.50,5.50
+Angola,HFO,2046,13.40,18.40,5.30
+Angola,HFO,2047,13.30,18.30,5.10
+Angola,HFO,2048,13.20,18.20,4.90
+Angola,HFO,2049,13.10,18.10,4.70
+Angola,HFO,2050,13.00,18.00,4.50
+Angola,HFO,2051,12.90,17.90,4.40
+Angola,HFO,2052,12.80,17.80,4.30
+Angola,HFO,2053,12.70,17.70,4.20
+Angola,HFO,2054,12.60,17.60,4.10
+Angola,HFO,2055,12.50,17.50,4.00
+Angola,HFO,2056,12.40,17.40,3.90
+Angola,HFO,2057,12.30,17.30,3.80
+Angola,HFO,2058,12.20,17.20,3.70
+Angola,HFO,2059,12.10,17.10,3.60
+Angola,HFO,2060,12.00,17.00,3.50
+Angola,Diesel,2025,15.00,17.50,14.00
+Angola,Diesel,2026,15.20,18.00,13.70
+Angola,Diesel,2027,15.40,18.50,13.40
+Angola,Diesel,2028,15.60,19.00,13.10
+Angola,Diesel,2029,15.80,19.50,12.80
+Angola,Diesel,2030,16.00,20.00,12.50
+Angola,Diesel,2031,16.10,20.40,12.20
+Angola,Diesel,2032,16.20,20.80,11.90
+Angola,Diesel,2033,16.30,21.20,11.60
+Angola,Diesel,2034,16.40,21.60,11.30
+Angola,Diesel,2035,16.50,22.00,11.00
+Angola,Diesel,2036,16.60,22.30,10.60
+Angola,Diesel,2037,16.70,22.60,10.20
+Angola,Diesel,2038,16.80,22.90,9.80
+Angola,Diesel,2039,16.90,23.20,9.40
+Angola,Diesel,2040,17.00,23.50,9.00
+Angola,Diesel,2041,17.00,23.60,8.70
+Angola,Diesel,2042,17.00,23.70,8.40
+Angola,Diesel,2043,17.00,23.80,8.10
+Angola,Diesel,2044,17.00,23.90,7.80
+Angola,Diesel,2045,17.00,24.00,7.50
+Angola,Diesel,2046,16.90,23.80,7.20
+Angola,Diesel,2047,16.80,23.60,6.90
+Angola,Diesel,2048,16.70,23.40,6.60
+Angola,Diesel,2049,16.60,23.20,6.30
+Angola,Diesel,2050,16.50,23.00,6.00
+Angola,Diesel,2051,16.40,22.80,5.90
+Angola,Diesel,2052,16.30,22.60,5.80
+Angola,Diesel,2053,16.20,22.40,5.70
+Angola,Diesel,2054,16.10,22.20,5.60
+Angola,Diesel,2055,16.00,22.00,5.50
+Angola,Diesel,2056,15.90,21.80,5.40
+Angola,Diesel,2057,15.80,21.60,5.30
+Angola,Diesel,2058,15.70,21.40,5.20
+Angola,Diesel,2059,15.60,21.20,5.10
+Angola,Diesel,2060,15.50,21.00,5.00
+Angola,Coal,2025,5.70,6.50,5.30
+Angola,Coal,2026,5.66,6.60,5.18
+Angola,Coal,2027,5.62,6.70,5.06
+Angola,Coal,2028,5.58,6.80,4.94
+Angola,Coal,2029,5.54,6.90,4.82
+Angola,Coal,2030,5.50,7.00,4.70
+Angola,Coal,2031,5.46,7.06,4.56
+Angola,Coal,2032,5.42,7.12,4.42
+Angola,Coal,2033,5.38,7.18,4.28
+Angola,Coal,2034,5.34,7.24,4.14
+Angola,Coal,2035,5.30,7.30,4.00
+Angola,Coal,2036,5.24,7.34,3.90
+Angola,Coal,2037,5.18,7.38,3.80
+Angola,Coal,2038,5.12,7.42,3.70
+Angola,Coal,2039,5.06,7.46,3.60
+Angola,Coal,2040,5.00,7.50,3.50
+Angola,Coal,2041,4.90,7.40,3.42
+Angola,Coal,2042,4.80,7.30,3.34
+Angola,Coal,2043,4.70,7.20,3.26
+Angola,Coal,2044,4.60,7.10,3.18
+Angola,Coal,2045,4.50,7.00,3.10
+Angola,Coal,2046,4.40,6.90,3.04
+Angola,Coal,2047,4.30,6.80,2.98
+Angola,Coal,2048,4.20,6.70,2.92
+Angola,Coal,2049,4.10,6.60,2.86
+Angola,Coal,2050,4.00,6.50,2.80
+Angola,Coal,2051,3.90,6.40,2.74
+Angola,Coal,2052,3.80,6.30,2.68
+Angola,Coal,2053,3.70,6.20,2.62
+Angola,Coal,2054,3.60,6.10,2.56
+Angola,Coal,2055,3.50,6.00,2.50
+Angola,Coal,2056,3.46,5.90,2.46
+Angola,Coal,2057,3.42,5.80,2.42
+Angola,Coal,2058,3.38,5.70,2.38
+Angola,Coal,2059,3.34,5.60,2.34
+Angola,Coal,2060,3.30,5.50,2.30
+Angola,Natural Gas,2025,6.50,7.50,6.00
+Angola,Natural Gas,2026,6.60,7.80,5.90
+Angola,Natural Gas,2027,6.70,8.10,5.80
+Angola,Natural Gas,2028,6.80,8.40,5.70
+Angola,Natural Gas,2029,6.90,8.70,5.60
+Angola,Natural Gas,2030,7.00,9.00,5.50
+Angola,Natural Gas,2031,7.10,9.30,5.40
+Angola,Natural Gas,2032,7.20,9.60,5.30
+Angola,Natural Gas,2033,7.30,9.90,5.20
+Angola,Natural Gas,2034,7.40,10.20,5.10
+Angola,Natural Gas,2035,7.50,10.50,5.00
+Angola,Natural Gas,2036,7.50,10.60,4.90
+Angola,Natural Gas,2037,7.50,10.70,4.80
+Angola,Natural Gas,2038,7.50,10.80,4.70
+Angola,Natural Gas,2039,7.50,10.90,4.60
+Angola,Natural Gas,2040,7.50,11.00,4.50
+Angola,Natural Gas,2041,7.50,11.00,4.40
+Angola,Natural Gas,2042,7.50,11.00,4.30
+Angola,Natural Gas,2043,7.50,11.00,4.20
+Angola,Natural Gas,2044,7.50,11.00,4.10
+Angola,Natural Gas,2045,7.50,11.00,4.00
+Angola,Natural Gas,2046,7.40,10.90,3.90
+Angola,Natural Gas,2047,7.30,10.80,3.80
+Angola,Natural Gas,2048,7.20,10.70,3.70
+Angola,Natural Gas,2049,7.10,10.60,3.60
+Angola,Natural Gas,2050,7.00,10.50,3.50
+Angola,Natural Gas,2051,6.90,10.40,3.40
+Angola,Natural Gas,2052,6.80,10.30,3.30
+Angola,Natural Gas,2053,6.70,10.20,3.20
+Angola,Natural Gas,2054,6.60,10.10,3.10
+Angola,Natural Gas,2055,6.50,10.00,3.00
+Angola,Natural Gas,2056,6.40,9.90,2.90
+Angola,Natural Gas,2057,6.30,9.80,2.80
+Angola,Natural Gas,2058,6.20,9.70,2.70
+Angola,Natural Gas,2059,6.10,9.60,2.60
+Angola,Natural Gas,2060,6.00,9.50,2.50
+Angola,LNG,2025,10.50,13.00,9.50
+Angola,LNG,2026,10.60,13.40,9.30
+Angola,LNG,2027,10.70,13.80,9.10
+Angola,LNG,2028,10.80,14.20,8.90
+Angola,LNG,2029,10.90,14.60,8.70
+Angola,LNG,2030,11.00,15.00,8.50
+Angola,LNG,2031,11.10,15.40,8.30
+Angola,LNG,2032,11.20,15.80,8.10
+Angola,LNG,2033,11.30,16.20,7.90
+Angola,LNG,2034,11.40,16.60,7.70
+Angola,LNG,2035,11.50,17.00,7.50
+Angola,LNG,2036,11.50,17.10,7.30
+Angola,LNG,2037,11.50,17.20,7.10
+Angola,LNG,2038,11.50,17.30,6.90
+Angola,LNG,2039,11.50,17.40,6.70
+Angola,LNG,2040,11.50,17.50,6.50
+Angola,LNG,2041,11.40,17.40,6.30
+Angola,LNG,2042,11.30,17.30,6.10
+Angola,LNG,2043,11.20,17.20,5.90
+Angola,LNG,2044,11.10,17.10,5.70
+Angola,LNG,2045,11.00,17.00,5.50
+Angola,LNG,2046,10.90,16.80,5.30
+Angola,LNG,2047,10.80,16.60,5.10
+Angola,LNG,2048,10.70,16.40,4.90
+Angola,LNG,2049,10.60,16.20,4.70
+Angola,LNG,2050,10.50,16.00,4.50
+Angola,LNG,2051,10.40,15.80,4.40
+Angola,LNG,2052,10.30,15.60,4.30
+Angola,LNG,2053,10.20,15.40,4.20
+Angola,LNG,2054,10.10,15.20,4.10
+Angola,LNG,2055,10.00,15.00,4.00
+Angola,LNG,2056,9.90,14.80,3.90
+Angola,LNG,2057,9.80,14.60,3.80
+Angola,LNG,2058,9.70,14.40,3.70
+Angola,LNG,2059,9.60,14.20,3.60
+Angola,LNG,2060,9.50,14.00,3.50
+Angola,Biomass,2025,3.50,3.80,3.20
+Angola,Biomass,2026,3.60,3.94,3.26
+Angola,Biomass,2027,3.70,4.08,3.32
+Angola,Biomass,2028,3.80,4.22,3.38
+Angola,Biomass,2029,3.90,4.36,3.44
+Angola,Biomass,2030,4.00,4.50,3.50
+Angola,Biomass,2031,4.10,4.60,3.56
+Angola,Biomass,2032,4.20,4.70,3.62
+Angola,Biomass,2033,4.30,4.80,3.68
+Angola,Biomass,2034,4.40,4.90,3.74
+Angola,Biomass,2035,4.50,5.00,3.80
+Angola,Biomass,2036,4.60,5.10,3.84
+Angola,Biomass,2037,4.70,5.20,3.88
+Angola,Biomass,2038,4.80,5.30,3.92
+Angola,Biomass,2039,4.90,5.40,3.96
+Angola,Biomass,2040,5.00,5.50,4.00
+Angola,Biomass,2041,5.10,5.60,4.04
+Angola,Biomass,2042,5.20,5.70,4.08
+Angola,Biomass,2043,5.30,5.80,4.12
+Angola,Biomass,2044,5.40,5.90,4.16
+Angola,Biomass,2045,5.50,6.00,4.20
+Angola,Biomass,2046,5.60,6.16,4.26
+Angola,Biomass,2047,5.70,6.32,4.32
+Angola,Biomass,2048,5.80,6.48,4.38
+Angola,Biomass,2049,5.90,6.64,4.44
+Angola,Biomass,2050,6.00,6.80,4.50
+Angola,Biomass,2051,6.10,6.94,4.56
+Angola,Biomass,2052,6.20,7.08,4.62
+Angola,Biomass,2053,6.30,7.22,4.68
+Angola,Biomass,2054,6.40,7.36,4.74
+Angola,Biomass,2055,6.50,7.50,4.80
+Angola,Biomass,2056,6.60,7.60,4.84
+Angola,Biomass,2057,6.70,7.70,4.88
+Angola,Biomass,2058,6.80,7.80,4.92
+Angola,Biomass,2059,6.90,7.90,4.96
+Angola,Biomass,2060,7.00,8.00,5.00
+Angola,Biogas,2025,8.00,8.50,7.50
+Angola,Biogas,2026,7.80,8.30,7.20
+Angola,Biogas,2027,7.60,8.10,6.90
+Angola,Biogas,2028,7.40,7.90,6.60
+Angola,Biogas,2029,7.20,7.70,6.30
+Angola,Biogas,2030,7.00,7.50,6.00
+Angola,Biogas,2031,6.80,7.30,5.80
+Angola,Biogas,2032,6.60,7.10,5.60
+Angola,Biogas,2033,6.40,6.90,5.40
+Angola,Biogas,2034,6.20,6.70,5.20
+Angola,Biogas,2035,6.00,6.50,5.00
+Angola,Biogas,2036,5.90,6.40,4.90
+Angola,Biogas,2037,5.80,6.30,4.80
+Angola,Biogas,2038,5.70,6.20,4.70
+Angola,Biogas,2039,5.60,6.10,4.60
+Angola,Biogas,2040,5.50,6.00,4.50
+Angola,Biogas,2041,5.40,5.90,4.40
+Angola,Biogas,2042,5.30,5.80,4.30
+Angola,Biogas,2043,5.20,5.70,4.20
+Angola,Biogas,2044,5.10,5.60,4.10
+Angola,Biogas,2045,5.00,5.50,4.00
+Angola,Biogas,2046,4.90,5.40,3.90
+Angola,Biogas,2047,4.80,5.30,3.80
+Angola,Biogas,2048,4.70,5.20,3.70
+Angola,Biogas,2049,4.60,5.10,3.60
+Angola,Biogas,2050,4.50,5.00,3.50
+Angola,Biogas,2051,4.44,4.96,3.44
+Angola,Biogas,2052,4.38,4.92,3.38
+Angola,Biogas,2053,4.32,4.88,3.32
+Angola,Biogas,2054,4.26,4.84,3.26
+Angola,Biogas,2055,4.20,4.80,3.20
+Angola,Biogas,2056,4.16,4.74,3.16
+Angola,Biogas,2057,4.12,4.68,3.12
+Angola,Biogas,2058,4.08,4.62,3.08
+Angola,Biogas,2059,4.04,4.56,3.04
+Angola,Biogas,2060,4.00,4.50,3.00
+Botswana,HFO,2025,14.50,16.50,13.50
+Botswana,HFO,2026,14.70,16.90,13.30
+Botswana,HFO,2027,14.90,17.30,13.10
+Botswana,HFO,2028,15.10,17.70,12.90
+Botswana,HFO,2029,15.30,18.10,12.70
+Botswana,HFO,2030,15.50,18.50,12.50
+Botswana,HFO,2031,15.60,18.80,12.30
+Botswana,HFO,2032,15.70,19.10,12.10
+Botswana,HFO,2033,15.80,19.40,11.90
+Botswana,HFO,2034,15.90,19.70,11.70
+Botswana,HFO,2035,16.00,20.00,11.50
+Botswana,HFO,2036,16.10,20.20,11.20
+Botswana,HFO,2037,16.20,20.40,10.90
+Botswana,HFO,2038,16.30,20.60,10.60
+Botswana,HFO,2039,16.40,20.80,10.30
+Botswana,HFO,2040,16.50,21.00,10.00
+Botswana,HFO,2041,16.50,21.10,9.70
+Botswana,HFO,2042,16.50,21.20,9.40
+Botswana,HFO,2043,16.50,21.30,9.10
+Botswana,HFO,2044,16.50,21.40,8.80
+Botswana,HFO,2045,16.50,21.50,8.50
+Botswana,HFO,2046,16.40,21.40,8.30
+Botswana,HFO,2047,16.30,21.30,8.10
+Botswana,HFO,2048,16.20,21.20,7.90
+Botswana,HFO,2049,16.10,21.10,7.70
+Botswana,HFO,2050,16.00,21.00,7.50
+Botswana,HFO,2051,15.90,20.90,7.40
+Botswana,HFO,2052,15.80,20.80,7.30
+Botswana,HFO,2053,15.70,20.70,7.20
+Botswana,HFO,2054,15.60,20.60,7.10
+Botswana,HFO,2055,15.50,20.50,7.00
+Botswana,HFO,2056,15.40,20.40,6.90
+Botswana,HFO,2057,15.30,20.30,6.80
+Botswana,HFO,2058,15.20,20.20,6.70
+Botswana,HFO,2059,15.10,20.10,6.60
+Botswana,HFO,2060,15.00,20.00,6.50
+Botswana,Diesel,2025,18.00,20.50,17.00
+Botswana,Diesel,2026,18.20,21.00,16.70
+Botswana,Diesel,2027,18.40,21.50,16.40
+Botswana,Diesel,2028,18.60,22.00,16.10
+Botswana,Diesel,2029,18.80,22.50,15.80
+Botswana,Diesel,2030,19.00,23.00,15.50
+Botswana,Diesel,2031,19.10,23.40,15.20
+Botswana,Diesel,2032,19.20,23.80,14.90
+Botswana,Diesel,2033,19.30,24.20,14.60
+Botswana,Diesel,2034,19.40,24.60,14.30
+Botswana,Diesel,2035,19.50,25.00,14.00
+Botswana,Diesel,2036,19.60,25.30,13.60
+Botswana,Diesel,2037,19.70,25.60,13.20
+Botswana,Diesel,2038,19.80,25.90,12.80
+Botswana,Diesel,2039,19.90,26.20,12.40
+Botswana,Diesel,2040,20.00,26.50,12.00
+Botswana,Diesel,2041,20.00,26.60,11.70
+Botswana,Diesel,2042,20.00,26.70,11.40
+Botswana,Diesel,2043,20.00,26.80,11.10
+Botswana,Diesel,2044,20.00,26.90,10.80
+Botswana,Diesel,2045,20.00,27.00,10.50
+Botswana,Diesel,2046,19.90,26.80,10.20
+Botswana,Diesel,2047,19.80,26.60,9.90
+Botswana,Diesel,2048,19.70,26.40,9.60
+Botswana,Diesel,2049,19.60,26.20,9.30
+Botswana,Diesel,2050,19.50,26.00,9.00
+Botswana,Diesel,2051,19.40,25.80,8.90
+Botswana,Diesel,2052,19.30,25.60,8.80
+Botswana,Diesel,2053,19.20,25.40,8.70
+Botswana,Diesel,2054,19.10,25.20,8.60
+Botswana,Diesel,2055,19.00,25.00,8.50
+Botswana,Diesel,2056,18.90,24.80,8.40
+Botswana,Diesel,2057,18.80,24.60,8.30
+Botswana,Diesel,2058,18.70,24.40,8.20
+Botswana,Diesel,2059,18.60,24.20,8.10
+Botswana,Diesel,2060,18.50,24.00,8.00
+Botswana,Coal,2025,4.70,5.50,4.30
+Botswana,Coal,2026,4.66,5.60,4.18
+Botswana,Coal,2027,4.62,5.70,4.06
+Botswana,Coal,2028,4.58,5.80,3.94
+Botswana,Coal,2029,4.54,5.90,3.82
+Botswana,Coal,2030,4.50,6.00,3.70
+Botswana,Coal,2031,4.46,6.06,3.56
+Botswana,Coal,2032,4.42,6.12,3.42
+Botswana,Coal,2033,4.38,6.18,3.28
+Botswana,Coal,2034,4.34,6.24,3.14
+Botswana,Coal,2035,4.30,6.30,3.00
+Botswana,Coal,2036,4.24,6.34,2.90
+Botswana,Coal,2037,4.18,6.38,2.80
+Botswana,Coal,2038,4.12,6.42,2.70
+Botswana,Coal,2039,4.06,6.46,2.60
+Botswana,Coal,2040,4.00,6.50,2.50
+Botswana,Coal,2041,3.90,6.40,2.42
+Botswana,Coal,2042,3.80,6.30,2.34
+Botswana,Coal,2043,3.70,6.20,2.26
+Botswana,Coal,2044,3.60,6.10,2.18
+Botswana,Coal,2045,3.50,6.00,2.10
+Botswana,Coal,2046,3.40,5.90,2.04
+Botswana,Coal,2047,3.30,5.80,1.98
+Botswana,Coal,2048,3.20,5.70,1.92
+Botswana,Coal,2049,3.10,5.60,1.86
+Botswana,Coal,2050,3.00,5.50,1.80
+Botswana,Coal,2051,2.90,5.40,1.74
+Botswana,Coal,2052,2.80,5.30,1.68
+Botswana,Coal,2053,2.70,5.20,1.62
+Botswana,Coal,2054,2.60,5.10,1.56
+Botswana,Coal,2055,2.50,5.00,1.50
+Botswana,Coal,2056,2.46,4.90,1.46
+Botswana,Coal,2057,2.42,4.80,1.42
+Botswana,Coal,2058,2.38,4.70,1.38
+Botswana,Coal,2059,2.34,4.60,1.34
+Botswana,Coal,2060,2.30,4.50,1.30
+Botswana,Natural Gas,2025,10.50,13.00,9.50
+Botswana,Natural Gas,2026,10.60,13.40,9.30
+Botswana,Natural Gas,2027,10.70,13.80,9.10
+Botswana,Natural Gas,2028,10.80,14.20,8.90
+Botswana,Natural Gas,2029,10.90,14.60,8.70
+Botswana,Natural Gas,2030,11.00,15.00,8.50
+Botswana,Natural Gas,2031,11.10,15.40,8.30
+Botswana,Natural Gas,2032,11.20,15.80,8.10
+Botswana,Natural Gas,2033,11.30,16.20,7.90
+Botswana,Natural Gas,2034,11.40,16.60,7.70
+Botswana,Natural Gas,2035,11.50,17.00,7.50
+Botswana,Natural Gas,2036,11.50,17.10,7.30
+Botswana,Natural Gas,2037,11.50,17.20,7.10
+Botswana,Natural Gas,2038,11.50,17.30,6.90
+Botswana,Natural Gas,2039,11.50,17.40,6.70
+Botswana,Natural Gas,2040,11.50,17.50,6.50
+Botswana,Natural Gas,2041,11.40,17.40,6.30
+Botswana,Natural Gas,2042,11.30,17.30,6.10
+Botswana,Natural Gas,2043,11.20,17.20,5.90
+Botswana,Natural Gas,2044,11.10,17.10,5.70
+Botswana,Natural Gas,2045,11.00,17.00,5.50
+Botswana,Natural Gas,2046,10.90,16.80,5.30
+Botswana,Natural Gas,2047,10.80,16.60,5.10
+Botswana,Natural Gas,2048,10.70,16.40,4.90
+Botswana,Natural Gas,2049,10.60,16.20,4.70
+Botswana,Natural Gas,2050,10.50,16.00,4.50
+Botswana,Natural Gas,2051,10.40,15.80,4.40
+Botswana,Natural Gas,2052,10.30,15.60,4.30
+Botswana,Natural Gas,2053,10.20,15.40,4.20
+Botswana,Natural Gas,2054,10.10,15.20,4.10
+Botswana,Natural Gas,2055,10.00,15.00,4.00
+Botswana,Natural Gas,2056,9.90,14.80,3.90
+Botswana,Natural Gas,2057,9.80,14.60,3.80
+Botswana,Natural Gas,2058,9.70,14.40,3.70
+Botswana,Natural Gas,2059,9.60,14.20,3.60
+Botswana,Natural Gas,2060,9.50,14.00,3.50
+Botswana,LNG,2025,10.50,13.00,9.50
+Botswana,LNG,2026,10.60,13.40,9.30
+Botswana,LNG,2027,10.70,13.80,9.10
+Botswana,LNG,2028,10.80,14.20,8.90
+Botswana,LNG,2029,10.90,14.60,8.70
+Botswana,LNG,2030,11.00,15.00,8.50
+Botswana,LNG,2031,11.10,15.40,8.30
+Botswana,LNG,2032,11.20,15.80,8.10
+Botswana,LNG,2033,11.30,16.20,7.90
+Botswana,LNG,2034,11.40,16.60,7.70
+Botswana,LNG,2035,11.50,17.00,7.50
+Botswana,LNG,2036,11.50,17.10,7.30
+Botswana,LNG,2037,11.50,17.20,7.10
+Botswana,LNG,2038,11.50,17.30,6.90
+Botswana,LNG,2039,11.50,17.40,6.70
+Botswana,LNG,2040,11.50,17.50,6.50
+Botswana,LNG,2041,11.40,17.40,6.30
+Botswana,LNG,2042,11.30,17.30,6.10
+Botswana,LNG,2043,11.20,17.20,5.90
+Botswana,LNG,2044,11.10,17.10,5.70
+Botswana,LNG,2045,11.00,17.00,5.50
+Botswana,LNG,2046,10.90,16.80,5.30
+Botswana,LNG,2047,10.80,16.60,5.10
+Botswana,LNG,2048,10.70,16.40,4.90
+Botswana,LNG,2049,10.60,16.20,4.70
+Botswana,LNG,2050,10.50,16.00,4.50
+Botswana,LNG,2051,10.40,15.80,4.40
+Botswana,LNG,2052,10.30,15.60,4.30
+Botswana,LNG,2053,10.20,15.40,4.20
+Botswana,LNG,2054,10.10,15.20,4.10
+Botswana,LNG,2055,10.00,15.00,4.00
+Botswana,LNG,2056,9.90,14.80,3.90
+Botswana,LNG,2057,9.80,14.60,3.80
+Botswana,LNG,2058,9.70,14.40,3.70
+Botswana,LNG,2059,9.60,14.20,3.60
+Botswana,LNG,2060,9.50,14.00,3.50
+Botswana,Biomass,2025,3.50,3.80,3.20
+Botswana,Biomass,2026,3.60,3.94,3.26
+Botswana,Biomass,2027,3.70,4.08,3.32
+Botswana,Biomass,2028,3.80,4.22,3.38
+Botswana,Biomass,2029,3.90,4.36,3.44
+Botswana,Biomass,2030,4.00,4.50,3.50
+Botswana,Biomass,2031,4.10,4.60,3.56
+Botswana,Biomass,2032,4.20,4.70,3.62
+Botswana,Biomass,2033,4.30,4.80,3.68
+Botswana,Biomass,2034,4.40,4.90,3.74
+Botswana,Biomass,2035,4.50,5.00,3.80
+Botswana,Biomass,2036,4.60,5.10,3.84
+Botswana,Biomass,2037,4.70,5.20,3.88
+Botswana,Biomass,2038,4.80,5.30,3.92
+Botswana,Biomass,2039,4.90,5.40,3.96
+Botswana,Biomass,2040,5.00,5.50,4.00
+Botswana,Biomass,2041,5.10,5.60,4.04
+Botswana,Biomass,2042,5.20,5.70,4.08
+Botswana,Biomass,2043,5.30,5.80,4.12
+Botswana,Biomass,2044,5.40,5.90,4.16
+Botswana,Biomass,2045,5.50,6.00,4.20
+Botswana,Biomass,2046,5.60,6.16,4.26
+Botswana,Biomass,2047,5.70,6.32,4.32
+Botswana,Biomass,2048,5.80,6.48,4.38
+Botswana,Biomass,2049,5.90,6.64,4.44
+Botswana,Biomass,2050,6.00,6.80,4.50
+Botswana,Biomass,2051,6.10,6.94,4.56
+Botswana,Biomass,2052,6.20,7.08,4.62
+Botswana,Biomass,2053,6.30,7.22,4.68
+Botswana,Biomass,2054,6.40,7.36,4.74
+Botswana,Biomass,2055,6.50,7.50,4.80
+Botswana,Biomass,2056,6.60,7.60,4.84
+Botswana,Biomass,2057,6.70,7.70,4.88
+Botswana,Biomass,2058,6.80,7.80,4.92
+Botswana,Biomass,2059,6.90,7.90,4.96
+Botswana,Biomass,2060,7.00,8.00,5.00
+Botswana,Biogas,2025,8.00,8.50,7.50
+Botswana,Biogas,2026,7.80,8.30,7.20
+Botswana,Biogas,2027,7.60,8.10,6.90
+Botswana,Biogas,2028,7.40,7.90,6.60
+Botswana,Biogas,2029,7.20,7.70,6.30
+Botswana,Biogas,2030,7.00,7.50,6.00
+Botswana,Biogas,2031,6.80,7.30,5.80
+Botswana,Biogas,2032,6.60,7.10,5.60
+Botswana,Biogas,2033,6.40,6.90,5.40
+Botswana,Biogas,2034,6.20,6.70,5.20
+Botswana,Biogas,2035,6.00,6.50,5.00
+Botswana,Biogas,2036,5.90,6.40,4.90
+Botswana,Biogas,2037,5.80,6.30,4.80
+Botswana,Biogas,2038,5.70,6.20,4.70
+Botswana,Biogas,2039,5.60,6.10,4.60
+Botswana,Biogas,2040,5.50,6.00,4.50
+Botswana,Biogas,2041,5.40,5.90,4.40
+Botswana,Biogas,2042,5.30,5.80,4.30
+Botswana,Biogas,2043,5.20,5.70,4.20
+Botswana,Biogas,2044,5.10,5.60,4.10
+Botswana,Biogas,2045,5.00,5.50,4.00
+Botswana,Biogas,2046,4.90,5.40,3.90
+Botswana,Biogas,2047,4.80,5.30,3.80
+Botswana,Biogas,2048,4.70,5.20,3.70
+Botswana,Biogas,2049,4.60,5.10,3.60
+Botswana,Biogas,2050,4.50,5.00,3.50
+Botswana,Biogas,2051,4.44,4.96,3.44
+Botswana,Biogas,2052,4.38,4.92,3.38
+Botswana,Biogas,2053,4.32,4.88,3.32
+Botswana,Biogas,2054,4.26,4.84,3.26
+Botswana,Biogas,2055,4.20,4.80,3.20
+Botswana,Biogas,2056,4.16,4.74,3.16
+Botswana,Biogas,2057,4.12,4.68,3.12
+Botswana,Biogas,2058,4.08,4.62,3.08
+Botswana,Biogas,2059,4.04,4.56,3.04
+Botswana,Biogas,2060,4.00,4.50,3.00
+DRC,HFO,2025,13.50,15.50,12.50
+DRC,HFO,2026,13.70,15.90,12.30
+DRC,HFO,2027,13.90,16.30,12.10
+DRC,HFO,2028,14.10,16.70,11.90
+DRC,HFO,2029,14.30,17.10,11.70
+DRC,HFO,2030,14.50,17.50,11.50
+DRC,HFO,2031,14.60,17.80,11.30
+DRC,HFO,2032,14.70,18.10,11.10
+DRC,HFO,2033,14.80,18.40,10.90
+DRC,HFO,2034,14.90,18.70,10.70
+DRC,HFO,2035,15.00,19.00,10.50
+DRC,HFO,2036,15.10,19.20,10.20
+DRC,HFO,2037,15.20,19.40,9.90
+DRC,HFO,2038,15.30,19.60,9.60
+DRC,HFO,2039,15.40,19.80,9.30
+DRC,HFO,2040,15.50,20.00,9.00
+DRC,HFO,2041,15.50,20.10,8.70
+DRC,HFO,2042,15.50,20.20,8.40
+DRC,HFO,2043,15.50,20.30,8.10
+DRC,HFO,2044,15.50,20.40,7.80
+DRC,HFO,2045,15.50,20.50,7.50
+DRC,HFO,2046,15.40,20.40,7.30
+DRC,HFO,2047,15.30,20.30,7.10
+DRC,HFO,2048,15.20,20.20,6.90
+DRC,HFO,2049,15.10,20.10,6.70
+DRC,HFO,2050,15.00,20.00,6.50
+DRC,HFO,2051,14.90,19.90,6.40
+DRC,HFO,2052,14.80,19.80,6.30
+DRC,HFO,2053,14.70,19.70,6.20
+DRC,HFO,2054,14.60,19.60,6.10
+DRC,HFO,2055,14.50,19.50,6.00
+DRC,HFO,2056,14.40,19.40,5.90
+DRC,HFO,2057,14.30,19.30,5.80
+DRC,HFO,2058,14.20,19.20,5.70
+DRC,HFO,2059,14.10,19.10,5.60
+DRC,HFO,2060,14.00,19.00,5.50
+DRC,Diesel,2025,17.00,19.50,16.00
+DRC,Diesel,2026,17.20,20.00,15.70
+DRC,Diesel,2027,17.40,20.50,15.40
+DRC,Diesel,2028,17.60,21.00,15.10
+DRC,Diesel,2029,17.80,21.50,14.80
+DRC,Diesel,2030,18.00,22.00,14.50
+DRC,Diesel,2031,18.10,22.40,14.20
+DRC,Diesel,2032,18.20,22.80,13.90
+DRC,Diesel,2033,18.30,23.20,13.60
+DRC,Diesel,2034,18.40,23.60,13.30
+DRC,Diesel,2035,18.50,24.00,13.00
+DRC,Diesel,2036,18.60,24.30,12.60
+DRC,Diesel,2037,18.70,24.60,12.20
+DRC,Diesel,2038,18.80,24.90,11.80
+DRC,Diesel,2039,18.90,25.20,11.40
+DRC,Diesel,2040,19.00,25.50,11.00
+DRC,Diesel,2041,19.00,25.60,10.70
+DRC,Diesel,2042,19.00,25.70,10.40
+DRC,Diesel,2043,19.00,25.80,10.10
+DRC,Diesel,2044,19.00,25.90,9.80
+DRC,Diesel,2045,19.00,26.00,9.50
+DRC,Diesel,2046,18.90,25.80,9.20
+DRC,Diesel,2047,18.80,25.60,8.90
+DRC,Diesel,2048,18.70,25.40,8.60
+DRC,Diesel,2049,18.60,25.20,8.30
+DRC,Diesel,2050,18.50,25.00,8.00
+DRC,Diesel,2051,18.40,24.80,7.90
+DRC,Diesel,2052,18.30,24.60,7.80
+DRC,Diesel,2053,18.20,24.40,7.70
+DRC,Diesel,2054,18.10,24.20,7.60
+DRC,Diesel,2055,18.00,24.00,7.50
+DRC,Diesel,2056,17.90,23.80,7.40
+DRC,Diesel,2057,17.80,23.60,7.30
+DRC,Diesel,2058,17.70,23.40,7.20
+DRC,Diesel,2059,17.60,23.20,7.10
+DRC,Diesel,2060,17.50,23.00,7.00
+DRC,Coal,2025,6.20,7.00,5.80
+DRC,Coal,2026,6.16,7.10,5.68
+DRC,Coal,2027,6.12,7.20,5.56
+DRC,Coal,2028,6.08,7.30,5.44
+DRC,Coal,2029,6.04,7.40,5.32
+DRC,Coal,2030,6.00,7.50,5.20
+DRC,Coal,2031,5.96,7.56,5.06
+DRC,Coal,2032,5.92,7.62,4.92
+DRC,Coal,2033,5.88,7.68,4.78
+DRC,Coal,2034,5.84,7.74,4.64
+DRC,Coal,2035,5.80,7.80,4.50
+DRC,Coal,2036,5.74,7.84,4.40
+DRC,Coal,2037,5.68,7.88,4.30
+DRC,Coal,2038,5.62,7.92,4.20
+DRC,Coal,2039,5.56,7.96,4.10
+DRC,Coal,2040,5.50,8.00,4.00
+DRC,Coal,2041,5.40,7.90,3.92
+DRC,Coal,2042,5.30,7.80,3.84
+DRC,Coal,2043,5.20,7.70,3.76
+DRC,Coal,2044,5.10,7.60,3.68
+DRC,Coal,2045,5.00,7.50,3.60
+DRC,Coal,2046,4.90,7.40,3.54
+DRC,Coal,2047,4.80,7.30,3.48
+DRC,Coal,2048,4.70,7.20,3.42
+DRC,Coal,2049,4.60,7.10,3.36
+DRC,Coal,2050,4.50,7.00,3.30
+DRC,Coal,2051,4.40,6.90,3.24
+DRC,Coal,2052,4.30,6.80,3.18
+DRC,Coal,2053,4.20,6.70,3.12
+DRC,Coal,2054,4.10,6.60,3.06
+DRC,Coal,2055,4.00,6.50,3.00
+DRC,Coal,2056,3.96,6.40,2.96
+DRC,Coal,2057,3.92,6.30,2.92
+DRC,Coal,2058,3.88,6.20,2.88
+DRC,Coal,2059,3.84,6.10,2.84
+DRC,Coal,2060,3.80,6.00,2.80
+DRC,Natural Gas,2025,10.50,13.00,9.50
+DRC,Natural Gas,2026,10.60,13.40,9.30
+DRC,Natural Gas,2027,10.70,13.80,9.10
+DRC,Natural Gas,2028,10.80,14.20,8.90
+DRC,Natural Gas,2029,10.90,14.60,8.70
+DRC,Natural Gas,2030,11.00,15.00,8.50
+DRC,Natural Gas,2031,11.10,15.40,8.30
+DRC,Natural Gas,2032,11.20,15.80,8.10
+DRC,Natural Gas,2033,11.30,16.20,7.90
+DRC,Natural Gas,2034,11.40,16.60,7.70
+DRC,Natural Gas,2035,11.50,17.00,7.50
+DRC,Natural Gas,2036,11.50,17.10,7.30
+DRC,Natural Gas,2037,11.50,17.20,7.10
+DRC,Natural Gas,2038,11.50,17.30,6.90
+DRC,Natural Gas,2039,11.50,17.40,6.70
+DRC,Natural Gas,2040,11.50,17.50,6.50
+DRC,Natural Gas,2041,11.40,17.40,6.30
+DRC,Natural Gas,2042,11.30,17.30,6.10
+DRC,Natural Gas,2043,11.20,17.20,5.90
+DRC,Natural Gas,2044,11.10,17.10,5.70
+DRC,Natural Gas,2045,11.00,17.00,5.50
+DRC,Natural Gas,2046,10.90,16.80,5.30
+DRC,Natural Gas,2047,10.80,16.60,5.10
+DRC,Natural Gas,2048,10.70,16.40,4.90
+DRC,Natural Gas,2049,10.60,16.20,4.70
+DRC,Natural Gas,2050,10.50,16.00,4.50
+DRC,Natural Gas,2051,10.40,15.80,4.40
+DRC,Natural Gas,2052,10.30,15.60,4.30
+DRC,Natural Gas,2053,10.20,15.40,4.20
+DRC,Natural Gas,2054,10.10,15.20,4.10
+DRC,Natural Gas,2055,10.00,15.00,4.00
+DRC,Natural Gas,2056,9.90,14.80,3.90
+DRC,Natural Gas,2057,9.80,14.60,3.80
+DRC,Natural Gas,2058,9.70,14.40,3.70
+DRC,Natural Gas,2059,9.60,14.20,3.60
+DRC,Natural Gas,2060,9.50,14.00,3.50
+DRC,LNG,2025,10.50,13.00,9.50
+DRC,LNG,2026,10.60,13.40,9.30
+DRC,LNG,2027,10.70,13.80,9.10
+DRC,LNG,2028,10.80,14.20,8.90
+DRC,LNG,2029,10.90,14.60,8.70
+DRC,LNG,2030,11.00,15.00,8.50
+DRC,LNG,2031,11.10,15.40,8.30
+DRC,LNG,2032,11.20,15.80,8.10
+DRC,LNG,2033,11.30,16.20,7.90
+DRC,LNG,2034,11.40,16.60,7.70
+DRC,LNG,2035,11.50,17.00,7.50
+DRC,LNG,2036,11.50,17.10,7.30
+DRC,LNG,2037,11.50,17.20,7.10
+DRC,LNG,2038,11.50,17.30,6.90
+DRC,LNG,2039,11.50,17.40,6.70
+DRC,LNG,2040,11.50,17.50,6.50
+DRC,LNG,2041,11.40,17.40,6.30
+DRC,LNG,2042,11.30,17.30,6.10
+DRC,LNG,2043,11.20,17.20,5.90
+DRC,LNG,2044,11.10,17.10,5.70
+DRC,LNG,2045,11.00,17.00,5.50
+DRC,LNG,2046,10.90,16.80,5.30
+DRC,LNG,2047,10.80,16.60,5.10
+DRC,LNG,2048,10.70,16.40,4.90
+DRC,LNG,2049,10.60,16.20,4.70
+DRC,LNG,2050,10.50,16.00,4.50
+DRC,LNG,2051,10.40,15.80,4.40
+DRC,LNG,2052,10.30,15.60,4.30
+DRC,LNG,2053,10.20,15.40,4.20
+DRC,LNG,2054,10.10,15.20,4.10
+DRC,LNG,2055,10.00,15.00,4.00
+DRC,LNG,2056,9.90,14.80,3.90
+DRC,LNG,2057,9.80,14.60,3.80
+DRC,LNG,2058,9.70,14.40,3.70
+DRC,LNG,2059,9.60,14.20,3.60
+DRC,LNG,2060,9.50,14.00,3.50
+DRC,Biomass,2025,3.50,3.80,3.20
+DRC,Biomass,2026,3.60,3.94,3.26
+DRC,Biomass,2027,3.70,4.08,3.32
+DRC,Biomass,2028,3.80,4.22,3.38
+DRC,Biomass,2029,3.90,4.36,3.44
+DRC,Biomass,2030,4.00,4.50,3.50
+DRC,Biomass,2031,4.10,4.60,3.56
+DRC,Biomass,2032,4.20,4.70,3.62
+DRC,Biomass,2033,4.30,4.80,3.68
+DRC,Biomass,2034,4.40,4.90,3.74
+DRC,Biomass,2035,4.50,5.00,3.80
+DRC,Biomass,2036,4.60,5.10,3.84
+DRC,Biomass,2037,4.70,5.20,3.88
+DRC,Biomass,2038,4.80,5.30,3.92
+DRC,Biomass,2039,4.90,5.40,3.96
+DRC,Biomass,2040,5.00,5.50,4.00
+DRC,Biomass,2041,5.10,5.60,4.04
+DRC,Biomass,2042,5.20,5.70,4.08
+DRC,Biomass,2043,5.30,5.80,4.12
+DRC,Biomass,2044,5.40,5.90,4.16
+DRC,Biomass,2045,5.50,6.00,4.20
+DRC,Biomass,2046,5.60,6.16,4.26
+DRC,Biomass,2047,5.70,6.32,4.32
+DRC,Biomass,2048,5.80,6.48,4.38
+DRC,Biomass,2049,5.90,6.64,4.44
+DRC,Biomass,2050,6.00,6.80,4.50
+DRC,Biomass,2051,6.10,6.94,4.56
+DRC,Biomass,2052,6.20,7.08,4.62
+DRC,Biomass,2053,6.30,7.22,4.68
+DRC,Biomass,2054,6.40,7.36,4.74
+DRC,Biomass,2055,6.50,7.50,4.80
+DRC,Biomass,2056,6.60,7.60,4.84
+DRC,Biomass,2057,6.70,7.70,4.88
+DRC,Biomass,2058,6.80,7.80,4.92
+DRC,Biomass,2059,6.90,7.90,4.96
+DRC,Biomass,2060,7.00,8.00,5.00
+DRC,Biogas,2025,8.00,8.50,7.50
+DRC,Biogas,2026,7.80,8.30,7.20
+DRC,Biogas,2027,7.60,8.10,6.90
+DRC,Biogas,2028,7.40,7.90,6.60
+DRC,Biogas,2029,7.20,7.70,6.30
+DRC,Biogas,2030,7.00,7.50,6.00
+DRC,Biogas,2031,6.80,7.30,5.80
+DRC,Biogas,2032,6.60,7.10,5.60
+DRC,Biogas,2033,6.40,6.90,5.40
+DRC,Biogas,2034,6.20,6.70,5.20
+DRC,Biogas,2035,6.00,6.50,5.00
+DRC,Biogas,2036,5.90,6.40,4.90
+DRC,Biogas,2037,5.80,6.30,4.80
+DRC,Biogas,2038,5.70,6.20,4.70
+DRC,Biogas,2039,5.60,6.10,4.60
+DRC,Biogas,2040,5.50,6.00,4.50
+DRC,Biogas,2041,5.40,5.90,4.40
+DRC,Biogas,2042,5.30,5.80,4.30
+DRC,Biogas,2043,5.20,5.70,4.20
+DRC,Biogas,2044,5.10,5.60,4.10
+DRC,Biogas,2045,5.00,5.50,4.00
+DRC,Biogas,2046,4.90,5.40,3.90
+DRC,Biogas,2047,4.80,5.30,3.80
+DRC,Biogas,2048,4.70,5.20,3.70
+DRC,Biogas,2049,4.60,5.10,3.60
+DRC,Biogas,2050,4.50,5.00,3.50
+DRC,Biogas,2051,4.44,4.96,3.44
+DRC,Biogas,2052,4.38,4.92,3.38
+DRC,Biogas,2053,4.32,4.88,3.32
+DRC,Biogas,2054,4.26,4.84,3.26
+DRC,Biogas,2055,4.20,4.80,3.20
+DRC,Biogas,2056,4.16,4.74,3.16
+DRC,Biogas,2057,4.12,4.68,3.12
+DRC,Biogas,2058,4.08,4.62,3.08
+DRC,Biogas,2059,4.04,4.56,3.04
+DRC,Biogas,2060,4.00,4.50,3.00
+Eswatini,HFO,2025,14.50,16.50,13.50
+Eswatini,HFO,2026,14.70,16.90,13.30
+Eswatini,HFO,2027,14.90,17.30,13.10
+Eswatini,HFO,2028,15.10,17.70,12.90
+Eswatini,HFO,2029,15.30,18.10,12.70
+Eswatini,HFO,2030,15.50,18.50,12.50
+Eswatini,HFO,2031,15.60,18.80,12.30
+Eswatini,HFO,2032,15.70,19.10,12.10
+Eswatini,HFO,2033,15.80,19.40,11.90
+Eswatini,HFO,2034,15.90,19.70,11.70
+Eswatini,HFO,2035,16.00,20.00,11.50
+Eswatini,HFO,2036,16.10,20.20,11.20
+Eswatini,HFO,2037,16.20,20.40,10.90
+Eswatini,HFO,2038,16.30,20.60,10.60
+Eswatini,HFO,2039,16.40,20.80,10.30
+Eswatini,HFO,2040,16.50,21.00,10.00
+Eswatini,HFO,2041,16.50,21.10,9.70
+Eswatini,HFO,2042,16.50,21.20,9.40
+Eswatini,HFO,2043,16.50,21.30,9.10
+Eswatini,HFO,2044,16.50,21.40,8.80
+Eswatini,HFO,2045,16.50,21.50,8.50
+Eswatini,HFO,2046,16.40,21.40,8.30
+Eswatini,HFO,2047,16.30,21.30,8.10
+Eswatini,HFO,2048,16.20,21.20,7.90
+Eswatini,HFO,2049,16.10,21.10,7.70
+Eswatini,HFO,2050,16.00,21.00,7.50
+Eswatini,HFO,2051,15.90,20.90,7.40
+Eswatini,HFO,2052,15.80,20.80,7.30
+Eswatini,HFO,2053,15.70,20.70,7.20
+Eswatini,HFO,2054,15.60,20.60,7.10
+Eswatini,HFO,2055,15.50,20.50,7.00
+Eswatini,HFO,2056,15.40,20.40,6.90
+Eswatini,HFO,2057,15.30,20.30,6.80
+Eswatini,HFO,2058,15.20,20.20,6.70
+Eswatini,HFO,2059,15.10,20.10,6.60
+Eswatini,HFO,2060,15.00,20.00,6.50
+Eswatini,Diesel,2025,18.00,20.50,17.00
+Eswatini,Diesel,2026,18.20,21.00,16.70
+Eswatini,Diesel,2027,18.40,21.50,16.40
+Eswatini,Diesel,2028,18.60,22.00,16.10
+Eswatini,Diesel,2029,18.80,22.50,15.80
+Eswatini,Diesel,2030,19.00,23.00,15.50
+Eswatini,Diesel,2031,19.10,23.40,15.20
+Eswatini,Diesel,2032,19.20,23.80,14.90
+Eswatini,Diesel,2033,19.30,24.20,14.60
+Eswatini,Diesel,2034,19.40,24.60,14.30
+Eswatini,Diesel,2035,19.50,25.00,14.00
+Eswatini,Diesel,2036,19.60,25.30,13.60
+Eswatini,Diesel,2037,19.70,25.60,13.20
+Eswatini,Diesel,2038,19.80,25.90,12.80
+Eswatini,Diesel,2039,19.90,26.20,12.40
+Eswatini,Diesel,2040,20.00,26.50,12.00
+Eswatini,Diesel,2041,20.00,26.60,11.70
+Eswatini,Diesel,2042,20.00,26.70,11.40
+Eswatini,Diesel,2043,20.00,26.80,11.10
+Eswatini,Diesel,2044,20.00,26.90,10.80
+Eswatini,Diesel,2045,20.00,27.00,10.50
+Eswatini,Diesel,2046,19.90,26.80,10.20
+Eswatini,Diesel,2047,19.80,26.60,9.90
+Eswatini,Diesel,2048,19.70,26.40,9.60
+Eswatini,Diesel,2049,19.60,26.20,9.30
+Eswatini,Diesel,2050,19.50,26.00,9.00
+Eswatini,Diesel,2051,19.40,25.80,8.90
+Eswatini,Diesel,2052,19.30,25.60,8.80
+Eswatini,Diesel,2053,19.20,25.40,8.70
+Eswatini,Diesel,2054,19.10,25.20,8.60
+Eswatini,Diesel,2055,19.00,25.00,8.50
+Eswatini,Diesel,2056,18.90,24.80,8.40
+Eswatini,Diesel,2057,18.80,24.60,8.30
+Eswatini,Diesel,2058,18.70,24.40,8.20
+Eswatini,Diesel,2059,18.60,24.20,8.10
+Eswatini,Diesel,2060,18.50,24.00,8.00
+Eswatini,Coal,2025,4.70,5.50,4.30
+Eswatini,Coal,2026,4.66,5.60,4.18
+Eswatini,Coal,2027,4.62,5.70,4.06
+Eswatini,Coal,2028,4.58,5.80,3.94
+Eswatini,Coal,2029,4.54,5.90,3.82
+Eswatini,Coal,2030,4.50,6.00,3.70
+Eswatini,Coal,2031,4.46,6.06,3.56
+Eswatini,Coal,2032,4.42,6.12,3.42
+Eswatini,Coal,2033,4.38,6.18,3.28
+Eswatini,Coal,2034,4.34,6.24,3.14
+Eswatini,Coal,2035,4.30,6.30,3.00
+Eswatini,Coal,2036,4.24,6.34,2.90
+Eswatini,Coal,2037,4.18,6.38,2.80
+Eswatini,Coal,2038,4.12,6.42,2.70
+Eswatini,Coal,2039,4.06,6.46,2.60
+Eswatini,Coal,2040,4.00,6.50,2.50
+Eswatini,Coal,2041,3.90,6.40,2.42
+Eswatini,Coal,2042,3.80,6.30,2.34
+Eswatini,Coal,2043,3.70,6.20,2.26
+Eswatini,Coal,2044,3.60,6.10,2.18
+Eswatini,Coal,2045,3.50,6.00,2.10
+Eswatini,Coal,2046,3.40,5.90,2.04
+Eswatini,Coal,2047,3.30,5.80,1.98
+Eswatini,Coal,2048,3.20,5.70,1.92
+Eswatini,Coal,2049,3.10,5.60,1.86
+Eswatini,Coal,2050,3.00,5.50,1.80
+Eswatini,Coal,2051,2.90,5.40,1.74
+Eswatini,Coal,2052,2.80,5.30,1.68
+Eswatini,Coal,2053,2.70,5.20,1.62
+Eswatini,Coal,2054,2.60,5.10,1.56
+Eswatini,Coal,2055,2.50,5.00,1.50
+Eswatini,Coal,2056,2.46,4.90,1.46
+Eswatini,Coal,2057,2.42,4.80,1.42
+Eswatini,Coal,2058,2.38,4.70,1.38
+Eswatini,Coal,2059,2.34,4.60,1.34
+Eswatini,Coal,2060,2.30,4.50,1.30
+Eswatini,Natural Gas,2025,10.50,13.00,9.50
+Eswatini,Natural Gas,2026,10.60,13.40,9.30
+Eswatini,Natural Gas,2027,10.70,13.80,9.10
+Eswatini,Natural Gas,2028,10.80,14.20,8.90
+Eswatini,Natural Gas,2029,10.90,14.60,8.70
+Eswatini,Natural Gas,2030,11.00,15.00,8.50
+Eswatini,Natural Gas,2031,11.10,15.40,8.30
+Eswatini,Natural Gas,2032,11.20,15.80,8.10
+Eswatini,Natural Gas,2033,11.30,16.20,7.90
+Eswatini,Natural Gas,2034,11.40,16.60,7.70
+Eswatini,Natural Gas,2035,11.50,17.00,7.50
+Eswatini,Natural Gas,2036,11.50,17.10,7.30
+Eswatini,Natural Gas,2037,11.50,17.20,7.10
+Eswatini,Natural Gas,2038,11.50,17.30,6.90
+Eswatini,Natural Gas,2039,11.50,17.40,6.70
+Eswatini,Natural Gas,2040,11.50,17.50,6.50
+Eswatini,Natural Gas,2041,11.40,17.40,6.30
+Eswatini,Natural Gas,2042,11.30,17.30,6.10
+Eswatini,Natural Gas,2043,11.20,17.20,5.90
+Eswatini,Natural Gas,2044,11.10,17.10,5.70
+Eswatini,Natural Gas,2045,11.00,17.00,5.50
+Eswatini,Natural Gas,2046,10.90,16.80,5.30
+Eswatini,Natural Gas,2047,10.80,16.60,5.10
+Eswatini,Natural Gas,2048,10.70,16.40,4.90
+Eswatini,Natural Gas,2049,10.60,16.20,4.70
+Eswatini,Natural Gas,2050,10.50,16.00,4.50
+Eswatini,Natural Gas,2051,10.40,15.80,4.40
+Eswatini,Natural Gas,2052,10.30,15.60,4.30
+Eswatini,Natural Gas,2053,10.20,15.40,4.20
+Eswatini,Natural Gas,2054,10.10,15.20,4.10
+Eswatini,Natural Gas,2055,10.00,15.00,4.00
+Eswatini,Natural Gas,2056,9.90,14.80,3.90
+Eswatini,Natural Gas,2057,9.80,14.60,3.80
+Eswatini,Natural Gas,2058,9.70,14.40,3.70
+Eswatini,Natural Gas,2059,9.60,14.20,3.60
+Eswatini,Natural Gas,2060,9.50,14.00,3.50
+Eswatini,LNG,2025,10.50,13.00,9.50
+Eswatini,LNG,2026,10.60,13.40,9.30
+Eswatini,LNG,2027,10.70,13.80,9.10
+Eswatini,LNG,2028,10.80,14.20,8.90
+Eswatini,LNG,2029,10.90,14.60,8.70
+Eswatini,LNG,2030,11.00,15.00,8.50
+Eswatini,LNG,2031,11.10,15.40,8.30
+Eswatini,LNG,2032,11.20,15.80,8.10
+Eswatini,LNG,2033,11.30,16.20,7.90
+Eswatini,LNG,2034,11.40,16.60,7.70
+Eswatini,LNG,2035,11.50,17.00,7.50
+Eswatini,LNG,2036,11.50,17.10,7.30
+Eswatini,LNG,2037,11.50,17.20,7.10
+Eswatini,LNG,2038,11.50,17.30,6.90
+Eswatini,LNG,2039,11.50,17.40,6.70
+Eswatini,LNG,2040,11.50,17.50,6.50
+Eswatini,LNG,2041,11.40,17.40,6.30
+Eswatini,LNG,2042,11.30,17.30,6.10
+Eswatini,LNG,2043,11.20,17.20,5.90
+Eswatini,LNG,2044,11.10,17.10,5.70
+Eswatini,LNG,2045,11.00,17.00,5.50
+Eswatini,LNG,2046,10.90,16.80,5.30
+Eswatini,LNG,2047,10.80,16.60,5.10
+Eswatini,LNG,2048,10.70,16.40,4.90
+Eswatini,LNG,2049,10.60,16.20,4.70
+Eswatini,LNG,2050,10.50,16.00,4.50
+Eswatini,LNG,2051,10.40,15.80,4.40
+Eswatini,LNG,2052,10.30,15.60,4.30
+Eswatini,LNG,2053,10.20,15.40,4.20
+Eswatini,LNG,2054,10.10,15.20,4.10
+Eswatini,LNG,2055,10.00,15.00,4.00
+Eswatini,LNG,2056,9.90,14.80,3.90
+Eswatini,LNG,2057,9.80,14.60,3.80
+Eswatini,LNG,2058,9.70,14.40,3.70
+Eswatini,LNG,2059,9.60,14.20,3.60
+Eswatini,LNG,2060,9.50,14.00,3.50
+Eswatini,Biomass,2025,3.50,3.80,3.20
+Eswatini,Biomass,2026,3.60,3.94,3.26
+Eswatini,Biomass,2027,3.70,4.08,3.32
+Eswatini,Biomass,2028,3.80,4.22,3.38
+Eswatini,Biomass,2029,3.90,4.36,3.44
+Eswatini,Biomass,2030,4.00,4.50,3.50
+Eswatini,Biomass,2031,4.10,4.60,3.56
+Eswatini,Biomass,2032,4.20,4.70,3.62
+Eswatini,Biomass,2033,4.30,4.80,3.68
+Eswatini,Biomass,2034,4.40,4.90,3.74
+Eswatini,Biomass,2035,4.50,5.00,3.80
+Eswatini,Biomass,2036,4.60,5.10,3.84
+Eswatini,Biomass,2037,4.70,5.20,3.88
+Eswatini,Biomass,2038,4.80,5.30,3.92
+Eswatini,Biomass,2039,4.90,5.40,3.96
+Eswatini,Biomass,2040,5.00,5.50,4.00
+Eswatini,Biomass,2041,5.10,5.60,4.04
+Eswatini,Biomass,2042,5.20,5.70,4.08
+Eswatini,Biomass,2043,5.30,5.80,4.12
+Eswatini,Biomass,2044,5.40,5.90,4.16
+Eswatini,Biomass,2045,5.50,6.00,4.20
+Eswatini,Biomass,2046,5.60,6.16,4.26
+Eswatini,Biomass,2047,5.70,6.32,4.32
+Eswatini,Biomass,2048,5.80,6.48,4.38
+Eswatini,Biomass,2049,5.90,6.64,4.44
+Eswatini,Biomass,2050,6.00,6.80,4.50
+Eswatini,Biomass,2051,6.10,6.94,4.56
+Eswatini,Biomass,2052,6.20,7.08,4.62
+Eswatini,Biomass,2053,6.30,7.22,4.68
+Eswatini,Biomass,2054,6.40,7.36,4.74
+Eswatini,Biomass,2055,6.50,7.50,4.80
+Eswatini,Biomass,2056,6.60,7.60,4.84
+Eswatini,Biomass,2057,6.70,7.70,4.88
+Eswatini,Biomass,2058,6.80,7.80,4.92
+Eswatini,Biomass,2059,6.90,7.90,4.96
+Eswatini,Biomass,2060,7.00,8.00,5.00
+Eswatini,Biogas,2025,8.00,8.50,7.50
+Eswatini,Biogas,2026,7.80,8.30,7.20
+Eswatini,Biogas,2027,7.60,8.10,6.90
+Eswatini,Biogas,2028,7.40,7.90,6.60
+Eswatini,Biogas,2029,7.20,7.70,6.30
+Eswatini,Biogas,2030,7.00,7.50,6.00
+Eswatini,Biogas,2031,6.80,7.30,5.80
+Eswatini,Biogas,2032,6.60,7.10,5.60
+Eswatini,Biogas,2033,6.40,6.90,5.40
+Eswatini,Biogas,2034,6.20,6.70,5.20
+Eswatini,Biogas,2035,6.00,6.50,5.00
+Eswatini,Biogas,2036,5.90,6.40,4.90
+Eswatini,Biogas,2037,5.80,6.30,4.80
+Eswatini,Biogas,2038,5.70,6.20,4.70
+Eswatini,Biogas,2039,5.60,6.10,4.60
+Eswatini,Biogas,2040,5.50,6.00,4.50
+Eswatini,Biogas,2041,5.40,5.90,4.40
+Eswatini,Biogas,2042,5.30,5.80,4.30
+Eswatini,Biogas,2043,5.20,5.70,4.20
+Eswatini,Biogas,2044,5.10,5.60,4.10
+Eswatini,Biogas,2045,5.00,5.50,4.00
+Eswatini,Biogas,2046,4.90,5.40,3.90
+Eswatini,Biogas,2047,4.80,5.30,3.80
+Eswatini,Biogas,2048,4.70,5.20,3.70
+Eswatini,Biogas,2049,4.60,5.10,3.60
+Eswatini,Biogas,2050,4.50,5.00,3.50
+Eswatini,Biogas,2051,4.44,4.96,3.44
+Eswatini,Biogas,2052,4.38,4.92,3.38
+Eswatini,Biogas,2053,4.32,4.88,3.32
+Eswatini,Biogas,2054,4.26,4.84,3.26
+Eswatini,Biogas,2055,4.20,4.80,3.20
+Eswatini,Biogas,2056,4.16,4.74,3.16
+Eswatini,Biogas,2057,4.12,4.68,3.12
+Eswatini,Biogas,2058,4.08,4.62,3.08
+Eswatini,Biogas,2059,4.04,4.56,3.04
+Eswatini,Biogas,2060,4.00,4.50,3.00
+Lesotho,HFO,2025,15.00,17.00,14.00
+Lesotho,HFO,2026,15.20,17.40,13.80
+Lesotho,HFO,2027,15.40,17.80,13.60
+Lesotho,HFO,2028,15.60,18.20,13.40
+Lesotho,HFO,2029,15.80,18.60,13.20
+Lesotho,HFO,2030,16.00,19.00,13.00
+Lesotho,HFO,2031,16.10,19.30,12.80
+Lesotho,HFO,2032,16.20,19.60,12.60
+Lesotho,HFO,2033,16.30,19.90,12.40
+Lesotho,HFO,2034,16.40,20.20,12.20
+Lesotho,HFO,2035,16.50,20.50,12.00
+Lesotho,HFO,2036,16.60,20.70,11.70
+Lesotho,HFO,2037,16.70,20.90,11.40
+Lesotho,HFO,2038,16.80,21.10,11.10
+Lesotho,HFO,2039,16.90,21.30,10.80
+Lesotho,HFO,2040,17.00,21.50,10.50
+Lesotho,HFO,2041,17.00,21.60,10.20
+Lesotho,HFO,2042,17.00,21.70,9.90
+Lesotho,HFO,2043,17.00,21.80,9.60
+Lesotho,HFO,2044,17.00,21.90,9.30
+Lesotho,HFO,2045,17.00,22.00,9.00
+Lesotho,HFO,2046,16.90,21.90,8.80
+Lesotho,HFO,2047,16.80,21.80,8.60
+Lesotho,HFO,2048,16.70,21.70,8.40
+Lesotho,HFO,2049,16.60,21.60,8.20
+Lesotho,HFO,2050,16.50,21.50,8.00
+Lesotho,HFO,2051,16.40,21.40,7.90
+Lesotho,HFO,2052,16.30,21.30,7.80
+Lesotho,HFO,2053,16.20,21.20,7.70
+Lesotho,HFO,2054,16.10,21.10,7.60
+Lesotho,HFO,2055,16.00,21.00,7.50
+Lesotho,HFO,2056,15.90,20.90,7.40
+Lesotho,HFO,2057,15.80,20.80,7.30
+Lesotho,HFO,2058,15.70,20.70,7.20
+Lesotho,HFO,2059,15.60,20.60,7.10
+Lesotho,HFO,2060,15.50,20.50,7.00
+Lesotho,Diesel,2025,18.50,21.00,17.50
+Lesotho,Diesel,2026,18.70,21.50,17.20
+Lesotho,Diesel,2027,18.90,22.00,16.90
+Lesotho,Diesel,2028,19.10,22.50,16.60
+Lesotho,Diesel,2029,19.30,23.00,16.30
+Lesotho,Diesel,2030,19.50,23.50,16.00
+Lesotho,Diesel,2031,19.60,23.90,15.70
+Lesotho,Diesel,2032,19.70,24.30,15.40
+Lesotho,Diesel,2033,19.80,24.70,15.10
+Lesotho,Diesel,2034,19.90,25.10,14.80
+Lesotho,Diesel,2035,20.00,25.50,14.50
+Lesotho,Diesel,2036,20.10,25.80,14.10
+Lesotho,Diesel,2037,20.20,26.10,13.70
+Lesotho,Diesel,2038,20.30,26.40,13.30
+Lesotho,Diesel,2039,20.40,26.70,12.90
+Lesotho,Diesel,2040,20.50,27.00,12.50
+Lesotho,Diesel,2041,20.50,27.10,12.20
+Lesotho,Diesel,2042,20.50,27.20,11.90
+Lesotho,Diesel,2043,20.50,27.30,11.60
+Lesotho,Diesel,2044,20.50,27.40,11.30
+Lesotho,Diesel,2045,20.50,27.50,11.00
+Lesotho,Diesel,2046,20.40,27.30,10.70
+Lesotho,Diesel,2047,20.30,27.10,10.40
+Lesotho,Diesel,2048,20.20,26.90,10.10
+Lesotho,Diesel,2049,20.10,26.70,9.80
+Lesotho,Diesel,2050,20.00,26.50,9.50
+Lesotho,Diesel,2051,19.90,26.30,9.40
+Lesotho,Diesel,2052,19.80,26.10,9.30
+Lesotho,Diesel,2053,19.70,25.90,9.20
+Lesotho,Diesel,2054,19.60,25.70,9.10
+Lesotho,Diesel,2055,19.50,25.50,9.00
+Lesotho,Diesel,2056,19.40,25.30,8.90
+Lesotho,Diesel,2057,19.30,25.10,8.80
+Lesotho,Diesel,2058,19.20,24.90,8.70
+Lesotho,Diesel,2059,19.10,24.70,8.60
+Lesotho,Diesel,2060,19.00,24.50,8.50
+Lesotho,Coal,2025,4.70,5.50,4.30
+Lesotho,Coal,2026,4.66,5.60,4.18
+Lesotho,Coal,2027,4.62,5.70,4.06
+Lesotho,Coal,2028,4.58,5.80,3.94
+Lesotho,Coal,2029,4.54,5.90,3.82
+Lesotho,Coal,2030,4.50,6.00,3.70
+Lesotho,Coal,2031,4.46,6.06,3.56
+Lesotho,Coal,2032,4.42,6.12,3.42
+Lesotho,Coal,2033,4.38,6.18,3.28
+Lesotho,Coal,2034,4.34,6.24,3.14
+Lesotho,Coal,2035,4.30,6.30,3.00
+Lesotho,Coal,2036,4.24,6.34,2.90
+Lesotho,Coal,2037,4.18,6.38,2.80
+Lesotho,Coal,2038,4.12,6.42,2.70
+Lesotho,Coal,2039,4.06,6.46,2.60
+Lesotho,Coal,2040,4.00,6.50,2.50
+Lesotho,Coal,2041,3.90,6.40,2.42
+Lesotho,Coal,2042,3.80,6.30,2.34
+Lesotho,Coal,2043,3.70,6.20,2.26
+Lesotho,Coal,2044,3.60,6.10,2.18
+Lesotho,Coal,2045,3.50,6.00,2.10
+Lesotho,Coal,2046,3.40,5.90,2.04
+Lesotho,Coal,2047,3.30,5.80,1.98
+Lesotho,Coal,2048,3.20,5.70,1.92
+Lesotho,Coal,2049,3.10,5.60,1.86
+Lesotho,Coal,2050,3.00,5.50,1.80
+Lesotho,Coal,2051,2.90,5.40,1.74
+Lesotho,Coal,2052,2.80,5.30,1.68
+Lesotho,Coal,2053,2.70,5.20,1.62
+Lesotho,Coal,2054,2.60,5.10,1.56
+Lesotho,Coal,2055,2.50,5.00,1.50
+Lesotho,Coal,2056,2.46,4.90,1.46
+Lesotho,Coal,2057,2.42,4.80,1.42
+Lesotho,Coal,2058,2.38,4.70,1.38
+Lesotho,Coal,2059,2.34,4.60,1.34
+Lesotho,Coal,2060,2.30,4.50,1.30
+Lesotho,Natural Gas,2025,10.50,13.00,9.50
+Lesotho,Natural Gas,2026,10.60,13.40,9.30
+Lesotho,Natural Gas,2027,10.70,13.80,9.10
+Lesotho,Natural Gas,2028,10.80,14.20,8.90
+Lesotho,Natural Gas,2029,10.90,14.60,8.70
+Lesotho,Natural Gas,2030,11.00,15.00,8.50
+Lesotho,Natural Gas,2031,11.10,15.40,8.30
+Lesotho,Natural Gas,2032,11.20,15.80,8.10
+Lesotho,Natural Gas,2033,11.30,16.20,7.90
+Lesotho,Natural Gas,2034,11.40,16.60,7.70
+Lesotho,Natural Gas,2035,11.50,17.00,7.50
+Lesotho,Natural Gas,2036,11.50,17.10,7.30
+Lesotho,Natural Gas,2037,11.50,17.20,7.10
+Lesotho,Natural Gas,2038,11.50,17.30,6.90
+Lesotho,Natural Gas,2039,11.50,17.40,6.70
+Lesotho,Natural Gas,2040,11.50,17.50,6.50
+Lesotho,Natural Gas,2041,11.40,17.40,6.30
+Lesotho,Natural Gas,2042,11.30,17.30,6.10
+Lesotho,Natural Gas,2043,11.20,17.20,5.90
+Lesotho,Natural Gas,2044,11.10,17.10,5.70
+Lesotho,Natural Gas,2045,11.00,17.00,5.50
+Lesotho,Natural Gas,2046,10.90,16.80,5.30
+Lesotho,Natural Gas,2047,10.80,16.60,5.10
+Lesotho,Natural Gas,2048,10.70,16.40,4.90
+Lesotho,Natural Gas,2049,10.60,16.20,4.70
+Lesotho,Natural Gas,2050,10.50,16.00,4.50
+Lesotho,Natural Gas,2051,10.40,15.80,4.40
+Lesotho,Natural Gas,2052,10.30,15.60,4.30
+Lesotho,Natural Gas,2053,10.20,15.40,4.20
+Lesotho,Natural Gas,2054,10.10,15.20,4.10
+Lesotho,Natural Gas,2055,10.00,15.00,4.00
+Lesotho,Natural Gas,2056,9.90,14.80,3.90
+Lesotho,Natural Gas,2057,9.80,14.60,3.80
+Lesotho,Natural Gas,2058,9.70,14.40,3.70
+Lesotho,Natural Gas,2059,9.60,14.20,3.60
+Lesotho,Natural Gas,2060,9.50,14.00,3.50
+Lesotho,LNG,2025,10.50,13.00,9.50
+Lesotho,LNG,2026,10.60,13.40,9.30
+Lesotho,LNG,2027,10.70,13.80,9.10
+Lesotho,LNG,2028,10.80,14.20,8.90
+Lesotho,LNG,2029,10.90,14.60,8.70
+Lesotho,LNG,2030,11.00,15.00,8.50
+Lesotho,LNG,2031,11.10,15.40,8.30
+Lesotho,LNG,2032,11.20,15.80,8.10
+Lesotho,LNG,2033,11.30,16.20,7.90
+Lesotho,LNG,2034,11.40,16.60,7.70
+Lesotho,LNG,2035,11.50,17.00,7.50
+Lesotho,LNG,2036,11.50,17.10,7.30
+Lesotho,LNG,2037,11.50,17.20,7.10
+Lesotho,LNG,2038,11.50,17.30,6.90
+Lesotho,LNG,2039,11.50,17.40,6.70
+Lesotho,LNG,2040,11.50,17.50,6.50
+Lesotho,LNG,2041,11.40,17.40,6.30
+Lesotho,LNG,2042,11.30,17.30,6.10
+Lesotho,LNG,2043,11.20,17.20,5.90
+Lesotho,LNG,2044,11.10,17.10,5.70
+Lesotho,LNG,2045,11.00,17.00,5.50
+Lesotho,LNG,2046,10.90,16.80,5.30
+Lesotho,LNG,2047,10.80,16.60,5.10
+Lesotho,LNG,2048,10.70,16.40,4.90
+Lesotho,LNG,2049,10.60,16.20,4.70
+Lesotho,LNG,2050,10.50,16.00,4.50
+Lesotho,LNG,2051,10.40,15.80,4.40
+Lesotho,LNG,2052,10.30,15.60,4.30
+Lesotho,LNG,2053,10.20,15.40,4.20
+Lesotho,LNG,2054,10.10,15.20,4.10
+Lesotho,LNG,2055,10.00,15.00,4.00
+Lesotho,LNG,2056,9.90,14.80,3.90
+Lesotho,LNG,2057,9.80,14.60,3.80
+Lesotho,LNG,2058,9.70,14.40,3.70
+Lesotho,LNG,2059,9.60,14.20,3.60
+Lesotho,LNG,2060,9.50,14.00,3.50
+Lesotho,Biomass,2025,3.50,3.80,3.20
+Lesotho,Biomass,2026,3.60,3.94,3.26
+Lesotho,Biomass,2027,3.70,4.08,3.32
+Lesotho,Biomass,2028,3.80,4.22,3.38
+Lesotho,Biomass,2029,3.90,4.36,3.44
+Lesotho,Biomass,2030,4.00,4.50,3.50
+Lesotho,Biomass,2031,4.10,4.60,3.56
+Lesotho,Biomass,2032,4.20,4.70,3.62
+Lesotho,Biomass,2033,4.30,4.80,3.68
+Lesotho,Biomass,2034,4.40,4.90,3.74
+Lesotho,Biomass,2035,4.50,5.00,3.80
+Lesotho,Biomass,2036,4.60,5.10,3.84
+Lesotho,Biomass,2037,4.70,5.20,3.88
+Lesotho,Biomass,2038,4.80,5.30,3.92
+Lesotho,Biomass,2039,4.90,5.40,3.96
+Lesotho,Biomass,2040,5.00,5.50,4.00
+Lesotho,Biomass,2041,5.10,5.60,4.04
+Lesotho,Biomass,2042,5.20,5.70,4.08
+Lesotho,Biomass,2043,5.30,5.80,4.12
+Lesotho,Biomass,2044,5.40,5.90,4.16
+Lesotho,Biomass,2045,5.50,6.00,4.20
+Lesotho,Biomass,2046,5.60,6.16,4.26
+Lesotho,Biomass,2047,5.70,6.32,4.32
+Lesotho,Biomass,2048,5.80,6.48,4.38
+Lesotho,Biomass,2049,5.90,6.64,4.44
+Lesotho,Biomass,2050,6.00,6.80,4.50
+Lesotho,Biomass,2051,6.10,6.94,4.56
+Lesotho,Biomass,2052,6.20,7.08,4.62
+Lesotho,Biomass,2053,6.30,7.22,4.68
+Lesotho,Biomass,2054,6.40,7.36,4.74
+Lesotho,Biomass,2055,6.50,7.50,4.80
+Lesotho,Biomass,2056,6.60,7.60,4.84
+Lesotho,Biomass,2057,6.70,7.70,4.88
+Lesotho,Biomass,2058,6.80,7.80,4.92
+Lesotho,Biomass,2059,6.90,7.90,4.96
+Lesotho,Biomass,2060,7.00,8.00,5.00
+Lesotho,Biogas,2025,8.00,8.50,7.50
+Lesotho,Biogas,2026,7.80,8.30,7.20
+Lesotho,Biogas,2027,7.60,8.10,6.90
+Lesotho,Biogas,2028,7.40,7.90,6.60
+Lesotho,Biogas,2029,7.20,7.70,6.30
+Lesotho,Biogas,2030,7.00,7.50,6.00
+Lesotho,Biogas,2031,6.80,7.30,5.80
+Lesotho,Biogas,2032,6.60,7.10,5.60
+Lesotho,Biogas,2033,6.40,6.90,5.40
+Lesotho,Biogas,2034,6.20,6.70,5.20
+Lesotho,Biogas,2035,6.00,6.50,5.00
+Lesotho,Biogas,2036,5.90,6.40,4.90
+Lesotho,Biogas,2037,5.80,6.30,4.80
+Lesotho,Biogas,2038,5.70,6.20,4.70
+Lesotho,Biogas,2039,5.60,6.10,4.60
+Lesotho,Biogas,2040,5.50,6.00,4.50
+Lesotho,Biogas,2041,5.40,5.90,4.40
+Lesotho,Biogas,2042,5.30,5.80,4.30
+Lesotho,Biogas,2043,5.20,5.70,4.20
+Lesotho,Biogas,2044,5.10,5.60,4.10
+Lesotho,Biogas,2045,5.00,5.50,4.00
+Lesotho,Biogas,2046,4.90,5.40,3.90
+Lesotho,Biogas,2047,4.80,5.30,3.80
+Lesotho,Biogas,2048,4.70,5.20,3.70
+Lesotho,Biogas,2049,4.60,5.10,3.60
+Lesotho,Biogas,2050,4.50,5.00,3.50
+Lesotho,Biogas,2051,4.44,4.96,3.44
+Lesotho,Biogas,2052,4.38,4.92,3.38
+Lesotho,Biogas,2053,4.32,4.88,3.32
+Lesotho,Biogas,2054,4.26,4.84,3.26
+Lesotho,Biogas,2055,4.20,4.80,3.20
+Lesotho,Biogas,2056,4.16,4.74,3.16
+Lesotho,Biogas,2057,4.12,4.68,3.12
+Lesotho,Biogas,2058,4.08,4.62,3.08
+Lesotho,Biogas,2059,4.04,4.56,3.04
+Lesotho,Biogas,2060,4.00,4.50,3.00
+Malawi,HFO,2025,15.00,17.00,14.00
+Malawi,HFO,2026,15.20,17.40,13.80
+Malawi,HFO,2027,15.40,17.80,13.60
+Malawi,HFO,2028,15.60,18.20,13.40
+Malawi,HFO,2029,15.80,18.60,13.20
+Malawi,HFO,2030,16.00,19.00,13.00
+Malawi,HFO,2031,16.10,19.30,12.80
+Malawi,HFO,2032,16.20,19.60,12.60
+Malawi,HFO,2033,16.30,19.90,12.40
+Malawi,HFO,2034,16.40,20.20,12.20
+Malawi,HFO,2035,16.50,20.50,12.00
+Malawi,HFO,2036,16.60,20.70,11.70
+Malawi,HFO,2037,16.70,20.90,11.40
+Malawi,HFO,2038,16.80,21.10,11.10
+Malawi,HFO,2039,16.90,21.30,10.80
+Malawi,HFO,2040,17.00,21.50,10.50
+Malawi,HFO,2041,17.00,21.60,10.20
+Malawi,HFO,2042,17.00,21.70,9.90
+Malawi,HFO,2043,17.00,21.80,9.60
+Malawi,HFO,2044,17.00,21.90,9.30
+Malawi,HFO,2045,17.00,22.00,9.00
+Malawi,HFO,2046,16.90,21.90,8.80
+Malawi,HFO,2047,16.80,21.80,8.60
+Malawi,HFO,2048,16.70,21.70,8.40
+Malawi,HFO,2049,16.60,21.60,8.20
+Malawi,HFO,2050,16.50,21.50,8.00
+Malawi,HFO,2051,16.40,21.40,7.90
+Malawi,HFO,2052,16.30,21.30,7.80
+Malawi,HFO,2053,16.20,21.20,7.70
+Malawi,HFO,2054,16.10,21.10,7.60
+Malawi,HFO,2055,16.00,21.00,7.50
+Malawi,HFO,2056,15.90,20.90,7.40
+Malawi,HFO,2057,15.80,20.80,7.30
+Malawi,HFO,2058,15.70,20.70,7.20
+Malawi,HFO,2059,15.60,20.60,7.10
+Malawi,HFO,2060,15.50,20.50,7.00
+Malawi,Diesel,2025,18.50,21.00,17.50
+Malawi,Diesel,2026,18.70,21.50,17.20
+Malawi,Diesel,2027,18.90,22.00,16.90
+Malawi,Diesel,2028,19.10,22.50,16.60
+Malawi,Diesel,2029,19.30,23.00,16.30
+Malawi,Diesel,2030,19.50,23.50,16.00
+Malawi,Diesel,2031,19.60,23.90,15.70
+Malawi,Diesel,2032,19.70,24.30,15.40
+Malawi,Diesel,2033,19.80,24.70,15.10
+Malawi,Diesel,2034,19.90,25.10,14.80
+Malawi,Diesel,2035,20.00,25.50,14.50
+Malawi,Diesel,2036,20.10,25.80,14.10
+Malawi,Diesel,2037,20.20,26.10,13.70
+Malawi,Diesel,2038,20.30,26.40,13.30
+Malawi,Diesel,2039,20.40,26.70,12.90
+Malawi,Diesel,2040,20.50,27.00,12.50
+Malawi,Diesel,2041,20.50,27.10,12.20
+Malawi,Diesel,2042,20.50,27.20,11.90
+Malawi,Diesel,2043,20.50,27.30,11.60
+Malawi,Diesel,2044,20.50,27.40,11.30
+Malawi,Diesel,2045,20.50,27.50,11.00
+Malawi,Diesel,2046,20.40,27.30,10.70
+Malawi,Diesel,2047,20.30,27.10,10.40
+Malawi,Diesel,2048,20.20,26.90,10.10
+Malawi,Diesel,2049,20.10,26.70,9.80
+Malawi,Diesel,2050,20.00,26.50,9.50
+Malawi,Diesel,2051,19.90,26.30,9.40
+Malawi,Diesel,2052,19.80,26.10,9.30
+Malawi,Diesel,2053,19.70,25.90,9.20
+Malawi,Diesel,2054,19.60,25.70,9.10
+Malawi,Diesel,2055,19.50,25.50,9.00
+Malawi,Diesel,2056,19.40,25.30,8.90
+Malawi,Diesel,2057,19.30,25.10,8.80
+Malawi,Diesel,2058,19.20,24.90,8.70
+Malawi,Diesel,2059,19.10,24.70,8.60
+Malawi,Diesel,2060,19.00,24.50,8.50
+Malawi,Coal,2025,6.20,7.00,5.80
+Malawi,Coal,2026,6.16,7.10,5.68
+Malawi,Coal,2027,6.12,7.20,5.56
+Malawi,Coal,2028,6.08,7.30,5.44
+Malawi,Coal,2029,6.04,7.40,5.32
+Malawi,Coal,2030,6.00,7.50,5.20
+Malawi,Coal,2031,5.96,7.56,5.06
+Malawi,Coal,2032,5.92,7.62,4.92
+Malawi,Coal,2033,5.88,7.68,4.78
+Malawi,Coal,2034,5.84,7.74,4.64
+Malawi,Coal,2035,5.80,7.80,4.50
+Malawi,Coal,2036,5.74,7.84,4.40
+Malawi,Coal,2037,5.68,7.88,4.30
+Malawi,Coal,2038,5.62,7.92,4.20
+Malawi,Coal,2039,5.56,7.96,4.10
+Malawi,Coal,2040,5.50,8.00,4.00
+Malawi,Coal,2041,5.40,7.90,3.92
+Malawi,Coal,2042,5.30,7.80,3.84
+Malawi,Coal,2043,5.20,7.70,3.76
+Malawi,Coal,2044,5.10,7.60,3.68
+Malawi,Coal,2045,5.00,7.50,3.60
+Malawi,Coal,2046,4.90,7.40,3.54
+Malawi,Coal,2047,4.80,7.30,3.48
+Malawi,Coal,2048,4.70,7.20,3.42
+Malawi,Coal,2049,4.60,7.10,3.36
+Malawi,Coal,2050,4.50,7.00,3.30
+Malawi,Coal,2051,4.40,6.90,3.24
+Malawi,Coal,2052,4.30,6.80,3.18
+Malawi,Coal,2053,4.20,6.70,3.12
+Malawi,Coal,2054,4.10,6.60,3.06
+Malawi,Coal,2055,4.00,6.50,3.00
+Malawi,Coal,2056,3.96,6.40,2.96
+Malawi,Coal,2057,3.92,6.30,2.92
+Malawi,Coal,2058,3.88,6.20,2.88
+Malawi,Coal,2059,3.84,6.10,2.84
+Malawi,Coal,2060,3.80,6.00,2.80
+Malawi,Natural Gas,2025,10.50,13.00,9.50
+Malawi,Natural Gas,2026,10.60,13.40,9.30
+Malawi,Natural Gas,2027,10.70,13.80,9.10
+Malawi,Natural Gas,2028,10.80,14.20,8.90
+Malawi,Natural Gas,2029,10.90,14.60,8.70
+Malawi,Natural Gas,2030,11.00,15.00,8.50
+Malawi,Natural Gas,2031,11.10,15.40,8.30
+Malawi,Natural Gas,2032,11.20,15.80,8.10
+Malawi,Natural Gas,2033,11.30,16.20,7.90
+Malawi,Natural Gas,2034,11.40,16.60,7.70
+Malawi,Natural Gas,2035,11.50,17.00,7.50
+Malawi,Natural Gas,2036,11.50,17.10,7.30
+Malawi,Natural Gas,2037,11.50,17.20,7.10
+Malawi,Natural Gas,2038,11.50,17.30,6.90
+Malawi,Natural Gas,2039,11.50,17.40,6.70
+Malawi,Natural Gas,2040,11.50,17.50,6.50
+Malawi,Natural Gas,2041,11.40,17.40,6.30
+Malawi,Natural Gas,2042,11.30,17.30,6.10
+Malawi,Natural Gas,2043,11.20,17.20,5.90
+Malawi,Natural Gas,2044,11.10,17.10,5.70
+Malawi,Natural Gas,2045,11.00,17.00,5.50
+Malawi,Natural Gas,2046,10.90,16.80,5.30
+Malawi,Natural Gas,2047,10.80,16.60,5.10
+Malawi,Natural Gas,2048,10.70,16.40,4.90
+Malawi,Natural Gas,2049,10.60,16.20,4.70
+Malawi,Natural Gas,2050,10.50,16.00,4.50
+Malawi,Natural Gas,2051,10.40,15.80,4.40
+Malawi,Natural Gas,2052,10.30,15.60,4.30
+Malawi,Natural Gas,2053,10.20,15.40,4.20
+Malawi,Natural Gas,2054,10.10,15.20,4.10
+Malawi,Natural Gas,2055,10.00,15.00,4.00
+Malawi,Natural Gas,2056,9.90,14.80,3.90
+Malawi,Natural Gas,2057,9.80,14.60,3.80
+Malawi,Natural Gas,2058,9.70,14.40,3.70
+Malawi,Natural Gas,2059,9.60,14.20,3.60
+Malawi,Natural Gas,2060,9.50,14.00,3.50
+Malawi,LNG,2025,10.50,13.00,9.50
+Malawi,LNG,2026,10.60,13.40,9.30
+Malawi,LNG,2027,10.70,13.80,9.10
+Malawi,LNG,2028,10.80,14.20,8.90
+Malawi,LNG,2029,10.90,14.60,8.70
+Malawi,LNG,2030,11.00,15.00,8.50
+Malawi,LNG,2031,11.10,15.40,8.30
+Malawi,LNG,2032,11.20,15.80,8.10
+Malawi,LNG,2033,11.30,16.20,7.90
+Malawi,LNG,2034,11.40,16.60,7.70
+Malawi,LNG,2035,11.50,17.00,7.50
+Malawi,LNG,2036,11.50,17.10,7.30
+Malawi,LNG,2037,11.50,17.20,7.10
+Malawi,LNG,2038,11.50,17.30,6.90
+Malawi,LNG,2039,11.50,17.40,6.70
+Malawi,LNG,2040,11.50,17.50,6.50
+Malawi,LNG,2041,11.40,17.40,6.30
+Malawi,LNG,2042,11.30,17.30,6.10
+Malawi,LNG,2043,11.20,17.20,5.90
+Malawi,LNG,2044,11.10,17.10,5.70
+Malawi,LNG,2045,11.00,17.00,5.50
+Malawi,LNG,2046,10.90,16.80,5.30
+Malawi,LNG,2047,10.80,16.60,5.10
+Malawi,LNG,2048,10.70,16.40,4.90
+Malawi,LNG,2049,10.60,16.20,4.70
+Malawi,LNG,2050,10.50,16.00,4.50
+Malawi,LNG,2051,10.40,15.80,4.40
+Malawi,LNG,2052,10.30,15.60,4.30
+Malawi,LNG,2053,10.20,15.40,4.20
+Malawi,LNG,2054,10.10,15.20,4.10
+Malawi,LNG,2055,10.00,15.00,4.00
+Malawi,LNG,2056,9.90,14.80,3.90
+Malawi,LNG,2057,9.80,14.60,3.80
+Malawi,LNG,2058,9.70,14.40,3.70
+Malawi,LNG,2059,9.60,14.20,3.60
+Malawi,LNG,2060,9.50,14.00,3.50
+Malawi,Biomass,2025,3.50,3.80,3.20
+Malawi,Biomass,2026,3.60,3.94,3.26
+Malawi,Biomass,2027,3.70,4.08,3.32
+Malawi,Biomass,2028,3.80,4.22,3.38
+Malawi,Biomass,2029,3.90,4.36,3.44
+Malawi,Biomass,2030,4.00,4.50,3.50
+Malawi,Biomass,2031,4.10,4.60,3.56
+Malawi,Biomass,2032,4.20,4.70,3.62
+Malawi,Biomass,2033,4.30,4.80,3.68
+Malawi,Biomass,2034,4.40,4.90,3.74
+Malawi,Biomass,2035,4.50,5.00,3.80
+Malawi,Biomass,2036,4.60,5.10,3.84
+Malawi,Biomass,2037,4.70,5.20,3.88
+Malawi,Biomass,2038,4.80,5.30,3.92
+Malawi,Biomass,2039,4.90,5.40,3.96
+Malawi,Biomass,2040,5.00,5.50,4.00
+Malawi,Biomass,2041,5.10,5.60,4.04
+Malawi,Biomass,2042,5.20,5.70,4.08
+Malawi,Biomass,2043,5.30,5.80,4.12
+Malawi,Biomass,2044,5.40,5.90,4.16
+Malawi,Biomass,2045,5.50,6.00,4.20
+Malawi,Biomass,2046,5.60,6.16,4.26
+Malawi,Biomass,2047,5.70,6.32,4.32
+Malawi,Biomass,2048,5.80,6.48,4.38
+Malawi,Biomass,2049,5.90,6.64,4.44
+Malawi,Biomass,2050,6.00,6.80,4.50
+Malawi,Biomass,2051,6.10,6.94,4.56
+Malawi,Biomass,2052,6.20,7.08,4.62
+Malawi,Biomass,2053,6.30,7.22,4.68
+Malawi,Biomass,2054,6.40,7.36,4.74
+Malawi,Biomass,2055,6.50,7.50,4.80
+Malawi,Biomass,2056,6.60,7.60,4.84
+Malawi,Biomass,2057,6.70,7.70,4.88
+Malawi,Biomass,2058,6.80,7.80,4.92
+Malawi,Biomass,2059,6.90,7.90,4.96
+Malawi,Biomass,2060,7.00,8.00,5.00
+Malawi,Biogas,2025,8.00,8.50,7.50
+Malawi,Biogas,2026,7.80,8.30,7.20
+Malawi,Biogas,2027,7.60,8.10,6.90
+Malawi,Biogas,2028,7.40,7.90,6.60
+Malawi,Biogas,2029,7.20,7.70,6.30
+Malawi,Biogas,2030,7.00,7.50,6.00
+Malawi,Biogas,2031,6.80,7.30,5.80
+Malawi,Biogas,2032,6.60,7.10,5.60
+Malawi,Biogas,2033,6.40,6.90,5.40
+Malawi,Biogas,2034,6.20,6.70,5.20
+Malawi,Biogas,2035,6.00,6.50,5.00
+Malawi,Biogas,2036,5.90,6.40,4.90
+Malawi,Biogas,2037,5.80,6.30,4.80
+Malawi,Biogas,2038,5.70,6.20,4.70
+Malawi,Biogas,2039,5.60,6.10,4.60
+Malawi,Biogas,2040,5.50,6.00,4.50
+Malawi,Biogas,2041,5.40,5.90,4.40
+Malawi,Biogas,2042,5.30,5.80,4.30
+Malawi,Biogas,2043,5.20,5.70,4.20
+Malawi,Biogas,2044,5.10,5.60,4.10
+Malawi,Biogas,2045,5.00,5.50,4.00
+Malawi,Biogas,2046,4.90,5.40,3.90
+Malawi,Biogas,2047,4.80,5.30,3.80
+Malawi,Biogas,2048,4.70,5.20,3.70
+Malawi,Biogas,2049,4.60,5.10,3.60
+Malawi,Biogas,2050,4.50,5.00,3.50
+Malawi,Biogas,2051,4.44,4.96,3.44
+Malawi,Biogas,2052,4.38,4.92,3.38
+Malawi,Biogas,2053,4.32,4.88,3.32
+Malawi,Biogas,2054,4.26,4.84,3.26
+Malawi,Biogas,2055,4.20,4.80,3.20
+Malawi,Biogas,2056,4.16,4.74,3.16
+Malawi,Biogas,2057,4.12,4.68,3.12
+Malawi,Biogas,2058,4.08,4.62,3.08
+Malawi,Biogas,2059,4.04,4.56,3.04
+Malawi,Biogas,2060,4.00,4.50,3.00
+Mozambique,HFO,2025,11.50,13.50,10.50
+Mozambique,HFO,2026,11.70,13.90,10.30
+Mozambique,HFO,2027,11.90,14.30,10.10
+Mozambique,HFO,2028,12.10,14.70,9.90
+Mozambique,HFO,2029,12.30,15.10,9.70
+Mozambique,HFO,2030,12.50,15.50,9.50
+Mozambique,HFO,2031,12.60,15.80,9.30
+Mozambique,HFO,2032,12.70,16.10,9.10
+Mozambique,HFO,2033,12.80,16.40,8.90
+Mozambique,HFO,2034,12.90,16.70,8.70
+Mozambique,HFO,2035,13.00,17.00,8.50
+Mozambique,HFO,2036,13.10,17.20,8.20
+Mozambique,HFO,2037,13.20,17.40,7.90
+Mozambique,HFO,2038,13.30,17.60,7.60
+Mozambique,HFO,2039,13.40,17.80,7.30
+Mozambique,HFO,2040,13.50,18.00,7.00
+Mozambique,HFO,2041,13.50,18.10,6.70
+Mozambique,HFO,2042,13.50,18.20,6.40
+Mozambique,HFO,2043,13.50,18.30,6.10
+Mozambique,HFO,2044,13.50,18.40,5.80
+Mozambique,HFO,2045,13.50,18.50,5.50
+Mozambique,HFO,2046,13.40,18.40,5.30
+Mozambique,HFO,2047,13.30,18.30,5.10
+Mozambique,HFO,2048,13.20,18.20,4.90
+Mozambique,HFO,2049,13.10,18.10,4.70
+Mozambique,HFO,2050,13.00,18.00,4.50
+Mozambique,HFO,2051,12.90,17.90,4.40
+Mozambique,HFO,2052,12.80,17.80,4.30
+Mozambique,HFO,2053,12.70,17.70,4.20
+Mozambique,HFO,2054,12.60,17.60,4.10
+Mozambique,HFO,2055,12.50,17.50,4.00
+Mozambique,HFO,2056,12.40,17.40,3.90
+Mozambique,HFO,2057,12.30,17.30,3.80
+Mozambique,HFO,2058,12.20,17.20,3.70
+Mozambique,HFO,2059,12.10,17.10,3.60
+Mozambique,HFO,2060,12.00,17.00,3.50
+Mozambique,Diesel,2025,15.00,17.50,14.00
+Mozambique,Diesel,2026,15.20,18.00,13.70
+Mozambique,Diesel,2027,15.40,18.50,13.40
+Mozambique,Diesel,2028,15.60,19.00,13.10
+Mozambique,Diesel,2029,15.80,19.50,12.80
+Mozambique,Diesel,2030,16.00,20.00,12.50
+Mozambique,Diesel,2031,16.10,20.40,12.20
+Mozambique,Diesel,2032,16.20,20.80,11.90
+Mozambique,Diesel,2033,16.30,21.20,11.60
+Mozambique,Diesel,2034,16.40,21.60,11.30
+Mozambique,Diesel,2035,16.50,22.00,11.00
+Mozambique,Diesel,2036,16.60,22.30,10.60
+Mozambique,Diesel,2037,16.70,22.60,10.20
+Mozambique,Diesel,2038,16.80,22.90,9.80
+Mozambique,Diesel,2039,16.90,23.20,9.40
+Mozambique,Diesel,2040,17.00,23.50,9.00
+Mozambique,Diesel,2041,17.00,23.60,8.70
+Mozambique,Diesel,2042,17.00,23.70,8.40
+Mozambique,Diesel,2043,17.00,23.80,8.10
+Mozambique,Diesel,2044,17.00,23.90,7.80
+Mozambique,Diesel,2045,17.00,24.00,7.50
+Mozambique,Diesel,2046,16.90,23.80,7.20
+Mozambique,Diesel,2047,16.80,23.60,6.90
+Mozambique,Diesel,2048,16.70,23.40,6.60
+Mozambique,Diesel,2049,16.60,23.20,6.30
+Mozambique,Diesel,2050,16.50,23.00,6.00
+Mozambique,Diesel,2051,16.40,22.80,5.90
+Mozambique,Diesel,2052,16.30,22.60,5.80
+Mozambique,Diesel,2053,16.20,22.40,5.70
+Mozambique,Diesel,2054,16.10,22.20,5.60
+Mozambique,Diesel,2055,16.00,22.00,5.50
+Mozambique,Diesel,2056,15.90,21.80,5.40
+Mozambique,Diesel,2057,15.80,21.60,5.30
+Mozambique,Diesel,2058,15.70,21.40,5.20
+Mozambique,Diesel,2059,15.60,21.20,5.10
+Mozambique,Diesel,2060,15.50,21.00,5.00
+Mozambique,Coal,2025,4.70,5.50,4.30
+Mozambique,Coal,2026,4.66,5.60,4.18
+Mozambique,Coal,2027,4.62,5.70,4.06
+Mozambique,Coal,2028,4.58,5.80,3.94
+Mozambique,Coal,2029,4.54,5.90,3.82
+Mozambique,Coal,2030,4.50,6.00,3.70
+Mozambique,Coal,2031,4.46,6.06,3.56
+Mozambique,Coal,2032,4.42,6.12,3.42
+Mozambique,Coal,2033,4.38,6.18,3.28
+Mozambique,Coal,2034,4.34,6.24,3.14
+Mozambique,Coal,2035,4.30,6.30,3.00
+Mozambique,Coal,2036,4.24,6.34,2.90
+Mozambique,Coal,2037,4.18,6.38,2.80
+Mozambique,Coal,2038,4.12,6.42,2.70
+Mozambique,Coal,2039,4.06,6.46,2.60
+Mozambique,Coal,2040,4.00,6.50,2.50
+Mozambique,Coal,2041,3.90,6.40,2.42
+Mozambique,Coal,2042,3.80,6.30,2.34
+Mozambique,Coal,2043,3.70,6.20,2.26
+Mozambique,Coal,2044,3.60,6.10,2.18
+Mozambique,Coal,2045,3.50,6.00,2.10
+Mozambique,Coal,2046,3.40,5.90,2.04
+Mozambique,Coal,2047,3.30,5.80,1.98
+Mozambique,Coal,2048,3.20,5.70,1.92
+Mozambique,Coal,2049,3.10,5.60,1.86
+Mozambique,Coal,2050,3.00,5.50,1.80
+Mozambique,Coal,2051,2.90,5.40,1.74
+Mozambique,Coal,2052,2.80,5.30,1.68
+Mozambique,Coal,2053,2.70,5.20,1.62
+Mozambique,Coal,2054,2.60,5.10,1.56
+Mozambique,Coal,2055,2.50,5.00,1.50
+Mozambique,Coal,2056,2.46,4.90,1.46
+Mozambique,Coal,2057,2.42,4.80,1.42
+Mozambique,Coal,2058,2.38,4.70,1.38
+Mozambique,Coal,2059,2.34,4.60,1.34
+Mozambique,Coal,2060,2.30,4.50,1.30
+Mozambique,Natural Gas,2025,6.50,7.50,6.00
+Mozambique,Natural Gas,2026,6.60,7.80,5.90
+Mozambique,Natural Gas,2027,6.70,8.10,5.80
+Mozambique,Natural Gas,2028,6.80,8.40,5.70
+Mozambique,Natural Gas,2029,6.90,8.70,5.60
+Mozambique,Natural Gas,2030,7.00,9.00,5.50
+Mozambique,Natural Gas,2031,7.10,9.30,5.40
+Mozambique,Natural Gas,2032,7.20,9.60,5.30
+Mozambique,Natural Gas,2033,7.30,9.90,5.20
+Mozambique,Natural Gas,2034,7.40,10.20,5.10
+Mozambique,Natural Gas,2035,7.50,10.50,5.00
+Mozambique,Natural Gas,2036,7.50,10.60,4.90
+Mozambique,Natural Gas,2037,7.50,10.70,4.80
+Mozambique,Natural Gas,2038,7.50,10.80,4.70
+Mozambique,Natural Gas,2039,7.50,10.90,4.60
+Mozambique,Natural Gas,2040,7.50,11.00,4.50
+Mozambique,Natural Gas,2041,7.50,11.00,4.40
+Mozambique,Natural Gas,2042,7.50,11.00,4.30
+Mozambique,Natural Gas,2043,7.50,11.00,4.20
+Mozambique,Natural Gas,2044,7.50,11.00,4.10
+Mozambique,Natural Gas,2045,7.50,11.00,4.00
+Mozambique,Natural Gas,2046,7.40,10.90,3.90
+Mozambique,Natural Gas,2047,7.30,10.80,3.80
+Mozambique,Natural Gas,2048,7.20,10.70,3.70
+Mozambique,Natural Gas,2049,7.10,10.60,3.60
+Mozambique,Natural Gas,2050,7.00,10.50,3.50
+Mozambique,Natural Gas,2051,6.90,10.40,3.40
+Mozambique,Natural Gas,2052,6.80,10.30,3.30
+Mozambique,Natural Gas,2053,6.70,10.20,3.20
+Mozambique,Natural Gas,2054,6.60,10.10,3.10
+Mozambique,Natural Gas,2055,6.50,10.00,3.00
+Mozambique,Natural Gas,2056,6.40,9.90,2.90
+Mozambique,Natural Gas,2057,6.30,9.80,2.80
+Mozambique,Natural Gas,2058,6.20,9.70,2.70
+Mozambique,Natural Gas,2059,6.10,9.60,2.60
+Mozambique,Natural Gas,2060,6.00,9.50,2.50
+Mozambique,LNG,2025,10.50,13.00,9.50
+Mozambique,LNG,2026,10.60,13.40,9.30
+Mozambique,LNG,2027,10.70,13.80,9.10
+Mozambique,LNG,2028,10.80,14.20,8.90
+Mozambique,LNG,2029,10.90,14.60,8.70
+Mozambique,LNG,2030,11.00,15.00,8.50
+Mozambique,LNG,2031,11.10,15.40,8.30
+Mozambique,LNG,2032,11.20,15.80,8.10
+Mozambique,LNG,2033,11.30,16.20,7.90
+Mozambique,LNG,2034,11.40,16.60,7.70
+Mozambique,LNG,2035,11.50,17.00,7.50
+Mozambique,LNG,2036,11.50,17.10,7.30
+Mozambique,LNG,2037,11.50,17.20,7.10
+Mozambique,LNG,2038,11.50,17.30,6.90
+Mozambique,LNG,2039,11.50,17.40,6.70
+Mozambique,LNG,2040,11.50,17.50,6.50
+Mozambique,LNG,2041,11.40,17.40,6.30
+Mozambique,LNG,2042,11.30,17.30,6.10
+Mozambique,LNG,2043,11.20,17.20,5.90
+Mozambique,LNG,2044,11.10,17.10,5.70
+Mozambique,LNG,2045,11.00,17.00,5.50
+Mozambique,LNG,2046,10.90,16.80,5.30
+Mozambique,LNG,2047,10.80,16.60,5.10
+Mozambique,LNG,2048,10.70,16.40,4.90
+Mozambique,LNG,2049,10.60,16.20,4.70
+Mozambique,LNG,2050,10.50,16.00,4.50
+Mozambique,LNG,2051,10.40,15.80,4.40
+Mozambique,LNG,2052,10.30,15.60,4.30
+Mozambique,LNG,2053,10.20,15.40,4.20
+Mozambique,LNG,2054,10.10,15.20,4.10
+Mozambique,LNG,2055,10.00,15.00,4.00
+Mozambique,LNG,2056,9.90,14.80,3.90
+Mozambique,LNG,2057,9.80,14.60,3.80
+Mozambique,LNG,2058,9.70,14.40,3.70
+Mozambique,LNG,2059,9.60,14.20,3.60
+Mozambique,LNG,2060,9.50,14.00,3.50
+Mozambique,Biomass,2025,3.50,3.80,3.20
+Mozambique,Biomass,2026,3.60,3.94,3.26
+Mozambique,Biomass,2027,3.70,4.08,3.32
+Mozambique,Biomass,2028,3.80,4.22,3.38
+Mozambique,Biomass,2029,3.90,4.36,3.44
+Mozambique,Biomass,2030,4.00,4.50,3.50
+Mozambique,Biomass,2031,4.10,4.60,3.56
+Mozambique,Biomass,2032,4.20,4.70,3.62
+Mozambique,Biomass,2033,4.30,4.80,3.68
+Mozambique,Biomass,2034,4.40,4.90,3.74
+Mozambique,Biomass,2035,4.50,5.00,3.80
+Mozambique,Biomass,2036,4.60,5.10,3.84
+Mozambique,Biomass,2037,4.70,5.20,3.88
+Mozambique,Biomass,2038,4.80,5.30,3.92
+Mozambique,Biomass,2039,4.90,5.40,3.96
+Mozambique,Biomass,2040,5.00,5.50,4.00
+Mozambique,Biomass,2041,5.10,5.60,4.04
+Mozambique,Biomass,2042,5.20,5.70,4.08
+Mozambique,Biomass,2043,5.30,5.80,4.12
+Mozambique,Biomass,2044,5.40,5.90,4.16
+Mozambique,Biomass,2045,5.50,6.00,4.20
+Mozambique,Biomass,2046,5.60,6.16,4.26
+Mozambique,Biomass,2047,5.70,6.32,4.32
+Mozambique,Biomass,2048,5.80,6.48,4.38
+Mozambique,Biomass,2049,5.90,6.64,4.44
+Mozambique,Biomass,2050,6.00,6.80,4.50
+Mozambique,Biomass,2051,6.10,6.94,4.56
+Mozambique,Biomass,2052,6.20,7.08,4.62
+Mozambique,Biomass,2053,6.30,7.22,4.68
+Mozambique,Biomass,2054,6.40,7.36,4.74
+Mozambique,Biomass,2055,6.50,7.50,4.80
+Mozambique,Biomass,2056,6.60,7.60,4.84
+Mozambique,Biomass,2057,6.70,7.70,4.88
+Mozambique,Biomass,2058,6.80,7.80,4.92
+Mozambique,Biomass,2059,6.90,7.90,4.96
+Mozambique,Biomass,2060,7.00,8.00,5.00
+Mozambique,Biogas,2025,8.00,8.50,7.50
+Mozambique,Biogas,2026,7.80,8.30,7.20
+Mozambique,Biogas,2027,7.60,8.10,6.90
+Mozambique,Biogas,2028,7.40,7.90,6.60
+Mozambique,Biogas,2029,7.20,7.70,6.30
+Mozambique,Biogas,2030,7.00,7.50,6.00
+Mozambique,Biogas,2031,6.80,7.30,5.80
+Mozambique,Biogas,2032,6.60,7.10,5.60
+Mozambique,Biogas,2033,6.40,6.90,5.40
+Mozambique,Biogas,2034,6.20,6.70,5.20
+Mozambique,Biogas,2035,6.00,6.50,5.00
+Mozambique,Biogas,2036,5.90,6.40,4.90
+Mozambique,Biogas,2037,5.80,6.30,4.80
+Mozambique,Biogas,2038,5.70,6.20,4.70
+Mozambique,Biogas,2039,5.60,6.10,4.60
+Mozambique,Biogas,2040,5.50,6.00,4.50
+Mozambique,Biogas,2041,5.40,5.90,4.40
+Mozambique,Biogas,2042,5.30,5.80,4.30
+Mozambique,Biogas,2043,5.20,5.70,4.20
+Mozambique,Biogas,2044,5.10,5.60,4.10
+Mozambique,Biogas,2045,5.00,5.50,4.00
+Mozambique,Biogas,2046,4.90,5.40,3.90
+Mozambique,Biogas,2047,4.80,5.30,3.80
+Mozambique,Biogas,2048,4.70,5.20,3.70
+Mozambique,Biogas,2049,4.60,5.10,3.60
+Mozambique,Biogas,2050,4.50,5.00,3.50
+Mozambique,Biogas,2051,4.44,4.96,3.44
+Mozambique,Biogas,2052,4.38,4.92,3.38
+Mozambique,Biogas,2053,4.32,4.88,3.32
+Mozambique,Biogas,2054,4.26,4.84,3.26
+Mozambique,Biogas,2055,4.20,4.80,3.20
+Mozambique,Biogas,2056,4.16,4.74,3.16
+Mozambique,Biogas,2057,4.12,4.68,3.12
+Mozambique,Biogas,2058,4.08,4.62,3.08
+Mozambique,Biogas,2059,4.04,4.56,3.04
+Mozambique,Biogas,2060,4.00,4.50,3.00
+Namibia,HFO,2025,12.00,14.00,11.00
+Namibia,HFO,2026,12.20,14.40,10.80
+Namibia,HFO,2027,12.40,14.80,10.60
+Namibia,HFO,2028,12.60,15.20,10.40
+Namibia,HFO,2029,12.80,15.60,10.20
+Namibia,HFO,2030,13.00,16.00,10.00
+Namibia,HFO,2031,13.10,16.30,9.80
+Namibia,HFO,2032,13.20,16.60,9.60
+Namibia,HFO,2033,13.30,16.90,9.40
+Namibia,HFO,2034,13.40,17.20,9.20
+Namibia,HFO,2035,13.50,17.50,9.00
+Namibia,HFO,2036,13.60,17.70,8.70
+Namibia,HFO,2037,13.70,17.90,8.40
+Namibia,HFO,2038,13.80,18.10,8.10
+Namibia,HFO,2039,13.90,18.30,7.80
+Namibia,HFO,2040,14.00,18.50,7.50
+Namibia,HFO,2041,14.00,18.60,7.20
+Namibia,HFO,2042,14.00,18.70,6.90
+Namibia,HFO,2043,14.00,18.80,6.60
+Namibia,HFO,2044,14.00,18.90,6.30
+Namibia,HFO,2045,14.00,19.00,6.00
+Namibia,HFO,2046,13.90,18.90,5.80
+Namibia,HFO,2047,13.80,18.80,5.60
+Namibia,HFO,2048,13.70,18.70,5.40
+Namibia,HFO,2049,13.60,18.60,5.20
+Namibia,HFO,2050,13.50,18.50,5.00
+Namibia,HFO,2051,13.40,18.40,4.90
+Namibia,HFO,2052,13.30,18.30,4.80
+Namibia,HFO,2053,13.20,18.20,4.70
+Namibia,HFO,2054,13.10,18.10,4.60
+Namibia,HFO,2055,13.00,18.00,4.50
+Namibia,HFO,2056,12.90,17.90,4.40
+Namibia,HFO,2057,12.80,17.80,4.30
+Namibia,HFO,2058,12.70,17.70,4.20
+Namibia,HFO,2059,12.60,17.60,4.10
+Namibia,HFO,2060,12.50,17.50,4.00
+Namibia,Diesel,2025,15.50,18.00,14.50
+Namibia,Diesel,2026,15.70,18.50,14.20
+Namibia,Diesel,2027,15.90,19.00,13.90
+Namibia,Diesel,2028,16.10,19.50,13.60
+Namibia,Diesel,2029,16.30,20.00,13.30
+Namibia,Diesel,2030,16.50,20.50,13.00
+Namibia,Diesel,2031,16.60,20.90,12.70
+Namibia,Diesel,2032,16.70,21.30,12.40
+Namibia,Diesel,2033,16.80,21.70,12.10
+Namibia,Diesel,2034,16.90,22.10,11.80
+Namibia,Diesel,2035,17.00,22.50,11.50
+Namibia,Diesel,2036,17.10,22.80,11.10
+Namibia,Diesel,2037,17.20,23.10,10.70
+Namibia,Diesel,2038,17.30,23.40,10.30
+Namibia,Diesel,2039,17.40,23.70,9.90
+Namibia,Diesel,2040,17.50,24.00,9.50
+Namibia,Diesel,2041,17.50,24.10,9.20
+Namibia,Diesel,2042,17.50,24.20,8.90
+Namibia,Diesel,2043,17.50,24.30,8.60
+Namibia,Diesel,2044,17.50,24.40,8.30
+Namibia,Diesel,2045,17.50,24.50,8.00
+Namibia,Diesel,2046,17.40,24.30,7.70
+Namibia,Diesel,2047,17.30,24.10,7.40
+Namibia,Diesel,2048,17.20,23.90,7.10
+Namibia,Diesel,2049,17.10,23.70,6.80
+Namibia,Diesel,2050,17.00,23.50,6.50
+Namibia,Diesel,2051,16.90,23.30,6.40
+Namibia,Diesel,2052,16.80,23.10,6.30
+Namibia,Diesel,2053,16.70,22.90,6.20
+Namibia,Diesel,2054,16.60,22.70,6.10
+Namibia,Diesel,2055,16.50,22.50,6.00
+Namibia,Diesel,2056,16.40,22.30,5.90
+Namibia,Diesel,2057,16.30,22.10,5.80
+Namibia,Diesel,2058,16.20,21.90,5.70
+Namibia,Diesel,2059,16.10,21.70,5.60
+Namibia,Diesel,2060,16.00,21.50,5.50
+Namibia,Coal,2025,5.70,6.50,5.30
+Namibia,Coal,2026,5.66,6.60,5.18
+Namibia,Coal,2027,5.62,6.70,5.06
+Namibia,Coal,2028,5.58,6.80,4.94
+Namibia,Coal,2029,5.54,6.90,4.82
+Namibia,Coal,2030,5.50,7.00,4.70
+Namibia,Coal,2031,5.46,7.06,4.56
+Namibia,Coal,2032,5.42,7.12,4.42
+Namibia,Coal,2033,5.38,7.18,4.28
+Namibia,Coal,2034,5.34,7.24,4.14
+Namibia,Coal,2035,5.30,7.30,4.00
+Namibia,Coal,2036,5.24,7.34,3.90
+Namibia,Coal,2037,5.18,7.38,3.80
+Namibia,Coal,2038,5.12,7.42,3.70
+Namibia,Coal,2039,5.06,7.46,3.60
+Namibia,Coal,2040,5.00,7.50,3.50
+Namibia,Coal,2041,4.90,7.40,3.42
+Namibia,Coal,2042,4.80,7.30,3.34
+Namibia,Coal,2043,4.70,7.20,3.26
+Namibia,Coal,2044,4.60,7.10,3.18
+Namibia,Coal,2045,4.50,7.00,3.10
+Namibia,Coal,2046,4.40,6.90,3.04
+Namibia,Coal,2047,4.30,6.80,2.98
+Namibia,Coal,2048,4.20,6.70,2.92
+Namibia,Coal,2049,4.10,6.60,2.86
+Namibia,Coal,2050,4.00,6.50,2.80
+Namibia,Coal,2051,3.90,6.40,2.74
+Namibia,Coal,2052,3.80,6.30,2.68
+Namibia,Coal,2053,3.70,6.20,2.62
+Namibia,Coal,2054,3.60,6.10,2.56
+Namibia,Coal,2055,3.50,6.00,2.50
+Namibia,Coal,2056,3.46,5.90,2.46
+Namibia,Coal,2057,3.42,5.80,2.42
+Namibia,Coal,2058,3.38,5.70,2.38
+Namibia,Coal,2059,3.34,5.60,2.34
+Namibia,Coal,2060,3.30,5.50,2.30
+Namibia,Natural Gas,2025,10.50,13.00,9.50
+Namibia,Natural Gas,2026,10.60,13.40,9.30
+Namibia,Natural Gas,2027,10.70,13.80,9.10
+Namibia,Natural Gas,2028,10.80,14.20,8.90
+Namibia,Natural Gas,2029,10.90,14.60,8.70
+Namibia,Natural Gas,2030,11.00,15.00,8.50
+Namibia,Natural Gas,2031,11.10,15.40,8.30
+Namibia,Natural Gas,2032,11.20,15.80,8.10
+Namibia,Natural Gas,2033,11.30,16.20,7.90
+Namibia,Natural Gas,2034,11.40,16.60,7.70
+Namibia,Natural Gas,2035,11.50,17.00,7.50
+Namibia,Natural Gas,2036,11.50,17.10,7.30
+Namibia,Natural Gas,2037,11.50,17.20,7.10
+Namibia,Natural Gas,2038,11.50,17.30,6.90
+Namibia,Natural Gas,2039,11.50,17.40,6.70
+Namibia,Natural Gas,2040,11.50,17.50,6.50
+Namibia,Natural Gas,2041,11.40,17.40,6.30
+Namibia,Natural Gas,2042,11.30,17.30,6.10
+Namibia,Natural Gas,2043,11.20,17.20,5.90
+Namibia,Natural Gas,2044,11.10,17.10,5.70
+Namibia,Natural Gas,2045,11.00,17.00,5.50
+Namibia,Natural Gas,2046,10.90,16.80,5.30
+Namibia,Natural Gas,2047,10.80,16.60,5.10
+Namibia,Natural Gas,2048,10.70,16.40,4.90
+Namibia,Natural Gas,2049,10.60,16.20,4.70
+Namibia,Natural Gas,2050,10.50,16.00,4.50
+Namibia,Natural Gas,2051,10.40,15.80,4.40
+Namibia,Natural Gas,2052,10.30,15.60,4.30
+Namibia,Natural Gas,2053,10.20,15.40,4.20
+Namibia,Natural Gas,2054,10.10,15.20,4.10
+Namibia,Natural Gas,2055,10.00,15.00,4.00
+Namibia,Natural Gas,2056,9.90,14.80,3.90
+Namibia,Natural Gas,2057,9.80,14.60,3.80
+Namibia,Natural Gas,2058,9.70,14.40,3.70
+Namibia,Natural Gas,2059,9.60,14.20,3.60
+Namibia,Natural Gas,2060,9.50,14.00,3.50
+Namibia,LNG,2025,10.50,13.00,9.50
+Namibia,LNG,2026,10.60,13.40,9.30
+Namibia,LNG,2027,10.70,13.80,9.10
+Namibia,LNG,2028,10.80,14.20,8.90
+Namibia,LNG,2029,10.90,14.60,8.70
+Namibia,LNG,2030,11.00,15.00,8.50
+Namibia,LNG,2031,11.10,15.40,8.30
+Namibia,LNG,2032,11.20,15.80,8.10
+Namibia,LNG,2033,11.30,16.20,7.90
+Namibia,LNG,2034,11.40,16.60,7.70
+Namibia,LNG,2035,11.50,17.00,7.50
+Namibia,LNG,2036,11.50,17.10,7.30
+Namibia,LNG,2037,11.50,17.20,7.10
+Namibia,LNG,2038,11.50,17.30,6.90
+Namibia,LNG,2039,11.50,17.40,6.70
+Namibia,LNG,2040,11.50,17.50,6.50
+Namibia,LNG,2041,11.40,17.40,6.30
+Namibia,LNG,2042,11.30,17.30,6.10
+Namibia,LNG,2043,11.20,17.20,5.90
+Namibia,LNG,2044,11.10,17.10,5.70
+Namibia,LNG,2045,11.00,17.00,5.50
+Namibia,LNG,2046,10.90,16.80,5.30
+Namibia,LNG,2047,10.80,16.60,5.10
+Namibia,LNG,2048,10.70,16.40,4.90
+Namibia,LNG,2049,10.60,16.20,4.70
+Namibia,LNG,2050,10.50,16.00,4.50
+Namibia,LNG,2051,10.40,15.80,4.40
+Namibia,LNG,2052,10.30,15.60,4.30
+Namibia,LNG,2053,10.20,15.40,4.20
+Namibia,LNG,2054,10.10,15.20,4.10
+Namibia,LNG,2055,10.00,15.00,4.00
+Namibia,LNG,2056,9.90,14.80,3.90
+Namibia,LNG,2057,9.80,14.60,3.80
+Namibia,LNG,2058,9.70,14.40,3.70
+Namibia,LNG,2059,9.60,14.20,3.60
+Namibia,LNG,2060,9.50,14.00,3.50
+Namibia,Biomass,2025,3.50,3.80,3.20
+Namibia,Biomass,2026,3.60,3.94,3.26
+Namibia,Biomass,2027,3.70,4.08,3.32
+Namibia,Biomass,2028,3.80,4.22,3.38
+Namibia,Biomass,2029,3.90,4.36,3.44
+Namibia,Biomass,2030,4.00,4.50,3.50
+Namibia,Biomass,2031,4.10,4.60,3.56
+Namibia,Biomass,2032,4.20,4.70,3.62
+Namibia,Biomass,2033,4.30,4.80,3.68
+Namibia,Biomass,2034,4.40,4.90,3.74
+Namibia,Biomass,2035,4.50,5.00,3.80
+Namibia,Biomass,2036,4.60,5.10,3.84
+Namibia,Biomass,2037,4.70,5.20,3.88
+Namibia,Biomass,2038,4.80,5.30,3.92
+Namibia,Biomass,2039,4.90,5.40,3.96
+Namibia,Biomass,2040,5.00,5.50,4.00
+Namibia,Biomass,2041,5.10,5.60,4.04
+Namibia,Biomass,2042,5.20,5.70,4.08
+Namibia,Biomass,2043,5.30,5.80,4.12
+Namibia,Biomass,2044,5.40,5.90,4.16
+Namibia,Biomass,2045,5.50,6.00,4.20
+Namibia,Biomass,2046,5.60,6.16,4.26
+Namibia,Biomass,2047,5.70,6.32,4.32
+Namibia,Biomass,2048,5.80,6.48,4.38
+Namibia,Biomass,2049,5.90,6.64,4.44
+Namibia,Biomass,2050,6.00,6.80,4.50
+Namibia,Biomass,2051,6.10,6.94,4.56
+Namibia,Biomass,2052,6.20,7.08,4.62
+Namibia,Biomass,2053,6.30,7.22,4.68
+Namibia,Biomass,2054,6.40,7.36,4.74
+Namibia,Biomass,2055,6.50,7.50,4.80
+Namibia,Biomass,2056,6.60,7.60,4.84
+Namibia,Biomass,2057,6.70,7.70,4.88
+Namibia,Biomass,2058,6.80,7.80,4.92
+Namibia,Biomass,2059,6.90,7.90,4.96
+Namibia,Biomass,2060,7.00,8.00,5.00
+Namibia,Biogas,2025,8.00,8.50,7.50
+Namibia,Biogas,2026,7.80,8.30,7.20
+Namibia,Biogas,2027,7.60,8.10,6.90
+Namibia,Biogas,2028,7.40,7.90,6.60
+Namibia,Biogas,2029,7.20,7.70,6.30
+Namibia,Biogas,2030,7.00,7.50,6.00
+Namibia,Biogas,2031,6.80,7.30,5.80
+Namibia,Biogas,2032,6.60,7.10,5.60
+Namibia,Biogas,2033,6.40,6.90,5.40
+Namibia,Biogas,2034,6.20,6.70,5.20
+Namibia,Biogas,2035,6.00,6.50,5.00
+Namibia,Biogas,2036,5.90,6.40,4.90
+Namibia,Biogas,2037,5.80,6.30,4.80
+Namibia,Biogas,2038,5.70,6.20,4.70
+Namibia,Biogas,2039,5.60,6.10,4.60
+Namibia,Biogas,2040,5.50,6.00,4.50
+Namibia,Biogas,2041,5.40,5.90,4.40
+Namibia,Biogas,2042,5.30,5.80,4.30
+Namibia,Biogas,2043,5.20,5.70,4.20
+Namibia,Biogas,2044,5.10,5.60,4.10
+Namibia,Biogas,2045,5.00,5.50,4.00
+Namibia,Biogas,2046,4.90,5.40,3.90
+Namibia,Biogas,2047,4.80,5.30,3.80
+Namibia,Biogas,2048,4.70,5.20,3.70
+Namibia,Biogas,2049,4.60,5.10,3.60
+Namibia,Biogas,2050,4.50,5.00,3.50
+Namibia,Biogas,2051,4.44,4.96,3.44
+Namibia,Biogas,2052,4.38,4.92,3.38
+Namibia,Biogas,2053,4.32,4.88,3.32
+Namibia,Biogas,2054,4.26,4.84,3.26
+Namibia,Biogas,2055,4.20,4.80,3.20
+Namibia,Biogas,2056,4.16,4.74,3.16
+Namibia,Biogas,2057,4.12,4.68,3.12
+Namibia,Biogas,2058,4.08,4.62,3.08
+Namibia,Biogas,2059,4.04,4.56,3.04
+Namibia,Biogas,2060,4.00,4.50,3.00
+South Africa,HFO,2025,11.50,13.50,10.50
+South Africa,HFO,2026,11.70,13.90,10.30
+South Africa,HFO,2027,11.90,14.30,10.10
+South Africa,HFO,2028,12.10,14.70,9.90
+South Africa,HFO,2029,12.30,15.10,9.70
+South Africa,HFO,2030,12.50,15.50,9.50
+South Africa,HFO,2031,12.60,15.80,9.30
+South Africa,HFO,2032,12.70,16.10,9.10
+South Africa,HFO,2033,12.80,16.40,8.90
+South Africa,HFO,2034,12.90,16.70,8.70
+South Africa,HFO,2035,13.00,17.00,8.50
+South Africa,HFO,2036,13.10,17.20,8.20
+South Africa,HFO,2037,13.20,17.40,7.90
+South Africa,HFO,2038,13.30,17.60,7.60
+South Africa,HFO,2039,13.40,17.80,7.30
+South Africa,HFO,2040,13.50,18.00,7.00
+South Africa,HFO,2041,13.50,18.10,6.70
+South Africa,HFO,2042,13.50,18.20,6.40
+South Africa,HFO,2043,13.50,18.30,6.10
+South Africa,HFO,2044,13.50,18.40,5.80
+South Africa,HFO,2045,13.50,18.50,5.50
+South Africa,HFO,2046,13.40,18.40,5.30
+South Africa,HFO,2047,13.30,18.30,5.10
+South Africa,HFO,2048,13.20,18.20,4.90
+South Africa,HFO,2049,13.10,18.10,4.70
+South Africa,HFO,2050,13.00,18.00,4.50
+South Africa,HFO,2051,12.90,17.90,4.40
+South Africa,HFO,2052,12.80,17.80,4.30
+South Africa,HFO,2053,12.70,17.70,4.20
+South Africa,HFO,2054,12.60,17.60,4.10
+South Africa,HFO,2055,12.50,17.50,4.00
+South Africa,HFO,2056,12.40,17.40,3.90
+South Africa,HFO,2057,12.30,17.30,3.80
+South Africa,HFO,2058,12.20,17.20,3.70
+South Africa,HFO,2059,12.10,17.10,3.60
+South Africa,HFO,2060,12.00,17.00,3.50
+South Africa,Diesel,2025,15.00,17.50,14.00
+South Africa,Diesel,2026,15.20,18.00,13.70
+South Africa,Diesel,2027,15.40,18.50,13.40
+South Africa,Diesel,2028,15.60,19.00,13.10
+South Africa,Diesel,2029,15.80,19.50,12.80
+South Africa,Diesel,2030,16.00,20.00,12.50
+South Africa,Diesel,2031,16.10,20.40,12.20
+South Africa,Diesel,2032,16.20,20.80,11.90
+South Africa,Diesel,2033,16.30,21.20,11.60
+South Africa,Diesel,2034,16.40,21.60,11.30
+South Africa,Diesel,2035,16.50,22.00,11.00
+South Africa,Diesel,2036,16.60,22.30,10.60
+South Africa,Diesel,2037,16.70,22.60,10.20
+South Africa,Diesel,2038,16.80,22.90,9.80
+South Africa,Diesel,2039,16.90,23.20,9.40
+South Africa,Diesel,2040,17.00,23.50,9.00
+South Africa,Diesel,2041,17.00,23.60,8.70
+South Africa,Diesel,2042,17.00,23.70,8.40
+South Africa,Diesel,2043,17.00,23.80,8.10
+South Africa,Diesel,2044,17.00,23.90,7.80
+South Africa,Diesel,2045,17.00,24.00,7.50
+South Africa,Diesel,2046,16.90,23.80,7.20
+South Africa,Diesel,2047,16.80,23.60,6.90
+South Africa,Diesel,2048,16.70,23.40,6.60
+South Africa,Diesel,2049,16.60,23.20,6.30
+South Africa,Diesel,2050,16.50,23.00,6.00
+South Africa,Diesel,2051,16.40,22.80,5.90
+South Africa,Diesel,2052,16.30,22.60,5.80
+South Africa,Diesel,2053,16.20,22.40,5.70
+South Africa,Diesel,2054,16.10,22.20,5.60
+South Africa,Diesel,2055,16.00,22.00,5.50
+South Africa,Diesel,2056,15.90,21.80,5.40
+South Africa,Diesel,2057,15.80,21.60,5.30
+South Africa,Diesel,2058,15.70,21.40,5.20
+South Africa,Diesel,2059,15.60,21.20,5.10
+South Africa,Diesel,2060,15.50,21.00,5.00
+South Africa,Coal,2025,1.80,1.80,1.80
+South Africa,Coal,2026,1.84,1.84,1.84
+South Africa,Coal,2027,1.88,1.88,1.88
+South Africa,Coal,2028,1.92,1.92,1.92
+South Africa,Coal,2029,1.96,1.96,1.96
+South Africa,Coal,2030,2.00,2.00,2.00
+South Africa,Coal,2031,2.04,2.04,2.04
+South Africa,Coal,2032,2.08,2.08,2.08
+South Africa,Coal,2033,2.12,2.12,2.12
+South Africa,Coal,2034,2.16,2.16,2.16
+South Africa,Coal,2035,2.20,2.20,2.20
+South Africa,Coal,2036,2.22,2.22,2.16
+South Africa,Coal,2037,2.24,2.24,2.12
+South Africa,Coal,2038,2.26,2.26,2.08
+South Africa,Coal,2039,2.28,2.28,2.04
+South Africa,Coal,2040,2.30,2.30,2.00
+South Africa,Coal,2041,2.28,2.28,1.96
+South Africa,Coal,2042,2.26,2.26,1.92
+South Africa,Coal,2043,2.24,2.24,1.88
+South Africa,Coal,2044,2.22,2.22,1.84
+South Africa,Coal,2045,2.20,2.20,1.80
+South Africa,Coal,2046,2.16,2.16,1.74
+South Africa,Coal,2047,2.12,2.12,1.68
+South Africa,Coal,2048,2.08,2.08,1.62
+South Africa,Coal,2049,2.04,2.04,1.56
+South Africa,Coal,2050,2.00,2.00,1.50
+South Africa,Coal,2051,1.96,1.96,1.44
+South Africa,Coal,2052,1.92,1.92,1.38
+South Africa,Coal,2053,1.88,1.88,1.32
+South Africa,Coal,2054,1.84,1.84,1.26
+South Africa,Coal,2055,1.80,1.80,1.20
+South Africa,Coal,2056,1.74,1.74,1.16
+South Africa,Coal,2057,1.68,1.68,1.12
+South Africa,Coal,2058,1.62,1.62,1.08
+South Africa,Coal,2059,1.56,1.56,1.04
+South Africa,Coal,2060,1.50,1.50,1.00
+South Africa,Natural Gas,2025,6.50,7.50,6.00
+South Africa,Natural Gas,2026,6.60,7.80,5.90
+South Africa,Natural Gas,2027,6.70,8.10,5.80
+South Africa,Natural Gas,2028,6.80,8.40,5.70
+South Africa,Natural Gas,2029,6.90,8.70,5.60
+South Africa,Natural Gas,2030,7.00,9.00,5.50
+South Africa,Natural Gas,2031,7.10,9.30,5.40
+South Africa,Natural Gas,2032,7.20,9.60,5.30
+South Africa,Natural Gas,2033,7.30,9.90,5.20
+South Africa,Natural Gas,2034,7.40,10.20,5.10
+South Africa,Natural Gas,2035,7.50,10.50,5.00
+South Africa,Natural Gas,2036,7.50,10.60,4.90
+South Africa,Natural Gas,2037,7.50,10.70,4.80
+South Africa,Natural Gas,2038,7.50,10.80,4.70
+South Africa,Natural Gas,2039,7.50,10.90,4.60
+South Africa,Natural Gas,2040,7.50,11.00,4.50
+South Africa,Natural Gas,2041,7.50,11.00,4.40
+South Africa,Natural Gas,2042,7.50,11.00,4.30
+South Africa,Natural Gas,2043,7.50,11.00,4.20
+South Africa,Natural Gas,2044,7.50,11.00,4.10
+South Africa,Natural Gas,2045,7.50,11.00,4.00
+South Africa,Natural Gas,2046,7.40,10.90,3.90
+South Africa,Natural Gas,2047,7.30,10.80,3.80
+South Africa,Natural Gas,2048,7.20,10.70,3.70
+South Africa,Natural Gas,2049,7.10,10.60,3.60
+South Africa,Natural Gas,2050,7.00,10.50,3.50
+South Africa,Natural Gas,2051,6.90,10.40,3.40
+South Africa,Natural Gas,2052,6.80,10.30,3.30
+South Africa,Natural Gas,2053,6.70,10.20,3.20
+South Africa,Natural Gas,2054,6.60,10.10,3.10
+South Africa,Natural Gas,2055,6.50,10.00,3.00
+South Africa,Natural Gas,2056,6.40,9.90,2.90
+South Africa,Natural Gas,2057,6.30,9.80,2.80
+South Africa,Natural Gas,2058,6.20,9.70,2.70
+South Africa,Natural Gas,2059,6.10,9.60,2.60
+South Africa,Natural Gas,2060,6.00,9.50,2.50
+South Africa,LNG,2025,10.50,13.00,9.50
+South Africa,LNG,2026,10.60,13.40,9.30
+South Africa,LNG,2027,10.70,13.80,9.10
+South Africa,LNG,2028,10.80,14.20,8.90
+South Africa,LNG,2029,10.90,14.60,8.70
+South Africa,LNG,2030,11.00,15.00,8.50
+South Africa,LNG,2031,11.10,15.40,8.30
+South Africa,LNG,2032,11.20,15.80,8.10
+South Africa,LNG,2033,11.30,16.20,7.90
+South Africa,LNG,2034,11.40,16.60,7.70
+South Africa,LNG,2035,11.50,17.00,7.50
+South Africa,LNG,2036,11.50,17.10,7.30
+South Africa,LNG,2037,11.50,17.20,7.10
+South Africa,LNG,2038,11.50,17.30,6.90
+South Africa,LNG,2039,11.50,17.40,6.70
+South Africa,LNG,2040,11.50,17.50,6.50
+South Africa,LNG,2041,11.40,17.40,6.30
+South Africa,LNG,2042,11.30,17.30,6.10
+South Africa,LNG,2043,11.20,17.20,5.90
+South Africa,LNG,2044,11.10,17.10,5.70
+South Africa,LNG,2045,11.00,17.00,5.50
+South Africa,LNG,2046,10.90,16.80,5.30
+South Africa,LNG,2047,10.80,16.60,5.10
+South Africa,LNG,2048,10.70,16.40,4.90
+South Africa,LNG,2049,10.60,16.20,4.70
+South Africa,LNG,2050,10.50,16.00,4.50
+South Africa,LNG,2051,10.40,15.80,4.40
+South Africa,LNG,2052,10.30,15.60,4.30
+South Africa,LNG,2053,10.20,15.40,4.20
+South Africa,LNG,2054,10.10,15.20,4.10
+South Africa,LNG,2055,10.00,15.00,4.00
+South Africa,LNG,2056,9.90,14.80,3.90
+South Africa,LNG,2057,9.80,14.60,3.80
+South Africa,LNG,2058,9.70,14.40,3.70
+South Africa,LNG,2059,9.60,14.20,3.60
+South Africa,LNG,2060,9.50,14.00,3.50
+South Africa,Biomass,2025,3.50,3.80,3.20
+South Africa,Biomass,2026,3.60,3.94,3.26
+South Africa,Biomass,2027,3.70,4.08,3.32
+South Africa,Biomass,2028,3.80,4.22,3.38
+South Africa,Biomass,2029,3.90,4.36,3.44
+South Africa,Biomass,2030,4.00,4.50,3.50
+South Africa,Biomass,2031,4.10,4.60,3.56
+South Africa,Biomass,2032,4.20,4.70,3.62
+South Africa,Biomass,2033,4.30,4.80,3.68
+South Africa,Biomass,2034,4.40,4.90,3.74
+South Africa,Biomass,2035,4.50,5.00,3.80
+South Africa,Biomass,2036,4.60,5.10,3.84
+South Africa,Biomass,2037,4.70,5.20,3.88
+South Africa,Biomass,2038,4.80,5.30,3.92
+South Africa,Biomass,2039,4.90,5.40,3.96
+South Africa,Biomass,2040,5.00,5.50,4.00
+South Africa,Biomass,2041,5.10,5.60,4.04
+South Africa,Biomass,2042,5.20,5.70,4.08
+South Africa,Biomass,2043,5.30,5.80,4.12
+South Africa,Biomass,2044,5.40,5.90,4.16
+South Africa,Biomass,2045,5.50,6.00,4.20
+South Africa,Biomass,2046,5.60,6.16,4.26
+South Africa,Biomass,2047,5.70,6.32,4.32
+South Africa,Biomass,2048,5.80,6.48,4.38
+South Africa,Biomass,2049,5.90,6.64,4.44
+South Africa,Biomass,2050,6.00,6.80,4.50
+South Africa,Biomass,2051,6.10,6.94,4.56
+South Africa,Biomass,2052,6.20,7.08,4.62
+South Africa,Biomass,2053,6.30,7.22,4.68
+South Africa,Biomass,2054,6.40,7.36,4.74
+South Africa,Biomass,2055,6.50,7.50,4.80
+South Africa,Biomass,2056,6.60,7.60,4.84
+South Africa,Biomass,2057,6.70,7.70,4.88
+South Africa,Biomass,2058,6.80,7.80,4.92
+South Africa,Biomass,2059,6.90,7.90,4.96
+South Africa,Biomass,2060,7.00,8.00,5.00
+South Africa,Biogas,2025,8.00,8.50,7.50
+South Africa,Biogas,2026,7.80,8.30,7.20
+South Africa,Biogas,2027,7.60,8.10,6.90
+South Africa,Biogas,2028,7.40,7.90,6.60
+South Africa,Biogas,2029,7.20,7.70,6.30
+South Africa,Biogas,2030,7.00,7.50,6.00
+South Africa,Biogas,2031,6.80,7.30,5.80
+South Africa,Biogas,2032,6.60,7.10,5.60
+South Africa,Biogas,2033,6.40,6.90,5.40
+South Africa,Biogas,2034,6.20,6.70,5.20
+South Africa,Biogas,2035,6.00,6.50,5.00
+South Africa,Biogas,2036,5.90,6.40,4.90
+South Africa,Biogas,2037,5.80,6.30,4.80
+South Africa,Biogas,2038,5.70,6.20,4.70
+South Africa,Biogas,2039,5.60,6.10,4.60
+South Africa,Biogas,2040,5.50,6.00,4.50
+South Africa,Biogas,2041,5.40,5.90,4.40
+South Africa,Biogas,2042,5.30,5.80,4.30
+South Africa,Biogas,2043,5.20,5.70,4.20
+South Africa,Biogas,2044,5.10,5.60,4.10
+South Africa,Biogas,2045,5.00,5.50,4.00
+South Africa,Biogas,2046,4.90,5.40,3.90
+South Africa,Biogas,2047,4.80,5.30,3.80
+South Africa,Biogas,2048,4.70,5.20,3.70
+South Africa,Biogas,2049,4.60,5.10,3.60
+South Africa,Biogas,2050,4.50,5.00,3.50
+South Africa,Biogas,2051,4.44,4.96,3.44
+South Africa,Biogas,2052,4.38,4.92,3.38
+South Africa,Biogas,2053,4.32,4.88,3.32
+South Africa,Biogas,2054,4.26,4.84,3.26
+South Africa,Biogas,2055,4.20,4.80,3.20
+South Africa,Biogas,2056,4.16,4.74,3.16
+South Africa,Biogas,2057,4.12,4.68,3.12
+South Africa,Biogas,2058,4.08,4.62,3.08
+South Africa,Biogas,2059,4.04,4.56,3.04
+South Africa,Biogas,2060,4.00,4.50,3.00
+Tanzania,HFO,2025,12.00,14.00,11.00
+Tanzania,HFO,2026,12.20,14.40,10.80
+Tanzania,HFO,2027,12.40,14.80,10.60
+Tanzania,HFO,2028,12.60,15.20,10.40
+Tanzania,HFO,2029,12.80,15.60,10.20
+Tanzania,HFO,2030,13.00,16.00,10.00
+Tanzania,HFO,2031,13.10,16.30,9.80
+Tanzania,HFO,2032,13.20,16.60,9.60
+Tanzania,HFO,2033,13.30,16.90,9.40
+Tanzania,HFO,2034,13.40,17.20,9.20
+Tanzania,HFO,2035,13.50,17.50,9.00
+Tanzania,HFO,2036,13.60,17.70,8.70
+Tanzania,HFO,2037,13.70,17.90,8.40
+Tanzania,HFO,2038,13.80,18.10,8.10
+Tanzania,HFO,2039,13.90,18.30,7.80
+Tanzania,HFO,2040,14.00,18.50,7.50
+Tanzania,HFO,2041,14.00,18.60,7.20
+Tanzania,HFO,2042,14.00,18.70,6.90
+Tanzania,HFO,2043,14.00,18.80,6.60
+Tanzania,HFO,2044,14.00,18.90,6.30
+Tanzania,HFO,2045,14.00,19.00,6.00
+Tanzania,HFO,2046,13.90,18.90,5.80
+Tanzania,HFO,2047,13.80,18.80,5.60
+Tanzania,HFO,2048,13.70,18.70,5.40
+Tanzania,HFO,2049,13.60,18.60,5.20
+Tanzania,HFO,2050,13.50,18.50,5.00
+Tanzania,HFO,2051,13.40,18.40,4.90
+Tanzania,HFO,2052,13.30,18.30,4.80
+Tanzania,HFO,2053,13.20,18.20,4.70
+Tanzania,HFO,2054,13.10,18.10,4.60
+Tanzania,HFO,2055,13.00,18.00,4.50
+Tanzania,HFO,2056,12.90,17.90,4.40
+Tanzania,HFO,2057,12.80,17.80,4.30
+Tanzania,HFO,2058,12.70,17.70,4.20
+Tanzania,HFO,2059,12.60,17.60,4.10
+Tanzania,HFO,2060,12.50,17.50,4.00
+Tanzania,Diesel,2025,15.50,18.00,14.50
+Tanzania,Diesel,2026,15.70,18.50,14.20
+Tanzania,Diesel,2027,15.90,19.00,13.90
+Tanzania,Diesel,2028,16.10,19.50,13.60
+Tanzania,Diesel,2029,16.30,20.00,13.30
+Tanzania,Diesel,2030,16.50,20.50,13.00
+Tanzania,Diesel,2031,16.60,20.90,12.70
+Tanzania,Diesel,2032,16.70,21.30,12.40
+Tanzania,Diesel,2033,16.80,21.70,12.10
+Tanzania,Diesel,2034,16.90,22.10,11.80
+Tanzania,Diesel,2035,17.00,22.50,11.50
+Tanzania,Diesel,2036,17.10,22.80,11.10
+Tanzania,Diesel,2037,17.20,23.10,10.70
+Tanzania,Diesel,2038,17.30,23.40,10.30
+Tanzania,Diesel,2039,17.40,23.70,9.90
+Tanzania,Diesel,2040,17.50,24.00,9.50
+Tanzania,Diesel,2041,17.50,24.10,9.20
+Tanzania,Diesel,2042,17.50,24.20,8.90
+Tanzania,Diesel,2043,17.50,24.30,8.60
+Tanzania,Diesel,2044,17.50,24.40,8.30
+Tanzania,Diesel,2045,17.50,24.50,8.00
+Tanzania,Diesel,2046,17.40,24.30,7.70
+Tanzania,Diesel,2047,17.30,24.10,7.40
+Tanzania,Diesel,2048,17.20,23.90,7.10
+Tanzania,Diesel,2049,17.10,23.70,6.80
+Tanzania,Diesel,2050,17.00,23.50,6.50
+Tanzania,Diesel,2051,16.90,23.30,6.40
+Tanzania,Diesel,2052,16.80,23.10,6.30
+Tanzania,Diesel,2053,16.70,22.90,6.20
+Tanzania,Diesel,2054,16.60,22.70,6.10
+Tanzania,Diesel,2055,16.50,22.50,6.00
+Tanzania,Diesel,2056,16.40,22.30,5.90
+Tanzania,Diesel,2057,16.30,22.10,5.80
+Tanzania,Diesel,2058,16.20,21.90,5.70
+Tanzania,Diesel,2059,16.10,21.70,5.60
+Tanzania,Diesel,2060,16.00,21.50,5.50
+Tanzania,Coal,2025,6.20,7.00,5.80
+Tanzania,Coal,2026,6.16,7.10,5.68
+Tanzania,Coal,2027,6.12,7.20,5.56
+Tanzania,Coal,2028,6.08,7.30,5.44
+Tanzania,Coal,2029,6.04,7.40,5.32
+Tanzania,Coal,2030,6.00,7.50,5.20
+Tanzania,Coal,2031,5.96,7.56,5.06
+Tanzania,Coal,2032,5.92,7.62,4.92
+Tanzania,Coal,2033,5.88,7.68,4.78
+Tanzania,Coal,2034,5.84,7.74,4.64
+Tanzania,Coal,2035,5.80,7.80,4.50
+Tanzania,Coal,2036,5.74,7.84,4.40
+Tanzania,Coal,2037,5.68,7.88,4.30
+Tanzania,Coal,2038,5.62,7.92,4.20
+Tanzania,Coal,2039,5.56,7.96,4.10
+Tanzania,Coal,2040,5.50,8.00,4.00
+Tanzania,Coal,2041,5.40,7.90,3.92
+Tanzania,Coal,2042,5.30,7.80,3.84
+Tanzania,Coal,2043,5.20,7.70,3.76
+Tanzania,Coal,2044,5.10,7.60,3.68
+Tanzania,Coal,2045,5.00,7.50,3.60
+Tanzania,Coal,2046,4.90,7.40,3.54
+Tanzania,Coal,2047,4.80,7.30,3.48
+Tanzania,Coal,2048,4.70,7.20,3.42
+Tanzania,Coal,2049,4.60,7.10,3.36
+Tanzania,Coal,2050,4.50,7.00,3.30
+Tanzania,Coal,2051,4.40,6.90,3.24
+Tanzania,Coal,2052,4.30,6.80,3.18
+Tanzania,Coal,2053,4.20,6.70,3.12
+Tanzania,Coal,2054,4.10,6.60,3.06
+Tanzania,Coal,2055,4.00,6.50,3.00
+Tanzania,Coal,2056,3.96,6.40,2.96
+Tanzania,Coal,2057,3.92,6.30,2.92
+Tanzania,Coal,2058,3.88,6.20,2.88
+Tanzania,Coal,2059,3.84,6.10,2.84
+Tanzania,Coal,2060,3.80,6.00,2.80
+Tanzania,Natural Gas,2025,6.50,7.50,6.00
+Tanzania,Natural Gas,2026,6.60,7.80,5.90
+Tanzania,Natural Gas,2027,6.70,8.10,5.80
+Tanzania,Natural Gas,2028,6.80,8.40,5.70
+Tanzania,Natural Gas,2029,6.90,8.70,5.60
+Tanzania,Natural Gas,2030,7.00,9.00,5.50
+Tanzania,Natural Gas,2031,7.10,9.30,5.40
+Tanzania,Natural Gas,2032,7.20,9.60,5.30
+Tanzania,Natural Gas,2033,7.30,9.90,5.20
+Tanzania,Natural Gas,2034,7.40,10.20,5.10
+Tanzania,Natural Gas,2035,7.50,10.50,5.00
+Tanzania,Natural Gas,2036,7.50,10.60,4.90
+Tanzania,Natural Gas,2037,7.50,10.70,4.80
+Tanzania,Natural Gas,2038,7.50,10.80,4.70
+Tanzania,Natural Gas,2039,7.50,10.90,4.60
+Tanzania,Natural Gas,2040,7.50,11.00,4.50
+Tanzania,Natural Gas,2041,7.50,11.00,4.40
+Tanzania,Natural Gas,2042,7.50,11.00,4.30
+Tanzania,Natural Gas,2043,7.50,11.00,4.20
+Tanzania,Natural Gas,2044,7.50,11.00,4.10
+Tanzania,Natural Gas,2045,7.50,11.00,4.00
+Tanzania,Natural Gas,2046,7.40,10.90,3.90
+Tanzania,Natural Gas,2047,7.30,10.80,3.80
+Tanzania,Natural Gas,2048,7.20,10.70,3.70
+Tanzania,Natural Gas,2049,7.10,10.60,3.60
+Tanzania,Natural Gas,2050,7.00,10.50,3.50
+Tanzania,Natural Gas,2051,6.90,10.40,3.40
+Tanzania,Natural Gas,2052,6.80,10.30,3.30
+Tanzania,Natural Gas,2053,6.70,10.20,3.20
+Tanzania,Natural Gas,2054,6.60,10.10,3.10
+Tanzania,Natural Gas,2055,6.50,10.00,3.00
+Tanzania,Natural Gas,2056,6.40,9.90,2.90
+Tanzania,Natural Gas,2057,6.30,9.80,2.80
+Tanzania,Natural Gas,2058,6.20,9.70,2.70
+Tanzania,Natural Gas,2059,6.10,9.60,2.60
+Tanzania,Natural Gas,2060,6.00,9.50,2.50
+Tanzania,LNG,2025,10.50,13.00,9.50
+Tanzania,LNG,2026,10.60,13.40,9.30
+Tanzania,LNG,2027,10.70,13.80,9.10
+Tanzania,LNG,2028,10.80,14.20,8.90
+Tanzania,LNG,2029,10.90,14.60,8.70
+Tanzania,LNG,2030,11.00,15.00,8.50
+Tanzania,LNG,2031,11.10,15.40,8.30
+Tanzania,LNG,2032,11.20,15.80,8.10
+Tanzania,LNG,2033,11.30,16.20,7.90
+Tanzania,LNG,2034,11.40,16.60,7.70
+Tanzania,LNG,2035,11.50,17.00,7.50
+Tanzania,LNG,2036,11.50,17.10,7.30
+Tanzania,LNG,2037,11.50,17.20,7.10
+Tanzania,LNG,2038,11.50,17.30,6.90
+Tanzania,LNG,2039,11.50,17.40,6.70
+Tanzania,LNG,2040,11.50,17.50,6.50
+Tanzania,LNG,2041,11.40,17.40,6.30
+Tanzania,LNG,2042,11.30,17.30,6.10
+Tanzania,LNG,2043,11.20,17.20,5.90
+Tanzania,LNG,2044,11.10,17.10,5.70
+Tanzania,LNG,2045,11.00,17.00,5.50
+Tanzania,LNG,2046,10.90,16.80,5.30
+Tanzania,LNG,2047,10.80,16.60,5.10
+Tanzania,LNG,2048,10.70,16.40,4.90
+Tanzania,LNG,2049,10.60,16.20,4.70
+Tanzania,LNG,2050,10.50,16.00,4.50
+Tanzania,LNG,2051,10.40,15.80,4.40
+Tanzania,LNG,2052,10.30,15.60,4.30
+Tanzania,LNG,2053,10.20,15.40,4.20
+Tanzania,LNG,2054,10.10,15.20,4.10
+Tanzania,LNG,2055,10.00,15.00,4.00
+Tanzania,LNG,2056,9.90,14.80,3.90
+Tanzania,LNG,2057,9.80,14.60,3.80
+Tanzania,LNG,2058,9.70,14.40,3.70
+Tanzania,LNG,2059,9.60,14.20,3.60
+Tanzania,LNG,2060,9.50,14.00,3.50
+Tanzania,Biomass,2025,3.50,3.80,3.20
+Tanzania,Biomass,2026,3.60,3.94,3.26
+Tanzania,Biomass,2027,3.70,4.08,3.32
+Tanzania,Biomass,2028,3.80,4.22,3.38
+Tanzania,Biomass,2029,3.90,4.36,3.44
+Tanzania,Biomass,2030,4.00,4.50,3.50
+Tanzania,Biomass,2031,4.10,4.60,3.56
+Tanzania,Biomass,2032,4.20,4.70,3.62
+Tanzania,Biomass,2033,4.30,4.80,3.68
+Tanzania,Biomass,2034,4.40,4.90,3.74
+Tanzania,Biomass,2035,4.50,5.00,3.80
+Tanzania,Biomass,2036,4.60,5.10,3.84
+Tanzania,Biomass,2037,4.70,5.20,3.88
+Tanzania,Biomass,2038,4.80,5.30,3.92
+Tanzania,Biomass,2039,4.90,5.40,3.96
+Tanzania,Biomass,2040,5.00,5.50,4.00
+Tanzania,Biomass,2041,5.10,5.60,4.04
+Tanzania,Biomass,2042,5.20,5.70,4.08
+Tanzania,Biomass,2043,5.30,5.80,4.12
+Tanzania,Biomass,2044,5.40,5.90,4.16
+Tanzania,Biomass,2045,5.50,6.00,4.20
+Tanzania,Biomass,2046,5.60,6.16,4.26
+Tanzania,Biomass,2047,5.70,6.32,4.32
+Tanzania,Biomass,2048,5.80,6.48,4.38
+Tanzania,Biomass,2049,5.90,6.64,4.44
+Tanzania,Biomass,2050,6.00,6.80,4.50
+Tanzania,Biomass,2051,6.10,6.94,4.56
+Tanzania,Biomass,2052,6.20,7.08,4.62
+Tanzania,Biomass,2053,6.30,7.22,4.68
+Tanzania,Biomass,2054,6.40,7.36,4.74
+Tanzania,Biomass,2055,6.50,7.50,4.80
+Tanzania,Biomass,2056,6.60,7.60,4.84
+Tanzania,Biomass,2057,6.70,7.70,4.88
+Tanzania,Biomass,2058,6.80,7.80,4.92
+Tanzania,Biomass,2059,6.90,7.90,4.96
+Tanzania,Biomass,2060,7.00,8.00,5.00
+Tanzania,Biogas,2025,8.00,8.50,7.50
+Tanzania,Biogas,2026,7.80,8.30,7.20
+Tanzania,Biogas,2027,7.60,8.10,6.90
+Tanzania,Biogas,2028,7.40,7.90,6.60
+Tanzania,Biogas,2029,7.20,7.70,6.30
+Tanzania,Biogas,2030,7.00,7.50,6.00
+Tanzania,Biogas,2031,6.80,7.30,5.80
+Tanzania,Biogas,2032,6.60,7.10,5.60
+Tanzania,Biogas,2033,6.40,6.90,5.40
+Tanzania,Biogas,2034,6.20,6.70,5.20
+Tanzania,Biogas,2035,6.00,6.50,5.00
+Tanzania,Biogas,2036,5.90,6.40,4.90
+Tanzania,Biogas,2037,5.80,6.30,4.80
+Tanzania,Biogas,2038,5.70,6.20,4.70
+Tanzania,Biogas,2039,5.60,6.10,4.60
+Tanzania,Biogas,2040,5.50,6.00,4.50
+Tanzania,Biogas,2041,5.40,5.90,4.40
+Tanzania,Biogas,2042,5.30,5.80,4.30
+Tanzania,Biogas,2043,5.20,5.70,4.20
+Tanzania,Biogas,2044,5.10,5.60,4.10
+Tanzania,Biogas,2045,5.00,5.50,4.00
+Tanzania,Biogas,2046,4.90,5.40,3.90
+Tanzania,Biogas,2047,4.80,5.30,3.80
+Tanzania,Biogas,2048,4.70,5.20,3.70
+Tanzania,Biogas,2049,4.60,5.10,3.60
+Tanzania,Biogas,2050,4.50,5.00,3.50
+Tanzania,Biogas,2051,4.44,4.96,3.44
+Tanzania,Biogas,2052,4.38,4.92,3.38
+Tanzania,Biogas,2053,4.32,4.88,3.32
+Tanzania,Biogas,2054,4.26,4.84,3.26
+Tanzania,Biogas,2055,4.20,4.80,3.20
+Tanzania,Biogas,2056,4.16,4.74,3.16
+Tanzania,Biogas,2057,4.12,4.68,3.12
+Tanzania,Biogas,2058,4.08,4.62,3.08
+Tanzania,Biogas,2059,4.04,4.56,3.04
+Tanzania,Biogas,2060,4.00,4.50,3.00
+Zambia,HFO,2025,14.50,16.50,13.50
+Zambia,HFO,2026,14.70,16.90,13.30
+Zambia,HFO,2027,14.90,17.30,13.10
+Zambia,HFO,2028,15.10,17.70,12.90
+Zambia,HFO,2029,15.30,18.10,12.70
+Zambia,HFO,2030,15.50,18.50,12.50
+Zambia,HFO,2031,15.60,18.80,12.30
+Zambia,HFO,2032,15.70,19.10,12.10
+Zambia,HFO,2033,15.80,19.40,11.90
+Zambia,HFO,2034,15.90,19.70,11.70
+Zambia,HFO,2035,16.00,20.00,11.50
+Zambia,HFO,2036,16.10,20.20,11.20
+Zambia,HFO,2037,16.20,20.40,10.90
+Zambia,HFO,2038,16.30,20.60,10.60
+Zambia,HFO,2039,16.40,20.80,10.30
+Zambia,HFO,2040,16.50,21.00,10.00
+Zambia,HFO,2041,16.50,21.10,9.70
+Zambia,HFO,2042,16.50,21.20,9.40
+Zambia,HFO,2043,16.50,21.30,9.10
+Zambia,HFO,2044,16.50,21.40,8.80
+Zambia,HFO,2045,16.50,21.50,8.50
+Zambia,HFO,2046,16.40,21.40,8.30
+Zambia,HFO,2047,16.30,21.30,8.10
+Zambia,HFO,2048,16.20,21.20,7.90
+Zambia,HFO,2049,16.10,21.10,7.70
+Zambia,HFO,2050,16.00,21.00,7.50
+Zambia,HFO,2051,15.90,20.90,7.40
+Zambia,HFO,2052,15.80,20.80,7.30
+Zambia,HFO,2053,15.70,20.70,7.20
+Zambia,HFO,2054,15.60,20.60,7.10
+Zambia,HFO,2055,15.50,20.50,7.00
+Zambia,HFO,2056,15.40,20.40,6.90
+Zambia,HFO,2057,15.30,20.30,6.80
+Zambia,HFO,2058,15.20,20.20,6.70
+Zambia,HFO,2059,15.10,20.10,6.60
+Zambia,HFO,2060,15.00,20.00,6.50
+Zambia,Diesel,2025,18.00,20.50,17.00
+Zambia,Diesel,2026,18.20,21.00,16.70
+Zambia,Diesel,2027,18.40,21.50,16.40
+Zambia,Diesel,2028,18.60,22.00,16.10
+Zambia,Diesel,2029,18.80,22.50,15.80
+Zambia,Diesel,2030,19.00,23.00,15.50
+Zambia,Diesel,2031,19.10,23.40,15.20
+Zambia,Diesel,2032,19.20,23.80,14.90
+Zambia,Diesel,2033,19.30,24.20,14.60
+Zambia,Diesel,2034,19.40,24.60,14.30
+Zambia,Diesel,2035,19.50,25.00,14.00
+Zambia,Diesel,2036,19.60,25.30,13.60
+Zambia,Diesel,2037,19.70,25.60,13.20
+Zambia,Diesel,2038,19.80,25.90,12.80
+Zambia,Diesel,2039,19.90,26.20,12.40
+Zambia,Diesel,2040,20.00,26.50,12.00
+Zambia,Diesel,2041,20.00,26.60,11.70
+Zambia,Diesel,2042,20.00,26.70,11.40
+Zambia,Diesel,2043,20.00,26.80,11.10
+Zambia,Diesel,2044,20.00,26.90,10.80
+Zambia,Diesel,2045,20.00,27.00,10.50
+Zambia,Diesel,2046,19.90,26.80,10.20
+Zambia,Diesel,2047,19.80,26.60,9.90
+Zambia,Diesel,2048,19.70,26.40,9.60
+Zambia,Diesel,2049,19.60,26.20,9.30
+Zambia,Diesel,2050,19.50,26.00,9.00
+Zambia,Diesel,2051,19.40,25.80,8.90
+Zambia,Diesel,2052,19.30,25.60,8.80
+Zambia,Diesel,2053,19.20,25.40,8.70
+Zambia,Diesel,2054,19.10,25.20,8.60
+Zambia,Diesel,2055,19.00,25.00,8.50
+Zambia,Diesel,2056,18.90,24.80,8.40
+Zambia,Diesel,2057,18.80,24.60,8.30
+Zambia,Diesel,2058,18.70,24.40,8.20
+Zambia,Diesel,2059,18.60,24.20,8.10
+Zambia,Diesel,2060,18.50,24.00,8.00
+Zambia,Coal,2025,5.20,6.00,4.80
+Zambia,Coal,2026,5.16,6.10,4.68
+Zambia,Coal,2027,5.12,6.20,4.56
+Zambia,Coal,2028,5.08,6.30,4.44
+Zambia,Coal,2029,5.04,6.40,4.32
+Zambia,Coal,2030,5.00,6.50,4.20
+Zambia,Coal,2031,4.96,6.56,4.06
+Zambia,Coal,2032,4.92,6.62,3.92
+Zambia,Coal,2033,4.88,6.68,3.78
+Zambia,Coal,2034,4.84,6.74,3.64
+Zambia,Coal,2035,4.80,6.80,3.50
+Zambia,Coal,2036,4.74,6.84,3.40
+Zambia,Coal,2037,4.68,6.88,3.30
+Zambia,Coal,2038,4.62,6.92,3.20
+Zambia,Coal,2039,4.56,6.96,3.10
+Zambia,Coal,2040,4.50,7.00,3.00
+Zambia,Coal,2041,4.40,6.90,2.92
+Zambia,Coal,2042,4.30,6.80,2.84
+Zambia,Coal,2043,4.20,6.70,2.76
+Zambia,Coal,2044,4.10,6.60,2.68
+Zambia,Coal,2045,4.00,6.50,2.60
+Zambia,Coal,2046,3.90,6.40,2.54
+Zambia,Coal,2047,3.80,6.30,2.48
+Zambia,Coal,2048,3.70,6.20,2.42
+Zambia,Coal,2049,3.60,6.10,2.36
+Zambia,Coal,2050,3.50,6.00,2.30
+Zambia,Coal,2051,3.40,5.90,2.24
+Zambia,Coal,2052,3.30,5.80,2.18
+Zambia,Coal,2053,3.20,5.70,2.12
+Zambia,Coal,2054,3.10,5.60,2.06
+Zambia,Coal,2055,3.00,5.50,2.00
+Zambia,Coal,2056,2.96,5.40,1.96
+Zambia,Coal,2057,2.92,5.30,1.92
+Zambia,Coal,2058,2.88,5.20,1.88
+Zambia,Coal,2059,2.84,5.10,1.84
+Zambia,Coal,2060,2.80,5.00,1.80
+Zambia,Natural Gas,2025,6.50,7.50,6.00
+Zambia,Natural Gas,2026,6.60,7.80,5.90
+Zambia,Natural Gas,2027,6.70,8.10,5.80
+Zambia,Natural Gas,2028,6.80,8.40,5.70
+Zambia,Natural Gas,2029,6.90,8.70,5.60
+Zambia,Natural Gas,2030,7.00,9.00,5.50
+Zambia,Natural Gas,2031,7.10,9.30,5.40
+Zambia,Natural Gas,2032,7.20,9.60,5.30
+Zambia,Natural Gas,2033,7.30,9.90,5.20
+Zambia,Natural Gas,2034,7.40,10.20,5.10
+Zambia,Natural Gas,2035,7.50,10.50,5.00
+Zambia,Natural Gas,2036,7.50,10.60,4.90
+Zambia,Natural Gas,2037,7.50,10.70,4.80
+Zambia,Natural Gas,2038,7.50,10.80,4.70
+Zambia,Natural Gas,2039,7.50,10.90,4.60
+Zambia,Natural Gas,2040,7.50,11.00,4.50
+Zambia,Natural Gas,2041,7.50,11.00,4.40
+Zambia,Natural Gas,2042,7.50,11.00,4.30
+Zambia,Natural Gas,2043,7.50,11.00,4.20
+Zambia,Natural Gas,2044,7.50,11.00,4.10
+Zambia,Natural Gas,2045,7.50,11.00,4.00
+Zambia,Natural Gas,2046,7.40,10.90,3.90
+Zambia,Natural Gas,2047,7.30,10.80,3.80
+Zambia,Natural Gas,2048,7.20,10.70,3.70
+Zambia,Natural Gas,2049,7.10,10.60,3.60
+Zambia,Natural Gas,2050,7.00,10.50,3.50
+Zambia,Natural Gas,2051,6.90,10.40,3.40
+Zambia,Natural Gas,2052,6.80,10.30,3.30
+Zambia,Natural Gas,2053,6.70,10.20,3.20
+Zambia,Natural Gas,2054,6.60,10.10,3.10
+Zambia,Natural Gas,2055,6.50,10.00,3.00
+Zambia,Natural Gas,2056,6.40,9.90,2.90
+Zambia,Natural Gas,2057,6.30,9.80,2.80
+Zambia,Natural Gas,2058,6.20,9.70,2.70
+Zambia,Natural Gas,2059,6.10,9.60,2.60
+Zambia,Natural Gas,2060,6.00,9.50,2.50
+Zambia,LNG,2025,10.50,13.00,9.50
+Zambia,LNG,2026,10.60,13.40,9.30
+Zambia,LNG,2027,10.70,13.80,9.10
+Zambia,LNG,2028,10.80,14.20,8.90
+Zambia,LNG,2029,10.90,14.60,8.70
+Zambia,LNG,2030,11.00,15.00,8.50
+Zambia,LNG,2031,11.10,15.40,8.30
+Zambia,LNG,2032,11.20,15.80,8.10
+Zambia,LNG,2033,11.30,16.20,7.90
+Zambia,LNG,2034,11.40,16.60,7.70
+Zambia,LNG,2035,11.50,17.00,7.50
+Zambia,LNG,2036,11.50,17.10,7.30
+Zambia,LNG,2037,11.50,17.20,7.10
+Zambia,LNG,2038,11.50,17.30,6.90
+Zambia,LNG,2039,11.50,17.40,6.70
+Zambia,LNG,2040,11.50,17.50,6.50
+Zambia,LNG,2041,11.40,17.40,6.30
+Zambia,LNG,2042,11.30,17.30,6.10
+Zambia,LNG,2043,11.20,17.20,5.90
+Zambia,LNG,2044,11.10,17.10,5.70
+Zambia,LNG,2045,11.00,17.00,5.50
+Zambia,LNG,2046,10.90,16.80,5.30
+Zambia,LNG,2047,10.80,16.60,5.10
+Zambia,LNG,2048,10.70,16.40,4.90
+Zambia,LNG,2049,10.60,16.20,4.70
+Zambia,LNG,2050,10.50,16.00,4.50
+Zambia,LNG,2051,10.40,15.80,4.40
+Zambia,LNG,2052,10.30,15.60,4.30
+Zambia,LNG,2053,10.20,15.40,4.20
+Zambia,LNG,2054,10.10,15.20,4.10
+Zambia,LNG,2055,10.00,15.00,4.00
+Zambia,LNG,2056,9.90,14.80,3.90
+Zambia,LNG,2057,9.80,14.60,3.80
+Zambia,LNG,2058,9.70,14.40,3.70
+Zambia,LNG,2059,9.60,14.20,3.60
+Zambia,LNG,2060,9.50,14.00,3.50
+Zambia,Biomass,2025,3.50,3.80,3.20
+Zambia,Biomass,2026,3.60,3.94,3.26
+Zambia,Biomass,2027,3.70,4.08,3.32
+Zambia,Biomass,2028,3.80,4.22,3.38
+Zambia,Biomass,2029,3.90,4.36,3.44
+Zambia,Biomass,2030,4.00,4.50,3.50
+Zambia,Biomass,2031,4.10,4.60,3.56
+Zambia,Biomass,2032,4.20,4.70,3.62
+Zambia,Biomass,2033,4.30,4.80,3.68
+Zambia,Biomass,2034,4.40,4.90,3.74
+Zambia,Biomass,2035,4.50,5.00,3.80
+Zambia,Biomass,2036,4.60,5.10,3.84
+Zambia,Biomass,2037,4.70,5.20,3.88
+Zambia,Biomass,2038,4.80,5.30,3.92
+Zambia,Biomass,2039,4.90,5.40,3.96
+Zambia,Biomass,2040,5.00,5.50,4.00
+Zambia,Biomass,2041,5.10,5.60,4.04
+Zambia,Biomass,2042,5.20,5.70,4.08
+Zambia,Biomass,2043,5.30,5.80,4.12
+Zambia,Biomass,2044,5.40,5.90,4.16
+Zambia,Biomass,2045,5.50,6.00,4.20
+Zambia,Biomass,2046,5.60,6.16,4.26
+Zambia,Biomass,2047,5.70,6.32,4.32
+Zambia,Biomass,2048,5.80,6.48,4.38
+Zambia,Biomass,2049,5.90,6.64,4.44
+Zambia,Biomass,2050,6.00,6.80,4.50
+Zambia,Biomass,2051,6.10,6.94,4.56
+Zambia,Biomass,2052,6.20,7.08,4.62
+Zambia,Biomass,2053,6.30,7.22,4.68
+Zambia,Biomass,2054,6.40,7.36,4.74
+Zambia,Biomass,2055,6.50,7.50,4.80
+Zambia,Biomass,2056,6.60,7.60,4.84
+Zambia,Biomass,2057,6.70,7.70,4.88
+Zambia,Biomass,2058,6.80,7.80,4.92
+Zambia,Biomass,2059,6.90,7.90,4.96
+Zambia,Biomass,2060,7.00,8.00,5.00
+Zambia,Biogas,2025,8.00,8.50,7.50
+Zambia,Biogas,2026,7.80,8.30,7.20
+Zambia,Biogas,2027,7.60,8.10,6.90
+Zambia,Biogas,2028,7.40,7.90,6.60
+Zambia,Biogas,2029,7.20,7.70,6.30
+Zambia,Biogas,2030,7.00,7.50,6.00
+Zambia,Biogas,2031,6.80,7.30,5.80
+Zambia,Biogas,2032,6.60,7.10,5.60
+Zambia,Biogas,2033,6.40,6.90,5.40
+Zambia,Biogas,2034,6.20,6.70,5.20
+Zambia,Biogas,2035,6.00,6.50,5.00
+Zambia,Biogas,2036,5.90,6.40,4.90
+Zambia,Biogas,2037,5.80,6.30,4.80
+Zambia,Biogas,2038,5.70,6.20,4.70
+Zambia,Biogas,2039,5.60,6.10,4.60
+Zambia,Biogas,2040,5.50,6.00,4.50
+Zambia,Biogas,2041,5.40,5.90,4.40
+Zambia,Biogas,2042,5.30,5.80,4.30
+Zambia,Biogas,2043,5.20,5.70,4.20
+Zambia,Biogas,2044,5.10,5.60,4.10
+Zambia,Biogas,2045,5.00,5.50,4.00
+Zambia,Biogas,2046,4.90,5.40,3.90
+Zambia,Biogas,2047,4.80,5.30,3.80
+Zambia,Biogas,2048,4.70,5.20,3.70
+Zambia,Biogas,2049,4.60,5.10,3.60
+Zambia,Biogas,2050,4.50,5.00,3.50
+Zambia,Biogas,2051,4.44,4.96,3.44
+Zambia,Biogas,2052,4.38,4.92,3.38
+Zambia,Biogas,2053,4.32,4.88,3.32
+Zambia,Biogas,2054,4.26,4.84,3.26
+Zambia,Biogas,2055,4.20,4.80,3.20
+Zambia,Biogas,2056,4.16,4.74,3.16
+Zambia,Biogas,2057,4.12,4.68,3.12
+Zambia,Biogas,2058,4.08,4.62,3.08
+Zambia,Biogas,2059,4.04,4.56,3.04
+Zambia,Biogas,2060,4.00,4.50,3.00
+Zimbabwe,HFO,2025,14.50,16.50,13.50
+Zimbabwe,HFO,2026,14.70,16.90,13.30
+Zimbabwe,HFO,2027,14.90,17.30,13.10
+Zimbabwe,HFO,2028,15.10,17.70,12.90
+Zimbabwe,HFO,2029,15.30,18.10,12.70
+Zimbabwe,HFO,2030,15.50,18.50,12.50
+Zimbabwe,HFO,2031,15.60,18.80,12.30
+Zimbabwe,HFO,2032,15.70,19.10,12.10
+Zimbabwe,HFO,2033,15.80,19.40,11.90
+Zimbabwe,HFO,2034,15.90,19.70,11.70
+Zimbabwe,HFO,2035,16.00,20.00,11.50
+Zimbabwe,HFO,2036,16.10,20.20,11.20
+Zimbabwe,HFO,2037,16.20,20.40,10.90
+Zimbabwe,HFO,2038,16.30,20.60,10.60
+Zimbabwe,HFO,2039,16.40,20.80,10.30
+Zimbabwe,HFO,2040,16.50,21.00,10.00
+Zimbabwe,HFO,2041,16.50,21.10,9.70
+Zimbabwe,HFO,2042,16.50,21.20,9.40
+Zimbabwe,HFO,2043,16.50,21.30,9.10
+Zimbabwe,HFO,2044,16.50,21.40,8.80
+Zimbabwe,HFO,2045,16.50,21.50,8.50
+Zimbabwe,HFO,2046,16.40,21.40,8.30
+Zimbabwe,HFO,2047,16.30,21.30,8.10
+Zimbabwe,HFO,2048,16.20,21.20,7.90
+Zimbabwe,HFO,2049,16.10,21.10,7.70
+Zimbabwe,HFO,2050,16.00,21.00,7.50
+Zimbabwe,HFO,2051,15.90,20.90,7.40
+Zimbabwe,HFO,2052,15.80,20.80,7.30
+Zimbabwe,HFO,2053,15.70,20.70,7.20
+Zimbabwe,HFO,2054,15.60,20.60,7.10
+Zimbabwe,HFO,2055,15.50,20.50,7.00
+Zimbabwe,HFO,2056,15.40,20.40,6.90
+Zimbabwe,HFO,2057,15.30,20.30,6.80
+Zimbabwe,HFO,2058,15.20,20.20,6.70
+Zimbabwe,HFO,2059,15.10,20.10,6.60
+Zimbabwe,HFO,2060,15.00,20.00,6.50
+Zimbabwe,Diesel,2025,18.00,20.50,17.00
+Zimbabwe,Diesel,2026,18.20,21.00,16.70
+Zimbabwe,Diesel,2027,18.40,21.50,16.40
+Zimbabwe,Diesel,2028,18.60,22.00,16.10
+Zimbabwe,Diesel,2029,18.80,22.50,15.80
+Zimbabwe,Diesel,2030,19.00,23.00,15.50
+Zimbabwe,Diesel,2031,19.10,23.40,15.20
+Zimbabwe,Diesel,2032,19.20,23.80,14.90
+Zimbabwe,Diesel,2033,19.30,24.20,14.60
+Zimbabwe,Diesel,2034,19.40,24.60,14.30
+Zimbabwe,Diesel,2035,19.50,25.00,14.00
+Zimbabwe,Diesel,2036,19.60,25.30,13.60
+Zimbabwe,Diesel,2037,19.70,25.60,13.20
+Zimbabwe,Diesel,2038,19.80,25.90,12.80
+Zimbabwe,Diesel,2039,19.90,26.20,12.40
+Zimbabwe,Diesel,2040,20.00,26.50,12.00
+Zimbabwe,Diesel,2041,20.00,26.60,11.70
+Zimbabwe,Diesel,2042,20.00,26.70,11.40
+Zimbabwe,Diesel,2043,20.00,26.80,11.10
+Zimbabwe,Diesel,2044,20.00,26.90,10.80
+Zimbabwe,Diesel,2045,20.00,27.00,10.50
+Zimbabwe,Diesel,2046,19.90,26.80,10.20
+Zimbabwe,Diesel,2047,19.80,26.60,9.90
+Zimbabwe,Diesel,2048,19.70,26.40,9.60
+Zimbabwe,Diesel,2049,19.60,26.20,9.30
+Zimbabwe,Diesel,2050,19.50,26.00,9.00
+Zimbabwe,Diesel,2051,19.40,25.80,8.90
+Zimbabwe,Diesel,2052,19.30,25.60,8.80
+Zimbabwe,Diesel,2053,19.20,25.40,8.70
+Zimbabwe,Diesel,2054,19.10,25.20,8.60
+Zimbabwe,Diesel,2055,19.00,25.00,8.50
+Zimbabwe,Diesel,2056,18.90,24.80,8.40
+Zimbabwe,Diesel,2057,18.80,24.60,8.30
+Zimbabwe,Diesel,2058,18.70,24.40,8.20
+Zimbabwe,Diesel,2059,18.60,24.20,8.10
+Zimbabwe,Diesel,2060,18.50,24.00,8.00
+Zimbabwe,Coal,2025,4.70,5.50,4.30
+Zimbabwe,Coal,2026,4.66,5.60,4.18
+Zimbabwe,Coal,2027,4.62,5.70,4.06
+Zimbabwe,Coal,2028,4.58,5.80,3.94
+Zimbabwe,Coal,2029,4.54,5.90,3.82
+Zimbabwe,Coal,2030,4.50,6.00,3.70
+Zimbabwe,Coal,2031,4.46,6.06,3.56
+Zimbabwe,Coal,2032,4.42,6.12,3.42
+Zimbabwe,Coal,2033,4.38,6.18,3.28
+Zimbabwe,Coal,2034,4.34,6.24,3.14
+Zimbabwe,Coal,2035,4.30,6.30,3.00
+Zimbabwe,Coal,2036,4.24,6.34,2.90
+Zimbabwe,Coal,2037,4.18,6.38,2.80
+Zimbabwe,Coal,2038,4.12,6.42,2.70
+Zimbabwe,Coal,2039,4.06,6.46,2.60
+Zimbabwe,Coal,2040,4.00,6.50,2.50
+Zimbabwe,Coal,2041,3.90,6.40,2.42
+Zimbabwe,Coal,2042,3.80,6.30,2.34
+Zimbabwe,Coal,2043,3.70,6.20,2.26
+Zimbabwe,Coal,2044,3.60,6.10,2.18
+Zimbabwe,Coal,2045,3.50,6.00,2.10
+Zimbabwe,Coal,2046,3.40,5.90,2.04
+Zimbabwe,Coal,2047,3.30,5.80,1.98
+Zimbabwe,Coal,2048,3.20,5.70,1.92
+Zimbabwe,Coal,2049,3.10,5.60,1.86
+Zimbabwe,Coal,2050,3.00,5.50,1.80
+Zimbabwe,Coal,2051,2.90,5.40,1.74
+Zimbabwe,Coal,2052,2.80,5.30,1.68
+Zimbabwe,Coal,2053,2.70,5.20,1.62
+Zimbabwe,Coal,2054,2.60,5.10,1.56
+Zimbabwe,Coal,2055,2.50,5.00,1.50
+Zimbabwe,Coal,2056,2.46,4.90,1.46
+Zimbabwe,Coal,2057,2.42,4.80,1.42
+Zimbabwe,Coal,2058,2.38,4.70,1.38
+Zimbabwe,Coal,2059,2.34,4.60,1.34
+Zimbabwe,Coal,2060,2.30,4.50,1.30
+Zimbabwe,Natural Gas,2025,6.50,7.50,6.00
+Zimbabwe,Natural Gas,2026,6.60,7.80,5.90
+Zimbabwe,Natural Gas,2027,6.70,8.10,5.80
+Zimbabwe,Natural Gas,2028,6.80,8.40,5.70
+Zimbabwe,Natural Gas,2029,6.90,8.70,5.60
+Zimbabwe,Natural Gas,2030,7.00,9.00,5.50
+Zimbabwe,Natural Gas,2031,7.10,9.30,5.40
+Zimbabwe,Natural Gas,2032,7.20,9.60,5.30
+Zimbabwe,Natural Gas,2033,7.30,9.90,5.20
+Zimbabwe,Natural Gas,2034,7.40,10.20,5.10
+Zimbabwe,Natural Gas,2035,7.50,10.50,5.00
+Zimbabwe,Natural Gas,2036,7.50,10.60,4.90
+Zimbabwe,Natural Gas,2037,7.50,10.70,4.80
+Zimbabwe,Natural Gas,2038,7.50,10.80,4.70
+Zimbabwe,Natural Gas,2039,7.50,10.90,4.60
+Zimbabwe,Natural Gas,2040,7.50,11.00,4.50
+Zimbabwe,Natural Gas,2041,7.50,11.00,4.40
+Zimbabwe,Natural Gas,2042,7.50,11.00,4.30
+Zimbabwe,Natural Gas,2043,7.50,11.00,4.20
+Zimbabwe,Natural Gas,2044,7.50,11.00,4.10
+Zimbabwe,Natural Gas,2045,7.50,11.00,4.00
+Zimbabwe,Natural Gas,2046,7.40,10.90,3.90
+Zimbabwe,Natural Gas,2047,7.30,10.80,3.80
+Zimbabwe,Natural Gas,2048,7.20,10.70,3.70
+Zimbabwe,Natural Gas,2049,7.10,10.60,3.60
+Zimbabwe,Natural Gas,2050,7.00,10.50,3.50
+Zimbabwe,Natural Gas,2051,6.90,10.40,3.40
+Zimbabwe,Natural Gas,2052,6.80,10.30,3.30
+Zimbabwe,Natural Gas,2053,6.70,10.20,3.20
+Zimbabwe,Natural Gas,2054,6.60,10.10,3.10
+Zimbabwe,Natural Gas,2055,6.50,10.00,3.00
+Zimbabwe,Natural Gas,2056,6.40,9.90,2.90
+Zimbabwe,Natural Gas,2057,6.30,9.80,2.80
+Zimbabwe,Natural Gas,2058,6.20,9.70,2.70
+Zimbabwe,Natural Gas,2059,6.10,9.60,2.60
+Zimbabwe,Natural Gas,2060,6.00,9.50,2.50
+Zimbabwe,LNG,2025,10.50,13.00,9.50
+Zimbabwe,LNG,2026,10.60,13.40,9.30
+Zimbabwe,LNG,2027,10.70,13.80,9.10
+Zimbabwe,LNG,2028,10.80,14.20,8.90
+Zimbabwe,LNG,2029,10.90,14.60,8.70
+Zimbabwe,LNG,2030,11.00,15.00,8.50
+Zimbabwe,LNG,2031,11.10,15.40,8.30
+Zimbabwe,LNG,2032,11.20,15.80,8.10
+Zimbabwe,LNG,2033,11.30,16.20,7.90
+Zimbabwe,LNG,2034,11.40,16.60,7.70
+Zimbabwe,LNG,2035,11.50,17.00,7.50
+Zimbabwe,LNG,2036,11.50,17.10,7.30
+Zimbabwe,LNG,2037,11.50,17.20,7.10
+Zimbabwe,LNG,2038,11.50,17.30,6.90
+Zimbabwe,LNG,2039,11.50,17.40,6.70
+Zimbabwe,LNG,2040,11.50,17.50,6.50
+Zimbabwe,LNG,2041,11.40,17.40,6.30
+Zimbabwe,LNG,2042,11.30,17.30,6.10
+Zimbabwe,LNG,2043,11.20,17.20,5.90
+Zimbabwe,LNG,2044,11.10,17.10,5.70
+Zimbabwe,LNG,2045,11.00,17.00,5.50
+Zimbabwe,LNG,2046,10.90,16.80,5.30
+Zimbabwe,LNG,2047,10.80,16.60,5.10
+Zimbabwe,LNG,2048,10.70,16.40,4.90
+Zimbabwe,LNG,2049,10.60,16.20,4.70
+Zimbabwe,LNG,2050,10.50,16.00,4.50
+Zimbabwe,LNG,2051,10.40,15.80,4.40
+Zimbabwe,LNG,2052,10.30,15.60,4.30
+Zimbabwe,LNG,2053,10.20,15.40,4.20
+Zimbabwe,LNG,2054,10.10,15.20,4.10
+Zimbabwe,LNG,2055,10.00,15.00,4.00
+Zimbabwe,LNG,2056,9.90,14.80,3.90
+Zimbabwe,LNG,2057,9.80,14.60,3.80
+Zimbabwe,LNG,2058,9.70,14.40,3.70
+Zimbabwe,LNG,2059,9.60,14.20,3.60
+Zimbabwe,LNG,2060,9.50,14.00,3.50
+Zimbabwe,Biomass,2025,3.50,3.80,3.20
+Zimbabwe,Biomass,2026,3.60,3.94,3.26
+Zimbabwe,Biomass,2027,3.70,4.08,3.32
+Zimbabwe,Biomass,2028,3.80,4.22,3.38
+Zimbabwe,Biomass,2029,3.90,4.36,3.44
+Zimbabwe,Biomass,2030,4.00,4.50,3.50
+Zimbabwe,Biomass,2031,4.10,4.60,3.56
+Zimbabwe,Biomass,2032,4.20,4.70,3.62
+Zimbabwe,Biomass,2033,4.30,4.80,3.68
+Zimbabwe,Biomass,2034,4.40,4.90,3.74
+Zimbabwe,Biomass,2035,4.50,5.00,3.80
+Zimbabwe,Biomass,2036,4.60,5.10,3.84
+Zimbabwe,Biomass,2037,4.70,5.20,3.88
+Zimbabwe,Biomass,2038,4.80,5.30,3.92
+Zimbabwe,Biomass,2039,4.90,5.40,3.96
+Zimbabwe,Biomass,2040,5.00,5.50,4.00
+Zimbabwe,Biomass,2041,5.10,5.60,4.04
+Zimbabwe,Biomass,2042,5.20,5.70,4.08
+Zimbabwe,Biomass,2043,5.30,5.80,4.12
+Zimbabwe,Biomass,2044,5.40,5.90,4.16
+Zimbabwe,Biomass,2045,5.50,6.00,4.20
+Zimbabwe,Biomass,2046,5.60,6.16,4.26
+Zimbabwe,Biomass,2047,5.70,6.32,4.32
+Zimbabwe,Biomass,2048,5.80,6.48,4.38
+Zimbabwe,Biomass,2049,5.90,6.64,4.44
+Zimbabwe,Biomass,2050,6.00,6.80,4.50
+Zimbabwe,Biomass,2051,6.10,6.94,4.56
+Zimbabwe,Biomass,2052,6.20,7.08,4.62
+Zimbabwe,Biomass,2053,6.30,7.22,4.68
+Zimbabwe,Biomass,2054,6.40,7.36,4.74
+Zimbabwe,Biomass,2055,6.50,7.50,4.80
+Zimbabwe,Biomass,2056,6.60,7.60,4.84
+Zimbabwe,Biomass,2057,6.70,7.70,4.88
+Zimbabwe,Biomass,2058,6.80,7.80,4.92
+Zimbabwe,Biomass,2059,6.90,7.90,4.96
+Zimbabwe,Biomass,2060,7.00,8.00,5.00
+Zimbabwe,Biogas,2025,8.00,8.50,7.50
+Zimbabwe,Biogas,2026,7.80,8.30,7.20
+Zimbabwe,Biogas,2027,7.60,8.10,6.90
+Zimbabwe,Biogas,2028,7.40,7.90,6.60
+Zimbabwe,Biogas,2029,7.20,7.70,6.30
+Zimbabwe,Biogas,2030,7.00,7.50,6.00
+Zimbabwe,Biogas,2031,6.80,7.30,5.80
+Zimbabwe,Biogas,2032,6.60,7.10,5.60
+Zimbabwe,Biogas,2033,6.40,6.90,5.40
+Zimbabwe,Biogas,2034,6.20,6.70,5.20
+Zimbabwe,Biogas,2035,6.00,6.50,5.00
+Zimbabwe,Biogas,2036,5.90,6.40,4.90
+Zimbabwe,Biogas,2037,5.80,6.30,4.80
+Zimbabwe,Biogas,2038,5.70,6.20,4.70
+Zimbabwe,Biogas,2039,5.60,6.10,4.60
+Zimbabwe,Biogas,2040,5.50,6.00,4.50
+Zimbabwe,Biogas,2041,5.40,5.90,4.40
+Zimbabwe,Biogas,2042,5.30,5.80,4.30
+Zimbabwe,Biogas,2043,5.20,5.70,4.20
+Zimbabwe,Biogas,2044,5.10,5.60,4.10
+Zimbabwe,Biogas,2045,5.00,5.50,4.00
+Zimbabwe,Biogas,2046,4.90,5.40,3.90
+Zimbabwe,Biogas,2047,4.80,5.30,3.80
+Zimbabwe,Biogas,2048,4.70,5.20,3.70
+Zimbabwe,Biogas,2049,4.60,5.10,3.60
+Zimbabwe,Biogas,2050,4.50,5.00,3.50
+Zimbabwe,Biogas,2051,4.44,4.96,3.44
+Zimbabwe,Biogas,2052,4.38,4.92,3.38
+Zimbabwe,Biogas,2053,4.32,4.88,3.32
+Zimbabwe,Biogas,2054,4.26,4.84,3.26
+Zimbabwe,Biogas,2055,4.20,4.80,3.20
+Zimbabwe,Biogas,2056,4.16,4.74,3.16
+Zimbabwe,Biogas,2057,4.12,4.68,3.12
+Zimbabwe,Biogas,2058,4.08,4.62,3.08
+Zimbabwe,Biogas,2059,4.04,4.56,3.04
+Zimbabwe,Biogas,2060,4.00,4.50,3.00

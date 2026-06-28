@@ -7,7 +7,7 @@ Planning horizon years (Unit: year),y,y_alt.csv
 Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,LOAD,
-"Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile_agg.csv
+"Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
 Hourly demand time series by zone (Unit: MW),pDemandData,load/pDemandData.csv
 Annual energy and peak demand forecast by zone (Unit: GWh and MW),pDemandForecast,load/pDemandForecast_sapp_adapted_v3_mozalout_agg.csv
 List of representative daytypes used in demand sampling (Unit: unitless),sRelevant,load/sRelevant.csv

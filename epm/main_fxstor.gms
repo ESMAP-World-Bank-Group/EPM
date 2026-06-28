@@ -841,7 +841,7 @@ vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg
 vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorageData(eg,"CapacityMWh");
 
 * Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
-vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
+vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pStorageData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
 
 * Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
@@ -860,6 +860,17 @@ vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 
 * Ensure storage capacity is set to zero if storage is not included in the scenario
 vCapStor.fx(ng,y)$(not fEnableStorage) = 0;
+
+
+********************* Equations for storage capacity**********************************************************
+* Fix capacity to zero for storage projects that have not yet started in a given year
+*vCap.fx(g,y)$(pStorageData(g,"StYr") > y.val) = 0;
+
+* Set the fixed capacity for existing generation projects at the start year, if they were commissioned before the model start year
+*vCap.fx(st,sStartYear)$(pStorageData(st,"StYr") < sStartYear.val) = pStorageData(st,"Capacity");
+
+* Set fixed capacity for generation projects in years where they are within their operational period
+*vCap.fx(st,y)$((pStorageData(st,"StYr") <= y.val) and (pStorageData(st,"StYr") >= sStartYear.val)) = pStorageData(st,"Capacity");
 
 
 ********************* Equations for hydrogen production**********************************************************

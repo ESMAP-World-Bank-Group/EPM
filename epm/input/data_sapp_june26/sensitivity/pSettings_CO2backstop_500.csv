@@ -1,0 +1,71 @@
+Parameter,Abbreviation,Value
+,,
+Enable capacity expansion decisions,fEnableCapacityExpansion,1.0
+Activate 8760-hour dispatch chronology,fDispatchMode,0.0
+,,
+PARAMETERS,,
+"Weighted Average Cost of Capital (WACC), %",WACC,0.06
+"Discount rate, %",DR,0.06
+"Cost of unserved energy per MWh, $",VoLL,1000.0
+"Cost of reserve shortfall per MW, $",ReserveVoLL,60000.0
+"Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60.0
+"Cost of surplus power per MWh, $",CostSurplus,0.0
+"Cost of curtailment per MWh, $",CostCurtail,0.0
+"Cost of curtailment per MWh, $",CO2backstop,500.0
+"Cost of Climate backstop techno per ton  CO2, $",H2UnservedCost,3000.0
+,,
+INTERCONNECTION,,
+INTERNAL,,
+Activate exchange between internal zone,fEnableInternalExchange,1.0
+Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0.0
+Allow expansion of transfer limits,fAllowTransferExpansion,1.0
+EXTERNAL,,
+Activate exchange between external zone,fEnableExternalExchange,1.0
+"Maximum external import share, %",sMaxHourlyImportExternalShare,1.0
+"Maximum external export share, %",sMaxHourlyExportExternalShare,1.0
+,,
+OPTIONAL FEATURES,,
+Include carbon price ,fEnableCarbonPrice,1.0
+Include energy efficiency,fEnableEnergyEfficiency,0.0
+Include CSP optimization,fEnableCSP,0.0
+Include Storage operation,fEnableStorage,1.0
+Initial state of charge for batteries (%),InitialSOCforBattery,0.5
+Retire plants on economic grounds,fEnableEconomicRetirement,0.0
+Use less detailed demand definition,fUseSimplifiedDemand,1.0
+Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
+,,
+PLANNING RESERVES,,
+Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1.0
+Apply planning reserve constraint,fApplyPlanningReserveConstraint,1.0
+"System planning reserve margin, %",sReserveMarginPct,0.1
+,,
+SPINNING RESERVES,,
+Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,1.0
+Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,0.0
+"Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0.15
+"Contribution of transmission lines to country spinning reserves need, %",sIntercoReserveContributionPct,0.0
+,,
+H2,,
+Allow capex trajectory H2,fEnableCapexTrajectoryH2,0.0
+Include H2 production,fEnableH2Production,0.0
+,,
+POLICY,,
+Apply country CO2 constraint,fApplyCountryCo2Constraint,0.0
+Apply system CO2 constraints,fApplySystemCo2Constraint,0.0
+Minimum share of RE  (%),sMinRenewableSharePct,0.0
+RE share target year,sRenewableTargetYear,
+Apply fuel constraints,fApplyFuelConstraint,0.0
+Apply max capital constraint,fApplyCapitalConstraint,0.0
+"Total maximum capital investments, $ billion",sMaxCapitalInvestment,
+,,
+PLANTS,,
+Apply min generation for all hours,fApplyMinGenShareAllHours,0.0
+Apply ramp constraints,fApplyRampConstraint,0.0
+Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0.0
+Include minimum up/down time constraints (only dispatch),fApplyMUDT,0.0
+Apply startup cost (only dispatch),fApplyStartupCost,0.0
+,,
+INPUT TREATMENTS,,
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1.0
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1.0
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1.0
