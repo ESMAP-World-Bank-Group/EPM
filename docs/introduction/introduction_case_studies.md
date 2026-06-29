@@ -6,6 +6,12 @@ As the World Bank's primary power sector planning tool, EPM has been applied in 
 
 ## Coverage
 
+<div style="display:inline-block; margin:0.1rem 0 0.7rem 0; padding:3px 10px; border:1px solid #d8b24a; border-radius:8px; background:#fcf6e6; font-size:0.58rem; font-style:italic; color:#7a5d1e;">
+  → Explore the data &amp; results interactively in
+  <a href="https://epm-data-explorer.vercel.app" target="_blank" rel="noopener" style="font-style:normal; font-weight:600; color:#1E6DB8;">EPM&nbsp;View</a>
+  &nbsp;·&nbsp;<span style="color:#a98a4a;">access required — ask the team</span>
+</div>
+
 <div style="border-radius: 10px; overflow: hidden; border: 1px solid #c5d8ee; box-shadow: 0 2px 8px rgba(27,58,92,0.08); margin: 1.5rem 0; background: white;">
   <iframe
     src="../../assets/epm_map.html"
