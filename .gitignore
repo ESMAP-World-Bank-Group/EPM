@@ -5,6 +5,7 @@
 **/~*
 *.dat
 *.sh
+!tools/sync.sh
 *~
 
 # GAMS artifacts
@@ -104,7 +105,9 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
-# data_blacksea : sorti du repo, géré par DVC (-> R2). On ne garde que le pointeur.
+# data_blacksea : re-suivi dans git (re-push temporaire des données)
+!epm/input/data_blacksea/
+!epm/input/data_blacksea/**
 !epm/input/data_blacksea.dvc
 
 !epm/input/datapackage.json
