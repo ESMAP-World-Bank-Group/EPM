@@ -1670,68 +1670,10 @@ def run_input_treatment(gams,
         capmwh_mask = records[header_col] == "CapacityMWh"
         capmwh_rows = records.loc[capmwh_mask].copy()
         capmwh_rows["CapMWhNum"] = pd.to_numeric(capmwh_rows[value_col], errors="coerce")
-        capmwh_map = dict(zip(capmwh_rows[gen_col], capmwh_rows["CapMWhNum"]))
-
-        # ------------------------------------------------------------------
-        # P1: consistency guards on StorageDuration (blocking).
-        # These data conflicts would otherwise surface as an unreadable GAMS
-        # infeasibility via eStorageFixedDuration / eStorageCapMinConstraint /
-        # eCapacityStorLimit. Fail early with an explicit message instead.
-        # ------------------------------------------------------------------
-        DURATION_TOL = 0.01  # 1% relative tolerance on CapacityMWh vs Capacity*duration
-
-        # Guard 1: StorageDuration must be >= 1h (conflicts with eStorageCapMinConstraint: vCapStor >= vCap)
-        bad_duration = sorted(
-            g for g, d in duration_map.items() if pd.notna(d) and 0 < d < 1
-        )
-        if bad_duration:
-            details = ", ".join(f"{g} (StorageDuration={duration_map[g]})" for g in bad_duration)
-            raise ValueError(
-                "Invalid StorageDuration < 1h for storage unit(s): "
-                f"{details}. A duration below 1 hour contradicts the model's "
-                "minimum-duration constraint (vCapStor >= vCap) and causes an "
-                "infeasibility. Set StorageDuration >= 1."
-            )
-
-        # Guard 2: StorageDuration and CapacityMWh both provided -> must be consistent
-        inconsistent = []
-        for g_val, dur in duration_map.items():
-            if pd.isna(dur) or dur <= 0:
-                continue
-            capmwh = capmwh_map.get(g_val)
-            if pd.isna(capmwh) or capmwh <= 0:
-                continue  # CapacityMWh empty -> will be auto-computed below
-            capacity = capacity_map.get(g_val)
-            if pd.isna(capacity) or capacity <= 0:
-                continue
-            expected = capacity * dur
-            if abs(capmwh - expected) > DURATION_TOL * expected:
-                inconsistent.append((g_val, capacity, dur, capmwh, expected))
-
-        if inconsistent:
-            details = "; ".join(
-                f"{g}: CapacityMWh={cap_mwh} but Capacity*StorageDuration={cap}*{dur}={exp}"
-                for g, cap, dur, cap_mwh, exp in sorted(inconsistent)
-            )
-            raise ValueError(
-                "Inconsistent storage data: StorageDuration and CapacityMWh are "
-                f"both provided but do not match for: {details}. Leave CapacityMWh "
-                "empty (it will be computed as Capacity*StorageDuration) or correct "
-                "it to match. Providing both with conflicting values causes an "
-                "infeasibility (eStorageFixedDuration vs eCapacityStorLimit)."
-            )
 
         # Find generators with StorageDuration but missing/NaN CapacityMWh
         gens_with_duration = {g for g, d in duration_map.items() if pd.notna(d) and d > 0}
         gens_with_capmwh = set(capmwh_rows.loc[capmwh_rows["CapMWhNum"].notna() & (capmwh_rows["CapMWhNum"] > 0), gen_col])
-
-        # Guard 3: consistent double entry is allowed but redundant -> inform
-        redundant = sorted(gens_with_duration & gens_with_capmwh)
-        if redundant:
-            gams.printLog(
-                f"[input_treatment][storage] StorageDuration is redundant (CapacityMWh "
-                f"already consistent) for: {redundant}"
-            )
 
         gens_to_compute = gens_with_duration - gens_with_capmwh
 

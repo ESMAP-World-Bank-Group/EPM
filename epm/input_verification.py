@@ -163,6 +163,9 @@ def run_input_verification(gams):
     _step("Storage data")
     _check_storage_data(gams, db)
     gams.printLog("[input_verification] Storage data completed.")
+    _step("Storage duration consistency")
+    _check_storage_duration(gams, db)
+    gams.printLog("[input_verification] Storage duration consistency completed.")
     _step("Storage defaults")
     _check_storage_defaults(gams, db)
     gams.printLog("[input_verification] Storage defaults completed.")
@@ -1055,6 +1058,98 @@ def _check_storage_data(gams, db):
         raise
     except Exception:
         gams.printLog('Unexpected error when checking storage data')
+        raise
+
+
+def _check_storage_duration(gams, db):
+    """Validate StorageDuration: must be >= 1h and mutually exclusive with CapacityMWh.
+
+    Both conditions otherwise surface as an unreadable GAMS infeasibility via
+    eStorageFixedDuration / eStorageCapMinConstraint / eCapacityStorLimit.
+    """
+    try:
+        if "pStorageDataInput" not in db:
+            return
+        records = db["pStorageDataInput"].records
+        if records is None or records.empty:
+            return
+
+        # Normalize to wide format (one column per storage attribute). Data may be
+        # long (a header column holding attribute names + a value column) or already
+        # wide depending on the load path; the header column name varies
+        # (e.g. 'uni', 'uni_2', 'pStorageDataHeader'), so detect it by content.
+        df_wide = records
+        if "StorageDuration" not in records.columns and "value" in records.columns:
+            header_col = None
+            for col in records.columns:
+                if col == "value":
+                    continue
+                vals = set(records[col].astype(str).unique())
+                if "StorageDuration" in vals or "CapacityMWh" in vals:
+                    header_col = col
+                    break
+            if header_col is not None:
+                id_col = "g" if "g" in records.columns else None
+                df_wide = (
+                    records.pivot_table(
+                        index=id_col or records.index,
+                        columns=header_col,
+                        values="value",
+                        aggfunc="first",
+                        observed=False,
+                    )
+                    .reset_index()
+                )
+                if id_col:
+                    df_wide = df_wide.rename(columns={id_col: "g"})
+
+        if "StorageDuration" not in df_wide.columns:
+            return  # no duration data to validate
+
+        gen_col = "g" if "g" in df_wide.columns else None
+        duration = pd.to_numeric(df_wide["StorageDuration"], errors="coerce")
+        capmwh = (
+            pd.to_numeric(df_wide["CapacityMWh"], errors="coerce")
+            if "CapacityMWh" in df_wide.columns
+            else pd.Series(index=df_wide.index, dtype=float)
+        )
+
+        def _label(mask):
+            if gen_col:
+                return df_wide.loc[mask, gen_col].astype(str).tolist()
+            return df_wide.index[mask].tolist()
+
+        # Guard 1: StorageDuration must be >= 1h
+        bad_mask = duration.notna() & (duration > 0) & (duration < 1)
+        if bad_mask.any():
+            msg = (
+                "Error: StorageDuration < 1h is not allowed for storage unit(s): "
+                f"{_label(bad_mask)}. A duration below 1 hour contradicts the minimum-"
+                "duration constraint (vCapStor >= vCap) and causes an infeasibility. "
+                "Set StorageDuration >= 1."
+            )
+            gams.printLog(msg)
+            raise ValueError(msg)
+
+        # Guard 2: StorageDuration and CapacityMWh are mutually exclusive
+        both_mask = duration.notna() & (duration > 0) & capmwh.notna() & (capmwh > 0)
+        if both_mask.any():
+            msg = (
+                "Error: The following storage generator(s) have both 'StorageDuration' "
+                f"and 'CapacityMWh' defined in pStorageDataInput, which is not allowed: "
+                f"{_label(both_mask)}. Provide only one: leave CapacityMWh empty (it will "
+                "be computed as Capacity*StorageDuration) or remove StorageDuration."
+            )
+            gams.printLog(msg)
+            raise ValueError(msg)
+
+        gams.printLog(
+            "Success: StorageDuration values are valid (>=1h and not combined with CapacityMWh)."
+        )
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog("Unexpected error when checking StorageDuration consistency")
         raise
 
 
