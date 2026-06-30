@@ -1057,6 +1057,26 @@ def _check_storage_data(gams, db):
         gams.printLog('Unexpected error when checking storage data')
         raise
 
+    """Verify that storage generators do not have both "StorageDuration" and "CapacityMWh" defined."""
+    try:
+        if stor_records is None or stor_records.empty:
+            return
+        else:
+            stor_records = stor_records.pivot_table(index = ['g','z','tech','f'], columns = 'uni', values = 'value').reset_index()
+            if "StorageDuration" in stor_records.columns and "CapacityMWh" in stor_records.columns:
+                both_defined = stor_records.dropna(subset=["StorageDuration", "CapacityMWh"])
+                if not both_defined.empty:
+                    msg = (
+                        "Error: The following storage generators have both 'StorageDuration' and 'CapacityMWh' defined in pStorageDataInput, which is not allowed:\n"
+                        f"{both_defined[['g', 'StorageDuration', 'CapacityMWh']]}"
+                    )
+                    gams.printLog(msg)
+                    raise ValueError(msg)
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog('Unexpected error when checking storage data for StorageDuration and CapacityMWh')
+        raise
 
 def _check_storage_defaults(gams, db):
     """Warn when pStorageDataInputDefault lacks zones present in pStorageDataInput."""
