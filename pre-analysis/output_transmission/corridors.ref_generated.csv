@@ -1,0 +1,21 @@
+z,z2,scope,existing_lohi,existing_hilo,committed_lohi,committed_hilo,committed_cod,n_lines,agg_rule,loss_pu
+Armenia,AzerbaijanMain,internal,0.0,0.0,0.0,0.0,,1,single,0.03
+Armenia,EastAna,internal,0.0,0.0,0.0,0.0,,1,single,0.03
+Armenia,Georgia,internal,100.0,150.0,0.0,0.0,,2,SUM (distinct lines),0.025
+AzerbaijanMain,Georgia,internal,1000.0,1000.0,0.0,0.0,,2,SUM (distinct lines),0.03
+AzerbaijanMain,Nakhchivan,internal,0.0,0.0,1000.0,1000.0,2027.0,1,single,0.03
+EastAna,Georgia,internal,700.0,700.0,0.0,0.0,,3,DEDUP (identical values — repeated border total),0.02333
+EastAna,Nakhchivan,internal,50.0,50.0,0.0,0.0,,2,DEDUP (identical values — repeated border total),0.025
+Armenia,Iran,external,350.0,350.0,850.0,850.0,2026.0,2,DEDUP (identical values — repeated border total),
+AzerbaijanMain,Iran,external,600.0,600.0,0.0,0.0,,1,DEDUP (identical values — repeated border total),
+AzerbaijanMain,Kazakhstan,external,0.0,0.0,0.0,0.0,,1,single,
+AzerbaijanMain,Russia,external,550.0,550.0,0.0,0.0,,4,SUM (distinct lines),
+EastAna,Iran,external,600.0,600.0,0.0,0.0,,1,DEDUP (identical values — repeated border total),
+EastMed,Syria,external,0.0,0.0,500.0,500.0,2025.0,1,single,
+Georgia,Romania,external,0.0,0.0,0.0,0.0,,2,single,
+Georgia,Russia,external,550.0,550.0,0.0,0.0,,4,DEDUP (identical values — repeated border total),
+Nakhchivan,Iran,external,100.0,100.0,0.0,0.0,,1,DEDUP (identical values — repeated border total),
+SouthEast,Iraq,external,600.0,600.0,0.0,0.0,,1,DEDUP (identical values — repeated border total),
+SouthEast,Syria,external,300.0,300.0,0.0,0.0,,1,DEDUP (identical values — repeated border total),
+Trakia,Bulgaria,external,200.0,334.0,0.0,0.0,,2,SUM (distinct lines),
+Trakia,Greece,external,100.0,166.0,0.0,0.0,,2,SUM (distinct lines),

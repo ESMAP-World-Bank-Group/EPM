@@ -336,6 +336,27 @@ def fetch_crossborder_flows(
     return _write_dataframe(df, path), False
 
 
+def fetch_net_transfer_capacity(
+    client: "EntsoePandasClient",
+    country_from: str,
+    country_to: str,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+    horizon: str = "yearahead",
+) -> pd.Series:
+    """Forecasted Net Transfer Capacity (MW) for a directed border.
+
+    horizon: 'yearahead' | 'monthahead' | 'weekahead' | 'dayahead'.
+    Returns an empty Series when ENTSO-E has no matching data for the border.
+    """
+    query = getattr(client, f"query_net_transfer_capacity_{horizon}")
+    try:
+        series = query(country_from, country_to, start=start, end=end)
+    except Exception:
+        return pd.Series(dtype=float)
+    return series if isinstance(series, pd.Series) else pd.Series(series)
+
+
 def fetch_physical_crossborder_allborders(
     client: "EntsoePandasClient",
     country_code: str,

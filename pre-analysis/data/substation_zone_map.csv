@@ -1,0 +1,21 @@
+# Maps cross-border substations to EPM model zones.
+# Only Türkiye needs explicit entries (multi-zone country); GEO/ARM are single-zone
+# and AZE is split by country label (Azerbaijan main / Nakhchivan), so they are
+# resolved automatically by build_reference_lines_from_v7.py.
+# match_key : case-insensitive substring matched against the parsed substation name.
+# First matching row wins (order matters for overlapping keys).
+country,match_key,zone,note
+TUR,Hamitabat,Trakia,European Türkiye (Kirklareli)
+TUR,Vize,Trakia,European Türkiye
+TUR,Babaeski,Trakia,European Türkiye (Edirne) — GR border
+TUR,Borçka,EastAna,Artvin — TUR-GEO border (decision: EastAna)
+TUR,Tortum,EastAna,Erzurum — BSTN 3rd B2B
+TUR,Hopa,EastAna,Artvin — Achara line to Batumi
+TUR,Muratlı,EastAna,Artvin
+TUR,Iğdır,EastAna,Iğdır — Nakhchivan/Armenia border
+TUR,Eastern Anatolia,EastAna,Generic east node (Nakhchivan converter)
+TUR,Kars,EastAna,Kars — Armenia border (closed)
+TUR,Van,EastAna,Van — Iran B2B
+TUR,Silopi,SouthEast,Şırnak — Iraq border (GAP)
+TUR,Birecik,SouthEast,Şanlıurfa — Syria border (GAP)
+TUR,Reyhanl,EastMed,Hatay — Syria border (matches Reyhanlı/Reyhanli)
