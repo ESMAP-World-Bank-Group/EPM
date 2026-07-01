@@ -1,0 +1,5 @@
+scenario,Objective (Billion USD),Time,Peak Memory (Mb)
+baseline,274.91,0.12 j,5822.0
+baseline_INGA,274.88,0.13 j,5823.0
+baseline_noBTKG,274.91,0.12 j,5821.0
+baseline_limexp,283.04,0.11 j,5822.0
