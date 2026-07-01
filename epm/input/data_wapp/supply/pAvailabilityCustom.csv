@@ -79,7 +79,7 @@ Boutoubre,0.463,0.628
 Boutoute (G805-806-807),1,1
 Boutoute Ext (G805-806-807),1,1
 Boutoute G831_836,1,1
-Brikama,0.85,0.85
+Brikama II,0.85,0.85
 Brikama3,0.85,0.85
 Brou Attakro,0.25,0.7
 BUI (BXC solar)_IPP,1,1
@@ -110,7 +110,6 @@ CENIT_IPP,0.85,0.85
 CENPOWER_IPP,0.85,0.85
 CENPOWER2_IPP,0.85,0.85
 Centrale BID Sirakoro (100 MW),0.85,0.85
-Centrale d'appoint 2023,0.85,0.85
 Centrale Solaire de Bondoukou - AMEA POWER,1,1
 Centrale Solaire de Boundiali Phase 1,1,1
 Centrale Solaire de Ferke II SHIBA ENERGY,1,1
@@ -161,7 +160,6 @@ Djenne,0.181,0.299
 DO_Tamba,0.85,0.85
 Donkea,0.64,0.803
 DORI,0.85,0.85
-DUALE Gaz,0.85,0.85
 DualFuel_CAND_Gambia,0.85,0.85
 EarlyPower_U1_IPP,0.85,0.85
 EarlyPower_U2_IPP,0.85,0.85
@@ -203,7 +201,7 @@ GorouBanda1,1,1
 GOROUBANDA2,0.85,0.85
 GOUDEL1,0.85,0.85
 GOUDEL2,0.85,0.85
-Gouina_Water,0.31,0.57
+Gouina_Water,0.25,0.67
 Gouina_mali,0.5,0.5
 Gouina_SEN,0.43,0.61
 Gourbassi_MAU,0.31,0.57
@@ -211,8 +209,8 @@ Grand Chutes,0.591,0.76
 Grand Kinkon,0.125,0.519
 Gribo-Popoli,0.457,0.632
 Groupes secours SBEE,1,1
-Groupes supplementaires,0.85,0.85
-Groupes supplementaires HFO,0.85,0.85
+SNIM Zouerate  thermique,0.85,0.85
+Petites unites RI LFO,0.85,0.85
 GT_Benin,0.85,0.85
 GT_Burkina,0.85,0.85
 GT_CAND_MAU,0.85,0.85
@@ -220,7 +218,6 @@ GT_Ghana,0.85,0.85
 GT_Mali,0.85,0.85
 GT_Niger,0.85,0.85
 GT_Togo,0.85,0.85
-GTA_MAU,0.85,0.85
 Guozoguezia,0.549,0.505
 Gurara,0.18,0.67
 Hakkunde-Mitti,0.249,0.431
@@ -286,7 +283,7 @@ KOSSODO2,0.85,0.85
 Kossou,0.115,0.081
 Kotu G5,0.85,0.85
 Koukoutamba,0.188,0.157
-Koukoutamba + Boureya,0.31,0.57
+Koukoutamba + Boureya,0.47,0.61
 Kounoune_IPP,0.85,0.85
 Kouravel,0.217,0.458
 Kpessi,0.182,0.298
@@ -364,7 +361,6 @@ Porto-Novo,0.85,0.85
 Poudalde,0.323,0.558
 Powership1_IPP,0.85,0.85
 Powership2_IPP,0.85,0.85
-Projet BESS 2030,1,1
 Projets types de 100 MW,0.85,0.85
 Projets types de 40 MW,0.85,0.85
 PV_Akuo,1,1
@@ -386,7 +382,6 @@ Pwalugu,0.44,0.44
 Rehab Arafat 4 gr,0.85,0.85
 Rehab Wharf,0.85,0.85
 RemainingNigerCapacity,0.85,0.85
-Reserve Akjoujt,0.85,0.85
 Respite_PV,1,1
 Respite_PV_SR,1,1
 RIVERS IPP TTP,0.85,0.85
@@ -417,7 +412,6 @@ Solaire SNIM (15 MWc),1,1
 Solaire_Pobe,1,1
 Solaire_Pobe_ext,1,1
 Solar Kiffa 50 MWc,1,1
-Solar Nema 50 MWc,1,1
 Solar Power Park 1st Phase,1,1
 Solar Power Park 2nd Phase,1,1
 Solar Yekepa / Buchanan,1,1
@@ -446,7 +440,7 @@ Battery Bafata,1,1
 Storage_CAND_2027_IvoryCoast,1,1
 Storage_CAND_2027_Liberia,1,1
 Storage_CAND_2027_Mali,1,1
-Storage_CAND_2027_Mauritania_grid,1,1
+Storage_CAND_2030_Mauritania_grid,1,1
 Storage_CAND_2027_Niger,1,1
 Storage_CAND_2027_Nigeria,1,1
 Storage_CAND_2027_SierraLeone,1,1
@@ -500,3 +494,29 @@ Ziga,1,1
 Ziga/Gaoua,1,1
 Zina Solaire,1,1
 ZINDER,0.85,0.85
+Eolien Nouadhibou SNIM,1,1
+Solaires hybrides RI,1,1
+Extension centrale duale Wärtsilä,0.85,0.85
+SNIM Zouerate — solaire,1,1
+Kinross Tasiast — solaire,1,1
+Projet BESS 2027 -35,1,1
+CCGT 300 MW (Nouakchott/Banda),0.85,0.85
+Centrale HFO/LFO (Nouadhibou),0.85,0.85
+Projet type CCGT 225 MW (post-2030),0.85,0.85
+Projet type CCGT 120 MW (post-2030),0.85,0.85
+CCGT 225 MW,0.85,0.85
+Solar Nema 50 MWc,1,1
+Centrale thermique gaz 50 MW,0.85,0.85
+Extension éolien Nouakchott (+20 MW),1,1
+Projet type 20 MW,1,1
+Projet type 50 MW,1,1
+Projet type 25 MWc (Nouakchott),1,1
+Projet type 25 MWc (Néma),1,1
+Projet type 25 MWc (Zouerate),1,1
+Projet type 50 MWc (Nouakchott),1,1
+Projet type 50 MWc (Néma),1,1
+Projet type 50 MWc (Zouerate),1,1
+Biomasse déchets solides Nouakchott  15 MW,0.85,0.85
+Biomasse typha  15 MW,0.85,0.85
+Thermal Nema,0.85,0.85
+Projet BESS 2027 - 15,1,1
