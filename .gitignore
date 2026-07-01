@@ -42,8 +42,7 @@
 
 # Project-specific outputs
 /epm/cplex.opt
-# output_view = zone de staging locale pour publier vers EPM View (R2) — pas dans le repo
-epm/output_view/
+# output_view tracked in git (published results for EPM View)
 # Cles du data store — NE JAMAIS committer (repo public !)
 tools/.env
 epm/output/tableau/scenarios/*
