@@ -10,7 +10,6 @@
 
 # Data publishing (DVC) — see docs/run/run_data_sync.md
 tools/.env
-epm/output_view/
 
 # GAMS artifacts
 *.bk
