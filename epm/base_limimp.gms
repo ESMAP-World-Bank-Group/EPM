@@ -956,7 +956,7 @@ eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
-   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
+   vFlow(z2,z,q,d,t,y) =e= pMinImport(z2,z,y);
    
 *Enforces maximum net imports in all zones when specified-old
 eMaxAnnualInternalShareEnergy(c,y)$(fEnableInternalExchange and pMaxAnnualInternalTradeShare(y,c))..
