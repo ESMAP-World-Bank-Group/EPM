@@ -80,16 +80,22 @@ Armenia:
 
   pAvailabilityCustom:
     source_id: wna_reactor_database
-    secondary_source_ids: [epm_generic_defaults]
-    method: "DIRECT (Armenia_ANPP) — EPM generic for all other techs"
+    secondary_source_ids: [epm_generic_defaults, epso_armenia_generation_forecast_2021_2040]
+    method: "DIRECT (Armenia_ANPP) + seasonal reservoir hydro (EPSO-calibrated) — EPM generic for other techs"
     method_table:
       - period: "2024–2053"
         method: DIRECT
         notes: >
           Armenia_ANPP: 0.70 flat (Q1–Q4), mean of WNA Energy Availability
-          2023 (67.3%) and 2024 (70.4%). All other Armenia generators rely
-          on pAvailabilityGeneric defaults (CCGT=0.85, Hydro=0.85, PV/Wind=1.0).
-    confidence: high
+          2023 (67.3%) and 2024 (70.4%). Reservoir hydro (Armenia_SHC,
+          Armenia_Vorotan, Armenia_Hydro_Cand) now have explicit seasonal
+          availability (Q1–Q4) instead of the flat 0.85 generic — calibrated to
+          EPSO 2021–2040 annual energy: SHC ~390 GWh (CF ~0.08, irrigation-limited
+          by Lake Sevan releases, concentrated Q2–Q3); Vorotan ~950 GWh (CF ~0.27);
+          Hydro_Cand ~830 GWh. Snowmelt shape proxied from EastAna (adjacent
+          Armenian Highlands, matching regime & CF). Small hydro (ROR) shaped via
+          pVREProfile (EastAna profile). Other gens: generic (CCGT=0.85, PV/Wind=1.0).
+    confidence: medium
     notes: >
       Nuclear excluded from pAvailabilityGeneric — availability is plant-specific
       (aging VVER-270 at 0.70 vs new builds at 0.85–0.90).
