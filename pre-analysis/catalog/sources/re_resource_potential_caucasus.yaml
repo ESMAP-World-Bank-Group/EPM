@@ -1,0 +1,56 @@
+id: re_resource_potential_caucasus
+name: "Renewable resource potential — South Caucasus (solar & wind)"
+type: open_source
+date: "2025"
+url: "https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment"
+access_note: >
+  Consolidated public assessments of technically/economically feasible solar PV and
+  onshore wind potential for the three internal Caucasus countries. Used to set the
+  UPPER BOUND (candidate Capacity ceiling) of generic renewable expansion candidates
+  in pGenDataInput — the physical ceiling, while the annual build pace is governed
+  separately (see [re_candidate_build_limits]).
+
+  Per-country figures and their primary sources:
+   - ARMENIA — solar ~8 GW (Eurasian Development Bank; avg irradiation 1,720 kWh/m2/yr).
+       https://en.wikipedia.org/wiki/Solar_power_in_Armenia
+       https://www.irena.org/IRENADocuments/Statistical_Profiles/Eurasia/Armenia_Eurasia_RE_SP.pdf
+     Wind ~1 GW technically feasible (>11 GW theoretical, ~5 GW "good-to-excellent"),
+     USAID Wind Energy Potential Report for Armenia:
+       http://advisory.am/pdf/8_USAID_Wind-Potential-Report_Eng.pdf
+   - GEORGIA — solar 4.5 GW / wind 4 GW (GSE Ten-Year Network Development Plan,
+     grid-operator "technically feasible" — conservative figure adopted here).
+       https://www.gse.com.ge/communication/Publications/Ten-Year-Network-Development-Plan-of-Georgia
+     (IRENA May-2025 zoning gives a much larger technical ceiling of 87 GW solar /
+     5.4 GW wind — not adopted; kept as an upside reference.)
+   - AZERBAIJAN — economically viable potential 23 GW solar / 3 GW onshore wind
+     (Azerbaijan Renewable Energy Agency, AREA, under the Ministry of Energy).
+       https://area.gov.az/en/page/yasil-texnologiyalar/boem-potensiali
+       https://rise.esmap.org/sites/default/files/library/azerbaijan/Renewable%20Energy/Azerbaijian_The%20Use%20of%20Renewable%20Energy%20Resources%20in%20Azerbaijan%20_Ministry%20of%20Energy%20of%20Azerbaijan.pdf
+     (Caspian OFFSHORE wind technical potential ~157 GW per WB/ESMAP — excluded from
+     near-term onshore candidate ceilings.)
+   - NAKHCHIVAN — no dedicated study; ceiling set by assumption (solar 2 GW / wind 1 GW),
+     scaled to the isolated system size.
+
+coverage:
+  countries: [Armenia, Georgia, Azerbaijan]
+  years: "2023-2025 assessments"
+
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "Generic RE candidate rows (Status 3): *_PV_Cand / *_PV_Generic, *_Wind_Cand / *_Wind_Generic"
+    coverage: >
+      Sets the Capacity (upper build bound) of generic solar/wind expansion candidates
+      to the sourced technical/economic potential per zone. Adopted ceilings (MW):
+      Armenia PV 8000 / Wind 3000; Georgia PV 4500 / Wind 4000 (GSE); AzerbaijanMain
+      PV 23000 / Wind 3000; Nakhchivan PV 2000 / Wind 1000 (assumption).
+
+quality:
+  confidence: medium
+  notes: >
+    Ceilings are deliberately generous: they are physical resource limits, not
+    deployment forecasts — the binding near-term constraint is the annual build limit
+    ([re_candidate_build_limits]). Georgia uses the conservative GSE grid-operator
+    figure rather than the larger IRENA technical potential (project choice). Methods
+    differ across countries (EDB potential estimate, USAID wind study, GSE grid
+    feasibility, AREA economic potential), so ceilings are not strictly comparable.
+  used_in_studies: [data_blacksea]

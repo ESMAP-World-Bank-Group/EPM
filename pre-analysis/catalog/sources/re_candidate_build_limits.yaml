@@ -1,0 +1,49 @@
+id: re_candidate_build_limits
+name: "RE candidate annual build-rate limits — Caucasus (modeller assumption)"
+type: assumption
+date: "2026"
+access_note: >
+  BuildLimitperYear (max MW commissioned per year) for the generic solar/wind/battery
+  expansion candidates of the internal Caucasus zones in pGenDataInput /
+  pStorageDataInput. This is the constraint that actually governs least-cost RE
+  expansion (the Capacity field is only a physical ceiling — see
+  [re_resource_potential_caucasus]).
+
+  Derivation (transparent, adjustable):
+   1. Base = scale the in-model Turkiye generic build limits (PV 10,000 MW/yr,
+      Wind 3,000 MW/yr for a ~60 GW peak system) by each zone's 2024 peak demand
+      -> ~168 MW/yr PV and ~50 MW/yr Wind per GW of peak.
+   2. Sanity-check / uplift against recent actuals and official ambition:
+        - ARMENIA installed ~615 MW of solar in 2025 alone (cumulative >1 GW Oct-2025):
+          https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/
+        - AZERBAIJAN targets ~6 GW combined wind+solar by 2032 (~750 MW/yr):
+          https://minenergy.gov.az/en/alternativ-ve-berpa-olunan-enerji/azerbaycanda-berpa-olunan-enerji-menbelerinden-istifade
+
+  Adopted BuildLimitperYear (MW/yr):
+   - Armenia:        PV 400, Wind 100, BESS 100
+   - Georgia:        PV 400, Wind 150, BESS 50 (unchanged)
+   - AzerbaijanMain: PV 800, Wind 300, BESS 200
+   - Nakhchivan:     PV 50,  Wind 30,  BESS 30
+
+coverage:
+  countries: [Armenia, Georgia, Azerbaijan]
+  years: "2026-2050"
+
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "Generic RE candidate rows (Status 3), column BuildLimitperYear"
+    coverage: "Annual commissioning cap for solar & onshore wind candidates."
+  - resource: pStorageDataInput
+    location: "Generic BESS candidate rows (Status 3), column BuildLimitperYear"
+    coverage: "Annual commissioning cap for battery storage candidates."
+
+quality:
+  confidence: low
+  notes: >
+    Modeller assumption, not an official build-rate plan. Anchored on the Turkiye
+    in-model convention (peak-scaled) and cross-checked against recent deployment
+    actuals and national targets. Intended to keep least-cost expansion realistic in
+    pace without imposing an arbitrary total cap. Revise if an official build-rate
+    trajectory becomes available. NDP target trajectories are imposed separately via
+    scenarios.csv, not through these limits.
+  used_in_studies: [data_blacksea]

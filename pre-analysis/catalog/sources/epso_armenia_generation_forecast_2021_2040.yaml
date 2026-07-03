@@ -1,0 +1,38 @@
+id: epso_armenia_generation_forecast_2021_2040
+name: "EPSO — Armenia 2021–2040 Electricity Power Generation Forecast"
+type: client_confidential
+date: "2022"
+file: "2021-2040 electricity power generation forecast.xlsx"
+access_note: "Available in project data folder: Data/Armenia/reply from EPSO/ (also 'Prognoz 2021-40.xlsx', Armenian original)"
+
+coverage:
+  countries: [Armenia]
+  years: "2017–2040 (annual generation by plant, billion kWh)"
+
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    location: "Sheet1, rows 1.1–1.10"
+    coverage: >
+      Annual generation (GWh/yr) per plant used to ANCHOR seasonal availability
+      (capacity-factor ceilings) of Armenian reservoir hydro. Key anchors:
+      Sevan-Hrazdan Cascade ('IEC cascade') ~0.39 TWh (CF ~0.08, irrigation-limited
+      by Lake Sevan releases); Vorotan Cascade ('ContourGlobal') ~0.95 TWh (CF ~0.27);
+      small hydro ~1.0–1.1 TWh. Intra-annual shape not tabulated → snowmelt shape
+      proxied from EastAna; SHC shaped to the irrigation season (Q2–Q3).
+  - resource: pGenDataInput
+    location: "Sheet1, rows 1.1–1.10"
+    coverage: >
+      Generation pipeline / plan by plant (ANPP, Hrazdan N5, YTPC, Armpower CCGT,
+      solar, wind). Nuclear (ANPP) annual energy jumps 5.5→7.2 TWh from 2036,
+      implying a new/expanded nuclear unit post-2036 (ANPP retires 2036 today).
+
+quality:
+  confidence: medium
+  notes: >
+    EPSO (Electric Power System Operator of Armenia) forecast provided to the World
+    Bank team. Annual energy by plant, not monthly → suitable to anchor annual hydro
+    energy (and thus availability CF), not the intra-annual shape. Sevan-Hrazdan low
+    utilisation corroborated by ADB/Wikipedia (irrigation constraint, ~400 GWh vs
+    ~2,300 GWh design). Companion files: epso_armenia_plexos_2022 (PLEXOS study),
+    epso_armenia_load_2022 (load).
+  used_in_studies: [data_blacksea]

@@ -14,10 +14,10 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
 | Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ⚠ run_blacksea_data_proxy | run_blacksea_data_proxy | ENTSO-E Transparency Platform (2025) | ⚠ ENTSO-E Transparency Platform (2025) |
-| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
+| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | ⚠ World Bank EPM Romania v8.5 (2… (2024) | World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance |
-| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + epso_armenia_generation_forecast_2021_2040 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR |
-| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | — | — | — | — | — | — | — |
+| Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR |
+| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | EPM Generic Defaults | — | — | EPM Generic Defaults | EPM Generic Defaults | — | — |
 | Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | — | — | Global Energy Monitor (GEM) (2025-09) | ⚠ Renewables Ninja (2018–2023) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — |
 | Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — | — | — | — |
@@ -35,11 +35,11 @@
 ## Contents
 
 - [Turkiye](#turkiye) — *not yet documented*
-- [Armenia](#armenia) — [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pVREProfile`](#armenia-pvreprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
+- [Armenia](#armenia) — [`pStorageDataInput`](#armenia-pstoragedatainput) · [`pDemandForecast`](#armenia-pdemandforecast) · [`pDemandProfile`](#armenia-pdemandprofile) · [`pVREProfile`](#armenia-pvreprofile) · [`pAvailabilityCustom`](#armenia-pavailabilitycustom) · [`pGenDataInput`](#armenia-pgendatainput) · [`pFuelPrice`](#armenia-pfuelprice)
 - [Georgia](#georgia) — [`pGenDataInput`](#georgia-pgendatainput) · [`pDemandForecast`](#georgia-pdemandforecast) · [`pDemandProfile`](#georgia-pdemandprofile) · [`pVREProfile`](#georgia-pvreprofile) · [`pFuelPrice`](#georgia-pfuelprice) · [`pAvailabilityCustom`](#georgia-pavailabilitycustom)
 - [Azerbaijan](#azerbaijan) — [`pGenDataInput`](#azerbaijan-pgendatainput) · [`pDemandForecast`](#azerbaijan-pdemandforecast) · [`pDemandProfile`](#azerbaijan-pdemandprofile) · [`pFuelPrice`](#azerbaijan-pfuelprice) · [`pAvailabilityCustom`](#azerbaijan-pavailabilitycustom) · [`pTransferLimit`](#azerbaijan-ptransferlimit)
-- [AzerbaijanMain](#azerbaijanmain) — [`pGenDataInput`](#azerbaijanmain-pgendatainput) · [`pDemandForecast`](#azerbaijanmain-pdemandforecast) · [`pDemandProfile`](#azerbaijanmain-pdemandprofile) · [`pFuelPrice`](#azerbaijanmain-pfuelprice) · [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom)
-- [Nakhchivan](#nakhchivan) — [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
+- [AzerbaijanMain](#azerbaijanmain) — [`pStorageDataInput`](#azerbaijanmain-pstoragedatainput) · [`pGenDataInput`](#azerbaijanmain-pgendatainput) · [`pDemandForecast`](#azerbaijanmain-pdemandforecast) · [`pDemandProfile`](#azerbaijanmain-pdemandprofile) · [`pFuelPrice`](#azerbaijanmain-pfuelprice) · [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom)
+- [Nakhchivan](#nakhchivan) — [`pStorageDataInput`](#nakhchivan-pstoragedatainput) · [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom)
 - [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile) · [`pGenDataInput`](#bulgaria-pgendatainput) · [`pFuelPrice`](#bulgaria-pfuelprice) · [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom)
 
@@ -67,10 +67,29 @@
 |---|---|---|
 | [`pDemandForecast`](#armenia-pdemandforecast) | CESI (World Bank consultant) /… (2022) | [MEDIUM] |
 | [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Turkiye/EastAna | [LOW] ⚠ |
-| [`pGenDataInput`](#armenia-pgendatainput) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] |
+| [`pGenDataInput`](#armenia-pgendatainput) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | [MEDIUM] |
 | [`pFuelPrice`](#armenia-pfuelprice) | TYNDP / IEA World Energy Outlo… (2022) | [MEDIUM] |
-| [`pAvailabilityCustom`](#armenia-pavailabilitycustom) | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + epso_armenia_generation_forecast_2021_2040 | [MEDIUM] |
+| [`pAvailabilityCustom`](#armenia-pavailabilitycustom) | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | [MEDIUM] |
+| [`pStorageDataInput`](#armenia-pstoragedatainput) | EPM Generic Defaults | [LOW] |
 | [`pVREProfile`](#armenia-pvreprofile) | Renewables Ninja (2018–2023) + TEİAŞ | [LOW] ⚠ |
+
+<a id="armenia-pstoragedatainput"></a>
+
+### `pStorageDataInput`
+
+[&#8593; Armenia](#armenia)
+
+**Source**: EPM Generic Defaults (`epm_generic_defaults`)
+
+**Method**: GENERIC — candidate storage anchors (no national target yet)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `ASSUMPTION` | BESS 200 MW/4h (Status 3, 2028) + generic PSH 250 MW/8h (2032) — firm candidate wind 500 + PV 300. Generic WB cost/efficiency (BESS 4h, eff 0.85, CapexMWh 250; PSH 8h, eff 0.80). Fixed-capacity anchors (Georgia style), to refine with national storage targets. NB: Türkiye uses unbounded generic BESS.
+ |
+
+*Confidence: [LOW]*
+
 
 <a id="armenia-pdemandforecast"></a>
 
@@ -152,7 +171,7 @@
 
 **Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
 
-**Also uses**: epso_armenia_generation_forecast_2021_2040 (`epso_armenia_generation_forecast_2021_2040`)
+**Also uses**: EPSO — Armenia 2021–2040 Electricity Power Generation Forecast (`epso_armenia_generation_forecast_2021_2040`)
 
 **Method**: DIRECT (Armenia_ANPP) + seasonal reservoir hydro (EPSO-calibrated) — EPM generic for other techs
 
@@ -176,6 +195,12 @@
 
 **Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
 
+**Also uses**: EPSO — Armenia 2021–2040 Electricity Power Generation Forecast (`epso_armenia_generation_forecast_2021_2040`)
+
+**Also uses**: [Renewable resource potential — South Caucasus (solar & wind)](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment)
+
+**Also uses**: [RE candidate annual build-rate limits — Caucasus (modeller assumption)](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/)
+
 **Method**: DIRECT (capacity, dates from CESI) — tech params from EPM defaults
 
 | Period | Method | Notes |
@@ -183,9 +208,9 @@
 | 2024–2053 | `DIRECT` | Capacity and dates (StYr, RetrYr) from CESI PLEXOS study slides. HeatRate, RampUpRate, RampDnRate, ResLimShare, FOMperMW, VOM left blank — filled automatically at runtime from pGenDataInputGeneric (EPM parameter guide: https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/). Nuclear and ST/Gas defaults added to pGenDataInputGeneric for this deployment.
  |
 
-> 14 generators: 12 Status-1 (existing), 2 Status-2 (committed), 3 Status-3 (candidates). DOUBT — Armenia_Hrazdan_ST: units 1–4 all mothballed per GEM (2024); Capacity set to 0 MW pending confirmation. CESI shows 300–410 MW nameplate but none dispatchable. DOUBT — Armenia_SHC RetrYr=2047: no explicit retirement date found; estimated from post-ADB rehabilitation life extension (loan matures 2029). Commissioned 1960–1962.
+> 15 generators: 12 Status-1 (existing), 2 Status-2 (committed), 4 Status-3 (candidates). DOUBT — Armenia_Hrazdan_ST: units 1–4 all mothballed per GEM (2024); Capacity set to 0 MW pending confirmation. CESI shows 300–410 MW nameplate but none dispatchable. DOUBT — Armenia_SHC RetrYr=2047: no explicit retirement date found; estimated from post-ADB rehabilitation life extension (loan matures 2029). Commissioned 1960–1962. NUCLEAR POST-2036 — Armenia_Nuclear_Cand: Metsamor/ANPP (407.5 MW VVER-440) is life- extended to 2036 (Rosatom $65M contract Dec-2024, plant shut Apr-2026 for upgrades) and retires 2036 in the model. Added a 300 MW Nuclear candidate (Status 3, COD 2036, Life 50) to replace it. Sized as one Western SMR (BWRX-300/AP300 class): in 2026 Armenia decided the successor will be a SMR (US/RU/CN/KR/FR bids, final choice by 2027), dropping the earlier 1000–1200 MW large-reactor plan. 300 MW @ CF~0.9 ≈ 2.4 TWh, matching current nuclear output. NB: EPSO 2021-2040 forecast shows ANPP energy jumping to ~7 TWh from 2036 (~1000 MW) — that reflects the now-abandoned large-reactor plan, NOT modelled in base; keep as a high-nuclear NDP variant if needed. Cost/tech params from Generic_Nuclear template (HeatRate 12.5, Capex 8.0, FOM 150000, VOM 3.5). GENERIC RE CANDIDATE DESIGN (applies to Armenia, Georgia, AzerbaijanMain, Nakhchivan; see also each country's pGenDataInput/pStorageDataInput block): named/committed projects stay as fixed candidates; generic solar/wind/BESS expansion candidates are UNBOUNDED by a resource ceiling (Capacity = sourced technical/economic potential, see [re_resource_potential_caucasus]) and constrained only by an annual BuildLimitperYear (see [re_candidate_build_limits]). Hydro & nuclear stay bounded (finite sites / lumpy). NDP target trajectories are imposed via scenarios.csv, NOT as least-cost caps. Adopted ceilings (MW): Armenia PV 8000 / Wind 3000; Georgia PV 4500 / Wind 4000 (GSE conservative); AzerbaijanMain PV 23000 / Wind 3000; Nakhchivan PV 2000 / Wind 1000 (assumption). BESS candidates converted to unbounded (Capacity 2000/5000/500, BuildLimit 100/200/30 for ARM/AZE/Nakh).
 
-*Confidence: [MEDIUM] · Last updated: 2026-05-30*
+*Confidence: [MEDIUM] · Last updated: 2026-07-02*
 
 
 <a id="armenia-pfuelprice"></a>
@@ -225,7 +250,7 @@
 |---|---|---|
 | [`pDemandForecast`](#georgia-pdemandforecast) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
 | [`pDemandProfile`](#georgia-pdemandprofile) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
-| [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
+| [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#georgia-pfuelprice) | Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [LOW] ⚠ |
 | [`pAvailabilityCustom`](#georgia-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | [MEDIUM] ⚠ |
 | [`pVREProfile`](#georgia-pvreprofile) | World Bank EPM Georgia 2022 (i… (2022) | [MEDIUM] ⚠ |
@@ -243,6 +268,10 @@
 **Also uses**: World Bank EPM Georgia v8.5 (2022, internal model) — primary data sources not documented (`wb_epm_georgia_v85`)
 
 **Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
+
+**Also uses**: [Renewable resource potential — South Caucasus (solar & wind)](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment)
+
+**Also uses**: [RE candidate annual build-rate limits — Caucasus (modeller assumption)](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/)
 
 > ⚠ **Needs review**: (1) Committed large hydro (Khudoni 702 MW, Namakhvani 433 MW, Nenskra 280 MW): all politically contested/delayed — StYr estimates uncertain ±3 years. Namakhvani suspended due to protests (2021–2022); may need to downgrade to Status=3. (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm operational status with CESI/GSE. (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW, ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value. (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify. (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine. (6) DomesticCoal for Tkibuli: no entry in pFuelPrice for Georgia yet — needs adding.
 
@@ -389,7 +418,7 @@
 |---|---|---|
 | [`pDemandForecast`](#azerbaijan-pdemandforecast) | Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | [MEDIUM] ⚠ |
 | [`pDemandProfile`](#azerbaijan-pdemandprofile) | proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | [LOW] ⚠ |
-| [`pGenDataInput`](#azerbaijan-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] |
+| [`pGenDataInput`](#azerbaijan-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | [MEDIUM] |
 | [`pFuelPrice`](#azerbaijan-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#azerbaijan-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | [LOW] ⚠ |
 | [`pTransferLimit`](#azerbaijan-ptransferlimit) | Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | [MEDIUM] ⚠ |
@@ -407,6 +436,10 @@
 **Also uses**: [SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)](https://statistika.nmr.az/)
 
 **Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
+
+**Also uses**: [Renewable resource potential — South Caucasus (solar & wind)](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment)
+
+**Also uses**: [RE candidate annual build-rate limits — Caucasus (modeller assumption)](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/)
 
 **Method**: AzerbaijanMain: GEM/GIPT 39 rows (calibrated vs SSC 2024) + Nakhchivan: NSU capacity table 4 rows
 
@@ -550,6 +583,25 @@
 | [`pGenDataInput`](#azerbaijanmain-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
 | [`pFuelPrice`](#azerbaijanmain-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | [LOW] ⚠ |
+| [`pStorageDataInput`](#azerbaijanmain-pstoragedatainput) | EPM Generic Defaults | [LOW] |
+
+<a id="azerbaijanmain-pstoragedatainput"></a>
+
+### `pStorageDataInput`
+
+[&#8593; AzerbaijanMain](#azerbaijanmain)
+
+**Source**: EPM Generic Defaults (`epm_generic_defaults`)
+
+**Method**: GENERIC — candidate storage anchors (no national target yet)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `ASSUMPTION` | BESS 500 MW/4h (Status 3, 2028) — firm the ~1.7 GW AZURE candidate RE buildout. Generic WB cost/efficiency (BESS 4h, eff 0.85, CapexMWh 250; PSH 8h, eff 0.80). Fixed-capacity anchors (Georgia style), to refine with national storage targets. NB: Türkiye uses unbounded generic BESS.
+ |
+
+*Confidence: [LOW]*
+
 
 <a id="azerbaijanmain-pgendatainput"></a>
 
@@ -706,9 +758,28 @@ Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 T
 |---|---|---|
 | [`pDemandForecast`](#nakhchivan-pdemandforecast) | SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [LOW] ⚠ |
 | [`pDemandProfile`](#nakhchivan-pdemandprofile) | run_blacksea_data_proxy | [LOW] |
-| [`pGenDataInput`](#nakhchivan-pgendatainput) | SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
+| [`pGenDataInput`](#nakhchivan-pgendatainput) | SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) | SSC + World Bank EPM Georgia v8.5 (2022, internal model) | [LOW] ⚠ |
+| [`pStorageDataInput`](#nakhchivan-pstoragedatainput) | EPM Generic Defaults | [LOW] |
 | [`pTransferLimit`](#nakhchivan-ptransferlimit) | Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | [MEDIUM] ⚠ |
+
+<a id="nakhchivan-pstoragedatainput"></a>
+
+### `pStorageDataInput`
+
+[&#8593; Nakhchivan](#nakhchivan)
+
+**Source**: EPM Generic Defaults (`epm_generic_defaults`)
+
+**Method**: GENERIC — candidate storage anchors (no national target yet)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024–2053 | `ASSUMPTION` | BESS 50 MW/4h (Status 3, 2028) — small isolated exclave. Generic WB cost/efficiency (BESS 4h, eff 0.85, CapexMWh 250; PSH 8h, eff 0.80). Fixed-capacity anchors (Georgia style), to refine with national storage targets. NB: Türkiye uses unbounded generic BESS.
+ |
+
+*Confidence: [LOW]*
+
 
 <a id="nakhchivan-pgendatainput"></a>
 
@@ -719,6 +790,10 @@ Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 T
 **Source**: SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022) (`ssc_az_nakhchivan_2022`)
 
 **Also uses**: [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
+
+**Also uses**: [Renewable resource potential — South Caucasus (solar & wind)](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment)
+
+**Also uses**: [RE candidate annual build-rate limits — Caucasus (modeller assumption)](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/)
 
 > ⚠ **Needs review**: Capacity snapshot is ~2022. No updates to 2024 available. Nakhchivan_CCGT retirement year (2037) may be extended — modular plant could be refurbished. Confirm with NAR energy authority. Nakhchivan_GasTurbine_OCGT retirement 2030 is uncertain (age ~20 yr by then). No CAPEX/FOM/VOM specific to Nakhchivan — generic defaults used.
 

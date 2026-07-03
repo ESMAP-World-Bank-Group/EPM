@@ -147,3 +147,7 @@ CenterAna_BESS_Cand2027-8h,CenterAna,STORAGE,Battery,,3,2027,2060,20,100000,,100
 CenterBlack_BESS_Cand2027-8h,CenterBlack,STORAGE,Battery,,3,2027,2060,20,100000,,10000,800000,0.85,2.1,50000,,2,250,,1,1,1
 Trakia_BESS_Cand2027-8h,Trakia,STORAGE,Battery,,3,2027,2060,20,100000,,10000,800000,0.85,2.1,50000,,2,250,,1,1,1
 Georgia_BESS_Cand,Georgia,Storage,Battery,,3,2028,2043,15,200,,50,800,0.85,0.5,10000,,2,250,,1,1,1
+AzerbaijanMain_BESS_Cand,AzerbaijanMain,Storage,Battery,,3,2028,2043,15,5000,,200,20000,0.85,0.5,10000,,2,250,,1,1,1.0
+Armenia_BESS_Cand,Armenia,Storage,Battery,,3,2028,2043,15,2000,,100,8000,0.85,0.5,10000,,2,250,,1,1,1.0
+Armenia_PSH_Cand,Armenia,STORAGE,Hydro,,3,2032,2082,50,250,,250,2000,0.8,2.125,10000,0.5,4,,,1,1,0.8
+Nakhchivan_BESS_Cand,Nakhchivan,Storage,Battery,,3,2028,2043,15,500,,30,2000,0.85,0.5,10000,,2,250,,1,1,1.0
