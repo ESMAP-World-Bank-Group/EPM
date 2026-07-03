@@ -35,6 +35,7 @@ $eolcom //
 option LP = Cplex;
 $onecho > cplex.opt
 iis 1
+writelp test.lp
 $offecho
 
 
@@ -959,6 +960,7 @@ PA.optfile = 1;
 
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
+
 
 
 $ifThenI.solvemode %SOLVEMODE% == 2
