@@ -50,17 +50,8 @@ Baneah,0.4,0.6
 BEKONGOR-III_HY,0.06,0.49
 Bel-airTAG4,0.85,0.85
 Beni Naji,0.85,0.85
-BESS AKUO 3h,1,1
-BESS axian de Tankanto 3h,1,1
-BESS DIASS  1h,1,1
-BESS Dioudoubou 3h,1,1
-BESS KIAT 1h,1,1
-BESS nexentury 1h,1,1
-BESS NIAKHAR STORAGE 3h,1,1
 BESS Power Park 1st Phase,1,1
 BESS Power Park 2nd Phase,1,1
-BESS Serengeti 3h,1,1
-BESS TAMBACOUNDA 2h,1,1
 BESS Walo Storage 2h,1,1
 BESS Yekepa / Buchanan 15 /60,1,1
 Beterou,0.348,0.489
@@ -129,8 +120,8 @@ Centrale thermique AKSA Taboth TAG 2,0.85,0.85
 Centrale thermique AKSA Taboth_TAV,0.85,0.85
 Centrale thermique Publique TAG,0.85,0.85
 Centrale thermique Publique TAV,0.85,0.85
-CICAD_Diamiadio,1,1
-CICAD_Diamiadio II,1,1
+Solar_Energy Resource,1,1
+Solar_Innovent,1,1
 CIII_Vapeur,0.85,0.85
 Ciprel1_IPP,0.85,0.85
 Ciprel2_IPP,0.85,0.85
@@ -152,7 +143,7 @@ DEDOUGOU,0.85,0.85
 DELTA,0.85,0.85
 Diallol,0.32,0.446
 Diareguela,0.248,0.216
-Diass,1,1
+Solar_Solarie Diass,1,1
 DIESEL_HFO,0.85,0.85
 DIFFA,0.85,0.85
 Digan,0.2,0.201
@@ -404,10 +395,10 @@ Singrobo,0.239,0.623
 SNIM Zouerate,0.85,0.85
 Sokode,0.85,0.85
 Sokode PV,1,1
-Solaire IPP 1,1,1
-Solaire IPP 2,1,1
-Solaire IPP 3,1,1
-Solaire IPP 4,1,1
+Solar_Kima Solaria,1,1
+Solar_Minersol,1,1
+Solar_Scaling Kahone,1,1
+Solar_Scaling Touba,1,1
 Solaire SNIM (15 MWc),1,1
 Solaire_Pobe,1,1
 Solaire_Pobe_ext,1,1
@@ -428,7 +419,7 @@ Souapiti,0.484,0.54
 Soubre,0.405,0.565
 SP2_150,0.42,0.79
 SP2_161,0.42,0.83
-Storage_CAND_2026_Senegal,1,1
+Storage_CAND_2030_Senegal,1,1
 Storage_CAND_2027_Benin,1,1
 Storage_CAND_2027_Burkina,1,1
 Storage_CAND_2027_Gambia,1,1
@@ -520,3 +511,40 @@ Biomasse déchets solides Nouakchott  15 MW,0.85,0.85
 Biomasse typha  15 MW,0.85,0.85
 Thermal Nema,0.85,0.85
 Projet BESS 2027 - 15,1,1
+WIND_CAND_SEN,1,1
+PV_CAND_SEN,1,1
+Solar_Senergy,1,1
+Solar_Senergy 2,1,1
+Solar_Tenergy,1,1
+Solar_WALO PV,1,1
+Solar_NEA_Kolda 1,1,1
+Solar_NEA_Kolda 2,1,1
+Solar_NEXENTURY-PV,1,1
+Solar_SENSOLAR_SAS,1,1
+Solar_SENSOLAR_TAMBA,1,1
+Solar_SERENGETI_TAMBA_SOLAR,1,1
+Solar_Solniakhar PV,1,1
+Solar_TAMBA_SOLAR,1,1
+Projet EPC Senelec F 1 PV,1,1
+Projet EPC Senelec F 2 PV,1,1
+Projet EPC JETP PV 1,1,1
+Projet EPC JETP PV 2,1,1
+Projet EPCF Linguère ,1,1
+Projet EPCF Kolda,1,1
+Projet BESS KIAT,1,1
+Projet BESS Kfw - AFD,1,1
+Projet NIAKHAR BESS,1,1
+Projet NEA BESS KOLDA 1,1,1
+Projet NEA BESS KOLDA 2,1,1
+Projet NEXENTURY BESS,1,1
+Projet LEKELA BESS,1,1
+Projet SENSOLAR TAMBA BESS,1,1
+Projet SERENGETI TAMBA BESS,1,1
+Projet SENSOLAR SAS BESS,1,1
+Projet SOLAR TAMBA BESS,1,1
+Projet EPC Senelec F 1 BESS,1,1
+Projet EPC Senelec F 2 BESS,1,1
+Projet EPC JETP 1 BESS,1,1
+Projet EPC JETP 2 BESS,1,1
+Projet EPC Kolda BESS,1,1
+Projet EPCF Linguere BESS,1,1
