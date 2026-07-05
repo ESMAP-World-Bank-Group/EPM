@@ -237,8 +237,9 @@ Georgia:
       ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value.
       (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify.
       (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine.
-      (6) DomesticCoal for Tkibuli: no entry in pFuelPrice for Georgia yet — needs adding.
-    last_updated: 2026-06-04
+      (6) RESOLVED — DomesticCoal for Tkibuli now priced in pFuelPrice (Georgia/DomesticCoal
+      = 3.82 USD/MMBtu, DIRECT from georgia_fuel_subsidies_2022, power-sector coal price 2021).
+    last_updated: 2026-07-02
 
   pDemandForecast:
     source_id: georgia_demand_load_2022

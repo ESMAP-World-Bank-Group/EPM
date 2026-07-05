@@ -275,7 +275,7 @@
 
 **Also uses**: [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033) — generation pipeline](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma)
 
-> ⚠ **Needs review**: (1) RESOLVED 2026-07-02 — Large hydro reclassified using gse_tyndp_georgia + 2025-26 news: Khudoni (702, absent from TYNDP, zombie since 1989) and Namakhvani (433, ENKA contract terminated + arbitration, TYNDP COD 2035) DOWNGRADED to candidates (COD 2035). Nenskra (280, only project with real sponsor K-water + IFI finance) kept committed, COD 2029->2032. (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm operational status with CESI/GSE. (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW, ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value. (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify. (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine. (6) DomesticCoal for Tkibuli: no entry in pFuelPrice for Georgia yet — needs adding.
+> ⚠ **Needs review**: (1) RESOLVED 2026-07-02 — Large hydro reclassified using gse_tyndp_georgia + 2025-26 news: Khudoni (702, absent from TYNDP, zombie since 1989) and Namakhvani (433, ENKA contract terminated + arbitration, TYNDP COD 2035) DOWNGRADED to candidates (COD 2035). Nenskra (280, only project with real sponsor K-water + IFI finance) kept committed, COD 2029->2032. (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm operational status with CESI/GSE. (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW, ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value. (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify. (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine. (6) RESOLVED — DomesticCoal for Tkibuli now priced in pFuelPrice (Georgia/DomesticCoal = 3.82 USD/MMBtu, DIRECT from georgia_fuel_subsidies_2022, power-sector coal price 2021).
 
 
 **Method**: DIRECT (capacity, dates, tech) — old EPM for HeatRate thermal — generic for all other params
@@ -289,7 +289,7 @@
 | candidates | `DIRECT` | RE candidates now debridaged (see re_resource_potential_caucasus / re_candidate_build_limits): generic Wind (cap 4000, build 150/yr) & PV (cap 4500, build 400/yr); BESS 200 MW. HYDRO candidates rebuilt from gse_tyndp_georgia (TYNDP 2023-2033, revised CODs): the old generic SmallHydro_Cand (300 MW) was REPLACED by 31 named RoR/Seasonal projects >=10 MW (COD 2028-2033) + one <10 MW aggregate (Georgia_AGG_SmallHydro_Cand) = ~1025 MW, Capex 3.3, tech RoR->ROR / Seasonal->ReservoirHydro. Plus the two downgraded large reservoirs available as candidates: Khudoni 702 (COD 2035), Namakhvani 433 (COD 2035). Wind pipeline NOT imported (TYNDP wind = identical template placeholders) -> generic kept.
  |
 
-*Confidence: [MEDIUM] · Last updated: 2026-06-04*
+*Confidence: [MEDIUM] · Last updated: 2026-07-02*
 
 
 <a id="georgia-pdemandforecast"></a>
