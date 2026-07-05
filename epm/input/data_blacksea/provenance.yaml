@@ -190,7 +190,7 @@ Georgia:
 
   pGenDataInput:
     source_id: sesa_georgia_2022
-    secondary_source_ids: [ge_power_sector_data_repository, wb_epm_georgia_v85, epm_generic_defaults, re_resource_potential_caucasus, re_candidate_build_limits]
+    secondary_source_ids: [ge_power_sector_data_repository, wb_epm_georgia_v85, epm_generic_defaults, re_resource_potential_caucasus, re_candidate_build_limits, gse_tyndp_georgia]
     method: "DIRECT (capacity, dates, tech) — old EPM for HeatRate thermal — generic for all other params"
     method_table:
       - period: "2024–2053"
@@ -207,21 +207,30 @@ Georgia:
       - period: "committed"
         method: DIRECT
         notes: >
-          4 committed rows (Status=2): Khudoni 702 MW (StYr=2032), Namakhvani 433 MW
-          (StYr=2030), Nenskra 280 MW (StYr=2029) from List_of_PPAs_May2022 'Construction'
-          stage; Georgia_HydroSHP_Com 549 MW aggregate from PPA construction pipeline.
+          Committed rows (Status=2): Nenskra 280 MW (StYr=2032) and Georgia_HydroSHP_Com
+          549 MW aggregate (near-term hydro in construction, confirmed by gse_tyndp_georgia
+          hydro-<=2027 = 552 MW). UPDATED 2026-07-02: Khudoni (702) and Namakhvani (433) were
+          DOWNGRADED from committed to candidates (see candidates period + review_note);
+          Nenskra COD moved 2029->2032.
       - period: "candidates"
         method: DIRECT
         notes: >
-          4 candidate rows (Status=3): Wind (300 MW, Capex=1.3 $M/MW),
-          PV (200 MW, Capex=0.8 $M/MW) from RE Pipeline; SmallHydro (300 MW),
-          BESS (200 MW) — engineering estimates.
+          RE candidates now debridaged (see re_resource_potential_caucasus /
+          re_candidate_build_limits): generic Wind (cap 4000, build 150/yr) & PV (cap 4500,
+          build 400/yr); BESS 200 MW. HYDRO candidates rebuilt from gse_tyndp_georgia
+          (TYNDP 2023-2033, revised CODs): the old generic SmallHydro_Cand (300 MW) was
+          REPLACED by 31 named RoR/Seasonal projects >=10 MW (COD 2028-2033) + one <10 MW
+          aggregate (Georgia_AGG_SmallHydro_Cand) = ~1025 MW, Capex 3.3, tech RoR->ROR /
+          Seasonal->ReservoirHydro. Plus the two downgraded large reservoirs available as
+          candidates: Khudoni 702 (COD 2035), Namakhvani 433 (COD 2035). Wind pipeline NOT
+          imported (TYNDP wind = identical template placeholders) -> generic kept.
     confidence: medium
     needs_review: true
     review_note: >
-      (1) Committed large hydro (Khudoni 702 MW, Namakhvani 433 MW, Nenskra 280 MW):
-      all politically contested/delayed — StYr estimates uncertain ±3 years.
-      Namakhvani suspended due to protests (2021–2022); may need to downgrade to Status=3.
+      (1) RESOLVED 2026-07-02 — Large hydro reclassified using gse_tyndp_georgia + 2025-26 news:
+      Khudoni (702, absent from TYNDP, zombie since 1989) and Namakhvani (433, ENKA contract
+      terminated + arbitration, TYNDP COD 2035) DOWNGRADED to candidates (COD 2035). Nenskra
+      (280, only project with real sponsor K-water + IFI finance) kept committed, COD 2029->2032.
       (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm
       operational status with CESI/GSE.
       (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW,

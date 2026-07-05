@@ -1,0 +1,50 @@
+id: gse_tyndp_georgia
+name: "GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033) — generation pipeline"
+type: open_source
+date: "2023"
+file: "GenerationPipeline_GSE_TYNDP.xlsx"
+url: "https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma"
+access_note: >
+  National Ten-Year Network Development Plan published by GSE (Georgian State
+  Electrosystem), Georgia's transmission system operator — the national grid+generation
+  integration plan (DISTINCT from the pan-European ENTSO-E TYNDP; Georgia is not an
+  ENTSO-E member). NB: the GSE website was restructured and both the English and Georgian
+  URLs currently 404 — use the Wayback Machine (https://web.archive.org) on the GSE
+  publications URL, or the IEA mirror
+  (https://www.iea.org/policies/13024-ten-year-network-development-plan-of-georgia-2021-2031).
+  Local extract available at:
+  Data/Georgia/Team/Transmission & Generation Project Timelines/GenerationPipeline_GSE_TYNDP.xlsx
+  (sheet 'generation pipeline from TYNDP' — 201 prospective hydro/wind/solar projects with
+  installed power MW, annual energy GWh, and commissioning year both as-in-TYNDP and revised).
+
+coverage:
+  countries: [Georgia]
+  years: "2023-2033 (rolling); commissioning dates to 2035"
+
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "Sheet 'generation pipeline from TYNDP' — hydro rows (RoR / Seasonal Reg.)"
+    coverage: >
+      Named hydro expansion pipeline used to replace the previous generic Georgia small-hydro
+      candidate. Rule applied: revised commissioning date is used. Hydro with revised COD <=2027
+      (552 MW, matching the RE-Pipeline 'in construction' aggregate ~569 MW) stays represented by
+      the committed aggregate Georgia_HydroSHP_Com. Hydro with COD >=2028 becomes named candidates
+      (Status 3): 31 projects >=10 MW individual + one <10 MW aggregate row
+      (Georgia_AGG_SmallHydro_Cand), ~1025 MW total, tech RoR->ROR and Seasonal->ReservoirHydro.
+      Wind pipeline NOT imported (TYNDP wind values are identical template placeholders, ~206 MW
+      each at 2029 — kept as generic candidates instead). Solar barely present in TYNDP (161 MW)
+      -> kept generic.
+
+quality:
+  confidence: medium
+  notes: >
+    Official GSE national planning document; hydro pipeline is well-identified (named projects +
+    energy yields + revised CODs). Caveats: (1) large contested reservoirs Khudoni (702 MW) and
+    Nenskra (280 MW) are ABSENT from this TYNDP generation pipeline; Namakhvani Cascade (433 MW)
+    appears only at COD 2035. Combined with 2025-2026 news (ENKA contract terminated + arbitration
+    for Namakhvani; Khudoni a 'zombie' project stalled since 1989; Nenskra the only one with a real
+    sponsor K-water + IFI finance), the model was updated: Nenskra kept committed (COD 2029->2032),
+    Khudoni & Namakhvani downgraded to candidates (COD 2035). (2) Wind entries are template values,
+    not real distinct projects. (3) Extract is the generation pipeline only; the network/line part
+    of the TYNDP is handled via the transmission pipeline.
+  used_in_studies: [data_blacksea]
