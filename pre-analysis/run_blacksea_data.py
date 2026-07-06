@@ -48,7 +48,8 @@ NINJA_START     = 2018
 NINJA_END       = 2024   # exclusive -> 2018–2023
 
 ARM_ANNUAL_MWH  = 7_000_000    # ~7 TWh
-AZE_ANNUAL_MWH  = 29_300_000   # ~29.3 TWh
+AZE_ANNUAL_MWH  = 29_300_000   # ~29.3 TWh (AzerbaijanMain)
+NAKH_ANNUAL_MWH = 500_000      # ~0.5 TWh (Nakhchivan)
 TUR_ANNUAL_MWH  = 290_000_000  # ~290 TWh (proxy — ENTSO-E does not cover Turkey)
 
 # ENTSO-E countries — Turkey excluded (not an ENTSO-E member)
@@ -60,7 +61,8 @@ NEW_ZONE_CENTROIDS = {
     "Bulgaria":   (25.5,  42.7),
     "Georgia":    (43.4,  42.3),
     "Armenia":    (44.5,  40.2),
-    "Azerbaijan": (47.4,  40.7),
+    "AzerbaijanMain": (47.4,  40.7),
+    "Nakhchivan":     (45.4,  39.2),
 }
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -167,6 +169,7 @@ def to_reprdays_format(zone_loads: dict[str, pd.DataFrame], output_path: Path) -
             s = s / peak
         tmp = pd.DataFrame({
             "zone":  zone,
+            "year":  df.index.year,
             "month": df.index.month,
             "day":   df.index.day,
             "hour":  df.index.hour,
@@ -213,10 +216,15 @@ def step_load():
 
     zone_loads: dict[str, pd.DataFrame] = {}
 
-    # Turkey 9 zones — proxy from Romania shape (ENTSO-E does not cover Turkey)
-    print("[load] Building Turkey proxy (Romania shape × 290 TWh)")
-    rou_load = load_entsoe_load("Romania")
-    tur_national = build_proxy_load(rou_load, TUR_ANNUAL_MWH)
+    # Turkey 9 zones — REAL hourly load from EPIAS (national), disaggregated by zone weights
+    print("[load] Building Turkey from EPIAS real hourly load")
+    from epias_pipeline import download_turkey_load
+    tur_national = download_turkey_load(
+        2018, 2024,
+        output_path=ENTSOE_DIR / "load" / "turkey_epias_load.csv",
+    )
+    # EPIAS is UTC; ENTSO-E is also converted to UTC in load_entsoe_load, and Ninja VRE is UTC
+    # -> everything stays in UTC (common reference for hourly cross-zone trade)
     zone_loads.update(disaggregate_turkey_load(tur_national))
 
     # Romania, Bulgaria, Georgia — 1 zone each
@@ -229,9 +237,10 @@ def step_load():
     geo_load = load_entsoe_load("Georgia")
     zone_loads["Armenia"] = build_proxy_load(geo_load, ARM_ANNUAL_MWH)
 
-    # Azerbaijan proxy — Turkey shape × 29.3 TWh
-    print("[load] Building Azerbaijan proxy (Turkey shape × 29.3 TWh)")
-    zone_loads["Azerbaijan"] = build_proxy_load(tur_national, AZE_ANNUAL_MWH)
+    # AzerbaijanMain + Nakhchivan — Turkey shape proxy (shared shape; own absolute from pDemandForecast)
+    print("[load] Building AzerbaijanMain + Nakhchivan proxies (Turkey shape)")
+    zone_loads["AzerbaijanMain"] = build_proxy_load(tur_national, AZE_ANNUAL_MWH)
+    zone_loads["Nakhchivan"] = build_proxy_load(tur_national, NAKH_ANNUAL_MWH)
 
     to_reprdays_format(zone_loads, REPRDAYS_DIR / "Load.csv")
     print(f"[load] All zone profiles written to {REPRDAYS_DIR / 'Load.csv'}")

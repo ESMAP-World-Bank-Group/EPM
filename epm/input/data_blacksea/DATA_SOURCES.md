@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-07-05*
+*Generated 2026-07-06*
 
 ---
 
@@ -13,12 +13,12 @@
 | Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | AzerbaijanMain | Nakhchivan | Romania | Bulgaria |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ⚠ run_blacksea_data_proxy | run_blacksea_data_proxy | ENTSO-E Transparency Platform (2025) | ⚠ ENTSO-E Transparency Platform (2025) |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | ⚠ World Bank (internal) (2022) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | ⚠ run_blacksea_data_proxy + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | run_blacksea_data_proxy + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | ⚠ ENTSO-E Transparency Platform (2025) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | — | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | — | TYNDP / IEA World Energy Outlo… (2022) | ⚠ Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | ⚠ IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | ⚠ World Bank EPM Romania v8.5 (2… (2024) | World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR |
 | Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | — | EPM Generic Defaults | — | — | EPM Generic Defaults | EPM Generic Defaults | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ | ⚠ World Bank EPM Georgia 2022 (i… (2022) | — | — | — | Global Energy Monitor (GEM) (2025-09) | ⚠ Renewables Ninja (2018–2023) |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | ⚠ World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | — | — | — | Global Energy Monitor (GEM) (2025-09) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | ⚠ Renewables Ninja (2018–2023) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — |
 | Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | — | — | — | — | — | — | — | — |
 | Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — | ⚠ Black Sea Cross-Border Lines D… (2026) + epm_expert_judgment | — | — |
@@ -71,7 +71,7 @@
 | [`pFuelPrice`](#armenia-pfuelprice) | TYNDP / IEA World Energy Outlo… (2022) | [MEDIUM] |
 | [`pAvailabilityCustom`](#armenia-pavailabilitycustom) | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | [MEDIUM] |
 | [`pStorageDataInput`](#armenia-pstoragedatainput) | EPM Generic Defaults | [LOW] |
-| [`pVREProfile`](#armenia-pvreprofile) | Renewables Ninja (2018–2023) + TEİAŞ | [LOW] ⚠ |
+| [`pVREProfile`](#armenia-pvreprofile) | Renewables Ninja (2018–2023) + TEİAŞ + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [LOW] ⚠ |
 
 <a id="armenia-pstoragedatainput"></a>
 
@@ -145,6 +145,8 @@
 **Source**: Renewables Ninja — PV and Wind capacity factors (`renewables_ninja`)
 
 **Also uses**: TEİAŞ — Turkiye hourly load data (likely) (`teias_hourly_load`)
+
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
 
 > ⚠ **Needs review**: Rerun representative days pipeline with all Black Sea countries — d1–d6 currently share same seasonal mean (within-season variability lost). ROR proxied from EastAna.
 
@@ -249,11 +251,11 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#georgia-pdemandforecast) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
-| [`pDemandProfile`](#georgia-pdemandprofile) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
+| [`pDemandProfile`](#georgia-pdemandprofile) | World Bank (internal) (2022) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [MEDIUM] ⚠ |
 | [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#georgia-pfuelprice) | Georgia Fuel Subsidies Databas… (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [LOW] ⚠ |
 | [`pAvailabilityCustom`](#georgia-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | [MEDIUM] ⚠ |
-| [`pVREProfile`](#georgia-pvreprofile) | World Bank EPM Georgia 2022 (i… (2022) | [MEDIUM] ⚠ |
+| [`pVREProfile`](#georgia-pvreprofile) | World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [MEDIUM] ⚠ |
 
 <a id="georgia-pgendatainput"></a>
 
@@ -322,6 +324,8 @@
 
 **Source**: World Bank (internal) — Georgia Hourly Load Profile, 3% Annual Growth (2021–2040); original source undocumented (`georgia_demand_load_2022`)
 
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
+
 > ⚠ **Needs review**: Within-season variability (d1–d6 differentiation) is lost — all daytypes in a season share the same seasonal mean profile. Same limitation as Armenia pDemandProfile. To fix: obtain GSE SCADA hourly load data and rerun the representative days pipeline including Georgia.
 
 
@@ -342,6 +346,8 @@
 [&#8593; Georgia](#georgia)
 
 **Source**: World Bank EPM Georgia 2022 (internal) — VRE Timeseries; PV/Wind original source undocumented (`wb_epm_georgia_timeseries`)
+
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
 
 > ⚠ **Needs review**: (1) Single typical year — no multi-year average. (2) Wind profile: Timeseries mean CF ~0.27 vs actual Qartli 2021 CF ~0.46 — Timeseries likely represents a generic Georgian wind site, not Qartli's specific high-wind location. Existing Georgia_Qartli_Wind may be under-dispatched in the model; consider a separate pVREProfile entry or pAvailabilityCustom override for Qartli. (3) PV data origin undocumented — replace with Renewables Ninja multi-year average when running representative days pipeline for Georgia. (4) d1–d6 all share same seasonal mean (within-season variability lost).
 
@@ -581,7 +587,7 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#azerbaijanmain-pdemandforecast) | Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | [MEDIUM] ⚠ |
-| [`pDemandProfile`](#azerbaijanmain-pdemandprofile) | run_blacksea_data_proxy | [LOW] ⚠ |
+| [`pDemandProfile`](#azerbaijanmain-pdemandprofile) | run_blacksea_data_proxy + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [LOW] ⚠ |
 | [`pGenDataInput`](#azerbaijanmain-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
 | [`pFuelPrice`](#azerbaijanmain-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | [LOW] ⚠ |
@@ -683,6 +689,8 @@ Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 T
 
 **Source**: run_blacksea_data_proxy (`run_blacksea_data_proxy`)
 
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
+
 > ⚠ **Needs review**: PROXY — no Azerbaijan-specific hourly load data. Turkey shape used as proxy (similar climate: continental, hot summers, cold winters). TO RECOMPUTE: run full representative-days pipeline for all Black Sea countries (including AZ) with VRE profiles when all country data is available. Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
 
 
@@ -759,7 +767,7 @@ Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 T
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#nakhchivan-pdemandforecast) | SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [LOW] ⚠ |
-| [`pDemandProfile`](#nakhchivan-pdemandprofile) | run_blacksea_data_proxy | [LOW] |
+| [`pDemandProfile`](#nakhchivan-pdemandprofile) | run_blacksea_data_proxy + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [LOW] |
 | [`pGenDataInput`](#nakhchivan-pgendatainput) | SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) | SSC + World Bank EPM Georgia v8.5 (2022, internal model) | [LOW] ⚠ |
 | [`pStorageDataInput`](#nakhchivan-pstoragedatainput) | EPM Generic Defaults | [LOW] |
@@ -850,6 +858,8 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 
 **Source**: run_blacksea_data_proxy (`run_blacksea_data_proxy`)
 
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
+
 **Method**: PROXY from AzerbaijanMain load shape (same Turkey ENTSO-E origin)
 
 | Period | Method | Notes |
@@ -932,11 +942,11 @@ Wind (0.3 MW + 1.1 MW hybrid) not modeled (negligible capacity). Tech params fro
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#romania-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
-| [`pDemandProfile`](#romania-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] |
+| [`pDemandProfile`](#romania-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [HIGH] |
 | [`pGenDataInput`](#romania-pgendatainput) | World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#romania-pfuelprice) | World Bank EPM Romania v8.5 (2… (2024) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#romania-pavailabilitycustom) | World Bank EPM Romania v8.5 (2… (2024) | [HIGH] |
-| [`pVREProfile`](#romania-pvreprofile) | Global Energy Monitor (GEM) (2025-09) | [HIGH] |
+| [`pVREProfile`](#romania-pvreprofile) | Global Energy Monitor (GEM) (2025-09) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [HIGH] |
 
 <a id="romania-pgendatainput"></a>
 
@@ -993,6 +1003,8 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 
 **Source**: ENTSO-E Transparency Platform — Actual Total Load (hourly) (`entsoe_hourly_load`)
 
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
+
 **Method**: DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes
 
 | Period | Method | Notes |
@@ -1010,6 +1022,8 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 [&#8593; Romania](#romania)
 
 **Source**: Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT) (`gem_gipt`)
+
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
 
 **Method**: Renewables Ninja multi-year seasonal mean CF (2010-2019), Romania centroid
 
@@ -1075,11 +1089,11 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#bulgaria-pdemandforecast) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [MEDIUM] |
-| [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) | [HIGH] ⚠ |
+| [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [HIGH] ⚠ |
 | [`pGenDataInput`](#bulgaria-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#bulgaria-pfuelprice) | World Bank Bulgaria CCDR (2026) + epm_blacksea_provenance | [MEDIUM] |
 | [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom) | pAvailabilityCustom_existing + wna_pris_kozloduy + entsoe_gen_bg_2019_2023 + World Bank Bulgaria CCDR | [MEDIUM] ⚠ |
-| [`pVREProfile`](#bulgaria-pvreprofile) | Renewables Ninja (2018–2023) | [HIGH] ⚠ |
+| [`pVREProfile`](#bulgaria-pvreprofile) | Renewables Ninja (2018–2023) + [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/) | [HIGH] ⚠ |
 
 <a id="bulgaria-pdemandforecast"></a>
 
@@ -1112,6 +1126,8 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 
 **Source**: ENTSO-E Transparency Platform — Actual Total Load (hourly) (`entsoe_hourly_load`)
 
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
+
 > ⚠ **Needs review**: Profile to be recalculated once Bulgaria is fully integrated in the representative days pipeline (run_blacksea_data.py). Current profiles are valid ENTSO-E data but within-season variability (d1–d6 differentiation) is lost — all daytypes share the same seasonal mean. Rerun when all Black Sea countries are integrated.
 
 
@@ -1132,6 +1148,8 @@ TPP Mintia capacity set to 495 MW (2 remaining units as of 2024). R-Coal aggrega
 [&#8593; Bulgaria](#bulgaria)
 
 **Source**: Renewables Ninja — PV and Wind capacity factors (`renewables_ninja`)
+
+**Also uses**: [Black Sea hourly load & VRE + representative days (2023)](https://seffaflik.epias.com.tr/)
 
 > ⚠ **Needs review**: Single centroid point for entire Bulgaria — does not capture regional variation (Black Sea coast wind is stronger than interior; Rhodope/Rila have different solar). Within-season variability (d1–d6) lost — all daytypes share seasonal mean. Offshore wind not included (Bulgaria has Black Sea offshore potential, not yet modeled). Rerun with per-daytype segmentation once full representative days pipeline is updated for all Black Sea countries.
 

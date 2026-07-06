@@ -98,7 +98,7 @@ def download_turkey_load(
     if output_path:
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         combined.to_csv(output_path)
-        print(f"[epias] Saved {len(combined)} rows → {output_path}")
+        print(f"[epias] Saved {len(combined)} rows -> {output_path}")
 
     return combined
 

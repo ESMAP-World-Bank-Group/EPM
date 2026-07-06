@@ -49,6 +49,7 @@ Armenia:
 
   pDemandProfile:
     source_id: teias_hourly_load
+    secondary_source_ids: [blacksea_load_vre_2023]
     proxy_of: "Turkiye/EastAna"
     needs_review: true
     review_note: "Obtain GSE/ANRE SCADA hourly load data for Armenia to replace Turkiye/EastAna proxy"
@@ -68,7 +69,7 @@ Armenia:
 
   pVREProfile:
     source_id: renewables_ninja
-    secondary_source_ids: [teias_hourly_load]
+    secondary_source_ids: [teias_hourly_load, blacksea_load_vre_2023]
     needs_review: true
     review_note: "Rerun representative days pipeline with all Black Sea countries — d1–d6 currently share same seasonal mean (within-season variability lost). ROR proxied from EastAna."
     method: "DIRECT seasonal mean (PV, Wind) — PROXY_EastAna (ROR)"
@@ -266,6 +267,7 @@ Georgia:
 
   pDemandProfile:
     source_id: georgia_demand_load_2022
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "DIRECT seasonal mean from 2025 hourly data, normalized by peak"
     method_table:
       - period: "2024–2053"
@@ -286,6 +288,7 @@ Georgia:
 
   pVREProfile:
     source_id: wb_epm_georgia_timeseries
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "DIRECT seasonal mean from typical-year hourly CFs, normalized by tech peak"
     method_table:
       - period: "2024–2053"
@@ -426,6 +429,7 @@ Azerbaijan:
 
   pDemandProfile:
     source_id: teias_hourly_load
+    secondary_source_ids: [blacksea_load_vre_2023]
     proxy_of: "Turkiye (ENTSO-E hourly shape, scaled to AZ energy)"
     method: "PROXY Turkey ENTSO-E hourly shape, seasonal mean per quarter"
     method_table:
@@ -602,6 +606,7 @@ AzerbaijanMain:
 
   pDemandProfile:
     source_id: run_blacksea_data_proxy
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "PROXY Turkey shape from ENTSO-E, scaled to AZ demand, seasonal mean"
     method_table:
       - period: "2024–2053"
@@ -759,6 +764,7 @@ Nakhchivan:
 
   pDemandProfile:
     source_id: run_blacksea_data_proxy
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "PROXY from AzerbaijanMain load shape (same Turkey ENTSO-E origin)"
     method_table:
       - period: "2024–2053"
@@ -904,6 +910,7 @@ Romania:
 
   pDemandProfile:
     source_id: entsoe_hourly_load
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes"
     method_table:
       - period: "2024–2053"
@@ -921,6 +928,7 @@ Romania:
 
   pVREProfile:
     source_id: gem_gipt
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "Renewables Ninja multi-year seasonal mean CF (2010-2019), Romania centroid"
     method_table:
       - period: "2024–2053"
@@ -1019,6 +1027,7 @@ Bulgaria:
 
   pDemandProfile:
     source_id: entsoe_hourly_load
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "DIRECT seasonal mean from ENTSO-E Bulgaria hourly load, all d1-d6 daytypes"
     method_table:
       - period: "2024–2053"
@@ -1040,6 +1049,7 @@ Bulgaria:
 
   pVREProfile:
     source_id: renewables_ninja
+    secondary_source_ids: [blacksea_load_vre_2023]
     method: "Renewables Ninja multi-year seasonal mean CF (2018–2023), Bulgaria centroid"
     method_table:
       - period: "2024–2053"

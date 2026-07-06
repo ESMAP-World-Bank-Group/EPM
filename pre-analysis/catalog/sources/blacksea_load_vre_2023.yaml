@@ -1,0 +1,53 @@
+id: blacksea_load_vre_2023
+name: "Black Sea hourly load & VRE + representative days (2023)"
+type: open_source
+date: "2026"
+url: "https://seffaflik.epias.com.tr/"
+access_note: >
+  End-to-end temporal inputs for the Black Sea model, assembled by
+  pre-analysis/run_blacksea_data.py (Load + VRE) and reduced by
+  pre-analysis/representative_days/run_blacksea_repdays.py.
+  All series in UTC (common reference for hourly cross-zone trade), representative
+  YEAR = 2023 (only year with complete Load for all zones AND Ninja VRE).
+
+  HOURLY LOAD (per zone):
+   - Turkiye 9 zones : REAL EPIAS national hourly (seffaflik.epias.com.tr, via eptr2),
+     disaggregated by pDemandForecast zone energy weights (one national shape per zone).
+   - Georgia, Romania, Bulgaria : ENTSO-E Transparency actual load (Georgia complete only
+     from 2022; hence 2023 chosen). https://transparency.entsoe.eu/
+   - Armenia : proxy = Georgia (ENTSO-E) shape scaled to ~7 TWh (no Armenia hourly exists).
+   - AzerbaijanMain : proxy = Turkey (EPIAS) shape scaled to ~29.3 TWh (no Azerbaijan hourly).
+   - Nakhchivan : shares AzerbaijanMain shape; own absolute from pDemandForecast/pGenDataInput.
+   - 397 NaN hours (ENTSO-E gaps) interpolated per zone.
+
+  VRE (solar & wind, per zone): Renewables Ninja for each zone centroid (2018-2023, UTC).
+  ROR NOT clustered here -> auto-filled by the model (EPM_FILL_ROR_FROM_AVAILABILITY=1).
+  OffshoreWind profile = OnshoreWind proxy (no offshore Ninja).
+
+  REPRESENTATIVE DAYS (Poncelet et al. 2017): 4 calendar seasons x 7 days = 28 slices.
+  Per season: 4 clustered "representative" days + 3 extreme days (min_PV, min_Wind, max_Load),
+  each weighted; weights sum to 365. feature_selection=20 series to keep the GAMS optim tractable.
+  Validated: load duration curves reproduced (peak error 0-2.4%).
+
+coverage:
+  countries: [Turkiye, Georgia, Armenia, Azerbaijan, Romania, Bulgaria]
+  years: "hourly 2018-2023; representative year 2023"
+
+fills_epm_resources:
+  - resource: pHours
+    coverage: "28 (season, daytype) weights summing to 365 days"
+  - resource: pDemandProfile
+    coverage: "Normalized hourly demand shape per zone x (season, daytype)"
+  - resource: pVREProfile
+    coverage: "Normalized hourly CF per zone x tech (PV, OnshoreWind, OffshoreWind) x (season, daytype)"
+
+quality:
+  confidence: medium
+  notes: >
+    Turkiye load is real (EPIAS); Georgia/RO/BG real (ENTSO-E). Armenia (=Georgia) and
+    Azerbaijan (=Turkiye) loads are proxies -> flag for AzerEnerji/EPSO SCADA. Single year
+    (2023) -> no inter-annual hydro/wind variability; 2023 was a milder peak year for
+    Georgia/Armenia (their 2023 peak ~75% of all-years max). OPEN quality gates: (1) 8760h
+    dispatch-only validation of the rep-days optimisation error; (2) confirm 2023 hydro-year
+    representativeness. OffshoreWind = onshore proxy. ROR auto-filled from availability.
+  used_in_studies: [data_blacksea]
