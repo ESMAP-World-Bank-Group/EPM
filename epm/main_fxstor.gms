@@ -390,6 +390,7 @@ $include %HYDROGEN_FILE%
 *-------------------------------------------------------------------------------------
 * Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
+parameter stostatIndex(stostatus) / Existing 1, Candidate 3, Committed 2 /;
 parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 
 *H2 model parameter
@@ -419,6 +420,8 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatIndex(gstatus));
+stostatusmap(g,stostatus) = sum((z,tech,f),pStorageDataInput(g,z,tech,f,'status')=stostatIndex(stostatus));
+
 
 
 pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataInput(g,z,tech,f,"Heatrate"));
@@ -574,7 +577,7 @@ pStorageData(g,pStorageDataHeader) = sum((z,tech,f), pStorageDataInput(g,z,tech,
 *gsmap(g2,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
-ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
+ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed') or stostatusmap(g,'candidate') or stostatusmap(g,'committed');
 
 * Define existing generators (`eg(g)`) as those that are not candidates, include comitted
 eg(g)  = not ng(g);
@@ -764,8 +767,8 @@ vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) =
 vBuildStor.up(ng,y)$(not gstatusmap(ng, 'committed')) = pStorageData(ng, "BuildLimitperYear")*pWeightYear(y);
 
 *Force the committed storage (status=2) to be build at their start year
-vBuildStor.lo(ng,y)$(gstatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
-vBuildStor.up(ng,y)$(gstatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
+vBuildStor.lo(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
+vBuildStor.up(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
 
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
 vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;

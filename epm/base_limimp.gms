@@ -85,6 +85,7 @@ Sets
 Sets
    gstatus  'Generator status lookup'           / Existing, Candidate, Committed /
    tstatus  'Transmission project status'      / Candidate, Committed /
+   stostatus 'Storage status lookup'        / Existing, Candidate, Committed /
    mipline  'modeltype option line identifiers'
    mipopt(mipline<) 'MIP modeltype option key-value pairs' / system.empty /
 ;
@@ -140,6 +141,7 @@ Set
    gprimf(g,f)            'Primary fuel used by each generator'
    gtechmap(g,tech)       'Generator-to-technology linkage'
    gstatusmap(g,gstatus)  'Generator status lookup (existing/candidate/committed)'
+   stostatusmap(g,stostatus) 'Storage status lookup (existing/candidate/committed)'
    tstatusmap(z,z2,tstatus) 'Transmission status lookup'
    Zd(z)                  'Demand-serving zones'
    Zt(z)                  'Zone type classification (often redundant with Zd)'
