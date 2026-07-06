@@ -1,0 +1,26 @@
+* ------------------------------------------------------------
+* CPLEX RMIP Multithreaded Configuration
+* Purpose: use multi-core servers (barrier, no crossover).
+* Per-solve solver threads = 16. For parallel SCENARIOS use `epm.py --cpu N`,
+* keeping  N x threads <= physical threads  and  N x workmem <= available RAM.
+* Example (24-core / 94 GB, 3 scenarios): --cpu 3  -> 3 x 16 = 48 threads, 3 x 25 GB = 75 GB.
+* ------------------------------------------------------------
+
+* --- Key parameters ---
+lpmethod=4
+threads=16
+baralg=0
+barcrossalg=1
+barcolnz=0
+barepcomp=1e-4
+parallelmode=0
+memoryemphasis=0
+workmem=25000
+predual=-1
+scaind=0
+solutiontype=2
+
+* --- Supporting parameters ---
+names=no
+bardisplay=2
+iis=0
