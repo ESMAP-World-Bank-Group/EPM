@@ -45,12 +45,9 @@
 # output_view tracked in git (published results for EPM View)
 # Cles du data store — NE JAMAIS committer (repo public !)
 tools/.env
-epm/output/tableau/scenarios/*
-!epm/output/tableau/scenarios/.gitkeep
-# Keep heavy/generated files out of output runs; CSVs and geojson are tracked
-epm/output/simulations_run_*/**/img/
-epm/output/simulations_run_*/**/*.pdf
-epm/output/simulations_run_*/*/cplex.opt
+# Ignore ALL simulation outputs (kept locally only, not in git).
+# NB: epm/output_view is a SEPARATE directory and stays tracked (published EPM View results).
+/epm/output/
 epm/postprocessing/*.ipynb
 epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results
@@ -65,11 +62,7 @@ pre-analysis/scratch/
 
 epm/postprocessing/data_inception_report/output
 
-# Tableau retained files
-!epm/output/tableau/*.twb
-!epm/output/tableau/ESMAP_logo.png
-!epm/output/tableau/linestring_countries.geojson
-!epm/output/tableau/geojson_to_epm.csv
+# (Tableau retained files removed: epm/output is now fully ignored; output_view holds published results)
 
 # Training and preprocessing
 /training
