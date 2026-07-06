@@ -42,12 +42,12 @@
 
 # Project-specific outputs
 /epm/cplex.opt
-# output_view tracked in git (published results for EPM View)
 # Cles du data store — NE JAMAIS committer (repo public !)
 tools/.env
-# Ignore ALL simulation outputs (kept locally only, not in git).
-# NB: epm/output_view is a SEPARATE directory and stays tracked (published EPM View results).
+# Outputs & output_view are NOT in git: results live in the R2 store (served to EPM View).
+# epm/output_view is a LOCAL staging zone whose .csv are uploaded to R2 by Publish (tools/publish.ps1).
 /epm/output/
+/epm/output_view/
 epm/postprocessing/*.ipynb
 epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results
@@ -97,9 +97,7 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
-# data_blacksea : re-suivi dans git (re-push temporaire des données)
-!epm/input/data_blacksea/
-!epm/input/data_blacksea/**
+# data_blacksea lives in the R2 store via DVC (not in git); only the .dvc pointer is tracked.
 !epm/input/data_blacksea.dvc
 
 !epm/input/datapackage.json
