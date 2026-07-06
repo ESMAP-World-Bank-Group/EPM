@@ -60,7 +60,9 @@ $if not set MODELTYPE   $set MODELTYPE MIP
 
 * Use the relevant cplex file
 $if not set CPLEXFILE   $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
-$ifi %MODELTYPE% == RMIP $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
+* Disabled: this line unconditionally forced cplex_baseline.opt for RMIP, ignoring the
+* CPLEXFILE passed from config.csv. Line 62 above already provides the default when unset.
+* $ifi %MODELTYPE% == RMIP $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
 
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
