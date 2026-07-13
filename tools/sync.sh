@@ -15,5 +15,5 @@ fi
 echo "[1/2] git pull ..."
 git pull
 echo "[2/2] dvc pull ..."
-python -m dvc pull
+python -m dvc pull -r r2
 echo "OK - code + donnees a jour."

@@ -53,7 +53,7 @@ if ($LASTEXITCODE -ne 0) {
 # --- 5. donnees -> store (DVC, pour le serveur) ---
 Write-Host ""
 Write-Host "[dvc] push des donnees vers le store (pour le serveur) ..." -ForegroundColor Cyan
-dvc push
+dvc push -r r2
 
 # --- 6. resultats lisibles -> store (pour EPM View) ---
 Write-Host ""
