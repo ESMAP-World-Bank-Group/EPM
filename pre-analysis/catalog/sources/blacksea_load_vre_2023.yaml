@@ -1,8 +1,12 @@
 id: blacksea_load_vre_2023
-name: "Black Sea hourly load & VRE + representative days (2023)"
-type: open_source
+name: "Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)"
+type: derived
 date: "2026"
-url: "https://seffaflik.epias.com.tr/"
+# Composite/derived source, NOT a single portal. Underlying hourly LOAD = ENTSO-E for
+# Georgia/Armenia/Romania/Bulgaria, EPİAŞ for Türkiye; VRE = Renewables Ninja; reduced to
+# 28 representative days by the internal pipeline. URL points to ENTSO-E (the real-load
+# portal for the documented Caucasus/EU zones) — do NOT read it as "the data is EPİAŞ".
+url: "https://transparency.entsoe.eu/"
 access_note: >
   End-to-end temporal inputs for the Black Sea model, assembled by
   pre-analysis/run_blacksea_data.py (Load + VRE) and reduced by

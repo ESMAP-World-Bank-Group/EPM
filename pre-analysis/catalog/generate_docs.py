@@ -114,6 +114,20 @@ def source_url(source_id, catalog):
     return url
 
 
+def source_access(source_id, catalog):
+    """Concise 'which file / how accessed' string from a source's access_note."""
+    s = catalog.get(source_id, {})
+    note = (s.get("access_note") or "").strip()
+    if not note:
+        return ""
+    m = re.search(r'Files?:\s*([^\n]+)', note)          # explicit "File: ..." wins
+    if m:
+        val = re.split(r'\s+(?:Sheets?:|—)', m.group(1).strip())[0].strip()
+        return (val[:160].rstrip() + "…") if len(val) > 160 else val.rstrip(".")
+    first = note.split("\n", 1)[0].strip()               # else first line, truncated
+    return (first[:200].rstrip() + "…") if len(first) > 200 else first
+
+
 def sources_display_md(info, catalog):
     """Format primary + secondary sources for MD table cells."""
     proxy_of = info.get("proxy_of", "")
@@ -338,6 +352,9 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
                 if src_id:
                     s = catalog.get(src_id, {})
                     lines.append(f"**Source**: {s.get('name', src_id)} (`{src_id}`)\n")
+                    access = source_access(src_id, catalog)
+                    if access:
+                        lines.append(f"**Data / file**: {access}\n")
                 secondary_note = render_secondary_sources_md(info, catalog)
                 if secondary_note:
                     lines.append(secondary_note)
@@ -572,6 +589,9 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
                         f'<p><strong>Source</strong>: {h(s.get("name", src_id))} '
                         f'<code>({h(src_id)})</code></p>'
                     )
+                    access = source_access(src_id, catalog)
+                    if access:
+                        out.append(f'<p><strong>Data / file</strong>: {h(access)}</p>')
                 secondary_note = render_secondary_sources_html(info, catalog)
                 if secondary_note:
                     out.append(secondary_note)
