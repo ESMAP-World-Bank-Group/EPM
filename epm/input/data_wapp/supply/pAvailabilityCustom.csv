@@ -3,8 +3,8 @@
 23 MWp Solar PV,1,1
 250 MW gas-fired combined-cycle power plant,0.85,0.85
 8MWh_4h_Gambia,1,1
-40 MW Solar Park P1,1,1
-80 MW Solar Park P2,1,1
+Solar Park P1,1,1
+Solar Park P2,1,1
 Abatta1,0.85,0.85
 Abatta2,0.85,0.85
 Abatta3,0.85,0.85
@@ -549,3 +549,9 @@ Projet EPC JETP 2 BESS,1,1
 Projet EPC Kolda BESS,1,1
 Projet EPCF Linguere BESS,1,1
 CC_GAS_LNG_SEN,0.85,0.85
+Regional Solar Park Phase I,1,1
+Regional Solar Park of 150 MW,1,1
+Regional Solar Park _Ghana,1,1
+Regional Solar Park Benin ,1,1
+Regional Solar Park Togo ,1,1
+BESS 10 MW,1,1
