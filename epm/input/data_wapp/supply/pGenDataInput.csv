@@ -506,3 +506,6 @@ Regional Solar Park of 150 MW,Niger,PV,Solar,2,2027,2052,150,,,,150,25,,1,1,,,0.
 Regional Solar Park _Ghana,Ghana,PV,Solar,2,2028,2052,150,,,,150,25,,1,1,,,0.97,17000,,150
 Regional Solar Park Benin ,Benin,PV,Solar,2,2029,2053,150,,,,150,25,,1,1,,,0.97,17000,,150
 Regional Solar Park Togo ,Togo,PV,Solar,2,2029,2053,150,,,,150,25,,1,1,,,0.97,17000,,150
+PV_CAND2_SEN,Senegal,PV,Solar,3,2040,2065,30000,,,,1000,25,,1,1,,,0.97,17000,,1000
+PV_CAND2_Ghana,Ghana,PV,Solar,3,2040,2065,30000,,,,3000,25,,1,1,,,0.97,17000,,3000
+PV_CAND2_Nigeria,Nigeria,PV,Solar,3,2040,2065,50000,,,,3000,25,,1,1,,,0.97,17000,,3000
