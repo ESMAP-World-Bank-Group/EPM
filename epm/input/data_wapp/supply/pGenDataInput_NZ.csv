@@ -269,7 +269,7 @@ OFSHORE_WIND_TOG,Togo,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_TOG,Togo,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 Groupes secours SBEE,Benin,PV,Solar,1,2020,2045,12,,,,12,25,,1,1,,,0.97,17000,,12
 IPP 50 mW,Benin,PV,Solar,2,2027,2052,50,,,,50,25,,1,1,,,0.97,17000,,50
-PV_CAND_Benin,Benin,PV,Solar,3,2030,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Benin,Benin,PV,Solar,3,2030,2052,30000,,,,400,25,,1,1,,,0.97,17000,,400
 Solaire_Pobe,Benin,PV,Solar,1,2025,2050,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solaire_Pobe_ext,Benin,PV,Solar,2,2026,2051,50,,,,50,25,,1,1,,,0.97,17000,,50
 SOLEN_GloDjigb,Benin,PV,Solar,2,2028,2053,225,,,,225,25,,1,1,,,0.97,17000,,225
@@ -277,7 +277,7 @@ Kodeni_PV,Burkina,PV,Solar,1,2023,2048,38,,,,38,25,,1,1,,,0.97,17000,,38
 Nagreongo,Burkina,PV,Solar,1,2022,2047,30,,,,30,25,,1,1,,,0.97,17000,,30
 Ouaga NO,Burkina,PV,Solar,1,2025,2050,42,,,,42,25,,1,1,,,0.97,17000,,42
 Pa_PV,Burkina,PV,Solar,1,2023,2048,30,,,,30,25,,1,1,,,0.97,17000,,30
-PV_CAND_Burkina,Burkina,PV,Solar,3,2029,2054,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Burkina,Burkina,PV,Solar,3,2029,2054,30000,,,,500,25,,1,1,,,0.97,17000,,500
 Solar Power Park 1st Phase,Burkina,PV,Solar,2,2026,2051,120,,,,120,25,,1,1,,,0.97,17000,,120
 Solar Power Park 2nd Phase,Burkina,PV,Solar,2,2028,2053,180,,,,180,25,,1,1,,,0.97,17000,,180
 Zagtouli,Burkina,PV,Solar,1,2017,2042,34,,,,34,,,1,1,,,,17000,,34
@@ -295,7 +295,7 @@ Kaleo,Ghana,PV,Solar,1,2021,2046,13,,,,13,,,1,1,,,,17000,,13
 Lawra,Ghana,PV,Solar,1,2021,2046,6.5,,,,6.5,,,1,1,,,,17000,,6.5
 Meinenergy_IPP,Ghana,PV,Solar,1,2019,2044,20,,,,20,,,1,1,,,,17000,,20
 Navrongo,Ghana,PV,Solar,1,2013,2038,2.5,,,,2.5,,,1,1,,,,17000,,2.5
-PV_CAND_Ghana,Ghana,PV,Solar,3,2029,2052,30000,,,,916,25,,1,1,,,0.97,17000,,916
+PV_CAND_Ghana,Ghana,PV,Solar,3,2029,2052,30000,,,,2000,25,,1,1,,,0.97,17000,,2000
 Winneba (BXC solar)_IPP,Ghana,PV,Solar,1,2016,2041,20,,,,20,,,1,1,,,,17000,,20
 PV_CAND_Guinea,Guinea,PV,Solar,3,2030,2055,30000,,,,500,25,,1,1,,,1,12000,,500
 Bissau,GuineaBissau,PV,Solar,2,2029,2054,32,,,,32,25,,1,1,,,0.97,17000,,32
@@ -317,7 +317,7 @@ Centrale Solaire de Touba SCALING SOLAR,IvoryCoast,PV,Solar,3,2026,2051,38.4,,,,
 Extension de la Centrale de Boundiali - CI-ENERGIES,IvoryCoast,PV,Solar,3,2025,2050,44,,,,44,25,,1,1,,,0.97,17000,,44
 KORHOGO_IPP,IvoryCoast,PV,Solar,3,2026,2051,40,,,,40,25,,1,1,,,0.97,17000,,40
 POROPOWER_IPP,IvoryCoast,PV,Solar,3,2026,2051,50,,,,50,25,,1,1,,,0.79,17000,,50
-PV_CAND_IvoryCoast,IvoryCoast,PV,Solar,3,2027,2052,30000,,,,500,25,,1,1,,,0.97,17000,,500
+PV_CAND_IvoryCoast,IvoryCoast,PV,Solar,3,2027,2052,30000,,,,1000,25,,1,1,,,0.97,17000,,1000
 PV_CAND_Liberia,Liberia,PV,Solar,3,2028,2053,500,,,,250,25,,1,1,,,0.97,17000,,250
 Respite_PV,Liberia,PV,Solar,2,2025,2050,16,,,,16,20,,1,1,,,0.9,10000,,16
 Solar Yekepa / Buchanan,Liberia,PV,Solar,2,2028,2053,160,,,,160,20,,1,1,,,0.9,10000,,160
@@ -340,7 +340,7 @@ Solar Kiffa 50 MWc,Mauritania_grid,PV,Solar,2,2027,2052,41,,,,41,25,,1,1,,,0.8,1
 agadezpv,Niger,PV,Solar,1,2024,2049,13,,,,13,25,,1,1,,,0.97,17000,,13
 GorouBanda1,Niger,PV,Solar,1,2023,2048,20,,,,20,25,,1,1,,,0.97,17000,,20
 PV_CAND_Niger,Niger,PV,Solar,3,2028,2053,30000,,,,250,25,,1,1,,,0.97,17000,,250
-PV_CAND_Nigeria,Nigeria,PV,Solar,3,2030,2055,50000,,,,1091,25,,1,1,,,0.97,17000,,1091
+PV_CAND_Nigeria,Nigeria,PV,Solar,3,2030,2055,50000,,,,3000,25,,1,1,,,0.97,17000,,3000
 Solar_Energy Resource,Senegal,PV,Solar,1,2018,2043,20,,,,20,25,,1,1,,,0.97,17000,,20
 Solar_Innovent,Senegal,PV,Solar,1,2018,2043,20,,,,20,25,,1,1,,,0.97,17000,,20
 Solar_Kima Solaria,Senegal,PV,Solar,1,2017,2042,22,,,,22,25,,1,1,,,0.97,17000,,22
@@ -484,7 +484,7 @@ Gouina_SEN,Senegal,ROR,Water,1,2021,2092,45.99,,,,45.99,50,,1,1,,0.4,2.8,40000,0
 Bafata Project ,GuineaBissau,PV,Solar,2,2029,2054,12,,,,12,25,,1,1,,,0.97,17000,,12
 Biomasse déchets solides Nouakchott  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
 Biomasse typha  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
-WIND_CAND_SEN,Senegal,OnshoreWind,Wind,3,2030,2060,100,,,,365,30,,1,1,,,1.3,40000,,365
+WIND_CAND_SEN,Senegal,OnshoreWind,Wind,3,2030,2060,1000,,,,300,30,,1,1,,,1.3,40000,,300
 PV_CAND_SEN,Senegal,PV,Solar,3,2030,2055,30000,,,,500,25,,1,1,,,0.97,17000,,500
 Solar_NEA_Kolda 1,Senegal,PV,Solar,2,2026,2051,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solar_NEA_Kolda 2,Senegal,PV,Solar,2,2027,2052,25,,,,25,25,,1,1,,,0.97,17000,,25

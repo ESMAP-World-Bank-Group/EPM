@@ -2,7 +2,7 @@ g,z,tech,f,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityM
 Storage_Pobe,Benin,Storage,Battery,2,2027,2047,20,5,5,5,20,,0.85,,13873.86,250,,,1,1,,0.5,,,
 Storage_CAND_2027_Guinea,Guinea,Storage,Battery,3,2030,2050,20,30000,40,40,120000,,0.85,,13874,250,,,1,1,,1,,,
 BESS Yekepa / Buchanan 15 /60,Liberia,Storage,Battery,2,2028,2048,20,60,60,60,240,,0.85,,13873.86,250,,,1,1,,0.5,,,
-Storage_CAND_2030_Senegal,Senegal,Storage,Battery,3,2030,2046,20,1000,70,70,4000,,0.85,,13873.86,250,,,1,1,,0.5,,,
+Storage_CAND_2030_Senegal,Senegal,Storage,Battery,3,2030,2046,20,1000,50,50,4000,,0.85,,13873.86,250,,,1,1,,0.5,,,
 Storage_CAND_2027_Benin,Benin,Storage,Battery,3,2027,2047,20,30000,4,4,120000,,0.85,,13873.86,250,,,1,1,,0.5,,,
 Storage_CAND_2027_Burkina,Burkina,Storage,Battery,3,2029,2049,20,30000,32,32,120000,,0.85,,13873.86,250,,,1,1,,0.5,,,
 Storage_CAND_2027_Gambia,Gambia,Storage,Battery,3,2030,2050,20,30000,8,8,120000,,0.85,,13873.86,250,,,1,1,,0.5,,,

@@ -485,7 +485,7 @@ Bafata Project ,GuineaBissau,PV,Solar,2,2029,2054,12,,,,12,25,,1,1,,,0.97,17000,
 Biomasse déchets solides Nouakchott  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
 Biomasse typha  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
 WIND_CAND_SEN,Senegal,OnshoreWind,Wind,3,2030,2060,100,,,,100,30,,1,1,,,1.3,40000,,100
-PV_CAND_SEN,Senegal,PV,Solar,3,2030,2055,30000,,,,350,25,,1,1,,,0.97,17000,,350
+PV_CAND_SEN,Senegal,PV,Solar,3,2030,2055,30000,,,,250,25,,1,1,,,0.97,17000,,250
 Solar_NEA_Kolda 1,Senegal,PV,Solar,2,2026,2051,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solar_NEA_Kolda 2,Senegal,PV,Solar,2,2027,2052,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solar_NEXENTURY-PV,Senegal,PV,Solar,3,2028,2053,14,,,,14,25,,1,1,,,0.97,17000,,14
