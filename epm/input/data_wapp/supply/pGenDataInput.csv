@@ -242,14 +242,14 @@ OFSHORE_WIND_GHA,Ghana,OnshoreWind,Wind,3,2035,2065,5000,,,,200,30,,1,1,,,1.3,40
 ONSHORE_WIND_BEN,Benin,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_BUR,Burkina,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 OFSHORE_WIND_GAM,Gambia,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
-WIND_CAND_GAM,Gambia,OnshoreWind,Wind,3,2030,2060,5000,,,,150,30,,1,1,,,1.3,40000,,150
-ONSHORE_WIND_GHA,Ghana,OnshoreWind,Wind,3,2030,2060,5000,,,,916,30,,1,1,,,1.3,40000,,916
+WIND_CAND_GAM,Gambia,OnshoreWind,Wind,3,2030,2060,5000,,,,44,30,,1,1,,,1.3,40000,,44
+ONSHORE_WIND_GHA,Ghana,OnshoreWind,Wind,3,2030,2060,5000,,,,65,30,,1,1,,,1.3,40000,,65
 OFSHORE_WIND_GBI,GuineaBissau,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_GBI,GuineaBissau,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 OFSHORE_WIND_COT,IvoryCoast,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_COT,IvoryCoast,OnshoreWind,Wind,3,2033,2063,,,,,,30,,1,1,,,1.3,40000,,
 OFSHORE_WIND_LIB,Liberia,OnshoreWind,Wind,3,2035,2065,,,,,,25,,1,1,,,1.3,40000,,
-WIND_CAND_MAL,Mali,OnshoreWind,Wind,3,2030,2060,5000,,,,150,30,,1,1,,,1.3,40000,,150
+WIND_CAND_MAL,Mali,OnshoreWind,Wind,3,2030,2060,5000,,,,40,30,,1,1,,,1.3,40000,,40
 Boulenouar,Mauritania_grid,OnshoreWind,Wind,1,2023,2053,100,,,,100,30,,1,1,,,1.3,40000,,100
 Boulenouar II,Mauritania_grid,OnshoreWind,Wind,3,2026,2056,100,,,,100,30,,1,1,,,1.3,40000,,100
 Extension éolien Nouakchott (+20 MW),Mauritania_grid,OnshoreWind,Wind,3,2026,2056,20,,,,20,30,,1,1,,,1.3,40000,,20
@@ -258,10 +258,10 @@ Projet type 50 MW,Mauritania_grid,OnshoreWind,Wind,3,2028,2058,50,,,,50,30,,1,1,
 Eolien Nouadhibou SNIM,Mauritania_grid,OnshoreWind,Wind,1,2013,2043,4.4,,,,4.4,30,,1,1,,,1.3,40000,,4.4
 Nouakchott_Wind_Plant,Mauritania_grid,OnshoreWind,Wind,1,2015,2045,30,,,,30,30,,1,1,,,1.3,40000,,30
 OFSHORE_WIND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2040,2070,,,,,,30,,1,1,,,1.3,40000,,
-WIND_CAND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2040,2070,5000,,,,170,30,,1,1,,,1.3,40000,,170
-WIND_CAND_NGR,Niger,OnshoreWind,Wind,3,2030,2060,5000,,,,201,30,,1,1,,,1.3,40000,,201
+WIND_CAND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2040,2070,5000,,,,120,30,,1,1,,,1.3,40000,,120
+WIND_CAND_NGR,Niger,OnshoreWind,Wind,3,2030,2060,5000,,,,50,30,,1,1,,,1.3,40000,,50
 OFSHORE_WIND_NGA,Nigeria,OnshoreWind,Wind,3,2100,2200,,,,,,30,,1,1,,,1.3,40000,,
-WIND_CAND_NGA,Nigeria,OnshoreWind,Wind,3,2100,2200,5000,,,,1091,30,,1,1,,,1.3,40000,,1091
+WIND_CAND_NGA,Nigeria,OnshoreWind,Wind,3,2100,2200,5000,,,,160,30,,1,1,,,1.3,40000,,160
 Eolien sarreole,Senegal,OnshoreWind,Wind,1,2020,2050,158.7,,,,158.7,30,,1,1,,,1.3,40000,,158.7
 OFSHORE_WIND_SIL,SierraLeone,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WND_CAND_22_SIL,SierraLeone,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
@@ -269,7 +269,7 @@ OFSHORE_WIND_TOG,Togo,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_TOG,Togo,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 Groupes secours SBEE,Benin,PV,Solar,1,2020,2045,12,,,,12,25,,1,1,,,0.97,17000,,12
 IPP 50 mW,Benin,PV,Solar,2,2027,2052,50,,,,50,25,,1,1,,,0.97,17000,,50
-PV_CAND_Benin,Benin,PV,Solar,3,2030,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Benin,Benin,PV,Solar,3,2030,2052,30000,,,,20,25,,1,1,,,0.97,17000,,20
 Solaire_Pobe,Benin,PV,Solar,1,2025,2050,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solaire_Pobe_ext,Benin,PV,Solar,2,2026,2051,50,,,,50,25,,1,1,,,0.97,17000,,50
 SOLEN_GloDjigb,Benin,PV,Solar,2,2028,2053,225,,,,225,25,,1,1,,,0.97,17000,,225
@@ -277,7 +277,7 @@ Kodeni_PV,Burkina,PV,Solar,1,2023,2048,38,,,,38,25,,1,1,,,0.97,17000,,38
 Nagreongo,Burkina,PV,Solar,1,2022,2047,30,,,,30,25,,1,1,,,0.97,17000,,30
 Ouaga NO,Burkina,PV,Solar,1,2025,2050,42,,,,42,25,,1,1,,,0.97,17000,,42
 Pa_PV,Burkina,PV,Solar,1,2023,2048,30,,,,30,25,,1,1,,,0.97,17000,,30
-PV_CAND_Burkina,Burkina,PV,Solar,3,2029,2054,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Burkina,Burkina,PV,Solar,3,2029,2054,30000,,,,160,25,,1,1,,,0.97,17000,,160
 Solar Power Park 1st Phase,Burkina,PV,Solar,2,2026,2051,120,,,,120,25,,1,1,,,0.97,17000,,120
 Solar Power Park 2nd Phase,Burkina,PV,Solar,2,2028,2053,180,,,,180,25,,1,1,,,0.97,17000,,180
 Zagtouli,Burkina,PV,Solar,1,2017,2042,34,,,,34,,,1,1,,,,17000,,34
@@ -288,18 +288,18 @@ Zina Solaire,Burkina,PV,Solar,1,2024,2049,26,,,,26,25,,1,1,,,0.97,17000,,26
 23 MWp Solar PV,Gambia,PV,Solar,1,2024,2049,18,,,,18,25,,1,1,,,0.97,17000,,18
 Solar Park P1,Gambia,PV,Solar,2,2026,2051,50,,,,50,25,,1,1,,,0.97,17000,,50
 Solar Park P2,Gambia,PV,Solar,2,2026,2051,100,,,,100,25,,1,1,,,0.97,17000,,100
-PV_CAND_Gambia,Gambia,PV,Solar,3,2030,2055,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Gambia,Gambia,PV,Solar,3,2030,2055,30000,,,,40,25,,1,1,,,0.97,17000,,40
 BUI (BXC solar)_IPP,Ghana,PV,Solar,1,2021,2046,50,,,,50,,,1,1,,,,17000,,50
 Ghana_PV,Ghana,PV,Solar,1,2022,2047,,,,,,,,1,1,,,,17000,,
 Kaleo,Ghana,PV,Solar,1,2021,2046,13,,,,13,,,1,1,,,,17000,,13
 Lawra,Ghana,PV,Solar,1,2021,2046,6.5,,,,6.5,,,1,1,,,,17000,,6.5
 Meinenergy_IPP,Ghana,PV,Solar,1,2019,2044,20,,,,20,,,1,1,,,,17000,,20
 Navrongo,Ghana,PV,Solar,1,2013,2038,2.5,,,,2.5,,,1,1,,,,17000,,2.5
-PV_CAND_Ghana,Ghana,PV,Solar,3,2029,2052,30000,,,,916,25,,1,1,,,0.97,17000,,916
+PV_CAND_Ghana,Ghana,PV,Solar,3,2029,2052,30000,,,,100,25,,1,1,,,0.97,17000,,100
 Winneba (BXC solar)_IPP,Ghana,PV,Solar,1,2016,2041,20,,,,20,,,1,1,,,,17000,,20
-PV_CAND_Guinea,Guinea,PV,Solar,3,2030,2055,30000,,,,500,25,,1,1,,,1,12000,,500
+PV_CAND_Guinea,Guinea,PV,Solar,3,2030,2055,30000,,,,200,25,,1,1,,,1,12000,,200
 Bissau,GuineaBissau,PV,Solar,2,2029,2054,32,,,,32,25,,1,1,,,0.97,17000,,32
-PV_CAND_GuineaBissau,GuineaBissau,PV,Solar,3,2030,2055,5000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_GuineaBissau,GuineaBissau,PV,Solar,3,2030,2055,5000,,,,40,25,,1,1,,,0.97,17000,,40
 Centrale Solaire de Bondoukou - AMEA POWER,IvoryCoast,PV,Solar,3,2026,2051,40,,,,40,25,,1,1,,,0.97,17000,,40
 Centrale Solaire de Boundiali Phase 1,IvoryCoast,PV,Solar,1,2023,2048,38,,,,38,25,,1,1,,,0.97,17000,,38
 Centrale Solaire de Ferke II SHIBA ENERGY,IvoryCoast,PV,Solar,3,2027,2052,40,,,,40,25,,1,1,,,0.97,17000,,40
@@ -317,15 +317,15 @@ Centrale Solaire de Touba SCALING SOLAR,IvoryCoast,PV,Solar,3,2026,2051,38.4,,,,
 Extension de la Centrale de Boundiali - CI-ENERGIES,IvoryCoast,PV,Solar,3,2025,2050,44,,,,44,25,,1,1,,,0.97,17000,,44
 KORHOGO_IPP,IvoryCoast,PV,Solar,3,2026,2051,40,,,,40,25,,1,1,,,0.97,17000,,40
 POROPOWER_IPP,IvoryCoast,PV,Solar,3,2026,2051,50,,,,50,25,,1,1,,,0.79,17000,,50
-PV_CAND_IvoryCoast,IvoryCoast,PV,Solar,3,2027,2052,30000,,,,500,25,,1,1,,,0.97,17000,,500
-PV_CAND_Liberia,Liberia,PV,Solar,3,2028,2053,500,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_IvoryCoast,IvoryCoast,PV,Solar,3,2027,2052,30000,,,,60,25,,1,1,,,0.97,17000,,60
+PV_CAND_Liberia,Liberia,PV,Solar,3,2028,2053,500,,,,12,25,,1,1,,,0.97,17000,,12
 Respite_PV,Liberia,PV,Solar,2,2025,2050,16,,,,16,20,,1,1,,,0.9,10000,,16
 Solar Yekepa / Buchanan,Liberia,PV,Solar,2,2028,2053,160,,,,160,20,,1,1,,,0.9,10000,,160
 PV_Akuo,Mali,PV,Solar,1,2020,2045,50,,,,50,25,,1,1,,,0.97,17000,,50
-PV_CAND_Mali,Mali,PV,Solar,3,2027,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Mali,Mali,PV,Solar,3,2027,2052,30000,,,,150,25,,1,1,,,0.97,17000,,150
 Nouakchott_Est_Solar,Mauritania_grid,PV,Solar,1,2017,2042,42,,,,50,,,1,1,,,1.1,17000,,50
 Nouakchott_Zayed_Solar,Mauritania_grid,PV,Solar,1,2013,2038,11.5,,,,15,,,1,1,,,2,17000,,15
-PV_CAND_Mauritania_grid,Mauritania_grid,PV,Solar,3,2040,2065,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Mauritania_grid,Mauritania_grid,PV,Solar,3,2040,2065,30000,,,,150,25,,1,1,,,0.97,17000,,150
 Solaires hybrides RI,Mauritania_grid,PV,Solar,1,2024,2049,13.4,,,,15,25,,1,1,,,0.97,17000,,15
 SNIM Zouerate — solaire,Mauritania_grid,PV,Solar,2,2024,2049,9.6,,,,9.6,25,,1,1,,,0.8,17000,,9.6
 Kinross Tasiast — solaire,Mauritania_grid,PV,Solar,2,2030,2055,27.2,,,,27.2,25,,1,1,,,1.5,17000,,27.2
@@ -339,8 +339,8 @@ Solar Nema 50 MWc,Mauritania_Nema,PV,Solar,3,2027,2052,41,,,,41,25,,1,1,,,0.8,17
 Solar Kiffa 50 MWc,Mauritania_grid,PV,Solar,2,2027,2052,41,,,,41,25,,1,1,,,0.8,17000,,41
 agadezpv,Niger,PV,Solar,1,2024,2049,13,,,,13,25,,1,1,,,0.97,17000,,13
 GorouBanda1,Niger,PV,Solar,1,2023,2048,20,,,,20,25,,1,1,,,0.97,17000,,20
-PV_CAND_Niger,Niger,PV,Solar,3,2028,2053,30000,,,,250,25,,1,1,,,0.97,17000,,250
-PV_CAND_Nigeria,Nigeria,PV,Solar,3,2030,2055,10000,,,,1091,25,,1,1,,,0.97,17000,,1091
+PV_CAND_Niger,Niger,PV,Solar,3,2028,2053,30000,,,,90,25,,1,1,,,0.97,17000,,90
+PV_CAND_Nigeria,Nigeria,PV,Solar,3,2030,2055,10000,,,,100,25,,1,1,,,0.97,17000,,100
 Solar_Energy Resource,Senegal,PV,Solar,1,2018,2043,20,,,,20,25,,1,1,,,0.97,17000,,20
 Solar_Innovent,Senegal,PV,Solar,1,2018,2043,20,,,,20,25,,1,1,,,0.97,17000,,20
 Solar_Kima Solaria,Senegal,PV,Solar,1,2017,2042,22,,,,22,25,,1,1,,,0.97,17000,,22
@@ -352,7 +352,7 @@ Solar_Senergy 2,Senegal,PV,Solar,1,2016,2041,20,,,,20,25,,1,1,,,0.97,17000,,20
 Solar_Solarie Diass,Senegal,PV,Solar,1,2018,2043,23,,,,23,25,,1,1,,,0.97,17000,,23
 Solar_Tenergy,Senegal,PV,Solar,1,2017,2042,29.5,,,,29.5,25,,1,1,,,0.97,17000,,29.5
 Solar_WALO PV,Senegal,PV,Solar,1,2025,2045,16,,,,16,25,,1,1,,,0.97,17000,,16
-PV_CAND_SierraLeone,SierraLeone,PV,Solar,3,2027,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_SierraLeone,SierraLeone,PV,Solar,3,2027,2052,30000,,,,8,25,,1,1,,,0.97,17000,,8
 Respite_PV_SR,SierraLeone,PV,Solar,2,2025,2050,60,,,,60,25,,1,1,,,0.97,17000,,60
 Blitta Extension,Togo,PV,Solar,3,2026,2051,100,,,,100,25,,1,1,,,0.97,17000,,100
 Blitta Solar Power Station,Togo,PV,Solar,1,2021,2046,50,,,,50,25,,1,1,,,0.97,17000,,50
@@ -360,7 +360,7 @@ Dapaong RESPITE,Togo,PV,Solar,3,2026,2051,25,,,,25,25,,1,1,,,0.97,17000,,25
 Former Agoe-Nyive landfill site,Togo,PV,Solar,3,2026,2051,8,,,,8,25,,1,1,,,0.97,17000,,8
 Kara,Togo,PV,Solar,3,2027,2052,42,,,,42,25,,1,1,,,0.97,17000,,42
 Kekeli Thermal Power Station,Togo,PV,Solar,1,2021,2046,65,,,,65,25,,1,1,,,0.97,17000,,65
-PV_CAND_Togo,Togo,PV,Solar,3,2030,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Togo,Togo,PV,Solar,3,2030,2052,30000,,,,40,25,,1,1,,,0.97,17000,,40
 Sokode PV,Togo,PV,Solar,3,2026,2051,64,,,,64,25,,1,1,,,0.97,17000,,64
 Beterou,Benin,ReservoirHydro,Water,3,2050,2072,23.2,,,,23.2,50,,1,1,,0.07,3.3,50000,0.5,23.2
 HYD_CAND_BEN,Benin,ReservoirHydro,Water,3,2030,2080,463,,,,463,50,,1,1,,0.07,3.3,50000,0.5,463
@@ -484,8 +484,8 @@ Gouina_SEN,Senegal,ROR,Water,1,2021,2092,45.99,,,,45.99,50,,1,1,,0.4,2.8,40000,0
 Bafata Project ,GuineaBissau,PV,Solar,2,2029,2054,12,,,,12,25,,1,1,,,0.97,17000,,12
 Biomasse déchets solides Nouakchott  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
 Biomasse typha  15 MW,Mauritania_grid,BiomassPlant,Biomass,3,2028,2058,15,,,,15,30,12.5,1,1,,,2.328,136000,,15
-WIND_CAND_SEN,Senegal,OnshoreWind,Wind,3,2030,2060,100,,,,365,30,,1,1,,,1.3,40000,,365
-PV_CAND_SEN,Senegal,PV,Solar,3,2030,2055,30000,,,,500,25,,1,1,,,0.97,17000,,500
+WIND_CAND_SEN,Senegal,OnshoreWind,Wind,3,2030,2060,100,,,,100,30,,1,1,,,1.3,40000,,100
+PV_CAND_SEN,Senegal,PV,Solar,3,2030,2055,30000,,,,250,25,,1,1,,,0.97,17000,,250
 Solar_NEA_Kolda 1,Senegal,PV,Solar,2,2026,2051,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solar_NEA_Kolda 2,Senegal,PV,Solar,2,2027,2052,25,,,,25,25,,1,1,,,0.97,17000,,25
 Solar_NEXENTURY-PV,Senegal,PV,Solar,3,2028,2053,14,,,,14,25,,1,1,,,0.97,17000,,14
@@ -506,26 +506,3 @@ Regional Solar Park of 150 MW,Niger,PV,Solar,2,2027,2052,150,,,,150,25,,1,1,,,0.
 Regional Solar Park _Ghana,Ghana,PV,Solar,2,2028,2052,150,,,,150,25,,1,1,,,0.97,17000,,150
 Regional Solar Park Benin ,Benin,PV,Solar,2,2029,2053,150,,,,150,25,,1,1,,,0.97,17000,,150
 Regional Solar Park Togo ,Togo,PV,Solar,2,2029,2053,150,,,,150,25,,1,1,,,0.97,17000,,150
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,
