@@ -64,6 +64,7 @@ set dshdr /
   "Total Demand (Including P to H2): GWh",
   "Total production: GWh",
   "Unmet demand: GWh",
+  "Total Curtailed VRE: GWh",
   "Surplus generation: GWh",
   "Imports exchange: GWh",
   "Exports exchange: GWh",
@@ -943,6 +944,9 @@ pEnergyBalance(z, "Total Demand: GWh", y) =
 
 pEnergyBalance(z, "Total production: GWh", y) =
   sum(gzmap(g, z), pEnergyPlant(z, g, y));
+
+pEnergyBalance(z, "Total Curtailed VRE: GWh", y) =
+sum((gzmap(g,z),q,d,t),vCurtailedVRE.l(z,g,q,d,t,y) * pHours(q,d,t))/1e3;
 
 pEnergyBalance(z, "Unmet demand: GWh", y) =
   sum((q, d, t), vUSE.l(z, q, d, t, y) * pHours(q, d, t)) / 1e3;

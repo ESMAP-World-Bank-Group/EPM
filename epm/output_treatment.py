@@ -611,7 +611,7 @@ def calculate_cumulative(
 
     # Sort by group columns and year to ensure correct cumulative order
     df = df.sort_values(by=group_cols + [year_col])
-    print(df)
+    
     # Calculate cumulative sum within each group
     df[value_col] = df.groupby(group_cols)[value_col].fillna(0).cumsum()
 

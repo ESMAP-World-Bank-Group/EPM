@@ -1,4 +1,4 @@
-paramNames,baseline_ref,baseline,baseline_INGA,baseline_noBTKG,baseline_limexp
+paramNames,baseline,baseline_INGA,baseline_noBTKG,baseline_limexp,baseline_limTrade
 modeltype,RMIP,RMIP,RMIP,RMIP,RMIP
 cplexfile,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt,cplex/cplex_baseline.opt
 pSettings,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv,pSettings.csv
@@ -10,7 +10,7 @@ pDemandData,load/pDemandData.csv,load/pDemandData.csv,load/pDemandData.csv,load/
 pDemandForecast,load/pDemandForecast_sapp_adapted_v2_mozalout.csv,load/pDemandForecast_sapp_adapted_v2_mozalout.csv,load/pDemandForecast_sapp_adapted_v2_mozalout.csv,load/pDemandForecast_sapp_adapted_v2_mozalout.csv,load/pDemandForecast_sapp_adapted_v2_mozalout.csv
 sRelevant,load/sRelevant.csv,load/sRelevant.csv,load/sRelevant.csv,load/sRelevant.csv,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv,load/pEnergyEfficiencyFactor.csv,load/pEnergyEfficiencyFactor.csv,load/pEnergyEfficiencyFactor.csv,load/pEnergyEfficiencyFactor.csv
-pGenDataInput,supply/pGenDataInput_SAPP_v3.csv,supply/pGenDataInput_SAPP_v3.csv,supply/pGenDataInput_SAPP_v3_INGA.csv,supply/pGenDataInput_SAPP_v3_noBTKG.csv,supply/pGenDataInput_SAPP_v3.csv
+pGenDataInput,supply/pGenDataInput_SAPP_v3.csv,supply/pGenDataInput_SAPP_v3_INGA.csv,supply/pGenDataInput_SAPP_v3_noBTKG.csv,supply/pGenDataInput_SAPP_v3.csv,supply/pGenDataInput_SAPP_v3.csv
 pGenDataInputDefault,supply/pGenDataInputDefault.csv,supply/pGenDataInputDefault.csv,supply/pGenDataInputDefault.csv,supply/pGenDataInputDefault.csv,supply/pGenDataInputDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv,supply/pAvailabilityCustom.csv,supply/pAvailabilityCustom.csv,supply/pAvailabilityCustom.csv,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv,supply/pAvailabilityDefault.csv,supply/pAvailabilityDefault.csv,supply/pAvailabilityDefault.csv,supply/pAvailabilityDefault.csv
@@ -31,14 +31,14 @@ pEmissionsCountry,constraint/pEmissionsCountry.csv,constraint/pEmissionsCountry.
 pMaxFuellimit,constraint/pMaxFuellimit.csv,constraint/pMaxFuellimit.csv,constraint/pMaxFuellimit.csv,constraint/pMaxFuellimit.csv,constraint/pMaxFuellimit.csv
 pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv,constraint/pMaxGenerationByFuel.csv
 pCarbonPrice,constraint/pCarbonPrice.csv,constraint/pCarbonPrice.csv,constraint/pCarbonPrice.csv,constraint/pCarbonPrice.csv,constraint/pCarbonPrice.csv
-pCountryBuildLimitY,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear.csv
+pCountryBuildLimitY,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear_none.csv,constraint/pCountryBuildLimitYear.csv,constraint/pCountryBuildLimitYear.csv
 zext,trade/zext.csv,trade/zext.csv,trade/zext.csv,trade/zext.csv,trade/zext.csv
 pExtTransferLimit,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv,trade/pExtTransferLimit.csv
 pLossFactorInternal,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv,trade/pLossFactorInternal.csv
 pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv,trade/pMaxAnnualExternalTradeShare.csv
-pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv
+pMaxAnnualInternalTradeShare,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare.csv,trade/pMaxAnnualInternalTradeShare_ensecu.csv
 pMinImport,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv,trade/pMinImport_mozalout.csv
-pNewTransmission,trade/pNewTransmission_ref.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv
+pNewTransmission,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv,trade/pNewTransmission.csv
 pTradePrice,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv,trade/pTradePrice.csv
 pTransferLimit,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv,trade/pTransferLimit.csv
 pH2DataExcel,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv,h2/pH2DataExcel.csv
