@@ -353,9 +353,28 @@ def divide(geodf, country, division):
         ne_part['region'] = 'northeast'
         
         return pd.concat([nw_part, ne_part, central_part, south_part])
+    
+    elif division == 'SWNE':
+        # Divide into 2 regions: SW and NE
+        # Divide with a diagonal line from the southwest corner to the northeast corner
+        diagonal_line = LineString([(minx, maxy), (maxx, miny)])
+        # Use the diagonal line to create two polygons
+        # Create a polygon for the SW region
+        sw_polygon = Polygon([(minx, miny), (minx, maxy), (maxx, maxy), (maxx, miny)]).difference(diagonal_line.buffer(0.0001)) 
+        # Create a polygon for the NE region
+        ne_polygon = Polygon([(minx, miny), (minx, maxy), (maxx, maxy), (maxx, miny)]).difference(sw_polygon)
+        # Convert to GeoDataFrames with the correct CRS
+        sw_gdf = gpd.GeoDataFrame(geometry=[sw_polygon], crs=crs)
+        ne_gdf = gpd.GeoDataFrame(geometry=[ne_polygon], crs=crs)
+        sw_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], sw_gdf, how='intersection')
+        ne_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], ne_gdf, how='intersection')
+        sw_part['region'] = 'southwest'
+        ne_part['region'] = 'northeast'
+
+        return pd.concat([sw_part, ne_part])
 
     else:
-        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', 'NCS', or 'NCSE'.")
+        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', 'NCS','SWNE' or 'NCSE'.")
 
 
 def plot_zone_map_on_ax(ax, zone_map):

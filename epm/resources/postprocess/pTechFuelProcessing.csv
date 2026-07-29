@@ -39,6 +39,7 @@ EnergyBalance,Exports,Exports,lightgreen
 EnergyBalance,Exports External,ExportsExternal,purple
 EnergyBalance,UnmetDemand,UnmetDemand,red
 EnergyBalance,Surplus,Surplus,brown
+INT,Import,Imports,tan
 INT,Import_SAR,Imports,tan
 INT,Import_MOZ_EDM,Imports,tan
 INT,Import_MOZ_HCB,Imports,tan

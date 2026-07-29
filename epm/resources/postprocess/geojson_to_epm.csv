@@ -12,7 +12,8 @@ Mozambique - North,Mozambique_North,north,Mozambique,NCS
 South Africa,South_Africa,,,
 Malawi,Malawi,,,
 Zambia,Zambia,,,
-Zimbabwe,Zimbabwe,,,
+Zimbabwe -East,Zimbabwe_East,northeast,Zimbabwe,SWNE
+Zimbabwe-West,Zimbabwe_West,southwest,Zimbabwe,SWNE
 Botswana,Botswana,,,
 Swaziland,Eswatini,,,
 Lesotho,Lesotho,,,
