@@ -30,7 +30,7 @@ Include energy efficiency,fEnableEnergyEfficiency,0
 Include CSP optimization,fEnableCSP,0
 Include Storage operation,fEnableStorage,1
 Initial state of charge for batteries (%),InitialSOCforBattery,0.5
-Retire plants on economic grounds,fEnableEconomicRetirement,1
+Retire plants on economic grounds,fEnableEconomicRetirement,0
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
 ,,
@@ -50,7 +50,7 @@ Allow capex trajectory H2,fEnableCapexTrajectoryH2,0
 Include H2 production,fEnableH2Production,0
 ,,
 POLICY,,
-Apply country CO2 constraint,fApplyCountryCo2Constraint,1
+Apply country CO2 constraint,fApplyCountryCo2Constraint,0
 Apply system CO2 constraints,fApplySystemCo2Constraint,0
 Minimum share of RE  (%),sMinRenewableSharePct,0
 RE share target year,sRenewableTargetYear,
