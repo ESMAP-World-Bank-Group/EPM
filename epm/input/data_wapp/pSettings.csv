@@ -40,7 +40,7 @@ Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
 "System planning reserve margin, %",sReserveMarginPct,0.1
 ,,
 SPINNING RESERVES,,
-Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,1
+Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,0
 Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,0
 "Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0.15
 "Contribution of transmission lines to country spinning reserves need, %",sIntercoReserveContributionPct,0
@@ -50,7 +50,7 @@ Allow capex trajectory H2,fEnableCapexTrajectoryH2,0
 Include H2 production,fEnableH2Production,0
 ,,
 POLICY,,
-Apply country CO2 constraint,fApplyCountryCo2Constraint,1
+Apply country CO2 constraint,fApplyCountryCo2Constraint,0
 Apply system CO2 constraints,fApplySystemCo2Constraint,0
 Minimum share of RE  (%),sMinRenewableSharePct,0
 RE share target year,sRenewableTargetYear,
