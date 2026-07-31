@@ -1,0 +1,2271 @@
+c,z,attribute,y,tech,f,techfuel,g,uni,value
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2026,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2026,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2026,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2026,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2026,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2027,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2027,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2027,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2027,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2027,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2028,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2028,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2028,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2028,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2028,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2029,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2029,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2029,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2029,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,CapacityPlant,2029,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,,1000.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2030,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2030,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2030,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2030,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,,800.0
+Libya,Libya,CapacityPlant,2030,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,,1500.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2031,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2031,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2031,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2031,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,,1200.0
+Libya,Libya,CapacityPlant,2031,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,CapacityPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,,2000.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2032,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2032,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2032,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2032,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,,1600.0
+Libya,Libya,CapacityPlant,2032,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,1000.0
+Libya,Libya,CapacityPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,,2500.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2033,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2033,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2033,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2033,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,,2000.0
+Libya,Libya,CapacityPlant,2033,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,1500.0
+Libya,Libya,CapacityPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,,3000.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2034,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2034,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,South Tripoli,,596.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2034,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,Zwitena,,500.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2034,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,CapacityPlant,2034,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,2000.0
+Libya,Libya,CapacityPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,,3500.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2035,CCGT,Gas,Gas,Benghazi North,,915.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2035,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2035,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,West Mountain,,900.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,,2800.0
+Libya,Libya,CapacityPlant,2035,OCGT,Gas,Gas,NGSC_GENC_LIB,,800.0
+Libya,Libya,CapacityPlant,2035,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,2500.0
+Libya,Libya,CapacityPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,,4000.0
+Libya,Libya,CapacityPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2036,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2036,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,,3200.0
+Libya,Libya,CapacityPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,,1200.0
+Libya,Libya,CapacityPlant,2036,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,3000.0
+Libya,Libya,CapacityPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,,4500.0
+Libya,Libya,CapacityPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,,3000.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2037,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2037,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,,3600.0
+Libya,Libya,CapacityPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,,1600.0
+Libya,Libya,CapacityPlant,2037,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,3500.0
+Libya,Libya,CapacityPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,,5000.0
+Libya,Libya,CapacityPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,,4500.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2038,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2038,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,,4000.0
+Libya,Libya,CapacityPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,,2000.0
+Libya,Libya,CapacityPlant,2038,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,4000.0
+Libya,Libya,CapacityPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,,5500.0
+Libya,Libya,CapacityPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,,6000.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2039,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2039,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,,4400.0
+Libya,Libya,CapacityPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2039,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,4500.0
+Libya,Libya,CapacityPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,,6000.0
+Libya,Libya,CapacityPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,,7500.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2040,CCGT,Gas,Gas,Zawiya CC,,1356.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,Misrata,,1340.0
+Libya,Libya,CapacityPlant,2040,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,Alsari,,750.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,,4800.0
+Libya,Libya,CapacityPlant,2040,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2040,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,5000.0
+Libya,Libya,CapacityPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,CapacityPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,,6500.0
+Libya,Libya,CapacityPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,,9000.0
+Libya,Libya,CapacityPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,CapacityPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,,451.6795000813738
+Libya,Libya,CapacityPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,,284.1803364750001
+Libya,Libya,CapacityPlant,2041,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2041,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2041,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2041,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2041,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,,5200.0
+Libya,Libya,CapacityPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2041,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,5500.0
+Libya,Libya,CapacityPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,1000.0
+Libya,Libya,CapacityPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,,7000.0
+Libya,Libya,CapacityPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,,10500.0
+Libya,Libya,CapacityPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,,2000.0
+Libya,Libya,CapacityPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,,951.6795000813738
+Libya,Libya,CapacityPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,,1284.180336475
+Libya,Libya,CapacityPlant,2042,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2042,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2042,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2042,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2042,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,,5600.0
+Libya,Libya,CapacityPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2042,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,6000.0
+Libya,Libya,CapacityPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,1500.0
+Libya,Libya,CapacityPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,,7500.0
+Libya,Libya,CapacityPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,,12000.0
+Libya,Libya,CapacityPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,,3000.0
+Libya,Libya,CapacityPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,,1451.6795000813738
+Libya,Libya,CapacityPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,,2284.1803364750003
+Libya,Libya,CapacityPlant,2043,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2043,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2043,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2043,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2043,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,,6000.0
+Libya,Libya,CapacityPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2043,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,6500.0
+Libya,Libya,CapacityPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,2000.0
+Libya,Libya,CapacityPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,,8000.0
+Libya,Libya,CapacityPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,,13500.0
+Libya,Libya,CapacityPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,,4000.0
+Libya,Libya,CapacityPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,,1951.6795000813736
+Libya,Libya,CapacityPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,,2476.7151699186243
+Libya,Libya,CapacityPlant,2044,OCGT,Gas,Gas,West Tripoli,,1400.0
+Libya,Libya,CapacityPlant,2044,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2044,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2044,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2044,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,,6400.0
+Libya,Libya,CapacityPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2044,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,7000.0
+Libya,Libya,CapacityPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,2500.0
+Libya,Libya,CapacityPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,,8500.0
+Libya,Libya,CapacityPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,,15000.0
+Libya,Libya,CapacityPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,,5000.0
+Libya,Libya,CapacityPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,,2428.625570844886
+Libya,Libya,CapacityPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,,2870.017429215083
+Libya,Libya,CapacityPlant,2045,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2045,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2045,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2045,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,,6800.0
+Libya,Libya,CapacityPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2045,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,7500.0
+Libya,Libya,CapacityPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,3000.0
+Libya,Libya,CapacityPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,,8634.281228516915
+Libya,Libya,CapacityPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,,16500.0
+Libya,Libya,CapacityPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,,6000.0
+Libya,Libya,CapacityPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,,2928.625570844886
+Libya,Libya,CapacityPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,,3870.017429215083
+Libya,Libya,CapacityPlant,2046,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2046,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2046,OCGT,Gas,Gas,Al-Khoms,,1605.0
+Libya,Libya,CapacityPlant,2046,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,,7200.0
+Libya,Libya,CapacityPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,,2400.0
+Libya,Libya,CapacityPlant,2046,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,8000.0
+Libya,Libya,CapacityPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,3500.0
+Libya,Libya,CapacityPlant,2046,PV,Solar,PV,SOPC_GENC_LIB,,8634.281228516915
+Libya,Libya,CapacityPlant,2046,PV,Solar,PV,SOPC_GENC3_LIB,,16500.0
+Libya,Libya,CapacityPlant,2046,PV,Solar,PV,SOPC_GENC4_LIB,,6000.0
+Libya,Libya,CapacityPlant,2046,Storage,Battery,Battery,Batt_GENC_LIB,,2928.625570844886
+Libya,Libya,CapacityPlant,2046,Storage,Battery,Battery,Batt_GENC2_LIB,,3870.017429215083
+Libya,Libya,CapacityPlant,2047,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2047,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2047,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,,7600.0
+Libya,Libya,CapacityPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,,2800.0
+Libya,Libya,CapacityPlant,2047,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,8500.0
+Libya,Libya,CapacityPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,4000.0
+Libya,Libya,CapacityPlant,2047,PV,Solar,PV,SOPC_GENC_LIB,,8634.281228516915
+Libya,Libya,CapacityPlant,2047,PV,Solar,PV,SOPC_GENC3_LIB,,16500.0
+Libya,Libya,CapacityPlant,2047,PV,Solar,PV,SOPC_GENC4_LIB,,6000.0
+Libya,Libya,CapacityPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,,3428.625570844886
+Libya,Libya,CapacityPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,,3891.125563867004
+Libya,Libya,CapacityPlant,2048,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2048,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2048,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,,7600.0
+Libya,Libya,CapacityPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,,2800.0
+Libya,Libya,CapacityPlant,2048,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,9000.0
+Libya,Libya,CapacityPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,4500.0
+Libya,Libya,CapacityPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,,9134.281228516917
+Libya,Libya,CapacityPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,,16627.122195455213
+Libya,Libya,CapacityPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,,7000.0
+Libya,Libya,CapacityPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,,3928.625570844886
+Libya,Libya,CapacityPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,,4891.125563867004
+Libya,Libya,CapacityPlant,2049,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2049,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2049,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,,7600.0
+Libya,Libya,CapacityPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,,2800.0
+Libya,Libya,CapacityPlant,2049,OCGT,HFO,Diesel,Obari,,640.0
+Libya,Libya,CapacityPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,9500.0
+Libya,Libya,CapacityPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,5000.0
+Libya,Libya,CapacityPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,,9459.041586466246
+Libya,Libya,CapacityPlant,2049,PV,Solar,PV,SOPC_GENC3_LIB,,16627.122195455213
+Libya,Libya,CapacityPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,,8000.0
+Libya,Libya,CapacityPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,,4428.625570844886
+Libya,Libya,CapacityPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,,5891.125563867004
+Libya,Libya,CapacityPlant,2050,OCGT,Gas,Gas,Tobruk METKA,,760.0
+Libya,Libya,CapacityPlant,2050,ST,Gas,Gas,Gulf Plant,,1400.0
+Libya,Libya,CapacityPlant,2050,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,CapacityPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,,7600.0
+Libya,Libya,CapacityPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,,2800.0
+Libya,Libya,CapacityPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,10000.0
+Libya,Libya,CapacityPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,5500.0
+Libya,Libya,CapacityPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,,9959.041586466246
+Libya,Libya,CapacityPlant,2050,PV,Solar,PV,SOPC_GENC3_LIB,,16627.122195455213
+Libya,Libya,CapacityPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,,8637.335112226956
+Libya,Libya,CapacityPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,,4928.625570844886
+Libya,Libya,CapacityPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,,6891.125563867004
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1103.2451522399986
+Libya,Libya,CostsPlant,2026,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2026,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,526.4065857600018
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,329.53250170246065
+Libya,Libya,CostsPlant,2026,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2026,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,780.1173008639981
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,148.72256915200006
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1011.7481440443124
+Libya,Libya,CostsPlant,2026,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2026,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1134.591695999998
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,3.5050138930439
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,519.1521696000003
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,139.101376
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2026,OCGT,Gas,Gas,Alsari,Variable Cost: $m,581.6028
+Libya,Libya,CostsPlant,2026,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1334.8526324800005
+Libya,Libya,CostsPlant,2027,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2027,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799989
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,440.3156716369262
+Libya,Libya,CostsPlant,2027,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2027,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893119996
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,242.7515676479997
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1252.286870763695
+Libya,Libya,CostsPlant,2027,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2027,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982680000005
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,142.5421037483331
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,860.2351199999997
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,155.757028
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2027,OCGT,Gas,Gas,Alsari,Variable Cost: $m,717.440715
+Libya,Libya,CostsPlant,2027,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.2226680000017
+Libya,Libya,CostsPlant,2028,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2028,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799989
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,429.91056736773055
+Libya,Libya,CostsPlant,2028,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2028,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893119988
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,233.94623384799976
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1265.65402716241
+Libya,Libya,CostsPlant,2028,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2028,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982679999996
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,829.1094083999999
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,251.724118
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,Alsari,Variable Cost: $m,717.440715
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2028,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,176.1100162164864
+Libya,Libya,CostsPlant,2028,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,26.284177319324044
+Libya,Libya,CostsPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,7.5
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.222668
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799991
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,517.0417038017647
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893119998
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,288.8149486399998
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1281.827410799997
+Libya,Libya,CostsPlant,2029,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2029,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.798268
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,32.446271281367444
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,856.6739316
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,302.212828
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,Alsari,Variable Cost: $m,717.440715
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2029,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,217.1592345366488
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,25.34595982154485
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,12.0
+Libya,Libya,CostsPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,323.12959440000003
+Libya,Libya,CostsPlant,2029,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,51.9425408929499
+Libya,Libya,CostsPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.2226680000006
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799986
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,456.2756392692792
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893119996
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,221.7106482719998
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1272.139535627971
+Libya,Libya,CostsPlant,2030,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2030,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982679999996
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,5.9110077678012765
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,763.0424262
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,342.809348
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,Alsari,Variable Cost: $m,652.267884
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2030,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,208.7312745964012
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,50.419382419878346
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,24.0
+Libya,Libya,CostsPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,646.2591888000001
+Libya,Libya,CostsPlant,2030,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,76.97509072087757
+Libya,Libya,CostsPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,22.5
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.222668
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799991
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,465.8238660889612
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120009
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,281.650770833456
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1278.2825802405966
+Libya,Libya,CostsPlant,2031,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2031,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.798268
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,33.290779519390846
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,755.2263114
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,380.129883
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,Alsari,Variable Cost: $m,603.051027
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2031,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,214.56876672000004
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,75.49280501821185
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,36.0
+Libya,Libya,CostsPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,969.3887832000016
+Libya,Libya,CostsPlant,2031,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,36.64047851000531
+Libya,Libya,CostsPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,20.0
+Libya,Libya,CostsPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,101.38182680310705
+Libya,Libya,CostsPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,30.0
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.2226679999992
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799989
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,393.00844997320456
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120012
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,236.25460328805764
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1200.6289083532492
+Libya,Libya,CostsPlant,2032,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2032,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982680000002
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,732.8879477999999
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,318.400048
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,Alsari,Variable Cost: $m,465.459657
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2032,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,183.61976576052297
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,100.29369042268416
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,1292.5183776
+Libya,Libya,CostsPlant,2032,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,72.80510664975081
+Libya,Libya,CostsPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,40.0
+Libya,Libya,CostsPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,125.16274913963832
+Libya,Libya,CostsPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,37.5
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1339.222668
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799989
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,419.8944548718521
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120006
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,247.8203771919997
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1196.421564300876
+Libya,Libya,CostsPlant,2033,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2033,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.798268
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,8.791826182181751
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,728.1028682866037
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,320.070158
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,Alsari,Variable Cost: $m,474.6516855
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2033,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,203.96350805628137
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,125.09457582715648
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,60.0
+Libya,Libya,CostsPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,1615.6479720000002
+Libya,Libya,CostsPlant,2033,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,108.49388441923652
+Libya,Libya,CostsPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,60.0
+Libya,Libya,CostsPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,148.31785773047142
+Libya,Libya,CostsPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,45.0
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1257.3943103524111
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799991
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,367.4324001776456
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120004
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,South Tripoli,Fixed O&M: $m,11.92
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,South Tripoli,Variable Cost: $m,223.1162209788864
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1078.589115074097
+Libya,Libya,CostsPlant,2034,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2034,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982679999998
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,654.1255601999998
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Zwitena,Fixed O&M: $m,10.0
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Zwitena,Variable Cost: $m,251.017533
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,Alsari,Variable Cost: $m,454.976505
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,143.05670634964784
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,149.8954612316288
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,72.0
+Libya,Libya,CostsPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,1938.777566400003
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,19.644265666908765
+Libya,Libya,CostsPlant,2034,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,8.0
+Libya,Libya,CostsPlant,2034,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,143.7068118184624
+Libya,Libya,CostsPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,80.0
+Libya,Libya,CostsPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,170.84715257560632
+Libya,Libya,CostsPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,52.5
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1244.5766155936203
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,Benghazi North,Fixed O&M: $m,27.45
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,Benghazi North,Variable Cost: $m,616.6664020799989
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,398.35111035025216
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120012
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Misrata,Variable Cost: $m,992.881071212368
+Libya,Libya,CostsPlant,2035,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2035,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982679999996
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,66.68048911322525
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,West Mountain,Fixed O&M: $m,18.0
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,West Mountain,Variable Cost: $m,634.4491857983242
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,Alsari,Variable Cost: $m,534.1204485
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,214.56876672000007
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,174.42380944223993
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,2261.9071607999986
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,39.072660289175005
+Libya,Libya,CostsPlant,2035,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,16.0
+Libya,Libya,CostsPlant,2035,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,178.44388884742847
+Libya,Libya,CostsPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,100.0
+Libya,Libya,CostsPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,192.75063367504305
+Libya,Libya,CostsPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,60.0
+Libya,Libya,CostsPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,65.71044329831011
+Libya,Libya,CostsPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,22.5
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1232.9815375211167
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,494.46989217754754
+Libya,Libya,CostsPlant,2036,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2036,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120012
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1124.385355209325
+Libya,Libya,CostsPlant,2036,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2036,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.7982679999996
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,198.86419626177144
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,Alsari,Variable Cost: $m,595.2800789770083
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,312.9871553363334
+Libya,Libya,CostsPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,198.95215765285107
+Libya,Libya,CostsPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,96.0
+Libya,Libya,CostsPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,2585.0367552
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,58.50105491144125
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,24.0
+Libya,Libya,CostsPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,11.84977995798853
+Libya,Libya,CostsPlant,2036,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,213.1809658763945
+Libya,Libya,CostsPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,120.0
+Libya,Libya,CostsPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,214.0283010287816
+Libya,Libya,CostsPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,67.5
+Libya,Libya,CostsPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,129.54344535952563
+Libya,Libya,CostsPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,45.0
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1115.3826540608218
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,419.6457451557984
+Libya,Libya,CostsPlant,2037,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2037,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.879389312001
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Misrata,Variable Cost: $m,1007.9113170040082
+Libya,Libya,CostsPlant,2037,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2037,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1328.798268
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,142.97989913272568
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,Alsari,Variable Cost: $m,577.3172197452562
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,271.06355592781586
+Libya,Libya,CostsPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,223.4805058634622
+Libya,Libya,CostsPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,108.0
+Libya,Libya,CostsPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,2908.166349599996
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,77.92944953370748
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,32.0
+Libya,Libya,CostsPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,10.992087230547634
+Libya,Libya,CostsPlant,2037,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,247.4421925351008
+Libya,Libya,CostsPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,140.0
+Libya,Libya,CostsPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,234.68015463682187
+Libya,Libya,CostsPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,75.0
+Libya,Libya,CostsPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,191.4990061836466
+Libya,Libya,CostsPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,67.5
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1003.9455682846262
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,276.6096310318068
+Libya,Libya,CostsPlant,2038,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2038,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.8793893120012
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Misrata,Variable Cost: $m,851.7058666010328
+Libya,Libya,CostsPlant,2038,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2038,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1208.5983764170403
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,91.66088004910864
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,Alsari,Variable Cost: $m,502.2470415
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,185.1712468937293
+Libya,Libya,CostsPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,248.00885407407333
+Libya,Libya,CostsPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,120.0
+Libya,Libya,CostsPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3225.193607724196
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,97.35784415597372
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,40.0
+Libya,Libya,CostsPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,2.918129168006323
+Libya,Libya,CostsPlant,2038,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,281.1935794977901
+Libya,Libya,CostsPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,160.0
+Libya,Libya,CostsPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,254.706194499164
+Libya,Libya,CostsPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,82.5
+Libya,Libya,CostsPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,251.577125770673
+Libya,Libya,CostsPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,90.0
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,965.057370237014
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,250.65523871532088
+Libya,Libya,CostsPlant,2039,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2039,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,913.879389312001
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Misrata,Variable Cost: $m,829.0724514223631
+Libya,Libya,CostsPlant,2039,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2039,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1126.5345686018595
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,95.35755403126952
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,Alsari,Variable Cost: $m,485.9827395
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,161.81813589371205
+Libya,Libya,CostsPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,272.2646650614731
+Libya,Libya,CostsPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,132.0
+Libya,Libya,CostsPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3409.1921618809693
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,3.9447145233814576
+Libya,Libya,CostsPlant,2039,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,314.50310541597673
+Libya,Libya,CostsPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,180.0
+Libya,Libya,CostsPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,274.106420615808
+Libya,Libya,CostsPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,90.0
+Libya,Libya,CostsPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,309.7778041206048
+Libya,Libya,CostsPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,112.5
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,826.1376234875456
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,116.54827114429692
+Libya,Libya,CostsPlant,2040,CCGT,Gas,Gas,Zawiya CC,Fixed O&M: $m,40.68
+Libya,Libya,CostsPlant,2040,CCGT,Gas,Gas,Zawiya CC,Variable Cost: $m,896.8318344411529
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Misrata,Fixed O&M: $m,26.8
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Misrata,Variable Cost: $m,595.9500217733942
+Libya,Libya,CostsPlant,2040,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2040,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1025.274489141659
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,43.98130599931091
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Alsari,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,Alsari,Variable Cost: $m,310.39216334950385
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,120.61204243843832
+Libya,Libya,CostsPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,296.52047604887287
+Libya,Libya,CostsPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,144.0
+Libya,Libya,CostsPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3418.8328675475746
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2040,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2040,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,347.3367809639036
+Libya,Libya,CostsPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,200.0
+Libya,Libya,CostsPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,32.83367554792683
+Libya,Libya,CostsPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,20.0
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,292.8808329867537
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,97.5
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,366.10104123344206
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,135.0
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,37.54882474189149
+Libya,Libya,CostsPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,15.0
+Libya,Libya,CostsPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,29.15220906001669
+Libya,Libya,CostsPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,37.76040620680285
+Libya,Libya,CostsPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,18.341511133829563
+Libya,Libya,CostsPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,23.757476129310007
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,1006.211063255049
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,510.4766260564427
+Libya,Libya,CostsPlant,2041,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2041,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,1037.4219797242135
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,259.6839805494865
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,612.1908250567129
+Libya,Libya,CostsPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,320.6960068343698
+Libya,Libya,CostsPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,156.0
+Libya,Libya,CostsPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3715.216373424836
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,166.72104678850926
+Libya,Libya,CostsPlant,2041,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2041,OCGT,HFO,Diesel,Obari,Variable Cost: $m,17.02150558710861
+Libya,Libya,CostsPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,379.8122426819088
+Libya,Libya,CostsPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,220.0
+Libya,Libya,CostsPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,65.30913726593201
+Libya,Libya,CostsPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,40.0
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,311.1228341570933
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,105.0
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,420.8270447444608
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,157.5
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,74.03282708257063
+Libya,Libya,CostsPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,30.0
+Libya,Libya,CostsPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,60.23631375490469
+Libya,Libya,CostsPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,79.56040620680284
+Libya,Libya,CostsPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,80.50972052360557
+Libya,Libya,CostsPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,107.35747612931
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,834.4789573508502
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,415.68738268316207
+Libya,Libya,CostsPlant,2042,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2042,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,980.3206486024952
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,191.61276427297136
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,272.8139981576859
+Libya,Libya,CostsPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,344.7915230956144
+Libya,Libya,CostsPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,168.0
+Libya,Libya,CostsPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3816.151094965653
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,97.6864875868448
+Libya,Libya,CostsPlant,2042,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2042,OCGT,HFO,Diesel,Obari,Variable Cost: $m,6.9241583389919645
+Libya,Libya,CostsPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,411.9333993476887
+Libya,Libya,CostsPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,240.0
+Libya,Libya,CostsPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,97.43029393171194
+Libya,Libya,CostsPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,60.0
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,328.8475224153833
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,112.5
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,474.00110951933095
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,180.0
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,109.48220359915076
+Libya,Libya,CostsPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,45.0
+Libya,Libya,CostsPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,90.1772677680969
+Libya,Libya,CostsPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,121.36040620680284
+Libya,Libya,CostsPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,140.39162854999
+Libya,Libya,CostsPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,190.95747612931004
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,729.8312897241819
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,330.8983052098605
+Libya,Libya,CostsPlant,2043,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2043,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,953.7701828927424
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,135.1464475246506
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,237.70178575103816
+Libya,Libya,CostsPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,368.8072896884527
+Libya,Libya,CostsPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,180.0
+Libya,Libya,CostsPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3922.9323114665663
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,98.79530734612608
+Libya,Libya,CostsPlant,2043,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2043,OCGT,HFO,Diesel,Obari,Variable Cost: $m,6.814201066042467
+Libya,Libya,CostsPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,443.7041126297533
+Libya,Libya,CostsPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,260.0
+Libya,Libya,CostsPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,129.20100721377642
+Libya,Libya,CostsPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,80.0
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,346.0695678997064
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,120.0
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,525.6672459723002
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,202.5
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,143.92629456779687
+Libya,Libya,CostsPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,60.0
+Libya,Libya,CostsPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,119.01711159410162
+Libya,Libya,CostsPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,163.16040620680283
+Libya,Libya,CostsPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,151.49697760514988
+Libya,Libya,CostsPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,207.05338820519697
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,West Tripoli,Fixed O&M: $m,28.0
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,West Tripoli,Variable Cost: $m,490.30802534108506
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,206.2811516242297
+Libya,Libya,CostsPlant,2044,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2044,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,825.120785583947
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,79.8183359653479
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,157.53374519586552
+Libya,Libya,CostsPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,392.7435705295256
+Libya,Libya,CostsPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,192.0
+Libya,Libya,CostsPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3997.396688742087
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,79.15194239330873
+Libya,Libya,CostsPlant,2044,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2044,OCGT,HFO,Diesel,Obari,Variable Cost: $m,1.7593547077606468
+Libya,Libya,CostsPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,475.1282126477324
+Libya,Libya,CostsPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,280.0
+Libya,Libya,CostsPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,160.62510723175563
+Libya,Libya,CostsPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,100.0
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,362.8032247071669
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,127.5
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,575.8682163946816
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,225.0
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,177.39360818271783
+Libya,Libya,CostsPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,75.0
+Libya,Libya,CostsPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,145.51549903962052
+Libya,Libya,CostsPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,203.03309772263248
+Libya,Libya,CostsPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,173.34824400378443
+Libya,Libya,CostsPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,239.93345708238093
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,239.1441202481828
+Libya,Libya,CostsPlant,2045,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2045,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,594.655737332597
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,130.4235995375259
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,236.32600049862603
+Libya,Libya,CostsPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,416.60062868431936
+Libya,Libya,CostsPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,204.0
+Libya,Libya,CostsPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,4056.561398613514
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,112.11941539084732
+Libya,Libya,CostsPlant,2045,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2045,OCGT,HFO,Diesel,Obari,Variable Cost: $m,26.61025544182782
+Libya,Libya,CostsPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,506.2091376584767
+Libya,Libya,CostsPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,300.0
+Libya,Libya,CostsPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,191.7060322425
+Libya,Libya,CostsPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,120.0
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,367.1638048935159
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,129.51421842775372
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,624.5784520081393
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,247.5
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,209.86709859168965
+Libya,Libya,CostsPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,90.0
+Libya,Libya,CostsPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,172.27311675396345
+Libya,Libya,CostsPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,244.8330977226325
+Libya,Libya,CostsPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,226.8634794324704
+Libya,Libya,CostsPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,323.5334570823809
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,146.65871721743864
+Libya,Libya,CostsPlant,2046,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2046,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,439.2218379874154
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,Al-Khoms,Fixed O&M: $m,32.1
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,Al-Khoms,Variable Cost: $m,87.32713970387388
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,124.82088940785069
+Libya,Libya,CostsPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,440.3787263965157
+Libya,Libya,CostsPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,216.0
+Libya,Libya,CostsPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,4097.384579845818
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,116.5703677103498
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,48.0
+Libya,Libya,CostsPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,89.55464187109672
+Libya,Libya,CostsPlant,2046,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2046,OCGT,HFO,Diesel,Obari,Variable Cost: $m,3.8002542056505866
+Libya,Libya,CostsPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,536.9513077884903
+Libya,Libya,CostsPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,320.0
+Libya,Libya,CostsPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,222.4482023725136
+Libya,Libya,CostsPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,140.0
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,367.1638048935159
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,129.51421842775372
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,624.5784520081393
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,247.5
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,209.86709859168965
+Libya,Libya,CostsPlant,2046,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,90.0
+Libya,Libya,CostsPlant,2046,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,172.27311675396345
+Libya,Libya,CostsPlant,2046,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,244.8330977226325
+Libya,Libya,CostsPlant,2046,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,226.8634794324704
+Libya,Libya,CostsPlant,2046,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,323.5334570823809
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,93.8339502933396
+Libya,Libya,CostsPlant,2047,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2047,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,379.7197795660971
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,113.53978548397848
+Libya,Libya,CostsPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,464.0781249999415
+Libya,Libya,CostsPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,228.0
+Libya,Libya,CostsPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,4095.16518201386
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,135.3421685843504
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,56.0
+Libya,Libya,CostsPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,143.16934674058146
+Libya,Libya,CostsPlant,2047,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2047,OCGT,HFO,Diesel,Obari,Variable Cost: $m,31.546466267702986
+Libya,Libya,CostsPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,567.3580826365576
+Libya,Libya,CostsPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,340.0
+Libya,Libya,CostsPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,252.8549772205808
+Libya,Libya,CostsPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,160.0
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,367.1638048935159
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,129.51421842775372
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,624.5784520081393
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,247.5
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,209.86709859168965
+Libya,Libya,CostsPlant,2047,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,90.0
+Libya,Libya,CostsPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,197.0988442941931
+Libya,Libya,CostsPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,286.63309772263244
+Libya,Libya,CostsPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,227.9115290319725
+Libya,Libya,CostsPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,325.2980971392815
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,73.59422482809437
+Libya,Libya,CostsPlant,2048,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2048,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,261.6708633590019
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,96.6967692731876
+Libya,Libya,CostsPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,464.0781249999415
+Libya,Libya,CostsPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,228.0
+Libya,Libya,CostsPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3664.111252659845
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,135.3421685843504
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,56.0
+Libya,Libya,CostsPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,128.08108177910148
+Libya,Libya,CostsPlant,2048,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2048,OCGT,HFO,Diesel,Obari,Variable Cost: $m,8.381108737142775
+Libya,Libya,CostsPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,597.4331213492704
+Libya,Libya,CostsPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,360.0
+Libya,Libya,CostsPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,282.93001593329365
+Libya,Libya,CostsPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,180.0
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,382.0785337674884
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,137.01421842775372
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,628.3704381662965
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,249.4068329318281
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,239.69655633963464
+Libya,Libya,CostsPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,105.0
+Libya,Libya,CostsPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,221.011579535657
+Libya,Libya,CostsPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,328.43309772263245
+Libya,Libya,CostsPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,275.7369995149003
+Libya,Libya,CostsPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,408.8980971392815
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,73.91621886327555
+Libya,Libya,CostsPlant,2049,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2049,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,237.49899932680825
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,98.08398612580196
+Libya,Libya,CostsPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,464.0781249999415
+Libya,Libya,CostsPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,228.0
+Libya,Libya,CostsPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,3352.851492527939
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,135.3421685843504
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,56.0
+Libya,Libya,CostsPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,130.480008788682
+Libya,Libya,CostsPlant,2049,OCGT,HFO,Diesel,Obari,Fixed O&M: $m,12.8
+Libya,Libya,CostsPlant,2049,OCGT,HFO,Diesel,Obari,Variable Cost: $m,10.49461842755721
+Libya,Libya,CostsPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,627.1796998233328
+Libya,Libya,CostsPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,380.0
+Libya,Libya,CostsPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,312.6765944073561
+Libya,Libya,CostsPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,200.0
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,391.4910946545709
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,141.88562379699368
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,628.3704381662965
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,249.4068329318281
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,268.67965312680786
+Libya,Libya,CostsPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,120.0
+Libya,Libya,CostsPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,244.0448986880484
+Libya,Libya,CostsPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,370.23309772263246
+Libya,Libya,CostsPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,321.80363781968305
+Libya,Libya,CostsPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,492.4980971392815
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,Tobruk METKA,Fixed O&M: $m,15.2
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,Tobruk METKA,Variable Cost: $m,67.80191787820405
+Libya,Libya,CostsPlant,2050,ST,Gas,Gas,Gulf Plant,Fixed O&M: $m,84.0
+Libya,Libya,CostsPlant,2050,ST,Gas,Gas,Gulf Plant,Variable Cost: $m,176.32537816328596
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,South Tripoli New,Investment costs: $m,66.25082567215684
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,South Tripoli New,Fixed O&M: $m,26.4
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,South Tripoli New,Variable Cost: $m,79.90680003538614
+Libya,Libya,CostsPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,Investment costs: $m,464.0781249999415
+Libya,Libya,CostsPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,Fixed O&M: $m,228.0
+Libya,Libya,CostsPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,Variable Cost: $m,2893.596564682105
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,Investment costs: $m,135.3421685843504
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,Fixed O&M: $m,56.0
+Libya,Libya,CostsPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,Variable Cost: $m,117.8905544634018
+Libya,Libya,CostsPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Investment costs: $m,656.5680577103984
+Libya,Libya,CostsPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,Fixed O&M: $m,400.0
+Libya,Libya,CostsPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Investment costs: $m,342.06495229442174
+Libya,Libya,CostsPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,Fixed O&M: $m,220.0
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,Investment costs: $m,405.5719039327802
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,Fixed O&M: $m,149.38562379699368
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC3_LIB,Investment costs: $m,628.3704381662965
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC3_LIB,Fixed O&M: $m,249.4068329318281
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,Investment costs: $m,286.6280414499556
+Libya,Libya,CostsPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,Fixed O&M: $m,129.56002668340437
+Libya,Libya,CostsPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,Investment costs: $m,266.2311432551084
+Libya,Libya,CostsPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,Fixed O&M: $m,412.0330977226325
+Libya,Libya,CostsPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,Investment costs: $m,366.1761269538031
+Libya,Libya,CostsPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,Fixed O&M: $m,576.0980971392814
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,West Tripoli,,10044.111
+Libya,Libya,EnergyPlant,2026,CCGT,Gas,Gas,Benghazi North,,6813.090000000001
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,Tobruk METKA,,3000.113817393122
+Libya,Libya,EnergyPlant,2026,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,South Tripoli,,1353.9928000000002
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,Misrata,,9211.108376222808
+Libya,Libya,EnergyPlant,2026,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,Al-Khoms,,31.85218005310705
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,West Mountain,,4726.4400000000005
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,Zwitena,,1266.4
+Libya,Libya,EnergyPlant,2026,OCGT,Gas,Gas,Alsari,,5295.0
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,West Tripoli,,10390.384
+Libya,Libya,EnergyPlant,2027,CCGT,Gas,Gas,Benghazi North,,6813.089999999999
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,Tobruk METKA,,3427.381269066136
+Libya,Libya,EnergyPlant,2027,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,South Tripoli,,1889.5584000000003
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,Misrata,,9747.698846140716
+Libya,Libya,EnergyPlant,2027,ST,Gas,Gas,Gulf Plant,,10424.400000000003
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,Al-Khoms,,1107.811484793139
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,West Mountain,,6696.0
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,Zwitena,,1212.4
+Libya,Libya,EnergyPlant,2027,OCGT,Gas,Gas,Alsari,,5584.5
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,West Tripoli,,10424.4
+Libya,Libya,EnergyPlant,2028,CCGT,Gas,Gas,Benghazi North,,6813.090000000003
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,Tobruk METKA,,3346.3887862359384
+Libya,Libya,EnergyPlant,2028,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,South Tripoli,,1821.0184
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,Misrata,,9851.747701116325
+Libya,Libya,EnergyPlant,2028,ST,Gas,Gas,Gulf Plant,,10424.400000000003
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,West Mountain,,6453.72
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,Zwitena,,1959.4
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,Alsari,,5584.5
+Libya,Libya,EnergyPlant,2028,OCGT,Gas,Gas,South Tripoli New,,1370.2926876477304
+Libya,Libya,EnergyPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,,982.2664250000004
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,West Tripoli,,10424.4
+Libya,Libya,EnergyPlant,2029,CCGT,Gas,Gas,Benghazi North,,6813.09
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,Tobruk METKA,,4024.6104444754815
+Libya,Libya,EnergyPlant,2029,CCGT,Gas,Gas,Zawiya CC,,10096.776
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,South Tripoli,,2248.1120000000005
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,Misrata,,9977.64
+Libya,Libya,EnergyPlant,2029,ST,Gas,Gas,Gulf Plant,,10424.400000000003
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,Al-Khoms,,252.1665600479324
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,West Mountain,,6668.28
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,Zwitena,,2352.4
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,Alsari,,5584.5
+Libya,Libya,EnergyPlant,2029,OCGT,Gas,Gas,South Tripoli New,,1689.6921454765702
+Libya,Libya,EnergyPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,,2978.4
+Libya,Libya,EnergyPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,,1964.5328500000007
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,West Tripoli,,10424.399999999998
+Libya,Libya,EnergyPlant,2030,CCGT,Gas,Gas,Benghazi North,,6813.089999999997
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,Tobruk METKA,,3551.612355174591
+Libya,Libya,EnergyPlant,2030,CCGT,Gas,Gas,Zawiya CC,,10096.775999999998
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,South Tripoli,,1725.7776
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,Misrata,,9902.230369953872
+Libya,Libya,EnergyPlant,2030,ST,Gas,Gas,Gulf Plant,,10424.399999999998
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,Al-Khoms,,45.93928474237412
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,West Mountain,,5939.46
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,Zwitena,,2668.4
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,Alsari,,5077.2
+Libya,Libya,EnergyPlant,2030,OCGT,Gas,Gas,South Tripoli New,,1624.1151151291715
+Libya,Libya,EnergyPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,,5956.8
+Libya,Libya,EnergyPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,,2946.799274999999
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,West Tripoli,,10424.400000000003
+Libya,Libya,EnergyPlant,2031,CCGT,Gas,Gas,Benghazi North,,6813.090000000002
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,Tobruk METKA,,3625.934973837952
+Libya,Libya,EnergyPlant,2031,CCGT,Gas,Gas,Zawiya CC,,10096.776
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,South Tripoli,,2192.346624375
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,Misrata,,9950.04732809683
+Libya,Libya,EnergyPlant,2031,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,Al-Khoms,,258.7299255412361
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,West Mountain,,5878.62
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,Zwitena,,2958.9
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,Alsari,,4694.1
+Libya,Libya,EnergyPlant,2031,OCGT,Gas,Gas,South Tripoli New,,1669.5360000000005
+Libya,Libya,EnergyPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,,8935.2
+Libya,Libya,EnergyPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,1332.8534481490003
+Libya,Libya,EnergyPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,,3929.0657000000015
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,West Tripoli,,10424.399999999998
+Libya,Libya,EnergyPlant,2032,CCGT,Gas,Gas,Benghazi North,,6813.09
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,Tobruk METKA,,3059.1457147443352
+Libya,Libya,EnergyPlant,2032,CCGT,Gas,Gas,Zawiya CC,,10096.775999999998
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,South Tripoli,,1838.9865594151008
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,Misrata,,9345.597480760116
+Libya,Libya,EnergyPlant,2032,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,West Mountain,,5704.74
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,Zwitena,,2478.4
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,Alsari,,3623.1
+Libya,Libya,EnergyPlant,2032,OCGT,Gas,Gas,South Tripoli New,,1428.725223782469
+Libya,Libya,EnergyPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,,11913.6
+Libya,Libya,EnergyPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,2665.7068962980006
+Libya,Libya,EnergyPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,,4911.332124999997
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,West Tripoli,,10424.4
+Libya,Libya,EnergyPlant,2033,CCGT,Gas,Gas,Benghazi North,,6813.089999999999
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,Tobruk METKA,,3268.4241836370547
+Libya,Libya,EnergyPlant,2033,CCGT,Gas,Gas,Zawiya CC,,10096.776000000002
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,South Tripoli,,1929.0136000000005
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,Misrata,,9312.847857872484
+Libya,Libya,EnergyPlant,2033,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,Al-Khoms,,68.32848513392204
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,West Mountain,,5667.49333141281
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,Zwitena,,2491.4
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,Alsari,,3694.65
+Libya,Libya,EnergyPlant,2033,OCGT,Gas,Gas,South Tripoli New,,1587.0176474967418
+Libya,Libya,EnergyPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,,14892.0
+Libya,Libya,EnergyPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,3998.560344447
+Libya,Libya,EnergyPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,,5893.598549999998
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,West Tripoli,,9787.4547392575
+Libya,Libya,EnergyPlant,2034,CCGT,Gas,Gas,Benghazi North,,6813.090000000006
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,Tobruk METKA,,2860.063829513865
+Libya,Libya,EnergyPlant,2034,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,South Tripoli,,1736.7184632901583
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,Misrata,,8395.649685328088
+Libya,Libya,EnergyPlant,2034,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,West Mountain,,5091.66
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,Zwitena,,1953.9
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,Alsari,,3541.5
+Libya,Libya,EnergyPlant,2034,OCGT,Gas,Gas,South Tripoli New,,1113.1085150143776
+Libya,Libya,EnergyPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,,17870.4
+Libya,Libya,EnergyPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,5331.413792596001
+Libya,Libya,EnergyPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,,6875.864975
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,West Tripoli,,9687.682848864482
+Libya,Libya,EnergyPlant,2035,CCGT,Gas,Gas,Benghazi North,,6813.089999999995
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,Tobruk METKA,,3100.73254728927
+Libya,Libya,EnergyPlant,2035,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,Misrata,,7728.505263581922
+Libya,Libya,EnergyPlant,2035,ST,Gas,Gas,Gulf Plant,,10424.399999999998
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,Al-Khoms,,518.2287177525861
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,West Mountain,,4938.50070676675
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,Alsari,,4157.55
+Libya,Libya,EnergyPlant,2035,OCGT,Gas,Gas,South Tripoli New,,1669.5359999999998
+Libya,Libya,EnergyPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,,20848.800000000003
+Libya,Libya,EnergyPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,6664.267240745003
+Libya,Libya,EnergyPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,,7858.131400000003
+Libya,Libya,EnergyPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,,2946.799274999999
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,West Tripoli,,9597.427707022012
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,Tobruk METKA,,3848.913304098608
+Libya,Libya,EnergyPlant,2036,CCGT,Gas,Gas,Zawiya CC,,10096.775999999998
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,Misrata,,8752.123882691114
+Libya,Libya,EnergyPlant,2036,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,Al-Khoms,,1545.5366150755538
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,Alsari,,4633.611574507732
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,South Tripoli New,,2435.3186689724025
+Libya,Libya,EnergyPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,,23827.19999999999
+Libya,Libya,EnergyPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,,76.57518373854441
+Libya,Libya,EnergyPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,7997.120688893999
+Libya,Libya,EnergyPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,,8840.397825000004
+Libya,Libya,EnergyPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,,5893.598549999998
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,West Tripoli,,8682.04759135068
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,Tobruk METKA,,3266.488247495903
+Libya,Libya,EnergyPlant,2037,CCGT,Gas,Gas,Zawiya CC,,10096.775999999996
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,Misrata,,7845.499470724759
+Libya,Libya,EnergyPlant,2037,ST,Gas,Gas,Gulf Plant,,10424.4
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,Al-Khoms,,1111.2139514473129
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,Alsari,,4493.790143576371
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,South Tripoli New,,2109.1157479599747
+Libya,Libya,EnergyPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,,26805.6
+Libya,Libya,EnergyPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,,71.03263540196342
+Libya,Libya,EnergyPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,9329.974137043
+Libya,Libya,EnergyPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,,9822.664249999994
+Libya,Libya,EnergyPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,,8840.397825000004
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,West Tripoli,,7814.63040620088
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,Tobruk METKA,,2153.106803392286
+Libya,Libya,EnergyPlant,2038,CCGT,Gas,Gas,Zawiya CC,,10096.775999999998
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,Misrata,,6629.608987320258
+Libya,Libya,EnergyPlant,2038,ST,Gas,Gas,Gulf Plant,,9481.433877908845
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,Al-Khoms,,712.3718042209426
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,Alsari,,3909.45
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,South Tripoli New,,1440.7971280246604
+Libya,Libya,EnergyPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,,29727.75260366479
+Libya,Libya,EnergyPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,,18.857419969410213
+Libya,Libya,EnergyPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,10662.827585192004
+Libya,Libya,EnergyPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,,10804.930674999996
+Libya,Libya,EnergyPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,,11787.197099999996
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,West Tripoli,,7511.927844921109
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,Tobruk METKA,,1951.079930842384
+Libya,Libya,EnergyPlant,2039,CCGT,Gas,Gas,Zawiya CC,,10096.775999999998
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,Misrata,,6453.432329900858
+Libya,Libya,EnergyPlant,2039,ST,Gas,Gas,Gulf Plant,,8837.64468974551
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,Al-Khoms,,741.1016867278272
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,Alsari,,3782.85
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,South Tripoli New,,1259.0891370503589
+Libya,Libya,EnergyPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,,31423.73249284238
+Libya,Libya,EnergyPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,,25.491379628564417
+Libya,Libya,EnergyPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,11995.681033341005
+Libya,Libya,EnergyPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,,11787.197099999996
+Libya,Libya,EnergyPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,,14733.996375
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,West Tripoli,,6430.587868666196
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,Tobruk METKA,,907.2022351077828
+Libya,Libya,EnergyPlant,2040,CCGT,Gas,Gas,Zawiya CC,,9908.4302019749
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,Misrata,,4638.826354583905
+Libya,Libya,EnergyPlant,2040,ST,Gas,Gas,Gulf Plant,,8043.2610743050045
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,Al-Khoms,,341.81476645147205
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,Alsari,,2416.0672791274537
+Libya,Libya,EnergyPlant,2040,OCGT,Gas,Gas,South Tripoli New,,938.469051030488
+Libya,Libya,EnergyPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,,31512.59429397434
+Libya,Libya,EnergyPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,13328.534481490004
+Libya,Libya,EnergyPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,1276.785949136
+Libya,Libya,EnergyPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,,12462.650416921804
+Libya,Libya,EnergyPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,,17680.795650000007
+Libya,Libya,EnergyPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,,1964.5328500000007
+Libya,Libya,EnergyPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,,547.4355540986252
+Libya,Libya,EnergyPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,,346.6289654153814
+Libya,Libya,EnergyPlant,2041,OCGT,Gas,Gas,West Tripoli,,7832.264834241841
+Libya,Libya,EnergyPlant,2041,OCGT,Gas,Gas,Tobruk METKA,,3973.508414855168
+Libya,Libya,EnergyPlant,2041,ST,Gas,Gas,Gulf Plant,,8138.557933036899
+Libya,Libya,EnergyPlant,2041,OCGT,Gas,Gas,Al-Khoms,,2018.216993467682
+Libya,Libya,EnergyPlant,2041,OCGT,Gas,Gas,South Tripoli New,,4763.389550705833
+Libya,Libya,EnergyPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,,34244.46611631234
+Libya,Libya,EnergyPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,,1077.3782159816292
+Libya,Libya,EnergyPlant,2041,OCGT,HFO,Diesel,Obari,,87.61416931978204
+Libya,Libya,EnergyPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,14632.960650868994
+Libya,Libya,EnergyPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,2502.392573262
+Libya,Libya,EnergyPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,,13078.724329156115
+Libya,Libya,EnergyPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,,20627.59492500001
+Libya,Libya,EnergyPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,,3929.0657000000015
+Libya,Libya,EnergyPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,,1402.823997717705
+Libya,Libya,EnergyPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,,1895.9376374626668
+Libya,Libya,EnergyPlant,2042,OCGT,Gas,Gas,West Tripoli,,6495.516131009966
+Libya,Libya,EnergyPlant,2042,OCGT,Gas,Gas,Tobruk METKA,,3235.6766769141645
+Libya,Libya,EnergyPlant,2042,ST,Gas,Gas,Gulf Plant,,7690.5989534988275
+Libya,Libya,EnergyPlant,2042,OCGT,Gas,Gas,Al-Khoms,,1489.179795391089
+Libya,Libya,EnergyPlant,2042,OCGT,Gas,Gas,South Tripoli New,,2122.7357466362105
+Libya,Libya,EnergyPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,,35174.81721954504
+Libya,Libya,EnergyPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,,631.2657924667025
+Libya,Libya,EnergyPlant,2042,OCGT,HFO,Diesel,Obari,,35.64046541034994
+Libya,Libya,EnergyPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,15784.105154837998
+Libya,Libya,EnergyPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,3622.199538760499
+Libya,Libya,EnergyPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,,13572.291041795908
+Libya,Libya,EnergyPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,,23574.39419999999
+Libya,Libya,EnergyPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,,5893.598549999998
+Libya,Libya,EnergyPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,,2029.1494361700884
+Libya,Libya,EnergyPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,,3311.6149764248576
+Libya,Libya,EnergyPlant,2043,OCGT,Gas,Gas,West Tripoli,,5680.947222886136
+Libya,Libya,EnergyPlant,2043,OCGT,Gas,Gas,Tobruk METKA,,2575.6854145704133
+Libya,Libya,EnergyPlant,2043,ST,Gas,Gas,Gulf Plant,,7482.31099782492
+Libya,Libya,EnergyPlant,2043,OCGT,Gas,Gas,Al-Khoms,,1050.3337804045282
+Libya,Libya,EnergyPlant,2043,OCGT,Gas,Gas,South Tripoli New,,1849.531479544335
+Libya,Libya,EnergyPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,,36159.05753902689
+Libya,Libya,EnergyPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,,638.4311640686157
+Libya,Libya,EnergyPlant,2043,OCGT,HFO,Diesel,Obari,,35.07448638570744
+Libya,Libya,EnergyPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,16709.7730886125
+Libya,Libya,EnergyPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,4675.675027238003
+Libya,Libya,EnergyPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,,13458.837357779195
+Libya,Libya,EnergyPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,,26521.193475000026
+Libya,Libya,EnergyPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,,7388.078800000005
+Libya,Libya,EnergyPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,,2930.1009147205427
+Libya,Libya,EnergyPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,,3682.501474213096
+Libya,Libya,EnergyPlant,2044,OCGT,Gas,Gas,West Tripoli,,3816.5176721498033
+Libya,Libya,EnergyPlant,2044,OCGT,Gas,Gas,Tobruk METKA,,1605.6756567621223
+Libya,Libya,EnergyPlant,2044,ST,Gas,Gas,Gulf Plant,,6473.058645829978
+Libya,Libya,EnergyPlant,2044,OCGT,Gas,Gas,Al-Khoms,,620.333690567715
+Libya,Libya,EnergyPlant,2044,OCGT,Gas,Gas,South Tripoli New,,1225.7527637400049
+Libya,Libya,EnergyPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,,36845.422097151655
+Libya,Libya,EnergyPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,,511.4925807499256
+Libya,Libya,EnergyPlant,2044,OCGT,HFO,Diesel,Obari,,9.055861743278433
+Libya,Libya,EnergyPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,17750.841716580006
+Libya,Libya,EnergyPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,5792.638485902503
+Libya,Libya,EnergyPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,,13171.095427856377
+Libya,Libya,EnergyPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,,29467.99275
+Libya,Libya,EnergyPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,,8637.220599999999
+Libya,Libya,EnergyPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,,3739.1275890168495
+Libya,Libya,EnergyPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,,4412.204073808252
+Libya,Libya,EnergyPlant,2045,OCGT,Gas,Gas,Tobruk METKA,,1861.478323719024
+Libya,Libya,EnergyPlant,2045,ST,Gas,Gas,Gulf Plant,,4665.064229486129
+Libya,Libya,EnergyPlant,2045,OCGT,Gas,Gas,Al-Khoms,,1013.6286588756192
+Libya,Libya,EnergyPlant,2045,OCGT,Gas,Gas,South Tripoli New,,1838.8266456475728
+Libya,Libya,EnergyPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,,37390.7641980764
+Libya,Libya,EnergyPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,,724.5336930011395
+Libya,Libya,EnergyPlant,2045,OCGT,HFO,Diesel,Obari,,136.96998858248398
+Libya,Libya,EnergyPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,18530.94293096869
+Libya,Libya,EnergyPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,6774.246260061001
+Libya,Libya,EnergyPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,,12571.709034586507
+Libya,Libya,EnergyPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,,32414.792024999984
+Libya,Libya,EnergyPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,,10316.32122
+Libya,Libya,EnergyPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,,4435.247116277044
+Libya,Libya,EnergyPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,,5981.657062415289
+Libya,Libya,EnergyPlant,2046,OCGT,Gas,Gas,Tobruk METKA,,1141.579491067476
+Libya,Libya,EnergyPlant,2046,ST,Gas,Gas,Gulf Plant,,3445.687910782265
+Libya,Libya,EnergyPlant,2046,OCGT,Gas,Gas,Al-Khoms,,678.6907570053149
+Libya,Libya,EnergyPlant,2046,OCGT,Gas,Gas,South Tripoli New,,971.2176268895948
+Libya,Libya,EnergyPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,,37767.04592865607
+Libya,Libya,EnergyPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,,578.7164977097892
+Libya,Libya,EnergyPlant,2046,OCGT,HFO,Diesel,Obari,,19.56090862398515
+Libya,Libya,EnergyPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,20085.0930530918
+Libya,Libya,EnergyPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,7804.213281248999
+Libya,Libya,EnergyPlant,2046,PV,Solar,PV,SOPC_GENC_LIB,,12354.2121104376
+Libya,Libya,EnergyPlant,2046,PV,Solar,PV,SOPC_GENC3_LIB,,32393.782343333314
+Libya,Libya,EnergyPlant,2046,PV,Solar,PV,SOPC_GENC4_LIB,,10176.35544
+Libya,Libya,EnergyPlant,2046,Storage,Battery,Battery,Batt_GENC_LIB,,4420.239499198238
+Libya,Libya,EnergyPlant,2046,Storage,Battery,Battery,Batt_GENC2_LIB,,6014.893571273909
+Libya,Libya,EnergyPlant,2047,OCGT,Gas,Gas,Tobruk METKA,,730.3958145352187
+Libya,Libya,EnergyPlant,2047,ST,Gas,Gas,Gulf Plant,,2978.89526607121
+Libya,Libya,EnergyPlant,2047,OCGT,Gas,Gas,South Tripoli New,,883.4405966696115
+Libya,Libya,EnergyPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,,37746.58895220676
+Libya,Libya,EnergyPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,,925.1833427503052
+Libya,Libya,EnergyPlant,2047,OCGT,HFO,Diesel,Obari,,162.3779649147252
+Libya,Libya,EnergyPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,21320.27070559735
+Libya,Libya,EnergyPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,9117.980192788007
+Libya,Libya,EnergyPlant,2047,PV,Solar,PV,SOPC_GENC_LIB,,12561.22736661605
+Libya,Libya,EnergyPlant,2047,PV,Solar,PV,SOPC_GENC3_LIB,,32414.792024999984
+Libya,Libya,EnergyPlant,2047,PV,Solar,PV,SOPC_GENC4_LIB,,10338.51126
+Libya,Libya,EnergyPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,,5236.385820256764
+Libya,Libya,EnergyPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,,5976.040606921943
+Libya,Libya,EnergyPlant,2048,OCGT,Gas,Gas,Tobruk METKA,,572.8514425787683
+Libya,Libya,EnergyPlant,2048,ST,Gas,Gas,Gulf Plant,,2052.803509523824
+Libya,Libya,EnergyPlant,2048,OCGT,Gas,Gas,South Tripoli New,,752.3869380111081
+Libya,Libya,EnergyPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,,33773.412104781484
+Libya,Libya,EnergyPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,,827.680548114674
+Libya,Libya,EnergyPlant,2048,OCGT,HFO,Diesel,Obari,,43.13977257920492
+Libya,Libya,EnergyPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,22493.24015572657
+Libya,Libya,EnergyPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,10181.255746752004
+Libya,Libya,EnergyPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,,13143.147161771809
+Libya,Libya,EnergyPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,,32664.5277539359
+Libya,Libya,EnergyPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,,12316.955070000002
+Libya,Libya,EnergyPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,,5840.438837211716
+Libya,Libya,EnergyPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,,7395.373274191503
+Libya,Libya,EnergyPlant,2049,OCGT,Gas,Gas,Tobruk METKA,,575.3578178818054
+Libya,Libya,EnergyPlant,2049,ST,Gas,Gas,Gulf Plant,,1863.1756438911764
+Libya,Libya,EnergyPlant,2049,OCGT,Gas,Gas,South Tripoli New,,763.1807199330998
+Libya,Libya,EnergyPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,,30904.4205743144
+Libya,Libya,EnergyPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,,843.1828002396297
+Libya,Libya,EnergyPlant,2049,OCGT,HFO,Diesel,Obari,,57.662104963446616
+Libya,Libya,EnergyPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,23994.400582221988
+Libya,Libya,EnergyPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,11096.295289265006
+Libya,Libya,EnergyPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,,13809.08874815249
+Libya,Libya,EnergyPlant,2049,PV,Solar,PV,SOPC_GENC3_LIB,,32664.5277539359
+Libya,Libya,EnergyPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,,14231.096560000007
+Libya,Libya,EnergyPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,,6612.818852491338
+Libya,Libya,EnergyPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,,9256.049851369768
+Libya,Libya,EnergyPlant,2050,OCGT,Gas,Gas,Tobruk METKA,,527.7645977909553
+Libya,Libya,EnergyPlant,2050,ST,Gas,Gas,Gulf Plant,,1383.2696176613
+Libya,Libya,EnergyPlant,2050,OCGT,Gas,Gas,South Tripoli New,,621.7460320213676
+Libya,Libya,EnergyPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,,26671.305128371096
+Libya,Libya,EnergyPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,,761.8277217871869
+Libya,Libya,EnergyPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,25240.539626410784
+Libya,Libya,EnergyPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,12297.525615072498
+Libya,Libya,EnergyPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,,14500.77044893041
+Libya,Libya,EnergyPlant,2050,PV,Solar,PV,SOPC_GENC3_LIB,,32664.5277539359
+Libya,Libya,EnergyPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,,15898.229942490543
+Libya,Libya,EnergyPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,,7131.203906162503
+Libya,Libya,EnergyPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,,10829.861349544091
+Libya,Libya,NewCapacityPlant,2028,OCGT,Gas,Gas,South Tripoli New,,1320.0
+Libya,Libya,NewCapacityPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2034,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2035,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,,451.6795000813738
+Libya,Libya,NewCapacityPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,,284.1803364750001
+Libya,Libya,NewCapacityPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,,192.534833443624
+Libya,Libya,NewCapacityPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,,476.9460707635124
+Libya,Libya,NewCapacityPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,,393.3022592964589
+Libya,Libya,NewCapacityPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,,134.28122851691478
+Libya,Libya,NewCapacityPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,,1500.0
+Libya,Libya,NewCapacityPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,,400.0
+Libya,Libya,NewCapacityPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,,21.10813465192041
+Libya,Libya,NewCapacityPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,,127.12219545521292
+Libya,Libya,NewCapacityPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,,324.7603579493316
+Libya,Libya,NewCapacityPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,NewCapacityPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,,637.335112226956
+Libya,Libya,NewCapacityPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,,500.0
+Libya,Libya,NewCapacityPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,,1000.0
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,West Tripoli,,112.6277031625794
+Libya,Libya,PlantAnnualLCOE,2026,CCGT,Gas,Gas,Benghazi North,,81.29300886381976
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,Tobruk METKA,,114.90647444902866
+Libya,Libya,PlantAnnualLCOE,2026,CCGT,Gas,Gas,Zawiya CC,,81.29300886381934
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,South Tripoli,,118.64359186548111
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,Misrata,,112.7495304175532
+Libya,Libya,PlantAnnualLCOE,2026,ST,Gas,Gas,Gulf Plant,,116.89801772763882
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,Al-Khoms,,1117.820313513228
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,West Mountain,,113.6483631655115
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,Zwitena,,117.73639924194568
+Libya,Libya,PlantAnnualLCOE,2026,OCGT,Gas,Gas,Alsari,,112.6728611898017
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,West Tripoli,,131.1647993452408
+Libya,Libya,PlantAnnualLCOE,2027,CCGT,Gas,Gas,Benghazi North,,94.54100886381936
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,Tobruk METKA,,132.9048728100919
+Libya,Libya,PlantAnnualLCOE,2027,CCGT,Gas,Gas,Zawiya CC,,94.54100886381948
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,South Tripoli,,134.77835225838993
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,Misrata,,131.2193668426788
+Libya,Libya,PlantAnnualLCOE,2027,ST,Gas,Gas,Gulf Plant,,135.528017727639
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,Al-Khoms,,157.64604912084292
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,West Mountain,,131.15817204301072
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,Zwitena,,136.71810293632464
+Libya,Libya,PlantAnnualLCOE,2027,OCGT,Gas,Gas,Alsari,,131.156005909213
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,West Tripoli,,131.15600590921315
+Libya,Libya,PlantAnnualLCOE,2028,CCGT,Gas,Gas,Benghazi North,,94.54100886381931
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,Tobruk METKA,,133.0122098180937
+Libya,Libya,PlantAnnualLCOE,2028,CCGT,Gas,Gas,Zawiya CC,,94.5410088638194
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,South Tripoli,,135.01578778555984
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,Misrata,,131.1903295103628
+Libya,Libya,PlantAnnualLCOE,2028,ST,Gas,Gas,Gulf Plant,,135.5280177276389
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,West Mountain,,131.2590890835053
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,Zwitena,,133.57360314381953
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,Alsari,,131.156005909213
+Libya,Libya,PlantAnnualLCOE,2028,OCGT,Gas,Gas,South Tripoli New,,196.1338948323537
+Libya,Libya,PlantAnnualLCOE,2028,PV,Solar,PV,SOPC_GENC_LIB,,34.394107809725895
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,West Tripoli,,131.15600590921298
+Libya,Libya,PlantAnnualLCOE,2029,CCGT,Gas,Gas,Benghazi North,,94.54100886381936
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,Tobruk METKA,,132.24676304569164
+Libya,Libya,PlantAnnualLCOE,2029,CCGT,Gas,Gas,Zawiya CC,,94.54100886381948
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,South Tripoli,,133.77222693531272
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,Misrata,,131.15600590921272
+Libya,Libya,PlantAnnualLCOE,2029,ST,Gas,Gas,Gulf Plant,,135.52801772763894
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,Al-Khoms,,255.96681522362977
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,West Mountain,,131.16934675808452
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,Zwitena,,132.72097772487672
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,Alsari,,131.156005909213
+Libya,Libya,PlantAnnualLCOE,2029,OCGT,Gas,Gas,South Tripoli New,,183.35296227670227
+Libya,Libya,PlantAnnualLCOE,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,,121.0299335957376
+Libya,Libya,PlantAnnualLCOE,2029,PV,Solar,PV,SOPC_GENC_LIB,,34.07555179998638
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,West Tripoli,,131.15600590921306
+Libya,Libya,PlantAnnualLCOE,2030,CCGT,Gas,Gas,Benghazi North,,94.54100886381936
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,Tobruk METKA,,132.74974634614998
+Libya,Libya,PlantAnnualLCOE,2030,CCGT,Gas,Gas,Zawiya CC,,94.54100886381946
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,South Tripoli,,135.37703135792222
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,Misrata,,131.1764609687648
+Libya,Libya,PlantAnnualLCOE,2030,ST,Gas,Gas,Gulf Plant,,135.52801772763897
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,Al-Khoms,,827.418362757837
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,West Mountain,,131.5005785374428
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,Zwitena,,132.21756408334582
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,Alsari,,131.42438430631057
+Libya,Libya,PlantAnnualLCOE,2030,OCGT,Gas,Gas,South Tripoli New,,185.56695733023088
+Libya,Libya,PlantAnnualLCOE,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.98418130873596
+Libya,Libya,PlantAnnualLCOE,2030,PV,Solar,PV,SOPC_GENC_LIB,,33.7569957902469
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,West Tripoli,,131.15600590921295
+Libya,Libya,PlantAnnualLCOE,2031,CCGT,Gas,Gas,Benghazi North,,94.54100886381934
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,Tobruk METKA,,132.66202222590073
+Libya,Libya,PlantAnnualLCOE,2031,CCGT,Gas,Gas,Zawiya CC,,94.54100886381956
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,South Tripoli,,133.90709642785066
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,Misrata,,131.1634545250171
+Libya,Libya,PlantAnnualLCOE,2031,ST,Gas,Gas,Gulf Plant,,135.528017727639
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,Al-Khoms,,252.73759648251016
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,West Mountain,,131.53194310909703
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,Zwitena,,131.8496343235662
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,Alsari,,131.66550073496518
+Libya,Libya,PlantAnnualLCOE,2031,OCGT,Gas,Gas,South Tripoli New,,184.01495528826985
+Libya,Libya,PlantAnnualLCOE,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.96893054640226
+Libya,Libya,PlantAnnualLCOE,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.49565365844591
+Libya,Libya,PlantAnnualLCOE,2031,PV,Solar,PV,SOPC_GENC_LIB,,33.43843978050736
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,West Tripoli,,131.15600590921295
+Libya,Libya,PlantAnnualLCOE,2032,CCGT,Gas,Gas,Benghazi North,,94.54100886381934
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,Tobruk METKA,,133.43870741617164
+Libya,Libya,PlantAnnualLCOE,2032,CCGT,Gas,Gas,Zawiya CC,,94.5410088638196
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,South Tripoli,,134.95183095138597
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,Misrata,,131.33766042033918
+Libya,Libya,PlantAnnualLCOE,2032,ST,Gas,Gas,Gulf Plant,,135.52801772763902
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,West Mountain,,131.62527088000502
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,Zwitena,,132.50486120077466
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,Alsari,,132.61010101846486
+Libya,Libya,PlantAnnualLCOE,2032,OCGT,Gas,Gas,South Tripoli New,,193.3685965879913
+Libya,Libya,PlantAnnualLCOE,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.9384290241979
+Libya,Libya,PlantAnnualLCOE,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.317145522041024
+Libya,Libya,PlantAnnualLCOE,2032,PV,Solar,PV,SOPC_GENC_LIB,,33.11988377076788
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,West Tripoli,,131.15600590921298
+Libya,Libya,PlantAnnualLCOE,2033,CCGT,Gas,Gas,Benghazi North,,94.54100886381936
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,Tobruk METKA,,133.12055915205147
+Libya,Libya,PlantAnnualLCOE,2033,CCGT,Gas,Gas,Zawiya CC,,94.54100886381954
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,South Tripoli,,134.64932398195617
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,Misrata,,131.34774485409886
+Libya,Libya,PlantAnnualLCOE,2033,ST,Gas,Gas,Gulf Plant,,135.52801772763897
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,Al-Khoms,,598.4594287731513
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,West Mountain,,131.6460072658988
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,Zwitena,,132.4838074977924
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,Alsari,,132.52992448540456
+Libya,Libya,PlantAnnualLCOE,2033,OCGT,Gas,Gas,South Tripoli New,,186.9004633920097
+Libya,Libya,PlantAnnualLCOE,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.9201281108754
+Libya,Libya,PlantAnnualLCOE,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.13863738563615
+Libya,Libya,PlantAnnualLCOE,2033,PV,Solar,PV,SOPC_GENC_LIB,,32.801327761028354
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,West Tripoli,,131.33080505564865
+Libya,Libya,PlantAnnualLCOE,2034,CCGT,Gas,Gas,Benghazi North,,94.54100886381929
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,Tobruk METKA,,133.78456670412243
+Libya,Libya,PlantAnnualLCOE,2034,CCGT,Gas,Gas,Zawiya CC,,94.54100886381956
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,South Tripoli,,135.33351890185912
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,Misrata,,131.66212937705487
+Libya,Libya,PlantAnnualLCOE,2034,ST,Gas,Gas,Gulf Plant,,135.52801772763897
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,West Mountain,,132.00519284476965
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,Zwitena,,133.58796918982546
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,Alsari,,132.7054934349852
+Libya,Libya,PlantAnnualLCOE,2034,OCGT,Gas,Gas,South Tripoli New,,211.75611258239283
+Libya,Libya,PlantAnnualLCOE,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.90792750199388
+Libya,Libya,PlantAnnualLCOE,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.96012924923125
+Libya,Libya,PlantAnnualLCOE,2034,PV,Solar,PV,SOPC_GENC_LIB,,32.48277175128884
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,West Tripoli,,131.36026802764113
+Libya,Libya,PlantAnnualLCOE,2035,CCGT,Gas,Gas,Benghazi North,,94.54100886381944
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,Tobruk METKA,,133.3720674205803
+Libya,Libya,PlantAnnualLCOE,2035,CCGT,Gas,Gas,Zawiya CC,,94.54100886381964
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,Misrata,,131.93768218251526
+Libya,Libya,PlantAnnualLCOE,2035,ST,Gas,Gas,Gulf Plant,,135.52801772763897
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,Al-Khoms,,190.61176219953376
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,West Mountain,,132.1148309049214
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,Alsari,,132.07789407223004
+Libya,Libya,PlantAnnualLCOE,2035,OCGT,Gas,Gas,South Tripoli New,,184.01495528826987
+Libya,Libya,PlantAnnualLCOE,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.88614070077118
+Libya,Libya,PlantAnnualLCOE,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.78162111282636
+Libya,Libya,PlantAnnualLCOE,2035,PV,Solar,PV,SOPC_GENC_LIB,,32.16421574154931
+Libya,Libya,PlantAnnualLCOE,2035,PV,Solar,PV,SOPC_GENC3_LIB,,29.934323673372745
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,West Tripoli,,131.38744838875027
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,Tobruk METKA,,132.41916663459614
+Libya,Libya,PlantAnnualLCOE,2036,CCGT,Gas,Gas,Zawiya CC,,94.5410088638196
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,Misrata,,131.5321138776383
+Libya,Libya,PlantAnnualLCOE,2036,ST,Gas,Gas,Gulf Plant,,135.52801772763897
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,Al-Khoms,,149.4394852951968
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,Alsari,,131.70721567049858
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,South Tripoli New,,166.56464148884945
+Libya,Libya,PlantAnnualLCOE,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.86980059985446
+Libya,Libya,PlantAnnualLCOE,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,,1232.133313471084
+Libya,Libya,PlantAnnualLCOE,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.66261568855646
+Libya,Libya,PlantAnnualLCOE,2036,PV,Solar,PV,SOPC_GENC_LIB,,31.8456597318098
+Libya,Libya,PlantAnnualLCOE,2036,PV,Solar,PV,SOPC_GENC3_LIB,,29.61576766363323
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,West Tripoli,,131.69504567101134
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,Tobruk METKA,,133.12331537979728
+Libya,Libya,PlantAnnualLCOE,2037,CCGT,Gas,Gas,Zawiya CC,,94.54100886381964
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,Misrata,,131.88597116920366
+Libya,Libya,PlantAnnualLCOE,2037,ST,Gas,Gas,Gulf Plant,,135.528017727639
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,Al-Khoms,,157.55732629588653
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,Alsari,,131.80793958345865
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,South Tripoli New,,172.44875344170774
+Libya,Libya,PlantAnnualLCOE,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.85709163247446
+Libya,Libya,PlantAnnualLCOE,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,,1702.3377505280162
+Libya,Libya,PlantAnnualLCOE,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.52660948939083
+Libya,Libya,PlantAnnualLCOE,2037,PV,Solar,PV,SOPC_GENC_LIB,,31.52710372207032
+Libya,Libya,PlantAnnualLCOE,2037,PV,Solar,PV,SOPC_GENC3_LIB,,29.297211653893697
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,West Tripoli,,132.0530229383313
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,Tobruk METKA,,135.5295661933963
+Libya,Libya,PlantAnnualLCOE,2038,CCGT,Gas,Gas,Zawiya CC,,94.54100886381964
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,Misrata,,132.51247068737487
+Libya,Libya,PlantAnnualLCOE,2038,ST,Gas,Gas,Gulf Plant,,136.32941948039263
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,Al-Khoms,,173.7307390828794
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,Alsari,,132.30685684687103
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,South Tripoli New,,192.82525427211365
+Libya,Libya,PlantAnnualLCOE,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,,120.87030290191882
+Libya,Libya,PlantAnnualLCOE,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,,7438.768057959699
+Libya,Libya,PlantAnnualLCOE,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.376790159347365
+Libya,Libya,PlantAnnualLCOE,2038,PV,Solar,PV,SOPC_GENC_LIB,,31.2085477123308
+Libya,Libya,PlantAnnualLCOE,2038,PV,Solar,PV,SOPC_GENC3_LIB,,28.978655644154205
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,West Tripoli,,132.19740534494488
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,Tobruk METKA,,136.26055730096982
+Libya,Libya,PlantAnnualLCOE,2039,CCGT,Gas,Gas,Zawiya CC,,94.5410088638196
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,Misrata,,132.62282885602235
+Libya,Libya,PlantAnnualLCOE,2039,ST,Gas,Gas,Gulf Plant,,136.9747948801864
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,Al-Khoms,,171.98389413203273
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,Alsari,,132.4352642848646
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,South Tripoli New,,202.10559687776188
+Libya,Libya,PlantAnnualLCOE,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,,121.35594738184147
+Libya,Libya,PlantAnnualLCOE,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,,6610.669359178242
+Libya,Libya,PlantAnnualLCOE,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.22342900261738
+Libya,Libya,PlantAnnualLCOE,2039,PV,Solar,PV,SOPC_GENC_LIB,,30.88999170259129
+Libya,Libya,PlantAnnualLCOE,2039,PV,Solar,PV,SOPC_GENC3_LIB,,28.660099634414685
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,West Tripoli,,132.82418978355506
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,Tobruk METKA,,145.22480880863813
+Libya,Libya,PlantAnnualLCOE,2040,CCGT,Gas,Gas,Zawiya CC,,94.61759484911067
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,Misrata,,134.2473233898952
+Libya,Libya,PlantAnnualLCOE,2040,ST,Gas,Gas,Gulf Plant,,137.91352523485114
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,Al-Khoms,,222.5805127997953
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,Alsari,,134.67843638320247
+Libya,Libya,PlantAnnualLCOE,2040,OCGT,Gas,Gas,South Tripoli New,,227.2454993336449
+Libya,Libya,PlantAnnualLCOE,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,,122.47018787451628
+Libya,Libya,PlantAnnualLCOE,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.06503844995242
+Libya,Libya,PlantAnnualLCOE,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,41.38021379674435
+Libya,Libya,PlantAnnualLCOE,2040,PV,Solar,PV,SOPC_GENC_LIB,,31.32406189109614
+Libya,Libya,PlantAnnualLCOE,2040,PV,Solar,PV,SOPC_GENC3_LIB,,28.341543624675165
+Libya,Libya,PlantAnnualLCOE,2040,PV,Solar,PV,SOPC_GENC4_LIB,,26.7487635759776
+Libya,Libya,PlantAnnualLCOE,2040,Storage,Battery,Battery,Batt_GENC_LIB,,122.22920993320186
+Libya,Libya,PlantAnnualLCOE,2040,Storage,Battery,Battery,Batt_GENC2_LIB,,121.45259474403824
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,Gas,Gas,West Tripoli,,132.04495572386503
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,Gas,Gas,Tobruk METKA,,132.29533479561118
+Libya,Libya,PlantAnnualLCOE,2041,ST,Gas,Gas,Gulf Plant,,137.79123881050455
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,Gas,Gas,Al-Khoms,,144.5751281918135
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,Gas,Gas,South Tripoli New,,147.97060858153563
+Libya,Libya,PlantAnnualLCOE,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,,122.41138074751264
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,,307.4977845148003
+Libya,Libya,PlantAnnualLCOE,2041,OCGT,HFO,Diesel,Obari,,340.3730905472996
+Libya,Libya,PlantAnnualLCOE,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,40.99049105597699
+Libya,Libya,PlantAnnualLCOE,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,42.08337987858397
+Libya,Libya,PlantAnnualLCOE,2041,PV,Solar,PV,SOPC_GENC_LIB,,31.816775373836705
+Libya,Libya,PlantAnnualLCOE,2041,PV,Solar,PV,SOPC_GENC3_LIB,,28.036571730596968
+Libya,Libya,PlantAnnualLCOE,2041,PV,Solar,PV,SOPC_GENC4_LIB,,26.477751971052708
+Libya,Libya,PlantAnnualLCOE,2041,Storage,Battery,Battery,Batt_GENC_LIB,,99.65378421608618
+Libya,Libya,PlantAnnualLCOE,2041,Storage,Battery,Battery,Batt_GENC2_LIB,,99.0893333940763
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,Gas,Gas,West Tripoli,,132.78066591711263
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,Gas,Gas,Tobruk METKA,,133.16762634457515
+Libya,Libya,PlantAnnualLCOE,2042,ST,Gas,Gas,Gulf Plant,,138.39242626457383
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,Gas,Gas,Al-Khoms,,150.22548987392068
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,Gas,Gas,South Tripoli New,,172.16689567176502
+Libya,Libya,PlantAnnualLCOE,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,,123.069370653499
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,,415.4460108988527
+Libya,Libya,PlantAnnualLCOE,2042,OCGT,HFO,Diesel,Obari,,553.4203358989834
+Libya,Libya,PlantAnnualLCOE,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.30315864931146
+Libya,Libya,PlantAnnualLCOE,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,43.462623261661605
+Libya,Libya,PlantAnnualLCOE,2042,PV,Solar,PV,SOPC_GENC_LIB,,32.51827720583448
+Libya,Libya,PlantAnnualLCOE,2042,PV,Solar,PV,SOPC_GENC3_LIB,,27.74201126743402
+Libya,Libya,PlantAnnualLCOE,2042,PV,Solar,PV,SOPC_GENC4_LIB,,26.211863989132887
+Libya,Libya,PlantAnnualLCOE,2042,Storage,Battery,Battery,Batt_GENC_LIB,,104.2494309212464
+Libya,Libya,PlantAnnualLCOE,2042,Storage,Battery,Battery,Batt_GENC2_LIB,,100.05665122248504
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,Gas,Gas,West Tripoli,,133.3987555228818
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,Gas,Gas,Tobruk METKA,,134.37134179974566
+Libya,Libya,PlantAnnualLCOE,2043,ST,Gas,Gas,Gulf Plant,,138.6964780258958
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,Gas,Gas,Al-Khoms,,159.23171342755148
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,Gas,Gas,South Tripoli New,,178.614213965465
+Libya,Libya,PlantAnnualLCOE,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,,123.6685883289026
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,,412.5200802825637
+Libya,Libya,PlantAnnualLCOE,2043,OCGT,HFO,Diesel,Obari,,559.2156318512789
+Libya,Libya,PlantAnnualLCOE,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.11332547114711
+Libya,Libya,PlantAnnualLCOE,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,44.74241815247687
+Libya,Libya,PlantAnnualLCOE,2043,PV,Solar,PV,SOPC_GENC_LIB,,34.6292592376353
+Libya,Libya,PlantAnnualLCOE,2043,PV,Solar,PV,SOPC_GENC3_LIB,,27.45605120141749
+Libya,Libya,PlantAnnualLCOE,2043,PV,Solar,PV,SOPC_GENC4_LIB,,27.602073568543524
+Libya,Libya,PlantAnnualLCOE,2043,Storage,Battery,Battery,Batt_GENC_LIB,,96.3030032116887
+Libya,Libya,PlantAnnualLCOE,2043,Storage,Battery,Battery,Batt_GENC2_LIB,,97.36598025041242
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,Gas,Gas,West Tripoli,,135.8065309439869
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,Gas,Gas,Tobruk METKA,,137.936419906154
+Libya,Libya,PlantAnnualLCOE,2044,ST,Gas,Gas,Gulf Plant,,140.44686373567984
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,Gas,Gas,Al-Khoms,,180.4163431183672
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,Gas,Gas,South Tripoli New,,204.10687886573604
+Libya,Libya,PlantAnnualLCOE,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,,124.36118243372864
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,,476.4923662163872
+Libya,Libya,PlantAnnualLCOE,2044,OCGT,HFO,Diesel,Obari,,1607.7271407734438
+Libya,Libya,PlantAnnualLCOE,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.54041722102744
+Libya,Libya,PlantAnnualLCOE,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,44.99246895279877
+Libya,Libya,PlantAnnualLCOE,2044,PV,Solar,PV,SOPC_GENC_LIB,,37.225698302222746
+Libya,Libya,PlantAnnualLCOE,2044,PV,Solar,PV,SOPC_GENC3_LIB,,27.17756255707921
+Libya,Libya,PlantAnnualLCOE,2044,PV,Solar,PV,SOPC_GENC4_LIB,,29.221623467938034
+Libya,Libya,PlantAnnualLCOE,2044,Storage,Battery,Battery,Batt_GENC_LIB,,93.21655612556908
+Libya,Libya,PlantAnnualLCOE,2044,Storage,Battery,Battery,Batt_GENC2_LIB,,93.66785719171293
+Libya,Libya,PlantAnnualLCOE,2045,OCGT,Gas,Gas,Tobruk METKA,,136.63555304798388
+Libya,Libya,PlantAnnualLCOE,2045,ST,Gas,Gas,Gulf Plant,,145.47618295222335
+Libya,Libya,PlantAnnualLCOE,2045,OCGT,Gas,Gas,Al-Khoms,,160.3384021499622
+Libya,Libya,PlantAnnualLCOE,2045,OCGT,Gas,Gas,South Tripoli New,,178.90584028106048
+Libya,Libya,PlantAnnualLCOE,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,,125.08869844223332
+Libya,Libya,PlantAnnualLCOE,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,,381.88670281861135
+Libya,Libya,PlantAnnualLCOE,2045,OCGT,HFO,Diesel,Obari,,287.7291284732405
+Libya,Libya,PlantAnnualLCOE,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,43.50610439316338
+Libya,Libya,PlantAnnualLCOE,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,46.0133895751958
+Libya,Libya,PlantAnnualLCOE,2045,PV,Solar,PV,SOPC_GENC_LIB,,39.50759773033561
+Libya,Libya,PlantAnnualLCOE,2045,PV,Solar,PV,SOPC_GENC3_LIB,,26.903718874257983
+Libya,Libya,PlantAnnualLCOE,2045,PV,Solar,PV,SOPC_GENC4_LIB,,29.067251028432946
+Libya,Libya,PlantAnnualLCOE,2045,Storage,Battery,Battery,Batt_GENC_LIB,,94.04351179122476
+Libya,Libya,PlantAnnualLCOE,2045,Storage,Battery,Battery,Batt_GENC2_LIB,,92.01412430899384
+Libya,Libya,PlantAnnualLCOE,2046,OCGT,Gas,Gas,Tobruk METKA,,141.78488531366892
+Libya,Libya,PlantAnnualLCOE,2046,ST,Gas,Gas,Gulf Plant,,151.84829605436607
+Libya,Libya,PlantAnnualLCOE,2046,OCGT,Gas,Gas,Al-Khoms,,175.96694587508375
+Libya,Libya,PlantAnnualLCOE,2046,OCGT,Gas,Gas,South Tripoli New,,223.91656520534823
+Libya,Libya,PlantAnnualLCOE,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,,125.87066818046723
+Libya,Libya,PlantAnnualLCOE,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,,439.1183085105056
+Libya,Libya,PlantAnnualLCOE,2046,OCGT,HFO,Diesel,Obari,,848.6443306266318
+Libya,Libya,PlantAnnualLCOE,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.6660362251384
+Libya,Libya,PlantAnnualLCOE,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,46.44263160302902
+Libya,Libya,PlantAnnualLCOE,2046,PV,Solar,PV,SOPC_GENC_LIB,,40.20313225006437
+Libya,Libya,PlantAnnualLCOE,2046,PV,Solar,PV,SOPC_GENC3_LIB,,26.92116785762173
+Libya,Libya,PlantAnnualLCOE,2046,PV,Solar,PV,SOPC_GENC4_LIB,,29.467042534010552
+Libya,Libya,PlantAnnualLCOE,2046,Storage,Battery,Battery,Batt_GENC_LIB,,94.36280874650625
+Libya,Libya,PlantAnnualLCOE,2046,Storage,Battery,Battery,Batt_GENC2_LIB,,91.50568168711278
+Libya,Libya,PlantAnnualLCOE,2047,OCGT,Gas,Gas,Tobruk METKA,,149.2806340391236
+Libya,Libya,PlantAnnualLCOE,2047,ST,Gas,Gas,Gulf Plant,,155.66837305350634
+Libya,Libya,PlantAnnualLCOE,2047,OCGT,Gas,Gas,South Tripoli New,,233.3949921855881
+Libya,Libya,PlantAnnualLCOE,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,,126.82585208097134
+Libya,Libya,PlantAnnualLCOE,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,,361.5624059232681
+Libya,Libya,PlantAnnualLCOE,2047,OCGT,HFO,Diesel,Obari,,273.1064297485936
+Libya,Libya,PlantAnnualLCOE,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.55846912855299
+Libya,Libya,PlantAnnualLCOE,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,45.27921409032388
+Libya,Libya,PlantAnnualLCOE,2047,PV,Solar,PV,SOPC_GENC_LIB,,39.54056469364529
+Libya,Libya,PlantAnnualLCOE,2047,PV,Solar,PV,SOPC_GENC3_LIB,,26.903718874257983
+Libya,Libya,PlantAnnualLCOE,2047,PV,Solar,PV,SOPC_GENC4_LIB,,29.00486260066129
+Libya,Libya,PlantAnnualLCOE,2047,Storage,Battery,Battery,Batt_GENC_LIB,,92.37897256262642
+Libya,Libya,PlantAnnualLCOE,2047,Storage,Battery,Battery,Batt_GENC2_LIB,,92.57126290783246
+Libya,Libya,PlantAnnualLCOE,2048,OCGT,Gas,Gas,Tobruk METKA,,155.00392986421602
+Libya,Libya,PlantAnnualLCOE,2048,ST,Gas,Gas,Gulf Plant,,168.38964945027053
+Libya,Libya,PlantAnnualLCOE,2048,OCGT,Gas,Gas,South Tripoli New,,251.66252280492003
+Libya,Libya,PlantAnnualLCOE,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,,128.98280351848305
+Libya,Libya,PlantAnnualLCOE,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,,385.92576700158986
+Libya,Libya,PlantAnnualLCOE,2048,OCGT,HFO,Diesel,Obari,,490.9879554477045
+Libya,Libya,PlantAnnualLCOE,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,42.56537140584065
+Libya,Libya,PlantAnnualLCOE,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,45.46885251173229
+Libya,Libya,PlantAnnualLCOE,2048,PV,Solar,PV,SOPC_GENC_LIB,,39.49531613745272
+Libya,Libya,PlantAnnualLCOE,2048,PV,Solar,PV,SOPC_GENC3_LIB,,26.87249231675658
+Libya,Libya,PlantAnnualLCOE,2048,PV,Solar,PV,SOPC_GENC4_LIB,,27.9855333059711
+Libya,Libya,PlantAnnualLCOE,2048,Storage,Battery,Battery,Batt_GENC_LIB,,94.07592350039914
+Libya,Libya,PlantAnnualLCOE,2048,Storage,Battery,Battery,Batt_GENC2_LIB,,92.57613798122034
+Libya,Libya,PlantAnnualLCOE,2049,OCGT,Gas,Gas,Tobruk METKA,,154.8883426862247
+Libya,Libya,PlantAnnualLCOE,2049,ST,Gas,Gas,Gulf Plant,,172.55431627228066
+Libya,Libya,PlantAnnualLCOE,2049,OCGT,Gas,Gas,South Tripoli New,,249.9208992264356
+Libya,Libya,PlantAnnualLCOE,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,,130.88514660228722
+Libya,Libya,PlantAnnualLCOE,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,,381.6754531538969
+Libya,Libya,PlantAnnualLCOE,2049,OCGT,HFO,Diesel,Obari,,403.9848778036151
+Libya,Libya,PlantAnnualLCOE,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.97561411763608
+Libya,Libya,PlantAnnualLCOE,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,46.20250101881658
+Libya,Libya,PlantAnnualLCOE,2049,PV,Solar,PV,SOPC_GENC_LIB,,38.62504819682072
+Libya,Libya,PlantAnnualLCOE,2049,PV,Solar,PV,SOPC_GENC3_LIB,,26.87249231675658
+Libya,Libya,PlantAnnualLCOE,2049,PV,Solar,PV,SOPC_GENC4_LIB,,27.311996056529296
+Libya,Libya,PlantAnnualLCOE,2049,Storage,Battery,Battery,Batt_GENC_LIB,,92.89200416842743
+Libya,Libya,PlantAnnualLCOE,2049,Storage,Battery,Battery,Batt_GENC2_LIB,,87.97508095080744
+Libya,Libya,PlantAnnualLCOE,2050,OCGT,Gas,Gas,Tobruk METKA,,157.27071922903144
+Libya,Libya,PlantAnnualLCOE,2050,ST,Gas,Gas,Gulf Plant,,188.1956885624505
+Libya,Libya,PlantAnnualLCOE,2050,OCGT,Gas,Gas,South Tripoli New,,277.5371563635691
+Libya,Libya,PlantAnnualLCOE,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,,134.43941615994834
+Libya,Libya,PlantAnnualLCOE,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,,405.90899255059526
+Libya,Libya,PlantAnnualLCOE,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,41.85996311286642
+Libya,Libya,PlantAnnualLCOE,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,45.70553214424902
+Libya,Libya,PlantAnnualLCOE,2050,PV,Solar,PV,SOPC_GENC_LIB,,38.270899445257264
+Libya,Libya,PlantAnnualLCOE,2050,PV,Solar,PV,SOPC_GENC3_LIB,,26.87249231675658
+Libya,Libya,PlantAnnualLCOE,2050,PV,Solar,PV,SOPC_GENC4_LIB,,26.17826447591069
+Libya,Libya,PlantAnnualLCOE,2050,Storage,Battery,Battery,Batt_GENC_LIB,,95.11216477649894
+Libya,Libya,PlantAnnualLCOE,2050,Storage,Battery,Battery,Batt_GENC2_LIB,,87.0070441052093
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,West Tripoli,,0.8189914383561643
+Libya,Libya,UtilizationPlant,2026,CCGT,Gas,Gas,Benghazi North,,0.8500000000000001
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,Tobruk METKA,,0.4506299293128337
+Libya,Libya,UtilizationPlant,2026,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,South Tripoli,,0.259337899543379
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,Misrata,,0.7846987984923676
+Libya,Libya,UtilizationPlant,2026,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,Al-Khoms,,0.0022654788868338
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,West Mountain,,0.5994977168949772
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,Zwitena,,0.2891324200913242
+Libya,Libya,UtilizationPlant,2026,OCGT,Gas,Gas,Alsari,,0.8059360730593607
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,West Tripoli,,0.8472263535551207
+Libya,Libya,UtilizationPlant,2027,CCGT,Gas,Gas,Benghazi North,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,Tobruk METKA,,0.5148073283264443
+Libya,Libya,UtilizationPlant,2027,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,South Tripoli,,0.3619178082191781
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,Misrata,,0.83041120136822
+Libya,Libya,UtilizationPlant,2027,ST,Gas,Gas,Gulf Plant,,0.8500000000000003
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,Al-Khoms,,0.0787928338093812
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,West Mountain,,0.8493150684931506
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,Zwitena,,0.2768036529680365
+Libya,Libya,UtilizationPlant,2027,OCGT,Gas,Gas,Alsari,,0.85
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,West Tripoli,,0.85
+Libya,Libya,UtilizationPlant,2028,CCGT,Gas,Gas,Benghazi North,,0.8500000000000003
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,Tobruk METKA,,0.5026419109342614
+Libya,Libya,UtilizationPlant,2028,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,South Tripoli,,0.3487899543378995
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,Misrata,,0.8392751738836914
+Libya,Libya,UtilizationPlant,2028,ST,Gas,Gas,Gulf Plant,,0.8500000000000003
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,West Mountain,,0.8185844748858447
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,Zwitena,,0.447351598173516
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,Alsari,,0.85
+Libya,Libya,UtilizationPlant,2028,OCGT,Gas,Gas,South Tripoli New,,0.1185046256786815
+Libya,Libya,UtilizationPlant,2028,PV,Solar,PV,SOPC_GENC_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,West Tripoli,,0.8500000000000001
+Libya,Libya,UtilizationPlant,2029,CCGT,Gas,Gas,Benghazi North,,0.85
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,Tobruk METKA,,0.6045137053105445
+Libya,Libya,UtilizationPlant,2029,CCGT,Gas,Gas,Zawiya CC,,0.85
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,South Tripoli,,0.4305936073059361
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,Misrata,,0.85
+Libya,Libya,UtilizationPlant,2029,ST,Gas,Gas,Gulf Plant,,0.8500000000000003
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,Al-Khoms,,0.0179352878453414
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,West Mountain,,0.8457990867579909
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,Zwitena,,0.5370776255707762
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,Alsari,,0.85
+Libya,Libya,UtilizationPlant,2029,OCGT,Gas,Gas,South Tripoli New,,0.1461266903172625
+Libya,Libya,UtilizationPlant,2029,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2029,PV,Solar,PV,SOPC_GENC_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,West Tripoli,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2030,CCGT,Gas,Gas,Benghazi North,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,Tobruk METKA,,0.5334673688978897
+Libya,Libya,UtilizationPlant,2030,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999998
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,South Tripoli,,0.3305479452054795
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,Misrata,,0.8435758169728302
+Libya,Libya,UtilizationPlant,2030,ST,Gas,Gas,Gulf Plant,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,Al-Khoms,,0.0032674209264978
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,West Mountain,,0.7533561643835616
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,Zwitena,,0.6092237442922375
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,Alsari,,0.7727853881278539
+Libya,Libya,UtilizationPlant,2030,OCGT,Gas,Gas,South Tripoli New,,0.1404555067048197
+Libya,Libya,UtilizationPlant,2030,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2030,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,West Tripoli,,0.8500000000000003
+Libya,Libya,UtilizationPlant,2031,CCGT,Gas,Gas,Benghazi North,,0.8500000000000002
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,Tobruk METKA,,0.54463094415975
+Libya,Libya,UtilizationPlant,2031,CCGT,Gas,Gas,Zawiya CC,,0.85
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,South Tripoli,,0.4199125494880251
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,Misrata,,0.8476493668725577
+Libya,Libya,UtilizationPlant,2031,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,Al-Khoms,,0.0184021056872242
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,West Mountain,,0.7456392694063927
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,Zwitena,,0.6755479452054794
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,Alsari,,0.7144748858447488
+Libya,Libya,UtilizationPlant,2031,OCGT,Gas,Gas,South Tripoli New,,0.1443835616438356
+Libya,Libya,UtilizationPlant,2031,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2031,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166667
+Libya,Libya,UtilizationPlant,2031,PV,Solar,PV,SOPC_GENC_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,West Tripoli,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2032,CCGT,Gas,Gas,Benghazi North,,0.85
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,Tobruk METKA,,0.4594967728226891
+Libya,Libya,UtilizationPlant,2032,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999998
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,South Tripoli,,0.3522314975435745
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,Misrata,,0.796155990659725
+Libya,Libya,UtilizationPlant,2032,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,West Mountain,,0.7235844748858448
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,Zwitena,,0.5658447488584475
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,Alsari,,0.5514611872146119
+Libya,Libya,UtilizationPlant,2032,OCGT,Gas,Gas,South Tripoli New,,0.123557944494817
+Libya,Libya,UtilizationPlant,2032,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2032,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166667
+Libya,Libya,UtilizationPlant,2032,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675797
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,West Tripoli,,0.8500000000000001
+Libya,Libya,UtilizationPlant,2033,CCGT,Gas,Gas,Benghazi North,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,Tobruk METKA,,0.4909312941055416
+Libya,Libya,UtilizationPlant,2033,CCGT,Gas,Gas,Zawiya CC,,0.8500000000000002
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,South Tripoli,,0.3694748858447489
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,Misrata,,0.7933660343720169
+Libya,Libya,UtilizationPlant,2033,ST,Gas,Gas,Gulf Plant,,0.8500000000000001
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,Al-Khoms,,0.0048598475891493
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,West Mountain,,0.7188601384338926
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,Zwitena,,0.5688127853881279
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,Alsari,,0.562351598173516
+Libya,Libya,UtilizationPlant,2033,OCGT,Gas,Gas,South Tripoli New,,0.1372472713000503
+Libya,Libya,UtilizationPlant,2033,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2033,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166666
+Libya,Libya,UtilizationPlant,2033,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,West Tripoli,,0.7980638241403699
+Libya,Libya,UtilizationPlant,2034,CCGT,Gas,Gas,Benghazi North,,0.8500000000000008
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,Tobruk METKA,,0.4295938220250337
+Libya,Libya,UtilizationPlant,2034,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,South Tripoli,,0.3326435106360053
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,Misrata,,0.7152294763620328
+Libya,Libya,UtilizationPlant,2034,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,West Mountain,,0.6458219178082191
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,Zwitena,,0.4460958904109589
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,Alsari,,0.5390410958904109
+Libya,Libya,UtilizationPlant,2034,OCGT,Gas,Gas,South Tripoli New,,0.0962630167267173
+Libya,Libya,UtilizationPlant,2034,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.85
+Libya,Libya,UtilizationPlant,2034,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166667
+Libya,Libya,UtilizationPlant,2034,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,West Tripoli,,0.789928477565597
+Libya,Libya,UtilizationPlant,2035,CCGT,Gas,Gas,Benghazi North,,0.8499999999999992
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,Tobruk METKA,,0.4657432929718321
+Libya,Libya,UtilizationPlant,2035,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,Misrata,,0.6583951188903021
+Libya,Libya,UtilizationPlant,2035,ST,Gas,Gas,Gulf Plant,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,Al-Khoms,,0.0368588968372655
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,West Mountain,,0.6263953204929921
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,Alsari,,0.6328082191780822
+Libya,Libya,UtilizationPlant,2035,OCGT,Gas,Gas,South Tripoli New,,0.1443835616438356
+Libya,Libya,UtilizationPlant,2035,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.8500000000000001
+Libya,Libya,UtilizationPlant,2035,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166668
+Libya,Libya,UtilizationPlant,2035,PV,Solar,PV,SOPC_GENC_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2035,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,West Tripoli,,0.7825691215771373
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,Tobruk METKA,,0.578123243225578
+Libya,Libya,UtilizationPlant,2036,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999998
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,Misrata,,0.7455976864556595
+Libya,Libya,UtilizationPlant,2036,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,Al-Khoms,,0.1099259317398223
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,Alsari,,0.7052681239737796
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,South Tripoli New,,0.2106094047471636
+Libya,Libya,UtilizationPlant,2036,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.8499999999999995
+Libya,Libya,UtilizationPlant,2036,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0072845494424033
+Libya,Libya,UtilizationPlant,2036,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166666
+Libya,Libya,UtilizationPlant,2036,PV,Solar,PV,SOPC_GENC_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2036,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,West Tripoli,,0.7079295165811056
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,Tobruk METKA,,0.4906405082155586
+Libya,Libya,UtilizationPlant,2037,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999996
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,Misrata,,0.6683619122473896
+Libya,Libya,UtilizationPlant,2037,ST,Gas,Gas,Gulf Plant,,0.85
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,Al-Khoms,,0.0790348334576105
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,Alsari,,0.6839863232231919
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,South Tripoli New,,0.1823989681022532
+Libya,Libya,UtilizationPlant,2037,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.8499999999999999
+Libya,Libya,UtilizationPlant,2037,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0050679677084734
+Libya,Libya,UtilizationPlant,2037,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166666
+Libya,Libya,UtilizationPlant,2037,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675797
+Libya,Libya,UtilizationPlant,2037,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,West Tripoli,,0.6372007832844814
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,Tobruk METKA,,0.3234058524681996
+Libya,Libya,UtilizationPlant,2038,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999998
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,Misrata,,0.5647796111327147
+Libya,Libya,UtilizationPlant,2038,ST,Gas,Gas,Gulf Plant,,0.7731110467962202
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,Al-Khoms,,0.050667278639877
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,Alsari,,0.5950456621004566
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,South Tripoli New,,0.124601937874002
+Libya,Libya,UtilizationPlant,2038,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.8483947660863239
+Libya,Libya,UtilizationPlant,2038,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0010763367562448
+Libya,Libya,UtilizationPlant,2038,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166667
+Libya,Libya,UtilizationPlant,2038,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2038,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,West Tripoli,,0.6125185783529932
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,Tobruk METKA,,0.2930605519770463
+Libya,Libya,UtilizationPlant,2039,CCGT,Gas,Gas,Zawiya CC,,0.8499999999999998
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,Misrata,,0.5497710360782438
+Libya,Libya,UtilizationPlant,2039,ST,Gas,Gas,Gulf Plant,,0.7206168207555047
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,Al-Khoms,,0.0527106848410238
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,Alsari,,0.5757762557077626
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,South Tripoli New,,0.1088876035224123
+Libya,Libya,UtilizationPlant,2039,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.8152691078466786
+Libya,Libya,UtilizationPlant,2039,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0012124895181014
+Libya,Libya,UtilizationPlant,2039,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166667
+Libya,Libya,UtilizationPlant,2039,PV,Solar,PV,SOPC_GENC_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2039,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675799
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,West Tripoli,,0.5243466950967218
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,Tobruk METKA,,0.1362656565590877
+Libya,Libya,UtilizationPlant,2040,CCGT,Gas,Gas,Zawiya CC,,0.8341440546644457
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,Misrata,,0.3951838712758046
+Libya,Libya,UtilizationPlant,2040,ST,Gas,Gas,Gulf Plant,,0.655843205667401
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,Al-Khoms,,0.0243114956437127
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,Alsari,,0.3677423560315758
+Libya,Libya,UtilizationPlant,2040,OCGT,Gas,Gas,South Tripoli New,,0.0811599774310301
+Libya,Libya,UtilizationPlant,2040,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.7494433574480199
+Libya,Libya,UtilizationPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3043044402166668
+Libya,Libya,UtilizationPlant,2040,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2915036413552511
+Libya,Libya,UtilizationPlant,2040,PV,Solar,PV,SOPC_GENC_LIB,,0.2188733828050896
+Libya,Libya,UtilizationPlant,2040,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2040,PV,Solar,PV,SOPC_GENC4_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2040,Storage,Battery,Battery,Batt_GENC_LIB,,0.1383561643835616
+Libya,Libya,UtilizationPlant,2040,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1392408675799087
+Libya,Libya,UtilizationPlant,2041,OCGT,Gas,Gas,West Tripoli,,0.6386386851143052
+Libya,Libya,UtilizationPlant,2041,OCGT,Gas,Gas,Tobruk METKA,,0.5968379618563999
+Libya,Libya,UtilizationPlant,2041,ST,Gas,Gas,Gulf Plant,,0.6636136605542156
+Libya,Libya,UtilizationPlant,2041,OCGT,Gas,Gas,Al-Khoms,,0.1435452135498145
+Libya,Libya,UtilizationPlant,2041,OCGT,Gas,Gas,South Tripoli New,,0.4119438867014177
+Libya,Libya,UtilizationPlant,2041,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.7517664672530808
+Libya,Libya,UtilizationPlant,2041,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0512451586749252
+Libya,Libya,UtilizationPlant,2041,OCGT,HFO,Diesel,Obari,,0.0156275273472784
+Libya,Libya,UtilizationPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3037144178262556
+Libya,Libya,UtilizationPlant,2041,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2856612526554794
+Libya,Libya,UtilizationPlant,2041,PV,Solar,PV,SOPC_GENC_LIB,,0.2132864372008499
+Libya,Libya,UtilizationPlant,2041,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2041,PV,Solar,PV,SOPC_GENC4_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2041,Storage,Battery,Battery,Batt_GENC_LIB,,0.1682706475795354
+Libya,Libya,UtilizationPlant,2041,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1685364827710752
+Libya,Libya,UtilizationPlant,2042,OCGT,Gas,Gas,West Tripoli,,0.5296409108781772
+Libya,Libya,UtilizationPlant,2042,OCGT,Gas,Gas,Tobruk METKA,,0.4860124785078953
+Libya,Libya,UtilizationPlant,2042,ST,Gas,Gas,Gulf Plant,,0.6270873249754425
+Libya,Libya,UtilizationPlant,2042,OCGT,Gas,Gas,Al-Khoms,,0.1059175660671623
+Libya,Libya,UtilizationPlant,2042,OCGT,Gas,Gas,South Tripoli New,,0.1835768426245512
+Libya,Libya,UtilizationPlant,2042,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.7170339452777446
+Libya,Libya,UtilizationPlant,2042,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0300259604483781
+Libya,Libya,UtilizationPlant,2042,OCGT,HFO,Diesel,Obari,,0.0063571035620629
+Libya,Libya,UtilizationPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.3003064146658675
+Libya,Libya,UtilizationPlant,2042,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2756620653546803
+Libya,Libya,UtilizationPlant,2042,PV,Solar,PV,SOPC_GENC_LIB,,0.2065797723256607
+Libya,Libya,UtilizationPlant,2042,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2042,PV,Solar,PV,SOPC_GENC4_LIB,,0.2242617408675798
+Libya,Libya,UtilizationPlant,2042,Storage,Battery,Battery,Batt_GENC_LIB,,0.1595655676592192
+Libya,Libya,UtilizationPlant,2042,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1655027990921695
+Libya,Libya,UtilizationPlant,2043,OCGT,Gas,Gas,West Tripoli,,0.4632213978217658
+Libya,Libya,UtilizationPlant,2043,OCGT,Gas,Gas,Tobruk METKA,,0.3868789675814727
+Libya,Libya,UtilizationPlant,2043,ST,Gas,Gas,Gulf Plant,,0.6101036364827886
+Libya,Libya,UtilizationPlant,2043,OCGT,Gas,Gas,Al-Khoms,,0.0747047454732306
+Libya,Libya,UtilizationPlant,2043,OCGT,Gas,Gas,South Tripoli New,,0.1599497958648414
+Libya,Libya,UtilizationPlant,2043,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.6879577157349105
+Libya,Libya,UtilizationPlant,2043,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0303667791128527
+Libya,Libya,UtilizationPlant,2043,OCGT,HFO,Diesel,Obari,,0.0062561512531584
+Libya,Libya,UtilizationPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2934628220690639
+Libya,Libya,UtilizationPlant,2043,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2668764284953198
+Libya,Libya,UtilizationPlant,2043,PV,Solar,PV,SOPC_GENC_LIB,,0.1920496198313241
+Libya,Libya,UtilizationPlant,2043,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2043,PV,Solar,PV,SOPC_GENC4_LIB,,0.2108469977168951
+Libya,Libya,UtilizationPlant,2043,Storage,Battery,Battery,Batt_GENC_LIB,,0.1713838802816088
+Libya,Libya,UtilizationPlant,2043,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1697316210292139
+Libya,Libya,UtilizationPlant,2044,OCGT,Gas,Gas,West Tripoli,,0.3111968095360243
+Libya,Libya,UtilizationPlant,2044,OCGT,Gas,Gas,Tobruk METKA,,0.241179352433628
+Libya,Libya,UtilizationPlant,2044,ST,Gas,Gas,Gulf Plant,,0.5278097395490849
+Libya,Libya,UtilizationPlant,2044,OCGT,Gas,Gas,Al-Khoms,,0.0441210892450614
+Libya,Libya,UtilizationPlant,2044,OCGT,Gas,Gas,South Tripoli New,,0.1060046322592366
+Libya,Libya,UtilizationPlant,2044,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.6572028770182586
+Libya,Libya,UtilizationPlant,2044,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0243289850052285
+Libya,Libya,UtilizationPlant,2044,OCGT,HFO,Diesel,Obari,,0.0016152721431361
+Libya,Libya,UtilizationPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2894788277328767
+Libya,Libya,UtilizationPlant,2044,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2645040404521691
+Libya,Libya,UtilizationPlant,2044,PV,Solar,PV,SOPC_GENC_LIB,,0.1768882007501527
+Libya,Libya,UtilizationPlant,2044,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675799
+Libya,Libya,UtilizationPlant,2044,PV,Solar,PV,SOPC_GENC4_LIB,,0.1971968173515981
+Libya,Libya,UtilizationPlant,2044,Storage,Battery,Battery,Batt_GENC_LIB,,0.175754160747815
+Libya,Libya,UtilizationPlant,2044,Storage,Battery,Battery,Batt_GENC2_LIB,,0.17549589037552
+Libya,Libya,UtilizationPlant,2045,OCGT,Gas,Gas,Tobruk METKA,,0.2796020072877649
+Libya,Libya,UtilizationPlant,2045,ST,Gas,Gas,Gulf Plant,,0.3803868419346158
+Libya,Libya,UtilizationPlant,2045,OCGT,Gas,Gas,Al-Khoms,,0.0720941022543435
+Libya,Libya,UtilizationPlant,2045,OCGT,Gas,Gas,South Tripoli New,,0.1590240284391494
+Libya,Libya,UtilizationPlant,2045,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.6276988349126443
+Libya,Libya,UtilizationPlant,2045,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0344622190354423
+Libya,Libya,UtilizationPlant,2045,OCGT,HFO,Diesel,Obari,,0.0244310053835766
+Libya,Libya,UtilizationPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2820539258899343
+Libya,Libya,UtilizationPlant,2045,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2577719277039955
+Libya,Libya,UtilizationPlant,2045,PV,Solar,PV,SOPC_GENC_LIB,,0.1662126312705539
+Libya,Libya,UtilizationPlant,2045,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675797
+Libya,Libya,UtilizationPlant,2045,PV,Solar,PV,SOPC_GENC4_LIB,,0.1962770399543378
+Libya,Libya,UtilizationPlant,2045,Storage,Battery,Battery,Batt_GENC_LIB,,0.1728820349975251
+Libya,Libya,UtilizationPlant,2045,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1764430203977535
+Libya,Libya,UtilizationPlant,2046,OCGT,Gas,Gas,Tobruk METKA,,0.1714701230274387
+Libya,Libya,UtilizationPlant,2046,ST,Gas,Gas,Gulf Plant,,0.2809595491505434
+Libya,Libya,UtilizationPlant,2046,OCGT,Gas,Gas,Al-Khoms,,0.0482717220021134
+Libya,Libya,UtilizationPlant,2046,OCGT,Gas,Gas,South Tripoli New,,0.0839921152353669
+Libya,Libya,UtilizationPlant,2046,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.5987925851194835
+Libya,Libya,UtilizationPlant,2046,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0275264696399252
+Libya,Libya,UtilizationPlant,2046,OCGT,HFO,Diesel,Obari,,0.0034890319320749
+Libya,Libya,UtilizationPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2866023552096432
+Libya,Libya,UtilizationPlant,2046,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2545405505952054
+Libya,Libya,UtilizationPlant,2046,PV,Solar,PV,SOPC_GENC_LIB,,0.1633370686913862
+Libya,Libya,UtilizationPlant,2046,PV,Solar,PV,SOPC_GENC3_LIB,,0.2241163853835154
+Libya,Libya,UtilizationPlant,2046,PV,Solar,PV,SOPC_GENC4_LIB,,0.1936140684931506
+Libya,Libya,UtilizationPlant,2046,Storage,Battery,Battery,Batt_GENC_LIB,,0.172297051272148
+Libya,Libya,UtilizationPlant,2046,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1774234092681451
+Libya,Libya,UtilizationPlant,2047,OCGT,Gas,Gas,Tobruk METKA,,0.1097085758434298
+Libya,Libya,UtilizationPlant,2047,ST,Gas,Gas,Gulf Plant,,0.242897526587672
+Libya,Libya,UtilizationPlant,2047,OCGT,Gas,Gas,South Tripoli New,,0.0764010478647443
+Libya,Libya,UtilizationPlant,2047,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.5669699133652782
+Libya,Libya,UtilizationPlant,2047,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0377194774441579
+Libya,Libya,UtilizationPlant,2047,OCGT,HFO,Diesel,Obari,,0.0289629646323354
+Libya,Libya,UtilizationPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2863318655062765
+Libya,Libya,UtilizationPlant,2047,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2602163297028541
+Libya,Libya,UtilizationPlant,2047,PV,Solar,PV,SOPC_GENC_LIB,,0.1660740514156844
+Libya,Libya,UtilizationPlant,2047,PV,Solar,PV,SOPC_GENC3_LIB,,0.2242617408675797
+Libya,Libya,UtilizationPlant,2047,PV,Solar,PV,SOPC_GENC4_LIB,,0.1966992248858447
+Libya,Libya,UtilizationPlant,2047,Storage,Battery,Battery,Batt_GENC_LIB,,0.1743441872068212
+Libya,Libya,UtilizationPlant,2047,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1753211005705307
+Libya,Libya,UtilizationPlant,2048,OCGT,Gas,Gas,Tobruk METKA,,0.0860447372294473
+Libya,Libya,UtilizationPlant,2048,ST,Gas,Gas,Gulf Plant,,0.1673845001242518
+Libya,Libya,UtilizationPlant,2048,OCGT,Gas,Gas,South Tripoli New,,0.0650673635335467
+Libya,Libya,UtilizationPlant,2048,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.5072910974642737
+Libya,Libya,UtilizationPlant,2048,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0337443145839315
+Libya,Libya,UtilizationPlant,2048,OCGT,HFO,Diesel,Obari,,0.0076947368327634
+Libya,Libya,UtilizationPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2853023865515801
+Libya,Libya,UtilizationPlant,2048,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.258276401490411
+Libya,Libya,UtilizationPlant,2048,PV,Solar,PV,SOPC_GENC_LIB,,0.1642558650765397
+Libya,Libya,UtilizationPlant,2048,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2048,PV,Solar,PV,SOPC_GENC4_LIB,,0.2008635856164383
+Libya,Libya,UtilizationPlant,2048,Storage,Battery,Battery,Batt_GENC_LIB,,0.1697073824460692
+Libya,Libya,UtilizationPlant,2048,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1726025395130935
+Libya,Libya,UtilizationPlant,2049,OCGT,Gas,Gas,Tobruk METKA,,0.0864212055217804
+Libya,Libya,UtilizationPlant,2049,ST,Gas,Gas,Gulf Plant,,0.1519223453923007
+Libya,Libya,UtilizationPlant,2049,OCGT,Gas,Gas,South Tripoli New,,0.0660008232957226
+Libya,Libya,UtilizationPlant,2049,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.464197617374345
+Libya,Libya,UtilizationPlant,2049,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0343763372569972
+Libya,Libya,UtilizationPlant,2049,OCGT,HFO,Diesel,Obari,,0.01028505011477
+Libya,Libya,UtilizationPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.2883249288899542
+Libya,Libya,UtilizationPlant,2049,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2533400750973745
+Libya,Libya,UtilizationPlant,2049,PV,Solar,PV,SOPC_GENC_LIB,,0.1666532470199495
+Libya,Libya,UtilizationPlant,2049,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2049,PV,Solar,PV,SOPC_GENC4_LIB,,0.2030693002283106
+Libya,Libya,UtilizationPlant,2049,Storage,Battery,Battery,Batt_GENC_LIB,,0.1704564959904084
+Libya,Libya,UtilizationPlant,2049,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1793590518325777
+Libya,Libya,UtilizationPlant,2050,OCGT,Gas,Gas,Tobruk METKA,,0.0792725002690091
+Libya,Libya,UtilizationPlant,2050,ST,Gas,Gas,Gulf Plant,,0.1127910647147178
+Libya,Libya,UtilizationPlant,2050,OCGT,Gas,Gas,South Tripoli New,,0.0537693745694416
+Libya,Libya,UtilizationPlant,2050,CCGT,Gas,Gas,NGCC_GENC_LIB,,0.4006144125266025
+Libya,Libya,UtilizationPlant,2050,OCGT,Gas,Gas,NGSC_GENC_LIB,,0.0310595124668618
+Libya,Libya,UtilizationPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC2_LIB,,0.288134014000123
+Libya,Libya,UtilizationPlant,2050,OnshoreWind,Wind,Onshore Wind,WDLC_GENC4_LIB,,0.2552412954560502
+Libya,Libya,UtilizationPlant,2050,PV,Solar,PV,SOPC_GENC_LIB,,0.1662146982690747
+Libya,Libya,UtilizationPlant,2050,PV,Solar,PV,SOPC_GENC3_LIB,,0.22426174086758
+Libya,Libya,UtilizationPlant,2050,PV,Solar,PV,SOPC_GENC4_LIB,,0.2101187933789954
+Libya,Libya,UtilizationPlant,2050,Storage,Battery,Battery,Batt_GENC_LIB,,0.165170666983747
+Libya,Libya,UtilizationPlant,2050,Storage,Battery,Battery,Batt_GENC2_LIB,,0.1794025563353178

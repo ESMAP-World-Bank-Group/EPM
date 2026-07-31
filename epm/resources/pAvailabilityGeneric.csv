@@ -39,4 +39,7 @@ ST,Shale,0.65
 ST,Uranium,0.85
 ST,Waste,0.65
 STO HY,Water,0.85
+ST,DomesticCoal,0.65
+ST,ImportedCoal,0.65
+GT,FuelOil,0.85
 
