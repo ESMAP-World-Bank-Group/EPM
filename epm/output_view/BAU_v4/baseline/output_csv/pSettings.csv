@@ -10,7 +10,6 @@ ReserveVoLL,70000.0
 SpinReserveVoLL,100.0
 VoLL,2000.0
 WACC,0.1
-fApplyCountryCo2Constraint,1.0
 fApplyFuelConstraint,1.0
 fApplyPlanningReserveConstraint,1.0
 fCountIntercoForReserves,1.0
