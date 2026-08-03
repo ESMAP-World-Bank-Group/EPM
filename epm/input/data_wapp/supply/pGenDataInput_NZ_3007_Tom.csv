@@ -258,7 +258,7 @@ Projet type 50 MW,Mauritania_grid,OnshoreWind,Wind,3,2028,2058,50,,,,50,30,,1,1,
 Eolien Nouadhibou SNIM,Mauritania_grid,OnshoreWind,Wind,1,2013,2043,4.4,,,,4.4,30,,1,1,,,1.3,40000,,4.4
 Nouakchott_Wind_Plant,Mauritania_grid,OnshoreWind,Wind,1,2015,2045,30,,,,30,30,,1,1,,,1.3,40000,,30
 OFSHORE_WIND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2040,2070,,,,,,30,,1,1,,,1.3,40000,,
-WIND_CAND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2040,2070,5000,,,,170,30,,1,1,,,1.3,40000,,170
+WIND_CAND_MAU,Mauritania_grid,OnshoreWind,Wind,3,2035,2065,5000,,,,200,30,,1,1,,,1.3,40000,,170
 WIND_CAND_NGR,Niger,OnshoreWind,Wind,3,2030,2060,5000,,,,201,30,,1,1,,,1.3,40000,,201
 OFSHORE_WIND_NGA,Nigeria,OnshoreWind,Wind,3,2100,2200,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_NGA,Nigeria,OnshoreWind,Wind,3,2100,2200,5000,,,,1091,30,,1,1,,,1.3,40000,,1091
@@ -325,7 +325,7 @@ PV_Akuo,Mali,PV,Solar,1,2020,2045,50,,,,50,25,,1,1,,,0.97,17000,,50
 PV_CAND_Mali,Mali,PV,Solar,3,2027,2052,30000,,,,250,25,,1,1,,,0.97,17000,,250
 Nouakchott_Est_Solar,Mauritania_grid,PV,Solar,1,2017,2042,42,,,,50,,,1,1,,,1.1,17000,,50
 Nouakchott_Zayed_Solar,Mauritania_grid,PV,Solar,1,2013,2038,11.5,,,,15,,,1,1,,,2,17000,,15
-PV_CAND_Mauritania_grid,Mauritania_grid,PV,Solar,3,2040,2065,30000,,,,250,25,,1,1,,,0.97,17000,,250
+PV_CAND_Mauritania_grid,Mauritania_grid,PV,Solar,3,2035,2060,30000,,,,250,25,,1,1,,,0.97,17000,,250
 Solaires hybrides RI,Mauritania_grid,PV,Solar,1,2024,2049,13.4,,,,15,25,,1,1,,,0.97,17000,,15
 SNIM Zouerate — solaire,Mauritania_grid,PV,Solar,2,2024,2049,9.6,,,,9.6,25,,1,1,,,0.8,17000,,9.6
 Kinross Tasiast — solaire,Mauritania_grid,PV,Solar,2,2030,2055,27.2,,,,27.2,25,,1,1,,,1.5,17000,,27.2
