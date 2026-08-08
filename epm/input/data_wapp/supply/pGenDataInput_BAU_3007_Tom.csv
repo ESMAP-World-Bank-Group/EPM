@@ -21,7 +21,7 @@ Centrale thermique Publique TAV,IvoryCoast,CCGT,Gas,3,2027,2060,150,,,6.8,150,30
 Songon1,IvoryCoast,CCGT,Gas,3,2029,2059,124,,,6.8,124,30,6.4,1,1,,0.07,0.9,30000,2,124
 Songon2,IvoryCoast,CCGT,Gas,3,2029,2059,124,,,6.8,124,30,6.4,1,1,,0.07,0.9,30000,2,124
 Songon3,IvoryCoast,CCGT,Gas,3,2027,2053,124,,,6.8,124,30,6.4,1,1,,0.07,0.9,30000,2,124
-CC_GAS_CAND_MAU,Mauritania_grid,CCGT,Gas,3,2035,2065,5000,,,,250,30,6.4,1,1,,0.05,0.9,30000,2,250
+CC_GAS_CAND_MAU,Mauritania_grid,CCGT,Gas,3,2035,2065,5000,,,6.8,250,30,6.4,1,1,,0.05,0.9,30000,2,250
 Generic Gas Plant CCGT,Nigeria,CCGT,Gas,3,2030,2060,30000,,,,1000,30,6.4,1,1,,0.1,0.9,30000,2,1000
 CCGT WAE,Senegal,CCGT,Diesel,1,2025,2026,0,,,,0,30,6.4,1,1,,0.06,1,35000,4,0
 250 MW gas-fired combined-cycle power plant,Togo,CCGT,Gas,2,2030,2050,,,,9.9,,30,6.4,1,1,,0.2,0.9,30000,2,
