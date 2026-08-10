@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../images/favicon.webp">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1977,7 +1977,11 @@ You’ll need:</p>
 <a href="https://www.gams.com/download/">https://www.gams.com/download/</a></li>
 </ul>
 <p>Ask your institution or the World Bank team if you need a full license.</p>
-<p>We are using gamsapi version &gt;= 48.2.0, you should run a version of GAMS that is <strong>at least version 48.2.0.</strong>, released on October 29, 2024.</p>
+<p>We are using gamsapi version &gt;= 48.2.0, so you should run a version of GAMS <strong>between 48.2.0</strong> (released on October 29, 2024) <strong>and 53.x</strong>. Continuous integration runs on GAMS 53.5.1.</p>
+<div class="admonition warning">
+<p class="admonition-title">GAMS 54.x is not yet supported</p>
+<p>GAMS 54.x returns gams-transfer records with categorical dtypes, which breaks input verification and treatment. Use 53.x or earlier.</p>
+</div>
 <hr />
 <h3 id="add-gams-to-your-system-path">Add GAMS to Your System PATH<a class="headerlink" href="#add-gams-to-your-system-path" title="Permanent link">&para;</a></h3>
 <p>This step allows you to call <code>gams</code> from your terminal or command line.</p>
@@ -2121,7 +2125,7 @@ You’ll need:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.collapse", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="../../javascripts/mathjax.js"></script>
       
