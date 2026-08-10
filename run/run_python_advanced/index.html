@@ -13,6 +13,10 @@
       
       
       
+        <link rel="prev" href="../run_python/">
+      
+      
+        <link rel="next" href="../run_gams_studio/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Run EPM from Python - Advanced Features - EPM — Electricity Planning Model</title>
+        <title>Advanced Python Options - EPM — Electricity Planning Model</title>
       
     
     
@@ -111,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Run EPM from Python - Advanced Features
+              Advanced Python Options
             
           </span>
         </div>
@@ -224,11 +228,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../run_installation/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../run_prerequisites/" class="md-tabs__link">
           
   
   
@@ -417,6 +423,8 @@
       
         
       
+        
+      
     
     
     
@@ -546,6 +554,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Versions & Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -557,8 +593,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -582,23 +620,30 @@
       
         
       
+        
+      
+        
+      
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -616,7 +661,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -626,6 +671,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -662,14 +735,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../run_dashboard/" class="md-nav__link">
+      <a href="../run_python/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Run from Dashboard
+    Run from Python
   
 
     
@@ -687,17 +760,44 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../run_python/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Python Options
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Run from Python
+    Advanced Python Options
   
 
     
@@ -706,6 +806,176 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-run-multiple-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Run Multiple Scenarios
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b-sensitivity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Sensitivity Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="B. Sensitivity Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-how-to-enable-sensitivity-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. How to Enable Sensitivity Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-example-sensitivitycsv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Example sensitivity.csv
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Example sensitivity.csv">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-run-with-sensitivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Run with Sensitivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tested-sensitivity-parameters-and-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tested Sensitivity Parameters and Variations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-single-country-runs-with-border-prices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Single-Country Runs with Border Prices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. Single-Country Runs with Border Prices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-run-regional-model-with-focus-country" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Run Regional Model with Focus Country
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-single-country-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Run Single-Country Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cli-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-monte-carlo-analysis-ongoing-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Monte-Carlo analysis (ongoing development)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -907,6 +1177,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -922,6 +1220,10 @@
   
     
     
+      
+        
+      
+        
       
         
       
@@ -1097,6 +1399,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../model/model_formulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../model/equations/" class="md-nav__link">
         
   
@@ -1105,6 +1435,34 @@
     
   
     Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model/model_notations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notations
   
 
     
@@ -1133,6 +1491,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1278,6 +1642,90 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input/input_technology_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_fuel_brief/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fuels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_treatment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input Treatment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../input/input_open_data/" class="md-nav__link">
         
   
@@ -1314,6 +1762,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1429,6 +1883,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../output/postprocessing_output_EPM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Output Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../output/visualization/" class="md-nav__link">
         
   
@@ -1437,6 +1919,62 @@
     
   
     Visualization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard (results viewer)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/postprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python Postprocessing
   
 
     
@@ -1465,6 +2003,8 @@
   
     
     
+      
+        
       
         
       
@@ -1601,6 +2141,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run_git_process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1616,6 +2184,12 @@
   
     
     
+      
+        
+      
+        
+      
+        
       
         
       
@@ -1685,6 +2259,90 @@
     
   
     Data Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Snakemake Pipeline Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../preprocessing/pre_related_projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Related Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/other_open_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Open-Source Data
   
 
     
