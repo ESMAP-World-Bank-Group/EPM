@@ -148,8 +148,13 @@ Write-Ok "Environment ready."
 
 Write-Step "Creating desktop launcher"
 
-$desktop = [System.Environment]::GetFolderPath("Desktop")
-if (-not (Test-Path $desktop)) {
+# GetFolderPath is a .NET method call, which PowerShell refuses in
+# ConstrainedLanguage mode - the default on corporate laptops locked down with
+# WDAC/AppLocker. Absorb the failure so the candidate list below (which uses
+# only Test-Path) can take over.
+$desktop = $null
+try { $desktop = [System.Environment]::GetFolderPath("Desktop") } catch { }
+if (-not $desktop -or -not (Test-Path $desktop)) {
     $dlist = @(
         "$env:USERPROFILE\OneDrive\Desktop",
         "$env:USERPROFILE\OneDrive - World Bank Group\Desktop",
@@ -182,7 +187,7 @@ $line12 = "pause"
 
 $batContent = $line1, $line2, $line3, $line4, $line5, $line6, $line7, $line8, $line9, $line10, $line11, $line12
 
-Set-Content -Path $launcherPath -Value $batContent -Encoding UTF8
+Set-Content -Path $launcherPath -Value $batContent -Encoding UTF8 -ErrorAction SilentlyContinue
 
 if (Test-Path $launcherPath) {
     Write-Ok "Launcher created: $launcherPath"

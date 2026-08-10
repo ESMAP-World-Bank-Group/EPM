@@ -1,0 +1,76 @@
+name: Build EPM Installer
+
+# epm.exe embeds its own frozen copy of installer.ps1. Editing the .ps1 alone is
+# a silent no-op for everyone who downloads the .exe, and the drift is invisible
+# in code review. This workflow rebuilds the binary automatically so the two can
+# never diverge.
+#
+# It runs only when installer.ps1 actually changes: PS2EXE output is not
+# byte-reproducible (it embeds a build timestamp), so rebuilding on every push
+# would produce an empty commit each time.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'installer/installer.ps1'
+      - 'installer/872324.ico'
+      - '.github/workflows/build_installer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install PS2EXE
+        shell: powershell
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name ps2exe -Scope CurrentUser -Force
+
+      - name: Compile installer.ps1 into epm.exe
+        shell: powershell
+        run: |
+          cd installer
+          Invoke-ps2exe `
+            -inputFile  installer.ps1 `
+            -outputFile epm.exe `
+            -iconFile   872324.ico `
+            -title      "EPM Installer"
+          if (-not (Test-Path epm.exe)) { throw "PS2EXE produced no output" }
+
+      - name: Verify the embedded script is current
+        shell: powershell
+        run: |
+          # PS2EXE stores the script as plain text inside the binary, so a string
+          # search is enough to prove the build actually took. This is a smoke
+          # test, not a full comparison.
+          $markers = @('conda create', 'override-channels', 'Launch EPM Dashboard')
+          foreach ($m in $markers) {
+              if (-not (Select-String -Path installer\epm.exe -Pattern $m -Quiet)) {
+                  throw "epm.exe does not contain expected marker: $m"
+              }
+          }
+          $size = (Get-Item installer\epm.exe).Length
+          if ($size -lt 20000) { throw "epm.exe is suspiciously small ($size bytes)" }
+          Write-Host "OK - epm.exe is $size bytes and embeds the current script"
+
+      - name: Commit the rebuilt binary
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- installer/epm.exe; then
+            echo "epm.exe unchanged - nothing to commit"
+          else
+            git add installer/epm.exe
+            git commit -m "build(installer): rebuild epm.exe from installer.ps1 [skip ci]"
+            git push
+          fi

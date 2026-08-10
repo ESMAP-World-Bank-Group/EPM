@@ -1,3 +1,16 @@
+; ============================================================================
+; DEPRECATED - THIS IS NOT HOW epm.exe IS BUILT.
+;
+; The distributed installer (installer/epm.exe) is built with PS2EXE, not with
+; Inno Setup. See README.md for the actual build procedure.
+;
+; Compiling this file produces dist/EPM_Setup.exe - a different binary that
+; requests administrator elevation, which the shipped PS2EXE build
+; deliberately avoids because it fails on managed corporate laptops.
+;
+; Kept for reference only.
+; ============================================================================
+
 ; EPM Installer - Inno Setup Script
 ; Wraps installer.ps1 into a standalone .exe
 ; Requirements: Inno Setup 6+ (https://jrsoftware.org/isinfo.php)
