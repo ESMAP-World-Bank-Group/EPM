@@ -7,11 +7,31 @@ $PYTHON_VER  = "3.10"
 $MINICONDA_URL       = "https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"
 $MINICONDA_INSTALLER = "$env:TEMP\Miniconda3-installer.exe"
 
+# A written trace is the difference between "it failed" and a diagnosis: without
+# one, reporting a problem means sending a screenshot. It goes to TEMP because
+# the install folder is not known yet at this point, and may not exist.
+#
+# Start-Transcript is a cmdlet, so it survives ConstrainedLanguage. If the host
+# refuses to transcribe, the installer carries on without a log rather than
+# failing over it.
+$LOG_FILE = "$env:TEMP\epm_install_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+Start-Transcript -Path $LOG_FILE -ErrorAction SilentlyContinue | Out-Null
+
 function Write-Step { Write-Host ""; Write-Host ">>> $args" -ForegroundColor Cyan }
 function Write-Ok   { Write-Host "    OK: $args" -ForegroundColor Green }
 function Write-Warn { Write-Host "    !! $args" -ForegroundColor Yellow }
 function Write-Err  { Write-Host "    ERROR: $args" -ForegroundColor Red }
-function Stop-Install { Write-Host "Press Enter to exit..."; $null = Read-Host; exit 1 }
+
+function Stop-Install {
+    Write-Host ""
+    Write-Host "    A full log of this run was saved to:" -ForegroundColor Yellow
+    Write-Host "    $LOG_FILE"                            -ForegroundColor Yellow
+    Write-Host "    Please attach it when reporting the problem." -ForegroundColor Yellow
+    Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
+    Write-Host "Press Enter to exit..."
+    $null = Read-Host
+    exit 1
+}
 
 Clear-Host
 Write-Host "=============================================" -ForegroundColor Yellow
@@ -131,9 +151,22 @@ if ($envExists) {
     }
 } else {
     Write-Warn "Creating environment (may take a few minutes)..."
-    & "$condaCmd" create -n $ENV_NAME "python=$PYTHON_VER" -y --override-channels -c conda-forge
+    # Keep a copy of the output so the failure below can be diagnosed instead of
+    # just reported. Tee-Object still shows it live.
+    $createLog = "$env:TEMP\epm_conda_create.log"
+    & "$condaCmd" create -n $ENV_NAME "python=$PYTHON_VER" -y --override-channels -c conda-forge 2>&1 |
+        Tee-Object -FilePath $createLog
     if ($LASTEXITCODE -ne 0) {
         Write-Err "conda create failed."
+        # This is what blocked users before conda-forge was pinned. It should no
+        # longer happen - if it does, something is putting Anaconda's channels
+        # back in. Say so, rather than leaving a bare "failed".
+        if (Select-String -Path $createLog -Pattern "Terms of Service" -Quiet -ErrorAction SilentlyContinue) {
+            Write-Warn "conda is refusing to download until Anaconda's Terms of Service are accepted."
+            Write-Warn "This installer deliberately avoids Anaconda's channels, so this normally"
+            Write-Warn "means a .condarc on this machine forces them back in. Check with:"
+            Write-Warn "    conda config --show channels"
+        }
         Stop-Install
     }
     & "$condaCmd" run -n $ENV_NAME pip install -r "$reqFile"
@@ -237,6 +270,26 @@ Write-Step "Checking for GAMS"
 $gams = Get-Command gams -ErrorAction SilentlyContinue
 if ($gams) {
     Write-Ok "GAMS found: $($gams.Source)"
+
+    # `gams --version` does not exist: it exits 6 trying to open "--version" as
+    # an input file. `gams audit` prints the version and exits 0. curdir keeps
+    # any stray listing file out of the install folder.
+    $auditOut = & gams audit lo=3 curdir="$env:TEMP" 2>&1 | Out-String
+    if ($auditOut -match '(\d+)\.(\d+)\.(\d+)') {
+        $gamsVer = $matches[0]
+        $maj = [int]$matches[1]
+        $min = [int]$matches[2]
+        Write-Ok "GAMS version: $gamsVer"
+        if ($maj -ge 54) {
+            Write-Warn "GAMS $maj.x is NOT yet supported - input treatment will fail at run time."
+            Write-Warn "Please install GAMS 53.x or earlier: https://www.gams.com/download/"
+        } elseif ($maj -lt 48 -or ($maj -eq 48 -and $min -lt 2)) {
+            Write-Warn "GAMS $gamsVer is older than the required 48.2.0."
+            Write-Warn "Please upgrade: https://www.gams.com/download/"
+        }
+    } else {
+        Write-Warn "Could not determine the GAMS version. EPM requires 48.2.0 to 53.x."
+    }
 } else {
     Write-Warn "GAMS not detected. EPM requires GAMS with a valid license."
     Write-Warn "Download: https://www.gams.com/download/"
@@ -252,6 +305,9 @@ Write-Host "   EPM installed at : $INSTALL_DIR"
 Write-Host "   Launch the dashboard by double-clicking:"
 Write-Host "   'Launch EPM Dashboard' on your Desktop"
 Write-Host ""
+Write-Host "   Installation log : $LOG_FILE"
+Write-Host ""
+Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
 Write-Host "Press Enter to exit..."
 $null = Read-Host
 exit 0
