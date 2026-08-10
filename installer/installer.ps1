@@ -148,29 +148,55 @@ Write-Ok "Environment ready."
 
 Write-Step "Creating desktop launcher"
 
-# GetFolderPath is a .NET method call, which PowerShell refuses in
-# ConstrainedLanguage mode - the default on corporate laptops locked down with
-# WDAC/AppLocker. Absorb the failure so the candidate list below (which uses
-# only Test-Path) can take over.
+# Locating the Desktop is surprisingly hard on a managed laptop:
+#   - GetFolderPath is a .NET method call, which PowerShell refuses in
+#     ConstrainedLanguage mode - the default under WDAC/AppLocker.
+#   - "$env:USERPROFILE\Desktop" often does not exist at all: OneDrive Known
+#     Folder Move redirects it into "OneDrive - <tenant>", and the tenant name
+#     varies by organization ("OneDrive - WBG", "OneDrive - Contoso", ...).
+#   - on a localized Windows the folder may not even be named "Desktop".
+#
+# The registry knows the answer in every one of those cases, and reading it
+# needs only cmdlets - so it survives ConstrainedLanguage. Everything below it
+# is a fallback for the rare machine where the key is missing.
 $desktop = $null
-try { $desktop = [System.Environment]::GetFolderPath("Desktop") } catch { }
-if (-not $desktop -or -not (Test-Path $desktop)) {
-    $dlist = @(
-        "$env:USERPROFILE\OneDrive\Desktop",
-        "$env:USERPROFILE\OneDrive - World Bank Group\Desktop",
-        "$env:USERPROFILE\Desktop"
-    )
-    foreach ($d in $dlist) {
-        if (Test-Path $d) {
-            $desktop = $d
+
+$shellFolders = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -ErrorAction SilentlyContinue
+if ($shellFolders -and $shellFolders.Desktop) {
+    # -replace is an operator, not a method: ExpandEnvironmentVariables would be
+    # blocked here. This key is normally already expanded.
+    $fromReg = $shellFolders.Desktop -replace '%USERPROFILE%', $env:USERPROFILE
+    if (Test-Path $fromReg) { $desktop = $fromReg }
+}
+
+if (-not $desktop) {
+    try { $fromDotNet = [System.Environment]::GetFolderPath("Desktop") } catch { $fromDotNet = $null }
+    if ($fromDotNet -and (Test-Path $fromDotNet)) { $desktop = $fromDotNet }
+}
+
+if (-not $desktop) {
+    # Any "OneDrive*" folder, whatever this organization happens to call it.
+    $oneDrives = Get-ChildItem -Path $env:USERPROFILE -Directory -Filter "OneDrive*" -ErrorAction SilentlyContinue
+    foreach ($od in $oneDrives) {
+        $candidate = Join-Path $od.FullName "Desktop"
+        if (Test-Path $candidate) {
+            $desktop = $candidate
             break
         }
     }
 }
-Write-Host "    Desktop: $desktop" -ForegroundColor Gray
+
+if (-not $desktop -and (Test-Path "$env:USERPROFILE\Desktop")) {
+    $desktop = "$env:USERPROFILE\Desktop"
+}
+
+if ($desktop) {
+    Write-Host "    Desktop: $desktop" -ForegroundColor Gray
+} else {
+    Write-Warn "Could not locate the Desktop folder."
+}
 
 $activateBat  = "$condaBase\Scripts\activate.bat"
-$launcherPath = "$desktop\Launch EPM Dashboard.bat"
 
 $line1  = "@echo off"
 $line2  = "title EPM Dashboard"
@@ -187,12 +213,18 @@ $line12 = "pause"
 
 $batContent = $line1, $line2, $line3, $line4, $line5, $line6, $line7, $line8, $line9, $line10, $line11, $line12
 
-Set-Content -Path $launcherPath -Value $batContent -Encoding UTF8 -ErrorAction SilentlyContinue
+$launcherCreated = $false
+if ($desktop) {
+    $launcherPath = Join-Path $desktop "Launch EPM Dashboard.bat"
+    Set-Content -Path $launcherPath -Value $batContent -Encoding UTF8 -ErrorAction SilentlyContinue
+    if (Test-Path $launcherPath) {
+        Write-Ok "Launcher created: $launcherPath"
+        $launcherCreated = $true
+    }
+}
 
-if (Test-Path $launcherPath) {
-    Write-Ok "Launcher created: $launcherPath"
-} else {
-    Write-Err "Could not create launcher on Desktop."
+if (-not $launcherCreated) {
+    Write-Warn "Could not create the launcher on the Desktop."
     Write-Warn "No problem - a launcher has been saved in the install folder instead:"
     $fallback = "$INSTALL_DIR\launch_dashboard.bat"
     Set-Content -Path $fallback -Value $batContent -Encoding UTF8
