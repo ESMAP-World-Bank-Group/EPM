@@ -93,8 +93,14 @@ jobs:
           git push --force origin "$BRANCH"
 
           # Reuse the open PR if there is already one for this branch.
-          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
-            echo "PR already open for $BRANCH - updated in place"
+          #
+          # This has to filter on --state open. `gh pr view` does not: it happily
+          # returns a merged PR for the same branch, so once the first PR was
+          # merged the job would decide a PR already existed and silently never
+          # open another one - while still exiting green.
+          OPEN_PR="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$OPEN_PR" ]; then
+            echo "PR #$OPEN_PR already open for $BRANCH - updated in place"
           else
             gh pr create \
               --base main \
