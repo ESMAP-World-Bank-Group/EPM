@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -28,6 +29,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # Full history: pushing a new branch from a shallow clone can be
+          # rejected with "shallow update not allowed".
+          fetch-depth: 0
 
       - name: Install PS2EXE
         shell: powershell
@@ -62,15 +67,44 @@ jobs:
           if ($size -lt 20000) { throw "epm.exe is suspiciously small ($size bytes)" }
           Write-Host "OK - epm.exe is $size bytes and embeds the current script"
 
-      - name: Commit the rebuilt binary
+      # main is protected by a "changes must go through a pull request" rule, so
+      # the bot cannot push to it directly. Open a PR instead: it respects the
+      # rule rather than working around it, and a human still reviews the binary
+      # before it reaches users.
+      - name: Open a pull request with the rebuilt binary
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
+
+          if git diff --quiet -- installer/epm.exe; then
+            echo "epm.exe unchanged - nothing to do"
+            exit 0
+          fi
+
+          BRANCH="bot/rebuild-epm-exe"
+
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- installer/epm.exe; then
-            echo "epm.exe unchanged - nothing to commit"
+          git checkout -B "$BRANCH"
+          git add installer/epm.exe
+          git commit -m "build(installer): rebuild epm.exe from installer.ps1"
+          git push --force origin "$BRANCH"
+
+          # Reuse the open PR if there is already one for this branch.
+          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
+            echo "PR already open for $BRANCH - updated in place"
           else
-            git add installer/epm.exe
-            git commit -m "build(installer): rebuild epm.exe from installer.ps1 [skip ci]"
-            git push
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "build(installer): rebuild epm.exe" \
+              --body "Automated rebuild of \`installer/epm.exe\` from \`installer/installer.ps1\`.
+
+          \`epm.exe\` embeds a frozen copy of the script, so it must be rebuilt whenever
+          \`installer.ps1\` changes - otherwise the fix never reaches anyone who downloads
+          the installer.
+
+          Built from commit ${GITHUB_SHA}."
           fi

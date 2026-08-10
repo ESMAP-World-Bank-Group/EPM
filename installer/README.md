@@ -38,8 +38,16 @@ script into a standalone console executable.
 ### Automatically, via CI — the normal path
 
 [`.github/workflows/build_installer.yml`](../.github/workflows/build_installer.yml) rebuilds
-`epm.exe` and commits it back to `main` whenever `installer.ps1` changes. **You normally have
-nothing to do**: edit the `.ps1`, push, and the binary follows on its own.
+`epm.exe` whenever `installer.ps1` changes and opens a pull request with the new binary. Edit
+the `.ps1`, push, then **merge the PR the bot opens** — that is the only manual step.
+
+The bot opens a PR rather than pushing to `main` directly because `main` requires changes to go
+through a pull request. It reuses the same `bot/rebuild-epm-exe` branch (force-pushed), so
+repeated rebuilds update the existing PR instead of piling up new ones.
+
+This needs "Allow GitHub Actions to create and approve pull requests" to be enabled — in
+**organization** settings, not just repository settings. When the org disables it, the
+repository checkbox is greyed out and only an org owner can unblock it.
 
 The workflow only triggers when `installer.ps1` (or the icon) actually changes, because PS2EXE
 output is not byte-reproducible — it embeds a build timestamp, so an unconditional rebuild would
