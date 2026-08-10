@@ -45,7 +45,7 @@ fi
 # ---------- Step 3: Check GAMS ----------
 if ! command -v gams &> /dev/null; then
     echo "[!] GAMS not found in PATH."
-    echo "Please install GAMS >= 48.2.0 and add it to PATH (see GAMS docs)."
+    echo "Please install GAMS 48.2.0-53.x (54.x not supported) and add it to PATH (see GAMS docs)."
     exit 1
 else
     echo "[+] GAMS found in PATH."
@@ -77,7 +77,7 @@ echo "[!] Removing old environment '$CONDA_ENV' (if any)..."
 conda env remove -y -n "$CONDA_ENV" >> "$LOG_FILE" 2>&1 || true
 
 echo "[*] Creating new environment '$CONDA_ENV'..."
-conda create -y -n "$CONDA_ENV" python=3.10 >> "$LOG_FILE" 2>&1
+conda create -y -n "$CONDA_ENV" python=3.10 --override-channels -c conda-forge >> "$LOG_FILE" 2>&1
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate "$CONDA_ENV"
 

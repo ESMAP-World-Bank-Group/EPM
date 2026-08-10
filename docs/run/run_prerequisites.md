@@ -37,7 +37,10 @@ GAMS is used to solve the energy planning model. A free version with limited cap
 
 Ask your institution or the World Bank team if you need a full license.
 
-We are using gamsapi version >= 48.2.0, you should run a version of GAMS that is **at least version 48.2.0.**, released on October 29, 2024.
+We are using gamsapi version >= 48.2.0, so you should run a version of GAMS **between 48.2.0** (released on October 29, 2024) **and 53.x**. Continuous integration runs on GAMS 53.5.1.
+
+!!! warning "GAMS 54.x is not yet supported"
+    GAMS 54.x returns gams-transfer records with categorical dtypes, which breaks input verification and treatment. Use 53.x or earlier.
 
 ---
 

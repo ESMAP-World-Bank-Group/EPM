@@ -5,7 +5,8 @@
 EPM's optimization engine is **GAMS**, which must be installed on your machine before proceeding.
 
 !!! info "Install GAMS"
-    [Download GAMS](https://www.gams.com/download/), version **48.2.0 or higher** required.
+    [Download GAMS](https://www.gams.com/download/), version **48.2.0 to 53.x** required.
+    **GAMS 54.x is not yet supported.**
     Contact your institution or the World Bank team for a license.
 
     Add GAMS to your system PATH so it can be called from the terminal:
@@ -65,7 +66,7 @@ Two options are available. The **Windows Installer** automates the full setup (G
     **3. Set up the Python environment**
 
     ```sh
-    conda create -n epm_env python=3.10
+    conda create -n epm_env python=3.10 --override-channels -c conda-forge
     conda activate epm_env
     pip install -r requirements.txt
     ```

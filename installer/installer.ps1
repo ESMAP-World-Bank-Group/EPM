@@ -131,7 +131,7 @@ if ($envExists) {
     }
 } else {
     Write-Warn "Creating environment (may take a few minutes)..."
-    & "$condaCmd" create -n $ENV_NAME "python=$PYTHON_VER" -y
+    & "$condaCmd" create -n $ENV_NAME "python=$PYTHON_VER" -y --override-channels -c conda-forge
     if ($LASTEXITCODE -ne 0) {
         Write-Err "conda create failed."
         Stop-Install

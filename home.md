@@ -56,7 +56,7 @@ flowchart LR
 
 ```bash
 # 1. Install dependencies
-conda create -n epm_env python=3.10
+conda create -n epm_env python=3.10 --override-channels -c conda-forge
 conda activate epm_env
 pip install -r requirements.txt
 

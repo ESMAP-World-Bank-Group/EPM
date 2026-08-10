@@ -227,6 +227,6 @@ cp output_workflow/epm_export/pGenDataInput_gap.csv ../epm/input/data_<region>/s
 After copying, validate the full input folder:
 
 ```bash
-conda activate esmap_env
+conda activate epm_env
 python epm.py --folder_input data_<region> --diagnostic
 ```

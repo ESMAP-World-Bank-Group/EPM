@@ -48,8 +48,8 @@ EPM_main/
 
 ```bash
 # Python 3.10 with conda
-conda create -n esmap_env python=3.10
-conda activate esmap_env
+conda create -n epm_env python=3.10 --override-channels -c conda-forge
+conda activate epm_env
 pip install -r requirements.txt
 ```
 
@@ -59,7 +59,7 @@ Required: GAMS installation with valid license (CPLEX solver is default)
 
 ### IMPORTANT: Always use this method to run tests
 ```bash
-conda activate esmap_env
+conda activate epm_env
 python epm.py --simple
 ```
 
@@ -67,19 +67,19 @@ python epm.py --simple
 
 ### Quick Test (Required after changes)
 ```bash
-conda activate esmap_env
+conda activate epm_env
 python epm.py --simple
 ```
 
 ### Full Model Test
 ```bash
-conda activate esmap_env
+conda activate epm_env
 python epm.py --folder_input data_test --parallel 4
 ```
 
 ### Input Validation Only
 ```bash
-conda activate esmap_env
+conda activate epm_env
 python epm.py --folder_input data_test --diagnostic
 ```
 

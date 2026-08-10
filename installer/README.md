@@ -31,7 +31,7 @@ Install **Inno Setup 6** (free): https://jrsoftware.org/isinfo.php
 2. Asks where to install EPM (folder picker)
 3. Clones `https://github.com/ESMAP-World-Bank-Group/EPM` (branch: `main`)
 4. Checks for **Conda** (Anaconda or Miniconda) — installs Miniconda if missing
-5. Creates the `esmap_env` conda environment and installs `requirements.txt`
+5. Creates the `epm_env` conda environment and installs `requirements.txt`
 6. Creates a **"Launch EPM Dashboard"** shortcut on the Desktop
 7. Warns if **GAMS** is not detected (must be installed separately)
 
