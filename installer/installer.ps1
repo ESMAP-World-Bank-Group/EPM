@@ -22,14 +22,22 @@ function Write-Ok   { Write-Host "    OK: $args" -ForegroundColor Green }
 function Write-Warn { Write-Host "    !! $args" -ForegroundColor Yellow }
 function Write-Err  { Write-Host "    ERROR: $args" -ForegroundColor Red }
 
+# Pausing at the end is right for a double-clicked installer and wrong for CI,
+# where nothing is there to press Enter and the job would hang until it times
+# out. EPM_NONINTERACTIVE is unset for real users, so nothing changes for them.
+function Wait-Exit {
+    if ($env:EPM_NONINTERACTIVE) { return }
+    Write-Host "Press Enter to exit..."
+    $null = Read-Host
+}
+
 function Stop-Install {
     Write-Host ""
     Write-Host "    A full log of this run was saved to:" -ForegroundColor Yellow
     Write-Host "    $LOG_FILE"                            -ForegroundColor Yellow
     Write-Host "    Please attach it when reporting the problem." -ForegroundColor Yellow
     Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
-    Write-Host "Press Enter to exit..."
-    $null = Read-Host
+    Wait-Exit
     exit 1
 }
 
@@ -42,12 +50,18 @@ Write-Host "=============================================" -ForegroundColor Yell
 # --- Step 1: Install folder ---
 
 Write-Step "Choose installation folder"
-Write-Host "    Press Enter for default: $env:USERPROFILE\EPM" -ForegroundColor Gray
-$userInput = Read-Host "    Folder"
-if ($userInput -eq "") {
-    $INSTALL_DIR = "$env:USERPROFILE\EPM"
+if ($env:EPM_INSTALL_DIR) {
+    # Set by the CI install test; never set on a normal machine.
+    $INSTALL_DIR = $env:EPM_INSTALL_DIR
+    Write-Host "    Using EPM_INSTALL_DIR" -ForegroundColor Gray
 } else {
-    $INSTALL_DIR = $userInput
+    Write-Host "    Press Enter for default: $env:USERPROFILE\EPM" -ForegroundColor Gray
+    $userInput = Read-Host "    Folder"
+    if ($userInput -eq "") {
+        $INSTALL_DIR = "$env:USERPROFILE\EPM"
+    } else {
+        $INSTALL_DIR = $userInput
+    }
 }
 Write-Ok "Install location: $INSTALL_DIR"
 
@@ -308,6 +322,5 @@ Write-Host ""
 Write-Host "   Installation log : $LOG_FILE"
 Write-Host ""
 Stop-Transcript -ErrorAction SilentlyContinue | Out-Null
-Write-Host "Press Enter to exit..."
-$null = Read-Host
+Wait-Exit
 exit 0

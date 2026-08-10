@@ -1,0 +1,128 @@
+name: Test EPM Installer
+
+# The installer was never executed before being published: every bug in it was
+# found by a user hitting it. This job runs it end to end on a clean Windows
+# machine so that a broken installer fails here instead of in someone's inbox.
+#
+# What it cannot catch: this runner has no OneDrive redirection and runs in
+# FullLanguage mode, so the two conditions that actually broke the desktop
+# launcher on Bank laptops are absent here. A green run means "the installer
+# works on a clean machine", not "the installer works everywhere".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'installer/installer.ps1'
+      - '.github/workflows/test_installer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run the installer non-interactively
+        shell: powershell
+        env:
+          # The installer reads these instead of prompting. They are never set
+          # on a real machine, so user-facing behaviour is unchanged.
+          EPM_INSTALL_DIR: ${{ runner.temp }}\epm-install-test
+          EPM_NONINTERACTIVE: '1'
+        run: |
+          # Note: the installer clones REPO_BRANCH (main) from GitHub rather
+          # than using this checkout, so it tests main's requirements.txt.
+          .\installer\installer.ps1
+          if ($LASTEXITCODE -ne 0) { throw "installer exited with code $LASTEXITCODE" }
+
+      - name: Check the repository was cloned
+        shell: powershell
+        run: |
+          $dir = "${{ runner.temp }}\epm-install-test"
+          foreach ($f in @("requirements.txt", "epm\main.gms")) {
+              if (-not (Test-Path (Join-Path $dir $f))) { throw "missing after clone: $f" }
+          }
+          Write-Host "OK - repository present at $dir"
+
+      - name: Check the conda environment was created
+        shell: powershell
+        run: |
+          $conda = $null
+          $candidates = @(
+              "$env:USERPROFILE\miniconda3\Scripts\conda.exe",
+              "$env:USERPROFILE\anaconda3\Scripts\conda.exe",
+              "$env:LOCALAPPDATA\miniconda3\Scripts\conda.exe",
+              "C:\ProgramData\miniconda3\Scripts\conda.exe"
+          )
+          foreach ($c in $candidates) { if (Test-Path $c) { $conda = $c; break } }
+          if (-not $conda) { throw "no conda found - the installer did not install Miniconda" }
+
+          $envs = & $conda env list
+          if (-not ($envs | Select-String -SimpleMatch "epm_env")) {
+              throw "epm_env was not created"
+          }
+
+          # The environment existing is not enough: it must actually hold the
+          # Python the model needs.
+          # -join: conda run can emit more than one line, and comparing an array
+          # with -notmatch filters instead of testing.
+          $py = (& $conda run -n epm_env python --version) -join ' '
+          Write-Host "OK - epm_env created with: $py"
+          if ($py -notmatch '3\.10') { throw "expected Python 3.10, got: $py" }
+
+      - name: Check a launcher was produced
+        shell: powershell
+        run: |
+          # Either on the Desktop or, if that could not be located, in the
+          # install folder. Both outcomes are acceptable - producing neither is
+          # not.
+          $shellFolders = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -ErrorAction SilentlyContinue
+          $found = @()
+          if ($shellFolders -and $shellFolders.Desktop) {
+              $onDesktop = Join-Path $shellFolders.Desktop "Launch EPM Dashboard.bat"
+              if (Test-Path $onDesktop) { $found += $onDesktop }
+          }
+          $fallback = "${{ runner.temp }}\epm-install-test\launch_dashboard.bat"
+          if (Test-Path $fallback) { $found += $fallback }
+
+          if ($found.Count -eq 0) { throw "no launcher was created, on the Desktop or as a fallback" }
+          Write-Host "OK - launcher at: $($found -join ', ')"
+          Get-Content $found[0] | Select-Object -First 20
+
+      - name: Check the run log was written
+        shell: powershell
+        run: |
+          $log = Get-ChildItem "$env:TEMP\epm_install_*.log" -ErrorAction SilentlyContinue |
+                 Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          if (-not $log) { throw "no installation log was written" }
+          Write-Host "OK - log at $($log.FullName) ($($log.Length) bytes)"
+
+      # Must run even when a step above failed, otherwise the artifact is empty
+      # exactly when it matters. Never throws: a missing log here is reported by
+      # the assertion step above, not by this one.
+      - name: Stage the log for upload
+        if: always()
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path "${{ runner.temp }}\logs" | Out-Null
+          $logs = Get-ChildItem "$env:TEMP\epm_install_*.log" -ErrorAction SilentlyContinue
+          if ($logs) { Copy-Item $logs.FullName "${{ runner.temp }}\logs\" } else { Write-Host "no log to stage" }
+
+      # Runs even when a step above failed - a failing install test is only
+      # useful if the log comes with it.
+      - name: Upload the installation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-log
+          path: ${{ runner.temp }}\logs\*.log
+          if-no-files-found: warn
