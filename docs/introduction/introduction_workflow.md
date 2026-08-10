@@ -22,7 +22,7 @@ This section provides a quick map of the model, the repository, and the typical 
   <div style="flex: 1; background: #fdf8f0; border: 1px solid #d4b87a; border-radius: 8px; padding: 0.65rem 0.7rem; text-align: center;">
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">2</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Prepare inputs</div>
-    <div style="font-size: 0.7rem; color: #475569;">Via Dashboard or CSV files</div>
+    <div style="font-size: 0.7rem; color: #475569;">Via CSV files or the Dashboard</div>
     <div style="margin-top: 0.4rem;"><a href="../../input/input_setup/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Input →</a></div>
   </div>
 
@@ -31,7 +31,7 @@ This section provides a quick map of the model, the repository, and the typical 
   <div style="flex: 1; background: #fdf8f0; border: 1px solid #d4b87a; border-radius: 8px; padding: 0.65rem 0.7rem; text-align: center;">
     <div style="font-size: 1.3rem; font-weight: 800; color: #1b3a5c; line-height: 1;">3</div>
     <div style="font-size: 0.85rem; font-weight: 700; color: #1b3a5c; margin: 0.2rem 0 0.25rem;">Run</div>
-    <div style="font-size: 0.7rem; color: #475569;">Via <a href="../../run/run_dashboard/" style="color: #475569;">Dashboard</a>, <a href="../../run/run_python/" style="color: #475569;">Python</a>, or <a href="../../run/run_gams_studio/" style="color: #475569;">GAMS Studio</a></div>
+    <div style="font-size: 0.7rem; color: #475569;">Via <a href="../../run/run_python/" style="color: #475569;">Python</a> or <a href="../../run/run_gams_studio/" style="color: #475569;">GAMS Studio</a> — not from the Dashboard</div>
     <div style="margin-top: 0.4rem;"><a href="../../run/run_python/" style="font-size: 0.7rem; color: #C8952C; font-weight: 600;">Run →</a></div>
   </div>
 
@@ -50,13 +50,15 @@ This section provides a quick map of the model, the repository, and the typical 
 
 ??? "End-to-end architecture"
 
-    EPM can be launched from the **Dashboard** or directly via the Python CLI. Either way, inputs flow through a routing layer (`config.csv`) to GAMS, which solves the optimization and writes a binary results file. Python postprocessing converts that to CSV outputs, which the Dashboard reads for visualization.
+    EPM is launched from the **Python CLI**. Inputs flow through a routing layer (`config.csv`) to GAMS, which solves the optimization and writes a binary results file. Python postprocessing converts that to CSV outputs, which the Dashboard reads for visualization.
+
+    The **Dashboard** sits alongside that chain, not inside it: it edits the input CSVs and reads the output CSVs. It is **beta**, and **cannot launch a run** — see [EPM Dashboard](../run/run_dashboard.md).
 
     <div class="compact-diagram" markdown="1">
     ```mermaid
     flowchart TD
-        subgraph ui ["User interface\n"]
-            DASH(["<b>EPM Dashboard</b>\nlaunch · configure · visualize"])
+        subgraph ui ["User interface (beta — does not run the model)\n"]
+            DASH(["<b>EPM Dashboard</b>\ninspect inputs · visualize results"])
         end
 
         CLI(["<b>python epm.py</b>"])
@@ -74,13 +76,13 @@ This section provides a quick map of the model, the repository, and the typical 
         POST["<b>Python postprocessing</b>\nepmresults.gdx → CSV"]
         OUT[("<b>CSV Outputs</b>")]
 
-        DASH -->|launch| CLI
         CLI --> CONFIG
         SCEN -.->|overlays| CONFIG
         CONFIG --> CSV
         CSV --> core
         GAMS --> POST
         POST --> OUT
+        DASH -.->|edit| CSV
         OUT -->|results| DASH
     ```
     </div>

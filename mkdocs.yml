@@ -42,10 +42,12 @@ nav:
     - What is EPM?: introduction/introduction.md
     - EPM in Practice: introduction/introduction_case_studies.md
     - How EPM Works: introduction/introduction_workflow.md
+    - Versions & Changelog: introduction/changelog.md
   - Installation & Run:
+    - Prerequisites: run/run_prerequisites.md
     - Installation: run/run_installation.md
-    - Run from Dashboard: run/run_dashboard.md
     - Run from Python: run/run_python.md
+    - Advanced Python Options: run/run_python_advanced.md
     - Run from GAMS Studio: run/run_gams_studio.md
     - Run on Remote Server: run/run_remote_server.md
     - Publish & Sync Data (DVC): run/run_data_sync.md
@@ -53,27 +55,40 @@ nav:
     - Solver Options: run/options_solver.md
     - Performance & Threads: run/options_thread.md
     - Debugging: run/run_debugging.md
+    - Troubleshooting: run/run_troubleshooting.md
   - Model:
     - Overview: model/model_overview.md
     - Objective Function: model/model_objective.md
     - Time Representation: input/input_representative_days.md
     - Constraints: model/model_constraints.md
+    - Formulation: model/model_formulation.md
     - Reference: model/equations.md
+    - Notations: model/model_notations.md
   - Input:
     - Setup: input/input_setup.md
     - Typical Values: input/input_parameter_guide.md
     - Input Catalog: input/input_detailed.md
+    - Technologies: input/input_technology_brief.md
+    - Fuels: input/input_fuel_brief.md
+    - Input Treatment: input/input_treatment.md
     - Open Data Sources: input/input_open_data.md
   - Output:
     - Overview: output/output_overview.md
     - Output Catalog: output/output_catalog.md
+    - Output Reference: output/postprocessing_output_EPM.md
     - Visualization: output/visualization.md
+    - Dashboard (results viewer): run/run_dashboard.md
+    - Python Postprocessing: advanced/postprocessing.md
   - Contributing:
     - Get Involved: contributing/contributing_issues.md
     - Contribute Code: contributing/contributing_code.md
     - Contribute Docs: contributing/contributing_docs.md
+    - Git Procedure: run/run_git_process.md
   - Resources:
     - Data Preparation: preprocessing/pre_overview.md
+    - Snakemake Pipeline Reference: preprocessing/pre_projects.md
+    - Related Projects: preprocessing/pre_related_projects.md
+    - Open-Source Data: other/other_open_data.md
     - Study Methodology: other/other_process.md
     - Transmission Costing: other/interconnection.md
     - Citation: resources/citation.md

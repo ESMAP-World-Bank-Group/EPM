@@ -8,7 +8,7 @@ EPM outputs are standard CSV files and a GDX binary — you can load them into a
 
 | Option | Best for | Requires |
 |---|---|---|
-| **EPM Dashboard** | Quick interactive exploration, non-technical users | Web browser |
+| **EPM Dashboard** *(beta)* | Quick interactive exploration, non-technical users | Web browser |
 | **Python** | Custom analysis, scripting, reproducible figures | Python + Jupyter |
 | **Tableau** | Polished stakeholder dashboards, scenario comparison | Tableau Creator license |
 
@@ -16,7 +16,7 @@ EPM outputs are standard CSV files and a GDX binary — you can load them into a
 
 ## EPM Dashboard
 
-The built-in web dashboard lets you explore results interactively — without writing any code. It can also be used to **launch model runs** and configure scenarios directly (see [How EPM Works](../introduction/introduction_workflow.md)).
+The built-in web dashboard lets you explore results interactively — without writing any code. It is also used to inspect and edit the input data (see [How EPM Works](../introduction/introduction_workflow.md)). It **cannot be used to launch a model run**: start runs from the command line — see [Run from Python](../run/run_python.md).
 
 The dashboard reads the CSV outputs from `output_csv/` automatically once a run completes.
 

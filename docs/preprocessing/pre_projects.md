@@ -16,7 +16,7 @@ flowchart TD
         I5["Renewables.ninja API\n(auto-fetch)"]
     end
 
-    subgraph PIPE["Snakemake rules"]
+    subgraph PIPE["Pipeline modules (pre-analysis/pipelines/)"]
         R1["generators_pipeline.py\n→ generation fleet + map"]
         R2["vre_pipeline.py\n→ solar & wind profiles"]
         R3["load_pipeline.py\n→ modelled load profiles"]
@@ -65,8 +65,7 @@ pre-analysis/
 ├── snakemake_helpers.py               ← shared utilities used by Snakefile
 ├── open_data_env.yml                  ← conda environment
 ├── config/
-│   ├── open_data_config.yaml          ← edit this to configure the run
-│   └── api_tokens.example.ini         ← copy to api_tokens.ini, add keys
+│   └── open_data_config.yaml          ← edit this to configure the run
 ├── pipelines/
 │   ├── climate_pipeline.py
 │   ├── vre_pipeline.py
@@ -105,7 +104,8 @@ conda activate epm-open-data
 ### 2. API keys
 
 ```bash
-cp pre-analysis/config/api_tokens.example.ini pre-analysis/config/api_tokens.ini
+# config/ is at the repo root, not inside pre-analysis/. api_tokens.ini is git-ignored.
+cp config/api_tokens.example.ini config/api_tokens.ini
 ```
 
 Edit `api_tokens.ini` and fill in:

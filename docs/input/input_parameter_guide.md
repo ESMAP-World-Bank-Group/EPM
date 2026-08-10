@@ -7,7 +7,7 @@ Reference values for technology and fuel parameters. For open data sources to po
 ## Technology Parameters
 
 !!! info "Default values — CCDR methodology"
-    The values below are drawn from the CCDR (Country Climate and Development Report) methodology. A [template file](dwld/pGenDataInputDefault_CCDR.csv) and the full [CCDR EEX Methodology Note](../dwld/CCDR_Methodology_Note.pdf) are available for reference.
+    The values below are drawn from the CCDR (Country Climate and Development Report) methodology. A [template file](../dwld/pGenDataExcelDefault_CCDR.csv) and the full [CCDR EEX Methodology Note](../dwld/CCDR_Methodology_Note.pdf) are available for reference.
 
     Work is ongoing to cross-validate and enrich these defaults against open datasets (IRENA, IEA, NREL ATB). See [Open Data Sources](input_open_data.md) for relevant resources.
 

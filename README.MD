@@ -63,9 +63,10 @@ Install EPM and choose how you want to run it:
 | Method | Best for |
 |--------|----------|
 | [Windows Installer](https://esmap-world-bank-group.github.io/EPM/run/run_installation/) | One-click setup on Windows — installs everything automatically |
-| [Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_dashboard/) | Visual interface for quick runs, no command line needed *(under development)* |
 | [Python CLI](https://esmap-world-bank-group.github.io/EPM/run/run_python/) | Scenarios, automation, Monte Carlo |
 | [GAMS Studio](https://esmap-world-bank-group.github.io/EPM/run/run_gams_studio/) | Model development and GAMS debugging |
+
+To look at the data and the results, the [EPM Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_dashboard/) *(beta)* is a visual interface for inspecting inputs and exploring outputs. It **does not run the model** — use one of the methods above for that.
 
 Full installation instructions are available [here](https://esmap-world-bank-group.github.io/EPM/run/run_installation/).
 

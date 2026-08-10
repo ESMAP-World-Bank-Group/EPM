@@ -40,7 +40,7 @@ EPM_main/
 │   └── resources/         # Default parameters
 ├── pre-analysis/          # Data preprocessing pipelines
 ├── tools/                 # Utility scripts
-├── docs/                  # Jupyter Book documentation
+├── docs/                  # MkDocs Material documentation
 └── config/                # Configuration templates
 ```
 
@@ -84,8 +84,10 @@ python epm.py --folder_input data_test --diagnostic
 ```
 
 ### Build Documentation
+Documentation is **MkDocs Material** (`mkdocs.yml`), not Jupyter Book.
 ```bash
-make html  # Generates Jupyter Book in docs/_build/
+make html   # or: mkdocs build  -> static site in site/
+make serve  # or: mkdocs serve  -> live preview on http://127.0.0.1:8000
 ```
 
 ## Key Documentation

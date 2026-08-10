@@ -87,7 +87,11 @@ Two options are available. The **Windows Installer** automates the full setup (G
 
 | Method | Best for | Go to |
 |---|---|---|
-| **Dashboard** | Quick runs, visual interface, no command line *(under development — errors must be debugged via command line)* | [Run from Dashboard](run_dashboard.md) |
 | **Python CLI** | Scenarios, automation, Monte Carlo | [Run from Python](run_python.md) |
 | **GAMS Studio** | Model development, GAMS debugging | [Run from GAMS Studio](run_gams_studio.md) |
 | **Remote Server** | Heavy computations, parallel runs | [Run on Remote Server](run_remote_server.md) |
+
+!!! info "And to look at the results"
+    The [EPM Dashboard](run_dashboard.md) *(beta)* is a visual interface for inspecting input
+    data and exploring results. It **does not run the model** — pick one of the methods above
+    for that.

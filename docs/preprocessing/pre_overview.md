@@ -125,8 +125,9 @@ flowchart LR
 conda env create -f pre-analysis/open_data_env.yml -n epm-open-data
 conda activate epm-open-data
 
-# API keys — both free accounts
-cp pre-analysis/config/api_tokens.example.ini pre-analysis/config/api_tokens.ini
+# API keys — both free accounts. The file lives in config/ at the repo root
+# (git-ignored), not in pre-analysis/.
+cp config/api_tokens.example.ini config/api_tokens.ini
 # renewables.ninja token  →  renewables.ninja/profile
 # CDS API key             →  cds.climate.copernicus.eu
 ```

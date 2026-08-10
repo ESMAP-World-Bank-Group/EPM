@@ -35,7 +35,7 @@ Install EPM and run a first simulation using publicly available data (generation
 
 Gather data on the existing system: generation units, transmission infrastructure, fuel prices, demand forecasts, and policy constraints. A structured template listing all required EPM inputs is available to guide this process.
 
-> [Download the Data Collection Template](dwld/TemplateDataCollection.xlsx)
+> [Download the Data Collection Template](../dwld/TemplateDataCollection.xlsx)
 
 ---
 
