@@ -663,6 +663,7 @@ def _check_transfer_limits(gams, db):
                 season_issues.append((z, z2, missing_seasons))
 
         if season_issues:
+
             season_issues_str = "\n".join(
                 [f"({z}, {z2}): missing seasons {missing}" for z, z2, missing in season_issues]
             )
