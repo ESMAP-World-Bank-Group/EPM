@@ -631,7 +631,16 @@ nREH2(g)= not REH2(g);
 *-------------------------------------------------------------------
 
 * Defining sTopology based on existing, committed and candidate transmission lines
-sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(pTransmissionHeader,pNewTransmission(z,z2,pTransmissionHeader)) + sum(pTransmissionHeader,pNewTransmission(z2,z,pTransmissionHeader));
+* Membership is decided on strictly positive capacity, and symmetrically in both
+* directions, so that the topology is an undirected adjacency as the transfer
+* equations assume. Summing the raw values instead would make a pair a member on
+* the strength of EPS entries alone (EPS is zero in arithmetic but true in a $
+* condition, and a sum over EPS returns EPS), so whether a pair belongs to the
+* network could depend on how the input pipeline wrote its zeros.
+sTopology(z,z2) = sum((q,y)$(pTransferLimit(z,z2,q,y) > 0), 1)
+                + sum((q,y)$(pTransferLimit(z2,z,q,y) > 0), 1)
+                + sum(pTransmissionHeader$(pNewTransmission(z,z2,pTransmissionHeader) > 0), 1)
+                + sum(pTransmissionHeader$(pNewTransmission(z2,z,pTransmissionHeader) > 0), 1);
 
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not fEnableInternalExchange) = no;
