@@ -935,8 +935,12 @@ eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
    vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
-eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
-   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
+* The domain is sTopology(z2,z), matching the direction of the flow being constrained:
+* vFlow is restricted to sFlow, itself built from sTopology, so the equation must be
+* declared exactly where the variable exists. Indexing on sTopology(z,z2) instead would
+* silently drop the constraint whenever the reverse pair is absent from the topology.
+eMinImportRequirement(sTopology(z2,z),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
+   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
