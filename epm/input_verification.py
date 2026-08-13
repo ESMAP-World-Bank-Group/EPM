@@ -631,6 +631,50 @@ def _check_fuel_price_presence(gams, db):
         raise
 
 
+def _check_transfer_limit_year_coverage(gams, db, records):
+    """Reject a line whose two directions do not both reach the planning horizon.
+
+    The symmetry check above reads this file, which still holds every year the user
+    supplied. GAMS then loads pTransferLimit into a parameter declared over 'y', and
+    drops on the spot every record whose year is not a planning year. A direction
+    documented only outside the horizon therefore vanishes between this check and the
+    model, leaving a one-way line: the topology is no longer an undirected adjacency,
+    and every equation declared over it silently loses the missing direction.
+
+    A pair that leaves the horizon in both directions is a line that is simply not
+    modelled, which is legitimate. Only a disagreement between the two directions is
+    an error, and it cannot be intentional.
+    """
+    if "y" not in db or db["y"].records is None or db["y"].records.empty:
+        return
+    planning_years = set(db["y"].records.iloc[:, 0].astype(str))
+
+    in_horizon = records[records["y"].astype(str).isin(planning_years)]
+    surviving = set(map(tuple, in_horizon[["z", "z2"]].drop_duplicates().astype(str).to_numpy()))
+    declared = set(map(tuple, records[["z", "z2"]].drop_duplicates().astype(str).to_numpy()))
+
+    one_way = sorted(
+        (z, z2) for z, z2 in declared - surviving if (z2, z) in surviving
+    )
+    if one_way:
+        horizon = ", ".join(sorted(planning_years))
+        detail = "\n".join(
+            f"({z}, {z2}): no year within the planning horizon, while ({z2}, {z}) has one"
+            for z, z2 in one_way
+        )
+        msg = (
+            "Error: The following directions of 'pTransferLimit' would be dropped when GAMS "
+            f"restricts the parameter to the planning years ({horizon}), leaving a one-way "
+            f"line and an asymmetric topology:\n{detail}\n"
+            "Give these directions the same years as their counterpart."
+        )
+        gams.printLog(msg)
+        raise ValueError(msg)
+    gams.printLog(
+        "Success: Both directions of every line in 'pTransferLimit' reach the planning horizon."
+    )
+
+
 def _check_transfer_limits(gams, db):
     """Validate symmetry and seasonal coverage in pTransferLimit."""
     try:
@@ -649,6 +693,8 @@ def _check_transfer_limits(gams, db):
             gams.printLog(msg)
             raise ValueError(msg)
         gams.printLog("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
+
+        _check_transfer_limit_year_coverage(gams, db, records)
 
         p_hours_records = db["pHours"].records
         if p_hours_records is None or p_hours_records.empty:
