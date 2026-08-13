@@ -2027,12 +2027,22 @@ def run_input_treatment(gams,
                 grouped = [(None, data)]
 
             result_frames = []
+            held_constant = []
             for key, group in grouped:
                 group = group.sort_values(year_column)
                 years = group[year_column].to_numpy()
                 values = group["value"].to_numpy()
-                if years.size < 2:
+                if years.size == 0:
                     continue
+                if years.size == 1:
+                    # One year is not enough to interpolate, but skipping the group drops it
+                    # from the interpolated result, so the entry keeps its lone year and
+                    # reads as zero on every other planning year -- a transfer limit or a
+                    # fuel price silently zeroed on years the user never meant to empty, with
+                    # nothing in the log to say so. Hold the value constant instead, which is
+                    # what np.interp already does beyond the first and last points of any
+                    # other group, and what _apply_generic_capex_interpolated does here too.
+                    held_constant.append(key)
 
                 interpolated = np.interp(target_years, years, values)
                 frame = pd.DataFrame({year_column: target_years, "value": interpolated})
@@ -2057,6 +2067,17 @@ def run_input_treatment(gams,
             gams.printLog(
                 f"[input_treatment][interpolate] Linear interpolation performed on {param_name} to match model years {target_range}."
             )
+            if held_constant:
+                shown = ", ".join(
+                    "/".join(str(k) for k in (key if isinstance(key, tuple) else (key,)))
+                    for key in held_constant[:5]
+                )
+                more = f" (+{len(held_constant) - 5} more)" if len(held_constant) > 5 else ""
+                gams.printLog(
+                    f"[input_treatment][interpolate] {param_name}: {len(held_constant)} entry/entries "
+                    f"were given for a single year and have been held constant over {target_range}: "
+                    f"{shown}{more}."
+                )
             _write_back(db, param_name)
 
     def _apply_generic_capex_interpolated(db: gt.Container):
