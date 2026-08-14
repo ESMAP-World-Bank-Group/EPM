@@ -991,10 +991,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#concepts-cles" class="md-nav__link">
+  <a href="#key-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Concepts clés
+        Key concepts
       
     </span>
   </a>
@@ -1002,10 +1002,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#les-deux-plafonds-a-respecter" class="md-nav__link">
+  <a href="#the-two-ceilings-to-respect" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les deux plafonds à respecter
+        The two ceilings to respect
       
     </span>
   </a>
@@ -1013,10 +1013,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comment-calculer-en-pratique" class="md-nav__link">
+  <a href="#how-to-work-it-out-in-practice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment calculer en pratique
+        How to work it out in practice
       
     </span>
   </a>
@@ -1024,10 +1024,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#exemple-concret" class="md-nav__link">
+  <a href="#worked-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exemple concret
+        Worked example
       
     </span>
   </a>
@@ -1035,10 +1035,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arbitrage-threads-vs-scenarios-paralleles" class="md-nav__link">
+  <a href="#trade-off-threads-vs-parallel-scenarios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arbitrage : threads vs. scénarios parallèles
+        Trade-off: threads vs. parallel scenarios
       
     </span>
   </a>
@@ -1046,10 +1046,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recapitulatif" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Récapitulatif
+        Summary
       
     </span>
   </a>
@@ -2390,10 +2390,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#concepts-cles" class="md-nav__link">
+  <a href="#key-concepts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Concepts clés
+        Key concepts
       
     </span>
   </a>
@@ -2401,10 +2401,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#les-deux-plafonds-a-respecter" class="md-nav__link">
+  <a href="#the-two-ceilings-to-respect" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Les deux plafonds à respecter
+        The two ceilings to respect
       
     </span>
   </a>
@@ -2412,10 +2412,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comment-calculer-en-pratique" class="md-nav__link">
+  <a href="#how-to-work-it-out-in-practice" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment calculer en pratique
+        How to work it out in practice
       
     </span>
   </a>
@@ -2423,10 +2423,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#exemple-concret" class="md-nav__link">
+  <a href="#worked-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exemple concret
+        Worked example
       
     </span>
   </a>
@@ -2434,10 +2434,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arbitrage-threads-vs-scenarios-paralleles" class="md-nav__link">
+  <a href="#trade-off-threads-vs-parallel-scenarios" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arbitrage : threads vs. scénarios parallèles
+        Trade-off: threads vs. parallel scenarios
       
     </span>
   </a>
@@ -2445,10 +2445,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#recapitulatif" class="md-nav__link">
+  <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Récapitulatif
+        Summary
       
     </span>
   </a>
@@ -2476,118 +2476,118 @@
 
 
 <h1 id="performance-threads">Performance &amp; Threads<a class="headerlink" href="#performance-threads" title="Permanent link">&para;</a></h1>
-<p>EPM peut lancer plusieurs scénarios en parallèle avec le flag <code>--parallel</code>. Cette page explique comment dimensionner correctement ce paramètre selon votre machine.</p>
+<p>EPM can run several scenarios in parallel with the <code>--parallel</code> flag. This page explains how to size that parameter correctly for your machine.</p>
 <hr />
-<h2 id="concepts-cles">Concepts clés<a class="headerlink" href="#concepts-cles" title="Permanent link">&para;</a></h2>
+<h2 id="key-concepts">Key concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Terme</th>
-<th>Signification</th>
+<th>Term</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Core</strong></td>
-<td>Unité de calcul physique du processeur</td>
+<td>Physical compute unit of the processor</td>
 </tr>
 <tr>
 <td><strong>Thread</strong></td>
-<td>Flux d'exécution ; avec hyperthreading, un core gère 2 threads</td>
+<td>Execution stream; with hyperthreading, one core handles 2 threads</td>
 </tr>
 <tr>
 <td><strong>vCPU</strong></td>
-<td>En cloud/VM, 1 vCPU ≈ 1 thread</td>
+<td>In cloud/VM terms, 1 vCPU ≈ 1 thread</td>
 </tr>
 <tr>
 <td><strong><code>--parallel</code></strong></td>
-<td>Nombre de scénarios EPM lancés simultanément</td>
+<td>Number of EPM scenarios launched simultaneously</td>
 </tr>
 <tr>
 <td><strong><code>threads</code></strong></td>
-<td>Nombre de threads alloués à chaque solve CPLEX, défini dans le fichier d'options du solveur</td>
+<td>Number of threads allocated to each CPLEX solve, set in the solver options file</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>Note</strong> — Le flag <code>--parallel</code> contrôle en réalité le nombre de <strong>jobs parallèles</strong>, pas les CPUs directement. Ce nom sera renommé dans une prochaine version pour éviter la confusion.</p>
+<p><strong>Note</strong> — the <code>--parallel</code> flag actually controls the number of <strong>parallel jobs</strong>, not CPUs directly. It will be renamed in a future version to avoid the confusion.</p>
 </blockquote>
 <hr />
-<h2 id="les-deux-plafonds-a-respecter">Les deux plafonds à respecter<a class="headerlink" href="#les-deux-plafonds-a-respecter" title="Permanent link">&para;</a></h2>
-<p>Lancer <code>--parallel N</code> signifie que N scénarios tournent en même temps. Chaque scénario consomme de la RAM <strong>et</strong> des threads CPU. Il y a donc <strong>deux plafonds indépendants</strong> :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Plafond RAM  = RAM totale ÷ RAM par scénario
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Plafond CPU  = vCPU totaux ÷ threads par scénario
+<h2 id="the-two-ceilings-to-respect">The two ceilings to respect<a class="headerlink" href="#the-two-ceilings-to-respect" title="Permanent link">&para;</a></h2>
+<p>Running <code>--parallel N</code> means N scenarios run at the same time. Each scenario consumes RAM <strong>and</strong> CPU threads. There are therefore <strong>two independent ceilings</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>RAM ceiling  = total RAM / RAM per scenario
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>CPU ceiling  = total vCPUs / threads per scenario
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--parallel = min(Plafond RAM, Plafond CPU)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>--parallel = min(RAM ceiling, CPU ceiling)
 </code></pre></div>
-<p>Le plafond le plus bas est celui qui limite. Dépasser l'un ou l'autre provoque une contention des ressources et ralentit l'ensemble des jobs.</p>
+<p>The lower ceiling is the binding one. Exceeding either causes resource contention and slows every job down.</p>
 <hr />
-<h2 id="comment-calculer-en-pratique">Comment calculer en pratique<a class="headerlink" href="#comment-calculer-en-pratique" title="Permanent link">&para;</a></h2>
-<p><strong>Étape 1 — Connaître votre machine</strong></p>
-<p>Notez la RAM totale et le nombre de vCPU disponibles.<br />
-Sur Linux : <code>free -h</code> (RAM) et <code>nproc</code> (vCPU).</p>
-<p><strong>Étape 2 — Mesurer la RAM par scénario</strong></p>
-<p>Lancez un scénario seul et cherchez dans le fichier <code>.lst</code> ou la console GAMS Studio :
+<h2 id="how-to-work-it-out-in-practice">How to work it out in practice<a class="headerlink" href="#how-to-work-it-out-in-practice" title="Permanent link">&para;</a></h2>
+<p><strong>Step 1 — Know your machine</strong></p>
+<p>Note the total RAM and the number of available vCPUs.<br />
+On Linux: <code>free -h</code> (RAM) and <code>nproc</code> (vCPUs).</p>
+<p><strong>Step 2 — Measure RAM per scenario</strong></p>
+<p>Run a single scenario on its own and look in the <code>.lst</code> file or the GAMS Studio console for:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ProcTreeMemMonitor → VSS
 </code></pre></div>
-C'est l'empreinte mémoire maximale de ce scénario. Utilisez cette valeur.</p>
-<p><strong>Étape 3 — Connaître votre <code>threads</code></strong></p>
-<p>Regardez votre fichier d'options CPLEX (<code>cplex_baseline.opt</code>) :
+That is the peak memory footprint of that scenario. Use that value.</p>
+<p><strong>Step 3 — Know your <code>threads</code></strong></p>
+<p>Look at your CPLEX options file (<code>cplex_baseline.opt</code>):
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>threads = 8
 </code></pre></div>
-Si la ligne est absente, CPLEX utilise tous les threads disponibles — à éviter en contexte parallèle.<br />
-Voir <a href="../options_solver/">Options du solveur</a> pour modifier cette valeur.</p>
-<p><strong>Étape 4 — Calculer <code>--parallel</code></strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Plafond RAM  = RAM totale ÷ RAM par scénario
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Plafond CPU  = vCPU totaux ÷ threads
+If the line is missing, CPLEX uses every available thread — to be avoided in a parallel context.<br />
+See <a href="../options_solver/">Solver options</a> to change the value.</p>
+<p><strong>Step 4 — Compute <code>--parallel</code></strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>RAM ceiling  = total RAM / RAM per scenario
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>CPU ceiling  = total vCPUs / threads
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>--parallel = min(Plafond RAM, Plafond CPU)
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>--parallel = min(RAM ceiling, CPU ceiling)
 </code></pre></div>
 <hr />
-<h2 id="exemple-concret">Exemple concret<a class="headerlink" href="#exemple-concret" title="Permanent link">&para;</a></h2>
-<p>Machine : <strong>256 Go RAM, 32 vCPU</strong>, scénario de ~32 Go, <code>threads = 8</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Plafond RAM  = 256 ÷ 32  = 8 jobs
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Plafond CPU  = 32 ÷ 8    = 4 jobs
+<h2 id="worked-example">Worked example<a class="headerlink" href="#worked-example" title="Permanent link">&para;</a></h2>
+<p>Machine: <strong>256 GB RAM, 32 vCPUs</strong>, scenario of ~32 GB, <code>threads = 8</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>RAM ceiling  = 256 / 32  = 8 jobs
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>CPU ceiling  = 32 / 8    = 4 jobs
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>--parallel = min(8, 4) = 4
 </code></pre></div>
-<p>Ici le CPU est limitant. On lance avec <code>--parallel 4</code>, ce qui laisse ~64 Go de RAM inutilisée.</p>
+<p>Here the CPU is binding. Run with <code>--parallel 4</code>, which leaves ~64 GB of RAM unused.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_country<span class="w"> </span>--config<span class="w"> </span>config.csv<span class="w"> </span>--scenarios<span class="w"> </span>--parallel<span class="w"> </span><span class="m">4</span>
 </code></pre></div>
 <hr />
-<h2 id="arbitrage-threads-vs-scenarios-paralleles">Arbitrage : threads vs. scénarios parallèles<a class="headerlink" href="#arbitrage-threads-vs-scenarios-paralleles" title="Permanent link">&para;</a></h2>
-<p>Le nombre de threads par solve est un paramètre à ajuster selon votre usage.</p>
-<p><strong>Beaucoup de scénarios à passer (longue file)</strong><br />
-→ Préférez <strong>moins de threads, plus de jobs parallèles</strong>.<br />
-La parallélisation entre scénarios est quasi parfaite (chaque job indépendant), alors que le gain en threads dans un solve est à rendement décroissant — passer de 4 à 8 threads accélère peu un solve donné. Davantage de solves en parallèle finissent une longue file plus rapidement.</p>
-<p><em>Exemple : baisser à <code>threads = 5</code> → Plafond CPU = 32 ÷ 5 = 6 jobs → <code>--parallel 6</code> au lieu de 4.</em></p>
-<p><strong>Peu de scénarios lourds (MIP sans <code>--simple</code>)</strong><br />
-→ Préférez <strong>plus de threads, moins de jobs parallèles</strong>.<br />
-Concentrez les ressources sur chaque solve pour le terminer plus vite.</p>
+<h2 id="trade-off-threads-vs-parallel-scenarios">Trade-off: threads vs. parallel scenarios<a class="headerlink" href="#trade-off-threads-vs-parallel-scenarios" title="Permanent link">&para;</a></h2>
+<p>The number of threads per solve is a parameter to tune to your usage.</p>
+<p><strong>Many scenarios to get through (long queue)</strong><br />
+→ Prefer <strong>fewer threads, more parallel jobs</strong>.<br />
+Parallelisation across scenarios is near-perfect (each job is independent), whereas adding threads within a single solve has diminishing returns — going from 4 to 8 threads speeds a given solve up only slightly. More solves in parallel finish a long queue faster.</p>
+<p><em>Example: lowering to <code>threads = 5</code> → CPU ceiling = 32 / 5 = 6 jobs → <code>--parallel 6</code> instead of 4.</em></p>
+<p><strong>Few heavy scenarios (MIP without <code>--simple</code>)</strong><br />
+→ Prefer <strong>more threads, fewer parallel jobs</strong>.<br />
+Concentrate the resources on each solve to finish it faster.</p>
 <blockquote>
-<p><strong>Note</strong> — Il est possible de dépasser légèrement le plafond CPU (ex. <code>--parallel 6</code> avec <code>threads = 8</code> sur 32 vCPU). L'OS partage alors le temps CPU entre les threads et les jobs s'exécutent plus lentement. Les résultats restent corrects mais le débit global est réduit par rapport à une allocation équilibrée.</p>
+<p><strong>Note</strong> — you can overshoot the CPU ceiling slightly (e.g. <code>--parallel 6</code> with <code>threads = 8</code> on 32 vCPUs). The OS then time-shares the CPU between threads and the jobs run more slowly. Results stay correct, but overall throughput drops compared with a balanced allocation.</p>
 </blockquote>
 <hr />
-<h2 id="recapitulatif">Récapitulatif<a class="headerlink" href="#recapitulatif" title="Permanent link">&para;</a></h2>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Situation</th>
-<th>Recommandation</th>
+<th>Recommendation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Longue file de scénarios RMIP</td>
-<td>Baisser <code>threads</code>, augmenter <code>--parallel</code></td>
+<td>Long queue of RMIP scenarios</td>
+<td>Lower <code>threads</code>, raise <code>--parallel</code></td>
 </tr>
 <tr>
-<td>Peu de scénarios MIP lourds</td>
-<td>Garder <code>threads</code> élevé, <code>--parallel</code> plus bas</td>
+<td>A few heavy MIP scenarios</td>
+<td>Keep <code>threads</code> high, <code>--parallel</code> lower</td>
 </tr>
 <tr>
-<td>Machine partagée (2 modélisateurs)</td>
-<td>Diviser <code>--parallel</code> par 2</td>
+<td>Shared machine (2 modellers)</td>
+<td>Halve <code>--parallel</code></td>
 </tr>
 </tbody>
 </table>
