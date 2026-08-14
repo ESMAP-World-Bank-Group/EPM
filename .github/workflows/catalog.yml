@@ -1,0 +1,46 @@
+name: Validate data source catalog
+
+# The convention is written in pre-analysis/catalog/README.md: any change to an EPM
+# CSV comes with the matching catalog entry, in the same commit. Nothing enforced it,
+# and 21 entries out of 29 had drifted off the schema. This workflow is what keeps the
+# drift from coming back.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # The catalog currently lives only on the study branches. Until it is promoted
+      # to main, the job succeeds and says so, rather than failing on an expected
+      # absence.
+      - name: Look for the catalog
+        id: probe
+        run: |
+          if [ -d pre-analysis/catalog/sources ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::pre-analysis/catalog/ not present on this branch — nothing to validate."
+          fi
+
+      - name: Set up Python
+        if: steps.probe.outputs.present == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: steps.probe.outputs.present == 'true'
+        run: pip install jsonschema pyyaml
+
+      - name: Validate catalog and provenance links
+        if: steps.probe.outputs.present == 'true'
+        run: python pre-analysis/catalog/validate.py
