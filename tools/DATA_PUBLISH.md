@@ -1,81 +1,87 @@
-# Publier / récupérer les données du modèle (store privé)
+# Publish / fetch model data (private store)
 
-> 📖 **Guide complet (doc EPM) :** `docs/run/run_data_sync.md` — *Installation & Run →
-> Publish & Sync Data (DVC)*. Ce fichier-ci est un aide-mémoire rapide à côté des scripts.
+> 📖 **Full guide (EPM docs):** `docs/run/run_data_sync.md` — *Installation & Run →
+> Publish & Sync Data (DVC)*. This file is a quick cheat sheet next to the scripts.
 
-Les **données** d'EPM (input/output) ne vivent plus dans ce repo public : elles sont
-dans un **store privé** (R2 aujourd'hui, S3 WB plus tard). Le repo ne garde que de
-petits **pointeurs `.dvc`**. Ce dossier fournit l'outillage pour publier et récupérer.
+EPM **data** (input/output) no longer lives in this public repo: it sits in a
+**private store** (R2 today, WB S3 later). The repo keeps only small **`.dvc`
+pointers**. This folder provides the tooling to publish and fetch it.
 
-> **Prototype.** Le store actuel est un bucket Cloudflare R2 (données de test).
-> Données confidentielles → attendre le store S3 de la Banque.
+> **Prototype.** The current store is a Cloudflare R2 bucket (test data).
+> Confidential data → wait for the Bank's S3 store.
 
 ---
 
-## 🔧 Mise en place — une fois par machine
+## 🔧 Setup — once per machine
 
-1. Installer les dépendances (inclut DVC) :
+1. Install the dependencies (includes DVC):
    ```
    pip install -r requirements.txt
    ```
-2. Mettre tes clés d'accès au store :
-   - copie `tools/.env.example` → `tools/.env`
-   - colle les 4 valeurs (fournies par l'admin du store)
-   - ⚠️ `tools/.env` est **gitignoré** : ne jamais committer de vraies clés.
+2. Add your store access keys:
+   - copy `tools/.env.example` → `tools/.env`
+   - paste the 4 values (provided by the store admin)
+   - ⚠️ `tools/.env` is **gitignored**: never commit real keys.
 
-C'est tout. La config du remote (URL/endpoint) est déjà dans le repo (`.dvc/config`).
+That's it. The remote config (URL/endpoint) is already in the repo (`.dvc/config`,
+remote `r2`) **on this branch**.
 
----
-
-## ⬆️ Publier (après avoir modifié des données) — Windows
-
-**Double-clic sur `Publish.bat`** (à la racine du repo).
-
-Ça fait tout : re-hash des données (`dvc add`) → commit + push des pointeurs →
-`dvc push` (données → store, pour le serveur) → upload des copies lisibles
-(inputs + `epm/output_view/`) → store, pour **EPM View**.
-
-> Pour montrer des **résultats** dans EPM View : copie les runs voulus dans
-> `epm/output_view/<run>/<scenario>/output_csv/` avant de publier (seuls les `.csv`
-> sont envoyés). `epm/output_view/` est gitignoré (zone de staging locale).
+> This holds for `blacksea_2026`, which versions its own `.dvc/config`. It is **not**
+> true on `main`, where the file is not versioned and you must declare the remote
+> yourself (`dvc remote add` / `dvc remote modify`). See `tools/DATA_PUBLISH.md` on
+> `main`. Do not assume the config travels with the repo.
 
 ---
 
-## ⬇️ Récupérer code + données
+## ⬆️ Publish (after changing data) — Windows
 
-- **Windows** : double-clic sur `Sync.bat`
-- **Serveur Linux** : `bash tools/sync.sh`
+**Double-click `Publish.bat`** (at the repo root).
 
-= `git pull` (code + pointeurs) + `dvc pull` (données depuis le store).
+It does everything: re-hash the data (`dvc add`) → commit + push the pointers →
+`dvc push` (data → store, for the server) → upload the readable copies
+(inputs + `epm/output_view/`) → store, for **EPM View**.
+
+> To show **results** in EPM View: copy the runs you want into
+> `epm/output_view/<run>/<scenario>/output_csv/` before publishing (only `.csv` files
+> are sent). `epm/output_view/` is gitignored (local staging area).
 
 ---
 
-## Onboarder un NOUVEAU modèle (une fois par modèle)
+## ⬇️ Fetch code + data
 
-Sortir les données d'un modèle de git vers le store (la « bascule ») :
+- **Windows**: double-click `Sync.bat`
+- **Linux server**: `bash tools/sync.sh`
+
+= `git pull` (code + pointers) + `dvc pull` (data from the store).
+
+---
+
+## Onboarding a NEW model (once per model)
+
+Move a model's data out of git and into the store (the "switchover"):
 ```
-dvc init                                   # une fois par repo
+dvc init                                   # once per repo
 dvc remote add -d store s3://<bucket>/dvcstore
 dvc remote modify store endpointurl <endpoint>
-# retirer la whitelist du dossier dans .gitignore, garder !epm/input/<data>.dvc
+# remove the folder's whitelist entry from .gitignore, keep !epm/input/<data>.dvc
 git rm -r --cached epm/input/<data_folder>
 dvc add epm/input/<data_folder>
 ```
-Puis publier (`Publish.bat`). Après ça, tout le monde fait juste *mise en place + publish/sync*.
+Then publish (`Publish.bat`). After that, everyone just does *setup + publish/sync*.
 
 ---
 
-## Côté EPM View (l'app)
+## On the EPM View side (the app)
 
-EPM View lit les données par branche. Les branches dont les données sont dans le
-store privé sont listées dans `R2_BRANCHES` (fichier `src/utils/epmFetch.js` du repo
-`epm-data-explorer`). Pour brancher une nouvelle région : ajouter sa branche là.
+EPM View reads data per branch. Branches whose data sits in the private store are
+listed in `R2_BRANCHES` (file `src/utils/epmFetch.js` in the `epm-data-explorer`
+repo). To wire up a new region: add its branch there.
 
 ---
 
-## Fichiers de ce dossier (publication données)
+## Files in this folder (data publishing)
 
-- `publish.ps1` — moteur de `Publish.bat`
-- `sync.ps1` / `sync.sh` — récupération (Windows / serveur)
-- `upload_to_r2.py`, `upload_output_view_to_r2.py` — helpers d'upload lisible
-- `.env.example` — modèle de clés (copier en `.env`, gitignoré)
+- `publish.ps1` — engine behind `Publish.bat`
+- `sync.ps1` / `sync.sh` — fetching (Windows / server)
+- `upload_to_r2.py`, `upload_output_view_to_r2.py` — readable-upload helpers
+- `.env.example` — key template (copy to `.env`, gitignored)

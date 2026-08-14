@@ -1,371 +1,370 @@
-# Resolution Advisor — Méthodologie détaillée
+# Resolution Advisor — detailed methodology
 
-Ce document explique pas à pas **ce que fait le code**, **pourquoi**, et **comment chaque fichier contribue au résultat final**.
-
----
-
-## La question centrale
-
-Avant de construire un modèle EPM, il faut répondre à deux questions :
-
-> **Combien de zones** faut-il représenter pour que le modèle soit physiquement crédible ?
-> **Combien de jours représentatifs** faut-il pour que la chronologie soit bien capturée ?
-
-Trop peu de zones → on manque des contraintes de réseau réelles, les prix et le dispatch sont faux.
-Trop de zones → le modèle devient trop lourd, les temps de résolution explosent.
-Même raisonnement pour les jours représentatifs.
-
-Le Resolution Advisor calcule un **plancher** (ce que la physique exige au minimum) et un **plafond** (ce que le budget de calcul permet au maximum), puis propose des points de test entre les deux.
+This document explains, step by step, **what the code does**, **why**, and **how each file contributes to the final result**.
 
 ---
 
-## Les deux modes
+## The central question
 
-### Mode manuel (`--config`)
-Tu fournis toi-même les paramètres dans un fichier YAML (`config/blacksea.yaml`).
-Le code fait juste les calculs à partir de ce que tu as mis.
+Before building an EPM model, two questions must be answered:
 
-### Mode auto (`--auto`)
-Le code va **chercher les données lui-même** depuis internet (OSM, Natural Earth, GPPD),
-puis calcule les paramètres automatiquement avant de faire les mêmes calculs.
+> **How many zones** are needed for the model to be physically credible?
+> **How many representative days** are needed for the chronology to be properly captured?
+
+Too few zones → real network constraints are missed, and prices and dispatch are wrong.
+Too many zones → the model becomes too heavy and solve times explode.
+The same reasoning applies to representative days.
+
+The Resolution Advisor computes a **floor** (the minimum physics demands) and a **ceiling** (the maximum the compute budget allows), then proposes test points between the two.
 
 ---
 
-## Exécution pas à pas (mode auto)
+## The two modes
 
-Quand tu lances :
+### Manual mode (`--config`)
+You supply the parameters yourself in a YAML file (`config/blacksea.yaml`).
+The code simply runs the calculations on what you provided.
+
+### Auto mode (`--auto`)
+The code **fetches the data itself** from the internet (OSM, Natural Earth, GPPD),
+then computes the parameters automatically before running the same calculations.
+
+---
+
+## Step-by-step execution (auto mode)
+
+When you run:
 ```bash
 python advise.py --countries TUR ROU BGR --auto
 ```
 
-Voici exactement ce qui se passe, dans l'ordre :
+Here is exactly what happens, in order:
 
 ---
 
-### Etape 1 — Chargement des données géographiques
-**Fichier : `fetch/natural_earth.py`**
+### Step 1 — Loading the geographic data
+**File: `fetch/natural_earth.py`**
 
-Charge deux jeux de données depuis [Natural Earth](https://www.naturalearthdata.com/) :
+Loads two datasets from [Natural Earth](https://www.naturalearthdata.com/):
 
-**Frontières pays** (`ne_110m_admin_0_countries.shp`)
-- Polygones des frontières de chaque pays
-- Utilisés pour : calculer l'aire du pays, tracer les bounding boxes, clipper les géométries
-- Résolution 110m (suffisant pour notre usage)
+**Country boundaries** (`ne_110m_admin_0_countries.shp`)
+- Border polygons for each country
+- Used to: compute country area, draw bounding boxes, clip geometries
+- 110m resolution (sufficient for our purposes)
 
-**Villes peuplées** (`ne_110m_populated_places.shp`)
-- Toutes les villes avec leur population estimée
-- Utilisés pour : identifier les centres de charge (load centers), calculer leur dispersion géographique
+**Populated places** (`ne_110m_populated_places.shp`)
+- All cities with their estimated population
+- Used to: identify load centers and compute their geographic dispersion
 
-Les fichiers sont d'abord cherchés dans `dataset/maps/` (s'ils existent dans le repo),
-sinon téléchargés depuis naciscdn.org et mis en cache dans `cache/natural_earth/`.
-Les téléchargements suivants utilisent le cache — pas de re-fetch.
-
----
-
-### Etape 2 — Chargement des centrales
-**Fichier : `fetch/gppd.py`**
-
-Charge la **Global Power Plant Database** (WRI) — ~35 000 centrales mondiales avec :
-localisation (lat/lon), combustible, capacité installée (MW), année de mise en service.
-
-Utilisé pour : identifier si l'hydroélectricité est concentrée loin des centres de charge
-(ce qui justifie une zone supplémentaire pour représenter le corridor de transport).
-
-> **Note** : Les URLs WRI sont actuellement mortes (404). Si les données ne se téléchargent pas,
-> les paramètres hydro sont ignorés (le reste fonctionne normalement).
-> Pour activer : télécharger manuellement depuis https://datasets.wri.org/dataset/globalpowerplantdatabase
-> et placer à `cache/gppd/global_power_plant_database.csv`.
+The files are first looked for in `dataset/maps/` (if they exist in the repo),
+otherwise downloaded from naciscdn.org and cached in `cache/natural_earth/`.
+Subsequent runs use the cache — no re-fetch.
 
 ---
 
-### Etape 3 — Collecte des données réseau OSM
-**Fichier : `fetch/osm.py`**
+### Step 2 — Loading the power plants
+**File: `fetch/gppd.py`**
 
-Interroge l'**API Overpass** d'OpenStreetMap pour récupérer l'infrastructure électrique HT :
+Loads the **Global Power Plant Database** (WRI) — ~35,000 plants worldwide with:
+location (lat/lon), fuel, installed capacity (MW), commissioning year.
 
-**Substations** (`power=substation`) :
-- Tous les postes de transformation dans le bounding box du pays
-- Attributs récupérés : position (lat/lon), tension (kV), nom
+Used to: identify whether hydro is concentrated far from the load centers
+(which justifies an extra zone to represent the transmission corridor).
 
-**Lignes HT** (`power=line` ou `power=cable` avec attribut `voltage`) :
-- Toutes les lignes de transport >= 100 kV
-- Attributs : géométrie complète (liste de coordonnées), tension (kV)
-
-Les requêtes sont **mises en cache** (hash MD5 de la requête → fichier JSON dans `cache/osm/`).
-Un délai de 3 secondes est respecté entre les requêtes pour ne pas surcharger l'API.
-En cas d'échec (proxy corporate, API indisponible), retourne une liste vide — les étapes suivantes
-fonctionnent en mode dégradé.
+> **Note**: the WRI URLs are currently dead (404). If the data does not download,
+> the hydro parameters are skipped (everything else works normally).
+> To enable: download manually from https://datasets.wri.org/dataset/globalpowerplantdatabase
+> and place at `cache/gppd/global_power_plant_database.csv`.
 
 ---
 
-### Etape 4 — Calcul des paramètres par pays
-**Fichier : `auto.py`** (orchestration) + fichiers `compute/`
+### Step 3 — Collecting OSM network data
+**File: `fetch/osm.py`**
 
-Pour chaque pays, `auto.py` appelle 5 fonctions de calcul :
+Queries OpenStreetMap's **Overpass API** to retrieve HV electrical infrastructure:
 
-#### 4a. Aire du pays
-**Fichier : `compute/area.py`**
+**Substations** (`power=substation`):
+- Every substation within the country bounding box
+- Attributes retrieved: position (lat/lon), voltage (kV), name
+
+**HV lines** (`power=line` or `power=cable` with a `voltage` attribute):
+- All transmission lines >= 100 kV
+- Attributes: full geometry (list of coordinates), voltage (kV)
+
+Queries are **cached** (MD5 hash of the query → JSON file in `cache/osm/`).
+A 3-second delay is respected between queries so as not to overload the API.
+On failure (corporate proxy, API unavailable) it returns an empty list — the following
+steps run in degraded mode.
+
+---
+
+### Step 4 — Computing the per-country parameters
+**File: `auto.py`** (orchestration) + the `compute/` files
+
+For each country, `auto.py` calls 5 computation functions:
+
+#### 4a. Country area
+**File: `compute/area.py`**
 
 ```
 boundaries_gdf  ->  reprojection EPSG:6933 (equal-area)  ->  area_m2  ->  area_km2
 ```
 
-Utilise la **projection equal-area cylindrique** (EPSG:6933) pour que les polygones lat/lon
-soient convertis en mètres avant le calcul d'aire. Sans cette reprojection, les degrés en
-latitude et longitude ne correspondent pas à la même distance réelle (1° de longitude à
-l'équateur = 111 km, mais à 45°N = 78 km).
+Uses the **cylindrical equal-area projection** (EPSG:6933) so that lat/lon polygons are
+converted to metres before the area calculation. Without this reprojection, degrees of
+latitude and longitude do not correspond to the same real distance (1° of longitude at
+the equator = 111 km, but at 45°N = 78 km).
 
-Fallback si la reprojection échoue : approximation sphérique depuis la bounding box
-(`lat_span × 111 km × lon_span × 111 km × cos(lat_moyenne)`).
+Fallback if the reprojection fails: spherical approximation from the bounding box
+(`lat_span × 111 km × lon_span × 111 km × cos(mean_lat)`).
 
-**Pourquoi c'est utile :** un grand pays (> 500 000 km²) a statistiquement plus de diversité
-de ressources et de distance réseau — il mérite au moins une zone supplémentaire.
+**Why this matters:** a large country (> 500,000 km²) statistically has more resource
+diversity and more network distance — it deserves at least one extra zone.
 
 ---
 
-#### 4b. Hétérogénéité des ressources RE
-**Fichier : `compute/re_spread.py`**
+#### 4b. RE resource heterogeneity
+**File: `compute/re_spread.py`**
 
-Calcule un **proxy géographique** de la variabilité du facteur de capacité RE à travers le pays.
+Computes a **geographic proxy** for the variability of the RE capacity factor across the country.
 
 ```
-lat_span = max_latitude - min_latitude  (en degrés)
+lat_span = max_latitude - min_latitude  (in degrees)
 lon_span = max_longitude - min_longitude
 spread = lat_span × 0.022 + lon_span × 0.008 × 0.5
-spread = min(spread, 0.50)  # plafonné à 50%
+spread = min(spread, 0.50)  # capped at 50%
 ```
 
-L'idée : l'étendue nord-sud capture les gradients d'irradiation solaire (plus fort au sud),
-l'étendue est-ouest capture les gradients de vent (régimes différents côte vs intérieur).
-Les coefficients (0.022 et 0.008) sont calibrés empiriquement pour rester cohérents
-avec des études de CF variability en Europe et au Moyen-Orient.
+The idea: the north-south extent captures solar irradiation gradients (stronger in the
+south), the east-west extent captures wind gradients (different regimes coast vs inland).
+The coefficients (0.022 and 0.008) are calibrated empirically to stay consistent with CF
+variability studies in Europe and the Middle East.
 
-C'est un **proxy sans données API** — pas de clé d'accès nécessaire, toujours disponible.
-Pour plus de précision, il faudrait des données ERA5 ou MERRA-2.
+This is a **proxy that needs no API data** — no access key required, always available.
+For more precision, ERA5 or MERRA-2 data would be needed.
 
-**Seuil :** si spread > 0.25 (25%), une zone supplémentaire est justifiée (sinon les RE
-moyennées par zone donnent un résultat biaisé).
+**Threshold:** if spread > 0.25 (25%), an extra zone is justified (otherwise zone-averaged
+RE gives a biased result).
 
 ---
 
-#### 4c. Distance entre centres de charge
-**Fichier : `compute/load_centers.py`**
+#### 4c. Distance between load centers
+**File: `compute/load_centers.py`**
 
-Prend les **5 plus grandes villes** du pays (par population dans Natural Earth),
-calcule toutes les distances paires avec la formule haversine, retourne la distance maximale.
+Takes the **5 largest cities** in the country (by population in Natural Earth),
+computes all pairwise distances with the haversine formula, returns the maximum distance.
 
 ```
-Si max_distance > 350 km  ->  distant_load_centers = True
+If max_distance > 350 km  ->  distant_load_centers = True
 ```
 
-**Pourquoi 350 km ?** Au-delà de cette distance, une ligne HT de 220 kV transportant
-~1000 MW subit des pertes d'environ 5-8%, et des contraintes de transit peuvent apparaître
-avec une forte charge. C'est la limite empirique utilisée dans les études ENTSO-E.
+**Why 350 km?** Beyond that distance, a 220 kV HV line carrying ~1000 MW suffers losses
+of roughly 5-8%, and transit constraints can appear under heavy load. It is the empirical
+limit used in ENTSO-E studies.
 
-**Pourquoi c'est utile :** si Istanbul et Ankara sont à 350 km (limite exacte dans ce cas),
-modéliser la Turquie comme une seule zone uniforme suppose qu'une centrale à Istanbul peut
-alimenter Ankara sans contrainte. Ce n'est pas vrai en période de pointe.
+**Why this matters:** if Istanbul and Ankara are 350 km apart (exactly the limit in this
+case), modelling Türkiye as a single uniform zone assumes a plant in Istanbul can supply
+Ankara without constraint. That is not true at peak.
 
 ---
 
-#### 4d. Concentration de l'hydroélectricité
-**Fichier : `compute/hydro_concentration.py`**
+#### 4d. Hydro concentration
+**File: `compute/hydro_concentration.py`**
 
-Compare la position géographique des centrales hydro avec celle des centres de charge :
-1. Calcule le **centroïde pondéré** des centrales hydro (pondéré par capacité MW)
-2. Calcule le **centroïde pondéré** des villes (pondéré par population)
-3. Mesure la distance haversine entre les deux centroïdes
+Compares the geographic position of hydro plants with that of the load centers:
+1. Computes the **weighted centroid** of the hydro plants (weighted by MW capacity)
+2. Computes the **weighted centroid** of the cities (weighted by population)
+3. Measures the haversine distance between the two centroids
 
 ```
-Si distance > 150 km  ->  hydro_concentration = True  (hydro loin du load)
+If distance > 150 km  ->  hydro_concentration = True  (hydro far from load)
 ```
 
-**Pourquoi c'est utile :** si toute l'hydro est dans les montagnes à l'est et toute la
-demande est sur le littoral ouest, il y a forcément un corridor de transport critique
-entre les deux. Ne pas le représenter explicitement dans le modèle introduit des biais
-sur le dispatch hydro et les prix nodaux.
+**Why this matters:** if all the hydro is in the mountains to the east and all the demand
+is on the western coast, there is necessarily a critical transmission corridor between the
+two. Not representing it explicitly in the model biases hydro dispatch and nodal prices.
 
 ---
 
-#### 4e. Corridors de congestion réseau
-**Fichier : `compute/network_bottlenecks.py`**
+#### 4e. Network congestion corridors
+**File: `compute/network_bottlenecks.py`**
 
-C'est le calcul le plus sophistiqué. Il détecte les **goulots d'étranglement** dans le
-réseau OSM en utilisant la théorie des graphes.
+This is the most sophisticated calculation. It detects **bottlenecks** in the OSM network
+using graph theory.
 
-**Etape 1 — Construction du graphe**
-- Chaque **substations** devient un noeud
-- Chaque **ligne HT** devient une arête entre ses deux extrémités
-- Les extrémités de lignes sont "snappées" à la sous-station la plus proche dans un rayon
-  de 15 km (pour raccorder les lignes qui ne passent pas exactement par les postes dans OSM)
+**Step 1 — Building the graph**
+- Each **substation** becomes a node
+- Each **HV line** becomes an edge between its two endpoints
+- Line endpoints are "snapped" to the nearest substation within a 15 km radius
+  (to connect lines that do not pass exactly through the substations in OSM)
 
-**Etape 2 — Edge betweenness centrality** (algorithme NetworkX)
+**Step 2 — Edge betweenness centrality** (NetworkX algorithm)
 
-Pour chaque paire de noeuds (A, B) dans le réseau, on calcule le plus court chemin.
-La **betweenness centrality** d'une arête = fraction des plus courts chemins qui passent
-par cette arête.
+For each pair of nodes (A, B) in the network, the shortest path is computed.
+An edge's **betweenness centrality** = the fraction of shortest paths that pass through
+that edge.
 
-Une arête avec betweenness élevée est **critique** : beaucoup de flux "passent" par elle,
-au sens topologique. Si elle était saturée, de nombreuses paires de noeuds seraient
-déconnectées ou forcées par des chemins plus longs.
+An edge with high betweenness is **critical**: a lot of flow "passes" through it, in the
+topological sense. If it were saturated, many node pairs would be disconnected or forced
+onto longer paths.
 
-**Etape 3 — Identification des bottlenecks**
+**Step 3 — Identifying the bottlenecks**
 ```
-seuil = moyenne(betweenness) + 2 × écart-type(betweenness)
-bottleneck_edges = arêtes avec betweenness > seuil
-```
-
-Le seuil `moyenne + 2σ` est une convention statistique standard pour identifier les valeurs
-aberrantes dans une distribution — ici, les lignes qui se démarquent vraiment du réseau.
-
-**Etape 4 — Comptage des corridors**
-Les arêtes bottleneck adjacentes (partageant un noeud) sont regroupées en **composantes
-connexes**. Chaque composante = un corridor de congestion distinct.
-
-```
-TUR : 80 arêtes bottleneck -> 5 corridors distincts
-ROU : 61 arêtes bottleneck -> 2 corridors distincts
-BGR : 38 arêtes bottleneck -> 1 corridor distinct
+threshold = mean(betweenness) + 2 × stddev(betweenness)
+bottleneck_edges = edges with betweenness > threshold
 ```
 
-**Pourquoi c'est utile :** chaque corridor identifié est un endroit où le réseau peut être
-saturé, ce qui justifie une frontière de zone. C'est exactement la logique PyPSA-Eur pour
-la segmentation des réseaux européens.
+The `mean + 2σ` threshold is a standard statistical convention for identifying outliers in
+a distribution — here, the lines that genuinely stand out from the network.
+
+**Step 4 — Counting the corridors**
+Adjacent bottleneck edges (sharing a node) are grouped into **connected components**.
+Each component = one distinct congestion corridor.
+
+```
+TUR : 80 bottleneck edges -> 5 distinct corridors
+ROU : 61 bottleneck edges -> 2 distinct corridors
+BGR : 38 bottleneck edges -> 1 distinct corridor
+```
+
+**Why this matters:** each corridor identified is a place where the network can saturate,
+which justifies a zone boundary. This is exactly the PyPSA-Eur logic for segmenting the
+European networks.
 
 ---
 
-### Etape 5 — Assemblage des CountryConfig
-**Fichier : `auto.py`** + **`schema.py`**
+### Step 5 — Assembling the CountryConfig
+**File: `auto.py`** + **`schema.py`**
 
-Tous les paramètres calculés sont assemblés dans un objet `CountryConfig` :
+All computed parameters are assembled into a `CountryConfig` object:
 
 ```python
 CountryConfig(
     name="TUR",
     area_km2=798647,
-    n_bidding_zones=1,          # non automatisé, fixé à 1 par défaut
-    known_congestion_splits=5,  # calculé par network_bottlenecks.py
-    re_cf_spread=0.21,          # calculé par re_spread.py
-    distant_load_centers=True,  # calculé par load_centers.py
-    hydro_concentration=False,  # calculé par hydro_concentration.py (GPPD absent)
-    data_quality="good",        # déduit de la couverture OSM
+    n_bidding_zones=1,          # not automated, defaults to 1
+    known_congestion_splits=5,  # computed by network_bottlenecks.py
+    re_cf_spread=0.21,          # computed by re_spread.py
+    distant_load_centers=True,  # computed by load_centers.py
+    hydro_concentration=False,  # computed by hydro_concentration.py (GPPD missing)
+    data_quality="good",        # inferred from OSM coverage
 )
 ```
 
-La `data_quality` est déduite automatiquement :
-- `good` si OSM a > 500 substations et > 500 lignes pour le pays
-- `medium` si OSM a 50-500 éléments
-- `limited` si OSM a < 50 éléments ou si le fetch a échoué
+`data_quality` is inferred automatically:
+- `good` if OSM has > 500 substations and > 500 lines for the country
+- `medium` if OSM has 50-500 elements
+- `limited` if OSM has < 50 elements or if the fetch failed
 
 ---
 
-### Etape 6 — Recommandation spatiale
-**Fichier : `spatial/recommender.py`**
+### Step 6 — Spatial recommendation
+**File: `spatial/recommender.py`**
 
-Pour chaque pays, calcule un **plancher physique** par accumulation de drivers :
+For each country, computes a **physical floor** by accumulating drivers:
 
 | Driver | Contribution |
 |--------|-------------|
-| Bidding zones officielles | = n_bidding_zones |
-| Corridors de congestion | +n corridors |
+| Official bidding zones | = n_bidding_zones |
+| Congestion corridors | +n corridors |
 | RE spread > 25% | +1 zone |
-| Aire > 500 000 km² | +1 zone |
+| Area > 500,000 km² | +1 zone |
 | Load centers > 350 km | +1 zone |
-| Hydro loin du load | +1 zone |
+| Hydro far from load | +1 zone |
 
-Exemple pour TUR : 1 (base) + 5 (congestion) + 0 (RE spread 21% < 25%) + 1 (grande aire) + 1 (load centers) = **8 zones**
+Example for TUR: 1 (base) + 5 (congestion) + 0 (RE spread 21% < 25%) + 1 (large area) + 1 (load centers) = **8 zones**
 
-Ce plancher est ensuite **capé par la qualité des données** :
-- `good` → max 6 zones (on ne peut pas décomposer plus que ce qu'on peut calibrer)
+This floor is then **capped by data quality**:
+- `good` → max 6 zones (you cannot decompose further than you can calibrate)
 - `medium` → max 4 zones
 - `limited` → max 1 zone
 
-La logique : même si le réseau physique justifie 8 zones, si on n'a que des données nationales
-agrégées, les paramètres d'une zone 6 seraient inventés. Mieux vaut 6 zones bien calibrées
-que 8 zones dont 2 sont des fictions.
+The logic: even if the physical network justifies 8 zones, if all you have is aggregated
+national data, the parameters of a sixth zone would be invented. Better 6 well-calibrated
+zones than 8 of which 2 are fiction.
 
-**Plafond** de calcul :
+Compute **ceiling**:
 ```
-ceiling = variable_budget / (N_heures_repr × N_années × N_scénarios)
-        = 8 000 000 / (384h × 3ans × 1scénario)
+ceiling = variable_budget / (N_repr_hours × N_years × N_scenarios)
+        = 8 000 000 / (384h × 3yr × 1scenario)
         = 30 zones
 ```
 
-Le `variable_budget` de 8M est une estimation du nombre de variables LP/MIP qu'un solveur
-CPLEX peut traiter en < 6h sur 64 GB RAM, basé sur des benchmarks EPM.
+The 8M `variable_budget` is an estimate of the number of LP/MIP variables a CPLEX solver
+can handle in < 6h on 64 GB RAM, based on EPM benchmarks.
 
 ---
 
-### Etape 7 — Recommandation temporelle
-**Fichier : `temporal/recommender.py`**
+### Step 7 — Temporal recommendation
+**File: `temporal/recommender.py`**
 
-Calcule le nombre minimum de **jours représentatifs** (pas les vrais jours de l'année —
-des "types de jours" agrégés qui représentent la chronologie annuelle).
+Computes the minimum number of **representative days** (not actual days of the year —
+aggregated "daytypes" that represent the annual chronology).
 
-**Plancher** (règles cumulatives) :
-- Baseline : 4 jours (1 par saison)
-- RE >= 20% → min 8 jours (capturer la variabilité hebdomadaire du vent)
-- RE >= 35% → min 12 jours (capturer les coïncidences faible-RE/forte-demande)
-- RE >= 50% → min 16 jours
-- Storage `medium` → +2 jours (cycles de charge/décharge multi-jours)
-- Storage `high` → +4 jours
-- Hydro saisonnier fort → min 8 jours (saisons sèche/humide séparées)
+**Floor** (cumulative rules):
+- Baseline: 4 days (1 per season)
+- RE >= 20% → min 8 days (capture weekly wind variability)
+- RE >= 35% → min 12 days (capture low-RE/high-demand coincidences)
+- RE >= 50% → min 16 days
+- Storage `medium` → +2 days (multi-day charge/discharge cycles)
+- Storage `high` → +4 days
+- Strong seasonal hydro → min 8 days (dry/wet seasons separated)
 
-**Jours extrêmes** (toujours ajoutés par-dessus) :
-- 2 jours minimum : pic de demande + événement min-RE
-- Si RE >= 30% : 3 jours (ajoute sécheresse de vent)
+**Extreme days** (always added on top):
+- 2 days minimum: demand peak + min-RE event
+- If RE >= 30%: 3 days (adds a wind drought)
 
-Ces jours extrêmes sont distincts des jours représentatifs : ils ne représentent pas
-la chronologie typique mais les pires cas qui dimensionnent les capacités de backup.
+These extreme days are distinct from the representative days: they do not represent the
+typical chronology but the worst cases that size the backup capacity.
 
-**Plafond** :
+**Ceiling**:
 ```
-max_days = variable_budget / (N_zones × 24h × N_années × N_scénarios)
-         = 8 000 000 / (11 zones × 24h × 3ans × 1scénario)
-         = 36 jours
+max_days = variable_budget / (N_zones × 24h × N_years × N_scenarios)
+         = 8 000 000 / (11 zones × 24h × 3yr × 1scenario)
+         = 36 days
 ```
 
 ---
 
-### Etape 8 — Affichage et sauvegarde
-**Fichier : `advise.py`**
+### Step 8 — Display and save
+**File: `advise.py`**
 
-Assemble les résultats en un tableau formaté (ou JSON avec `--output json`).
-Avec `--save`, sauvegarde un JSON dans `output/`.
+Assembles the results into a formatted table (or JSON with `--output json`).
+With `--save`, writes a JSON file to `output/`.
 
 ---
 
-## Résumé : qui calcule quoi
+## Summary: who computes what
 
 ```
-advise.py                 CLI, orchestre tout, affiche le résultat
-auto.py                   Orchestre la collecte + calcul en mode auto
-schema.py                 Structures de données (CountryConfig, AdvisorConfig, ...)
+advise.py                 CLI, orchestrates everything, prints the result
+auto.py                   Orchestrates fetching + computation in auto mode
+schema.py                 Data structures (CountryConfig, AdvisorConfig, ...)
 
 fetch/
-  natural_earth.py        Telecharge/charge frontières + villes (Natural Earth)
-  osm.py                  Requête Overpass API -> substations + lignes HT
-  gppd.py                 Telecharge/charge GPPD -> centrales
+  natural_earth.py        Downloads/loads boundaries + cities (Natural Earth)
+  osm.py                  Overpass API query -> substations + HV lines
+  gppd.py                 Downloads/loads GPPD -> power plants
 
 compute/
-  area.py                 aire_km2 = reprojection EPSG:6933 -> calcul géométrique
-  re_spread.py            re_spread = proxy géographique lat/lon
-  load_centers.py         distant_load_centers = max distance entre villes > 350 km ?
-  hydro_concentration.py  hydro_concentration = centroïde hydro vs centroïde load > 150 km ?
-  network_bottlenecks.py  known_congestion_splits = edge betweenness sur graphe OSM
+  area.py                 area_km2 = EPSG:6933 reprojection -> geometric calculation
+  re_spread.py            re_spread = geographic lat/lon proxy
+  load_centers.py         distant_load_centers = max distance between cities > 350 km ?
+  hydro_concentration.py  hydro_concentration = hydro centroid vs load centroid > 150 km ?
+  network_bottlenecks.py  known_congestion_splits = edge betweenness on the OSM graph
 
 spatial/
-  recommender.py          plancher + plafond + candidats (nb zones)
+  recommender.py          floor + ceiling + candidates (number of zones)
 
 temporal/
-  recommender.py          plancher + plafond + candidats (nb jours représentatifs)
+  recommender.py          floor + ceiling + candidates (number of representative days)
 ```
 
 ---
 
-## Ce que le code ne fait PAS (encore)
+## What the code does NOT do (yet)
 
-- Il ne **génère pas les zones** — il dit combien il en faut. Pour les générer, voir `pipelines/zone_pipeline.py`.
-- Il ne **sélectionne pas les jours représentatifs** — pour ça, voir `representative_days/` et le pipeline tsam/Poncelet.
-- Le paramètre `n_bidding_zones` n'est pas automatisé (toujours 1 par défaut en mode auto) — à renseigner manuellement dans le YAML si le pays a des marchés zonaux officiels.
-- La `data_quality` est déduite de la densité OSM, pas de la disponibilité des données EPM réelles (load horaire zonal, etc.).
+- It does **not generate the zones** — it says how many are needed. To generate them, see `pipelines/zone_pipeline.py`.
+- It does **not select the representative days** — for that, see `representative_days/` and the tsam/Poncelet pipeline.
+- The `n_bidding_zones` parameter is not automated (always 1 by default in auto mode) — fill it in manually in the YAML if the country has official zonal markets.
+- `data_quality` is inferred from OSM density, not from the availability of actual EPM data (zonal hourly load, etc.).

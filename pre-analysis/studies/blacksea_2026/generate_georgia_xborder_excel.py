@@ -360,7 +360,7 @@ ws2.sheet_view.showGridLines = False
 
 # ---- Chart 1 helper: Seasonal imports 2020–2023 ----
 # Rows 1-10: category labels + 4 series (AZ, RU, TR, ARM)
-# Categories: 2020 Été | 2020 Hiver | 2021 Été | 2021 Hiver | ... (8 rows)
+# Categories: 2020 Summer | 2020 Winter | 2021 Summer | 2021 Winter | ... (8 rows)
 C1_START = 1  # row
 CATEGORIES_1 = ['2020 Summer','2020 Winter','2021 Summer','2021 Winter',
                 '2022 Summer','2022 Winter','2023 Summer','2023 Winter']
