@@ -941,23 +941,23 @@ def make_complete_dispatch_plot_for_interactive(pDispatchTechFuel, pDispatch, di
     dispatch_seasons = list(pDispatchTechFuel['season'].unique())
     n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
-    # Filtrer les données de production
+    # Filter the generation data
     pDispatchTechFuel_zone = pDispatchTechFuel.loc[
         (pDispatchTechFuel['zone'] == zone) & (pDispatchTechFuel['year'] == year) & (pDispatchTechFuel['scenario'] == scenario)
     ]
 
-    # Exclure les stockages si nécessaire
+    # Exclude storage if required
     if not BESS_included:
         pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
         pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Pumped-Hydro']
     y_max_dispatch = float(pDispatchTechFuel_zone['value'].max())
 
-    # Mise en forme pour le stacked area plot
+    # Reshape for the stacked area plot
     pDispatchTechFuel_pivot = pDispatchTechFuel_zone.pivot_table(index=['season', 'day', 't'],
                                                           columns='fuel', values='value', aggfunc='sum')
 
-    # Récupérer la demande
+    # Retrieve the demand
     pDemand_zone = pDispatch.loc[
         (pDispatch['zone'] == zone) & (pDispatch['year'] == year) & (pDispatch['scenario'] == scenario) & (pDispatch['attribute'] == 'Demand')
     ]
@@ -965,18 +965,18 @@ def make_complete_dispatch_plot_for_interactive(pDispatchTechFuel, pDispatch, di
 
     pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
 
-    # Extraire les saisons et jours représentatifs
+    # Extract the seasons and representative days
     dispatch_seasons = list(pDispatchTechFuel['season'].unique())
     n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
-    # Créer le graphique
+    # Create the figure
     fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
 
-    # Tracer la production en stacked area
+    # Plot generation as a stacked area
     if not pDispatchTechFuel_pivot.empty:
         pDispatchTechFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchTechFuel_pivot.columns])
 
-    # Tracer la demande
+    # Plot the demand
     if not pDemand_pivot.empty:
         pDemand_pivot.plot(ax=ax, linewidth=1.5, color='darkred', linestyle='-', label='Demand')
 

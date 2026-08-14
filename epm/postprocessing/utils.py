@@ -548,7 +548,7 @@ def gdx_to_csv(gdx_file, output_csv_folder):
 
     for param in parameters:
         try:
-            df = container.data[param].records  # Récupérer les données
+            df = container.data[param].records  # Retrieve the data
             if df is not None:
                 output_csv = os.path.join(output_csv_folder, f"{param}.csv")
                 df.to_csv(output_csv, index=False)  # Sauvegarder en CSV

@@ -1,85 +1,85 @@
 # Performance & Threads
 
-EPM peut lancer plusieurs scénarios en parallèle avec le flag `--parallel`. Cette page explique comment dimensionner correctement ce paramètre selon votre machine.
+EPM can run several scenarios in parallel with the `--parallel` flag. This page explains how to size that parameter correctly for your machine.
 
 ---
 
-## Concepts clés
+## Key concepts
 
-| Terme | Signification |
+| Term | Meaning |
 |---|---|
-| **Core** | Unité de calcul physique du processeur |
-| **Thread** | Flux d'exécution ; avec hyperthreading, un core gère 2 threads |
-| **vCPU** | En cloud/VM, 1 vCPU ≈ 1 thread |
-| **`--parallel`** | Nombre de scénarios EPM lancés simultanément |
-| **`threads`** | Nombre de threads alloués à chaque solve CPLEX, défini dans le fichier d'options du solveur |
+| **Core** | Physical compute unit of the processor |
+| **Thread** | Execution stream; with hyperthreading, one core handles 2 threads |
+| **vCPU** | In cloud/VM terms, 1 vCPU ≈ 1 thread |
+| **`--parallel`** | Number of EPM scenarios launched simultaneously |
+| **`threads`** | Number of threads allocated to each CPLEX solve, set in the solver options file |
 
-> **Note** — Le flag `--parallel` contrôle en réalité le nombre de **jobs parallèles**, pas les CPUs directement. Ce nom sera renommé dans une prochaine version pour éviter la confusion.
-
----
-
-## Les deux plafonds à respecter
-
-Lancer `--parallel N` signifie que N scénarios tournent en même temps. Chaque scénario consomme de la RAM **et** des threads CPU. Il y a donc **deux plafonds indépendants** :
-
-```
-Plafond RAM  = RAM totale ÷ RAM par scénario
-Plafond CPU  = vCPU totaux ÷ threads par scénario
-
---parallel = min(Plafond RAM, Plafond CPU)
-```
-
-Le plafond le plus bas est celui qui limite. Dépasser l'un ou l'autre provoque une contention des ressources et ralentit l'ensemble des jobs.
+> **Note** — the `--parallel` flag actually controls the number of **parallel jobs**, not CPUs directly. It will be renamed in a future version to avoid the confusion.
 
 ---
 
-## Comment calculer en pratique
+## The two ceilings to respect
 
-**Étape 1 — Connaître votre machine**
+Running `--parallel N` means N scenarios run at the same time. Each scenario consumes RAM **and** CPU threads. There are therefore **two independent ceilings**:
 
-Notez la RAM totale et le nombre de vCPU disponibles.  
-Sur Linux : `free -h` (RAM) et `nproc` (vCPU).
+```
+RAM ceiling  = total RAM / RAM per scenario
+CPU ceiling  = total vCPUs / threads per scenario
 
-**Étape 2 — Mesurer la RAM par scénario**
+--parallel = min(RAM ceiling, CPU ceiling)
+```
 
-Lancez un scénario seul et cherchez dans le fichier `.lst` ou la console GAMS Studio :
+The lower ceiling is the binding one. Exceeding either causes resource contention and slows every job down.
+
+---
+
+## How to work it out in practice
+
+**Step 1 — Know your machine**
+
+Note the total RAM and the number of available vCPUs.  
+On Linux: `free -h` (RAM) and `nproc` (vCPUs).
+
+**Step 2 — Measure RAM per scenario**
+
+Run a single scenario on its own and look in the `.lst` file or the GAMS Studio console for:
 ```
 ProcTreeMemMonitor → VSS
 ```
-C'est l'empreinte mémoire maximale de ce scénario. Utilisez cette valeur.
+That is the peak memory footprint of that scenario. Use that value.
 
-**Étape 3 — Connaître votre `threads`**
+**Step 3 — Know your `threads`**
 
-Regardez votre fichier d'options CPLEX (`cplex_baseline.opt`) :
+Look at your CPLEX options file (`cplex_baseline.opt`):
 ```
 threads = 8
 ```
-Si la ligne est absente, CPLEX utilise tous les threads disponibles — à éviter en contexte parallèle.  
-Voir [Options du solveur](options_solver.md) pour modifier cette valeur.
+If the line is missing, CPLEX uses every available thread — to be avoided in a parallel context.  
+See [Solver options](options_solver.md) to change the value.
 
-**Étape 4 — Calculer `--parallel`**
+**Step 4 — Compute `--parallel`**
 
 ```
-Plafond RAM  = RAM totale ÷ RAM par scénario
-Plafond CPU  = vCPU totaux ÷ threads
+RAM ceiling  = total RAM / RAM per scenario
+CPU ceiling  = total vCPUs / threads
 
---parallel = min(Plafond RAM, Plafond CPU)
+--parallel = min(RAM ceiling, CPU ceiling)
 ```
 
 ---
 
-## Exemple concret
+## Worked example
 
-Machine : **256 Go RAM, 32 vCPU**, scénario de ~32 Go, `threads = 8`
+Machine: **256 GB RAM, 32 vCPUs**, scenario of ~32 GB, `threads = 8`
 
 ```
-Plafond RAM  = 256 ÷ 32  = 8 jobs
-Plafond CPU  = 32 ÷ 8    = 4 jobs
+RAM ceiling  = 256 / 32  = 8 jobs
+CPU ceiling  = 32 / 8    = 4 jobs
 
 --parallel = min(8, 4) = 4
 ```
 
-Ici le CPU est limitant. On lance avec `--parallel 4`, ce qui laisse ~64 Go de RAM inutilisée.
+Here the CPU is binding. Run with `--parallel 4`, which leaves ~64 GB of RAM unused.
 
 ```sh
 python epm.py --folder_input my_country --config config.csv --scenarios --parallel 4
@@ -87,28 +87,28 @@ python epm.py --folder_input my_country --config config.csv --scenarios --parall
 
 ---
 
-## Arbitrage : threads vs. scénarios parallèles
+## Trade-off: threads vs. parallel scenarios
 
-Le nombre de threads par solve est un paramètre à ajuster selon votre usage.
+The number of threads per solve is a parameter to tune to your usage.
 
-**Beaucoup de scénarios à passer (longue file)**  
-→ Préférez **moins de threads, plus de jobs parallèles**.  
-La parallélisation entre scénarios est quasi parfaite (chaque job indépendant), alors que le gain en threads dans un solve est à rendement décroissant — passer de 4 à 8 threads accélère peu un solve donné. Davantage de solves en parallèle finissent une longue file plus rapidement.
+**Many scenarios to get through (long queue)**  
+→ Prefer **fewer threads, more parallel jobs**.  
+Parallelisation across scenarios is near-perfect (each job is independent), whereas adding threads within a single solve has diminishing returns — going from 4 to 8 threads speeds a given solve up only slightly. More solves in parallel finish a long queue faster.
 
-*Exemple : baisser à `threads = 5` → Plafond CPU = 32 ÷ 5 = 6 jobs → `--parallel 6` au lieu de 4.*
+*Example: lowering to `threads = 5` → CPU ceiling = 32 / 5 = 6 jobs → `--parallel 6` instead of 4.*
 
-**Peu de scénarios lourds (MIP sans `--simple`)**  
-→ Préférez **plus de threads, moins de jobs parallèles**.  
-Concentrez les ressources sur chaque solve pour le terminer plus vite.
+**Few heavy scenarios (MIP without `--simple`)**  
+→ Prefer **more threads, fewer parallel jobs**.  
+Concentrate the resources on each solve to finish it faster.
 
-> **Note** — Il est possible de dépasser légèrement le plafond CPU (ex. `--parallel 6` avec `threads = 8` sur 32 vCPU). L'OS partage alors le temps CPU entre les threads et les jobs s'exécutent plus lentement. Les résultats restent corrects mais le débit global est réduit par rapport à une allocation équilibrée.
+> **Note** — you can overshoot the CPU ceiling slightly (e.g. `--parallel 6` with `threads = 8` on 32 vCPUs). The OS then time-shares the CPU between threads and the jobs run more slowly. Results stay correct, but overall throughput drops compared with a balanced allocation.
 
 ---
 
-## Récapitulatif
+## Summary
 
-| Situation | Recommandation |
+| Situation | Recommendation |
 |---|---|
-| Longue file de scénarios RMIP | Baisser `threads`, augmenter `--parallel` |
-| Peu de scénarios MIP lourds | Garder `threads` élevé, `--parallel` plus bas |
-| Machine partagée (2 modélisateurs) | Diviser `--parallel` par 2 |
+| Long queue of RMIP scenarios | Lower `threads`, raise `--parallel` |
+| A few heavy MIP scenarios | Keep `threads` high, `--parallel` lower |
+| Shared machine (2 modellers) | Halve `--parallel` |
