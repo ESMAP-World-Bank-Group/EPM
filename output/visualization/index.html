@@ -2746,9 +2746,11 @@
 <p><strong>2. Generate the GeoJSON</strong></p>
 <p>Update <code>geojson_to_epm.csv</code> with your zone names, then run:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>epm/postprocessing
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>create_geojson.py<span class="w"> </span>--folder<span class="w"> </span>tableau<span class="w"> </span>--geojson<span class="w"> </span>geojson_to_epm.csv<span class="w"> </span>--zcmap<span class="w"> </span>zcmap.csv
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>create_geojson.py<span class="w"> </span>--folder<span class="w"> </span>tableau<span class="w"> </span>--zcmap<span class="w"> </span>zcmap.csv
 </code></pre></div>
-<p>This produces <code>linestring_countries.geojson</code> for geographic visualizations.</p>
+<p>This produces two files for geographic visualizations: <code>linestring_zcmap.geojson</code>
+(lines between zone centroids, used by Tableau) and <code>zones_zcmap.geojson</code>
+(one polygon per EPM zone, used by the map fill layers).</p>
 <p><strong>3. Open in Tableau</strong></p>
 <p>Upload the <code>tableau/</code> folder to OneDrive, connect to the shared VDI (Tableau pre-installed), and open <code>EPM_Report.twb</code>.</p>
 <p><strong>4. Extract data</strong></p>
