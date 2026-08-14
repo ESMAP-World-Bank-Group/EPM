@@ -3,9 +3,18 @@ fix_provenance_romania.py
 Fixes the provenance.yaml where Romania section got embedded inside
 Nakhchivan pTransferLimit notes. Moves Romania to proper top-level position.
 """
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 from pathlib import Path
 
-p = Path(__file__).resolve().parent.parent / "epm/input/data_blacksea/provenance.yaml"
+p = _REPO_ROOT / "epm/input/data_blacksea/provenance.yaml"
 txt = p.read_text(encoding="utf-8")
 
 # The file has:

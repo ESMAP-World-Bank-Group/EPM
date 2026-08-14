@@ -1,6 +1,6 @@
 id: wb_epm_georgia_v85
 name: "World Bank EPM Georgia v8.5 (2022, internal model) — primary data sources not documented"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: EPM_Georgia2022/Baseline/WB_EPM_v8_5.xlsb (binary Excel)

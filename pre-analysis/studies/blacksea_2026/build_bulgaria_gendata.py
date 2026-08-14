@@ -2,8 +2,17 @@
 build_bulgaria_gendata.py — preview complete pGenDataInput for Bulgaria.
 Dry-run only (no file writes). Combines GEM GIPT + Kinesys manual rows.
 """
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 import sys, math
-sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
+sys.path.insert(0, str(_PRE_ANALYSIS))
 from pipelines.gem_pipeline import load_gipt_plants
 import pandas as pd
 
@@ -181,7 +190,7 @@ print(f'Total rows: {len(out)}')
 # ── WRITE to pGenDataInput.csv ───────────────────────────────────────────
 import argparse, sys as _sys
 if '--write' in _sys.argv:
-    target = __import__('pathlib').Path(__file__).resolve().parent.parent / \
+    target = _REPO_ROOT / \
              'epm' / 'input' / 'data_blacksea' / 'supply' / 'pGenDataInput.csv'
     existing = pd.read_csv(target, encoding='utf-8-sig')
     existing = existing[existing['z'] != 'Bulgaria']

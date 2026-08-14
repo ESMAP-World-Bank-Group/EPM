@@ -11,12 +11,21 @@ Writes to pre-analysis/output_workflow/zoning_study/TUR_9z/ with the same
 structure as pipeline-generated runs (epm_export/spatial/ + report/spatial/).
 """
 from __future__ import annotations
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 import json
 import shutil
 import sys
 from pathlib import Path
 
-_BASE = Path(__file__).resolve().parent          # pre-analysis/
+_BASE = _PRE_ANALYSIS          # pre-analysis/
 _REPO = _BASE.parent                             # EPM root
 sys.path.insert(0, str(_BASE))
 sys.path.insert(0, str(_BASE / "pipelines"))

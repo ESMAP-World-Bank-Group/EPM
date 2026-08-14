@@ -1,6 +1,7 @@
 id: teias_annual_statistics
 name: "TEİAŞ — Turkiye annual electricity statistics (official)"
 type: open_source
+category: official_statistics
 date: "2026-06"
 url: "https://www.teias.gov.tr/tr-TR/turkiye-elektrik-istatistikleri"
 access_note: >
@@ -13,6 +14,9 @@ access_note: >
 coverage:
   countries: [Turkiye]
   years: "generation 2000–2024 · capacity 2006–2024 · demand+peak 1980–2024"
+# This source feeds no EPM resource: it serves as a historical reference for
+# validation and charts, not as a model input.
+fills_epm_resources: []
 derived_files:
   - path: "Data/Turkey/turkiye_generation_hist.csv"
     description: "Annual generation by source (GWh): Coal, Gas, Hydro, Geothermal+Wind, Solar, Other"

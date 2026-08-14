@@ -22,11 +22,14 @@ def _fix_proj_data():
 _fix_proj_data()
 
 _BASE     = Path(__file__).resolve().parent
-_REPO     = _BASE.parent
-_EXPLORER = _REPO.parents[1] / "epm-explorer-v2"
-_CACHE    = _EXPLORER / "public" / "data" / "cache"
 
 sys.path.insert(0, str(_BASE))
+
+from _paths import explorer_dir                       # noqa: E402  (needs _BASE on sys.path)
+
+_EXPLORER = explorer_dir()
+_CACHE    = _EXPLORER / "public" / "data" / "cache"
+
 sys.path.insert(0, str(_BASE / "resolution_advisor"))
 
 REGIONS: dict[str, list[str]] = {

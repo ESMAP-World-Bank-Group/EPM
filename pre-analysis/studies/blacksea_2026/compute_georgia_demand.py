@@ -10,6 +10,15 @@ Output:
   - STDOUT: CSV rows to append to pDemandForecast.csv and pDemandProfile.csv
 """
 
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -106,7 +115,7 @@ for r in profile_rows[:3]:
 print(f"  ... and {len(profile_rows)-3} more rows")
 
 # ── Write output files ────────────────────────────────────────────────────────
-out_dir = Path(__file__).parent / "output_georgia"
+out_dir = _PRE_ANALYSIS / "output_georgia"
 out_dir.mkdir(exist_ok=True)
 
 # Forecast

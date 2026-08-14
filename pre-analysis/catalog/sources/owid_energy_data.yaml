@@ -1,6 +1,7 @@
 id: owid_energy_data
 name: "Our World in Data (OWID) — Energy Dataset (IEA source)"
-type: public_database
+type: open_source
+category: public_database
 url: "https://ourworldindata.org/energy"
 date: "2025"
 access_note: >

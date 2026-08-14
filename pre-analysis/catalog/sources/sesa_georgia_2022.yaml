@@ -1,6 +1,6 @@
 id: sesa_georgia_2022
 name: "SESA (Georgian Power Sector Analysis System) / World Bank — Georgia Power Plant Inventory (July 2022)"
-type: internal
+type: internal_wb
 date: "2022-07-01"
 access_note: >
   File: EPM_Georgia/2022/1. Data/Generation_1.07.2022.xlsx

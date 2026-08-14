@@ -1,6 +1,6 @@
 id: ge_power_sector_data_repository
 name: "Georgia Power Sector Data Repository (WB Internal)"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: Team/GE_Power Sector_Data Repository.xlsx

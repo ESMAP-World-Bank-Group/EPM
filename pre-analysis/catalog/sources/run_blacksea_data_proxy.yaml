@@ -1,0 +1,48 @@
+id: run_blacksea_data_proxy
+name: "Proxy load profiles (Azerbaijan, Nakhchivan) — built by run_blacksea_data.py"
+type: open_source
+category: derived
+date: "2026"
+url: "https://seffaflik.epias.com.tr/"
+access_note: >
+  Hourly profiles for the zones where NO national hourly data exists. Built by
+  pre-analysis/studies/blacksea_2026/run_blacksea_data.py, then reduced to
+  representative days by pre-analysis/representative_days/run_blacksea_repdays.py.
+
+  Kept separate from blacksea_load_vre_2023 (which carries the REAL profiles) precisely
+  so that the boundary between measured and assumed stays readable in provenance.yaml.
+
+  - AzerbaijanMain: Turkish hourly shape (EPIAS, via eptr2), scaled to Azerbaijani
+    annual energy — AZE_ANNUAL_MWH ~ 29.3 TWh. Projected onto the 28 representative
+    days (4 seasons x 7 daytypes), each daytype distinct since the 2026-07 revision.
+  - Nakhchivan: reuses the AzerbaijanMain shape, hence the same Turkish origin.
+    Rationale: climate comparable to southern Azerbaijan (continental, hot summers).
+    The absolute level comes from pDemandForecast / pGenDataInput, not from here.
+
+  The proxy covers the SHAPE only; volumes come from the demand forecasts.
+
+coverage:
+  countries: [Azerbaijan]
+  years: "representative year 2023, applied 2024-2053"
+
+fills_epm_resources:
+  - resource: pDemandProfile
+    coverage: "AzerbaijanMain — scaled Turkish EPIAS shape, 28 (season, daytype)"
+  - resource: pDemandProfile
+    coverage: "Nakhchivan — same shape as AzerbaijanMain, hence a proxy of a proxy"
+
+quality:
+  confidence: low
+  notes: >
+    Two layers of uncertainty stacked: the shape is not Azerbaijani, and for Nakhchivan
+    it passes through a second substitution. Concrete consequence: any result sensitive
+    to the timing of the Azerbaijani peak (reserve sizing, peak-hour congestion,
+    intraday trade value) inherits Turkish seasonality, not local seasonality.
+
+    To be replaced by AzerEnerji SCADA data as soon as it is accessible. This is the
+    highest-value substitution in the dataset: it touches two zones and several families
+    of results at once.
+
+    Nakhchivan is an exclave whose system is weakly coupled to the main grid — the
+    shared-shape assumption is weaker than it looks.
+  used_in_studies: [data_blacksea]

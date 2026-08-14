@@ -1,6 +1,6 @@
 id: epm_generic_defaults
 name: "EPM Generic Defaults"
-type: internal
+type: internal_wb
 url: "https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/"
 date: ""
 access_note: >

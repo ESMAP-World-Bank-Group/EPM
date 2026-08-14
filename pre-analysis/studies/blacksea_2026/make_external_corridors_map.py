@@ -18,10 +18,19 @@ Usage:
 """
 from __future__ import annotations
 
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
+
 import csv
 from pathlib import Path
 
-_BASE = Path(__file__).resolve().parent
+_BASE = _PRE_ANALYSIS
 
 ZONES_GEOJSON = _BASE / "output_workflow" / "preferred" / "blacksea_recommended_zones_hd.geojson"
 CORRIDORS_INT = _BASE / "data" / "reference_corridors.csv"

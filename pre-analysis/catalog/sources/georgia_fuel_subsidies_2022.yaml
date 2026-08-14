@@ -1,6 +1,6 @@
 id: georgia_fuel_subsidies_2022
 name: "Georgia Fuel Subsidies Database 2022 (IMF/World Bank methodology)"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: Team/Georgia_fuel-subsidies_2022.xlsx

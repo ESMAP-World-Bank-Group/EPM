@@ -1,9 +1,18 @@
 """Run all 6 Black Sea country zone pipelines."""
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 import sys, os
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, str(_PRE_ANALYSIS))
 from pipelines.zone_pipeline import run_zone_pipeline
 
-ref = os.path.join(os.path.dirname(__file__), "data", "reference_lines.csv")
+ref = os.path.join(str(_PRE_ANALYSIS), "data", "reference_lines.csv")
 
 configs = [
     (["TUR"], 3),

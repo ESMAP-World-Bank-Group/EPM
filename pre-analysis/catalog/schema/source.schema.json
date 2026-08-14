@@ -17,7 +17,12 @@
     "type": {
       "type": "string",
       "enum": ["open_source", "internal_wb", "client_confidential", "assumption"],
-      "description": "Access level of the source"
+      "description": "Access level: who may receive this data. Drives what can be published."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["public_database", "official_statistics", "study_document", "derived", "modelled"],
+      "description": "Nature of the source, independent of its access level. A derived series built from public databases is still open_source."
     },
     "date": {
       "type": "string",
@@ -40,9 +45,11 @@
       "required": ["countries"],
       "properties": {
         "countries": {
-          "type": "array",
-          "items": {"type": "string"},
-          "description": "ISO3 or common names of countries covered"
+          "oneOf": [
+            {"type": "array", "items": {"type": "string"}},
+            {"const": "all"}
+          ],
+          "description": "ISO3 or common names of countries covered, or the string 'all' for a global source"
         },
         "years": {
           "type": "string",
@@ -69,6 +76,31 @@
             "type": "string",
             "description": "What aspect of the resource is covered"
           }
+        }
+      }
+    },
+    "derived_files": {
+      "type": "array",
+      "description": "Files produced from this source that are not EPM resources (processed CSVs, indexes, notebooks input)",
+      "items": {
+        "type": "object",
+        "required": ["path"],
+        "properties": {
+          "path": {"type": "string", "description": "Repo-relative path of the produced file"},
+          "description": {"type": "string"},
+          "source_file": {"type": "string", "description": "Which file of the source it came from"}
+        }
+      }
+    },
+    "used_in": {
+      "type": "array",
+      "description": "Analyses that consume this source without going through an EPM resource",
+      "items": {
+        "type": "object",
+        "properties": {
+          "notebook": {"type": "string"},
+          "script": {"type": "string"},
+          "charts": {"type": "array", "items": {"type": "string"}}
         }
       }
     },

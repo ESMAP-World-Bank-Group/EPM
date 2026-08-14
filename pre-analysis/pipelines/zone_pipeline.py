@@ -48,6 +48,8 @@ _OUTPUT_ROOT = _BASE / "output_workflow"
 sys.path.insert(0, str(_BASE))
 sys.path.insert(0, str(_ADVISOR))
 
+from _paths import explorer_dir                       # noqa: E402  (needs _BASE on sys.path)
+
 # ── fuel colour palette (consistent with generators_pipeline.py style) ────────
 FUEL_COLORS = {
     "Solar":       "#f4c430",
@@ -147,7 +149,7 @@ def run_zone_pipeline(
     )
 
     # Export corridors GeoJSON to Explorer zones folder
-    _EXPLORER_ZONES = _BASE.parent.parents[1] / "epm-explorer-v2" / "public" / "data" / "zones"
+    _EXPLORER_ZONES = explorer_dir() / "public" / "data" / "zones"
     if _EXPLORER_ZONES.exists() and corridors_df is not None and len(corridors_df):
         from .transmission_capacity import export_corridors_geojson
         label = f"{'_'.join(countries)}_{n_zones}z"

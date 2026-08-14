@@ -1,6 +1,6 @@
 id: bg_ccdr_kinesys_2026
 name: "World Bank Bulgaria CCDR — Kinesys/TIMES Energy Model (2026)"
-type: internal
+type: internal_wb
 date: "2026"
 file: "BG-CCDR - Kinesys_2101_b2.20.26.xlsx"
 access_note: >

@@ -1,0 +1,154 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Black Sea 2026 study — single declaration of the scope
+#
+# The six countries were hard-coded in at least seven files, each with its own
+# spelling. This file is the one list that is authoritative. Any new script reads
+# from here rather than redeclaring.
+#
+# Existing scripts have NOT been rewired onto it yet — that is separate work, to be
+# done when the study leaves room for it. Until then, this file is the reference to
+# correct first, and the hard-coded copies follow.
+#
+# Created 2026-08-14.
+# ─────────────────────────────────────────────────────────────────────────────
+
+id: blacksea_2026
+name: "Black Sea — regional electricity trade, 2026"
+deployment: data_blacksea          # epm/input/data_blacksea/
+scripts: studies/blacksea_2026/    # one-off scripts for this study
+
+model_years: "2024-2053"
+representative_year: 2023          # only year with complete Load everywhere AND Ninja VRE
+
+# ── Model countries ──────────────────────────────────────────────────────────
+# `zones` = actual EPM zones (column z of zcmap.csv), not country names.
+countries:
+
+  TUR:
+    name: Turkiye
+    zones: [WestMed, WestAna, EastMed, EastAna, SouthEast, NorthWest, CenterAna,
+            CenterBlack, Trakia]
+    aliases:
+      entsoe: null                 # ENTSO-E does not cover Turkiye
+      epias: TR                    # seffaflik.epias.com.tr, via eptr2
+      gem: turkey
+      owid: Turkey
+      natural_earth: TUR
+      explorer: TUR
+
+  ARM:
+    name: Armenia
+    zones: [Armenia]
+    aliases:
+      entsoe: null                 # no Armenian hourly data — proxied from Georgia
+      gem: armenia
+      owid: Armenia
+      natural_earth: ARM
+      explorer: ARM
+
+  GEO:
+    name: Georgia
+    zones: [Georgia]
+    aliases:
+      entsoe: GE                   # see conflict #3 below
+      gem: georgia
+      owid: Georgia
+      natural_earth: GEO
+      explorer: GEO
+
+  AZE:
+    name: Azerbaijan
+    zones: [AzerbaijanMain, Nakhchivan]   # see conflict #1 below
+    aliases:
+      entsoe: null                 # no hourly data — proxied from Turkiye
+      gem: azerbaijan
+      owid: Azerbaijan
+      natural_earth: AZE
+      explorer: AZE
+
+  ROU:
+    name: Romania
+    zones: [Romania]
+    aliases:
+      entsoe: RO                   # ENTSO-E bidding zone
+      gem: romania
+      owid: Romania
+      natural_earth: ROU
+      explorer: ROU
+
+  BGR:
+    name: Bulgaria
+    zones: [Bulgaria]
+    aliases:
+      entsoe: BG                   # ENTSO-E bidding zone
+      gem: bulgaria
+      owid: Bulgaria
+      natural_earth: BGR
+      explorer: BGR
+
+# ── Synthetic zone ───────────────────────────────────────────────────────────
+# Not a country. Represents the Iranian side of the Armenian electricity-for-gas
+# swap. INTERNAL link, so that the swap does not generate external trade revenue.
+# See catalog/sources/epm_expert_judgment.yaml.
+synthetic_zones:
+  iran_swap:
+    name: iran_swap
+    attached_to: ARM
+    transfer_limit_mw: 400         # proxy for the Meghri 220 kV corridor
+    present_in: [zcmap.csv]        # absent from zcmap_robg.csv
+
+# ── Annual energies used to scale the proxies ────────────────────────────────
+# Hard-coded in run_blacksea_data.py; repeated here so they can be found.
+annual_energy_mwh:
+  ARM: 7_000_000                   # ~7 TWh
+  AzerbaijanMain: 29_300_000       # ~29.3 TWh
+  Nakhchivan: 500_000              # ~0.5 TWh
+  TUR: 290_000_000                 # ~290 TWh
+
+# ── Two topologies coexist ───────────────────────────────────────────────────
+topologies:
+  zcmap.csv:
+    scope: "Turkiye 9z + Caucasus + iran_swap"
+    excludes: [ROU, BGR]
+  zcmap_robg.csv:
+    scope: "Turkiye 9z + Caucasus + Romania + Bulgaria"
+    excludes: [Nakhchivan, iran_swap]
+
+# ── Disagreements found between files, as of 2026-08-14 ──────────────────────
+# Found while assembling the lists. Not fixed: each one needs a decision.
+# Do not resolve them silently — each has an effect on the results.
+known_conflicts:
+
+  - id: 1
+    subject: "AZE — 'Azerbaijan' is a country, not a zone"
+    detail: >
+      config/epm_gendata_config.yaml and compute_epm_demand.py both map AZE to a zone
+      named "Azerbaijan". That zone does not exist: zcmap.csv declares AzerbaijanMain
+      and Nakhchivan. pipelines/vre_cf_anchoring.py, meanwhile, maps AZE_1 to
+      AzerbaijanMain. Depending on which code path is taken, Azerbaijani data therefore
+      lands in a different zone.
+    impact: "Any resource built via _zone_for_iso('AZE') targets a zone that does not exist."
+
+  - id: 2
+    subject: "Romania and Bulgaria absent from the main topology"
+    detail: >
+      zcmap.csv contains neither Romania nor Bulgaria; zcmap_robg.csv adds them but
+      removes Nakhchivan and iran_swap. No file states which one is authoritative for a
+      given run.
+    impact: "A result is only interpretable if you know which zcmap was used."
+
+  - id: 3
+    subject: "Is Georgia on ENTSO-E?"
+    status: resolved 2026-08-14
+    detail: >
+      catalog/sources/entsoe_hourly_load.yaml claimed "Georgia is NOT available on
+      ENTSO-E Transparency Platform — proxied from internal WB data", contradicting
+      run_blacksea_data.py (Georgia is in ENTSOE_COUNTRIES) and blacksea_load_vre_2023.yaml.
+      Settled on evidence: output_workflow/blacksea_run1/entsoe/load/entsoe_load_ge_*.csv
+      exists and contains 8740 non-null hours in 2022, 8562 in 2023, 178 in 2021, nothing
+      before. Georgian load is therefore MEASURED, not proxied. The catalog entry has
+      been corrected.
+    impact: >
+      No data to redo — only the documentation was wrong. But it was wrong in the most
+      expensive direction: it made measured data look like a proxy, which would have led
+      to "replacing" it with something else.

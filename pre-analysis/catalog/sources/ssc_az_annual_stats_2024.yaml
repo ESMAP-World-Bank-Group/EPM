@@ -1,6 +1,7 @@
 id: ssc_az_annual_stats_2024
 name: "SSC Azerbaijan — Annual Energy Statistics (1913–2024)"
-type: official_statistics
+type: open_source
+category: official_statistics
 url: "https://stat.gov.az/source/balance_energy/"
 date: "2024"
 access_note: >

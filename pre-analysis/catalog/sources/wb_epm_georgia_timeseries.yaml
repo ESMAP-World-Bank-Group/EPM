@@ -1,6 +1,6 @@
 id: wb_epm_georgia_timeseries
 name: "World Bank EPM Georgia 2022 (internal) — VRE Timeseries; PV/Wind original source undocumented"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: EPM_Georgia/2022/1. Data/Timeseries all data.xlsx

@@ -1,6 +1,7 @@
 id: gem_gipt
 name: "Global Energy Monitor (GEM) — Global Integrated Power Tracker (GIPT)"
-type: public_database
+type: open_source
+category: public_database
 url: "https://globalenergymonitor.org/projects/global-integrated-power-tracker/"
 date: "2025-09"
 access_note: >

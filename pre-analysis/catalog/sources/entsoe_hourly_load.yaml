@@ -1,14 +1,21 @@
 id: entsoe_hourly_load
 name: "ENTSO-E Transparency Platform — Actual Total Load (hourly)"
-type: public_database
+type: open_source
+category: public_database
 url: "https://transparency.entsoe.eu/"
 date: "2025"
 access_note: >
   ENTSO-E Transparency Platform, dataset: Actual Total Load per Bidding Zone.
-  Downloaded via entsoe-py Python client (pre-analysis/run_blacksea_data.py,
+  Downloaded via entsoe-py Python client (pre-analysis/studies/blacksea_2026/run_blacksea_data.py,
   step_entsoe_download()). Coverage: 2018–2024 hourly data for Romania and Bulgaria
-  (ENTSO-E bidding zones RO and BG). Georgia is NOT available on ENTSO-E Transparency
-  Platform — proxied from internal WB data.
+  (ENTSO-E bidding zones RO and BG), plus Georgia (zone GE).
+
+  CORRECTED 2026-08-14 — this entry claimed Georgia was not available on ENTSO-E and
+  was proxied from internal World Bank data. That is false: run_blacksea_data.py does
+  download it (ENTSOE_COUNTRIES includes Georgia), and the resulting file contains 8740
+  non-null hours in 2022 and 8562 in 2023. Georgian coverage starts in 2022 (only 178
+  hours in 2021, nothing before) — it is that start date, not a missing source, that
+  fixed 2023 as the representative year.
   Processed into representative-days format (reprdays_input/Load.csv) via the
   compute_representative_days pipeline (blacksea_run1).
   Each zone normalized to a load factor profile (0–1) for use in pDemandProfile.

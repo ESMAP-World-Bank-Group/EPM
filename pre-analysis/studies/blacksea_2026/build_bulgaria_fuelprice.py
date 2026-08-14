@@ -11,6 +11,15 @@ Run:
   python pre-analysis/build_bulgaria_fuelprice.py           # preview
   python pre-analysis/build_bulgaria_fuelprice.py --write   # append to pFuelPrice.csv
 """
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 import sys
 import numpy as np
 import pandas as pd
@@ -82,7 +91,7 @@ print("Note: Gas 2035 dip reflects Kinesys WEM policy scenario (increased domest
 
 # ── Write ─────────────────────────────────────────────────────────────────────
 if '--write' in sys.argv:
-    target = Path(__file__).resolve().parent.parent / \
+    target = _REPO_ROOT / \
              'epm' / 'input' / 'data_blacksea' / 'supply' / 'pFuelPrice.csv'
     existing = pd.read_csv(target, encoding='utf-8-sig', dtype=str)
     existing = existing[existing['country'] != 'Bulgaria']

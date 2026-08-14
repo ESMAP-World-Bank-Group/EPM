@@ -10,10 +10,19 @@ Approach:
 Output: Armenia rows appended to epm/input/data_blacksea/supply/pVREProfile.csv
 """
 
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
+
 from pathlib import Path
 import pandas as pd
 
-BASE    = Path(__file__).resolve().parent.parent
+BASE    = _REPO_ROOT
 NINJA_DIR = BASE / "pre-analysis" / "output_workflow" / "blacksea_run1" / "ninja"
 VRE_CSV   = BASE / "epm" / "input" / "data_blacksea" / "supply" / "pVREProfile.csv"
 

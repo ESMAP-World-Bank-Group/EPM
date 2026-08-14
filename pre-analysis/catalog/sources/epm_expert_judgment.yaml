@@ -1,0 +1,56 @@
+id: epm_expert_judgment
+name: "Modeller expert judgment — Black Sea 2026 assumptions"
+type: assumption
+category: modelled
+date: "2026"
+access_note: >
+  Not an external source. Groups the values set by the modeller where no measured data
+  exists, so that those values are traceable like any other and are not mistaken for
+  observed data.
+
+  Every value is justified in its `method_table` inside
+  epm/input/data_blacksea/provenance.yaml — that is where the reasoning must be read,
+  not here. This entry exists only to make the `source_id` citation resolvable.
+
+  Two distinct families:
+
+  1. PHYSICAL CALIBRATION — a cap set to stop the model doing something unrealistic.
+     E.g. Georgia pMaxFuelLimit ~ 28 (MMBtu x 1e6/yr, i.e. ~4 TWh of gas-fired
+     generation), cap added on 2026-07-09 in calibration phase 2: Georgia in reality
+     relies on winter imports rather than on domestic gas.
+
+  2. SYNTHETIC ZONE iran_swap — mini-zone representing the Iranian side of the
+     Armenia-Iran electricity-for-gas swap (~1 m3 of gas = 3 kWh). Demand 1100 GWh /
+     350 MW peak, summer-weighted profile (Q2/Q3 = 0.90, Q1/Q4 = 0.15 — Iran imports
+     the Armenian surplus during the cooling season), internal Armenia<->iran_swap link
+     of 400 MW in both directions (proxy for the Meghri 220 kV corridor). The link is
+     *internal* so that the swap does not generate external trade revenue.
+
+coverage:
+  countries: [Georgia, Armenia]
+  years: "2024-2053"
+
+fills_epm_resources:
+  - resource: pMaxFuelLimit
+    coverage: "Georgia — annual cap on gas used for power generation"
+  - resource: pDemandForecast
+    coverage: "iran_swap — 1100 GWh / 350 MW, the swap volume, not an observed demand"
+  - resource: pDemandProfile
+    coverage: "iran_swap — summer-weighted seasonal shape, modelling assumption"
+  - resource: pTransferLimit
+    coverage: "iran_swap — internal Armenia<->iran_swap link, 400 MW bidirectional"
+
+quality:
+  confidence: low
+  notes: >
+    By construction none of these values is measured: `low` is the floor, not a quality
+    defect to be fixed. What must be fixed is their *replacement* by data once it
+    becomes available.
+
+    Replace first: (1) the Georgian gas cap, as soon as actual South Caucasus Pipeline
+    allocations are available; (2) the Armenia-Iran swap volume, if annual exchange
+    figures are published.
+
+    Any value added under this `source_id` must be justified in provenance.yaml,
+    otherwise it becomes indistinguishable from an invented number.
+  used_in_studies: [data_blacksea]

@@ -19,8 +19,35 @@ catalog/
 
 1. Copy an existing entry from `sources/` as a template.
 2. Fill all required fields (see `schema/source.schema.json`).
-3. Validate: `python -c "import jsonschema, yaml, json; jsonschema.validate(yaml.safe_load(open('sources/YOUR.yaml')), json.load(open('schema/source.schema.json')))"`
+3. Validate the whole catalog: `python pre-analysis/catalog/validate.py`
 4. Commit alongside the CSV and provenance update.
+
+The filename must equal the `id` field — `source_id` citations in `provenance.yaml`
+resolve by filename. Renaming a source means renaming its citations in the same commit.
+
+## Validation
+
+`validate.py` checks three things, and runs in CI (`.github/workflows/catalog.yml`):
+
+- every `sources/*.yaml` validates against the schema, and its `id` matches its filename;
+- every `source_id` cited in a `provenance.yaml` resolves to a catalog entry — a dangling
+  citation is an **error**, because it means a number in the model has no traceable origin;
+- catalog entries never cited by any provenance file — a **warning**, since a source may
+  legitimately be documented before it is used.
+
+Pass `--strict` to turn warnings into failures.
+
+## Two axes, not one
+
+`type` is the **access level** — who may receive the data (`open_source`, `internal_wb`,
+`client_confidential`, `assumption`). It is what governs publication.
+
+`category` is the **nature** of the source (`public_database`, `official_statistics`,
+`study_document`, `derived`, `modelled`) and carries no access implication. A series
+derived from public databases is `open_source` with `category: derived`.
+
+These were conflated until 2026-08-14: entries used `internal`, `public_database`,
+`official_statistics` and `derived` as `type` values, none of which the schema accepted.
 
 ## Method codes (used in provenance.yaml)
 

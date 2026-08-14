@@ -1,6 +1,7 @@
 id: blacksea_load_vre_2023
 name: "Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)"
-type: derived
+type: open_source
+category: derived
 date: "2026"
 # Composite/derived source, NOT a single portal. Underlying hourly LOAD = ENTSO-E for
 # Georgia/Armenia/Romania/Bulgaria, EPİAŞ for Türkiye; VRE = Renewables Ninja; reduced to
@@ -9,7 +10,7 @@ date: "2026"
 url: "https://transparency.entsoe.eu/"
 access_note: >
   End-to-end temporal inputs for the Black Sea model, assembled by
-  pre-analysis/run_blacksea_data.py (Load + VRE) and reduced by
+  pre-analysis/studies/blacksea_2026/run_blacksea_data.py (Load + VRE) and reduced by
   pre-analysis/representative_days/run_blacksea_repdays.py.
   All series in UTC (common reference for hourly cross-zone trade), representative
   YEAR = 2023 (only year with complete Load for all zones AND Ninja VRE).

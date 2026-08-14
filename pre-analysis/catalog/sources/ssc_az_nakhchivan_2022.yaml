@@ -1,6 +1,7 @@
 id: ssc_az_nakhchivan_2022
 name: "SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)"
-type: official_statistics
+type: open_source
+category: official_statistics
 url: "https://statistika.nmr.az/"
 access_note: >
   Data extracted from: Mammadova, Aytan (Nakhchivan State University / NSU),

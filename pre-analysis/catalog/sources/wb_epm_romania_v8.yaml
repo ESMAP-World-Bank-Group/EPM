@@ -1,6 +1,6 @@
 id: wb_epm_romania_v8
 name: "World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented"
-type: internal
+type: internal_wb
 date: "2024"
 file: "WB_EPM_RO_12_42.xlsb"
 access_note: >

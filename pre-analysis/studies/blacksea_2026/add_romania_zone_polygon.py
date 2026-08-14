@@ -3,10 +3,19 @@ add_romania_zone_polygon.py
 Adds the Romania polygon to epm/input/data_blacksea/zones.geojson,
 sourcing the geometry from the Natural Earth file in epm/resources/.
 """
+
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = _REPO_ROOT
 NE_SRC = ROOT / "epm/resources/postprocess/zones.geojson"
 DST    = ROOT / "epm/input/data_blacksea/zones.geojson"
 

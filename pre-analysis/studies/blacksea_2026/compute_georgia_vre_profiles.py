@@ -13,6 +13,15 @@ Method: seasonal mean hourly profile (4 seasons × 24 hours).
 Output: 72 rows (3 techs × 4 seasons × 6 daytypes × 24h per row)
 """
 
+# ── Moved from pre-analysis/ on 2026-08-14. The anchors below restore the
+# ── directories this script used to resolve, so its paths still hold.
+import sys as _sys
+from pathlib import Path as _Path
+
+_PRE_ANALYSIS = _Path(__file__).resolve().parents[2]   # pre-analysis/
+_REPO_ROOT = _PRE_ANALYSIS.parent                      # repository root
+_sys.path.insert(0, str(_PRE_ANALYSIS))
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -21,7 +30,7 @@ DATA_FILE = Path(
     r"C:\Users\wb590892\Documents\EPM_Models\black_sea_2026\Data\Georgia"
     r"\EPM_Georgia\2022\1. Data\Timeseries all data.xlsx"
 )
-OUT_DIR = Path(__file__).parent / "output_georgia"
+OUT_DIR = _PRE_ANALYSIS / "output_georgia"
 OUT_DIR.mkdir(exist_ok=True)
 
 ZONE = "Georgia"

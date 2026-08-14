@@ -1,0 +1,62 @@
+id: bulgaria_availability_reconstructed
+name: "Bulgarian quarterly availabilities — reconstructed by cross-referencing (ENTSO-E · PRIS · Kinesys · Turkish patterns)"
+type: internal_wb
+category: derived
+date: "2026"
+access_note: >
+  A composite source, not a document. Bulgarian quarterly availabilities were not
+  collected: they were reconstructed through four distinct routes, each with its own
+  reliability. The numeric detail is in provenance.yaml
+  (Bulgaria · pAvailabilityCustom); it is not duplicated here.
+
+  RENAMED 2026-08-14 — was called `pAvailabilityCustom_existing`, which is a resource
+  name, not a source name. The citation in provenance.yaml (Bulgaria ·
+  pAvailabilityCustom) was updated in the same move.
+
+  The four routes:
+
+  1. LIGNITE / COAL (copied pattern) — Bulgaria_Agg_Lignite taken from
+     Trakia_Agg_Lignite, Bulgaria_Agg_Coal taken from SouthEast_Agg_ImpCoal. No
+     Bulgarian data at all: this is an assumption transferred from the Turkish zones,
+     chosen because the generic default (0.65) is both too optimistic for ageing lignite
+     and too conservative for imported coal.
+
+  2. NUCLEAR (scaled) — quarterly shape drawn from actual Bulgarian ENTSO-E nuclear
+     generation 2019-2023 (K5+K6 combined), then scaled so the annual mean matches the
+     IAEA PRIS energy availability factor (see [wna_reactor_database]). The Q2 trough
+     corresponds to the refuelling outage, confirmed by ENTSO-E. Kozloduy 7/8
+     (committed VVER-1200) have no dedicated entry: generic default 0.85, constant.
+
+  3. RESERVOIR HYDRO (scaled) — seasonal shape from ENTSO-E 2019-2023, level taken from
+     the Kinesys 2025 projection (see [bg_ccdr_kinesys_2026]) rather than the historical
+     mean, since 2019-2023 was drier than normal.
+
+  4. Everything else falls back on the generic defaults ([epm_generic_defaults]).
+
+coverage:
+  countries: [Bulgaria]
+  years: "2024-2053 (shape calibrated on observed 2019-2023)"
+
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    coverage: >
+      Bulgaria — aggregated lignite and coal, Kozloduy 5 and 6, and the 16 reservoir
+      hydro plants (13 existing + 3 candidate), single quarterly profile.
+
+quality:
+  confidence: medium
+  notes: >
+    `medium` here covers very uneven reliabilities: nuclear is calibrated on measured
+    data (ENTSO-E + PRIS) and would merit `high`; lignite and coal are copied Turkish
+    patterns and are worth `low`. The overall grade is pulled down by the latter.
+
+    CRITICAL POINT, DO NOT LOSE — EPM has no hydro energy-budget constraint (no
+    pHydroEnergy). pAvailabilityCustom is the ONLY quarterly cap on water availability
+    for reservoir hydro. Without a custom entry, the model dispatches at the generic
+    default of 0.85, roughly four times actual output. Deleting or omitting this entry
+    silently distorts the Bulgarian balance.
+
+    Other limitations: a single hydro profile for all plants (no per-plant data), and
+    strong interannual variability in the observations (capacity factor 0.12 to 0.29
+    depending on the year) that an average profile does not reproduce.
+  used_in_studies: [data_blacksea]

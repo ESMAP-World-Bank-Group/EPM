@@ -1,6 +1,6 @@
 id: georgia_demand_load_2022
 name: "World Bank (internal) — Georgia Hourly Load Profile, 3% Annual Growth (2021–2040); original source undocumented"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: Team/Av. 3% Load growth (hourly profiles) 2021-2040.xlsx

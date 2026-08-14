@@ -1,6 +1,6 @@
 id: imf_energy_subsidies
 name: "IMF — Energy Subsidies Database (IMF/World Bank methodology, 2022)"
-type: internal
+type: internal_wb
 date: "2022"
 access_note: >
   File: Team/Georgia_fuel-subsidies_2022.xlsx — Sheet: data (multi-country).
