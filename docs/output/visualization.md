@@ -125,10 +125,12 @@ Update `geojson_to_epm.csv` with your zone names, then run:
 
 ```bash
 cd epm/postprocessing
-python create_geojson.py --folder tableau --geojson geojson_to_epm.csv --zcmap zcmap.csv
+python create_geojson.py --folder tableau --zcmap zcmap.csv
 ```
 
-This produces `linestring_countries.geojson` for geographic visualizations.
+This produces two files for geographic visualizations: `linestring_zcmap.geojson`
+(lines between zone centroids, used by Tableau) and `zones_zcmap.geojson`
+(one polygon per EPM zone, used by the map fill layers).
 
 **3. Open in Tableau**
 
