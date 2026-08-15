@@ -18,9 +18,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # The catalog currently lives only on the study branches. Until it is promoted
-      # to main, the job succeeds and says so, rather than failing on an expected
-      # absence.
+      # The catalog is on main, but the study branches diverged before it landed and
+      # some do not carry it. The probe keeps the job green there, saying what it
+      # skipped, rather than failing on an expected absence.
       - name: Look for the catalog
         id: probe
         run: |
