@@ -27,12 +27,15 @@ Zone-level variable renewable availability profiles (Unit: per-unit output),pVRE
 "Grid-scale storage parameters (Unit: varies; capacity in MWh, cost in USD/MWh)",pStorageDataInput,supply/pStorageDataInput.csv
 ,RESERVE,
 Planning reserve margin targets by country (Unit: per-unit share of peak demand),pPlanningReserveMargin,reserve/pPlanningReserveMargin.csv
+Zonal planning reserve margins (optional),pPlanningReserveMarginZone,reserve/pPlanningReserveMarginZone.csv
+Season used to value firm capacity for the zonal reserve (optional),pReserveSeasonFlag,reserve/pReserveSeasonFlag.csv
 Spinning reserve requirements per country (Unit: per-unit share of demand),pSpinningReserveReqCountry,reserve/pSpinningReserveReqCountry.csv
 System-wide spinning reserve requirement (Unit: MW),pSpinningReserveReqSystem,reserve/pSpinningReserveReqSystem.csv
 ,CONSTRAINT,
 System-level annual emissions cap (Unit: tCO2),pEmissionsTotal,constraint/pEmissionsTotal.csv
 Country-level annual emissions caps (Unit: tCO2),pEmissionsCountry,constraint/pEmissionsCountry.csv
 Maximum fuel consumption limits by zone and fuel (Unit: MMBtu),pMaxFuellimit,constraint/pMaxFuellimit.csv
+Maximum fuel consumption limits by zone and fuel (Unit: MMBtu) (optional),pMaxFuellimitZone,constraint/pMaxFuellimitZone.csv
 Maximum generation by zone-tech-fuel for phase-out scenarios (Unit: GWh),pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv
 Carbon pricing trajectory (Unit: USD/tCO2),pCarbonPrice,constraint/pCarbonPrice.csv
 ,TRADE,
@@ -41,6 +44,10 @@ Seasonal import and export limits with external zones (Unit: MW),pExtTransferLim
 Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
+Corridors under the historical annual trade cap (optional),pHistoricalTradeFlag,trade/pHistoricalTradeFlag.csv
+Observed historical annual transfer (Unit: GWh),pMaxAnnualTransfer,trade/pMaxAnnualTransfer.csv
+Corridors and seasons under a transfer contract (optional),pContractedTradeFlag,trade/pContractedTradeFlag.csv
+Contracted seasonal transfer volume (Unit: GWh),pContractedTradeEnergy,trade/pContractedTradeEnergy.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
 Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
 Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv

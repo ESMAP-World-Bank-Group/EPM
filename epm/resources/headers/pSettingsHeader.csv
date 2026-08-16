@@ -37,9 +37,15 @@ fApplySystemCo2Constraint
 sMinRenewableSharePct
 sRenewableTargetYear
 fApplyFuelConstraint
+fApplyZonalFuelLimit
 fApplyGenerationPhaseout
 fApplyCapitalConstraint
 sMaxCapitalInvestment
+fApplyHistoricalTradeLimit
+sHistoricalTradeLastYear
+fApplyContractedTrade
+sContractedTradeFirstYear
+fApplyZonalPlanningReserve
 fApplyMinGenShareAllHours
 fApplyMinGenCommitment
 fApplyStartupCost

@@ -126,6 +126,15 @@ Parameter
    fEnableInternalExchange      'Allow internal zone trading'
    fRemoveInternalTransferLimit 'Override internal transfer limits'
    fAllowTransferExpansion      'Permit expansion of internal transmission (set elsewhere too; redundant flag)'
+* Legacy trade constraints, off by default (see eHistoricalAnnualTransferLimit,
+* eContractedSeasonalTransfer). Introduced for the Central Asia study, whose
+* reference model froze pre-commissioning trade at observed volumes and imposed
+* CASA-1000/TUTAP take-or-pay volumes. Any study needing the same behaviour can
+* switch them on; leaving them at 0 reproduces the model exactly as it was.
+   fApplyHistoricalTradeLimit   'Cap annual flow at observed volumes up to sHistoricalTradeLastYear'
+   sHistoricalTradeLastYear     'Last year the historical trade cap applies (0 = never)'
+   fApplyContractedTrade        'Force contracted seasonal flow from sContractedTradeFirstYear'
+   sContractedTradeFirstYear    'First year contracted seasonal volumes apply (0 = never)'
    pDR                          'Discount rate applied in objective'
    fEnableCapexTrajectoryH2     'Toggle CAPEX trajectory for hydrogen assets'
    fEnableEnergyEfficiency     'Enable demand-side efficiency adjustments'
@@ -180,6 +189,12 @@ Parameters
 
 * Reserve and policy inputs
    pCapacityCredit(g,y)           'Capacity credit for planning reserves'
+* Zonal planning reserve, off by default (see eZonalPlanningReserveReq). Added for
+* the Central Asia study, whose reference model sized reserves zone by zone with
+* explicit capacity sharing along the network instead of pooling them by country.
+   pPlanningReserveMarginZone(z)  'Zonal planning reserve margin (0 = zone not constrained)'
+   pReserveSeasonFlag(q)          'Season(s) used to value firm capacity and reserve-sharing corridors'
+   pCapacityCreditPeakSeason(g,y) 'Firm capacity share of a unit in the reserve season'
    psVREForecastErrorPct          'Reserve add-on for VRE (note: duplicate naming with parameter above)'
    pCarbonPrice(y)                'Carbon price trajectory'
    pFuelCarbonContent(f)          'Fuel carbon intensity (tCO₂/MMBtu)'
@@ -203,6 +218,7 @@ Parameters
    fEnableCapacityExpansion
    fApplyRampConstraint           'Enable ramping constraints'
    fApplyFuelConstraint           'Enable fuel availability limits'
+   fApplyZonalFuelLimit           'Enable per-zone fuel availability limits (0 = off, legacy Central Asia option)'
    fApplyGenerationPhaseout       'Enable max generation by fuel constraint (phase-out)'
    fApplyCapitalConstraint        'Enable total capital constraint'
    fEnableCSP                     'Enable CSP features'
@@ -216,6 +232,7 @@ Parameters
    fApplyCountrySpinReserveConstraint 'Enable country spinning reserve constraint'
    fApplySystemSpinReserveConstraint 'Enable system spinning reserve constraint'
    fApplyPlanningReserveConstraint 'Enable planning reserve constraint'
+   fApplyZonalPlanningReserve     'Enable the zonal planning reserve constraint (0 = off, legacy Central Asia option)'
    sIntercoReserveContributionPct 'Share of interconnection capacity counted toward reserves'
    fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
    sReserveMarginPct              'Planning reserve margin target'
@@ -278,6 +295,11 @@ Positive Variables
    vStartupCost(g,q,d,t,y)                 'Startup cost accumulated within each representative slot (USD)'
    vUnmetPlanningReserveCountry(c,y)     'Country planning reserve shortfall'
    vUnmetPlanningReserveSystem(y)        'System planning reserve shortfall'
+* Zonal planning reserve, only used when fApplyZonalPlanningReserve is on.
+* vCapacityReserveFlow(z,z) is the capacity a zone keeps for itself, so the
+* diagonal is deliberately left free while off-network pairs are fixed to zero.
+   vUnmetPlanningReserveZone(z,y)        'Zonal planning reserve shortfall'
+   vCapacityReserveFlow(z,z2,y)          'Firm capacity assigned by zone z to zone z2 for reserve purposes (MW)'
    vUnmetSpinningReserveCountry(c,q,d,t,y) 'Country spinning reserve shortfall'
    vUnmetSpinningReserveSystem(q,d,t,y)  'System spinning reserve shortfall'
 
@@ -323,6 +345,7 @@ Free Variable
    vYearlyUnmetSpinningReserveCostSystem(y) 'System spinning reserve cost'
    vYearlyCO2BackstopCostSystem(y) 'System CO₂ backstop cost'
    vYearlyUnmetPlanningReserveCostCountry(c,y) 'Country planning reserve cost'
+   vYearlyUnmetPlanningReserveCostZone(z,y) 'Zonal planning reserve cost (zero unless fApplyZonalPlanningReserve)'
    vYearlyUnmetSpinningReserveCostCountry(c,y) 'Country spinning reserve cost'
    vYearlyStartupCost(z,y)        'Annual startup cost for dispatch slots'
    vYearlyFOMCost(z,y)            'Zone fixed O&M cost'
@@ -370,6 +393,7 @@ Equations
    eYearlyExportExternalCost(z,y)  'Revenue from power exported externally'
    eYearlyUnmetSpinningReserveCostCountry(c,y) 'Country spinning reserve shortfall cost'
    eYearlyUnmetPlanningReserveCostCountry(c,y) 'Country planning reserve shortfall cost'
+   eYearlyUnmetPlanningReserveCostZone(z,y) 'Zonal planning reserve shortfall cost'
    eYearlyUnmetPlanningReserveCostSystem(y) 'System planning reserve shortfall cost'
    eYearlyUnmetSpinningReserveCostSystem(y) 'System spinning reserve shortfall cost'
    eYearlyCO2BackstopCostsSystem(y) 'System CO₂ backstop expenditure'
@@ -419,6 +443,7 @@ Equations
 * ------------------------------
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
+   eZonalFuelLimit(z,f,y)         'Fuel availability constraint applied zone by zone'
    eMaxGenerationByFuel(z,tech,f,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
 
 * ------------------------------
@@ -437,6 +462,9 @@ Equations
    eSpinningReserveReqSystem(q,d,t,y) 'System spinning reserve requirement'
    ePlanningReserveReqSystem(y)   'System planning reserve requirement'
    ePlanningReserveReqCountry(c,y) 'Country planning reserve requirement'
+   eZonalPlanningReserveReq(z,y)  'Zonal planning reserve requirement'
+   eZonalPlanningReserveSupply(z,y) 'Firm capacity a zone can commit to the zonal reserve'
+   eZonalPlanningReserveTransfer(z,z2,y) 'Corridor limit on shared reserve capacity'
 
 * ------------------------------
 * Transmission and trade constraints
@@ -444,6 +472,8 @@ Equations
 * ------------------------------
    eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
    eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
+   eHistoricalAnnualTransferLimit(z,z2,y) 'Annual flow cap at observed historical volumes'
+   eContractedSeasonalTransfer(z,z2,q,y) 'Contracted seasonal transfer volume'
    eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
@@ -567,6 +597,7 @@ eYearlyTotalCost(c,y)..
                                            + vYearlyExternalTradeCost(z,y)
                                            + vAnnualizedTransmissionCapex(z,y)
                                            + vYearlyCurtailmentCost(z,y)
+                                           + vYearlyUnmetPlanningReserveCostZone(z,y)
                                            + vYearlySurplus(z,y));
 
 * ------------------------------
@@ -584,6 +615,12 @@ eYearlyUnmetSpinningReserveCostCountry(c,y)..
 * Yearly unmet planning reserve cost at the country level
 eYearlyUnmetPlanningReserveCostCountry(c,y)..
    vYearlyUnmetPlanningReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL;
+
+* Yearly unmet planning reserve cost at the zone level. Priced like the country
+* shortfall; stays at zero when the zonal constraint is off because the shortfall
+* variable is then fixed to zero in main.gms.
+eYearlyUnmetPlanningReserveCostZone(z,y)..
+   vYearlyUnmetPlanningReserveCostZone(z,y) =e= vUnmetPlanningReserveZone(z,y)*pPlanningReserveVoLL;
 
 * Yearly CO2 backstop cost at the country level                    
 eYearlyCO2BackstopCostCountry(c,y)..
@@ -780,6 +817,18 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
+* Same limit, but binding on a single zone instead of being shared across the
+* country. Off by default (fApplyZonalFuelLimit = 0) and generating no rows when
+* off, so models that do not set it behave exactly as before. Added for the
+* Central Asia 2020 study, whose reference model held its fuel limits per zone and
+* pooled them nationally only for an explicit list of (country, fuel) pairs.
+* The two equations are complements, not alternatives: a study puts the pooled
+* pairs in pMaxFuelLimit and the rest in pMaxFuelLimitZone. A zone left out of
+* pMaxFuelLimitZone is unconstrained, which is how the reference model expresses
+* "no supply limit here" - hence the > 0 test rather than a membership set.
+eZonalFuelLimit(zfmap(z,f),y)$(fApplyZonalFuelLimit and pMaxFuelLimitZone(z,f,y) > 0)..
+   vFuel(z,f,y) =l= pMaxFuelLimitZone(z,f,y)*1e6;
+
 * Phase-out constraint: limits annual generation by zone-technology-fuel combination
 eMaxGenerationByFuel(z,tech,f,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
    sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))/1e3 =l= pMaxGenerationByFuel(z,tech,f,y);
@@ -925,6 +974,36 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
    sum(g, vCap(g,y)*pCapacityCredit(g,y)) + vUnmetPlanningReserveSystem(y)
    =g= (1+sReserveMarginPct)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
+* --- Zonal planning reserve, inactive unless explicitly switched on -----------
+* Off by default (fApplyZonalPlanningReserve = 0) and generating no rows at all
+* when off, so models that do not set it behave exactly as before. Added for the
+* Central Asia 2020 study, whose reference model imposed a 15% margin on each of
+* its 16 zones rather than pooling reserves by country. It is an alternative to
+* ePlanningReserveReqCountry, not a complement: a study that switches it on will
+* normally leave pPlanningReserveMargin(c) empty, otherwise both apply at once.
+*
+* The three equations work together. vCapacityReserveFlow(z,z2,y) is the firm
+* capacity zone z commits to zone z2; the diagonal vCapacityReserveFlow(z,z,y) is
+* what a zone keeps for itself, which is why the diagonal is left free in main.gms
+* while off-network pairs are fixed to zero. Requirement side, per zone:
+   eZonalPlanningReserveReq(z,y)$(fApplyZonalPlanningReserve and pPlanningReserveMarginZone(z))..
+   sum(z2, vCapacityReserveFlow(z2,z,y)) + vUnmetPlanningReserveZone(z,y)
+   =g= (1+pPlanningReserveMarginZone(z))*smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
+
+* Supply side: a zone cannot commit more than the firm capacity it owns, valued in
+* the reserve season (pReserveSeasonFlag) rather than over the whole year. Note the
+* requirement above is still driven by the zone's annual peak, whichever season it
+* falls in - that asymmetry is in the reference model and is kept deliberately.
+   eZonalPlanningReserveSupply(z,y)$(fApplyZonalPlanningReserve and pPlanningReserveMarginZone(z))..
+   sum(z2, vCapacityReserveFlow(z,z2,y)) =l= sum(gzmap(g,z), pCapacityCreditPeakSeason(g,y)*vCap(g,y));
+
+* Network side: capacity shared in both directions over a corridor cannot exceed
+* its transfer limit in the reserve season. Expansion is not counted, matching the
+* reference model.
+   eZonalPlanningReserveTransfer(sTopology(z,z2),y)$(fApplyZonalPlanningReserve)..
+   vCapacityReserveFlow(z,z2,y) + vCapacityReserveFlow(z2,z,y)
+   =l= sum(q$pReserveSeasonFlag(q), pTransferLimit(z,z2,q,y));
+
 
 * ------------------------------
 * Transfer equations
@@ -936,7 +1015,33 @@ eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
-   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
+   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
+
+* --- Legacy trade constraints, inactive unless explicitly switched on ---------
+* Both are disabled by default (fApply... = 0) and generate no rows at all when
+* off, so models that do not set them behave exactly as before. They were added
+* for the Central Asia 2020 study; see the comment next to their flags.
+
+* Caps annual flow on a corridor at its observed historical volume, up to and
+* including sHistoricalTradeLastYear. Corridors whose observed volume is zero
+* still need the constraint, so membership is carried by pHistoricalTradeFlag
+* and not by pMaxAnnualTransfer being non-zero: a zero in the CSV is read as
+* missing, which would silently drop exactly the corridors meant to be closed.
+eHistoricalAnnualTransferLimit(sTopology(z,z2),y)$(fApplyHistoricalTradeLimit
+                                                  and pHistoricalTradeFlag(z,z2)
+                                                  and y.val <= sHistoricalTradeLastYear)..
+   sum((q,d,t), vFlow(z,z2,q,d,t,y)*pHours(q,d,t)) =l= pMaxAnnualTransfer(z,z2)*1e3;
+
+* Forces the seasonal energy delivered on a contracted corridor to its
+* take-or-pay volume from sContractedTradeFirstYear onwards. This is an
+* equality: a flagged (corridor, season) with no volume is held at zero flow,
+* which is how the reference model suppressed counter-flows on contracted
+* pairs. The season is data, not a hard-coded set, so the same equation serves
+* contracts written on any season.
+eContractedSeasonalTransfer(sTopology(z,z2),q,y)$(fApplyContractedTrade
+                                                  and pContractedTradeFlag(z,z2,q)
+                                                  and y.val >= sContractedTradeFirstYear)..
+   sum((d,t), vFlow(z,z2,q,d,t,y)*pHours(q,d,t)) =e= pContractedTradeEnergy(z,z2,q,y)*1e3;
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
@@ -1178,6 +1283,7 @@ Model PA /
    eYearlyExportExternalCost
    eYearlyUnmetSpinningReserveCostCountry
    eYearlyUnmetPlanningReserveCostCountry
+   eYearlyUnmetPlanningReserveCostZone
    eYearlyCarbonCost
    eYearlyCurtailmentCost
    eYearlyCO2BackstopCostCountry
@@ -1218,9 +1324,13 @@ Model PA /
    eSpinningReserveReqSystem
    ePlanningReserveReqCountry
    ePlanningReserveReqSystem
+   eZonalPlanningReserveReq
+   eZonalPlanningReserveSupply
+   eZonalPlanningReserveTransfer
    
    eVREProfile
    eFuelLimit
+   eZonalFuelLimit
    eMaxGenerationByFuel
    eCapitalConstraint
    eZonalEmissions
@@ -1234,6 +1344,8 @@ Model PA /
    
    eTransferCapacityLimit
    eMinImportRequirement
+   eHistoricalAnnualTransferLimit
+   eContractedSeasonalTransfer
    eAnnualizedTransmissionCapex
    eCumulativeTransferExpansion
    eSymmetricTransferBuild

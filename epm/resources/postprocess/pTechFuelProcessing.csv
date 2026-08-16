@@ -64,3 +64,16 @@ PV,PV,PV,orange
 Wind,Wind,Onshore Wind,darkturquoise
 STO HY,Water,Reservoir,darkblue
 Biogas,Biogas,Biomass,green
+# EPM v7.9 vocabulary, used by data_casa_2020 (display mapping only)
+CHP,Gas,Gas,lightcoral
+CHP,Coal,Coal,dimgray
+CHP,Coal_KAZ_S,Coal,dimgray
+CHP,HFO,Diesel,saddlebrown
+ST,Coal_KAZ_S,Coal,dimgray
+ST,LNG,Gas,lightcoral
+ST,UR,Nuclear,pink
+GT,LNG,Gas,lightcoral
+ICE,LNG,Gas,lightcoral
+HY,Water,Reservoir,darkblue
+WT,Wind,Onshore Wind,darkturquoise
+INT,Import,Imports,tan

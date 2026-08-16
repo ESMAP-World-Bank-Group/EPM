@@ -84,6 +84,8 @@ $if not set pStorageDataInputGeneric $set pStorageDataInputGeneric %FOLDER_RESOU
 
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
+$if not set pPlanningReserveMarginZone $set pPlanningReserveMarginZone %FOLDER_INPUT%/reserve/pPlanningReserveMarginZone.csv
+$if not set pReserveSeasonFlag $set pReserveSeasonFlag %FOLDER_INPUT%/reserve/pReserveSeasonFlag.csv
 $if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry %FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
 $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
 
@@ -97,12 +99,20 @@ $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
 $if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
+* Optional legacy trade constraints (see base.gms). The files are expected to
+* exist like every other input, but a header-only file is the normal case.
+$if not set pHistoricalTradeFlag $set pHistoricalTradeFlag %FOLDER_INPUT%/trade/pHistoricalTradeFlag.csv
+$if not set pMaxAnnualTransfer $set pMaxAnnualTransfer %FOLDER_INPUT%/trade/pMaxAnnualTransfer.csv
+$if not set pContractedTradeFlag $set pContractedTradeFlag %FOLDER_INPUT%/trade/pContractedTradeFlag.csv
+$if not set pContractedTradeEnergy $set pContractedTradeEnergy %FOLDER_INPUT%/trade/pContractedTradeEnergy.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
 $if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/pEmissionsCountry.csv
 $if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
 $if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
+* Optional per-zone fuel limit (see base.gms). Normally an empty file.
+$if not set pMaxFuellimitZone $set pMaxFuellimitZone %FOLDER_INPUT%/constraint/pMaxFuellimitZone.csv
 $if not set pMaxGenerationByFuel $set pMaxGenerationByFuel %FOLDER_INPUT%/constraint/pMaxGenerationByFuel.csv
 
 * H2 RELATED
@@ -461,6 +471,27 @@ $onEmbeddedCode Connect:
     valueColumns: [2]
     type: par
 
+# Optional zonal planning reserve (see base.gms). Both files are normally empty.
+- CSVReader:
+    trace: %TRACE%
+    file: %pPlanningReserveMarginZone%
+    name: pPlanningReserveMarginZone
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pReserveSeasonFlag%
+    name: pReserveSeasonFlag
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
+
 - CSVReader:
     trace: %TRACE%
     file: %pSpinningReserveReqCountry%
@@ -567,6 +598,49 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+# Optional legacy trade constraints (see base.gms). The two flag parameters
+# carry corridor membership on their own precisely because a 0 volume is read
+# as missing here: without them the corridors held at zero flow would vanish.
+- CSVReader:
+    trace: %TRACE%
+    file: %pHistoricalTradeFlag%
+    name: pHistoricalTradeFlag
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    valueColumns: [3]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxAnnualTransfer%
+    name: pMaxAnnualTransfer
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    valueColumns: [3]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pContractedTradeFlag%
+    name: pContractedTradeFlag
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3]
+    valueColumns: [4]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pContractedTradeEnergy%
+    name: pContractedTradeEnergy
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+
 
 # ENVIRONMENTAL CONSTRAINT
 
@@ -605,6 +679,17 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pMaxFuellimit%
     name: pMaxFuellimit
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+# Optional per-zone fuel limit (see base.gms). Normally an empty file.
+- CSVReader:
+    trace: %TRACE%
+    file: %pMaxFuellimitZone%
+    name: pMaxFuellimitZone
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]

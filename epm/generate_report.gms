@@ -1026,6 +1026,13 @@ pReserveMargin(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEn
 pReserveMargin(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
 pReserveMargin(z,"ReserveMargin",y)$(pReserveMargin(z,"TotalFirmCapacity",y)) = pReserveMargin(z,"TotalFirmCapacity",y)/pReserveMargin(z,"Peak demand: MW",y)  ;             
 
+* Zonal planning reserve diagnostics. All three stay at zero when the optional
+* zonal constraint is off (see fApplyZonalPlanningReserve in base.gms), so they add
+* nothing to the report for models that do not use it.
+pReserveMargin(z,"ZonalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCreditPeakSeason(g,y)*vCap.l(g,y));
+pReserveMargin(z,"ZonalReserveReceived",y) = sum(z2, vCapacityReserveFlow.l(z2,z,y));
+pReserveMargin(z,"ZonalReserveShortfall",y) = vUnmetPlanningReserveZone.l(z,y);
+
 pReserveMarginCountry(c,"Peak demand: MW",y) =   pCapacitySummaryCountry(c,"Peak demand: MW"       ,y);
 pReserveMarginCountry(c,"TotalFirmCapacity",y) = sum(zcmap(z,c), pReserveMargin(z,"TotalFirmCapacity",y));
 pReserveMarginCountry(c,"ReserveMargin",y)$(pReserveMarginCountry(c,"TotalFirmCapacity",y)) = pReserveMarginCountry(c,"TotalFirmCapacity",y)/ pReserveMarginCountry(c,"Peak demand: MW",y)  ;   
@@ -1473,7 +1480,8 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatch, pDispatchTechFuel,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMarginCountry,
+      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMargin, pReserveMarginCountry,
+      pCapacityCreditPeakSeason,
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,

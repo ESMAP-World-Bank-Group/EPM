@@ -187,6 +187,9 @@ Parameter
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
+* Optional per-zone fuel limit, only read when fApplyZonalFuelLimit is switched on
+* in pSettings (see base.gms). An empty file is the normal case.
+   pMaxFuellimitZone(z,f,y)                              'Fuel limit in MMBTU*1e6 (million) by zone'
    pMaxGenerationByFuel(z,tech,f,y)                      'Max annual generation by zone-tech-fuel [GWh]'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
@@ -213,6 +216,12 @@ Parameter
    pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                                    'Minimum import requirements'
    pLossFactorInternal(z,z2,y)                           'Transmission loss factors'
+* Optional legacy trade constraints, only read when the matching flag in
+* pSettings is switched on (see base.gms). Empty files are the normal case.
+   pHistoricalTradeFlag(z,z2)                            'Corridor subject to the historical annual trade cap'
+   pMaxAnnualTransfer(z,z2)                              'Observed historical annual transfer (GWh)'
+   pContractedTradeFlag(z,z2,q)                          'Corridor and season under a transfer contract'
+   pContractedTradeEnergy(z,z2,q,y)                      'Contracted seasonal transfer volume (GWh)'
    
 * VRE and availability
    pVREProfile(z,tech,q,d,t)                             'VRE generation profiles by site'
@@ -225,7 +234,11 @@ Parameter
    pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
    pSpinningReserveReqSystem(y)                          'System spinning reserve requirements'
    pPlanningReserveMargin(c)                             'Planning reserve margins'
-   
+* Optional zonal planning reserve, only read when fApplyZonalPlanningReserve is
+* switched on in pSettings (see base.gms). Empty files are the normal case.
+   pPlanningReserveMarginZone(z)                          'Zonal planning reserve margin'
+   pReserveSeasonFlag(q)                                  'Season(s) used to value firm capacity for the zonal reserve'
+
 * Other parameters
    pSettings(pSettingsHeader)                            'Model settings and penalties'
    pEnergyEfficiencyFactor(z,y)                          'Energy efficiency adjustment factors'
@@ -269,16 +282,19 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxFuellimitZone pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
-$load pPlanningReserveMargin  
+$load pPlanningReserveMargin
+$load pPlanningReserveMarginZone, pReserveSeasonFlag
 
 * Load trade data
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxAnnualExternalTradeShare
+$load pHistoricalTradeFlag, pMaxAnnualTransfer
+$load pContractedTradeFlag, pContractedTradeEnergy
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -467,10 +483,16 @@ fApplySystemSpinReserveConstraint = pSettings("fApplySystemSpinReserveConstraint
 psVREForecastErrorPct              = pSettings("sVREForecastErrorPct");
 sIntercoReserveContributionPct     = pSettings("sIntercoReserveContributionPct");
 fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
+* Optional zonal planning reserve. Absent from pSettings.csv means 0, so this
+* stays off unless a study asks for it (Central Asia 2020 does).
+fApplyZonalPlanningReserve         = pSettings("fApplyZonalPlanningReserve");
 
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
+* Optional per-zone fuel limit. Absent from pSettings.csv means 0, so this stays
+* off unless a study asks for it (Central Asia 2020 does).
+fApplyZonalFuelLimit               = pSettings("fApplyZonalFuelLimit");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
@@ -488,6 +510,12 @@ fEnableInternalExchange            = pSettings("fEnableInternalExchange");
 fRemoveInternalTransferLimit       = pSettings("fRemoveInternalTransferLimit");
 fAllowTransferExpansion            = pSettings("fAllowTransferExpansion");
 fAllowTransferExpansion            = fAllowTransferExpansion * fEnableCapacityExpansion;
+* Optional legacy trade constraints. Absent from pSettings.csv means 0, so
+* these stay off unless a study asks for them (Central Asia 2020 does).
+fApplyHistoricalTradeLimit         = pSettings("fApplyHistoricalTradeLimit");
+sHistoricalTradeLastYear           = pSettings("sHistoricalTradeLastYear");
+fApplyContractedTrade              = pSettings("fApplyContractedTrade");
+sContractedTradeFirstYear          = pSettings("sContractedTradeFirstYear");
 
 fEnableExternalExchange            = pSettings("fEnableExternalExchange");
 sMaxHourlyImportExternalShare                 = pSettings("sMaxHourlyImportExternalShare");
@@ -660,6 +688,18 @@ pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenP
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
 
+* Capacity credit used by the optional zonal planning reserve only (see base.gms).
+* Unlike pCapacityCredit above, which averages over the year, this values a unit in
+* the reserve season alone: seasonal availability for a firm unit, and the best hour
+* of that season for a variable one. Left at zero when no reserve season is flagged,
+* which is the normal case and harmless because the equations are then off too.
+* The season filter sits on the expression rather than on the smax domain: with no
+* season flagged the domain would be empty and smax would return -INF, which then
+* multiplies a zero availability into an undefined product.
+pCapacityCreditPeakSeason(g,y) = sum(q$pReserveSeasonFlag(q), pAvailability(g,y,q));
+pCapacityCreditPeakSeason(VRE,y) = sum(q$pReserveSeasonFlag(q), pAvailability(VRE,y,q))
+                                 * smax((q,d,t), pVREgenProfile(VRE,q,d,t)$pReserveSeasonFlag(q));
+
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
 pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pVREProfile(z,tech,q,d,t));
@@ -737,7 +777,18 @@ sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"Earlies
 vNewTransmissionLine.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 vNewTransmissionLine.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
 
-* Compute bounds 
+* Reserve capacity can only be shared along an existing corridor, or kept by the
+* zone itself. Fixing the off-network pairs is what makes sum(z2,...) in
+* eZonalPlanningReserveReq a network sum rather than a free pool; the diagonal is
+* deliberately left open. Everything is fixed to zero when the constraint is off,
+* so the variables never reach the solver in that case.
+vCapacityReserveFlow.fx(z,z2,y)$(not sTopology(z,z2) and ord(z) <> ord(z2)) = 0;
+if(fApplyZonalPlanningReserve = 0,
+   vCapacityReserveFlow.fx(z,z2,y)     = 0;
+   vUnmetPlanningReserveZone.fx(z,y)   = 0;
+);
+
+* Compute bounds
 vBuildTransmissionLine.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
 vBuildTransmissionLine.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
 
