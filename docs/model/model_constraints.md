@@ -263,7 +263,11 @@ $$
   \qquad (\texttt{fApplyContractedTrade} = 2).
 $$
 
-Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow, which also suppresses counter-flows. Mode 2 is a take-or-pay floor: the optimiser may send more. Both are hard constraints — a volume the corridor cannot carry makes the model infeasible rather than reporting a shortfall.
+Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow. Mode 2 is a take-or-pay floor: the optimiser may send more.
+
+Both modes are **directional**: the equation is written on the ordered pair $(z, z_2)$, so flow in the opposite direction stays free. Flagging `(z, z2)` with a zero volume empties that direction only — to close a corridor in both senses, flag `(z, z2)` and `(z2, z)`.
+
+Both modes are also hard constraints — a volume the corridor cannot physically carry makes the model infeasible rather than reporting a shortfall. The solver names the offending row explicitly, for example `Row 'eContractedSeasonalTransfer(DRC,Congo,Q1,2025)' infeasible, all entries at implied bounds`, which identifies the corridor, season and year at fault.
 
 ---
 
