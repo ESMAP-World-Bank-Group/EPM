@@ -103,6 +103,8 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
+!epm/input/data_casa_2020/
+!epm/input/data_casa_2020/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
@@ -111,6 +113,11 @@ epm/input/*
 epm/input/data_test/**/sensitivity/
 epm/input/data_test/**/assessment/
 epm/input/data_test/**/montecarlo/
+
+# Exclude generated folders within data_casa_2020
+epm/input/data_casa_2020/**/sensitivity/
+epm/input/data_casa_2020/**/assessment/
+epm/input/data_casa_2020/**/montecarlo/
 
 # Documentation
 /doc/todo.md

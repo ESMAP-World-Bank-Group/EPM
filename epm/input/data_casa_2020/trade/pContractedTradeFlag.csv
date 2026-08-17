@@ -1,0 +1,6 @@
+zone1,zone2,q,value
+KGZ_S,TAJ_N,Q3,1
+PAK_N,TAJ_S,Q3,1
+TAJ_N,KGZ_S,Q3,1
+TAJ_S,NEPS_TAJ,Q3,1
+TAJ_S,PAK_N,Q3,1

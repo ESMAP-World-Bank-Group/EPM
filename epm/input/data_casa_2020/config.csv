@@ -1,0 +1,38 @@
+metadata,paramNames,file
+modeltype type (MIP or RMIP),modeltype,RMIP
+Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
+,GENERAL,
+Global model switches,pSettings,pSettings.csv
+Planning horizon years,y,y.csv
+Zone to country mapping,zcmap,zcmap.csv
+Representative hours per timeslice,pHours,pHours.csv
+Technology-fuel vocabulary (v7.9),pTechFuel,pTechFuel.csv
+Fuel CO2 content,pFuelCarbonContent,pFuelCarbonContent.csv
+,LOAD,
+Demand by zone and timeslice,pDemandData,load/pDemandData.csv
+,SUPPLY,
+Generator data,pGenDataInput,supply/pGenDataInput.csv
+Seasonal availability,pAvailability,supply/pAvailabilityCustom.csv
+Fuel prices,pFuelPrice,supply/pFuelPrice.csv
+Zonal VRE profiles,pVREProfile,supply/pVREProfile.csv
+,RESERVE,
+Planning reserve margin,pPlanningReserveMargin,reserve/pPlanningReserveMargin.csv
+Zonal planning reserve margins (optional),pPlanningReserveMarginZone,reserve/pPlanningReserveMarginZone.csv
+Season used to value firm capacity for the zonal reserve (optional),pReserveSeasonFlag,reserve/pReserveSeasonFlag.csv
+Country spinning reserve,pSpinningReserveReqCountry,reserve/pSpinningReserveReqCountry.csv
+System spinning reserve,pSpinningReserveReqSystem,reserve/pSpinningReserveReqSystem.csv
+,CONSTRAINT,
+Fuel availability limits,pMaxFuellimit,constraint/pMaxFuellimit.csv
+Fuel availability limits by zone (optional),pMaxFuellimitZone,constraint/pMaxFuellimitZone.csv
+Carbon price trajectory,pCarbonPrice,constraint/pCarbonPrice.csv
+,TRADE,
+Transfer limits,pTransferLimit,trade/pTransferLimit.csv
+Internal loss factors,pLossFactorInternal,trade/pLossFactorInternal.csv
+Corridors under the historical annual trade cap,pHistoricalTradeFlag,trade/pHistoricalTradeFlag.csv
+Observed historical annual transfer (Unit: GWh),pMaxAnnualTransfer,trade/pMaxAnnualTransfer.csv
+Corridors and seasons under a transfer contract,pContractedTradeFlag,trade/pContractedTradeFlag.csv
+Contracted seasonal transfer volume (Unit: GWh),pContractedTradeEnergy,trade/pContractedTradeEnergy.csv
+,GENERIC DEFAULTS (neutralised),
+No generic availability,pAvailabilityGeneric,generic/pAvailabilityGeneric.csv
+No generic capex trajectory,pCapexTrajectoriesGeneric,generic/pCapexTrajectoriesGeneric.csv
+No generic generator data,pGenDataInputGeneric,generic/pGenDataInputGeneric.csv
