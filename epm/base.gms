@@ -163,7 +163,8 @@ Parameters
 * External exchange data
    fEnableExternalExchange          'Permit external exchange'
    pMaxAnnualExternalTradeShare(y,c) 'Annual import/export share cap by country'
-   pTradePrice(zext,q,d,y,t)      'Border price for external trades'
+   pTradePrice(zext,q,d,y,t)      'Border price for external trades (paid on imports)'
+   pTradePriceExport(zext,q,d,y,t) 'Border price received on exports (defaults to pTradePrice when not supplied)'
    sMaxHourlyImportExternalShare  'Hourly import cap (share of demand)'
    sMaxHourlyExportExternalShare  'Hourly export cap (share of demand)'
    pExtTransferLimit(z,zext,q,*,y) 'Full external transfer limit tensor'
@@ -683,7 +684,7 @@ eYearlyImportExternalCost(z,y)..
 
 * Yearly export cost to external zones
 eYearlyExportExternalCost(z,y)..
-   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pTradePriceExport(zext,q,d,y,t)*pHours(q,d,t));
 
 * Yearly CO2 emissions cost for each zone
 eYearlyCarbonCost(z,y)..

@@ -96,6 +96,9 @@ $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLD
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
+* Optional. Falls back to the import price file, which reproduces the historical
+* behaviour exactly: an input folder that supplies no export price is unaffected.
+$if not set pTradePriceExport $set pTradePriceExport %pTradePrice%
 $if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
 
 * CONSTRAINT
@@ -521,6 +524,16 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pTradePrice%
     name: pTradePrice
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3, 4]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pTradePriceExport%
+    name: pTradePriceExport
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3, 4]

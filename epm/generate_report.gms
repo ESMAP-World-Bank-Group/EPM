@@ -1213,7 +1213,7 @@ pFlowMWh(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
 * Average price of exports and imports, weighted by actual flows on the lines
 pPriceExport(z,y) $(sum(Zd, pFlowMWh(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pHourlyPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
-                                                           + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y) * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))) 
+                                                           + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y) * pTradePriceExport(zext,q,d,y,t) * pHours(q,d,t)))
                                                          /(sum(Zd, pFlowMWh(z,Zd,y))+ sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)* pHours(q,d,t)));
 
 pPriceImport(z,y) $(sum(Zd, pFlowMWh(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pHourlyPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
@@ -1477,7 +1477,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
-      pExtTransferLimit, pTradePrice,
+      pExtTransferLimit, pTradePrice, pTradePriceExport,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone,
 * 8. METRICS
@@ -1526,7 +1526,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
       pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
       pNetImport,
-      pExtTransferLimit, pTradePrice,
+      pExtTransferLimit, pTradePrice, pTradePriceExport,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
       pEmissionMarginalCosts, pEmissionMarginalCostsCountry,

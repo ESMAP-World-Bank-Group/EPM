@@ -1,0 +1,345 @@
+{
+  "lambda": 0.03,
+  "lambda_incidence": "seller, in each direction",
+  "W_eur2024_per_mwh": 2.0,
+  "eur_usd_2024": 1.0824,
+  "export_floor_usd": 0.01,
+  "cbam_start": 2026,
+  "cbam_phase_in": "none for electricity (no free allocation in the EU)",
+  "facing": {
+    "Bulgaria": {
+      "internal_zone": "Trakia",
+      "exporter": "T\u00fcrkiye"
+    },
+    "Greece": {
+      "internal_zone": "Trakia",
+      "exporter": "T\u00fcrkiye"
+    },
+    "Romania": {
+      "internal_zone": "Georgia",
+      "exporter": "Georgia"
+    }
+  },
+  "emission_factors_annex3": {
+    "T\u00fcrkiye": 0.718,
+    "Georgia": 0.44
+  },
+  "ets_eur2024": {
+    "2024": 64.8,
+    "2025": 74.39653312788906,
+    "2026": 83.99306625577812,
+    "2027": 93.58959938366718,
+    "2028": 103.18613251155624,
+    "2029": 112.7826656394453,
+    "2030": 122.37919876733436,
+    "2031": 126.0052491011813,
+    "2032": 129.63129943502824,
+    "2033": 133.2573497688752,
+    "2034": 136.88340010272213,
+    "2035": 140.50945043656907,
+    "2036": 144.13550077041603,
+    "2037": 147.76155110426296,
+    "2038": 151.3876014381099,
+    "2039": 155.01365177195686,
+    "2040": 158.6397021058038,
+    "2041": 160.90598356445813,
+    "2042": 163.1722650231125,
+    "2043": 165.43854648176682,
+    "2044": 167.70482794042115,
+    "2045": 169.9711093990755,
+    "2046": 172.23739085772985,
+    "2047": 174.50367231638418,
+    "2048": 176.76995377503852,
+    "2049": 179.03623523369288,
+    "2050": 181.3025166923472,
+    "2051": 181.3025166923472,
+    "2052": 181.3025166923472,
+    "2053": 181.3025166923472
+  },
+  "export_raw_mean_usd_CENTRAL": {
+    "Bulgaria": {
+      "2026_REF_raw_mean_usd": 95.78,
+      "2026_CBAM_raw_mean_usd": 30.5,
+      "2030_REF_raw_mean_usd": 87.99,
+      "2030_CBAM_raw_mean_usd": -7.12,
+      "2040_REF_raw_mean_usd": 89.31,
+      "2040_CBAM_raw_mean_usd": -33.98
+    },
+    "Greece": {
+      "2026_REF_raw_mean_usd": 96.55,
+      "2026_CBAM_raw_mean_usd": 31.27,
+      "2030_REF_raw_mean_usd": 88.96,
+      "2030_CBAM_raw_mean_usd": -6.14,
+      "2040_REF_raw_mean_usd": 94.17,
+      "2040_CBAM_raw_mean_usd": -29.12
+    },
+    "Romania": {
+      "2026_REF_raw_mean_usd": 96.33,
+      "2026_CBAM_raw_mean_usd": 56.33,
+      "2030_REF_raw_mean_usd": 85.67,
+      "2030_CBAM_raw_mean_usd": 27.39,
+      "2040_REF_raw_mean_usd": 86.97,
+      "2040_CBAM_raw_mean_usd": 11.42
+    }
+  },
+  "G4a_positive": {
+    "min_written_usd": 0.01,
+    "floor_usd": 0.01,
+    "pass": true
+  },
+  "G4b_spread": {
+    "min_spread_usd": 2.1548000000000003,
+    "by_variant": {
+      "CBAM": {
+        "mean_usd": 74.8552074496235,
+        "min_usd": 2.1548000000000003,
+        "max_usd": 165.51303904534927
+      },
+      "REF": {
+        "mean_usd": 7.535458660507338,
+        "min_usd": 2.1548000000000003,
+        "max_usd": 24.611395004671294
+      }
+    },
+    "pass": true
+  },
+  "G4c_no_zero": {
+    "decimals": 4,
+    "n_rounding_to_zero": 0,
+    "pass": true
+  },
+  "G4d_floored_share": {
+    "tolerance_ref": 0.02,
+    "detail": {
+      "Bulgaria|CENTRAL|CBAM": {
+        "share_floored": 0.6907,
+        "raw_min_usd": -108.37,
+        "first_year": 2024
+      },
+      "Bulgaria|CENTRAL|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 32.03,
+        "first_year": 2024
+      },
+      "Bulgaria|EU_HIGH|CBAM": {
+        "share_floored": 0.2325,
+        "raw_min_usd": -79.06,
+        "first_year": 2024
+      },
+      "Bulgaria|EU_HIGH|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 36.46,
+        "first_year": 2024
+      },
+      "Bulgaria|HIGH|CBAM": {
+        "share_floored": 0.4188,
+        "raw_min_usd": -84.37,
+        "first_year": 2024
+      },
+      "Bulgaria|HIGH|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 33.09,
+        "first_year": 2024
+      },
+      "Bulgaria|LOW|CBAM": {
+        "share_floored": 0.7864,
+        "raw_min_usd": -122.56,
+        "first_year": 2024
+      },
+      "Bulgaria|LOW|REF": {
+        "share_floored": 0.018,
+        "raw_min_usd": 18.34,
+        "first_year": 2024
+      },
+      "Bulgaria|VERY_LOW|CBAM": {
+        "share_floored": 0.8303,
+        "raw_min_usd": -126.48,
+        "first_year": 2024
+      },
+      "Bulgaria|VERY_LOW|REF": {
+        "share_floored": 0.0193,
+        "raw_min_usd": 13.74,
+        "first_year": 2024
+      },
+      "Greece|CENTRAL|CBAM": {
+        "share_floored": 0.6906,
+        "raw_min_usd": -94.07,
+        "first_year": 2024
+      },
+      "Greece|CENTRAL|REF": {
+        "share_floored": 0.0045,
+        "raw_min_usd": 44.19,
+        "first_year": 2024
+      },
+      "Greece|EU_HIGH|CBAM": {
+        "share_floored": 0.1446,
+        "raw_min_usd": -46.55,
+        "first_year": 2024
+      },
+      "Greece|EU_HIGH|REF": {
+        "share_floored": 0.0045,
+        "raw_min_usd": 49.98,
+        "first_year": 2024
+      },
+      "Greece|HIGH|CBAM": {
+        "share_floored": 0.2078,
+        "raw_min_usd": -42.25,
+        "first_year": 2024
+      },
+      "Greece|HIGH|REF": {
+        "share_floored": 0.0045,
+        "raw_min_usd": 49.98,
+        "first_year": 2024
+      },
+      "Greece|LOW|CBAM": {
+        "share_floored": 0.8348,
+        "raw_min_usd": -121.44,
+        "first_year": 2024
+      },
+      "Greece|LOW|REF": {
+        "share_floored": 0.007,
+        "raw_min_usd": 19.46,
+        "first_year": 2024
+      },
+      "Greece|VERY_LOW|CBAM": {
+        "share_floored": 0.85,
+        "raw_min_usd": -121.32,
+        "first_year": 2024
+      },
+      "Greece|VERY_LOW|REF": {
+        "share_floored": 0.0077,
+        "raw_min_usd": 18.44,
+        "first_year": 2024
+      },
+      "Romania|CENTRAL|CBAM": {
+        "share_floored": 0.3277,
+        "raw_min_usd": -55.0,
+        "first_year": 2024
+      },
+      "Romania|CENTRAL|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 30.86,
+        "first_year": 2024
+      },
+      "Romania|EU_HIGH|CBAM": {
+        "share_floored": 0.1089,
+        "raw_min_usd": -22.83,
+        "first_year": 2024
+      },
+      "Romania|EU_HIGH|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 36.87,
+        "first_year": 2024
+      },
+      "Romania|HIGH|CBAM": {
+        "share_floored": 0.1659,
+        "raw_min_usd": -36.2,
+        "first_year": 2024
+      },
+      "Romania|HIGH|REF": {
+        "share_floored": 0.0164,
+        "raw_min_usd": 30.5,
+        "first_year": 2024
+      },
+      "Romania|LOW|CBAM": {
+        "share_floored": 0.5478,
+        "raw_min_usd": -67.04,
+        "first_year": 2024
+      },
+      "Romania|LOW|REF": {
+        "share_floored": 0.0179,
+        "raw_min_usd": 19.3,
+        "first_year": 2024
+      },
+      "Romania|VERY_LOW|CBAM": {
+        "share_floored": 0.6762,
+        "raw_min_usd": -71.73,
+        "first_year": 2024
+      },
+      "Romania|VERY_LOW|REF": {
+        "share_floored": 0.0193,
+        "raw_min_usd": 14.14,
+        "first_year": 2024
+      }
+    },
+    "cbam_extinction": {
+      "Bulgaria|CENTRAL": {
+        "first_year_majority_floored": 2029,
+        "share_2030": 0.592,
+        "share_2040": 0.824
+      },
+      "Bulgaria|EU_HIGH": {
+        "first_year_majority_floored": null,
+        "share_2030": 0.161,
+        "share_2040": 0.249
+      },
+      "Bulgaria|HIGH": {
+        "first_year_majority_floored": 2030,
+        "share_2030": 0.561,
+        "share_2040": 0.411
+      },
+      "Bulgaria|LOW": {
+        "first_year_majority_floored": 2029,
+        "share_2030": 0.628,
+        "share_2040": 0.976
+      },
+      "Bulgaria|VERY_LOW": {
+        "first_year_majority_floored": 2029,
+        "share_2030": 0.753,
+        "share_2040": 0.996
+      },
+      "Greece|CENTRAL": {
+        "first_year_majority_floored": 2029,
+        "share_2030": 0.626,
+        "share_2040": 0.821
+      },
+      "Greece|EU_HIGH": {
+        "first_year_majority_floored": null,
+        "share_2030": 0.082,
+        "share_2040": 0.15
+      },
+      "Greece|HIGH": {
+        "first_year_majority_floored": null,
+        "share_2030": 0.448,
+        "share_2040": 0.234
+      },
+      "Greece|LOW": {
+        "first_year_majority_floored": 2028,
+        "share_2030": 0.799,
+        "share_2040": 0.991
+      },
+      "Greece|VERY_LOW": {
+        "first_year_majority_floored": 2028,
+        "share_2030": 0.839,
+        "share_2040": 1.0
+      },
+      "Romania|CENTRAL": {
+        "first_year_majority_floored": 2049,
+        "share_2030": 0.213,
+        "share_2040": 0.378
+      },
+      "Romania|EU_HIGH": {
+        "first_year_majority_floored": null,
+        "share_2030": 0.098,
+        "share_2040": 0.116
+      },
+      "Romania|HIGH": {
+        "first_year_majority_floored": null,
+        "share_2030": 0.22,
+        "share_2040": 0.162
+      },
+      "Romania|LOW": {
+        "first_year_majority_floored": 2037,
+        "share_2030": 0.211,
+        "share_2040": 0.746
+      },
+      "Romania|VERY_LOW": {
+        "first_year_majority_floored": 2033,
+        "share_2030": 0.259,
+        "share_2040": 0.954
+      }
+    },
+    "offending": [],
+    "pass": true
+  }
+}

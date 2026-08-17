@@ -14,6 +14,7 @@ Output: pre-analysis/output_transmission/blacksea_transmission_map.html
 """
 from __future__ import annotations
 
+import argparse
 from pathlib import Path
 
 import folium
@@ -61,7 +62,12 @@ def _w(mw):
     return 1.6 + min(7.0, _num(mw) / 1500.0)
 
 
-def main() -> int:
+def _src(staging: bool, name: str) -> Path:
+    """Transmission input: the promoted EPM file, or aggregate_corridors.py staging."""
+    return _OUT / f"{name}.ref_generated.csv" if staging else _DB / "trade" / f"{name}.csv"
+
+
+def main(staging: bool = False) -> int:
     internal_zones = set(pd.read_csv(_DB / "zcmap.csv")["z"].astype(str).str.strip())
     zones = gpd.read_file(_DB / "zones.geojson")
     zi = zones[zones["z"].astype(str).isin(internal_zones)]
@@ -132,7 +138,7 @@ def main() -> int:
             icon_size=(1, 1))).add_to(fg[kind])
 
     # existing internal (incl. Türkiye) from pTransferLimit
-    tl = pd.read_csv(_DB / "trade" / "pTransferLimit.csv")
+    tl = pd.read_csv(_src(staging, "pTransferLimit"))
     tl = tl[tl["q"] == "Q1"]
     seen = set()
     pair = {}
@@ -145,7 +151,7 @@ def main() -> int:
         draw(a, b, "e", mw, f"existing {a}↔{b}: {mw:,.0f} MW")
 
     # existing external from pExtTransferLimit
-    et = pd.read_csv(_DB / "trade" / "pExtTransferLimit.csv")
+    et = pd.read_csv(_src(staging, "pExtTransferLimit"))
     dcol = [c for c in et.columns if c not in ("z", "zext", "q") and not str(c).isdigit()][0]
     for (z, ze), g in et[et["q"] == "Q1"].groupby(["z", "zext"]):
         mw = max(_num(g[YEAR].max()), 0)
@@ -165,7 +171,7 @@ def main() -> int:
                  label=lbl, t=0.4)
 
     # candidates: internal (Status 3) + external
-    nt = pd.read_csv(_DB / "trade" / "pNewTransmission.csv")
+    nt = pd.read_csv(_src(staging, "pNewTransmission"))
     for _, r in nt[nt["Status"] == 3].iterrows():
         draw(str(r["From"]), str(r["To"]), "n", r["CapacityPerLine"],
              f"candidate {r['From']}→{r['To']}: {_num(r['CapacityPerLine']):,.0f} MW (COD {r.get('EarliestEntry','?')})",
@@ -176,11 +182,14 @@ def main() -> int:
              f"candidate {r['From']}→{r['To']}: {_num(r['CapacityPerLine']):,.0f} MW — {r.get('Project','')}",
              t=0.6)
 
+    prov = ("staging aggregate_corridors (non promu)" if staging
+            else "data_blacksea (inputs EPM promus)")
     legend = ("<div style='position:fixed;bottom:18px;left:18px;z-index:9999;background:white;"
               "padding:7px 11px;border:1px solid #999;border-radius:5px;font-size:12px'>"
               "<b>Transmission</b><br><span style='color:#1f4e79'>──</span> existing<br>"
               "<span style='color:#2e9e44'>– –</span> committed<br>"
-              "<span style='color:#e8851a'>– –</span> candidate</div>")
+              "<span style='color:#e8851a'>– –</span> candidate"
+              f"<br><span style='color:#777;font-size:9px'>{YEAR} · source : {prov}</span></div>")
     m.get_root().html.add_child(folium.Element(legend))
     folium.LayerControl(collapsed=False).add_to(m)
     out = _OUT / "blacksea_transmission_map.html"
@@ -192,4 +201,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--staging", action="store_true",
+                    help="read the aggregate_corridors.py staging files instead of the "
+                         "promoted data_blacksea inputs")
+    raise SystemExit(main(**vars(ap.parse_args())))

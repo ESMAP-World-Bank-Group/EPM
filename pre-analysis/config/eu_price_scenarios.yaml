@@ -1,0 +1,88 @@
+# Which price hypothesis feeds which EPM scenario.
+#
+# Each entry names one staged pair of files:
+#   output_prices/staging/<key>/pTradePrice.csv        (what the internal zone pays to buy)
+#   output_prices/staging/<key>/pTradePriceExport.csv  (what it receives when it sells)
+#
+# `level` picks a trajectory from level_L.csv, `variant` picks REF (no CBAM) or
+# CBAM. The two are orthogonal on purpose: the carbon levy is a policy, the
+# price trajectory is a market, and conflating them would make it impossible to
+# say which of the two moved a result.
+#
+# Only Bulgaria, Greece and Romania are touched. The five other external zones
+# of pTradePrice.csv - Iran, Iraq, Syria, Russia, Kazakhstan - have no liquid
+# hub, no TYNDP entry and no ETS, so they keep the cost-based values already in
+# the file and are copied through unchanged. That is a deliberate scope limit,
+# not an omission.
+
+reference: eu_central
+
+scenarios:
+
+  # ---- reference and the published spread, no carbon levy -----------------
+  eu_central:
+    level: CENTRAL
+    variant: REF
+    note: >
+      The reference. ENTSO-E National Trends Plus, the national-policies
+      baseline, anchored on observed 2024. C = 0 - not a claim that CBAM will
+      not apply, but a refusal to bake into the reference the very policy whose
+      effect the study is meant to measure.
+
+  eu_low:
+    level: LOW
+    variant: REF
+    note: ENTSO-E Distributed Energy. Deep decarbonisation, cheaper power.
+
+  eu_very_low:
+    level: VERY_LOW
+    variant: REF
+    note: ENTSO-E Global Ambition. The cheapest published future.
+
+  eu_high:
+    level: HIGH
+    variant: REF
+    note: >
+      Built in-house as CENTRAL^2 / LOW. ENTSO-E publishes nothing above
+      National Trends - DE and GA are both decarbonisation routes - so the
+      published family opens only downwards and the upper rung has to be
+      constructed. Mirroring makes it inherit the published spread rather than
+      invent one.
+
+  eu_crisis:
+    level: EU_HIGH
+    variant: REF
+    note: >
+      The 2021-2023 crisis regime returns and persists. Empirical, and
+      deliberately built on a different logic from eu_high so the two are
+      independent readings of the upside.
+
+  # ---- the same trajectories with the CBAM levy applied -------------------
+  # C = EF_AnnexIII(exporting country) x ETS(y), at 100 % from 2026: EU
+  # electricity generation receives no free allocation, so there is no phase-in
+  # for electricity as there is for steel or cement.
+  eu_central_cbam:
+    level: CENTRAL
+    variant: CBAM
+    note: >
+      The policy case against the reference. Under this pair, Turkish exports
+      to Bulgaria and Greece become worthless in a majority of hours from 2029.
+
+  eu_low_cbam:
+    level: LOW
+    variant: CBAM
+
+  eu_very_low_cbam:
+    level: VERY_LOW
+    variant: CBAM
+
+  eu_high_cbam:
+    level: HIGH
+    variant: CBAM
+
+  eu_crisis_cbam:
+    level: EU_HIGH
+    variant: CBAM
+    note: >
+      The only pair where Turkish export survives CBAM in most hours - a high
+      EU price is what pays for the levy.

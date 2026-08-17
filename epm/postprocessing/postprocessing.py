@@ -123,7 +123,7 @@ KEYS_RESULTS = {
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
     'pNetImport',
-    'pExtTransferLimit', 'pTradePrice',
+    'pExtTransferLimit', 'pTradePrice', 'pTradePriceExport',
     # 7. Emissions
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics

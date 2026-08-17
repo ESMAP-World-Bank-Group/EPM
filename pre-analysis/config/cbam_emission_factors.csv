@@ -1,0 +1,80 @@
+country,ef_electricity,ef_grid_average,unit,source,status
+# ---------------------------------------------------------------------------
+# CBAM default emission factors, Commission Implementing Regulation (EU)
+# 2025/2621 (OJ L, 31.12.2025).
+#
+# TWO DIFFERENT ANNEXES, AND THE DIFFERENCE IS THE WHOLE POINT:
+#
+#   ef_electricity  Annex III - "Default values for electricity imported into
+#                   the customs territory of the Union". This is the one that
+#                   prices a MWh crossing the EU border.
+#   ef_grid_average Annex II - grid average factors, used for the *indirect*
+#                   emissions embedded in goods such as steel or aluminium.
+#                   Recorded here only so the gap is visible.
+#
+# WHERE THE GAP COMES FROM - one definition, and it is arithmetic, not a
+# penalty. Reg (EU) 2023/956 Annex IV point 1(d) defines the "CO2 emission
+# factor" that Annex IV point 4.2.1 then uses for imported electricity as
+#
+#     CO2 of the electricity sector / gross generation FROM FOSSIL FUELS
+#
+# so hydro, nuclear and renewables are struck from the denominator. Annex II
+# keeps them. Hence, identically:
+#
+#     ef_electricity = ef_grid_average / (fossil share of generation)
+#
+# which checks out: 0.420/0.718 = 59 % fossil for Turkiye, 0.102/0.440 = 23 %
+# for Georgia, 0.310/0.907 = 34 % for Ukraine - all within a point or two of
+# the observed mixes. Albania, with essentially no thermal plant, is listed at
+# 0 in BOTH annexes, which is the proof that hydro is not what is being taxed.
+#
+# NOT the "price-setting (marginal) source". That phrase is in the regulation,
+# but only at Annex IV point 4.3, for the INDIRECT emissions of goods, where it
+# is one of three permitted bases - and IR 2025/2621 recital 7 did not pick it,
+# it picked the country grid average. Saying "marginal" in front of a regulator
+# would be wrong; say "average of the fossil fleet", which is checkable.
+#
+# Both annexes are five-year averages of IEA data (IR recitals 7 and 8).
+#
+# For imported electricity the default IS the rule: actual emissions require
+# all five cumulative criteria of Annex IV point 5 - a PPA, a directly
+# connected plant (or demonstrated absence of congestion), <= 550 gCO2/kWh,
+# hourly firm nomination on allocated interconnection capacity, and monthly
+# verification. No Black Sea corridor meets them. So there is no "the default
+# is unfair, use the real number" argument available here.
+#
+# No mark-up applies to electricity: the +10/+20/+30 % phase-in of IR recital 5
+# appears only in the Annex I goods tables, and Annex III carries a single,
+# year-independent column.
+#
+# Implementing Regulation (EU) 2026/1740 replaced Annexes I and IV of
+# 2025/2621; Annexes II and III stand as published.
+# ---------------------------------------------------------------------------
+#
+# --- the two exporting countries of this study -----------------------------
+# Trakia faces Bulgaria and Greece; Georgia faces Romania. Both appear in
+# Annex III, so every EU-facing link has a defined levy.
+Türkiye,0.718,0.420,tCO2e per MWh,IR (EU) 2025/2621 Annex III / Annex II,verified
+Georgia,0.440,0.102,tCO2e per MWh,IR (EU) 2025/2621 Annex III / Annex II,verified
+#
+# --- reference and neighbours, for context only ----------------------------
+European Union,0.612,,tCO2e per MWh,IR (EU) 2025/2621 Annex III,verified
+Ukraine,0.907,0.310,tCO2e per MWh,IR (EU) 2025/2621 Annex III / Annex II,verified
+United Kingdom,0.430,0.193,tCO2e per MWh,IR (EU) 2025/2621 Annex III / Annex II,verified
+# Albania is the control case, not filler: it is in Annex III like every other
+# EU-bordering exporter, and it is listed at 0. A hydro country can be charged
+# nothing - Georgia is at 0.440 because it burns gas for a fifth of its power,
+# not because the annex disbelieves its hydro.
+Albania,0.000,0.000,tCO2e per MWh,IR (EU) 2025/2621 Annex III / Annex II,verified
+Moldova. Republic of,0.530,,tCO2e per MWh,IR (EU) 2025/2621 Annex III,verified
+Russian Federation,0.585,,tCO2e per MWh,IR (EU) 2025/2621 Annex III,verified
+Serbia,1.041,,tCO2e per MWh,IR (EU) 2025/2621 Annex III,verified
+#
+# --- no Annex III entry: they do not border the EU -------------------------
+# Grid averages only. Left here so that a future study extending the EU
+# hypothesis to these zones finds the gap already documented rather than
+# assuming the grid average is the applicable factor.
+Armenia,,0.183,tCO2e per MWh,IR (EU) 2025/2621 Annex II only,verified
+Azerbaijan,,0.431,tCO2e per MWh,IR (EU) 2025/2621 Annex II only,verified
+Iran. Islamic Republic of,,0.529,tCO2e per MWh,IR (EU) 2025/2621 Annex II only,verified
+Iraq,,0.653,tCO2e per MWh,IR (EU) 2025/2621 Annex II only,verified

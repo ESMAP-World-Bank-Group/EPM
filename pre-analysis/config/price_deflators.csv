@@ -1,0 +1,38 @@
+series,year,value,unit,source,status
+# Euro area HICP, annual average index, 2015 = 100. Used to express every
+# monetary quantity in real EUR of 2024 before any currency conversion.
+# Pulled from the Eurostat dissemination API, dataset prc_hicp_aind,
+# geo=EA coicop=CP00 unit=INX_A_AVG, on 2026-08-16.
+eur_hicp,2015,100.00,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2016,100.23,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2017,101.78,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2018,103.56,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2019,104.80,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2020,105.06,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2021,107.78,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2022,116.82,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2023,123.15,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+eur_hicp,2024,126.07,index 2015=100,Eurostat prc_hicp_aind EA CP00 INX_A_AVG,verified
+# EUR/RON annual average reference rate. Romanian day-ahead prices are quoted
+# in RON in the ENTSO-E long series until 2021-05.
+# Cross-checked against the data itself: before the switch, the yearly median of
+# the raw RO/HU price ratio is an estimate of the exchange rate, since the two
+# markets are closely coupled. It reproduces this table to within 0.5 % for
+# 2015-2020 (4.424 / 4.472 / 4.558 / 4.649 / 4.748 / 4.841). The 2021 rate
+# cannot be checked that way - the year straddles the switch - and covers only
+# the January-May hours.
+eur_ron,2015,4.4454,RON per EUR,ECB annual average; market-implied 4.424 (-0.5 %),verified
+eur_ron,2016,4.4904,RON per EUR,ECB annual average; market-implied 4.472 (-0.4 %),verified
+eur_ron,2017,4.5688,RON per EUR,ECB annual average; market-implied 4.558 (-0.2 %),verified
+eur_ron,2018,4.6540,RON per EUR,ECB annual average; market-implied 4.649 (-0.1 %),verified
+eur_ron,2019,4.7453,RON per EUR,ECB annual average; market-implied 4.748 (+0.1 %),verified
+eur_ron,2020,4.8383,RON per EUR,ECB annual average; market-implied 4.841 (+0.1 %),verified
+eur_ron,2021,4.9215,RON per EUR,ECB annual average; straddles the switch,to_verify
+# BGN is pegged to the euro at exactly 1.95583 since 1999. Not an estimate.
+# The market-implied ratio for 2020 lands at 1.957, i.e. +0.1 % - which also
+# confirms the peg is what the ENTSO-E series is actually quoted in.
+eur_bgn,0,1.95583,BGN per EUR,ERM II fixed peg; market-implied 1.957 in 2020,exact
+# EUR/USD annual average. Applied once, at the very end, to move the finished
+# real-EUR-2024 table into USD 2024. Eurostat ert_bil_eur_a, currency=USD,
+# statinfo=AVG, retrieved 2026-08-16.
+eur_usd,2024,1.0824,USD per EUR,Eurostat ert_bil_eur_a USD AVG,verified

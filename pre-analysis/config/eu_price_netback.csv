@@ -1,0 +1,58 @@
+series,year,value,unit,source,status
+# ---------------------------------------------------------------------------
+# The three terms subtracted from the hub price in
+#   P = L(zext,y) * S(q,d,t) * (1 - lambda) - W - C
+# lambda = interconnector losses, W = transit/wheeling fee, C = CBAM levy.
+# Everything here is in real EUR of 2024, the money year of level_L.csv.
+# ---------------------------------------------------------------------------
+#
+# --- lambda: losses on the cross-border link -------------------------------
+# EPM applies no loss factor to external trade: base.gms:720 applies
+# pLossFactorInternal to internal flows only, while lines 722-723 add the
+# external import and subtract the external export raw. So the whole loss has
+# to be carried by the price, and there is no double counting to fear.
+# 0.03 is the value carried by the EU-facing candidate links of
+# reference_lines.csv (0.02-0.03 per link); a single uniform figure is used
+# because the spread is smaller than the uncertainty on W.
+# Borne in full by the selling party, in each direction: the exporter delivers
+# at the border and eats the loss on the way.
+lambda,0,0.03,per unit,reference_lines.csv loss_pu on the EU-facing links (0.02-0.03),verified
+#
+# --- W: the fee for using someone else's grid to reach the hub -------------
+# The ENTSO-E Inter-TSO Compensation *perimeter fee* is what a non-member pays
+# to exchange with the ITC area - which is exactly the position Turkiye and
+# Georgia are in. Not the cost-of-losses component, which is an internal
+# settlement between members.
+# The two published years differ by a factor of nearly two, so a flat 2 EUR/MWh
+# is used rather than either endpoint. The term is second order next to C.
+itc_perimeter_fee,2024,2.80,EUR per MWh,ENTSO-E ITC perimeter fee 2024,verified
+itc_perimeter_fee,2025,1.50,EUR per MWh,ENTSO-E ITC perimeter fee 2025,verified
+W,0,2.00,EUR2024 per MWh,flat; rounded between the 2024 and 2025 ITC perimeter fees,assumption
+#
+# --- The carbon price CBAM charges on imported electricity -----------------
+# C = EF(exporting country) * ets_price(y), with EF from
+# cbam_emission_factors.csv. C applies only to flows *into* the EU, and only in
+# the CBAM scenario - the reference keeps C = 0.
+#
+# There is no phase-in for electricity. The CBAM factor tracks the free
+# allocation that the corresponding EU production still receives, and EU
+# electricity generation has had no free allocation since 2013. So the levy is
+# 100 % of the ETS price from 1 January 2026, not 2.5 % rising to 100 % as for
+# steel or cement.
+#
+# 2024 is the observed market. The forward points are the CO2 price the TYNDP
+# 2024 scenarios were themselves run with - the same document, the same money
+# year and the same IEA WEO 2022 APS source as the marginal costs that give L.
+# That is the reason to prefer them to any other projection: taking the carbon
+# price out of one scenario and the electricity price out of another would
+# price the levy against a market that never existed. ENTSO-E applies one CO2
+# price across all three scenarios, so C does not vary with the L trajectory.
+#
+# Deliberately NOT epm/input/data_blacksea/constraint/pCarbonPrice.csv: that
+# parameter is a whole-model instrument (58-77 USD/t, currently switched off by
+# fEnableCarbonPrice=0) and answers a different question - what the modelled
+# countries charge themselves. This one is what the EU charges at its border.
+ets_observed,2024,64.8,EUR2024 per tCO2e,EEA indicator 'Use of auctioning revenues generated under the EU ETS' (2023: 83.6),verified
+ets_tyndp,2030,113.4,EUR2022 per tonne,TYNDP 2024 Scenarios Methodology Report Final Jan 2025 Table 8 p.32; IEA WEO 2022 APS,verified
+ets_tyndp,2040,147.0,EUR2022 per tonne,TYNDP 2024 Scenarios Methodology Report Final Jan 2025 Table 8 p.32; IEA WEO 2022 APS,verified
+ets_tyndp,2050,168.0,EUR2022 per tonne,TYNDP 2024 Scenarios Methodology Report Final Jan 2025 Table 8 p.32; IEA WEO 2022 APS,verified

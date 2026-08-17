@@ -1,0 +1,13 @@
+zone,iso3,percentile,cf_target,n_pixels,cf_min,cf_mean_all,cf_max,zone_p,tech,cf_now,zone_target,delta_pct
+ARM_1,ARM,0.3,0.2984,497898,0.0001,0.1655,0.8167,Armenia,OnshoreWind,0.1435,ARM_1,107.9
+AZE_1,AZE,0.3,0.2899,1456127,0.0,0.1483,0.7434,AzerbaijanMain,OnshoreWind,0.2136,AZE_1,35.7
+CenterAna,TUR,0.3,0.2703,2271903,0.0014,0.19,0.7076,CenterAna,OnshoreWind,0.3222,CenterAna,-16.1
+CenterBlack,TUR,0.3,0.278,1937944,0.0,0.1666,0.6529,CenterBlack,OnshoreWind,0.22,CenterBlack,26.4
+EastAna,TUR,0.3,0.2948,2203904,0.0,0.1799,0.7479,EastAna,OnshoreWind,0.2746,EastAna,7.4
+EastMed,TUR,0.3,0.3203,624264,0.0,0.1814,0.7056,EastMed,OnshoreWind,0.2739,EastMed,16.9
+GEO_1,GEO,0.3,0.3123,1209089,0.0,0.1508,0.7879,Georgia,OnshoreWind,0.1719,GEO_1,81.7
+NorthWest,TUR,0.3,0.2389,1118104,0.0007,0.1505,0.5805,NorthWest,OnshoreWind,0.2301,NorthWest,3.8
+SouthEast,TUR,0.3,0.2829,2100238,0.0001,0.1804,0.6673,SouthEast,OnshoreWind,0.2664,SouthEast,6.2
+Trakia,TUR,0.3,0.3648,408674,0.0289,0.2819,0.6439,Trakia,OnshoreWind,0.4944,Trakia,-26.2
+WestAna,TUR,0.3,0.372,1132460,0.0009,0.2241,0.709,WestAna,OnshoreWind,0.2634,WestAna,41.2
+WestMed,TUR,0.3,0.2741,1112202,0.0,0.1696,0.6517,WestMed,OnshoreWind,0.1687,WestMed,62.5

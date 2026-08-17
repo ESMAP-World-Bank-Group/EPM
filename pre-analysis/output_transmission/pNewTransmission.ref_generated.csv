@@ -1,5 +1,5 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
-EastAna,Georgia,,1,350.0,,30,3
-Nakhchivan,EastAna,2030,1,1000.0,,30,3
-Georgia,Armenia,2028,1,350.0,,30,3
-AzerbaijanMain,Nakhchivan,2027,1,1000.0,,30,2
+EastAna,Georgia,2032,1,350.0,,30,3
+Nakhchivan,EastAna,2032,1,1000.0,,30,3
+Georgia,Armenia,2029,1,350.0,,30,3
+AzerbaijanMain,Nakhchivan,2028,1,800.0,,30,2

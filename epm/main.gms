@@ -194,7 +194,8 @@ Parameter
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
 
 * Trade parameters
-   pTradePrice(zext,q,d,y,t)                             'External trade prices'
+   pTradePrice(zext,q,d,y,t)                             'External trade prices (paid on imports)'
+   pTradePriceExport(zext,q,d,y,t)                       'External trade prices received on exports'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
    
 * Demand parameters
@@ -278,7 +279,7 @@ $load pPlanningReserveMargin
 * Load trade data
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
-$load pTradePrice, pMaxAnnualExternalTradeShare
+$load pTradePrice, pTradePriceExport, pMaxAnnualExternalTradeShare
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -890,8 +891,13 @@ sImportPrice(z,zext,q,d,t,y)$(not fEnableExternalExchange) = no;
 vYearlyImportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitIn(z,zext,q,y);
 vYearlyExportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitOut(z,zext,q,y);
 
+* Wherever no separate export price is supplied, exports are valued at the import
+* price - the historical behaviour. A dedicated pTradePriceExport.csv overrides it
+* element by element, so a file covering only some external zones is enough.
+pTradePriceExport(zext,q,d,y,t)$(pTradePriceExport(zext,q,d,y,t) = 0) = pTradePrice(zext,q,d,y,t);
+
 * Do not allow imports and exports for a zone without import/export prices
-sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
+sExportPrice(z,zext,q,d,t,y)$(pTradePriceExport(zext,q,d,y,t)= 0) = no;
 sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 
 * Define the flow of electricity between zones
