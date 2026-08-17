@@ -158,6 +158,8 @@ sRenewableTargetYear
 fApplyFuelConstraint
 fApplyCapitalConstraint
 sMaxCapitalInvestment
+fApplyContractedTrade
+sContractedTradeFirstYear
 fApplyMinGenShareAllHours
 fApplyMinGenCommitment
 fApplyStartupCost

@@ -212,6 +212,10 @@ Parameter
    pDays(q)                                              'Number of days represented by each period'
    pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                                    'Minimum import requirements'
+* Optional contracted transfer volumes, only used when fApplyContractedTrade is
+* switched on in pSettings (see base.gms). Empty files are the normal case.
+   pContractedTradeFlag(z,z2,q)                          'Corridor and season under a transfer contract'
+   pContractedTradeEnergy(z,z2,q,y)                      'Contracted seasonal transfer volume (GWh)'
    pLossFactorInternal(z,z2,y)                           'Transmission loss factors'
    
 * VRE and availability
@@ -278,6 +282,7 @@ $load pPlanningReserveMargin
 * Load trade data
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
+$load pContractedTradeFlag, pContractedTradeEnergy
 $load pTradePrice, pMaxAnnualExternalTradeShare
 
 * Load Hydrogen model-related symbols
@@ -473,6 +478,10 @@ fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
+* Optional contracted transfer volumes. Absent from pSettings.csv means 0, so
+* this stays off unless a study asks for it.
+fApplyContractedTrade              = pSettings("fApplyContractedTrade");
+sContractedTradeFirstYear          = pSettings("sContractedTradeFirstYear");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
 pMinRE                             = pSettings("sMinRenewableSharePct");

@@ -41,6 +41,8 @@ Seasonal import and export limits with external zones (Unit: MW),pExtTransferLim
 Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
+Corridors and seasons under a transfer contract (optional),pContractedTradeFlag,trade/pContractedTradeFlag.csv
+Contracted seasonal transfer volume (Unit: GWh) (optional),pContractedTradeEnergy,trade/pContractedTradeEnergy.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
 Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
 Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv

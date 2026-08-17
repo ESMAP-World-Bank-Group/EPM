@@ -348,7 +348,7 @@ EPM models two types of exchange:
 
 | Type | Scope | Files |
 |---|---|---|
-| **Internal** | Between modeled zones, explicit network | `pTransferLimit` · `pNewTransmission` · `pLossFactorInternal` |
+| **Internal** | Between modeled zones, explicit network | `pTransferLimit` · `pNewTransmission` · `pLossFactorInternal` · `pContractedTradeFlag` · `pContractedTradeEnergy` |
 | **External** | Price-driven trade outside the model | `zext` · `pExtTransferLimit` · `pTradePrice` · `pMaxAnnualExternalTradeShare` |
 
 ??? "pTransferLimit.csv"
@@ -380,6 +380,27 @@ EPM models two types of exchange:
 ??? "pLossFactorInternal.csv"
 
     Transmission loss factors for each internal line. Required when `fEnableInternalExchange = 1`.
+
+??? "pContractedTradeFlag.csv"
+
+    Marks the corridors and seasons governed by a power purchase agreement, where the delivered energy is set by contract rather than chosen by the optimiser. Used when `fApplyContractedTrade` is 1 or 2. An empty file is the normal case.
+
+    Membership is carried by this file rather than by a non-zero volume in `pContractedTradeEnergy.csv`, because a zero there is read as a missing value. Flagging a pair with no contracted volume is meaningful: in mode 1 it holds the corridor at zero flow for that season.
+
+    - **Structure**: `zone1, zone2, q, value`. One row per contracted (corridor, season); `value` is 1.
+    - **Example**: [pContractedTradeFlag.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pContractedTradeFlag.csv)
+
+??? "pContractedTradeEnergy.csv"
+
+    Contracted energy delivered per season on each corridor flagged above, from `sContractedTradeFirstYear` onwards.
+
+    Direction matters: `zone1` is the exporter and `zone2` the importer, so a two-way contract needs two rows.
+
+    !!! warning
+        Both modes are hard constraints. A contracted volume the corridor cannot physically carry — because of `pTransferLimit`, generation availability, or a conflicting `pMinImport` — makes the model infeasible rather than reporting a shortfall. Check the corridor capacity against the contracted volume before switching this on.
+
+    - **Structure**: `zone1, zone2, q` as row index; years as columns. Values in GWh per season.
+    - **Example**: [pContractedTradeEnergy.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pContractedTradeEnergy.csv)
 
 ??? "zext.csv"
 

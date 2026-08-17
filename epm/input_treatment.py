@@ -1313,6 +1313,10 @@ def run_input_treatment(gams,
         default_df = db[default_param_name].records
         
         
+        if param_df is None or param_df.empty:
+            gams.printLog('[input_treatment][defaults] {} empty so nothing to overwrite'.format(param_name))
+            return None
+
         if default_df is None:
             gams.printLog('[input_treatment][defaults] {} empty so no effect'.format(default_param_name))
             db.data[param_name].setRecords(param_df)

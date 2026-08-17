@@ -247,6 +247,24 @@ Expansion symmetry and cumulative build tracking: `eCumulativeTransferExpansion`
 
 External exchange limits **[Optional]**: annual and hourly import/export share caps (`eMaxAnnualImportShareEnergy`, `eMaxAnnualExportShareEnergy`, `eMaxHourlyImportShareEnergy`, `eMaxHourlyExportShareEnergy`), point-to-point limits (`eExternalImportLimit`, `eExternalExportLimit`), and a minimum import floor (`eMinImportRequirement`) when `pMinImport > 0`.
 
+### Contracted transfer volumes **[Optional — `fApplyContractedTrade`]**
+
+Fixes the seasonal energy delivered on an internal corridor governed by a power purchase agreement, from `sContractedTradeFirstYear` onwards. The corridors and seasons concerned are listed in `pContractedTradeFlag` and the volumes in `pContractedTradeEnergy`.
+
+$$
+\sum_{d,t} vFlow_{z,z_2,q,d,t,y} \cdot pHours_{q,d,t}
+  \;=\; pContractedTradeEnergy_{z,z_2,q,y} \times 10^3
+  \qquad (\texttt{fApplyContractedTrade} = 1),
+$$
+
+$$
+\sum_{d,t} vFlow_{z,z_2,q,d,t,y} \cdot pHours_{q,d,t}
+  \;\ge\; pContractedTradeEnergy_{z,z_2,q,y} \times 10^3
+  \qquad (\texttt{fApplyContractedTrade} = 2).
+$$
+
+Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow, which also suppresses counter-flows. Mode 2 is a take-or-pay floor: the optimiser may send more. Both are hard constraints — a volume the corridor cannot carry makes the model infeasible rather than reporting a shortfall.
+
 ---
 
 ## Storage Operations

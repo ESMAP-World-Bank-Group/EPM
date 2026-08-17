@@ -1473,7 +1473,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatch, pDispatchTechFuel,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMarginCountry,
+      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMargin, pReserveMarginCountry,
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
