@@ -3158,7 +3158,9 @@ vFlow_{z,z_2,q,d,t,y}
   \;\ge\; pContractedTradeEnergy_{z,z_2,q,y} \times 10^3
   \qquad (\texttt{fApplyContractedTrade} = 2).
 \]</div>
-<p>Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow, which also suppresses counter-flows. Mode 2 is a take-or-pay floor: the optimiser may send more. Both are hard constraints — a volume the corridor cannot carry makes the model infeasible rather than reporting a shortfall.</p>
+<p>Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow. Mode 2 is a take-or-pay floor: the optimiser may send more.</p>
+<p>Both modes are <strong>directional</strong>: the equation is written on the ordered pair <span class="arithmatex">\((z, z_2)\)</span>, so flow in the opposite direction stays free. Flagging <code>(z, z2)</code> with a zero volume empties that direction only — to close a corridor in both senses, flag <code>(z, z2)</code> and <code>(z2, z)</code>.</p>
+<p>Both modes are also hard constraints — a volume the corridor cannot physically carry makes the model infeasible rather than reporting a shortfall. The solver names the offending row explicitly, for example <code>Row 'eContractedSeasonalTransfer(DRC,Congo,Q1,2025)' infeasible, all entries at implied bounds</code>, which identifies the corridor, season and year at fault.</p>
 <hr />
 <h2 id="storage-operations">Storage Operations<a class="headerlink" href="#storage-operations" title="Permanent link">&para;</a></h2>
 <h3 id="capacity-and-power-bounds">Capacity and power bounds<a class="headerlink" href="#capacity-and-power-bounds" title="Permanent link">&para;</a></h3>
