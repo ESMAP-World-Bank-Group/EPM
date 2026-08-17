@@ -148,6 +148,7 @@ ALL_COST_COMPONENTS = [
     "Export revenues with internal zones: $m",
     "Trade shared benefits: $m",
     "Carbon costs: $m",
+    "Investment costs: $m",
     "NPV of system cost: $m",
 ]
 
