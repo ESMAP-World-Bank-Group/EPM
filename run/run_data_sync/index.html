@@ -2625,7 +2625,7 @@ of the <code>epm-data-explorer</code> repo.</p>
 nothing (you review, then publish):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Initialise DVC for the repo (once per repo)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dvc<span class="w"> </span>init
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 2. Point DVC at the store (once — already set in this repo&#39;s .dvc/config)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 2. Point DVC at the store (once — already set in this repo's .dvc/config)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>dvc<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>-d<span class="w"> </span>store<span class="w"> </span>s3://&lt;bucket&gt;/dvcstore
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>dvc<span class="w"> </span>remote<span class="w"> </span>modify<span class="w"> </span>store<span class="w"> </span>endpointurl<span class="w"> </span>&lt;endpoint&gt;
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># 3. .gitignore: drop the whitelist of the data folder, keep its pointer tracked</span>

@@ -5049,11 +5049,11 @@
 </code></pre></div>
 <p>The minimum generation constraint forces any positive output to raise the commitment flag; the maximum generation constraint caps output when <code>isOn=0</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>eDispatchMinGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenerationConstraint and MinGenPoint(g) and FD(q,d,t)))..
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= pGenData(g,&quot;MinLimitShare&quot;)*pGenData(g,&quot;Capacity&quot;)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= pGenData(g,"MinLimitShare")*pGenData(g,"Capacity")
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        * sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>eDispatchMaxGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenerationConstraint and MinGenPoint(g) and FD(q,d,t)))..
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= pGenData(g,&quot;Capacity&quot;)*sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
 </code></pre></div>
 <p><code>eStartupCostConstraint</code> counts startups per slot and feeds <code>vYearlyStartupCost</code> in the objective. Minimum up/down time windows are enforced by the <code>MinUp...</code>/<code>MinDown...</code> rolling constraints when <code>fApplyMUDT=1</code>.</p>
 <h3 id="required-flag-combinations">Required flag combinations<a class="headerlink" href="#required-flag-combinations" title="Permanent link">&para;</a></h3>

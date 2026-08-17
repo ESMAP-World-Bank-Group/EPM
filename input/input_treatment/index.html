@@ -4106,7 +4106,7 @@ or
 <a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│   │    NO  ↓                                                        │       │
 <a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>│   ├─────────────────────────────────────────────────────────────────┤       │
 <a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>│   │ 3. WARNING: No availability data found                          │       │
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>│   │    Generator will have availability = 0 (won&#39;t dispatch)        │       │
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>│   │    Generator will have availability = 0 (won't dispatch)        │       │
 <a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>│   └─────────────────────────────────────────────────────────────────┘       │
 <a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>│                                                                             │
 <a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>│   Note: Auto-fill only runs when EPM_FILL_HYDRO_AVAILABILITY=1              │
@@ -4141,8 +4141,8 @@ or
 <p>or</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[input_treatment][hydro_avail] Reservoir hydro warning: 3 generator(s) lack entries in pAvailability.
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>  Missing reservoir capacity-factor rows by zone:
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    zone ZoneA: [&#39;Hydro1&#39;, &#39;Hydro2&#39;]
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    zone ZoneB: [&#39;Hydro3&#39;]
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    zone ZoneA: ['Hydro1', 'Hydro2']
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    zone ZoneB: ['Hydro3']
 </code></pre></div>
 <h2 id="step-6-hydro-capex-monitoring">Step 6: Hydro Capex Monitoring<a class="headerlink" href="#step-6-hydro-capex-monitoring" title="Permanent link">&para;</a></h2>
 <p>Checks that committed/candidate hydro generators have Capex defined.</p>
@@ -4169,10 +4169,10 @@ or
 </li>
 </ol>
 <h3 id="example-log-output_5">Example Log Output<a class="headerlink" href="#example-log-output_5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Hydro capex warning: 2 generator(s) in {&#39;ROR&#39;, &#39;ReservoirHydro&#39;} with status 2 or 3 have no Capex defined.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Hydro capex warning: 2 generator(s) in {'ROR', 'ReservoirHydro'} with status 2 or 3 have no Capex defined.
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  Missing hydro capex entries by zone:
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    zone ZoneA: [&#39;NewHydro1&#39;]
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    zone ZoneB: [&#39;NewHydro2&#39;]
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    zone ZoneA: ['NewHydro1']
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    zone ZoneB: ['NewHydro2']
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  -&gt; Auto-filled Capex for NewHydro1 (ReservoirHydro, zone: ZoneA) using the mean value 2500.000 from existing generators in the same zone and technology.
 </code></pre></div>
 <h2 id="step-7-default-value-filling-pgendatainput">Step 7: Default Value Filling (pGenDataInput)<a class="headerlink" href="#step-7-default-value-filling-pgendatainput" title="Permanent link">&para;</a></h2>
@@ -4263,7 +4263,7 @@ or
 </ul>
 <h3 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h3>
 <p>If a generator has no availability after filling:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Warning: the following generator(s) have no entries in pAvailability and will have implicit availability of 0: [&#39;Gen1&#39;, &#39;Gen2&#39;]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Warning: the following generator(s) have no entries in pAvailability and will have implicit availability of 0: ['Gen1', 'Gen2']
 </code></pre></div></p>
 <h2 id="step-11-availability-evolution">Step 11: Availability Evolution<a class="headerlink" href="#step-11-availability-evolution" title="Permanent link">&para;</a></h2>
 <p>Applies year-dependent availability evolution factors from <code>pEvolutionAvailability</code>.</p>

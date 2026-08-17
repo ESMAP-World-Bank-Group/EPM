@@ -3006,12 +3006,14 @@
 <a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>fApplyFuelConstraint
 <a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>fApplyCapitalConstraint
 <a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>sMaxCapitalInvestment
-<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>fApplyMinGenShareAllHours
-<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>fApplyMinGenCommitment
-<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>fApplyStartupCost
-<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>fApplyRampConstraint
-<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>fApplyMUDT
-<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>sPeakLoadProximityThreshold
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>fApplyContractedTrade
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>sContractedTradeFirstYear
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>fApplyMinGenShareAllHours
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>fApplyMinGenCommitment
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>fApplyStartupCost
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>fApplyRampConstraint
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>fApplyMUDT
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>sPeakLoadProximityThreshold
 </code></pre></div>
 <h2 id="header-files">Header Files<a class="headerlink" href="#header-files" title="Permanent link">&para;</a></h2>
 <p>These files define column headers for input validation.</p>
@@ -3103,7 +3105,7 @@
 </code></pre></div>
 <h2 id="how-resources-are-loaded">How Resources Are Loaded<a class="headerlink" href="#how-resources-are-loaded" title="Permanent link">&para;</a></h2>
 <p>Resources are loaded by GAMS via <code>input_readers.gms</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES &quot;%modeldir%resources&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>$if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>$if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
 </code></pre></div>

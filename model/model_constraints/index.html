@@ -1436,6 +1436,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Transmission and Trade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contracted-transfer-volumes-optional-fapplycontractedtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contracted transfer volumes [Optional — fApplyContractedTrade]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2825,6 +2842,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Transmission and Trade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contracted-transfer-volumes-optional-fapplycontractedtrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contracted transfer volumes [Optional — fApplyContractedTrade]
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3112,6 +3146,19 @@ vFlow_{z,z_2,q,d,t,y}
 \]</div>
 <p>Expansion symmetry and cumulative build tracking: <code>eCumulativeTransferExpansion</code>, <code>eSymmetricTransferBuild</code>.</p>
 <p>External exchange limits <strong>[Optional]</strong>: annual and hourly import/export share caps (<code>eMaxAnnualImportShareEnergy</code>, <code>eMaxAnnualExportShareEnergy</code>, <code>eMaxHourlyImportShareEnergy</code>, <code>eMaxHourlyExportShareEnergy</code>), point-to-point limits (<code>eExternalImportLimit</code>, <code>eExternalExportLimit</code>), and a minimum import floor (<code>eMinImportRequirement</code>) when <code>pMinImport &gt; 0</code>.</p>
+<h3 id="contracted-transfer-volumes-optional-fapplycontractedtrade">Contracted transfer volumes <strong>[Optional — <code>fApplyContractedTrade</code>]</strong><a class="headerlink" href="#contracted-transfer-volumes-optional-fapplycontractedtrade" title="Permanent link">&para;</a></h3>
+<p>Fixes the seasonal energy delivered on an internal corridor governed by a power purchase agreement, from <code>sContractedTradeFirstYear</code> onwards. The corridors and seasons concerned are listed in <code>pContractedTradeFlag</code> and the volumes in <code>pContractedTradeEnergy</code>.</p>
+<div class="arithmatex">\[
+\sum_{d,t} vFlow_{z,z_2,q,d,t,y} \cdot pHours_{q,d,t}
+  \;=\; pContractedTradeEnergy_{z,z_2,q,y} \times 10^3
+  \qquad (\texttt{fApplyContractedTrade} = 1),
+\]</div>
+<div class="arithmatex">\[
+\sum_{d,t} vFlow_{z,z_2,q,d,t,y} \cdot pHours_{q,d,t}
+  \;\ge\; pContractedTradeEnergy_{z,z_2,q,y} \times 10^3
+  \qquad (\texttt{fApplyContractedTrade} = 2).
+\]</div>
+<p>Mode 1 is a must-run contract: the corridor delivers exactly the contracted volume, and a flagged pair with no volume is held at zero flow, which also suppresses counter-flows. Mode 2 is a take-or-pay floor: the optimiser may send more. Both are hard constraints — a volume the corridor cannot carry makes the model infeasible rather than reporting a shortfall.</p>
 <hr />
 <h2 id="storage-operations">Storage Operations<a class="headerlink" href="#storage-operations" title="Permanent link">&para;</a></h2>
 <h3 id="capacity-and-power-bounds">Capacity and power bounds<a class="headerlink" href="#capacity-and-power-bounds" title="Permanent link">&para;</a></h3>

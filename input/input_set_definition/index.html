@@ -2318,24 +2318,24 @@
 <h2 id="set-definition_1">Set definition<a class="headerlink" href="#set-definition_1" title="Permanent link">&para;</a></h2>
 <p>Sets are declared at the beginning of the base.gms file. Example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Sets
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   g        &#39;generators or technology-fuel types&#39;
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   f        &#39;fuels&#39;
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   tech     &#39;technologies&#39;
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   y        &#39;years&#39;
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   q        &#39;quarters or seasons&#39;
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   d        &#39;day types&#39;
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   t        &#39;hours of day&#39;
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   z        &#39;zones&#39;
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   c        &#39;countries&#39;
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>   zext     &#39;external zones&#39;
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   hh        &#39;Hydrogen production units&#39;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   g        'generators or technology-fuel types'
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   f        'fuels'
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   tech     'technologies'
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   y        'years'
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   q        'quarters or seasons'
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   d        'day types'
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   t        'hours of day'
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   z        'zones'
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   c        'countries'
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>   zext     'external zones'
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   hh        'Hydrogen production units'
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>;
 </code></pre></div>
 <p>These sets are populated in <code>main.gms</code>, either <strong>by reading them directly</strong> (e.g. <code>y</code> from <code>y.csv</code>) or <strong>implicitly through data parameters</strong>.</p>
 <p>An implicit definition is identified by the <code>&lt;</code> syntax in the parameter declaration:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Parameter
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>* Generator data
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   pGenDataInput(g&lt;,z,tech&lt;,f&lt;,*)      &#39;Generator data from Excel input&#39;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   pGenDataInput(g&lt;,z,tech&lt;,f&lt;,*)      'Generator data from Excel input'
 </code></pre></div>
 <p>This implies that the fuel set <code>f</code> is defined by all the sets that appear in the file <code>pGenDataInput</code></p>
 <h3 id="set-definition-in-epm">Set definition in EPM<a class="headerlink" href="#set-definition-in-epm" title="Permanent link">&para;</a></h3>

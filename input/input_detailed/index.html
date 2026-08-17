@@ -3348,7 +3348,7 @@
 <tr>
 <td><strong>Internal</strong></td>
 <td>Between modeled zones, explicit network</td>
-<td><code>pTransferLimit</code> · <code>pNewTransmission</code> · <code>pLossFactorInternal</code></td>
+<td><code>pTransferLimit</code> · <code>pNewTransmission</code> · <code>pLossFactorInternal</code> · <code>pContractedTradeFlag</code> · <code>pContractedTradeEnergy</code></td>
 </tr>
 <tr>
 <td><strong>External</strong></td>
@@ -3417,6 +3417,28 @@
 <details>
 <summary>pLossFactorInternal.csv</summary>
 <p>Transmission loss factors for each internal line. Required when <code>fEnableInternalExchange = 1</code>.</p>
+</details>
+<details>
+<summary>pContractedTradeFlag.csv</summary>
+<p>Marks the corridors and seasons governed by a power purchase agreement, where the delivered energy is set by contract rather than chosen by the optimiser. Used when <code>fApplyContractedTrade</code> is 1 or 2. An empty file is the normal case.</p>
+<p>Membership is carried by this file rather than by a non-zero volume in <code>pContractedTradeEnergy.csv</code>, because a zero there is read as a missing value. Flagging a pair with no contracted volume is meaningful: in mode 1 it holds the corridor at zero flow for that season.</p>
+<ul>
+<li><strong>Structure</strong>: <code>zone1, zone2, q, value</code>. One row per contracted (corridor, season); <code>value</code> is 1.</li>
+<li><strong>Example</strong>: <a href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pContractedTradeFlag.csv">pContractedTradeFlag.csv</a></li>
+</ul>
+</details>
+<details>
+<summary>pContractedTradeEnergy.csv</summary>
+<p>Contracted energy delivered per season on each corridor flagged above, from <code>sContractedTradeFirstYear</code> onwards.</p>
+<p>Direction matters: <code>zone1</code> is the exporter and <code>zone2</code> the importer, so a two-way contract needs two rows.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Both modes are hard constraints. A contracted volume the corridor cannot physically carry — because of <code>pTransferLimit</code>, generation availability, or a conflicting <code>pMinImport</code> — makes the model infeasible rather than reporting a shortfall. Check the corridor capacity against the contracted volume before switching this on.</p>
+</div>
+<ul>
+<li><strong>Structure</strong>: <code>zone1, zone2, q</code> as row index; years as columns. Values in GWh per season.</li>
+<li><strong>Example</strong>: <a href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pContractedTradeEnergy.csv">pContractedTradeEnergy.csv</a></li>
+</ul>
 </details>
 <details>
 <summary>zext.csv</summary>

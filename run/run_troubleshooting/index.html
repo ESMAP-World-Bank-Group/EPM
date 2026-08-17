@@ -2624,7 +2624,7 @@ Each input file being read will appear in sequence; the faulty one is either the
 <h2 id="default-dataframes">Default DataFrames<a class="headerlink" href="#default-dataframes" title="Permanent link">&para;</a></h2>
 <p>Files like <code>pAvailabilityDefault.csv</code> and <code>pCapexTrajectoriesDefault.csv</code> must include all combinations of <strong>zone</strong>, <strong>tech</strong>, and <strong>fuel</strong> defined in <code>pGenDataInput</code>.</p>
 <p><strong>Typical error</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Exception from Python (line 264): &lt;class 'ValueError'&gt;:
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Missing values in default is not permitted.
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>To fix this bug ensure that all combinations in pAvailabilityDefault are included.
 </code></pre></div>
@@ -2647,17 +2647,17 @@ Each input file being read will appear in sequence; the faulty one is either the
 <ul>
 <li><strong>Missing candidate plants in output</strong>: Check that <code>BuildLimitperYear</code> is properly filled.</li>
 <li><strong>Error due to long plant names</strong>. When some plant names are too long, this will raise an error:
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Exception from Connect: &lt;class &#39;UnboundLocalError&#39;&gt;:
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cannot access local variable &#39;was_relaxed&#39; where it is not associated with a value
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Exception from Connect: &lt;class 'UnboundLocalError'&gt;:
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cannot access local variable 'was_relaxed' where it is not associated with a value
 </code></pre></div></li>
 </ul>
 <hr />
 <h2 id="issues-with-pstoragedataexcel">Issues with <code>pStorageDataExcel</code><a class="headerlink" href="#issues-with-pstoragedataexcel" title="Permanent link">&para;</a></h2>
 <p>All <strong>storage technologies</strong> listed in <code>pGenDataInputCustom</code> must also be included in <code>pStorageDataExcel</code>.</p>
 <p><strong>Typical error</strong>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Exception from Python (line 455): &lt;class &#39;ValueError&#39;&gt;:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Exception from Python (line 455): &lt;class 'ValueError'&gt;:
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Error: The following fuels are in gendata but not defined in pStorageData:
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>{&#39;New_BESS_AGO&#39;}
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>{'New_BESS_AGO'}
 </code></pre></div>
 <h2 id="transmission-data">Transmission data<a class="headerlink" href="#transmission-data" title="Permanent link">&para;</a></h2>
 <ul>
