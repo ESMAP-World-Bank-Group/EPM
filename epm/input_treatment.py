@@ -56,6 +56,12 @@ YEARLY_OUTPUT = [
     'pMaxGenerationByFuel'
 ]
 
+# Transfer limits use `0` (dropped to NaN at GDX read via valueSubstitutions) to mean
+# "line not yet in service" in years before its commissioning date. Interpolation must NOT
+# back-fill the first non-zero capacity into those earlier years; capacity there is 0.
+# (Back-fill stays correct for prices/demand/fuel, which have no leading zeros.)
+NO_BACKFILL_PARAMS = {'pTransferLimit', 'pExtTransferLimit'}
+
 ZONE_RESTRICTED_PARAMS = {
     "pGenDataInput": ("z",),
     "pGenDataInputDefault": ("z",),
@@ -2019,6 +2025,9 @@ def run_input_treatment(gams,
                     continue
 
                 interpolated = np.interp(target_years, years, values)
+                if param_name in NO_BACKFILL_PARAMS:
+                    # Do not back-fill capacity into years before the line's first in-service year.
+                    interpolated = np.where(target_years < years[0], 0.0, interpolated)
                 frame = pd.DataFrame({year_column: target_years, "value": interpolated})
 
                 if group_cols:
