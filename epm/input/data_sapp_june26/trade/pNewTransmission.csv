@@ -1,6 +1,6 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
 Angola_South,Namibia,2029,1,400,80,30,2
-Botswana,Zimbabwe_West,2030,1,549,305.731,30,3
+Botswana,Zimbabwe_West,2030,1,300,305.731,30,3
 DRC,Angola_North,2036,2,500,246.8046,30,3
 Angola_North,Angola_East,2036,1,200,150,30,3
 Angola_Central,Angola_South,2029,1,900,500,30,3
@@ -16,14 +16,14 @@ Namibia,Botswana,2036,2,500,344.52,30,3
 South_Africa,Botswana,2034,1,800,128.515,30,3
 Tanzania,Mozambique_North,2036,1,800,150.02,30,3
 Tanzania,Malawi,2036,1,800,150.02,30,0
-Zambia,Zimbabwe_West,2034,1,410,68.352,30,3
+Zambia,Zimbabwe_West,2034,1,300,68.352,30,3
 Zambia,Tanzania,2029,1,800,315,30,2
 Mozambique_Central,Zambia,2034,1,800,230,30,3
 Zambia,Botswana,2036,1,800,131.731,30,3
 Zimbabwe_West,Zimbabwe_East,2029,1,400,130,30,3
 South_Africa,Zimbabwe_West,2034,1,500,150.394,30,3
 DRC,DRC_South,2034,2,500,440,30,3
-Zambia,Namibia,2034,1,400,340,30,3
+Zambia,Namibia,2034,1,300,340,30,3
 ,,,,,,,
 ,,,,,,,
 ,,,,,,,
