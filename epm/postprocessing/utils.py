@@ -366,6 +366,29 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
+ZONES_CUSTOM = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
+
+
+def load_zone_map(zone_map=None, zones_custom=None):
+    """Admin-0 polygons plus the hand-drawn zones that no admin area can supply.
+
+    A zone such as an industrial off-taker (Mozal) or a sub-national market
+    (Trakia) matches no entry of the admin polygon file, so it is drawn from an
+    overlay whose features carry the same ADMIN/ISO_A3 columns and therefore
+    resolve through `geojson_to_epm.csv` like any country.
+
+    The overlay is appended here rather than at each call site, so that the
+    standalone regeneration of the map layers and the plotting pipeline always
+    see the same map. `zones_custom` lets a data folder override the shared
+    overlay with its own.
+    """
+    zones = gpd.read_file(zone_map or GEOJSON)
+    overlay = zones_custom or ZONES_CUSTOM
+    if os.path.exists(overlay):
+        zones = pd.concat([zones, gpd.read_file(overlay)], ignore_index=True)
+    return zones
+
+
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
@@ -406,13 +429,7 @@ def read_plot_specs():
     # Merge colors: techfuel colors take precedence, then base colors
     all_colors = {**base_colors, **techfuel_colors}
 
-    zones = gpd.read_file(GEOJSON)
-
-    # Auto-merge custom zones if zones_custom.geojson exists
-    zones_custom_path = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
-    if os.path.exists(zones_custom_path):
-        zones_custom = gpd.read_file(zones_custom_path)
-        zones = pd.concat([zones, zones_custom], ignore_index=True)
+    zones = load_zone_map()
 
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
