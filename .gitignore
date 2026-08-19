@@ -51,6 +51,8 @@ epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results
 epm/postprocessing/Results
 epm/postprocessing/main_postprocessing.py
+# Shipped with create_geojson.py: freshness/provenance of the map layers
+!epm/postprocessing/geojson_freshness.py
 /epm/output_csv
 epm/epm*.log
 
