@@ -1,0 +1,761 @@
+workbook,scenario,type,year,value
+KG,Net Zero,Energy,2023,16153.291
+KG,Net Zero,Energy,2024,16873.686
+KG,Net Zero,Energy,2025,17580.239
+KG,Net Zero,Energy,2026,18141.328
+KG,Net Zero,Energy,2027,18706.738
+KG,Net Zero,Energy,2028,19229.447
+KG,Net Zero,Energy,2029,19779.358
+KG,Net Zero,Energy,2030,20349.046
+KG,Net Zero,Energy,2031,22781.375
+KG,Net Zero,Energy,2032,25175.895
+KG,Net Zero,Energy,2033,27258.676
+KG,Net Zero,Energy,2034,29445.584
+KG,Net Zero,Energy,2035,31636.711
+KG,Net Zero,Energy,2036,33846.987
+KG,Net Zero,Energy,2037,36093.536
+KG,Net Zero,Energy,2038,38370.388
+KG,Net Zero,Energy,2039,40672.768
+KG,Net Zero,Energy,2040,43317.657
+KG,Net Zero,Energy,2041,45729.311
+KG,Net Zero,Energy,2042,48167.564
+KG,Net Zero,Energy,2043,50641.672
+KG,Net Zero,Energy,2044,53156.258
+KG,Net Zero,Energy,2045,55712.481
+KG,Net Zero,Energy,2046,58311.496
+KG,Net Zero,Energy,2047,60956.773
+KG,Net Zero,Energy,2048,63649.469
+KG,Net Zero,Energy,2049,66390.74
+KG,Net Zero,Energy,2050,69181.743
+KG,Net Zero,Energy,2051,73982.622
+KG,Net Zero,Energy,2052,78837.858
+KG,Net Zero,Energy,2053,83750.923
+KG,Net Zero,Energy,2054,88724.128
+KG,Net Zero,Energy,2055,93757.474
+KG,Net Zero,Energy,2056,98857.9
+KG,Net Zero,Energy,2057,104025.407
+KG,Net Zero,Energy,2058,109261.15
+KG,Net Zero,Energy,2059,114572.069
+KG,Net Zero,Energy,2060,119958.164
+KG,Net Zero,Peak,2023,3486.685
+KG,Net Zero,Peak,2024,3642.182
+KG,Net Zero,Peak,2025,3794.692
+KG,Net Zero,Peak,2026,3915.803
+KG,Net Zero,Peak,2027,4037.846
+KG,Net Zero,Peak,2028,4150.673
+KG,Net Zero,Peak,2029,4269.371
+KG,Net Zero,Peak,2030,4392.338
+KG,Net Zero,Peak,2031,4917.356
+KG,Net Zero,Peak,2032,5434.213
+KG,Net Zero,Peak,2033,5883.781
+KG,Net Zero,Peak,2034,6355.824
+KG,Net Zero,Peak,2035,6828.779
+KG,Net Zero,Peak,2036,7305.866
+KG,Net Zero,Peak,2037,7790.784
+KG,Net Zero,Peak,2038,8282.242
+KG,Net Zero,Peak,2039,8779.21
+KG,Net Zero,Peak,2040,9350.109
+KG,Net Zero,Peak,2041,9870.664
+KG,Net Zero,Peak,2042,10396.961
+KG,Net Zero,Peak,2043,10930.996
+KG,Net Zero,Peak,2044,11473.769
+KG,Net Zero,Peak,2045,12025.53
+KG,Net Zero,Peak,2046,12586.527
+KG,Net Zero,Peak,2047,13157.509
+KG,Net Zero,Peak,2048,13738.727
+KG,Net Zero,Peak,2049,14330.43
+KG,Net Zero,Peak,2050,14932.868
+KG,Net Zero,Peak,2051,15969.136
+KG,Net Zero,Peak,2052,17017.138
+KG,Net Zero,Peak,2053,18077.623
+KG,Net Zero,Peak,2054,19151.088
+KG,Net Zero,Peak,2055,20237.535
+KG,Net Zero,Peak,2056,21338.461
+KG,Net Zero,Peak,2057,22453.867
+KG,Net Zero,Peak,2058,23584.001
+KG,Net Zero,Peak,2059,24730.362
+KG,Net Zero,Peak,2060,25892.95
+KG,Reference,Energy,2023,16153.291
+KG,Reference,Energy,2024,16873.686
+KG,Reference,Energy,2025,17580.239
+KG,Reference,Energy,2026,18141.328
+KG,Reference,Energy,2027,18706.738
+KG,Reference,Energy,2028,19229.447
+KG,Reference,Energy,2029,19779.358
+KG,Reference,Energy,2030,20349.046
+KG,Reference,Energy,2031,21359.733
+KG,Reference,Energy,2032,22332.611
+KG,Reference,Energy,2033,22993.75
+KG,Reference,Energy,2034,23759.016
+KG,Reference,Energy,2035,24528.5
+KG,Reference,Energy,2036,25317.135
+KG,Reference,Energy,2037,26142.041
+KG,Reference,Energy,2038,26997.252
+KG,Reference,Energy,2039,27877.989
+KG,Reference,Energy,2040,29101.237
+KG,Reference,Energy,2041,30091.248
+KG,Reference,Energy,2042,31107.86
+KG,Reference,Energy,2043,32160.325
+KG,Reference,Energy,2044,33253.269
+KG,Reference,Energy,2045,34387.85
+KG,Reference,Energy,2046,35565.223
+KG,Reference,Energy,2047,36788.858
+KG,Reference,Energy,2048,38059.912
+KG,Reference,Energy,2049,39379.541
+KG,Reference,Energy,2050,40748.902
+KG,Reference,Energy,2051,42172.622
+KG,Reference,Energy,2052,43650.699
+KG,Reference,Energy,2053,45186.604
+KG,Reference,Energy,2054,46782.65
+KG,Reference,Energy,2055,48438.837
+KG,Reference,Energy,2056,50162.103
+KG,Reference,Energy,2057,51952.451
+KG,Reference,Energy,2058,53811.034
+KG,Reference,Energy,2059,55744.794
+KG,Reference,Energy,2060,57753.73
+KG,Reference,Peak,2023,3486.685
+KG,Reference,Peak,2024,3642.182
+KG,Reference,Peak,2025,3794.692
+KG,Reference,Peak,2026,3915.803
+KG,Reference,Peak,2027,4037.846
+KG,Reference,Peak,2028,4150.673
+KG,Reference,Peak,2029,4269.371
+KG,Reference,Peak,2030,4392.338
+KG,Reference,Peak,2031,4610.495
+KG,Reference,Peak,2032,4820.49
+KG,Reference,Peak,2033,4963.197
+KG,Reference,Peak,2034,5128.38
+KG,Reference,Peak,2035,5294.473
+KG,Reference,Peak,2036,5464.699
+KG,Reference,Peak,2037,5642.755
+KG,Reference,Peak,2038,5827.352
+KG,Reference,Peak,2039,6017.459
+KG,Reference,Peak,2040,6281.497
+KG,Reference,Peak,2041,6495.191
+KG,Reference,Peak,2042,6714.626
+KG,Reference,Peak,2043,6941.801
+KG,Reference,Peak,2044,7177.713
+KG,Reference,Peak,2045,7422.612
+KG,Reference,Peak,2046,7676.747
+KG,Reference,Peak,2047,7940.869
+KG,Reference,Peak,2048,8215.226
+KG,Reference,Peak,2049,8500.067
+KG,Reference,Peak,2050,8795.644
+KG,Reference,Peak,2051,9102.953
+KG,Reference,Peak,2052,9421.996
+KG,Reference,Peak,2053,9753.521
+KG,Reference,Peak,2054,10098.027
+KG,Reference,Peak,2055,10455.515
+KG,Reference,Peak,2056,10827.482
+KG,Reference,Peak,2057,11213.928
+KG,Reference,Peak,2058,11615.103
+KG,Reference,Peak,2059,12032.505
+KG,Reference,Peak,2060,12466.133
+KZ,Net Zero,Energy,2023,116267.843
+KZ,Net Zero,Energy,2024,119185.165
+KZ,Net Zero,Energy,2025,122729.52
+KZ,Net Zero,Energy,2026,125676.458
+KZ,Net Zero,Energy,2027,128949.085
+KZ,Net Zero,Energy,2028,132288.374
+KZ,Net Zero,Energy,2029,135673.225
+KZ,Net Zero,Energy,2030,148747.135
+KZ,Net Zero,Energy,2031,159123.704
+KZ,Net Zero,Energy,2032,171667.934
+KZ,Net Zero,Energy,2033,184294.253
+KZ,Net Zero,Energy,2034,196983.45
+KZ,Net Zero,Energy,2035,209690.183
+KZ,Net Zero,Energy,2036,217888.257
+KZ,Net Zero,Energy,2037,225697.127
+KZ,Net Zero,Energy,2038,233525.07
+KZ,Net Zero,Energy,2039,241384.203
+KZ,Net Zero,Energy,2040,247736.368
+KZ,Net Zero,Energy,2041,260081.078
+KZ,Net Zero,Energy,2042,272504.622
+KZ,Net Zero,Energy,2043,285020.672
+KZ,Net Zero,Energy,2044,297621.79
+KZ,Net Zero,Energy,2045,310315.38
+KZ,Net Zero,Energy,2046,321224.666
+KZ,Net Zero,Energy,2047,332211.977
+KZ,Net Zero,Energy,2048,343282.232
+KZ,Net Zero,Energy,2049,354430.061
+KZ,Net Zero,Energy,2050,363994.59
+KZ,Net Zero,Energy,2051,390263.626
+KZ,Net Zero,Energy,2052,416650.708
+KZ,Net Zero,Energy,2053,443159.177
+KZ,Net Zero,Energy,2054,469792.472
+KZ,Net Zero,Energy,2055,496619.424
+KZ,Net Zero,Energy,2056,523033.341
+KZ,Net Zero,Energy,2057,549583.015
+KZ,Net Zero,Energy,2058,576272.305
+KZ,Net Zero,Energy,2059,603105.186
+KZ,Net Zero,Energy,2060,630020.452
+KZ,Net Zero,Peak,2023,16609.692
+KZ,Net Zero,Peak,2024,17026.452
+KZ,Net Zero,Peak,2025,17532.789
+KZ,Net Zero,Peak,2026,17953.78
+KZ,Net Zero,Peak,2027,18421.298
+KZ,Net Zero,Peak,2028,18898.339
+KZ,Net Zero,Peak,2029,19381.889
+KZ,Net Zero,Peak,2030,21249.591
+KZ,Net Zero,Peak,2031,22731.958
+KZ,Net Zero,Peak,2032,24523.991
+KZ,Net Zero,Peak,2033,26327.75
+KZ,Net Zero,Peak,2034,28140.493
+KZ,Net Zero,Peak,2035,29955.74
+KZ,Net Zero,Peak,2036,31126.894
+KZ,Net Zero,Peak,2037,32242.447
+KZ,Net Zero,Peak,2038,33360.724
+KZ,Net Zero,Peak,2039,34483.458
+KZ,Net Zero,Peak,2040,35390.91
+KZ,Net Zero,Peak,2041,37154.44
+KZ,Net Zero,Peak,2042,38929.232
+KZ,Net Zero,Peak,2043,40717.239
+KZ,Net Zero,Peak,2044,42517.399
+KZ,Net Zero,Peak,2045,44330.769
+KZ,Net Zero,Peak,2046,45889.238
+KZ,Net Zero,Peak,2047,47458.854
+KZ,Net Zero,Peak,2048,49040.319
+KZ,Net Zero,Peak,2049,50632.866
+KZ,Net Zero,Peak,2050,51999.227
+KZ,Net Zero,Peak,2051,55751.947
+KZ,Net Zero,Peak,2052,59521.53
+KZ,Net Zero,Peak,2053,63308.454
+KZ,Net Zero,Peak,2054,67113.21
+KZ,Net Zero,Peak,2055,70945.632
+KZ,Net Zero,Peak,2056,74719.049
+KZ,Net Zero,Peak,2057,78511.859
+KZ,Net Zero,Peak,2058,82324.615
+KZ,Net Zero,Peak,2059,86157.884
+KZ,Net Zero,Peak,2060,90002.922
+KZ,Reference,Energy,2023,116258.663
+KZ,Reference,Energy,2024,119175.745
+KZ,Reference,Energy,2025,122715.96
+KZ,Reference,Energy,2026,125587.11
+KZ,Reference,Energy,2027,128394.296
+KZ,Reference,Energy,2028,131268.745
+KZ,Reference,Energy,2029,134189.956
+KZ,Reference,Energy,2030,137181.261
+KZ,Reference,Energy,2031,140226.59
+KZ,Reference,Energy,2032,143320.413
+KZ,Reference,Energy,2033,146494.225
+KZ,Reference,Energy,2034,149733.015
+KZ,Reference,Energy,2035,152987.782
+KZ,Reference,Energy,2036,156242.821
+KZ,Reference,Energy,2037,159506.61
+KZ,Reference,Energy,2038,162789.47
+KZ,Reference,Energy,2039,166103.521
+KZ,Reference,Energy,2040,167910.604
+KZ,Reference,Energy,2041,171495.07
+KZ,Reference,Energy,2042,175158.37
+KZ,Reference,Energy,2043,178914.177
+KZ,Reference,Energy,2044,182755.051
+KZ,Reference,Energy,2045,186688.397
+KZ,Reference,Energy,2046,190707.448
+KZ,Reference,Energy,2047,194804.526
+KZ,Reference,Energy,2048,198984.546
+KZ,Reference,Energy,2049,203242.141
+KZ,Reference,Energy,2050,205916.436
+KZ,Reference,Energy,2051,210333.22
+KZ,Reference,Energy,2052,214868.051
+KZ,Reference,Energy,2053,219524.268
+KZ,Reference,Energy,2054,224305.31
+KZ,Reference,Energy,2055,229214.717
+KZ,Reference,Energy,2056,234256.131
+KZ,Reference,Energy,2057,239433.303
+KZ,Reference,Energy,2058,244750.091
+KZ,Reference,Energy,2059,250210.469
+KZ,Reference,Energy,2060,255818.526
+KZ,Reference,Peak,2023,16608.38
+KZ,Reference,Peak,2024,17025.106
+KZ,Reference,Peak,2025,17530.851
+KZ,Reference,Peak,2026,17941.016
+KZ,Reference,Peak,2027,18342.042
+KZ,Reference,Peak,2028,18752.678
+KZ,Reference,Peak,2029,19169.994
+KZ,Reference,Peak,2030,19597.323
+KZ,Reference,Peak,2031,20032.37
+KZ,Reference,Peak,2032,20474.345
+KZ,Reference,Peak,2033,20927.746
+KZ,Reference,Peak,2034,21390.431
+KZ,Reference,Peak,2035,21855.397
+KZ,Reference,Peak,2036,22320.403
+KZ,Reference,Peak,2037,22786.659
+KZ,Reference,Peak,2038,23255.639
+KZ,Reference,Peak,2039,23729.074
+KZ,Reference,Peak,2040,23987.229
+KZ,Reference,Peak,2041,24499.296
+KZ,Reference,Peak,2042,25022.624
+KZ,Reference,Peak,2043,25559.168
+KZ,Reference,Peak,2044,26107.864
+KZ,Reference,Peak,2045,26669.771
+KZ,Reference,Peak,2046,27243.921
+KZ,Reference,Peak,2047,27829.218
+KZ,Reference,Peak,2048,28426.364
+KZ,Reference,Peak,2049,29034.592
+KZ,Reference,Peak,2050,29416.634
+KZ,Reference,Peak,2051,30047.603
+KZ,Reference,Peak,2052,30695.436
+KZ,Reference,Peak,2053,31360.61
+KZ,Reference,Peak,2054,32043.616
+KZ,Reference,Peak,2055,32744.96
+KZ,Reference,Peak,2056,33465.162
+KZ,Reference,Peak,2057,34204.758
+KZ,Reference,Peak,2058,34964.299
+KZ,Reference,Peak,2059,35744.353
+KZ,Reference,Peak,2060,36545.504
+TJ,Net Zero,Energy,2023,19636.589
+TJ,Net Zero,Energy,2024,20248.011
+TJ,Net Zero,Energy,2025,21187.493
+TJ,Net Zero,Energy,2026,21846.679
+TJ,Net Zero,Energy,2027,22528.087
+TJ,Net Zero,Energy,2028,23551.185
+TJ,Net Zero,Energy,2029,24615.352
+TJ,Net Zero,Energy,2030,25718.662
+TJ,Net Zero,Energy,2031,28288.655
+TJ,Net Zero,Energy,2032,30900.425
+TJ,Net Zero,Energy,2033,33557.542
+TJ,Net Zero,Energy,2034,36284.002
+TJ,Net Zero,Energy,2035,39057.855
+TJ,Net Zero,Energy,2036,41877.918
+TJ,Net Zero,Energy,2037,44770.664
+TJ,Net Zero,Energy,2038,47400.853
+TJ,Net Zero,Energy,2039,50045.019
+TJ,Net Zero,Energy,2040,52703.661
+TJ,Net Zero,Energy,2041,55000.938
+TJ,Net Zero,Energy,2042,57617.615
+TJ,Net Zero,Energy,2043,60249.677
+TJ,Net Zero,Energy,2044,62899.185
+TJ,Net Zero,Energy,2045,65565.953
+TJ,Net Zero,Energy,2046,68237.806
+TJ,Net Zero,Energy,2047,70909.262
+TJ,Net Zero,Energy,2048,73591.305
+TJ,Net Zero,Energy,2049,76268.83
+TJ,Net Zero,Energy,2050,78951.16
+TJ,Net Zero,Energy,2051,83510.267
+TJ,Net Zero,Energy,2052,88074.384
+TJ,Net Zero,Energy,2053,92644.816
+TJ,Net Zero,Energy,2054,97223.054
+TJ,Net Zero,Energy,2055,101810.791
+TJ,Net Zero,Energy,2056,106409.931
+TJ,Net Zero,Energy,2057,111022.603
+TJ,Net Zero,Energy,2058,115651.173
+TJ,Net Zero,Energy,2059,120298.261
+TJ,Net Zero,Energy,2060,124966.754
+TJ,Net Zero,Peak,2023,3.719
+TJ,Net Zero,Peak,2024,3.835
+TJ,Net Zero,Peak,2025,4.013
+TJ,Net Zero,Peak,2026,4.138
+TJ,Net Zero,Peak,2027,4.267
+TJ,Net Zero,Peak,2028,4.46
+TJ,Net Zero,Peak,2029,4.662
+TJ,Net Zero,Peak,2030,4.871
+TJ,Net Zero,Peak,2031,5.358
+TJ,Net Zero,Peak,2032,5.852
+TJ,Net Zero,Peak,2033,6.355
+TJ,Net Zero,Peak,2034,6.872
+TJ,Net Zero,Peak,2035,7.397
+TJ,Net Zero,Peak,2036,7.931
+TJ,Net Zero,Peak,2037,8.479
+TJ,Net Zero,Peak,2038,8.977
+TJ,Net Zero,Peak,2039,9.478
+TJ,Net Zero,Peak,2040,9.981
+TJ,Net Zero,Peak,2041,10.417
+TJ,Net Zero,Peak,2042,10.912
+TJ,Net Zero,Peak,2043,11.411
+TJ,Net Zero,Peak,2044,11.912
+TJ,Net Zero,Peak,2045,12.417
+TJ,Net Zero,Peak,2046,12.923
+TJ,Net Zero,Peak,2047,13.429
+TJ,Net Zero,Peak,2048,13.937
+TJ,Net Zero,Peak,2049,14.444
+TJ,Net Zero,Peak,2050,14.952
+TJ,Net Zero,Peak,2051,15.816
+TJ,Net Zero,Peak,2052,16.68
+TJ,Net Zero,Peak,2053,17.546
+TJ,Net Zero,Peak,2054,18.413
+TJ,Net Zero,Peak,2055,19.282
+TJ,Net Zero,Peak,2056,20.153
+TJ,Net Zero,Peak,2057,21.026
+TJ,Net Zero,Peak,2058,21.903
+TJ,Net Zero,Peak,2059,22.783
+TJ,Net Zero,Peak,2060,23.667
+TJ,Reference,Energy,2023,19636.589
+TJ,Reference,Energy,2024,20248.011
+TJ,Reference,Energy,2025,20744.464
+TJ,Reference,Energy,2026,21256.479
+TJ,Reference,Energy,2027,21791.118
+TJ,Reference,Energy,2028,22658.4
+TJ,Reference,Energy,2029,23563.943
+TJ,Reference,Energy,2030,24505.822
+TJ,Reference,Energy,2031,25486.092
+TJ,Reference,Energy,2032,26486.67
+TJ,Reference,Energy,2033,27511.125
+TJ,Reference,Energy,2034,28583.454
+TJ,Reference,Energy,2035,29681.707
+TJ,Reference,Energy,2036,30804.7
+TJ,Reference,Energy,2037,31978.907
+TJ,Reference,Energy,2038,32966.194
+TJ,Reference,Energy,2039,33967.459
+TJ,Reference,Energy,2040,34983.201
+TJ,Reference,Energy,2041,35637.576
+TJ,Reference,Energy,2042,36611.352
+TJ,Reference,Energy,2043,37600.513
+TJ,Reference,Energy,2044,38607.12
+TJ,Reference,Energy,2045,39630.987
+TJ,Reference,Energy,2046,40659.939
+TJ,Reference,Energy,2047,41688.494
+TJ,Reference,Energy,2048,42727.636
+TJ,Reference,Energy,2049,43762.26
+TJ,Reference,Energy,2050,44801.689
+TJ,Reference,Energy,2051,45845.005
+TJ,Reference,Energy,2052,46893.331
+TJ,Reference,Energy,2053,47947.972
+TJ,Reference,Energy,2054,49010.419
+TJ,Reference,Energy,2055,50082.366
+TJ,Reference,Energy,2056,51165.715
+TJ,Reference,Energy,2057,52262.596
+TJ,Reference,Energy,2058,53375.376
+TJ,Reference,Energy,2059,54506.672
+TJ,Reference,Energy,2060,55659.374
+TJ,Reference,Peak,2023,3.719
+TJ,Reference,Peak,2024,3.835
+TJ,Reference,Peak,2025,3.929
+TJ,Reference,Peak,2026,4.026
+TJ,Reference,Peak,2027,4.127
+TJ,Reference,Peak,2028,4.291
+TJ,Reference,Peak,2029,4.463
+TJ,Reference,Peak,2030,4.641
+TJ,Reference,Peak,2031,4.827
+TJ,Reference,Peak,2032,5.016
+TJ,Reference,Peak,2033,5.21
+TJ,Reference,Peak,2034,5.413
+TJ,Reference,Peak,2035,5.621
+TJ,Reference,Peak,2036,5.834
+TJ,Reference,Peak,2037,6.056
+TJ,Reference,Peak,2038,6.243
+TJ,Reference,Peak,2039,6.433
+TJ,Reference,Peak,2040,6.625
+TJ,Reference,Peak,2041,6.749
+TJ,Reference,Peak,2042,6.934
+TJ,Reference,Peak,2043,7.121
+TJ,Reference,Peak,2044,7.312
+TJ,Reference,Peak,2045,7.506
+TJ,Reference,Peak,2046,7.701
+TJ,Reference,Peak,2047,7.895
+TJ,Reference,Peak,2048,8.092
+TJ,Reference,Peak,2049,8.288
+TJ,Reference,Peak,2050,8.485
+TJ,Reference,Peak,2051,8.683
+TJ,Reference,Peak,2052,8.881
+TJ,Reference,Peak,2053,9.081
+TJ,Reference,Peak,2054,9.282
+TJ,Reference,Peak,2055,9.485
+TJ,Reference,Peak,2056,9.69
+TJ,Reference,Peak,2057,9.898
+TJ,Reference,Peak,2058,10.109
+TJ,Reference,Peak,2059,10.323
+TJ,Reference,Peak,2060,10.541
+TM,Net Zero,Energy,2023,21641.051
+TM,Net Zero,Energy,2024,22003.106
+TM,Net Zero,Energy,2025,22365.162
+TM,Net Zero,Energy,2026,23527.214
+TM,Net Zero,Energy,2027,24689.266
+TM,Net Zero,Energy,2028,25851.318
+TM,Net Zero,Energy,2029,27013.37
+TM,Net Zero,Energy,2030,28175.422
+TM,Net Zero,Energy,2031,33675.822
+TM,Net Zero,Energy,2032,39176.222
+TM,Net Zero,Energy,2033,44676.622
+TM,Net Zero,Energy,2034,50177.022
+TM,Net Zero,Energy,2035,55677.422
+TM,Net Zero,Energy,2036,61158.206
+TM,Net Zero,Energy,2037,66638.99
+TM,Net Zero,Energy,2038,72119.774
+TM,Net Zero,Energy,2039,77600.558
+TM,Net Zero,Energy,2040,83081.342
+TM,Net Zero,Energy,2041,88670.097
+TM,Net Zero,Energy,2042,94258.852
+TM,Net Zero,Energy,2043,99847.606
+TM,Net Zero,Energy,2044,105436.361
+TM,Net Zero,Energy,2045,111025.116
+TM,Net Zero,Energy,2046,116624.154
+TM,Net Zero,Energy,2047,122223.192
+TM,Net Zero,Energy,2048,127822.23
+TM,Net Zero,Energy,2049,133421.268
+TM,Net Zero,Energy,2050,139020.306
+TM,Net Zero,Energy,2051,144629.457
+TM,Net Zero,Energy,2052,150238.607
+TM,Net Zero,Energy,2053,155847.758
+TM,Net Zero,Energy,2054,161456.909
+TM,Net Zero,Energy,2055,167066.059
+TM,Net Zero,Energy,2056,172695.875
+TM,Net Zero,Energy,2057,178325.691
+TM,Net Zero,Energy,2058,183955.507
+TM,Net Zero,Energy,2059,189585.323
+TM,Net Zero,Energy,2060,195215.139
+TM,Net Zero,Peak,2023,3025.399
+TM,Net Zero,Peak,2024,3706.089
+TM,Net Zero,Peak,2025,4418.621
+TM,Net Zero,Peak,2026,4766.164
+TM,Net Zero,Peak,2027,5113.687
+TM,Net Zero,Peak,2028,5445.962
+TM,Net Zero,Peak,2029,5795.479
+TM,Net Zero,Peak,2030,6154.999
+TM,Net Zero,Peak,2031,6684.593
+TM,Net Zero,Peak,2032,7187.352
+TM,Net Zero,Peak,2033,7632.398
+TM,Net Zero,Peak,2034,8273.549
+TM,Net Zero,Peak,2035,8794.701
+TM,Net Zero,Peak,2036,9368.856
+TM,Net Zero,Peak,2037,10012.879
+TM,Net Zero,Peak,2038,10617.097
+TM,Net Zero,Peak,2039,11056.165
+TM,Net Zero,Peak,2040,11789.413
+TM,Net Zero,Peak,2041,12299.838
+TM,Net Zero,Peak,2042,12668.374
+TM,Net Zero,Peak,2043,13140.104
+TM,Net Zero,Peak,2044,13565.062
+TM,Net Zero,Peak,2045,14078.515
+TM,Net Zero,Peak,2046,14685.492
+TM,Net Zero,Peak,2047,15174.133
+TM,Net Zero,Peak,2048,15484.736
+TM,Net Zero,Peak,2049,15914.734
+TM,Net Zero,Peak,2050,16502.768
+TM,Net Zero,Peak,2051,17845.914
+TM,Net Zero,Peak,2052,19290.585
+TM,Net Zero,Peak,2053,20707.658
+TM,Net Zero,Peak,2054,22065.779
+TM,Net Zero,Peak,2055,23421.791
+TM,Net Zero,Peak,2056,24351.955
+TM,Net Zero,Peak,2057,25824.958
+TM,Net Zero,Peak,2058,26669.897
+TM,Net Zero,Peak,2059,27867.449
+TM,Net Zero,Peak,2060,28967.305
+TM,Reference,Energy,2023,21641.051
+TM,Reference,Energy,2024,22002.505
+TM,Reference,Energy,2025,22365.162
+TM,Reference,Energy,2026,22693.859
+TM,Reference,Energy,2027,23033.608
+TM,Reference,Energy,2028,23384.868
+TM,Reference,Energy,2029,23748.116
+TM,Reference,Energy,2030,24123.848
+TM,Reference,Energy,2031,24400.126
+TM,Reference,Energy,2032,24680.75
+TM,Reference,Energy,2033,24965.805
+TM,Reference,Energy,2034,25255.377
+TM,Reference,Energy,2035,25541.108
+TM,Reference,Energy,2036,25831.426
+TM,Reference,Energy,2037,26126.423
+TM,Reference,Energy,2038,26426.19
+TM,Reference,Energy,2039,26730.821
+TM,Reference,Energy,2040,27096.818
+TM,Reference,Energy,2041,27473.53
+TM,Reference,Energy,2042,27857.285
+TM,Reference,Energy,2043,28248.239
+TM,Reference,Energy,2044,28646.554
+TM,Reference,Energy,2045,29052.394
+TM,Reference,Energy,2046,29438.492
+TM,Reference,Energy,2047,29832.065
+TM,Reference,Energy,2048,30233.286
+TM,Reference,Energy,2049,30642.333
+TM,Reference,Energy,2050,31059.386
+TM,Reference,Energy,2051,31454.418
+TM,Reference,Energy,2052,31857.495
+TM,Reference,Energy,2053,32268.808
+TM,Reference,Energy,2054,32688.557
+TM,Reference,Energy,2055,33116.941
+TM,Reference,Energy,2056,33530.959
+TM,Reference,Energy,2057,33953.837
+TM,Reference,Energy,2058,34385.792
+TM,Reference,Energy,2059,34827.045
+TM,Reference,Energy,2060,35277.823
+TM,Reference,Peak,2023,3025.399
+TM,Reference,Peak,2024,3067.189
+TM,Reference,Peak,2025,3126.727
+TM,Reference,Peak,2026,3179.557
+TM,Reference,Peak,2027,3226.946
+TM,Reference,Peak,2028,3218.748
+TM,Reference,Peak,2029,3327.283
+TM,Reference,Peak,2030,3379.926
+TM,Reference,Peak,2031,3412.165
+TM,Reference,Peak,2032,3447.86
+TM,Reference,Peak,2033,3497.959
+TM,Reference,Peak,2034,3531.387
+TM,Reference,Peak,2035,3577.608
+TM,Reference,Peak,2036,3607.658
+TM,Reference,Peak,2037,3656.063
+TM,Reference,Peak,2038,3690.171
+TM,Reference,Peak,2039,3744.979
+TM,Reference,Peak,2040,3784.869
+TM,Reference,Peak,2041,3849.062
+TM,Reference,Peak,2042,3895.303
+TM,Reference,Peak,2043,3949.953
+TM,Reference,Peak,2044,4001.593
+TM,Reference,Peak,2045,4062.448
+TM,Reference,Peak,2046,4123.926
+TM,Reference,Peak,2047,4144.676
+TM,Reference,Peak,2048,4188.703
+TM,Reference,Peak,2049,4257.153
+TM,Reference,Peak,2050,4271.219
+TM,Reference,Peak,2051,4324.249
+TM,Reference,Peak,2052,4368.08
+TM,Reference,Peak,2053,4436.255
+TM,Reference,Peak,2054,4493.95
+TM,Reference,Peak,2055,4552.429
+TM,Reference,Peak,2056,4635.63
+TM,Reference,Peak,2057,4707.627
+TM,Reference,Peak,2058,4726.919
+TM,Reference,Peak,2059,4779.004
+TM,Reference,Peak,2060,4843.068
+UZ,Net Zero,Energy,2023,79409.532
+UZ,Net Zero,Energy,2024,82001.102
+UZ,Net Zero,Energy,2025,85723.519
+UZ,Net Zero,Energy,2026,88895.903
+UZ,Net Zero,Energy,2027,92399.6
+UZ,Net Zero,Energy,2028,96285.778
+UZ,Net Zero,Energy,2029,100570.078
+UZ,Net Zero,Energy,2030,114903.88
+UZ,Net Zero,Energy,2031,124826.264
+UZ,Net Zero,Energy,2032,134906.85
+UZ,Net Zero,Energy,2033,145233.035
+UZ,Net Zero,Energy,2034,155790.294
+UZ,Net Zero,Energy,2035,166509.989
+UZ,Net Zero,Energy,2036,177426.649
+UZ,Net Zero,Energy,2037,188546.838
+UZ,Net Zero,Energy,2038,199745.104
+UZ,Net Zero,Energy,2039,211219.661
+UZ,Net Zero,Energy,2040,224012.517
+UZ,Net Zero,Energy,2041,250331.63
+UZ,Net Zero,Energy,2042,276613.81
+UZ,Net Zero,Energy,2043,303185.285
+UZ,Net Zero,Energy,2044,329814.32
+UZ,Net Zero,Energy,2045,356347.737
+UZ,Net Zero,Energy,2046,374777.013
+UZ,Net Zero,Energy,2047,393477.514
+UZ,Net Zero,Energy,2048,412156.489
+UZ,Net Zero,Energy,2049,430945.908
+UZ,Net Zero,Energy,2050,450001.43
+UZ,Net Zero,Energy,2051,477478.627
+UZ,Net Zero,Energy,2052,505080.18
+UZ,Net Zero,Energy,2053,532983.098
+UZ,Net Zero,Energy,2054,561005.598
+UZ,Net Zero,Energy,2055,589338.938
+UZ,Net Zero,Energy,2056,615889.7
+UZ,Net Zero,Energy,2057,642558.281
+UZ,Net Zero,Energy,2058,669332.352
+UZ,Net Zero,Energy,2059,696198.775
+UZ,Net Zero,Energy,2060,723387.844
+UZ,Net Zero,Peak,2023,11746.972
+UZ,Net Zero,Peak,2024,12130.341
+UZ,Net Zero,Peak,2025,12680.994
+UZ,Net Zero,Peak,2026,13150.281
+UZ,Net Zero,Peak,2027,13668.58
+UZ,Net Zero,Peak,2028,14243.458
+UZ,Net Zero,Peak,2029,14877.23
+UZ,Net Zero,Peak,2030,16997.615
+UZ,Net Zero,Peak,2031,18465.424
+UZ,Net Zero,Peak,2032,19956.635
+UZ,Net Zero,Peak,2033,21484.177
+UZ,Net Zero,Peak,2034,23045.901
+UZ,Net Zero,Peak,2035,24631.655
+UZ,Net Zero,Peak,2036,26246.546
+UZ,Net Zero,Peak,2037,27891.544
+UZ,Net Zero,Peak,2038,29548.092
+UZ,Net Zero,Peak,2039,31245.512
+UZ,Net Zero,Peak,2040,33137.946
+UZ,Net Zero,Peak,2041,37031.306
+UZ,Net Zero,Peak,2042,40919.203
+UZ,Net Zero,Peak,2043,44849.894
+UZ,Net Zero,Peak,2044,48789.101
+UZ,Net Zero,Peak,2045,52714.162
+UZ,Net Zero,Peak,2046,55440.387
+UZ,Net Zero,Peak,2047,58206.733
+UZ,Net Zero,Peak,2048,60969.895
+UZ,Net Zero,Peak,2049,63749.395
+UZ,Net Zero,Peak,2050,66568.259
+UZ,Net Zero,Peak,2051,70632.933
+UZ,Net Zero,Peak,2052,74716.003
+UZ,Net Zero,Peak,2053,78843.654
+UZ,Net Zero,Peak,2054,82988.994
+UZ,Net Zero,Peak,2055,87180.316
+UZ,Net Zero,Peak,2056,91107.944
+UZ,Net Zero,Peak,2057,95053.0
+UZ,Net Zero,Peak,2058,99013.662
+UZ,Net Zero,Peak,2059,102987.984
+UZ,Net Zero,Peak,2060,107010.036
+UZ,Reference,Energy,2023,79409.532
+UZ,Reference,Energy,2024,82001.102
+UZ,Reference,Energy,2025,84848.819
+UZ,Reference,Energy,2026,87127.669
+UZ,Reference,Energy,2027,89678.839
+UZ,Reference,Energy,2028,92543.09
+UZ,Reference,Energy,2029,95727.049
+UZ,Reference,Energy,2030,100529.363
+UZ,Reference,Energy,2031,107415.007
+UZ,Reference,Energy,2032,114441.902
+UZ,Reference,Energy,2033,121688.082
+UZ,Reference,Energy,2034,129140.578
+UZ,Reference,Energy,2035,136738.107
+UZ,Reference,Energy,2036,144511.496
+UZ,Reference,Energy,2037,152466.608
+UZ,Reference,Energy,2038,160491.432
+UZ,Reference,Energy,2039,168762.944
+UZ,Reference,Energy,2040,177088.01
+UZ,Reference,Energy,2041,185270.705
+UZ,Reference,Energy,2042,193420.427
+UZ,Reference,Energy,2043,201828.446
+UZ,Reference,Energy,2044,210287.859
+UZ,Reference,Energy,2045,218661.898
+UZ,Reference,Energy,2046,227797.367
+UZ,Reference,Energy,2047,237175.001
+UZ,Reference,Energy,2048,246533.414
+UZ,Reference,Energy,2049,255990.44
+UZ,Reference,Energy,2050,265685.056
+UZ,Reference,Energy,2051,274198.088
+UZ,Reference,Energy,2052,282822.153
+UZ,Reference,Energy,2053,291715.293
+UZ,Reference,Energy,2054,300715.203
+UZ,Reference,Energy,2055,309992.648
+UZ,Reference,Energy,2056,321734.382
+UZ,Reference,Energy,2057,333581.311
+UZ,Reference,Energy,2058,345522.427
+UZ,Reference,Energy,2059,357546.001
+UZ,Reference,Energy,2060,369857.651
+UZ,Reference,Peak,2023,11746.972
+UZ,Reference,Peak,2024,12130.341
+UZ,Reference,Peak,2025,12551.6
+UZ,Reference,Peak,2026,12888.708
+UZ,Reference,Peak,2027,13266.101
+UZ,Reference,Peak,2028,13689.806
+UZ,Reference,Peak,2029,14160.806
+UZ,Reference,Peak,2030,14871.208
+UZ,Reference,Peak,2031,15889.794
+UZ,Reference,Peak,2032,16929.275
+UZ,Reference,Peak,2033,18001.196
+UZ,Reference,Peak,2034,19103.636
+UZ,Reference,Peak,2035,20227.531
+UZ,Reference,Peak,2036,21377.44
+UZ,Reference,Peak,2037,22554.232
+UZ,Reference,Peak,2038,23741.336
+UZ,Reference,Peak,2039,24964.933
+UZ,Reference,Peak,2040,26196.451
+UZ,Reference,Peak,2041,27406.909
+UZ,Reference,Peak,2042,28612.489
+UZ,Reference,Peak,2043,29856.279
+UZ,Reference,Peak,2044,31107.671
+UZ,Reference,Peak,2045,32346.435
+UZ,Reference,Peak,2046,33697.835
+UZ,Reference,Peak,2047,35085.059
+UZ,Reference,Peak,2048,36469.44
+UZ,Reference,Peak,2049,37868.408
+UZ,Reference,Peak,2050,39302.523
+UZ,Reference,Peak,2051,40561.847
+UZ,Reference,Peak,2052,41837.597
+UZ,Reference,Peak,2053,43153.15
+UZ,Reference,Peak,2054,44484.497
+UZ,Reference,Peak,2055,45856.901
+UZ,Reference,Peak,2056,47593.844
+UZ,Reference,Peak,2057,49346.348
+UZ,Reference,Peak,2058,51112.785
+UZ,Reference,Peak,2059,52891.42
+UZ,Reference,Peak,2060,54712.67

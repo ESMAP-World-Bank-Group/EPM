@@ -1,0 +1,17 @@
+z,country,workbook,profile_columns,method,note
+KAZ_N,KAZ,KZ,North;West,DIRECT,"Zone Ouest rattachée au Nord : le modèle ne compte que deux zones kazakhes. L'Ouest (Atyrau, Mangystau, West KZ, 12,9 % de la demande KZ) est en réalité un îlot synchrone de la Russie ; le rattacher au Sud serait pire. Une troisième zone KAZ_W serait la vraie correction."
+KAZ_S,KAZ,KZ,South,DIRECT,
+KGZ_N,KGZ,KG,KG-North,DIRECT,"Part DeCA 63,9 % contre 93,2 % dans le modèle 2020."
+KGZ_S,KGZ,KG,KG-South,DIRECT,"Part DeCA 36,1 % contre 6,8 % dans le modèle 2020 : le Sud kirghize était quasi vide."
+TAJ_N,TAJ,TJ,North,DIRECT,"ALERTE : DeCA donne 27,7 % au Nord, le modèle 2020 en donnait 74,9 %. Le partage est INVERSÉ. Le parc 2020 est lui géographiquement correct (Nurek, Rogun, Sangtuda en TAJ_S ; Kairakkum, Zarafshan en TAJ_N), donc c'est bien la demande qui était mal répartie."
+TAJ_S,TAJ,TJ,South,DIRECT,"Sud = Khatlon, RRS, Douchanbé, GBAO, plus l'aluminerie TALCO. 72,3 % selon DeCA."
+UZB,UZB,UZ,Total,DIRECT,"Zone unique : le découpage DeCA en 5 sous-zones n'est pas utilisé tant que UZB n'est pas scindée."
+TUR,TUR,TM,Total TK,PROXY,"Le profil TM n'est qu'une journée moyenne par mois (288 points). Sans conséquence ici, la zone étant unique : l'énergie et la pointe viennent directement de Demand Evolution."
+NEPS_AFG,AFG,,,LEGACY,"Aucune source 2026. Reconduit depuis pDemandData du modèle 2020, prolongé au taux de croissance du modèle."
+NEPS_HERAT,AFG,,,LEGACY,
+NEPS_TAJ,AFG,,,LEGACY,
+NEPS_TKM,AFG,,,LEGACY,
+NEPS_UZB,AFG,,,LEGACY,
+PAK_KAR,PAK,,,LEGACY,"Aucune source 2026. TROU MAJEUR : le Pakistan pèse 38 % de la demande du modèle et la dernière source date de 2018. L'IGCEP du NTDC remplacerait tout ceci."
+PAK_N,PAK,,,LEGACY,
+PAK_S,PAK,,,LEGACY,

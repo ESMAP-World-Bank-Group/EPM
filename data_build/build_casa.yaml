@@ -1,0 +1,943 @@
+# Construction du jeu d'entrées EPM Asie centrale 2026.
+#
+#   python data_build/build.py   --config data_build/build_casa.yaml --check
+#   python data_build/build.py   --config data_build/build_casa.yaml --apply
+#   python data_build/tracker.py --config data_build/build_casa.yaml
+#
+# SEUL FICHIER ÉDITÉ À LA MAIN de la chaîne. Le dossier cible est REPRODUIT par ce
+# fichier ; le classeur de suivi en est DÉDUIT. Ni l'un ni l'autre ne s'édite à la
+# main, donc ni l'un ni l'autre ne peut diverger de ce qui a réellement été fait.
+# Toute ressource absente de la liste "resources" est reprise telle quelle depuis la
+# référence 2020.
+
+deployment:
+  source: epm/input/data_casa_2020      # port fidèle du modèle EPM v7.9 de décembre 2020
+  target: epm/input/data_casa           # ce qu'on construit
+  datapackage: epm/input/datapackage.json
+
+
+# ── Les sources, décrites une fois ────────────────────────────────────────────
+# Les fichiers bruts ne sont pas versionnés (volumineux, souvent confidentiels) : le
+# champ "where" dit où les trouver, "access" gouverne ce qui peut sortir de la Banque.
+# Chemins relatifs à ca_2026/ sauf mention contraire.
+
+sources:
+
+  casa_2020:
+    name: Modèle EPM CASA v7.9, porté et validé
+    date: 2020-12
+    access: internal_wb
+    where: EPM/epm/input/data_casa_2020
+    covers: 16 zones, 7 pays, 2017-2030
+    note: >
+      Seule source pour l'Afghanistan et le Pakistan : c'est pourquoi le build part
+      d'une copie plutôt que d'une page blanche. Portage validé (demande, production,
+      défaillance et corridors identiques au legacy). Hypothèses de 2020 périmées,
+      profil de charge de millésime 2013.
+
+  deca_v51:
+    name: DeCA / Mercados AssumptionBooks V5.1
+    date: 2025-03-06
+    access: internal_wb
+    where: data_collection/Mercados/
+    covers: KG, KZ, TJ, TM, UZ
+    note: >
+      Un classeur par pays. KG 20 onglets (demande 8760 h Nord/Sud, cascade hydro).
+      KZ 18 onglets, demande 8760 h PAR OBLAST (14) plus agrégats North/South/West,
+      Demand Evolution en deux scénarios Reference et Net Zero, onglet Exchanges with
+      non CA countries ; les échanges intra-Asie centrale sont absents. TJ 18 onglets,
+      demande 8760 h Nord/Sud (2021), onglet Exchanges : liaison DC CASA-1000 300 MW
+      dès 2026 avec fenêtre d'export mai-septembre, TJ vers AF Sangtuda-Kunduz 300 MW,
+      PPA existant 188 MW ; aucun détail sur Rogun. TM 13 onglets, pas d'hydro, et
+      DEMANDE DÉGRADÉE : journée moyenne par mois seulement (~288 points), sans
+      découpage régional. UZ 19 onglets, demande 8760 h par 5 zones, onglet Fuel
+      Availability unique aux cinq carnets.
+
+  uz_climate_2026:
+    name: UZ Climate AssumptionBook (WB/MAI)
+    date: 2026-07-09
+    access: internal_wb
+    where: data_collection/Mercados/20260709_UZ_CC_AssumptionBook_WB_MAI.xlsb
+    covers: Ouzbékistan
+    note: >
+      Postérieur de 16 mois aux carnets V5.1, donc prioritaire sur eux pour l'UZB.
+      Format .xlsb, lecture via pyxlsb.
+
+  gabarit_2026:
+    name: Gabarit 2026 CASA CENTRAL ASIA DATA REQUEST
+    date: 2026
+    access: internal_wb
+    where: Context/opening_emails/
+    covers: 5 pays d'Asie centrale
+    note: >
+      25 onglets (5 thèmes x 5 pays), DÉJÀ PRÉ-REMPLI avec les données 2020 nettoyées,
+      zones en libellé texte. C'est le circuit officiel de validation par les TTL pays.
+      Pré-rempli n'est pas validé. Ne couvre NI l'Afghanistan NI le Pakistan.
+
+  ttl_2026:
+    name: Retours pays de l'équipe TTL, campagne 2026
+    date: 2026
+    access: internal_wb
+    note: >
+      Prioritaire sur DeCA et sur le modèle 2020 quand disponible. Les extensions de
+      parc datées 2023+ héritées de 2020 sont des PROJETS, pas des faits : revue TTL
+      obligatoire avant de les garder.
+
+  casa1000_ppa:
+    name: CASA_PPA_Quantities_All_4_Flows.xlsx
+    date: 2026
+    access: client_confidential
+    where: (à localiser)
+    note: Quantités contractuelles des 4 flux, à rattacher à pContractedTradeEnergy.
+
+  epmresults_legacy:
+    name: EPMRESULTS.xlsx, résultats du modèle legacy
+    date: 2020
+    access: internal_wb
+    where: planning_sharefolder/casa_planning_sharefolder/CASA/1. Model/
+    note: Référence de non-régression du portage. Signal d'alerte, pas critère d'acceptation.
+
+  pak_sharefolder:
+    name: Pakistan planning sharefolder
+    date: 2018
+    access: internal_wb
+    where: planning_sharefolder/pakistan_planning_sharefolder/
+    covers: Pakistan
+    note: >
+      NTDC, Lahmeyer, master plan SNC Lavalin. TROU MAJEUR : 8 ans d'âge, IGCEP absent,
+      alors que le Pakistan pèse 155 TWh, soit 38 % de la demande du modèle.
+
+  afg_sharefolder:
+    name: Afghanistan planning sharefolder
+    date: 2021
+    access: internal_wb
+    where: planning_sharefolder/afghanistan_planning_sharefolder/
+    covers: Afghanistan
+    note: >
+      AFGDISPATCH.gms et .xlsx. TROU MAJEUR : antérieur à 2021, aucune source
+      alternative fiable hors Global Energy Monitor.
+
+  mercados_plexos:
+    name: Rapport Mercados et modèle PLEXOS associé
+    date: 2025
+    access: internal_wb
+
+  renewables_ninja:
+    name: Renewables.ninja / ERA5
+    date: 2026
+    access: open_source
+    where: renewables.ninja
+    note: >
+      Profils horaires solaire et éolien par coordonnées. Déjà utilisé par
+      pre-analysis/pipelines/vre_pipeline.py.
+
+  demande_tso:
+    name: Demande directe aux gestionnaires de réseau
+    date: 2026
+    access: internal_wb
+    note: NTC et calendriers de mise en service des corridors. Non engagée à ce jour.
+
+  pipeline:
+    name: Sortie du pipeline pre-analysis (journées représentatives, profils VRE)
+    date: 2026
+    access: internal_wb
+    where: EPM/pre-analysis/
+
+  equipe:
+    name: Décision de l'équipe de modélisation
+    date: 2026
+    access: internal_wb
+
+  hypothese:
+    name: AUCUNE SOURCE - hypothèse posée
+    date: 2026
+    access: assumption
+    note: >
+      À rendre explicite dans la note de méthode : toute valeur portée ici est à
+      justifier ou à remplacer.
+
+  courriels_equipe:
+    name: Courriels de l'équipe CASA
+    date: 2026-08
+    access: internal_wb
+    where: Context/opening_emails/
+    note: >
+      Circuit de validation imposé : Mercados, puis gabarit, puis revue TTL, puis EPM.
+      Exercice INTERNE, non partageable à l'externe (Kabir Malik, 5 août 2026).
+
+
+# ── Pistes de sources publiques, testées le 19 août 2026 ──────────────────────
+# Purement informatif : ce bloc ne pilote pas le build, il alimente le classeur.
+# Il ne recense que des sources ACCESSIBLES EN LIGNE, sans demande préalable, et
+# le statut dit ce qu'a donné le test — pas ce qu'on espérait y trouver.
+# [pays, organisme, adresse, statut, contenu constaté, ce qu'on en fait]
+
+leads:
+  - [Pakistan, "NTDC / ISMO — IGCEP 2025-35", "nepra.org.pk/Admission Notices/2025/08 Aug/IGCEP_2025-35_R2.pdf", "TESTÉ — DISPONIBLE", "PDF gratuit de 320 pages, mai 2025 : demande en 3 scénarios jusqu'en 2035 (GWh et MW), parc unité par unité, candidats datés et chiffrés, rendements, facteurs de charge. 43 069 MW en 2024, 64 035 MW visés en 2035.", "PRIORITÉ 1. Remplace à lui seul le sharefolder de 2018. Deux retraitements : prolonger 2035 vers 2050, et écrire la correspondance 11 DISCO vers nos 3 zones PAK."]
+  - [Pakistan, "NTDC — IGCEP 2024-34", "nepra.org.pk/Admission Notices/2024/05 May/IGCEP 2024-34 Report.pdf", "TESTÉ — DISPONIBLE", "239 pages, avril 2024. Annexe A consommation par catégorie, annexe B parc au 30 juin 2023 et coûts des candidats, annexes C-F scénarios de demande.", "Millésime de contrôle : l'écart entre les deux éditions révèle les glissements de calendrier des grands barrages."]
+  - [Pakistan, "NEPRA — State of Industry Report 2025", nepra.org.pk/publications, "TESTÉ — DISPONIBLE", "Bilan annuel, paru janvier 2026 : production réalisée, pertes par distributeur, recouvrement, tarifs.", "Source directe de pLossFactor et calage de l'année observée."]
+  - [Kazakhstan, "KEGOC — rapports annuels intégrés", "ar2024.kegoc.kz, ar2023.kegoc.kz", "TESTÉ — DISPONIBLE", "Bilan électrique et POINTE VENTILÉE PAR ZONE Nord/Sud/Ouest, exactement notre découpage. Pointe du 27/12/2025 à 18h : 17 540 MW (N 10 645, S 4 403, O 2 492). Consommation 2025 : 124 606,5 GWh.", "VALIDATION EXTERNE DÉJÀ FAITE : notre pointe coïncidente 2026 ressort à 17 886 MW, soit +2,0 % — un an de croissance. Seul paramètre du modèle validé de l'extérieur."]
+  - [Kazakhstan, "Jeu de données nodal (Data in Brief, CC BY)", "pmc.ncbi.nlm.nih.gov/articles/PMC6661261", "TESTÉ — DISPONIBLE", "193 lignes 220-1150 kV avec paramètres, 24 centres de charge, demande horaire nodale sur une semaine d'été et une d'hiver, centrales avec rendement et disponibilité. Millésime 2015.", "Seul jeu nodal ouvert de la région. Indispensable si l'on crée une troisième zone KAZ_W ; à traiter comme une topologie, pas comme un niveau."]
+  - [Kazakhstan, "KEGOC marché de gros, Bureau of National Statistics", "kegoc.kz, stat.gov.kz", "TESTÉ — PARTIEL", "Analyses de marché S1 2025, bilan énergétique au format AIE. Aucune série temporelle brute : l'horaire du marché d'équilibrage reste interne.", "Cadrage sectoriel. Ne comble pas le besoin de profil horaire."]
+  - [Tadjikistan, "Banque mondiale — MPA Rogun P181029", "documents.worldbank.org", "TESTÉ — DISPONIBLE", "Approbation du 17/12/2024. Phasage explicite : 1 660 MW à l'horizon 2028 (cote 1 185 m), 3 780 MW en 2035 en six groupes de 630 MW (cote 1 300 m), productible ~14 400 GWh/an.", "Corrige directement le parc hérité, qui place six groupes de 600 MW tous datés 2031 — une hypothèse déguisée en calendrier. Fort effet de levier : Rogun est le plus gros poste de capacité du modèle."]
+  - [Tadjikistan, "AIE / OCDE — revues sectorielles", "iea.org/reports", "TESTÉ — DISPONIBLE", "Revue du secteur 2022 financée par l'UE et feuille de route des échanges transfrontaliers : parc, contraintes hivernales, structure des exports.", "Qualifie la saisonnalité tadjike, traduite en pTransferLimit et en disponibilité hydro."]
+  - [Tadjikistan, "Barqi Tojik, Agency on Statistics", stat.tj, "TESTÉ — RIEN", "Aucun bilan énergétique ni rapport annuel en libre téléchargement. Les chiffres tadjiks en circulation viennent tous d'intermédiaires.", "À passer par le circuit TTL. C'est là que se réglerait la part du Sougd dans la consommation nationale."]
+  - [Kirghizstan, "National Statistical Committee — bilan combustible-énergie", "stat.gov.kg/en/publications/toplivno-energeticheskij-balans", "TESTÉ — DISPONIBLE", "Bilan énergétique annuel en Excel, maquette héritée de l'URSS ; données mensuelles de production et d'échanges également collectées.", "Calage sectoriel de la demande kirghize et vérification indépendante de la clé Nord/Sud."]
+  - [Kirghizstan, "Portail Open Data", "stat.gov.kg/en/opendata", "TESTÉ — RIEN", "22 catégories en JSON, XML et Excel sous CC BY-NC-SA 4.0 — mais AUCUNE catégorie énergie ou électricité.", "Sans objet pour le modèle : le bilan énergie est une publication séparée, hors portail."]
+  - [Ouzbékistan, "stat.uz (SDMX) et data.egov.uz", "stat.uz, data.egov.uz", "TESTÉ — PARTIEL", "Portail normalisé SDMX, plus de 2 000 indicateurs officiels avec métadonnées ; portail open data national distinct. Rubrique énergie présente.", "Le mieux outillé techniquement de la région, accès machine possible. Reste à identifier les séries électricité utiles : NON FAIT."]
+  - [Ouzbékistan, "Stratégie énergétique 2030 (via profil AIE)", "iea.org/reports/uzbekistan-energy-profile", "TESTÉ — DISPONIBLE", "Objectifs officiels : >120 TWh et 54 % de renouvelable en 2030, 27 GW d'ENR. Capacité ~25,8 GW fin 2025 dont 8 GW ENR, production 86,7 TWh en 2025.", "Cadrage de scénario et borne haute sur pMaxNewCapacity ENR. Ce sont des objectifs politiques : à traiter comme tels."]
+  - [Turkménistan, "Turkmenenergo, statistique d'État", "-", "TESTÉ — RIEN", "Aucune publication officielle accessible. Seules des estimations tierces : ~7,1 GW au gaz, ~44,8 TWh en 2024, aucune capacité ENR en 2025.", "Le carnet DeCA TM, tout dégradé qu'il soit (journée moyenne par mois, aucune résolution régionale), reste la meilleure source. Hypothèses à expliciter dans la note de méthode."]
+  - [Afghanistan, "DABS, NSIA, UN Energy Statistics", "unstats.un.org/unsd/energystats", "TESTÉ — RIEN", "Aucune publication statistique régulière depuis 2021. Éléments épars : ~670 MW importés pour ~280 M USD/an selon DABS, imports de 4,6 à 5,2 TWh sur 2017-2022 selon l'ONU, panorama sectoriel privé de novembre 2025.", "Suffit à recaler le NIVEAU des imports afghans, pas à reconstruire une demande zonale. Les cinq zones NEPS restent issues du modèle 2020, confiance basse assumée."]
+  - [Régional, "Ember — Monthly & Yearly Electricity Data", "ember-energy.org/data/monthly-electricity-data", "TESTÉ — DISPONIBLE", "Production par filière, demande, capacité et émissions en MENSUEL pour 85 géographies dont nos sept pays, jusqu'à avril 2026. Téléchargement libre.", "Quatre années d'actuels que DeCA n'a pas : l'historique des carnets s'arrête en 2022. Calage de l'année de base et seul jeu homogène sur les sept pays."]
+  - [Régional, "Global Energy Monitor — Global Integrated Power Tracker", "globalenergymonitor.org/projects/global-integrated-power-tracker/download-data", "TESTÉ — DISPONIBLE", "Parc mondial unité par unité, géolocalisé, avec statut et dates. UNE VERSION D'AOÛT 2026 EST PARUE ; nous détenons celle de septembre 2025.", "Rafraîchissement immédiat du parc et seule couverture d'AFG et de PAK avec l'IGCEP. Le Tadjikistan y est sous-représenté : compléter par DeCA."]
+  - [Régional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTÉ — DISPONIBLE", "Profils horaires solaire et éolien simulés en tout point du globe à partir de la réanalyse ERA5.", "Seule voie pour pVREProfile au Turkménistan, en Afghanistan et là où DeCA ne donne rien. Déjà branché dans pre-analysis/pipelines/vre_pipeline.py."]
+  - [Régional, "gridfinder, OpenStreetMap power, energydata.info", "energydata.info, gridfinder.rdrn.me", "TESTÉ — PARTIEL", "Carte mondiale des lignes prédite depuis les lumières nocturnes et OSM (grid.gpkg, targets.tif), précision annoncée ~70 % à 1 km.", "Contrôle de TOPOLOGIE seulement : vérifier qu'un corridor existe et par où il passe. NE DONNE AUCUNE NTC — les capacités d'échange restent à demander aux opérateurs."]
+  - [Régional, "AIE profils pays, UN Comtrade, OWID", "iea.org/countries, comtradeplus.un.org", "TESTÉ — PARTIEL", "Bilans énergétiques nationaux en PDF gratuit, flux d'électricité déclarés en douane par paire de pays, séries longues de consommation.", "Contrôle croisé des échanges historiques. Comtrade est de qualité inégale en Asie centrale : à ne pas utiliser seul."]
+  - [Régional, "CASA-1000 — documents projet", "-", "NON TESTÉ", "Calendrier, quantités contractuelles, saisonnalité d'export.", "Indispensable pour corriger pTransferLimit et pContractedTrade."]
+  - [Kirghizstan, "Electric Power Plants OJSC / NESK", "-", "NON TESTÉ", "Production de la cascade du Naryn, niveau de Toktogul.", "Le niveau de Toktogul est LA variable à suivre pour le bilan hiver."]
+  - [Ouzbékistan, "National Electric Grid of Uzbekistan", "-", "NON TESTÉ", "Réseau et échanges régionaux.", "UZB est le pivot du CAPS : ce sont ses NTC internes qui conditionnent un éventuel découpage."]
+
+
+# ── Ce qu'on fait, ressource par ressource ────────────────────────────────────
+# path      chemin relatif dans le dossier de déploiement
+# action    verbe de BUILD (keep par défaut) : ce que le script fait aujourd'hui
+# work      travail RESTANT, vocabulaire de suivi : ÉTENDRE, REMPLIR, RECONSTRUIRE...
+# priority  P1 bloquant, P2 nécessaire, P3 optionnel
+# source    clés du bloc "sources" ci-dessus
+# note      ce qui a été fait, et pourquoi
+# todo      ce qui reste, préfixé par la phase
+resources:
+
+  # ---- Cadrage -----------------------------------------------------------
+  y:
+    path: y.csv
+    group: Cadrage
+    action: rows
+    rows: [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2040, 2045, 2050]
+    work: ÉTENDRE
+    priority: P1
+    source: ["equipe"]
+    confidence: high
+    what: >
+      Horizon 2017-2030
+    note: >
+      Horizon 2050. Pas annuel jusqu'en 2035 pour suivre la montée en puissance de
+      Rogun, puis pas de 5 ans. pWeightYear se déduit des écarts (main.gms:718).
+    todo: >
+      FAIT (phase 1) : horizon 2026-2050, annuel de 2026 à 2035 puis pas de 5 ans (2040,
+      2045, 2050), soit 13 années. Le pas annuel jusqu'en 2035 couvre la montée en
+      puissance de Rogun. pWeightYear est dérivé automatiquement des écarts
+      (main.gms:718), rien d'autre à saisir.
+
+  zcmap:
+    path: zcmap.csv
+    group: Cadrage
+    action: keep
+    work: DÉCISION
+    priority: P1
+    source: ["deca_v51"]
+    confidence: high
+    sheet: >
+      Zones_Regions (5 pays)
+    vintage: "2025"
+    what: >
+      16 zones -> 7 pays
+    todo: >
+      Garder les 16 zones. Les 5 nœuds afghans ne sont pas des artefacts comptables mais
+      des îlots radiaux, chacun synchrone d'un voisin différent, que pTransferLimit
+      interconnecte progressivement vers 2030 : les fusionner inventerait une capacité
+      inexistante. Seul geste utile, les renommer géographiquement.
+
+  pSettings:
+    path: pSettings.csv
+    group: Cadrage
+    action: keep
+    work: RÉVISER
+    priority: P1
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      ~40 drapeaux et scalaires
+    todo: >
+      À trancher : carbone (OFF), stockage (OFF), rampes (OFF), MinGen/MUDT (OFF),
+      réserve tournante (OFF).
+
+  config:
+    path: config.csv
+    group: Cadrage
+    action: keep
+    work: GARDER
+    priority: P2
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      modeltype RMIP + options cplex
+    note: >
+      Passer en MIP seulement si on active l'engagement d'unités.
+
+  pHours:
+    path: pHours.csv
+    group: Cadrage
+    action: empty
+    work: RECONSTRUIRE
+    priority: P3
+    source: ["pipeline"]
+    confidence: high
+    sheet: >
+      DeCA Demand Profile 8760h
+    vintage: "2021-2022"
+    what: >
+      5 saisons x 1 jour x 7 blocs = 8760 h
+    note: >
+      q = 4 trimestres, la 5e saison de pointe est supprimée. Elle n'était pas une
+      structure mais une rustine : la contrainte de réserve prend un smax sur toutes les
+      tranches (base.gms:991) et n'exige aucune saison dédiée. Q5 ne servait qu'à donner
+      à ce smax un bloc assez court pour voir la vraie pointe, faute de journées types
+      (d=1 dans le modèle 2020).
+    todo: >
+      PHASE 8. Reconstruire en 4 trimestres x journées types x heures chronologiques,
+      dont une JOURNÉE TYPE DE POINTE qui remplace l'ancienne saison Q5.
+
+  pTechFuel:
+    path: pTechFuel.csv
+    group: Cadrage
+    action: keep
+    work: ÉTENDRE
+    priority: P2
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      26 couples tech/fuel
+    todo: >
+      Ajouter BESS si on active le stockage.
+
+  pFuelCarbonContent:
+    path: pFuelCarbonContent.csv
+    group: Cadrage
+    action: keep
+    work: GARDER
+    priority: P3
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      facteurs CO2 par combustible
+    note: >
+      Valeurs standard, aucune raison de bouger.
+
+
+  # ---- Demande -----------------------------------------------------------
+  pDemandData:
+    path: load/pDemandData.csv
+    group: Demande
+    action: empty
+    work: RECONSTRUIRE
+    priority: P2
+    source: ["deca_v51", "gabarit_2026"]
+    confidence: low
+    sheet: >
+      Demand Profile (8760h) + Demand Evolution
+    vintage: "KZ 2022 / TJ 2021 / KG / UZ"
+    what: >
+      MW absolus par (z,q,d,y)
+    note: >
+      Vidé, son contenu dépend du choix des journées types.
+    todo: >
+      PHASE 8, à partir de la série horaire agrégée en phase 2.
+
+  pDemandForecast:
+    path: load/pDemandForecast.csv
+    group: Demande
+    action: table
+    from: extracted/pDemandForecast.csv        # produit par extract_demand.py
+    work: FAIT
+    priority: P1
+    source: ["deca_v51", "casa_2020"]
+    confidence: high
+    sheet: >
+      Demand Evolution + Demand Profile
+    vintage: "2023-2060"
+    what: >
+      trajectoire de demande par zone, energie GWh et pointe MW
+    note: >
+      Rempli par extract_demand.py, scenario DeCA Reference. Demand Evolution couvre
+      2023-2060 par PAYS : aucune extrapolation n'est necessaire pour l'Asie centrale.
+      Le decoupage intra-pays vient des profils 8760 h et reste constant dans le temps,
+      DeCA ne donnant pas de trajectoire regionale. La pointe zonale est NON COINCIDENTE,
+      comme l'exige generate_demand.gms qui la multiplie par le profil normalise de la
+      zone : on remet donc la pointe propre a l'echelle par la croissance de la pointe
+      pays, via le facteur de coincidence observe (KG 1.03, KZ 1.02, TJ 1.07, TM et
+      UZ 1.00). Trois ecarts assumes, tous documentes dans mappings/zones_demand.csv :
+      le partage tadjik est INVERSE par rapport au modele 2020 (Nord 27.7 % contre
+      74.9 %), le partage kirghize aussi (Nord 63.9 % contre 93.2 %), et l'Ouest
+      kazakh est rattache a KAZ_N faute de troisieme zone. Le bloc de pointe du carnet
+      TJ etait en GW sous une etiquette MW : corrige par un garde-fou generique, une
+      pointe ne pouvant etre inferieure a la puissance moyenne. AFG et PAK n'ont
+      aucune source 2026 : reconduits depuis le pDemandData de 2020 et prolonges a
+      leur propre taux, confiance BASSE.
+    todo: >
+      PHASE 9. Ajouter le scenario DeCA Net Zero en variante. Remplacer AFG et PAK
+      des qu'une source arrive (IGCEP du NTDC en priorite). Revoir le partage TAJ et
+      KGZ avec les TTL : il change le diagnostic de defaillance du modele 2020.
+
+  pDemandProfile:
+    path: load/pDemandProfile.csv
+    group: Demande
+    action: keep
+    work: REMPLIR
+    priority: P3
+    source: ["deca_v51"]
+    sheet: >
+      Demand Profile
+    what: >
+      profil normalisé par (z,q,d,t)
+    todo: >
+      Dépend de pHours -> repoussé avec lui. Préparer la forme au pas HORAIRE en
+      intermédiaire, l'agrégation vers (q,d,t) est la dernière étape.
+
+  pEnergyEfficiencyFactor:
+    path: load/pEnergyEfficiencyFactor.csv
+    group: Demande
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      facteur d'efficacité énergétique
+    todo: >
+      Sauf si un scénario efficacité est demandé.
+
+  sRelevant:
+    path: load/sRelevant.csv
+    group: Demande
+    action: keep
+    work: RECONSTRUIRE
+    priority: P3
+    source: ["pipeline"]
+    what: >
+      types de jour retenus
+    todo: >
+      Sortie du pipeline jours représentatifs. Repoussé avec pHours.
+
+
+  # ---- Parc --------------------------------------------------------------
+  pGenDataInput:
+    path: supply/pGenDataInput.csv
+    group: Parc
+    action: keep
+    work: REMPLACER
+    priority: P1
+    source: ["deca_v51", "gabarit_2026"]
+    confidence: low
+    sheet: >
+      Thermal PP / Expansion / Candidates + HydroPP + Renewable PP
+    vintage: "2022 base"
+    what: >
+      centrales : capacité, statut, HR, coûts
+    todo: >
+      PHASE 5, le gros morceau. ANOMALIE STRUCTURELLE À ROUVRIR : les candidats
+      génériques portent 10000 MW constructibles dans KAZ, UZB, TUR, PAK et les 5 zones
+      NEPS, mais 0 MW dans KGZ_N, KGZ_S, TAJ_N et TAJ_S (seule exception un CCGT de 200
+      MW à TAJ_N). Le Kirghizstan et le Tadjikistan ne peuvent donc rien construire hors
+      projets hydro nommés, ce qui explique à lui seul que la défaillance hivernale de
+      TAJ_N ne se résorbe qu'avec Rogun. Ce n'est pas un arbitrage économique du modèle,
+      c'est une porte fermée.
+
+  pAvailability:
+    path: supply/pAvailabilityCustom.csv
+    group: Parc
+    action: drop_column
+    column: Q5
+    work: RECONSTRUIRE
+    priority: P1
+    source: ["deca_v51"]
+    confidence: low
+    sheet: >
+      Hydro Profile + HydroPP (Inflows)
+    vintage: "2022"
+    what: >
+      dispo saisonnière par centrale (g x Q1..Q4)
+    note: >
+      Colonne de pointe supprimée. ATTENTION, elle portait une convention : 350
+      centrales sur 403 avaient Q5=1,0 contre Q1=0,85, soit pleine disponibilité à la
+      pointe. Cette hypothèse de capacité ferme disparaît et doit être réintroduite.
+    todo: >
+      PHASE 4. Reconstruire depuis les apports mensuels deca_v51 (Hydro Profile +
+      HydroPP Inflows), et réintroduire la capacité ferme de pointe, soit par la journée
+      type de pointe, soit par pCapacityCreditPeakSeason.
+
+  pAvailabilityDefault:
+    path: supply/pAvailabilityDefault.csv
+    group: Parc
+    action: keep
+    work: REMPLIR
+    priority: P2
+    source: ["hypothese"]
+    what: >
+      dispo par défaut (z,tech,fuel)
+    todo: >
+      DeCA ne donne PAS les taux d'indisponibilité fortuite du thermique, et l'onglet
+      GenAvailability du gabarit est vide.
+
+  pGenDataInputDefault:
+    path: supply/pGenDataInputDefault.csv
+    group: Parc
+    action: keep
+    work: REMPLIR
+    priority: P1
+    source: ["deca_v51"]
+    sheet: >
+      PP Candidates + RenewableMaxEntry
+    vintage: "2025"
+    what: >
+      candidats génériques par zone
+    todo: >
+      Détermine ce que le modèle a le DROIT de construire. Vide aujourd'hui :
+      l'expansion n'est pilotée que par pGenDataInput.
+
+  pVREProfile:
+    path: supply/pVREProfile.csv
+    group: Parc
+    action: empty
+    work: RECONSTRUIRE
+    priority: P3
+    source: ["deca_v51", "renewables_ninja"]
+    confidence: low
+    sheet: >
+      RenewableProfile (mensuel)
+    vintage: "2022"
+    what: >
+      profil solaire/éolien par (z,tech,q,d)
+    note: >
+      Vidé, son contenu dépend du choix des journées types.
+    todo: >
+      PHASE 8.
+
+  pCapexTrajectoriesCustom:
+    path: supply/pCapexTrajectoriesCustom.csv
+    group: Parc
+    action: keep
+    work: REMPLIR
+    priority: P2
+    source: ["deca_v51"]
+    sheet: >
+      CAPEX
+    vintage: "2025-2050"
+    what: >
+      CAPEX par centrale dans le temps
+    todo: >
+      Recaler en USD réel 2025 (exigence du gabarit).
+
+  pCapexTrajectoriesDefault:
+    path: supply/pCapexTrajectoriesDefault.csv
+    group: Parc
+    action: keep
+    work: REMPLIR
+    priority: P2
+    source: ["deca_v51"]
+    sheet: >
+      CAPEX
+    vintage: "2025-2050"
+    what: >
+      CAPEX par (zone,tech,fuel)
+
+  pFuelPrice:
+    path: supply/pFuelPrice.csv
+    group: Parc
+    action: keep
+    work: REMPLACER
+    priority: P1
+    source: ["deca_v51"]
+    sheet: >
+      Fuel Prices
+    vintage: "2024 réel -> 2050"
+    what: >
+      prix combustibles par pays (c,fuel,année)
+    todo: >
+      Le bloc le plus propre du lot : direct, sans arbitrage, sans dépendance
+      temporelle. USD réel 2025.
+
+  pStorageDataInput:
+    path: supply/pStorageDataInput.csv
+    group: Parc
+    action: keep
+    work: DÉCISION
+    priority: P3
+    source: ["deca_v51", "hypothese"]
+    sheet: >
+      PP Candidates
+    what: >
+      stockage (batteries, STEP)
+    todo: >
+      BLOQUÉ PAR LA RÉSOLUTION TEMPORELLE : sans chronologie intra-journalière le
+      stockage n'a aucune valeur dans le modèle. Se tranche donc en même temps que
+      pHours, à la fin.
+
+  pEvolutionAvailability:
+    path: supply/pEvolutionAvailability.csv
+    group: Parc
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      dérive de disponibilité dans le temps
+
+  pCSPData:
+    path: supply/pCSPData.csv
+    group: Parc
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      solaire à concentration
+    todo: >
+      Pas de CSP dans le périmètre.
+
+
+  # ---- Échanges ----------------------------------------------------------
+  pTransferLimit:
+    path: trade/pTransferLimit.csv
+    group: Échanges
+    action: drop_where
+    column: q
+    value: Q5
+    work: RÉVISER
+    priority: P1
+    source: ["deca_v51", "demande_tso"]
+    confidence: low
+    sheet: >
+      TJ > Exchanges ; KZ > Exchanges with non CA countries
+    vintage: "2024-2031"
+    what: >
+      NTC par corridor x saison x année
+    note: >
+      Les 42 lignes Q5 étaient identiques aux Q1 : suppression sans perte, 210 -> 168.
+    todo: >
+      PHASE 3. NTC à réviser (source deca_v51 + demande TSO) et colonnes d'années à
+      prolonger jusqu'en 2050, elles s'arrêtent à 2030. Anomalie connue : CASA-1000 est
+      ouvert à 1300 MW toutes saisons dès 2022, d'où 10 TWh/an dans le run 2020.
+
+  pContractedTradeFlag:
+    path: trade/pContractedTradeFlag.csv
+    group: Échanges
+    action: keep
+    work: RÉVISER
+    priority: P1
+    source: ["casa1000_ppa"]
+    confidence: low
+    what: >
+      corridors sous contrat, par saison
+    todo: >
+      PHASE 3. LE SENS DE Q3 A CHANGÉ : dans le modèle 2020 Q3 valait 3652 h, soit mai-
+      septembre, exactement la fenêtre CASA-1000. En trimestres calendaires, Q3 =
+      juillet-septembre. Les 5 flags doivent passer en Q2 + Q3.
+
+  pContractedTradeEnergy:
+    path: trade/pContractedTradeEnergy.csv
+    group: Échanges
+    action: keep
+    work: RÉVISER
+    priority: P1
+    source: ["casa1000_ppa"]
+    confidence: low
+    vintage: "2022-2030"
+    what: >
+      énergie contractée GWh par corridor
+    todo: >
+      PHASE 3. Répartir les volumes entre Q2 et Q3 (voir pContractedTradeFlag), et
+      prolonger les colonnes d'années au-delà de 2030. À vérifier contre le PPA : an 1 =
+      2028, plateau 4434 GWh, tranche minimum 29794 GWh sur 15 ans.
+
+  pHistoricalTradeFlag:
+    path: trade/pHistoricalTradeFlag.csv
+    group: Échanges
+    action: keep
+    work: RÉVISER
+    priority: P2
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      corridors plafonnés à l'historique
+    todo: >
+      N'agit que jusqu'en 2021 : devient inerte si le modèle démarre plus tard.
+
+  pLossFactorInternal:
+    path: trade/pLossFactorInternal.csv
+    group: Échanges
+    action: keep
+    work: GARDER
+    priority: P3
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      pertes par corridor (0,5 % partout)
+    note: >
+      Valeur uniforme héritée, faible enjeu.
+
+  pMaxAnnualTransfer:
+    path: trade/pMaxAnnualTransfer.csv
+    group: Échanges
+    action: keep
+    work: RÉVISER
+    priority: P2
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      plafond annuel d'échange par corridor
+    todo: >
+      8 corridors seulement. Vérifier la cohérence avec les nouveaux NTC.
+
+  pNewTransmission:
+    path: trade/pNewTransmission.csv
+    group: Échanges
+    action: keep
+    work: DÉCISION
+    priority: P2
+    source: ["mercados_plexos"]
+    what: >
+      lignes candidates à la construction
+    todo: >
+      Vide = réseau figé. Pour tester des renforcements (dont une phase 2 CASA-1000), il
+      faut le remplir.
+
+  pMinImport:
+    path: trade/pMinImport.csv
+    group: Échanges
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      import minimum obligatoire
+    todo: >
+      Alternative à pContractedTrade en cas de besoin d'un enlèvement ferme.
+
+  pExtTransferLimit:
+    path: trade/pExtTransferLimit.csv
+    group: Échanges
+    action: keep
+    work: DÉCISION
+    priority: P2
+    source: []
+    what: >
+      NTC vers zones externes
+    todo: >
+      Enjeu : Russie (KAZ_N), Iran (HERAT), Chine, Inde. Aujourd'hui l'import iranien
+      est modélisé comme une CENTRALE (IRAN_Import, 400 MW), pas comme un échange.
+
+  pTradePrice:
+    path: trade/pTradePrice.csv
+    group: Échanges
+    action: keep
+    work: DÉCISION
+    priority: P2
+    source: ["hypothese"]
+    what: >
+      prix aux frontières externes
+    todo: >
+      Aucune source. À construire de façon homogène et à assumer comme hypothèse.
+
+  zext:
+    path: trade/zext.csv
+    group: Échanges
+    action: keep
+    work: DÉCISION
+    priority: P2
+    source: []
+    what: >
+      liste des zones externes
+    todo: >
+      Dépend de pExtTransferLimit.
+
+  pMaxAnnualExternalTradeShare:
+    path: trade/pMaxAnnualExternalTradeShare.csv
+    group: Échanges
+    action: keep
+    work: NETTOYER
+    priority: P3
+    source: []
+    what: >
+      part max d'échange externe
+    todo: >
+      En-tête hérité d'un gabarit AFRIQUE (Angola, Burundi, Cameroon...). À vider.
+
+
+  # ---- Contraintes -------------------------------------------------------
+  pCarbonPrice:
+    path: constraint/pCarbonPrice.csv
+    group: Contraintes
+    action: keep
+    work: DÉCISION
+    priority: P2
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      prix carbone 32 -> 50 $/t
+    todo: >
+      DONNÉE PRÉSENTE MAIS INACTIVE (fEnableCarbonPrice = 0). L'activer est le levier le
+      moins cher pour corriger les 17 GW de charbon neuf au Kazakhstan.
+
+  pEmissionsCountry:
+    path: constraint/pEmissionsCountry.csv
+    group: Contraintes
+    action: keep
+    work: REMPLIR
+    priority: P2
+    source: ["deca_v51"]
+    sheet: >
+      Emissions
+    vintage: "2030-2060"
+    what: >
+      plafond CO2 par pays
+    todo: >
+      DeCA donne les trajectoires Net Zero, pas les facteurs par combustible.
+
+  pEmissionsTotal:
+    path: constraint/pEmissionsTotal.csv
+    group: Contraintes
+    action: keep
+    work: DÉCISION
+    priority: P3
+    source: []
+    what: >
+      plafond CO2 système
+
+  pMaxFuellimit:
+    path: constraint/pMaxFuellimit.csv
+    group: Contraintes
+    action: keep
+    work: RÉVISER
+    priority: P2
+    source: ["deca_v51"]
+    sheet: >
+      UZ > Fuel Availability
+    vintage: "2025"
+    what: >
+      limite d'approvisionnement par pays
+    todo: >
+      Seul UZ dispose d'un onglet dédié.
+
+  pMaxFuellimitZone:
+    path: constraint/pMaxFuellimitZone.csv
+    group: Contraintes
+    action: keep
+    work: RÉVISER
+    priority: P2
+    source: ["deca_v51"]
+    sheet: >
+      UZ > Fuel Availability
+    vintage: "2025"
+    what: >
+      limite par zone (KAZ_N Gas 0,1)
+    todo: >
+      La contrainte gaz sur KAZ_N est structurante pour le charbon kazakh : à vérifier
+      en priorité.
+
+  pMaxGenerationByFuel:
+    path: constraint/pMaxGenerationByFuel.csv
+    group: Contraintes
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      part max par combustible
+
+
+  # ---- Réserves ----------------------------------------------------------
+  pPlanningReserveMarginZone:
+    path: reserve/pPlanningReserveMarginZone.csv
+    group: Réserves
+    action: keep
+    work: RÉVISER
+    priority: P2
+    source: ["hypothese"]
+    vintage: "2020"
+    what: >
+      marge de réserve, 15 % partout
+    todo: >
+      AUCUNE SOURCE. 15 % uniforme hérité. C'est ce paramètre qui explique l'essentiel
+      de l'écart de coût avec le legacy (pénalité de violation 6256 M$ -> 0).
+
+  pReserveSeasonFlag:
+    path: reserve/pReserveSeasonFlag.csv
+    group: Réserves
+    action: rows
+    rows: [["Q1", 1]]
+    work: RECONSTRUIRE
+    priority: P1
+    source: ["pipeline"]
+    confidence: high
+    what: >
+      saison de pointe = Q5
+    note: >
+      Suit la suppression de la saison de pointe. Ce drapeau ne sert qu'à choisir la
+      saison dont on prend la NTC pour le partage de capacité ferme (base.gms:1005) ; il
+      ne dimensionne pas la réserve, qui passe par un smax sur toutes les tranches.
+    todo: >
+      FAIT (phase 1) : Q5 -> Q1. Ce drapeau ne sert qu'à une chose (base.gms:1005) :
+      choisir la saison dont on prend la NTC pour le partage de capacité ferme entre
+      zones. Il ne pilote PAS le dimensionnement de la réserve, qui passe par smax sur
+      toutes les tranches. Q1 = trimestre d'hiver, correct.
+
+  pPlanningReserveMargin:
+    path: reserve/pPlanningReserveMargin.csv
+    group: Réserves
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      marge par pays
+    todo: >
+      Redondant avec la version zonale.
+
+  pSpinningReserveReqCountry:
+    path: reserve/pSpinningReserveReqCountry.csv
+    group: Réserves
+    action: keep
+    work: DÉCISION
+    priority: P3
+    source: ["hypothese"]
+    what: >
+      réserve tournante par pays
+    todo: >
+      Désactivée dans pSettings, et aucune source.
+
+  pSpinningReserveReqSystem:
+    path: reserve/pSpinningReserveReqSystem.csv
+    group: Réserves
+    action: keep
+    work: DÉCISION
+    priority: P3
+    source: ["hypothese"]
+    what: >
+      réserve tournante système
+
+
+  # ---- Autres ------------------------------------------------------------
+  pH2DataExcel:
+    path: h2/pH2DataExcel.csv
+    group: Autres
+    action: keep
+    work: IGNORER
+    priority: P3
+    source: []
+    what: >
+      hydrogène (5 fichiers dans h2/)
+    todo: >
+      Aucun enjeu H2 dans le périmètre CASA.
+
+  pGenDataInputGeneric:
+    path: generic/pGenDataInputGeneric.csv
+    group: Autres
+    action: keep
+    work: DÉCISION
+    priority: P3
+    source: []
+    what: >
+      défauts technologiques génériques
+    todo: >
+      Alternative à pGenDataInputDefault.
+
