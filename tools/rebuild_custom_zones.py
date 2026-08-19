@@ -66,6 +66,8 @@ AREA_CRS = "EPSG:6933"
 CLAIM = 0.5
 # below this it is noise along a shared edge, not a claim
 TOUCH = 0.02
+# a zone matching one country this closely, both ways, is that country
+WHOLE = 0.95
 
 META_FIELDS = ("epm_zone", "epm_country", "split_rationale", "grid_area",
                "model_plants", "caveat")
@@ -73,13 +75,31 @@ RECIPE_FIELDS = ("zone", "iso_a3", "level", "code", "name", "coverage")
 
 
 def load_units(artifact):
-    """The administrative units zones may be built from, adm1 and the adm2
-    subset, in one frame. adm2 is only there for the countries whose zones cut
-    below the first level -- today Karachi."""
+    """The units zones may be built from -- whole countries, adm1, and the adm2
+    subset -- in one frame. adm2 is only there for the countries whose zones cut
+    below the first level, today Karachi.
+
+    Whole countries are in there because most zones are one: an EAPP zone like
+    Kenya is the country. Taken from the display layer it is exactly the polygon
+    zones.geojson and the explorer basemap already use. Dissolving its counties
+    would reach the same outline only by accident of the fitting rule, at ten
+    times the size.
+    """
+    countries = gpd.read_file(artifact / "countries_10m.geojson")
+    if "STATUS" in countries:
+        # areas the Bank attributes to no country are not something to zone
+        countries = countries[countries.STATUS.fillna("") != "non-determined"]
+    countries = countries.copy()
+    countries["CODE"] = countries.ISO_A3
+    countries["NAME"] = countries.WB_NAME
+    countries["GAUL"] = 0
+    countries["LEVEL"] = "country"
+    frames = [countries[["ISO_A3", "CODE", "NAME", "GAUL", "LEVEL", "geometry"]]]
+
     adm1 = gpd.read_file(artifact / "adm1.geojson")
     adm1 = adm1.rename(columns={"HASC_1": "CODE", "NAM_1": "NAME", "GAUL_1": "GAUL"})
     adm1["LEVEL"] = "adm1"
-    frames = [adm1[["ISO_A3", "CODE", "NAME", "GAUL", "LEVEL", "geometry"]]]
+    frames.append(adm1[["ISO_A3", "CODE", "NAME", "GAUL", "LEVEL", "geometry"]])
 
     path = artifact / "adm2_subset.geojson"
     if path.exists():
@@ -153,9 +173,40 @@ def coverage(units, zone_geom):
     return pd.DataFrame({"pos": idx, "share": share.values})
 
 
+def whole_country(countries, geom):
+    """The country this zone is, if it is one.
+
+    Judged both ways -- the zone covers the country and the country covers the
+    zone -- so a zone that is only part of a country, or straddles two, falls
+    through to the units it is really made of.
+    """
+    best = None
+    for r in coverage(countries, geom).itertuples():
+        if r.share < WHOLE:
+            continue
+        unit = countries.iloc[r.pos]
+        inside = geom.intersection(unit.geometry).area / geom.area
+        if inside >= WHOLE and (best is None or r.share > best[1]):
+            best = (unit, r.share)
+    return best
+
+
 def derive(artifact, layer):
-    """Recover the recipe from the polygons that exist today."""
+    """Recover the recipe from the polygons that exist today.
+
+    Only from the hand-made ones. Deriving from a layer this tool built would
+    read back its own output -- every unit fits perfectly, the flags that make
+    the tables worth reading go quiet, and a zone the recipe lost stays lost.
+    """
+    doc = json.loads(layer.read_text(encoding="utf-8"))
+    if "artifact" in (doc.get("source") or ""):
+        raise SystemExit(
+            f"{layer.name} was already built from {doc['source']}."
+            " Deriving from it would just read back the recipe it came"
+            " from. Restore the original layer first:"
+            f" git checkout HEAD -- {layer.name}")
     units = load_units(artifact)
+    countries = units[units.LEVEL == "country"].reset_index()
     adm1 = units[units.LEVEL == "adm1"].reset_index()
     adm2 = units[units.LEVEL == "adm2"].reset_index()
     zones = valid(gpd.read_file(layer).to_crs(AREA_CRS))
@@ -164,6 +215,15 @@ def derive(artifact, layer):
     for zone in zones.itertuples():
         name = zone.ADMIN
         geom = zone.geometry
+
+        entire = whole_country(countries, geom)
+        if entire is not None:
+            unit, share = entire
+            rows.append({"zone": name, "iso_a3": unit.ISO_A3, "level": "country",
+                         "code": unit.CODE, "name": unit.NAME,
+                         "coverage": f"{share:.3f}"})
+            continue
+
         picked, cut = [], []
         for r in coverage(adm1, geom).itertuples():
             unit = adm1.iloc[r.pos]
@@ -211,9 +271,30 @@ def derive(artifact, layer):
                 notes.append(f"    {name}: {missed:.0%} of the zone is outside "
                              f"the units picked for it"
                              + (f" (iso {iso.iloc[0]})" if len(iso) else ""))
+    rows = dedupe(rows, notes)
     rows = resolve_overlaps(rows, units, notes)
     audit(rows, units, notes)
     return rows, notes, zones
+
+
+def dedupe(rows, notes):
+    """A zone drawn twice is one zone.
+
+    eapp_zones.geojson carries Somalia as two identical features; both derive
+    the same members, and a recipe that lists a unit twice would just union it
+    with itself.
+    """
+    seen, out = set(), []
+    for r in rows:
+        key = (r["zone"], r["level"], r["code"])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+    if len(out) < len(rows):
+        notes.append(f"    dropped {len(rows) - len(out)} membership(s) listed "
+                     f"twice by a zone the layer draws more than once")
+    return out
 
 
 def resolve_overlaps(rows, units, notes):
@@ -261,7 +342,23 @@ def audit(rows, units, notes):
     parents = {units.loc[units.CODE == c, "PARENT"].iloc[0]
                for lvl, c in claimed if lvl == "adm2"
                and (units.CODE == c).any()}
-    for iso in sorted({r["iso_a3"] for r in rows}):
+    # A country taken whole and also cut into pieces is two ways of drawing the
+    # same place -- the EAPP layer carries Somalia and its split side by side.
+    # They overlap by construction and the mapping picks one set, so it is worth
+    # saying once per country rather than once per unit.
+    entire = {r["iso_a3"] for r in rows if r["level"] == "country"}
+    split = {r["iso_a3"] for r in rows if r["level"] != "country"}
+    for iso in sorted(entire & split):
+        def zones_at(whole):
+            return ", ".join(sorted({r["zone"] for r in rows
+                                     if r["iso_a3"] == iso
+                                     and (r["level"] == "country") == whole}))
+        notes.append(f"    {iso}: {zones_at(True)} covers the same ground as "
+                     f"{zones_at(False)} -- alternative representations")
+
+    # a unit of a country the zones cut up, that no zone took and whose children
+    # no zone took either: a hole in that country's zoning
+    for iso in sorted(split):
         for u in units[(units.ISO_A3 == iso) & (units.LEVEL == "adm1")].itertuples():
             if ("adm1", u.CODE) not in claimed and u.CODE not in parents:
                 notes.append(f"    {iso}: {u.NAME} ({u.CODE}) belongs to no zone")
@@ -269,13 +366,16 @@ def audit(rows, units, notes):
 
 def derive_meta(layer):
     """The fields no geometry can give back, taken off today's polygons."""
-    out = []
+    out = {}
     for f in json.loads(layer.read_text(encoding="utf-8"))["features"]:
         p = f["properties"]
         row = {"zone": p.get("ADMIN", "")}
         row.update({k: (p.get(k) or "") for k in META_FIELDS})
-        out.append(row)
-    return out
+        # a zone the layer draws twice keeps whichever copy says something
+        kept = out.get(row["zone"])
+        if kept is None or not any(kept[k] for k in META_FIELDS):
+            out[row["zone"]] = row
+    return list(out.values())
 
 
 def write_csv(path, rows, fields):
@@ -315,9 +415,15 @@ def rebuild(artifact, layer):
             continue
         geom = gpd.GeoSeries(geoms, crs=units.crs).union_all()
         geom = gpd.GeoSeries([geom], crs=units.crs).to_crs("EPSG:4326").iloc[0]
+        levels = {r["level"] for r in members}
+        entire = levels == {"country"}
         props = {"ADMIN": zone, "ISO_A3": members[0]["iso_a3"],
-                 "admin_units": ", ".join(sorted(names)),
-                 "admin_source": f"World Bank GAD, artifact {artifact.name}"}
+                 "admin_source": ("World Bank Official Boundaries" if entire
+                                  else "World Bank GAD")
+                                 + f", artifact {artifact.name}"}
+        if not entire:
+            # for a whole country this would only repeat ADMIN
+            props["admin_units"] = ", ".join(sorted(names))
         props.update({k: v for k, v in meta.get(zone, {}).items()
                       if k != "zone" and v})
         features.append({"type": "Feature", "properties": props,

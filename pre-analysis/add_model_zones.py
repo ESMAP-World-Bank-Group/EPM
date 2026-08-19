@@ -42,6 +42,12 @@ from shapely.ops import linemerge, unary_union
 
 _BASE = Path(__file__).resolve().parent          # pre-analysis/
 _REPO = _BASE.parent                             # EPM root
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
+from epm.geodata.wb_boundaries import resolve_cache  # noqa: E402
+from tools.rebuild_reference_zones import find_artifact  # noqa: E402
+
 _EXPLORER = _REPO.parents[1] / "regional-power-explorer"
 
 STUDY_ROOT = _BASE / "output_workflow" / "zoning_study"
@@ -192,8 +198,16 @@ def source_note(data_folder: str) -> dict:
 
 def export_to_explorer(runs, data_folder, dry_run=False):
     """Same outputs as export_zones_to_explorer.py, plus model-derived corridors."""
-    countries_path = _EXPLORER / "public" / "data" / "countries_10m.geojson"
-    countries = gpd.read_file(countries_path) if countries_path.exists() else None
+    # The zones are clipped to the country outline the Explorer draws underneath
+    # them, and that outline comes from the boundary artifact -- the same one the
+    # model zones were cut from. Reading the Explorer's own copy would work only
+    # for as long as the two stay in step, and the point of the artifact is that
+    # nothing has to.
+    artifact = find_artifact(resolve_cache(None))
+    countries = gpd.read_file(artifact / "countries_10m.geojson")
+    if "STATUS" in countries:
+        # territory the Bank attributes to no country is not something to clip to
+        countries = countries[countries.STATUS.fillna("") != "non-determined"]
 
     if not dry_run:
         ZONES_OUT.mkdir(parents=True, exist_ok=True)
@@ -202,10 +216,9 @@ def export_to_explorer(runs, data_folder, dry_run=False):
         label, gdf = run["label"], run["gdf"]
 
         # clip to the reference land boundary the Explorer draws countries with
-        if countries is not None:
-            match = countries[countries["ISO_A3"] == run["iso"]]
-            if not match.empty:
-                gdf = gdf.clip(unary_union(match.geometry))
+        match = countries[countries["ISO_A3"] == run["iso"]]
+        if not match.empty:
+            gdf = gdf.clip(unary_union(match.geometry))
 
         # internal borders = every zone boundary minus the outer country outline
         all_bounds = unary_union([g.boundary for g in gdf.geometry])

@@ -489,10 +489,23 @@ def _fit_to_country(units, country_geom):
         # and so is at distance zero from it whatever the units of measure.
         warnings.simplefilter("ignore")
         joined = gpd.sjoin_nearest(parts, clipped[["geometry"]], how="left")
-    extra = defaultdict(list)
-    for part, idx in zip(joined.geometry, joined.index_right):
+
+    # A strip running between several units is at distance zero from all of
+    # them and comes back once per unit. Giving it to each would make the units
+    # overlap, and any two zones built from them overlap in turn, so it goes to
+    # the one it shares the longest border with -- the unit it most plainly
+    # continues.
+    candidates = defaultdict(list)
+    for pos, idx in zip(joined.index, joined.index_right):
         if pd.notna(idx):
-            extra[int(idx)].append(part)
+            candidates[int(pos)].append(int(idx))
+    extra = defaultdict(list)
+    for pos, options in candidates.items():
+        part = parts.geometry[pos]
+        if len(options) > 1:
+            options = [max(options, key=lambda i: part.intersection(
+                clipped.at[i, "geometry"]).length)]
+        extra[options[0]].append(part)
     for idx, pieces in extra.items():
         clipped.at[idx, "geometry"] = polygons_only(
             unary_union([clipped.at[idx, "geometry"], *pieces]))
@@ -810,7 +823,96 @@ def build(out_dir, cache, source=None, adm2_iso=ADM2_ISO_DEFAULT,
         write_geojson(adm2, out_dir / "adm2_subset.geojson", PREC_10M, "adm2_subset",
                       props=ADM2_PROPS, drop_empty=(), snap=True)
 
+    check_tiling(out_dir)
     return write_source(out_dir, adm2_iso)
+
+
+# equal-area, only ever applied to a residual sliver -- see check_tiling
+CHECK_CRS = "EPSG:6933"
+# a country off by more than this, both in share of its area and in absolute
+# terms, is a fitting failure rather than the noise a coordinate grid leaves
+CHECK_SHARE = 0.001
+CHECK_KM2 = 5.0
+
+
+def _km2(geom, crs):
+    """Area of one geometry, in square kilometres."""
+    if geom is None or geom.is_empty:
+        return 0.0
+    return gpd.GeoSeries([geom], crs=crs).to_crs(CHECK_CRS).iloc[0].area / 1e6
+
+
+def check_tiling(out_dir):
+    """The acceptance test for the fitting rule.
+
+    The rule the sub-national layers are built to is that any dissolve of a
+    country's units gives that country back: no gap along the coast, no spill
+    across the border, no unit overlapping its neighbour. A zone is a dissolve
+    of units, so if the rule holds, zones tile the map exactly the way the
+    basemap does, which is the whole point of the exercise.
+
+    Every overlay is done in the CRS the files are written in, and only the
+    resulting sliver is reprojected to be measured. Reprojecting the polygons
+    first would invent a discrepancy: a union carries collinear vertices its
+    outline does not, and an equal-area projection bends the segment between
+    two vertices, so two rings that are equal in longitude and latitude come
+    out a few hundred metres apart -- 600 km2 along the Chad-Libya border, all
+    of it an artefact of the measurement.
+
+    What is left is the coordinate grid itself. The two layers are written at
+    the same precision but not by the same operation -- the country outlines
+    are rounded so that they stay byte-identical to the ones the explorer
+    already ships, the units are snapped to the grid -- so a shared edge can
+    land 1e-4 degrees, about eleven metres, apart. Across every land border on
+    Earth that comes to some 1500 km2, or 0.001% of the land area, and Mali,
+    whose borders are long straight desert lines with few vertices to pin them
+    down, is the worst country at 0.03%. That is the floor the thresholds sit
+    above; anything larger is a fitting failure.
+    """
+    countries = gpd.read_file(out_dir / "countries_10m.geojson")
+    if "STATUS" in countries:
+        countries = countries[countries.STATUS.fillna("") != "non-determined"]
+    units = gpd.read_file(out_dir / "adm1.geojson")
+    crs = units.crs
+
+    whole = countries.dissolve("ISO_A3").geometry
+    failures, worst = [], (0.0, 0.0, "")
+    for iso, group in units.groupby("ISO_A3"):
+        outline = whole.get(iso)
+        if outline is None or outline.is_empty:
+            continue
+        merged = group.geometry.union_all()
+        area = _km2(outline, crs)
+        gap = _km2(outline.difference(merged), crs)
+        spill = _km2(merged.difference(outline), crs)
+        overlap = _km2(_self_overlap(group), crs)
+        off = max(gap, spill, overlap)
+        if off > worst[0]:
+            worst = (off, off / area if area else 0.0, iso)
+        if off > CHECK_KM2 and area and off / area > CHECK_SHARE:
+            failures.append(f"    {iso}: gap {gap:.0f} km2, spill {spill:.0f} "
+                            f"km2, overlap {overlap:.0f} km2, on {area:.0f} km2")
+    print(f"  tiling check: {units.ISO_A3.nunique()} countries, worst "
+          f"{worst[2]} off by {worst[0]:.1f} km2 ({worst[1]:.3%})")
+    if failures:
+        print("sub-national units do not tile their country:")
+        for line in failures:
+            print(line)
+        raise SystemExit(1)
+
+
+def _self_overlap(group):
+    """Where a country's own units overlap each other, as one geometry."""
+    pairs = gpd.sjoin(group[["geometry"]], group[["geometry"]],
+                      predicate="overlaps", how="inner")
+    seen, pieces = set(), []
+    for left, right in zip(pairs.index, pairs.index_right):
+        key = (min(left, right), max(left, right))
+        if left == right or key in seen:
+            continue
+        seen.add(key)
+        pieces.append(group.geometry[left].intersection(group.geometry[right]))
+    return unary_union(pieces) if pieces else None
 
 
 def verify(out_dir, cache, **kw):
@@ -857,6 +959,8 @@ def main():
                     help="keep the French overseas departments in the FRA polygon")
     ap.add_argument("--verify", action="store_true",
                     help="rebuild and compare with the artifact, writing nothing")
+    ap.add_argument("--check", action="store_true",
+                    help="run the tiling check on the artifact and stop")
     args = ap.parse_args()
 
     cache = resolve_cache(args.cache)
@@ -866,6 +970,9 @@ def main():
 
     kw = dict(source=args.source, adm2_iso=tuple(args.adm2_iso),
               keep_france_overseas=args.keep_france_overseas, refresh=args.refresh)
+    if args.check:
+        check_tiling(out_dir)
+        return
     if args.verify:
         sys.exit(0 if verify(out_dir, cache, **kw) else 1)
     build(out_dir, cache, **kw)
