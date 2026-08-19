@@ -13,8 +13,8 @@ They are built by ``create_geojson.py`` from up to four sources:
     epm/input/{folder}/geojson_to_epm.csv               admin name -> zone (+ split rules),
       or epm/resources/postprocess/geojson_to_epm.csv     falling back to the shared mapping
     epm/resources/postprocess/zones.geojson             admin-0 polygons
-    epm/input/{folder}/zones_custom.geojson             hand-drawn zones with no admin polygon,
-      or epm/resources/postprocess/zones_custom.geojson
+    epm/input/{folder}/zones_custom.geojson             hand-drawn areas no admin polygon
+      or epm/resources/postprocess/zones_custom.geojson   supplies, in the same ADMIN schema
 
 Nothing regenerates them automatically, so editing any source silently leaves
 the map showing the previous zoning. To make that detectable, every file

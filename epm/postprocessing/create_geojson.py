@@ -65,35 +65,11 @@ from epm.postprocessing.utils import log_warning, log_info
 from epm.postprocessing import geojson_freshness as freshness
 
 
-def _load_custom_zones(custom_zones, selected_zones):
-    """Hand-drawn geometries for zones that no admin-0 polygon can supply.
-
-    Zones such as an industrial off-taker (Mozal) exist in zcmap but match no
-    entry of the admin polygon file, so they can only be drawn from a
-    hand-maintained overlay. Returns a GeoDataFrame restricted to the zones this
-    model actually uses, or None.
-    """
-    if custom_zones is None or not os.path.exists(custom_zones):
-        return None
-    gdf = gpd.read_file(custom_zones)
-    if 'z' not in gdf.columns:
-        log_warning(f"Custom zones file has no 'z' column, ignored: {custom_zones}")
-        return None
-    gdf = gdf[gdf['z'].isin(selected_zones)].copy()
-    return gdf if len(gdf) else None
-
-
-def _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col,
-                     custom_gdf=None):
+def _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col):
     """Build polygon GeoDataFrame with z, ISO_A3, c, geometry columns for EPM View."""
     zones = zone_map_gdf.copy()
     zones['z'] = zones['ADMIN'].map(geojson_to_epm_dict)
     zones = zones[zones['z'].notna()].copy()
-    if custom_gdf is not None:
-        # Custom geometries win: they describe a zone the admin polygons cannot.
-        zones = zones[~zones['z'].isin(custom_gdf['z'])]
-        keep = ['z', 'geometry'] + [c for c in ('ISO_A3',) if c in custom_gdf.columns]
-        zones = pd.concat([zones, custom_gdf[keep]], ignore_index=True)
     zcmap_lookup = zcmap_df.set_index(zone_col)[country_col]
     zones['c'] = zones['z'].map(zcmap_lookup)
     if 'ISO_A3' not in zones.columns:
@@ -150,9 +126,10 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
         Defaults to 'linestring_countries' and 'zones' respectively.
 
     custom_zones : str, optional
-        Path to a GeoJSON of hand-drawn zone geometries (features carrying a 'z'
-        property). Used for zones that match no admin-0 polygon, and merged on
-        top of the derived ones.
+        Path to a GeoJSON overlay of hand-drawn areas that no admin-0 polygon can
+        supply. Its features carry the same ADMIN/ISO_A3 columns as the admin
+        file and so resolve through geojson_to_epm.csv like any country.
+        Defaults to epm/resources/postprocess/zones_custom.geojson.
 
     stamp_sources : dict, optional
         Fingerprint of the source files, as returned by
@@ -193,26 +170,18 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
             zone_map_gdf, geojson_to_epm_dict = get_json_data(
                 selected_zones=selected_zones,
                 geojson_to_epm=geojson_to_epm_path,
-                zone_map=zone_map
+                zone_map=zone_map,
+                zones_custom=custom_zones
             )
         else:
             # Use default resources from read_plot_specs()
             zone_map_gdf, geojson_to_epm_dict = get_json_data(
                 selected_zones=selected_zones,
-                zone_map=zone_map
+                zone_map=zone_map,
+                zones_custom=custom_zones
             )
 
     zone_map_gdf, centers = create_zonemap(zone_map_gdf, map_geojson_to_epm=geojson_to_epm_dict)
-
-    # Hand-drawn zones join the derived ones before any diagnostic, so that a
-    # zone covered by the overlay is not reported as missing.
-    custom_gdf = _load_custom_zones(custom_zones, selected_zones)
-    if custom_gdf is not None:
-        if custom_gdf.crs is not None and custom_gdf.crs.to_epsg() != 4326:
-            custom_gdf = custom_gdf.to_crs(epsg=4326)
-        for _, row in custom_gdf.iterrows():
-            centers[row['z']] = [row.geometry.centroid.x, row.geometry.centroid.y]
-        log_info(f"Custom zone geometries merged: {sorted(custom_gdf['z'])}")
 
     # Zone mapping diagnostics - only warn if there are issues
     zones_missing_geometry = [z for z in selected_zones if z not in centers]
@@ -221,8 +190,9 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
             f"Linestring GeoJSON: {len(zones_missing_geometry)} zones missing map geometry:\n"
             f"  {zones_missing_geometry}\n"
             f"  To fix: add a row to the geojson_to_epm.csv that applies to this folder\n"
-            f"  (epm/input/<folder>/geojson_to_epm.csv, else epm/resources/postprocess/geojson_to_epm.csv),\n"
-            f"  or a feature to zones_custom.geojson when the zone matches no admin area."
+            f"  (epm/input/<folder>/geojson_to_epm.csv, else epm/resources/postprocess/geojson_to_epm.csv).\n"
+            f"  When the zone matches no admin area at all, first draw it in\n"
+            f"  zones_custom.geojson with an ADMIN property, then map that name."
         )
 
     # Determine output file names
@@ -300,8 +270,7 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     country_col = 'country' if 'country' in zcmap_df.columns else 'c'
 
     # Build polygon zones GeoDataFrame before zcmap_df index is modified
-    zones_gdf = _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col,
-                                 custom_gdf=custom_gdf)
+    zones_gdf = _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col)
 
     # Add country codes for both zones (start and end)
     zcmap_df = zcmap_df.set_index(zone_col)

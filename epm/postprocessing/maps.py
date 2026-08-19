@@ -118,7 +118,7 @@ def create_zonemap(zone_map, map_geojson_to_epm):
 
 
 def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
-                  zone_map=None):
+                  zone_map=None, zones_custom=None):
     """
     Extract and process zone map data, handling divisions for sub-national regions.
 
@@ -164,10 +164,13 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         ((key not in selected_zones_to_divide) and (key in epm_to_geojson))
     ]
 
-    if zone_map is None:
+    if zone_map is None and zones_custom is None:
         zone_map = dict_specs['map_zones']  # getting json data on all countries
     else:
-        zone_map = gpd.read_file(zone_map)
+        # Reading a map explicitly must still pick up the hand-drawn zones, or a
+        # standalone regeneration would silently drop every zone that has no
+        # admin polygon.
+        zone_map = load_zone_map(zone_map, zones_custom)
 
     zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
 
