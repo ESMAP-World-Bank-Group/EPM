@@ -280,6 +280,12 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         merge_df['ADMIN'] = merge_df['source_name']
         # divide() returns 'region' column, so rename subregion to match
         merge_df = merge_df.rename(columns={'subregion': 'region'})
+        # The custom zone layer carries epm_zone/epm_country of its own, so the
+        # divided parts inherit them and the merge would suffix both sides away.
+        # The mapping is the authority on those, so drop the layer's copy.
+        clash = [c for c in merge_df.columns
+                 if c in zone_map_divide.columns and c not in ('region', 'ADMIN')]
+        zone_map_divide = zone_map_divide.drop(columns=clash)
         zone_map_divide = merge_df.merge(zone_map_divide, on=['region', 'ADMIN'])[
             ['epm_zone', 'ISO_A3', 'ISO_A2', 'geometry']]
         # Use epm_zone as the final ADMIN (unique identifier for each zone)

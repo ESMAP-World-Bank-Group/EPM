@@ -1,0 +1,190 @@
+zone,iso_a3,level,code,name,coverage
+Trakia,TUR,adm1,TR.ED,Edirne,0.982
+Trakia,TUR,adm1,TR.IB,Istanbul,0.975
+Trakia,TUR,adm1,TR.KL,Kirklareli,0.995
+Trakia,TUR,adm1,TR.TG,Tekirdag,0.998
+WestAna,TUR,adm1,TR.AY,Aydin,0.993
+WestAna,TUR,adm1,TR.BK,Balikesir,0.983
+WestAna,TUR,adm1,TR.CK,Canakkale,0.829
+WestAna,TUR,adm1,TR.IZ,Izmir,0.989
+WestAna,TUR,adm1,TR.MN,Manisa,0.997
+WestAna,TUR,adm1,TR.MG,Mugla,0.984
+NorthWest,TUR,adm1,TR.BR,Bartin,0.981
+NorthWest,TUR,adm1,TR.BC,Bilecik,0.999
+NorthWest,TUR,adm1,TR.BL,Bolu,0.994
+NorthWest,TUR,adm1,TR.BU,Bursa,0.994
+NorthWest,TUR,adm1,TR.ES,Eskisehir,0.997
+NorthWest,TUR,adm1,TR.KC,Kocaeli,0.969
+NorthWest,TUR,adm1,TR.KU,Kutahya,0.997
+NorthWest,TUR,adm1,TR.SK,Sakarya,0.993
+NorthWest,TUR,adm1,TR.YL,Yalova,0.930
+NorthWest,TUR,adm1,TR.ZO,Zonguldak,0.991
+WestMed,TUR,adm1,TR.AF,Afyon,0.997
+WestMed,TUR,adm1,TR.AL,Antalya,0.992
+WestMed,TUR,adm1,TR.BD,Burdur,0.997
+WestMed,TUR,adm1,TR.DN,Denizli,0.997
+WestMed,TUR,adm1,TR.IP,Isparta,0.998
+WestMed,TUR,adm1,TR.US,Usak,0.994
+CenterBlack,TUR,adm1,TR.AM,Amasya,0.999
+CenterBlack,TUR,adm1,TR.CI,Cankiri,0.997
+CenterBlack,TUR,adm1,TR.CM,Corum,0.999
+CenterBlack,TUR,adm1,TR.GI,Giresun,0.987
+CenterBlack,TUR,adm1,TR.KB,Karabuk,0.993
+CenterBlack,TUR,adm1,TR.KS,Kastamonu,0.993
+CenterBlack,TUR,adm1,TR.OR,Ordu,0.988
+CenterBlack,TUR,adm1,TR.SS,Samsun,0.993
+CenterBlack,TUR,adm1,TR.SP,Sinop,0.989
+CenterBlack,TUR,adm1,TR.SV,Sivas,0.997
+CenterBlack,TUR,adm1,TR.TT,Tokat,0.998
+CenterBlack,TUR,adm1,TR.TB,Trabzon,0.973
+CenterAna,TUR,adm1,TR.AK,Aksaray,0.998
+CenterAna,TUR,adm1,TR.AN,Ankara,0.997
+CenterAna,TUR,adm1,TR.KR,Karaman,0.994
+CenterAna,TUR,adm1,TR.KY,Kayseri,0.996
+CenterAna,TUR,adm1,TR.KK,Kirikkale,0.996
+CenterAna,TUR,adm1,TR.KH,Kirsehir,0.999
+CenterAna,TUR,adm1,TR.KO,Konya,0.998
+CenterAna,TUR,adm1,TR.NV,Nevsehir,0.999
+CenterAna,TUR,adm1,TR.NG,Nigde,0.997
+CenterAna,TUR,adm1,TR.YZ,Yozgat,0.995
+EastMed,TUR,adm1,TR.AA,Adana,0.995
+EastMed,TUR,adm1,TR.HT,Hatay,0.975
+EastMed,TUR,adm1,TR.IC,Icel,0.995
+EastMed,TUR,adm1,TR.OS,Osmaniye,0.993
+SouthEast,TUR,adm1,TR.AD,Adiyaman,0.999
+SouthEast,TUR,adm1,TR.BM,Batman,0.995
+SouthEast,TUR,adm1,TR.BG,Bingol,0.997
+SouthEast,TUR,adm1,TR.DY,Diyarbakir,0.998
+SouthEast,TUR,adm1,TR.EG,Elazig,0.999
+SouthEast,TUR,adm1,TR.GA,Gaziantep,0.984
+SouthEast,TUR,adm1,TR.KM,K.maras,0.997
+SouthEast,TUR,adm1,TR.KI,Kilis,0.910
+SouthEast,TUR,adm1,TR.ML,Malatya,0.997
+SouthEast,TUR,adm1,TR.MR,Mardin,0.988
+SouthEast,TUR,adm1,TR.SU,Sanliurfa,0.986
+SouthEast,TUR,adm1,TR.SI,Siirt,0.995
+SouthEast,TUR,adm1,TR.SR,Sirnak,0.987
+SouthEast,TUR,adm1,TR.TC,Tunceli,0.996
+EastAna,TUR,adm1,TR.AG,Agri,0.995
+EastAna,TUR,adm1,TR.AR,Ardahan,0.994
+EastAna,TUR,adm1,TR.AV,Artvin,0.992
+EastAna,TUR,adm1,TR.BB,Bayburt,0.998
+EastAna,TUR,adm1,TR.BT,Bitlis,0.997
+EastAna,TUR,adm1,TR.EN,Erzincan,0.994
+EastAna,TUR,adm1,TR.EM,Erzurum,0.999
+EastAna,TUR,adm1,TR.GU,Gumushane,0.996
+EastAna,TUR,adm1,TR.HK,Hakkari,0.979
+EastAna,TUR,adm1,TR.IG,Igdir,0.979
+EastAna,TUR,adm1,TR.KA,Kars,0.995
+EastAna,TUR,adm1,TR.MS,Mus,0.995
+EastAna,TUR,adm1,TR.RI,Rize,0.958
+EastAna,TUR,adm1,TR.VA,Van,0.999
+PAK_KAR,PAK,adm2,PK.SD.KC,Karachi Central,1.000
+PAK_KAR,PAK,adm2,PK.SD.KE,Karachi East,1.000
+PAK_KAR,PAK,adm2,PK.SD.KS,Karachi South,0.966
+PAK_KAR,PAK,adm2,PK.SD.KW,Karachi West,0.891
+PAK_KAR,PAK,adm2,PK.SD.KR,Korangi,1.000
+NEPS_TAJ,AFG,adm1,AF.KZ,Kunduz,0.996
+NEPS_TAJ,AFG,adm1,AF.TK,Takhar,0.974
+TAJ_N,TJK,adm1,TJ.LE,Sughd Province,0.993
+NEPS_UZB,AFG,adm1,AF.BK,Balkh,0.992
+NEPS_UZB,AFG,adm1,AF.SM,Samangan,0.996
+NEPS_UZB,AFG,adm1,AF.SP,Sar-e-Pul,0.984
+NEPS_TKM,AFG,adm1,AF.BG,Badghis,0.977
+NEPS_TKM,AFG,adm1,AF.FB,Faryab,0.996
+NEPS_TKM,AFG,adm1,AF.JW,Jawzjan,0.975
+NEPS_HERAT,AFG,adm1,AF.HR,Hirat,0.982
+KGZ_S,KGZ,adm1,KG.BA,Batken,0.995
+KGZ_S,KGZ,adm1,KG.DA,Jalal-Abad,0.992
+KGZ_S,KGZ,adm1,KG.OH,Osh,0.997
+TAJ_S,TJK,adm1,TJ.BK,Badakhshan Autonomous Mountainous Region,0.998
+TAJ_S,TJK,adm1,TJ.RR,Cities and districts of the republican subordination,0.979
+TAJ_S,TJK,adm1,TJ.DU,Dushanbe,1.000
+TAJ_S,TJK,adm1,TJ.KL,Khatlon Province,0.997
+KGZ_N,KGZ,adm1,KG.CU,Chuy,0.995
+KGZ_N,KGZ,adm1,KG.NA,Naryn,0.990
+KGZ_N,KGZ,adm1,KG.TL,Talas,0.987
+KGZ_N,KGZ,adm1,KG.YK,Ysyk-Kol,0.999
+NEPS_AFG,AFG,adm1,AF.BL,Baghlan,0.991
+NEPS_AFG,AFG,adm1,AF.BM,Bamyan,0.980
+NEPS_AFG,AFG,adm1,AF.DK,Daykundi,0.997
+NEPS_AFG,AFG,adm1,AF.GZ,Ghazni,1.000
+NEPS_AFG,AFG,adm1,AF.HM,Hilmand,0.976
+NEPS_AFG,AFG,adm1,AF.KB,Kabul,1.000
+NEPS_AFG,AFG,adm1,AF.KD,Kandahar,0.999
+NEPS_AFG,AFG,adm1,AF.KP,Kapisa,1.000
+NEPS_AFG,AFG,adm1,AF.KT,Khost,0.997
+NEPS_AFG,AFG,adm1,AF.KR,Kunar,0.996
+NEPS_AFG,AFG,adm1,AF.LA,Laghman,1.000
+NEPS_AFG,AFG,adm1,AF.LW,Logar,1.000
+NEPS_AFG,AFG,adm1,AF.NG,Nangarhar,0.997
+NEPS_AFG,AFG,adm1,AF.NR,Nuristan,0.992
+NEPS_AFG,AFG,adm1,AF.PK,Paktika,0.998
+NEPS_AFG,AFG,adm1,AF.PT,Paktya,1.000
+NEPS_AFG,AFG,adm1,AF.PJ,Panjsher,0.988
+NEPS_AFG,AFG,adm1,AF.PV,Parwan,1.000
+NEPS_AFG,AFG,adm1,AF.OZ,Uruzgan,1.000
+NEPS_AFG,AFG,adm1,AF.VR,Wardak,1.000
+NEPS_AFG,AFG,adm1,AF.ZB,Zabul,1.000
+PAK_N,PAK,adm1,PK.JK,Azad Jammu and Kashmir,0.997
+PAK_N,PAK,adm1,PK.IS,Federal Capital Territory,1.000
+PAK_N,PAK,adm1,PK.NA,Gilgit Baltistan,0.999
+PAK_N,PAK,adm1,PK.NW,Khyber Pakhtunkhwa,0.998
+PAK_N,PAK,adm1,PK.TA,Khyber Pakhtunkhwa,0.996
+PAK_N,PAK,adm1,PK.PB,Punjab,0.996
+PAK_S,PAK,adm1,PK.BA,Balochistan,0.996
+PAK_S,PAK,adm2,PK.SD.BD,Badin,0.975
+PAK_S,PAK,adm2,PK.SD.DD,Dadu,0.975
+PAK_S,PAK,adm2,PK.SD.GH,Ghotki,0.975
+PAK_S,PAK,adm2,PK.SD.HY,Hyderabad,0.975
+PAK_S,PAK,adm2,PK.SD.JB,Jacobabad,0.975
+PAK_S,PAK,adm2,PK.SD.JS,Jamshoro,0.975
+PAK_S,PAK,adm2,PK.SD.KM,Kashmore,0.975
+PAK_S,PAK,adm2,PK.SD.KP,Khairpur,0.975
+PAK_S,PAK,adm2,PK.SD.LA,Larkana,0.975
+PAK_S,PAK,adm2,PK.SD.ML,Malir,0.975
+PAK_S,PAK,adm2,PK.SD.MP,Mirpur Khas,0.975
+PAK_S,PAK,adm2,PK.SD.MT,Matiari,0.975
+PAK_S,PAK,adm2,PK.SD.NF,Naushahro Feroze,0.975
+PAK_S,PAK,adm2,PK.SD.QS,Qambar Shahdadkot,0.975
+PAK_S,PAK,adm2,PK.SD.SB,Shaheed Benazirabad,0.975
+PAK_S,PAK,adm2,PK.SD.SG,Sanghar,0.975
+PAK_S,PAK,adm2,PK.SD.SK,Sukkur,0.975
+PAK_S,PAK,adm2,PK.SD.SP,Shikarpur,0.975
+PAK_S,PAK,adm2,PK.SD.SW,Sujawal,0.975
+PAK_S,PAK,adm2,PK.SD.TK,Tando Muhammad Khan,0.975
+PAK_S,PAK,adm2,PK.SD.TP,Tharparkar,0.975
+PAK_S,PAK,adm2,PK.SD.TT,Thatta,0.975
+PAK_S,PAK,adm2,PK.SD.TY,Tando Allah Yar,0.975
+PAK_S,PAK,adm2,PK.SD.UK,Umerkot,0.975
+UZB,UZB,adm1,UZ.AN,Andijan,0.994
+UZB,UZB,adm1,UZ.BU,Bukhara,0.999
+UZB,UZB,adm1,UZ.FA,Fergana,0.988
+UZB,UZB,adm1,UZ.JI,Jizzakh,0.998
+UZB,UZB,adm1,UZ.QR,Karakalpakstan,0.999
+UZB,UZB,adm1,UZ.QA,Kashkadarya,0.998
+UZB,UZB,adm1,UZ.KH,Khorezm,0.994
+UZB,UZB,adm1,UZ.NG,Namangan,0.995
+UZB,UZB,adm1,UZ.NW,Navoiy,1.000
+UZB,UZB,adm1,UZ.SA,Samarkand,0.999
+UZB,UZB,adm1,UZ.SI,Sirdarya,0.997
+UZB,UZB,adm1,UZ.SU,Surkhandarya,0.996
+UZB,UZB,adm1,UZ.TA,Tashkent,0.994
+UZB,UZB,adm1,UZ.TK,Tashkent city,1.000
+TUR,TKM,adm1,TM.AL,Ahal,0.999
+TUR,TKM,adm1,TM.BA,Balkan,0.998
+TUR,TKM,adm1,TM.LE,Chardzhou,0.999
+TUR,TKM,adm1,TM.MA,Mary,0.999
+TUR,TKM,adm1,TM.DA,Tashauz,0.999
+KAZ_S,KAZ,adm1,KZ.AA,Almatinskaya,0.987
+KAZ_S,KAZ,adm1,KZ.AC,Almaty City area,1.000
+KAZ_S,KAZ,adm1,KZ.ZM,Jambylslkaya,0.983
+KAZ_S,KAZ,adm1,KZ.QO,Kyzylordinskaya,0.960
+KAZ_S,KAZ,adm1,KZ.SK,Yujno-kazachstanskaya,0.993
+KAZ_N,KAZ,adm1,KZ.AM,Akmolinskaya,1.000
+KAZ_N,KAZ,adm1,KZ.AT,Aktyubinskaya,0.991
+KAZ_N,KAZ,adm1,KZ.QG,Karagandinskaya,0.997
+KAZ_N,KAZ,adm1,KZ.QS,Kustanayskaya,0.999
+KAZ_N,KAZ,adm1,KZ.PA,Pavlodarskaya,0.999
+KAZ_N,KAZ,adm1,KZ.NK,Severo-kazachstanskaya,0.999
+KAZ_N,KAZ,adm1,KZ.EK,Vostochno-kazachstanskaya,0.997

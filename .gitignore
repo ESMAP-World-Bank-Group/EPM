@@ -106,8 +106,8 @@ epm/input/*
 !epm/input/data_casa_2020/
 !epm/input/data_casa_2020/**
 
-# Modele 2026 : les donnees restent au store prive, seule la page qui les documente
-# est suivie, pour rester lisible en ligne via htmlpreview.github.io.
+# 2026 model: the data stays in the private store, only the page documenting it is
+# tracked, so that it stays readable online through htmlpreview.github.io.
 !epm/input/data_casa/
 epm/input/data_casa/*
 !epm/input/data_casa/DATA_SOURCES.html

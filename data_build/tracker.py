@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Classeur de suivi des données, DÉDUIT du build.
+"""Data tracking workbook, DERIVED from the build.
 
     python data_build/tracker.py --config data_build/build_casa.yaml
 
-Le classeur n'est pas une source d'information : c'est une vue. Tout ce qu'il
-affiche vient de build_report.json, donc de ce que le build fait réellement, plus
-des blocs "sources" et "leads" du YAML. Il ne peut donc pas diverger de la donnée,
-ce qui était le défaut du suivi tenu à la main sur Black Sea.
+The workbook is not a source of information: it is a view. Everything it shows
+comes from build_report.json, hence from what the build actually does, plus the
+"sources" and "leads" blocks of the YAML. It therefore cannot drift away from the
+data, which was the flaw of the hand-kept tracker on Black Sea.
 
-Lance le build en mode --check si le rapport est absent ou plus vieux que le YAML.
+Runs the build in --check mode if the report is missing or older than the YAML.
 """
 
 import argparse
@@ -25,7 +25,7 @@ from openpyxl.utils import get_column_letter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# Code couleur repris de Black Sea : vert fait, jaune partiel, rouge à faire, gris hors périmètre.
+# Colour code taken from Black Sea: green done, amber partial, red to do, grey out of scope.
 FILLS = {"G": PatternFill("solid", fgColor="C6EFCE"),
          "Y": PatternFill("solid", fgColor="FFEB9C"),
          "R": PatternFill("solid", fgColor="FFC7CE"),
@@ -43,39 +43,48 @@ THIN = Border(*[Side(style="thin", color="BFBFBF")] * 4)
 
 
 def remaining(entry):
-    """Ce qu'il reste à faire, ou chaîne vide si le todo est un compte rendu."""
+    """What is left to do, or an empty string when the todo is a status report."""
     txt = str(entry.get("todo", "")).strip()
-    return "" if txt.upper().startswith("FAIT") else txt
+    return "" if txt.upper().startswith("DONE") else txt
+
+
+def covers(source):
+    """Countries a source can speak for, as text. The YAML holds a list of country
+    codes, so nothing has to be re-typed when the perimeter changes."""
+    c = source.get("covers")
+    if isinstance(c, (list, tuple)):
+        return ", ".join(str(x) for x in c)
+    return str(c or "")
 
 
 def state_of(entry):
-    """Avancement d'une ressource, déduit du build seul.
+    """Progress of a resource, derived from the build alone.
 
-    Deux faits suffisent. Le build a-t-il transformé le fichier (action), et
-    reste-t-il du travail déclaré (todo) ? Rien n'est saisi à la main ici, donc
-    rien ne peut rester vert par oubli.
+    Two facts are enough. Did the build transform the file (action), and is there
+    any declared work left (todo)? Nothing is typed in by hand here, so nothing can
+    stay green by oversight.
     """
-    if entry.get("work") == "IGNORER":
-        return "B", "hors périmètre"
+    if entry.get("work") == "SKIP":
+        return "B", "out of scope"
     touched = entry.get("action") not in ("keep", "shared")
-    # Un todo qui commence par FAIT n'est pas un reste : c'est le compte rendu de
-    # ce qui a été fait, gardé dans le YAML à côté de la décision qu'il explique.
+    # A todo starting with DONE is not a leftover: it is the record of what was
+    # done, kept in the YAML next to the decision it explains.
     todo = bool(remaining(entry))
     if touched and not todo:
-        return "G", "terminé"
+        return "G", "done"
     if touched:
-        # FAIT = la donnée est en place ; le todo qui subsiste est un complément
-        # (variante de scénario, source meilleure attendue), pas un manque.
-        if entry.get("work") == "FAIT":
-            return "Y", "rempli, compléments à venir"
-        return "Y", "structure adaptée, données à faire"
+        # DONE = the data is in place; any remaining todo is an addition (scenario
+        # variant, better source expected), not a gap.
+        if entry.get("work") == "DONE":
+            return "Y", "filled, more to come"
+        return "Y", "structure adapted, data to do"
     if not todo:
-        return "G", "hérité, conforme"
-    return "R", "hérité 2020, à traiter"
+        return "G", "inherited, fit for purpose"
+    return "R", "inherited 2020, to process"
 
 
 def phase_of(entry):
-    """Numéro de phase, lu au début du todo. Convention : 'PHASE 3. ...'."""
+    """Phase number, read at the start of the todo. Convention: 'PHASE 3. ...'."""
     m = re.match(r"\s*PHASE\s+(\d+)", str(entry.get("todo", "")), re.I)
     return "P" + m.group(1) if m else ""
 
@@ -94,7 +103,7 @@ def sheet(wb, title, widths, headers, first=False):
 
 def put(ws, row, values, fill=None, font=SMALL):
     for i, v in enumerate(values, 1):
-        # les scalaires plies du YAML gardent un saut de ligne final
+        # folded YAML scalars keep a trailing newline
         c = ws.cell(row=row, column=i, value=v.strip() if isinstance(v, str) else v)
         c.alignment, c.border, c.font = TOP, THIN, font
         if fill:
@@ -111,10 +120,10 @@ def main():
     cfg = yaml.safe_load(open(args.config, "r", encoding="utf-8"))
     report_path = os.path.join(HERE, "build_report.json")
 
-    # Le rapport doit refléter le YAML courant : sinon on relance le build à vide.
+    # The report must mirror the current YAML, otherwise re-run the build dry.
     if (not os.path.isfile(report_path)
             or os.path.getmtime(report_path) < os.path.getmtime(args.config)):
-        print("Rapport absent ou périmé, relance du build en --check.")
+        print("Report missing or stale, re-running the build with --check.")
         subprocess.check_call([sys.executable, os.path.join(HERE, "build.py"),
                                "--config", args.config, "--check"])
 
@@ -124,17 +133,17 @@ def main():
 
     wb = openpyxl.Workbook()
 
-    # ── Feuille 1 : suivi ──────────────────────────────────────────────────
-    ws = sheet(wb, "Suivi",
+    # ── Sheet 1: tracking ──────────────────────────────────────────────────
+    ws = sheet(wb, "Tracking",
                [13, 22, 30, 34, 9, 8, 26, 13, 6, 20, 20, 11, 60, 70],
-               ["Bloc", "Ressource", "Fichier", "Contenu", "Lignes", "Phase",
-                "État", "Travail", "Prio", "Sources", "Onglet source", "Millésime",
-                "Ce qui a été fait", "Ce qui reste"], first=True)
-    r, bloc, tally = 2, None, {"G": 0, "Y": 0, "R": 0, "B": 0}
+               ["Block", "Resource", "File", "Inherited content", "Rows", "Phase",
+                "State", "Work", "Prio", "Sources", "Source sheet", "Vintage",
+                "What was done", "What is left"], first=True)
+    r, block, tally = 2, None, {"G": 0, "Y": 0, "R": 0, "B": 0}
     for e in rows:
-        if e.get("group") != bloc:
-            bloc = e.get("group")
-            c = ws.cell(row=r, column=1, value=bloc or "(non classé)")
+        if e.get("group") != block:
+            block = e.get("group")
+            c = ws.cell(row=r, column=1, value=block or "(unclassified)")
             c.fill, c.font, c.alignment, c.border = SUB, Font(bold=True, size=9), TOP, THIN
             for i in range(2, 15):
                 ws.cell(row=r, column=i).fill = SUB
@@ -142,7 +151,7 @@ def main():
         code, label = state_of(e)
         tally[code] += 1
         n = e.get("rows_out")
-        r = put(ws, r, [bloc, e["resource"], e.get("path", ""), e.get("what", ""),
+        r = put(ws, r, [block, e["resource"], e.get("path", ""), e.get("what", ""),
                         n if n != "-" else "-", phase_of(e), label,
                         e.get("work", ""), e.get("priority", ""),
                         ", ".join(e.get("source") or []),
@@ -155,35 +164,36 @@ def main():
             ws.cell(row=r - 1, column=9).fill = p
 
     r += 1
-    put(ws, r, ["BILAN", "{} terminé | {} partiel | {} à faire | {} hors périmètre"
+    put(ws, r, ["SUMMARY", "{} done | {} partial | {} to do | {} out of scope"
                 .format(tally["G"], tally["Y"], tally["R"], tally["B"])], font=BOLD)
 
-    # ── Feuille 2 : sources ────────────────────────────────────────────────
+    # ── Sheet 2: sources ───────────────────────────────────────────────────
     ws = sheet(wb, "Sources", [18, 46, 12, 20, 30, 34, 80],
-               ["Clé", "Source", "Date", "Accès", "Couvre", "Où la trouver", "Ce qu'elle contient"])
+               ["Key", "Source", "Date", "Access", "Covers", "Where to find it",
+                "What it contains"])
     r = 2
     for key, s in sources.items():
         r = put(ws, r, [key, s.get("name", ""), str(s.get("date", "")),
-                        s.get("access", ""), s.get("covers", ""),
+                        s.get("access", ""), covers(s),
                         s.get("where", ""), s.get("note", "")])
 
-    # ── Feuille 3 : pistes ─────────────────────────────────────────────────
-    ws = sheet(wb, "Pistes", [14, 34, 30, 20, 62, 70],
-               ["Pays", "Organisme", "Adresse", "Statut", "Contenu constaté",
-                "Ce qu'on en fait"])
+    # ── Sheet 3: leads ─────────────────────────────────────────────────────
+    ws = sheet(wb, "Leads", [14, 34, 30, 20, 62, 70],
+               ["Country", "Organisation", "Address", "Status", "What was found",
+                "What we do with it"])
     r = 2
-    # Le statut reprend le code couleur du suivi : ce qui est testé et disponible
-    # est vert, ce qui est testé et vide est rouge. Une piste non testée reste grise.
-    STAT = {"DISPONIBLE": "G", "PARTIEL": "Y", "RIEN": "R"}
+    # The status reuses the tracking colour code: tested and available is green,
+    # tested and empty is red. An untested lead stays grey.
+    STAT = {"AVAILABLE": "G", "PARTIAL": "Y", "NOTHING": "R"}
     for lead in (cfg.get("leads") or []):
         r = put(ws, r, list(lead))
-        statut = str(lead[3]) if len(lead) > 3 else ""
-        code = next((c for k, c in STAT.items() if k in statut), "B")
+        status = str(lead[3]) if len(lead) > 3 else ""
+        code = next((c for k, c in STAT.items() if k in status), "B")
         ws.cell(row=r - 1, column=4).fill = FILLS[code]
 
     wb.save(args.out)
-    print("Écrit : {}".format(args.out))
-    print("{} terminé | {} partiel | {} à faire | {} hors périmètre"
+    print("Written: {}".format(args.out))
+    print("{} done | {} partial | {} to do | {} out of scope"
           .format(tally["G"], tally["Y"], tally["R"], tally["B"]))
 
 

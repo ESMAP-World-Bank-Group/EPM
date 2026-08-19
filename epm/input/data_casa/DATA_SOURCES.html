@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Sources — EPM — Asie centrale 2026</title>
+<title>Data Sources &mdash; EPM &mdash; Central Asia 2026</title>
 <style>
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
  max-width:1280px;margin:0 auto;padding:24px 32px;color:#2c3e50;line-height:1.55;font-size:14px}
@@ -30,224 +30,666 @@ a{color:#1a5276}
 .toc{background:#f8f9fa;border:1px solid #e0e0e0;border-radius:4px;padding:12px 20px;
  display:inline-block;min-width:300px}
 .toc ul{margin:4px 0;padding-left:18px}
+.dl{display:inline-block;margin:14px 0 0;padding:7px 14px;background:#1a5276;color:#fff;
+ border-radius:4px;text-decoration:none;font-size:.85em;font-weight:600}
+.dl:hover{background:#154360}
 .src{border-left:3px solid #d5d8dc;padding:2px 0 2px 14px;margin:14px 0 20px}
 .src .tag{font-size:.74em;color:#fff;background:#7f8c8d;border-radius:3px;padding:1px 6px;margin-left:6px}
 .src .tag.open{background:#27865a}.src .tag.conf{background:#a33228}.src .tag.hyp{background:#b8860b}
 .src p{margin:5px 0;color:#555}
 .todo{color:#8a5e12}
 .muted{color:#999}
+.matrix{table-layout:fixed}
+.matrix th.cc{text-align:center;width:9.5%}
+.matrix td.cc{text-align:center;padding:5px 4px;line-height:1.4}
+.matrix td.res{white-space:nowrap}
+.cc.has{background:#f4faf6}
+.cc.none{background:#fafafa}
+.chip{display:inline-block;font-size:.72em;padding:0 5px;margin:1px;border-radius:3px;
+ background:#e8eef4;color:#39536b;text-decoration:none;white-space:nowrap}
+.chip.open{background:#e0f0e7;color:#1e6b46}
+.chip.conf{background:#fbe6e3;color:#8f2c23}
+.chip.hyp{background:#fbf0d8;color:#8a6410}
+.mark{display:block;font-size:.85em;color:#276327;font-weight:700;line-height:1}
 .foot{margin-top:44px;padding-top:12px;border-top:1px solid #eaecee;font-size:.78em;color:#999}
 </style>
 </head>
 <body>
-<h1>Data Sources — EPM — Asie centrale 2026</h1>
-<p class="meta">Générée le 2026-08-20 · déploiement <code>data_casa</code> · 16 zones · 7 pays · horizon 2026–2050 · 13 pas</p>
+<h1>Data Sources &mdash; EPM &mdash; Central Asia 2026</h1>
+<p class="meta">Generated on 2026-08-20 &middot; deployment <code>data_casa</code> &middot; 16 zones &middot; 7 countries &middot; horizon 2026-2050 &middot; 13 steps</p>
 <div class="legend">
-<span><span class="sw" style="background:#edf7ed;border:1px solid #ddd"></span>traité</span>
-<span><span class="sw" style="background:#fdf6e3;border:1px solid #ddd"></span>partiel</span>
-<span><span class="sw" style="background:#fdeeec;border:1px solid #ddd"></span>hérité 2020, à traiter</span>
-<span><span class="sw" style="background:#f4f4f4;border:1px solid #ddd"></span>hors périmètre</span>
+<span><span class="sw" style="background:#edf7ed;border:1px solid #ddd"></span>done</span>
+<span><span class="sw" style="background:#fdf6e3;border:1px solid #ddd"></span>partial</span>
+<span><span class="sw" style="background:#fdeeec;border:1px solid #ddd"></span>inherited 2020, to process</span>
+<span><span class="sw" style="background:#f4f4f4;border:1px solid #ddd"></span>out of scope</span>
 </div>
-<div class="toc"><b>Sommaire</b><ul><li><a href="#resources">Ressources du modèle</a></li><li><a href="#detail">Ce qui a été fait, ressource par ressource</a></li><li><a href="#sources">Les sources</a></li><li><a href="#publiques">Sources publiques accessibles en ligne</a></li></ul></div>
-<h2 id="resources">Ressources du modèle</h2>
-<p class="meta">La colonne <i>Contenu</i> décrit le fichier tel qu’il vient du modèle 2020 ; l’état dit ce que le build en a fait, et le détail suit plus bas.</p>
-<table><thead><tr><th>Ressource</th><th>Fichier</th><th>Contenu hérité</th><th>Lignes</th><th>État</th><th>Phase</th><th>Millésime</th><th>Sources</th></tr></thead><tbody>
-<tr class="cat-row"><td colspan="8">Cadrage</td></tr>
-<tr><td><a href="#res-y"><code>y</code></a></td><td><code>y.csv</code></td><td>Horizon 2017-2030</td><td>13</td><td class="st st-G">terminé</td><td></td><td></td><td><a href="#src-equipe">equipe</a></td></tr>
-<tr><td><code>zcmap</code></td><td><code>zcmap.csv</code></td><td>16 zones -&gt; 7 pays</td><td>16</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pSettings</code></td><td><code>pSettings.csv</code></td><td>~40 drapeaux et scalaires</td><td>77</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>config</code></td><td><code>config.csv</code></td><td>modeltype RMIP + options cplex</td><td>37</td><td class="st st-G">hérité, conforme</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><a href="#res-phours"><code>pHours</code></a></td><td><code>pHours.csv</code></td><td>5 saisons x 1 jour x 7 blocs = 8760 h</td><td></td><td class="st st-Y">structure adaptée, données à faire</td><td>8</td><td>2021-2022</td><td><a href="#src-pipeline">pipeline</a></td></tr>
-<tr><td><code>pTechFuel</code></td><td><code>pTechFuel.csv</code></td><td>26 couples tech/fuel</td><td>26</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pFuelCarbonContent</code></td><td><code>pFuelCarbonContent.csv</code></td><td>facteurs CO2 par combustible</td><td>10</td><td class="st st-G">hérité, conforme</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr class="cat-row"><td colspan="8">Demande</td></tr>
-<tr><td><a href="#res-pdemanddata"><code>pDemandData</code></a></td><td><code>load/pDemandData.csv</code></td><td>MW absolus par (z,q,d,y)</td><td></td><td class="st st-Y">structure adaptée, données à faire</td><td>8</td><td>KZ 2022 / TJ 2021 / KG / UZ</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-gabarit-2026">gabarit_2026</a></td></tr>
-<tr><td><a href="#res-pdemandforecast"><code>pDemandForecast</code></a></td><td><code>load/pDemandForecast.csv</code></td><td>trajectoire de demande par zone, energie GWh et pointe MW</td><td>32</td><td class="st st-Y">rempli, compléments à venir</td><td>9</td><td>2023-2060</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pDemandProfile</code></td><td><code>load/pDemandProfile.csv</code></td><td>profil normalisé par (z,q,d,t)</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pEnergyEfficiencyFactor</code></td><td><code>load/pEnergyEfficiencyFactor.csv</code></td><td>facteur d'efficacité énergétique</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>sRelevant</code></td><td><code>load/sRelevant.csv</code></td><td>types de jour retenus</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-pipeline">pipeline</a></td></tr>
-<tr class="cat-row"><td colspan="8">Parc</td></tr>
-<tr><td><code>pGenDataInput</code></td><td><code>supply/pGenDataInput.csv</code></td><td>centrales : capacité, statut, HR, coûts</td><td>403</td><td class="st st-R">hérité 2020, à traiter</td><td>5</td><td>2022 base</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-gabarit-2026">gabarit_2026</a></td></tr>
-<tr><td><a href="#res-pavailability"><code>pAvailability</code></a></td><td><code>supply/pAvailabilityCustom.csv</code></td><td>dispo saisonnière par centrale (g x Q1..Q4)</td><td>403</td><td class="st st-Y">structure adaptée, données à faire</td><td>4</td><td>2022</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pAvailabilityDefault</code></td><td><code>supply/pAvailabilityDefault.csv</code></td><td>dispo par défaut (z,tech,fuel)</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
-<tr><td><code>pGenDataInputDefault</code></td><td><code>supply/pGenDataInputDefault.csv</code></td><td>candidats génériques par zone</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><a href="#res-pvreprofile"><code>pVREProfile</code></a></td><td><code>supply/pVREProfile.csv</code></td><td>profil solaire/éolien par (z,tech,q,d)</td><td></td><td class="st st-Y">structure adaptée, données à faire</td><td>8</td><td>2022</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-renewables-ninja">renewables_ninja</a></td></tr>
-<tr><td><code>pCapexTrajectoriesCustom</code></td><td><code>supply/pCapexTrajectoriesCustom.csv</code></td><td>CAPEX par centrale dans le temps</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2025-2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pCapexTrajectoriesDefault</code></td><td><code>supply/pCapexTrajectoriesDefault.csv</code></td><td>CAPEX par (zone,tech,fuel)</td><td></td><td class="st st-G">hérité, conforme</td><td></td><td>2025-2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pFuelPrice</code></td><td><code>supply/pFuelPrice.csv</code></td><td>prix combustibles par pays (c,fuel,année)</td><td>25</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2024 réel -&gt; 2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pStorageDataInput</code></td><td><code>supply/pStorageDataInput.csv</code></td><td>stockage (batteries, STEP)</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-hypothese">hypothese</a></td></tr>
-<tr><td><code>pEvolutionAvailability</code></td><td><code>supply/pEvolutionAvailability.csv</code></td><td>dérive de disponibilité dans le temps</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pCSPData</code></td><td><code>supply/pCSPData.csv</code></td><td>solaire à concentration</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr class="cat-row"><td colspan="8">Échanges</td></tr>
-<tr><td><a href="#res-ptransferlimit"><code>pTransferLimit</code></a></td><td><code>trade/pTransferLimit.csv</code></td><td>NTC par corridor x saison x année</td><td>168</td><td class="st st-Y">structure adaptée, données à faire</td><td>3</td><td>2024-2031</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-demande-tso">demande_tso</a></td></tr>
-<tr><td><code>pContractedTradeFlag</code></td><td><code>trade/pContractedTradeFlag.csv</code></td><td>corridors sous contrat, par saison</td><td>5</td><td class="st st-R">hérité 2020, à traiter</td><td>3</td><td></td><td><a href="#src-casa1000-ppa">casa1000_ppa</a></td></tr>
-<tr><td><code>pContractedTradeEnergy</code></td><td><code>trade/pContractedTradeEnergy.csv</code></td><td>énergie contractée GWh par corridor</td><td>3</td><td class="st st-R">hérité 2020, à traiter</td><td>3</td><td>2022-2030</td><td><a href="#src-casa1000-ppa">casa1000_ppa</a></td></tr>
-<tr><td><code>pHistoricalTradeFlag</code></td><td><code>trade/pHistoricalTradeFlag.csv</code></td><td>corridors plafonnés à l'historique</td><td>18</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pLossFactorInternal</code></td><td><code>trade/pLossFactorInternal.csv</code></td><td>pertes par corridor (0,5 % partout)</td><td>48</td><td class="st st-G">hérité, conforme</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pMaxAnnualTransfer</code></td><td><code>trade/pMaxAnnualTransfer.csv</code></td><td>plafond annuel d'échange par corridor</td><td>8</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pNewTransmission</code></td><td><code>trade/pNewTransmission.csv</code></td><td>lignes candidates à la construction</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-mercados-plexos">mercados_plexos</a></td></tr>
-<tr><td><code>pMinImport</code></td><td><code>trade/pMinImport.csv</code></td><td>import minimum obligatoire</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pExtTransferLimit</code></td><td><code>trade/pExtTransferLimit.csv</code></td><td>NTC vers zones externes</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pTradePrice</code></td><td><code>trade/pTradePrice.csv</code></td><td>prix aux frontières externes</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
-<tr><td><code>zext</code></td><td><code>trade/zext.csv</code></td><td>liste des zones externes</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pMaxAnnualExternalTradeShare</code></td><td><code>trade/pMaxAnnualExternalTradeShare.csv</code></td><td>part max d'échange externe</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr class="cat-row"><td colspan="8">Contraintes</td></tr>
-<tr><td><code>pCarbonPrice</code></td><td><code>constraint/pCarbonPrice.csv</code></td><td>prix carbone 32 -&gt; 50 $/t</td><td>14</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
-<tr><td><code>pEmissionsCountry</code></td><td><code>constraint/pEmissionsCountry.csv</code></td><td>plafond CO2 par pays</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2030-2060</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pEmissionsTotal</code></td><td><code>constraint/pEmissionsTotal.csv</code></td><td>plafond CO2 système</td><td></td><td class="st st-G">hérité, conforme</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pMaxFuellimit</code></td><td><code>constraint/pMaxFuellimit.csv</code></td><td>limite d'approvisionnement par pays</td><td>5</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pMaxFuellimitZone</code></td><td><code>constraint/pMaxFuellimitZone.csv</code></td><td>limite par zone (KAZ_N Gas 0,1)</td><td>4</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
-<tr><td><code>pMaxGenerationByFuel</code></td><td><code>constraint/pMaxGenerationByFuel.csv</code></td><td>part max par combustible</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr class="cat-row"><td colspan="8">Réserves</td></tr>
-<tr><td><code>pPlanningReserveMarginZone</code></td><td><code>reserve/pPlanningReserveMarginZone.csv</code></td><td>marge de réserve, 15 % partout</td><td>16</td><td class="st st-R">hérité 2020, à traiter</td><td></td><td>2020</td><td><a href="#src-hypothese">hypothese</a></td></tr>
-<tr><td><a href="#res-preserveseasonflag"><code>pReserveSeasonFlag</code></a></td><td><code>reserve/pReserveSeasonFlag.csv</code></td><td>saison de pointe = Q5</td><td>1</td><td class="st st-G">terminé</td><td></td><td></td><td><a href="#src-pipeline">pipeline</a></td></tr>
-<tr><td><code>pPlanningReserveMargin</code></td><td><code>reserve/pPlanningReserveMargin.csv</code></td><td>marge par pays</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pSpinningReserveReqCountry</code></td><td><code>reserve/pSpinningReserveReqCountry.csv</code></td><td>réserve tournante par pays</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
-<tr><td><code>pSpinningReserveReqSystem</code></td><td><code>reserve/pSpinningReserveReqSystem.csv</code></td><td>réserve tournante système</td><td></td><td class="st st-G">hérité, conforme</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
-<tr class="cat-row"><td colspan="8">Autres</td></tr>
-<tr><td><code>pH2DataExcel</code></td><td><code>h2/pH2DataExcel.csv</code></td><td>hydrogène (5 fichiers dans h2/)</td><td></td><td class="st st-B">hors périmètre</td><td></td><td></td><td><span class="muted">—</span></td></tr>
-<tr><td><code>pGenDataInputGeneric</code></td><td><code>generic/pGenDataInputGeneric.csv</code></td><td>défauts technologiques génériques</td><td></td><td class="st st-R">hérité 2020, à traiter</td><td></td><td></td><td><span class="muted">—</span></td></tr>
+<div class="toc"><b>Contents</b><ul><li><a href="#resources">Model resources</a></li><li><a href="#coverage">Country coverage</a></li><li><a href="#detail">What was done, resource by resource</a></li><li><a href="#sources">The sources</a></li></ul></div>
+<div><a class="dl" href="https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/ca_2026/data_build/DATA_SOURCES_casa.xlsx">Download the tracking workbook (.xlsx)</a></div>
+<h2 id="resources">Model resources</h2>
+<p class="meta">The <i>Inherited content</i> column describes the file as it comes from the 2020 model; the state says what the build made of it, and the detail follows further down.</p>
+<table><thead><tr><th>Resource</th><th>File</th><th>Inherited content</th><th>Rows</th><th>State</th><th>Phase</th><th>Vintage</th><th>Sources</th></tr></thead><tbody>
+<tr class="cat-row"><td colspan="8">Scope</td></tr>
+<tr><td><a href="#res-y"><code>y</code></a></td><td><code>y.csv</code></td><td>horizon 2017-2030</td><td>13</td><td class="st st-G">done</td><td></td><td></td><td><a href="#src-equipe">equipe</a></td></tr>
+<tr><td><code>zcmap</code></td><td><code>zcmap.csv</code></td><td>16 zones -&gt; 7 countries</td><td>16</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pSettings</code></td><td><code>pSettings.csv</code></td><td>~40 flags and scalars</td><td>77</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>config</code></td><td><code>config.csv</code></td><td>modeltype RMIP + cplex options</td><td>37</td><td class="st st-G">inherited, fit for purpose</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><a href="#res-phours"><code>pHours</code></a></td><td><code>pHours.csv</code></td><td>5 seasons x 1 day x 7 blocks = 8760 h</td><td></td><td class="st st-Y">structure adapted, data to do</td><td>8</td><td>2021-2022</td><td><a href="#src-pipeline">pipeline</a></td></tr>
+<tr><td><code>pTechFuel</code></td><td><code>pTechFuel.csv</code></td><td>26 tech/fuel pairs</td><td>26</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pFuelCarbonContent</code></td><td><code>pFuelCarbonContent.csv</code></td><td>CO2 factors by fuel</td><td>10</td><td class="st st-G">inherited, fit for purpose</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr class="cat-row"><td colspan="8">Demand</td></tr>
+<tr><td><a href="#res-pdemanddata"><code>pDemandData</code></a></td><td><code>load/pDemandData.csv</code></td><td>absolute MW by (z,q,d,y)</td><td></td><td class="st st-Y">structure adapted, data to do</td><td>8</td><td>KZ 2022 / TJ 2021 / KG / UZ</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-gabarit-2026">gabarit_2026</a></td></tr>
+<tr><td><a href="#res-pdemandforecast"><code>pDemandForecast</code></a></td><td><code>load/pDemandForecast.csv</code></td><td>demand trajectory by zone, energy GWh and peak MW</td><td>32</td><td class="st st-Y">filled, more to come</td><td>9</td><td>2023-2060</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pDemandProfile</code></td><td><code>load/pDemandProfile.csv</code></td><td>normalised profile by (z,q,d,t)</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pEnergyEfficiencyFactor</code></td><td><code>load/pEnergyEfficiencyFactor.csv</code></td><td>energy efficiency factor</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>sRelevant</code></td><td><code>load/sRelevant.csv</code></td><td>day types retained</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-pipeline">pipeline</a></td></tr>
+<tr class="cat-row"><td colspan="8">Fleet</td></tr>
+<tr><td><code>pGenDataInput</code></td><td><code>supply/pGenDataInput.csv</code></td><td>power plants: capacity, status, HR, costs</td><td>403</td><td class="st st-R">inherited 2020, to process</td><td>5</td><td>2022 base</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-gabarit-2026">gabarit_2026</a></td></tr>
+<tr><td><a href="#res-pavailability"><code>pAvailability</code></a></td><td><code>supply/pAvailabilityCustom.csv</code></td><td>seasonal availability by plant (g x Q1..Q4)</td><td>403</td><td class="st st-Y">structure adapted, data to do</td><td>4</td><td>2022</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pAvailabilityDefault</code></td><td><code>supply/pAvailabilityDefault.csv</code></td><td>default availability (z,tech,fuel)</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
+<tr><td><code>pGenDataInputDefault</code></td><td><code>supply/pGenDataInputDefault.csv</code></td><td>generic candidates by zone</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><a href="#res-pvreprofile"><code>pVREProfile</code></a></td><td><code>supply/pVREProfile.csv</code></td><td>solar/wind profile by (z,tech,q,d)</td><td></td><td class="st st-Y">structure adapted, data to do</td><td>8</td><td>2022</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-renewables-ninja">renewables_ninja</a></td></tr>
+<tr><td><code>pCapexTrajectoriesCustom</code></td><td><code>supply/pCapexTrajectoriesCustom.csv</code></td><td>CAPEX by plant over time</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td>2025-2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pCapexTrajectoriesDefault</code></td><td><code>supply/pCapexTrajectoriesDefault.csv</code></td><td>CAPEX by (zone,tech,fuel)</td><td></td><td class="st st-G">inherited, fit for purpose</td><td></td><td>2025-2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pFuelPrice</code></td><td><code>supply/pFuelPrice.csv</code></td><td>fuel prices by country (c,fuel,year)</td><td>25</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2024 real -&gt; 2050</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pStorageDataInput</code></td><td><code>supply/pStorageDataInput.csv</code></td><td>storage (batteries, pumped hydro)</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-hypothese">hypothese</a></td></tr>
+<tr><td><code>pEvolutionAvailability</code></td><td><code>supply/pEvolutionAvailability.csv</code></td><td>availability drift over time</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pCSPData</code></td><td><code>supply/pCSPData.csv</code></td><td>concentrated solar power</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr class="cat-row"><td colspan="8">Trade</td></tr>
+<tr><td><a href="#res-ptransferlimit"><code>pTransferLimit</code></a></td><td><code>trade/pTransferLimit.csv</code></td><td>NTC by corridor x season x year</td><td>168</td><td class="st st-Y">structure adapted, data to do</td><td>3</td><td>2024-2031</td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-demande-tso">demande_tso</a></td></tr>
+<tr><td><code>pContractedTradeFlag</code></td><td><code>trade/pContractedTradeFlag.csv</code></td><td>contracted corridors, by season</td><td>5</td><td class="st st-R">inherited 2020, to process</td><td>3</td><td></td><td><a href="#src-casa1000-ppa">casa1000_ppa</a></td></tr>
+<tr><td><code>pContractedTradeEnergy</code></td><td><code>trade/pContractedTradeEnergy.csv</code></td><td>contracted energy GWh by corridor</td><td>3</td><td class="st st-R">inherited 2020, to process</td><td>3</td><td>2022-2030</td><td><a href="#src-casa1000-ppa">casa1000_ppa</a></td></tr>
+<tr><td><code>pHistoricalTradeFlag</code></td><td><code>trade/pHistoricalTradeFlag.csv</code></td><td>corridors capped at historical levels</td><td>18</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pLossFactorInternal</code></td><td><code>trade/pLossFactorInternal.csv</code></td><td>losses by corridor (0.5 % everywhere)</td><td>48</td><td class="st st-G">inherited, fit for purpose</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pMaxAnnualTransfer</code></td><td><code>trade/pMaxAnnualTransfer.csv</code></td><td>annual trade cap by corridor</td><td>8</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pNewTransmission</code></td><td><code>trade/pNewTransmission.csv</code></td><td>candidate lines for construction</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-mercados-plexos">mercados_plexos</a></td></tr>
+<tr><td><code>pMinImport</code></td><td><code>trade/pMinImport.csv</code></td><td>mandatory minimum import</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pExtTransferLimit</code></td><td><code>trade/pExtTransferLimit.csv</code></td><td>NTC towards external zones</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pTradePrice</code></td><td><code>trade/pTradePrice.csv</code></td><td>prices at the external borders</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
+<tr><td><code>zext</code></td><td><code>trade/zext.csv</code></td><td>list of external zones</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pMaxAnnualExternalTradeShare</code></td><td><code>trade/pMaxAnnualExternalTradeShare.csv</code></td><td>max share of external trade</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr class="cat-row"><td colspan="8">Constraints</td></tr>
+<tr><td><code>pCarbonPrice</code></td><td><code>constraint/pCarbonPrice.csv</code></td><td>carbon price 32 -&gt; 50 $/t</td><td>14</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-casa-2020">casa_2020</a></td></tr>
+<tr><td><code>pEmissionsCountry</code></td><td><code>constraint/pEmissionsCountry.csv</code></td><td>CO2 cap by country</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td>2030-2060</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pEmissionsTotal</code></td><td><code>constraint/pEmissionsTotal.csv</code></td><td>system-wide CO2 cap</td><td></td><td class="st st-G">inherited, fit for purpose</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pMaxFuellimit</code></td><td><code>constraint/pMaxFuellimit.csv</code></td><td>supply limit by country</td><td>5</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pMaxFuellimitZone</code></td><td><code>constraint/pMaxFuellimitZone.csv</code></td><td>limit by zone (KAZ_N Gas 0.1)</td><td>4</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2025</td><td><a href="#src-deca-v51">deca_v51</a></td></tr>
+<tr><td><code>pMaxGenerationByFuel</code></td><td><code>constraint/pMaxGenerationByFuel.csv</code></td><td>max share by fuel</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr class="cat-row"><td colspan="8">Reserves</td></tr>
+<tr><td><code>pPlanningReserveMarginZone</code></td><td><code>reserve/pPlanningReserveMarginZone.csv</code></td><td>reserve margin, 15 % everywhere</td><td>16</td><td class="st st-R">inherited 2020, to process</td><td></td><td>2020</td><td><a href="#src-hypothese">hypothese</a></td></tr>
+<tr><td><a href="#res-preserveseasonflag"><code>pReserveSeasonFlag</code></a></td><td><code>reserve/pReserveSeasonFlag.csv</code></td><td>peak season = Q5</td><td>1</td><td class="st st-G">done</td><td></td><td></td><td><a href="#src-pipeline">pipeline</a></td></tr>
+<tr><td><code>pPlanningReserveMargin</code></td><td><code>reserve/pPlanningReserveMargin.csv</code></td><td>margin by country</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pSpinningReserveReqCountry</code></td><td><code>reserve/pSpinningReserveReqCountry.csv</code></td><td>spinning reserve by country</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
+<tr><td><code>pSpinningReserveReqSystem</code></td><td><code>reserve/pSpinningReserveReqSystem.csv</code></td><td>system-wide spinning reserve</td><td></td><td class="st st-G">inherited, fit for purpose</td><td></td><td></td><td><a href="#src-hypothese">hypothese</a></td></tr>
+<tr class="cat-row"><td colspan="8">Other</td></tr>
+<tr><td><code>pH2DataExcel</code></td><td><code>h2/pH2DataExcel.csv</code></td><td>hydrogen (5 files in h2/)</td><td></td><td class="st st-B">out of scope</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
+<tr><td><code>pGenDataInputGeneric</code></td><td><code>generic/pGenDataInputGeneric.csv</code></td><td>generic technology defaults</td><td></td><td class="st st-R">inherited 2020, to process</td><td></td><td></td><td><span class="muted">&mdash;</span></td></tr>
 </tbody></table>
-<p class="meta">48 ressources : 8 terminé · 6 partiel · 27 à faire · 7 hors périmètre</p>
-<h2 id="detail">Ce qui a été fait, ressource par ressource</h2>
-<p class="meta">Seules les ressources effectivement transformées par le build apparaissent ici. Les autres sont reprises telles quelles du modèle 2020.</p>
-<h3 id="res-y"><code>y</code> <span class="muted">— terminé</span></h3>
-<p>Horizon 2050. Pas annuel jusqu'en 2035 pour suivre la montée en puissance de Rogun, puis pas de 5 ans. pWeightYear se déduit des écarts (main.gms:718).</p>
-<h3 id="res-phours"><code>pHours</code> <span class="muted">— structure adaptée, données à faire</span></h3>
-<p>q = 4 trimestres, la 5e saison de pointe est supprimée. Elle n'était pas une structure mais une rustine : la contrainte de réserve prend un smax sur toutes les tranches (base.gms:991) et n'exige aucune saison dédiée. Q5 ne servait qu'à donner à ce smax un bloc assez court pour voir la vraie pointe, faute de journées types (d=1 dans le modèle 2020).</p>
-<p class="todo"><b>Reste :</b> PHASE 8. Reconstruire en 4 trimestres x journées types x heures chronologiques, dont une JOURNÉE TYPE DE POINTE qui remplace l'ancienne saison Q5.</p>
-<h3 id="res-pdemanddata"><code>pDemandData</code> <span class="muted">— structure adaptée, données à faire</span></h3>
-<p>Vidé, son contenu dépend du choix des journées types.</p>
-<p class="todo"><b>Reste :</b> PHASE 8, à partir de la série horaire agrégée en phase 2.</p>
-<h3 id="res-pdemandforecast"><code>pDemandForecast</code> <span class="muted">— rempli, compléments à venir</span></h3>
-<p>Rempli par extract_demand.py, scenario DeCA Reference. Demand Evolution couvre 2023-2060 par PAYS : aucune extrapolation n'est necessaire pour l'Asie centrale. Le decoupage intra-pays vient des profils 8760 h et reste constant dans le temps, DeCA ne donnant pas de trajectoire regionale. La pointe zonale est NON COINCIDENTE, comme l'exige generate_demand.gms qui la multiplie par le profil normalise de la zone : on remet donc la pointe propre a l'echelle par la croissance de la pointe pays, via le facteur de coincidence observe (KG 1.03, KZ 1.02, TJ 1.07, TM et UZ 1.00). Trois ecarts assumes, tous documentes dans mappings/zones_demand.csv : le partage tadjik est INVERSE par rapport au modele 2020 (Nord 27.7 % contre 74.9 %), le partage kirghize aussi (Nord 63.9 % contre 93.2 %), et l'Ouest kazakh est rattache a KAZ_N faute de troisieme zone. Le bloc de pointe du carnet TJ etait en GW sous une etiquette MW : corrige par un garde-fou generique, une pointe ne pouvant etre inferieure a la puissance moyenne. AFG et PAK n'ont aucune source 2026 : reconduits depuis le pDemandData de 2020 et prolonges a leur propre taux, confiance BASSE.</p>
-<p class="todo"><b>Reste :</b> PHASE 9. Ajouter le scenario DeCA Net Zero en variante. Remplacer AFG et PAK des qu'une source arrive (IGCEP du NTDC en priorite). Revoir le partage TAJ et KGZ avec les TTL : il change le diagnostic de defaillance du modele 2020.</p>
-<h3 id="res-pavailability"><code>pAvailability</code> <span class="muted">— structure adaptée, données à faire</span></h3>
-<p>Colonne de pointe supprimée. ATTENTION, elle portait une convention : 350 centrales sur 403 avaient Q5=1,0 contre Q1=0,85, soit pleine disponibilité à la pointe. Cette hypothèse de capacité ferme disparaît et doit être réintroduite.</p>
-<p class="todo"><b>Reste :</b> PHASE 4. Reconstruire depuis les apports mensuels deca_v51 (Hydro Profile + HydroPP Inflows), et réintroduire la capacité ferme de pointe, soit par la journée type de pointe, soit par pCapacityCreditPeakSeason.</p>
-<h3 id="res-pvreprofile"><code>pVREProfile</code> <span class="muted">— structure adaptée, données à faire</span></h3>
-<p>Vidé, son contenu dépend du choix des journées types.</p>
-<p class="todo"><b>Reste :</b> PHASE 8.</p>
-<h3 id="res-ptransferlimit"><code>pTransferLimit</code> <span class="muted">— structure adaptée, données à faire</span></h3>
-<p>Les 42 lignes Q5 étaient identiques aux Q1 : suppression sans perte, 210 -&gt; 168.</p>
-<p class="todo"><b>Reste :</b> PHASE 3. NTC à réviser (source deca_v51 + demande TSO) et colonnes d'années à prolonger jusqu'en 2050, elles s'arrêtent à 2030. Anomalie connue : CASA-1000 est ouvert à 1300 MW toutes saisons dès 2022, d'où 10 TWh/an dans le run 2020.</p>
-<h3 id="res-preserveseasonflag"><code>pReserveSeasonFlag</code> <span class="muted">— terminé</span></h3>
-<p>Suit la suppression de la saison de pointe. Ce drapeau ne sert qu'à choisir la saison dont on prend la NTC pour le partage de capacité ferme (base.gms:1005) ; il ne dimensionne pas la réserve, qui passe par un smax sur toutes les tranches.</p>
-<h2 id="sources">Les sources</h2>
+<p class="meta">48 resources: 8 done &middot; 6 partial &middot; 27 to do &middot; 7 out of scope</p>
+<h2 id="coverage">Country coverage</h2>
+<p class="meta">Two layers. The chips are the <b>declared</b> coverage: the sources attached to the resource that state they can speak for that country. The dot above them is <b>verified in the data</b>: the file really carries rows for that country, found by matching column values against the zones of <code>zcmap.csv</code>. A resource marked &dagger; has no geographic key at all (it is indexed by plant, fuel or technology), so only the declared layer applies to it.</p>
+<table class="matrix"><thead><tr><th>Resource</th>
+<th class="cc">AFG</th>
+<th class="cc">KAZ</th>
+<th class="cc">KGZ</th>
+<th class="cc">PAK</th>
+<th class="cc">TAJ</th>
+<th class="cc">TUR</th>
+<th class="cc">UZB</th>
+</tr></thead><tbody>
+<tr class="cat-row"><td colspan="8">Scope</td></tr>
+<tr><td class="res"><code>y</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+<td class="cc has"><a class="chip " href="#src-equipe" title="Modelling team decision">equipe</a></td>
+</tr>
+<tr><td class="res"><code>zcmap</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pSettings</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>config</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pHours</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+</tr>
+<tr><td class="res"><code>pTechFuel</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pFuelCarbonContent</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Demand</td></tr>
+<tr><td class="res"><code>pDemandData</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+</tr>
+<tr><td class="res"><code>pDemandForecast</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pDemandProfile</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pEnergyEfficiencyFactor</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>sRelevant</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Fleet</td></tr>
+<tr><td class="res"><code>pGenDataInput</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-gabarit-2026" title="2026 template, CASA CENTRAL ASIA DATA REQUEST">gabarit_2026</a></td>
+</tr>
+<tr><td class="res"><code>pAvailability</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pAvailabilityDefault</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr><td class="res"><code>pGenDataInputDefault</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pVREProfile</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip open" href="#src-renewables-ninja" title="Renewables.ninja / ERA5">renewables_ninja</a></td>
+</tr>
+<tr><td class="res"><code>pCapexTrajectoriesCustom</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pCapexTrajectoriesDefault</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pFuelPrice</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pStorageDataInput</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr><td class="res"><code>pEvolutionAvailability</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pCSPData</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Trade</td></tr>
+<tr><td class="res"><code>pTransferLimit</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a><a class="chip " href="#src-demande-tso" title="Direct request to the transmission system operators">demande_tso</a></td>
+</tr>
+<tr><td class="res"><code>pContractedTradeFlag</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pContractedTradeEnergy</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip conf" href="#src-casa1000-ppa" title="CASA_PPA_Quantities_All_4_Flows.xlsx">casa1000_ppa</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pHistoricalTradeFlag</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pLossFactorInternal</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pMaxAnnualTransfer</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pNewTransmission</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-mercados-plexos" title="Mercados report and the associated PLEXOS model">mercados_plexos</a></td>
+<td class="cc has"><a class="chip " href="#src-mercados-plexos" title="Mercados report and the associated PLEXOS model">mercados_plexos</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-mercados-plexos" title="Mercados report and the associated PLEXOS model">mercados_plexos</a></td>
+<td class="cc has"><a class="chip " href="#src-mercados-plexos" title="Mercados report and the associated PLEXOS model">mercados_plexos</a></td>
+<td class="cc has"><a class="chip " href="#src-mercados-plexos" title="Mercados report and the associated PLEXOS model">mercados_plexos</a></td>
+</tr>
+<tr><td class="res"><code>pMinImport</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pExtTransferLimit</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pTradePrice</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr><td class="res"><code>zext</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pMaxAnnualExternalTradeShare</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Constraints</td></tr>
+<tr><td class="res"><code>pCarbonPrice</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+<td class="cc has"><a class="chip " href="#src-casa-2020" title="EPM CASA model v7.9, ported and validated">casa_2020</a></td>
+</tr>
+<tr><td class="res"><code>pEmissionsCountry</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pEmissionsTotal</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pMaxFuellimit</code></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pMaxFuellimitZone</code></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><span class="muted">&mdash;</span></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip " href="#src-deca-v51" title="DeCA / Mercados AssumptionBooks V5.1">deca_v51</a></td>
+</tr>
+<tr><td class="res"><code>pMaxGenerationByFuel</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Reserves</td></tr>
+<tr><td class="res"><code>pPlanningReserveMarginZone</code></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><span class="mark" title="rows found for this country in the data">&bull;</span><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr><td class="res"><code>pReserveSeasonFlag</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+<td class="cc has"><a class="chip " href="#src-pipeline" title="Output of the pre-analysis pipeline (representative days, VRE profiles)">pipeline</a></td>
+</tr>
+<tr><td class="res"><code>pPlanningReserveMargin</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pSpinningReserveReqCountry</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr><td class="res"><code>pSpinningReserveReqSystem</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+<td class="cc has"><a class="chip hyp" href="#src-hypothese" title="NO SOURCE - assumption made">hypothese</a></td>
+</tr>
+<tr class="cat-row"><td colspan="8">Other</td></tr>
+<tr><td class="res"><code>pH2DataExcel</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+<tr><td class="res"><code>pGenDataInputGeneric</code> <span class="muted" title="no geographic key in this file">&dagger;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+<td class="cc none"><span class="muted">&mdash;</span></td>
+</tr>
+</tbody></table>
+<p class="meta">15 of the 48 resources carry a geographic key and could be checked against the data; the other 33 are indexed by plant, fuel, technology or season and rest on the declared layer alone.</p>
+<h2 id="detail">What was done, resource by resource</h2>
+<p class="meta">Only the resources actually transformed by the build appear here. The others are carried over as is from the 2020 model.</p>
+<h3 id="res-y"><code>y</code> <span class="muted">&mdash; done</span></h3>
+<p>Horizon 2050. Yearly step until 2035 to follow the ramp-up of Rogun, then a 5-year step. pWeightYear is derived from the gaps (main.gms:718).</p>
+<h3 id="res-phours"><code>pHours</code> <span class="muted">&mdash; structure adapted, data to do</span></h3>
+<p>q = 4 quarters, the 5th peak season is removed. It was not a structure but a patch: the reserve constraint takes a smax over all blocks (base.gms:991) and requires no dedicated season. Q5 only served to give that smax a block short enough to see the true peak, for want of representative days (d=1 in the 2020 model).</p>
+<p class="todo"><b>Left to do:</b> PHASE 8. Rebuild as 4 quarters x representative days x chronological hours, including a PEAK REPRESENTATIVE DAY that replaces the former Q5 season.</p>
+<h3 id="res-pdemanddata"><code>pDemandData</code> <span class="muted">&mdash; structure adapted, data to do</span></h3>
+<p>Emptied, its content depends on the choice of representative days.</p>
+<p class="todo"><b>Left to do:</b> PHASE 8, from the hourly series aggregated in phase 2.</p>
+<h3 id="res-pdemandforecast"><code>pDemandForecast</code> <span class="muted">&mdash; filled, more to come</span></h3>
+<p>Filled by extract_demand.py, DeCA Reference scenario. Demand Evolution covers 2023-2060 BY COUNTRY: no extrapolation is needed for Central Asia. The intra- country split comes from the 8760 h profiles and stays constant over time, DeCA giving no regional trajectory. The zonal peak is NON COINCIDENT, as required by generate_demand.gms which multiplies it by the normalised profile of the zone: the own peak is therefore rescaled by the growth of the country peak, through the observed coincidence factor (KG 1.03, KZ 1.02, TJ 1.07, TM and UZ 1.00). Three deliberate departures, all documented in mappings/zones_demand.csv: the Tajik split is REVERSED with respect to the 2020 model (North 27.7 % against 74.9 %), the Kyrgyz split too (North 63.9 % against 93.2 %), and Western Kazakhstan is attached to KAZ_N for want of a third zone. The peak block of the TJ book was in GW under a MW label: corrected by a generic guard, a peak not being allowed to fall below the average power. AFG and PAK have no 2026 source: carried over from the 2020 pDemandData and extended at their own rate, LOW confidence.</p>
+<p class="todo"><b>Left to do:</b> PHASE 9. Add the DeCA Net Zero scenario as a variant. Replace AFG and PAK as soon as a source arrives (NTDC IGCEP first). Review the TAJ and KGZ splits with the TTLs: they change the unserved energy diagnosis of the 2020 model.</p>
+<h3 id="res-pavailability"><code>pAvailability</code> <span class="muted">&mdash; structure adapted, data to do</span></h3>
+<p>Peak column removed. BEWARE, it carried a convention: 350 plants out of 403 had Q5=1.0 against Q1=0.85, that is full availability at the peak. This firm capacity assumption disappears and has to be reintroduced.</p>
+<p class="todo"><b>Left to do:</b> PHASE 4. Rebuild from the monthly inflows of deca_v51 (Hydro Profile + HydroPP Inflows), and reintroduce firm peak capacity, either through the peak representative day or through pCapacityCreditPeakSeason.</p>
+<h3 id="res-pvreprofile"><code>pVREProfile</code> <span class="muted">&mdash; structure adapted, data to do</span></h3>
+<p>Emptied, its content depends on the choice of representative days.</p>
+<p class="todo"><b>Left to do:</b> PHASE 8.</p>
+<h3 id="res-ptransferlimit"><code>pTransferLimit</code> <span class="muted">&mdash; structure adapted, data to do</span></h3>
+<p>The 42 Q5 rows were identical to the Q1 ones: removed without loss, 210 -&gt; 168.</p>
+<p class="todo"><b>Left to do:</b> PHASE 3. NTCs to be revised (source deca_v51 + TSO request) and year columns to be extended to 2050, they stop at 2030. Known anomaly: CASA-1000 is open at 1300 MW in all seasons from 2022, hence 10 TWh/yr in the 2020 run.</p>
+<h3 id="res-preserveseasonflag"><code>pReserveSeasonFlag</code> <span class="muted">&mdash; done</span></h3>
+<p>Follows the removal of the peak season. This flag only serves to choose the season whose NTC is used for firm capacity sharing (base.gms:1005); it does not size the reserve, which goes through a smax over all blocks.</p>
+<h2 id="sources">The sources</h2>
 <div class="src" id="src-casa-2020">
-<b>Modèle EPM CASA v7.9, porté et validé</b> <span class="tag ">interne</span>
-<p class="meta">2020-12 · 16 zones, 7 pays, 2017-2030</p>
-<p class="meta">Emplacement : <code>EPM/epm/input/data_casa_2020</code></p>
-<p>Seule source pour l'Afghanistan et le Pakistan : c'est pourquoi le build part d'une copie plutôt que d'une page blanche. Portage validé (demande, production, défaillance et corridors identiques au legacy). Hypothèses de 2020 périmées, profil de charge de millésime 2013.</p>
+<b>EPM CASA model v7.9, ported and validated</b> <span class="tag ">internal</span>
+<p class="meta">2020-12 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>EPM/epm/input/data_casa_2020</code></p>
+<p>Only source for Afghanistan and Pakistan: that is why the build starts from a copy rather than from a blank slate. Port validated (demand, generation, unserved energy and corridors identical to the legacy run). The 2020 assumptions are stale and the load profile is of 2013 vintage. Covers 16 zones and 7 countries over 2017-2030.</p>
 </div>
 <div class="src" id="src-deca-v51">
-<b>DeCA / Mercados AssumptionBooks V5.1</b> <span class="tag ">interne</span>
-<p class="meta">2025-03-06 · KG, KZ, TJ, TM, UZ</p>
-<p class="meta">Emplacement : <code>data_collection/Mercados/</code></p>
-<p>Un classeur par pays. KG 20 onglets (demande 8760 h Nord/Sud, cascade hydro). KZ 18 onglets, demande 8760 h PAR OBLAST (14) plus agrégats North/South/West, Demand Evolution en deux scénarios Reference et Net Zero, onglet Exchanges with non CA countries ; les échanges intra-Asie centrale sont absents. TJ 18 onglets, demande 8760 h Nord/Sud (2021), onglet Exchanges : liaison DC CASA-1000 300 MW dès 2026 avec fenêtre d'export mai-septembre, TJ vers AF Sangtuda-Kunduz 300 MW, PPA existant 188 MW ; aucun détail sur Rogun. TM 13 onglets, pas d'hydro, et DEMANDE DÉGRADÉE : journée moyenne par mois seulement (~288 points), sans découpage régional. UZ 19 onglets, demande 8760 h par 5 zones, onglet Fuel Availability unique aux cinq carnets.</p>
+<b>DeCA / Mercados AssumptionBooks V5.1</b> <span class="tag ">internal</span>
+<p class="meta">2025-03-06 &middot; KAZ, KGZ, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>data_collection/Mercados/</code></p>
+<p>One workbook per country. KG 20 sheets (8760 h demand North/South, hydro cascade). KZ 18 sheets, 8760 h demand PER OBLAST (14) plus North/South/West aggregates, Demand Evolution in two scenarios Reference and Net Zero, sheet Exchanges with non CA countries; intra-Central-Asian exchanges are absent. TJ 18 sheets, 8760 h demand North/South (2021), sheet Exchanges: CASA-1000 DC link 300 MW from 2026 with a May-September export window, TJ to AF Sangtuda-Kunduz 300 MW, existing PPA 188 MW; no detail on Rogun. TM 13 sheets, no hydro, and DEGRADED DEMAND: average day per month only (~288 points), with no regional breakdown. UZ 19 sheets, 8760 h demand over 5 zones, sheet Fuel Availability unique among the five books.</p>
 </div>
 <div class="src" id="src-uz-climate-2026">
-<b>UZ Climate AssumptionBook (WB/MAI)</b> <span class="tag ">interne</span>
-<p class="meta">2026-07-09 · Ouzbékistan</p>
-<p class="meta">Emplacement : <code>data_collection/Mercados/20260709_UZ_CC_AssumptionBook_WB_MAI.xlsb</code></p>
-<p>Postérieur de 16 mois aux carnets V5.1, donc prioritaire sur eux pour l'UZB. Format .xlsb, lecture via pyxlsb.</p>
+<b>UZ Climate AssumptionBook (WB/MAI)</b> <span class="tag ">internal</span>
+<p class="meta">2026-07-09 &middot; UZB</p>
+<p class="meta">Location: <code>data_collection/Mercados/20260709_UZ_CC_AssumptionBook_WB_MAI.xlsb</code></p>
+<p>Sixteen months later than the V5.1 books, hence takes precedence over them for UZB. Format .xlsb, read through pyxlsb.</p>
 </div>
 <div class="src" id="src-gabarit-2026">
-<b>Gabarit 2026 CASA CENTRAL ASIA DATA REQUEST</b> <span class="tag ">interne</span>
-<p class="meta">2026 · 5 pays d'Asie centrale</p>
-<p class="meta">Emplacement : <code>Context/opening_emails/</code></p>
-<p>25 onglets (5 thèmes x 5 pays), DÉJÀ PRÉ-REMPLI avec les données 2020 nettoyées, zones en libellé texte. C'est le circuit officiel de validation par les TTL pays. Pré-rempli n'est pas validé. Ne couvre NI l'Afghanistan NI le Pakistan.</p>
+<b>2026 template, CASA CENTRAL ASIA DATA REQUEST</b> <span class="tag ">internal</span>
+<p class="meta">2026 &middot; KAZ, KGZ, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>Context/opening_emails/</code></p>
+<p>25 sheets (5 themes x 5 countries), ALREADY PRE-FILLED with the cleaned 2020 data, zones as free-text labels. This is the official validation channel through the country TTLs. Pre-filled is not validated. Covers NEITHER Afghanistan NOR Pakistan.</p>
 </div>
 <div class="src" id="src-ttl-2026">
-<b>Retours pays de l'équipe TTL, campagne 2026</b> <span class="tag ">interne</span>
-<p class="meta">2026</p>
-<p>Prioritaire sur DeCA et sur le modèle 2020 quand disponible. Les extensions de parc datées 2023+ héritées de 2020 sont des PROJETS, pas des faits : revue TTL obligatoire avant de les garder.</p>
+<b>Country feedback from the TTL team, 2026 campaign</b> <span class="tag ">internal</span>
+<p class="meta">2026 &middot; KAZ, KGZ, TAJ, TUR, UZB</p>
+<p>Takes precedence over DeCA and over the 2020 model where available. Fleet additions dated 2023+ inherited from 2020 are PROJECTS, not facts: TTL review is mandatory before keeping them.</p>
 </div>
 <div class="src" id="src-casa1000-ppa">
-<b>CASA_PPA_Quantities_All_4_Flows.xlsx</b> <span class="tag conf">confidentiel client</span>
-<p class="meta">2026</p>
-<p class="meta">Emplacement : <code>(à localiser)</code></p>
-<p>Quantités contractuelles des 4 flux, à rattacher à pContractedTradeEnergy.</p>
+<b>CASA_PPA_Quantities_All_4_Flows.xlsx</b> <span class="tag conf">client confidential</span>
+<p class="meta">2026 &middot; AFG, KGZ, PAK, TAJ</p>
+<p class="meta">Location: <code>(to be located)</code></p>
+<p>Contractual quantities of the 4 flows, to be attached to pContractedTradeEnergy.</p>
 </div>
 <div class="src" id="src-epmresults-legacy">
-<b>EPMRESULTS.xlsx, résultats du modèle legacy</b> <span class="tag ">interne</span>
-<p class="meta">2020</p>
-<p class="meta">Emplacement : <code>planning_sharefolder/casa_planning_sharefolder/CASA/1. Model/</code></p>
-<p>Référence de non-régression du portage. Signal d'alerte, pas critère d'acceptation.</p>
+<b>EPMRESULTS.xlsx, results of the legacy model</b> <span class="tag ">internal</span>
+<p class="meta">2020 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>planning_sharefolder/casa_planning_sharefolder/CASA/1. Model/</code></p>
+<p>Non-regression reference for the port. A warning signal, not an acceptance criterion.</p>
 </div>
 <div class="src" id="src-pak-sharefolder">
-<b>Pakistan planning sharefolder</b> <span class="tag ">interne</span>
-<p class="meta">2018 · Pakistan</p>
-<p class="meta">Emplacement : <code>planning_sharefolder/pakistan_planning_sharefolder/</code></p>
-<p>NTDC, Lahmeyer, master plan SNC Lavalin. TROU MAJEUR : 8 ans d'âge, IGCEP absent, alors que le Pakistan pèse 155 TWh, soit 38 % de la demande du modèle.</p>
+<b>Pakistan planning sharefolder</b> <span class="tag ">internal</span>
+<p class="meta">2018 &middot; PAK</p>
+<p class="meta">Location: <code>planning_sharefolder/pakistan_planning_sharefolder/</code></p>
+<p>NTDC, Lahmeyer, SNC Lavalin master plan. MAJOR GAP: 8 years old, IGCEP missing, while Pakistan weighs 155 TWh, that is 38 % of the demand of the model.</p>
 </div>
 <div class="src" id="src-afg-sharefolder">
-<b>Afghanistan planning sharefolder</b> <span class="tag ">interne</span>
-<p class="meta">2021 · Afghanistan</p>
-<p class="meta">Emplacement : <code>planning_sharefolder/afghanistan_planning_sharefolder/</code></p>
-<p>AFGDISPATCH.gms et .xlsx. TROU MAJEUR : antérieur à 2021, aucune source alternative fiable hors Global Energy Monitor.</p>
+<b>Afghanistan planning sharefolder</b> <span class="tag ">internal</span>
+<p class="meta">2021 &middot; AFG</p>
+<p class="meta">Location: <code>planning_sharefolder/afghanistan_planning_sharefolder/</code></p>
+<p>AFGDISPATCH.gms and .xlsx. MAJOR GAP: earlier than 2021, no reliable alternative source outside Global Energy Monitor.</p>
 </div>
 <div class="src" id="src-mercados-plexos">
-<b>Rapport Mercados et modèle PLEXOS associé</b> <span class="tag ">interne</span>
-<p class="meta">2025</p>
+<b>Mercados report and the associated PLEXOS model</b> <span class="tag ">internal</span>
+<p class="meta">2025 &middot; KAZ, KGZ, TAJ, TUR, UZB</p>
 </div>
 <div class="src" id="src-renewables-ninja">
-<b>Renewables.ninja / ERA5</b> <span class="tag open">source ouverte</span>
-<p class="meta">2026</p>
-<p class="meta">Emplacement : <code>renewables.ninja</code></p>
-<p>Profils horaires solaire et éolien par coordonnées. Déjà utilisé par pre-analysis/pipelines/vre_pipeline.py.</p>
+<b>Renewables.ninja / ERA5</b> <span class="tag open">open source</span>
+<p class="meta">2026 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>renewables.ninja</code></p>
+<p>Hourly solar and wind profiles by coordinates. Already used by pre-analysis/pipelines/vre_pipeline.py.</p>
 </div>
 <div class="src" id="src-demande-tso">
-<b>Demande directe aux gestionnaires de réseau</b> <span class="tag ">interne</span>
-<p class="meta">2026</p>
-<p>NTC et calendriers de mise en service des corridors. Non engagée à ce jour.</p>
+<b>Direct request to the transmission system operators</b> <span class="tag ">internal</span>
+<p class="meta">2026 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p>NTCs and commissioning schedules of the corridors. Not started to date.</p>
 </div>
 <div class="src" id="src-pipeline">
-<b>Sortie du pipeline pre-analysis (journées représentatives, profils VRE)</b> <span class="tag ">interne</span>
-<p class="meta">2026</p>
-<p class="meta">Emplacement : <code>EPM/pre-analysis/</code></p>
+<b>Output of the pre-analysis pipeline (representative days, VRE profiles)</b> <span class="tag ">internal</span>
+<p class="meta">2026 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>EPM/pre-analysis/</code></p>
 </div>
 <div class="src" id="src-equipe">
-<b>Décision de l'équipe de modélisation</b> <span class="tag ">interne</span>
-<p class="meta">2026</p>
+<b>Modelling team decision</b> <span class="tag ">internal</span>
+<p class="meta">2026 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
 </div>
 <div class="src" id="src-hypothese">
-<b>AUCUNE SOURCE - hypothèse posée</b> <span class="tag hyp">hypothèse</span>
-<p class="meta">2026</p>
-<p>À rendre explicite dans la note de méthode : toute valeur portée ici est à justifier ou à remplacer.</p>
+<b>NO SOURCE - assumption made</b> <span class="tag hyp">assumption</span>
+<p class="meta">2026 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p>To be made explicit in the methodology note: every value carried here is to be justified or replaced.</p>
 </div>
 <div class="src" id="src-courriels-equipe">
-<b>Courriels de l'équipe CASA</b> <span class="tag ">interne</span>
-<p class="meta">2026-08</p>
-<p class="meta">Emplacement : <code>Context/opening_emails/</code></p>
-<p>Circuit de validation imposé : Mercados, puis gabarit, puis revue TTL, puis EPM. Exercice INTERNE, non partageable à l'externe (Kabir Malik, 5 août 2026).</p>
+<b>CASA team emails</b> <span class="tag ">internal</span>
+<p class="meta">2026-08 &middot; AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB</p>
+<p class="meta">Location: <code>Context/opening_emails/</code></p>
+<p>Mandated validation channel: Mercados, then template, then TTL review, then EPM. INTERNAL exercise, not to be shared externally (Kabir Malik, 5 August 2026).</p>
 </div>
-<h2 id="publiques">Sources publiques accessibles en ligne</h2>
-<table><thead><tr><th>Pays</th><th>Organisme</th><th>Adresse</th><th>Statut</th><th>Contenu constaté</th><th>Ce qu'on en fait</th></tr></thead><tbody>
-<tr><td>Pakistan</td><td>NTDC / ISMO — IGCEP 2025-35</td><td><code><a href="https://nepra.org.pk">nepra.org.pk/Admission Notices/2025/08 Aug/IGCEP_2025-35_R2.pdf</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>PDF gratuit de 320 pages, mai 2025 : demande en 3 scénarios jusqu'en 2035 (GWh et MW), parc unité par unité, candidats datés et chiffrés, rendements, facteurs de charge. 43 069 MW en 2024, 64 035 MW visés en 2035.</td><td>PRIORITÉ 1. Remplace à lui seul le sharefolder de 2018. Deux retraitements : prolonger 2035 vers 2050, et écrire la correspondance 11 DISCO vers nos 3 zones PAK.</td></tr>
-<tr><td>Pakistan</td><td>NTDC — IGCEP 2024-34</td><td><code><a href="https://nepra.org.pk">nepra.org.pk/Admission Notices/2024/05 May/IGCEP 2024-34 Report.pdf</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>239 pages, avril 2024. Annexe A consommation par catégorie, annexe B parc au 30 juin 2023 et coûts des candidats, annexes C-F scénarios de demande.</td><td>Millésime de contrôle : l'écart entre les deux éditions révèle les glissements de calendrier des grands barrages.</td></tr>
-<tr><td>Pakistan</td><td>NEPRA — State of Industry Report 2025</td><td><code><a href="https://nepra.org.pk">nepra.org.pk/publications</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Bilan annuel, paru janvier 2026 : production réalisée, pertes par distributeur, recouvrement, tarifs.</td><td>Source directe de pLossFactor et calage de l'année observée.</td></tr>
-<tr><td>Kazakhstan</td><td>KEGOC — rapports annuels intégrés</td><td><code><a href="https://ar2024.kegoc.kz,">ar2024.kegoc.kz, ar2023.kegoc.kz</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Bilan électrique et POINTE VENTILÉE PAR ZONE Nord/Sud/Ouest, exactement notre découpage. Pointe du 27/12/2025 à 18h : 17 540 MW (N 10 645, S 4 403, O 2 492). Consommation 2025 : 124 606,5 GWh.</td><td>VALIDATION EXTERNE DÉJÀ FAITE : notre pointe coïncidente 2026 ressort à 17 886 MW, soit +2,0 % — un an de croissance. Seul paramètre du modèle validé de l'extérieur.</td></tr>
-<tr><td>Kazakhstan</td><td>Jeu de données nodal (Data in Brief, CC BY)</td><td><code><a href="https://pmc.ncbi.nlm.nih.gov">pmc.ncbi.nlm.nih.gov/articles/PMC6661261</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>193 lignes 220-1150 kV avec paramètres, 24 centres de charge, demande horaire nodale sur une semaine d'été et une d'hiver, centrales avec rendement et disponibilité. Millésime 2015.</td><td>Seul jeu nodal ouvert de la région. Indispensable si l'on crée une troisième zone KAZ_W ; à traiter comme une topologie, pas comme un niveau.</td></tr>
-<tr><td>Kazakhstan</td><td>KEGOC marché de gros, Bureau of National Statistics</td><td><code><a href="https://kegoc.kz,">kegoc.kz, stat.gov.kz</a></code></td><td class="st st-Y">TESTÉ — PARTIEL</td><td>Analyses de marché S1 2025, bilan énergétique au format AIE. Aucune série temporelle brute : l'horaire du marché d'équilibrage reste interne.</td><td>Cadrage sectoriel. Ne comble pas le besoin de profil horaire.</td></tr>
-<tr><td>Tadjikistan</td><td>Banque mondiale — MPA Rogun P181029</td><td><code><a href="https://documents.worldbank.org">documents.worldbank.org</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Approbation du 17/12/2024. Phasage explicite : 1 660 MW à l'horizon 2028 (cote 1 185 m), 3 780 MW en 2035 en six groupes de 630 MW (cote 1 300 m), productible ~14 400 GWh/an.</td><td>Corrige directement le parc hérité, qui place six groupes de 600 MW tous datés 2031 — une hypothèse déguisée en calendrier. Fort effet de levier : Rogun est le plus gros poste de capacité du modèle.</td></tr>
-<tr><td>Tadjikistan</td><td>AIE / OCDE — revues sectorielles</td><td><code><a href="https://iea.org">iea.org/reports</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Revue du secteur 2022 financée par l'UE et feuille de route des échanges transfrontaliers : parc, contraintes hivernales, structure des exports.</td><td>Qualifie la saisonnalité tadjike, traduite en pTransferLimit et en disponibilité hydro.</td></tr>
-<tr><td>Tadjikistan</td><td>Barqi Tojik, Agency on Statistics</td><td><code><a href="https://stat.tj">stat.tj</a></code></td><td class="st st-R">TESTÉ — RIEN</td><td>Aucun bilan énergétique ni rapport annuel en libre téléchargement. Les chiffres tadjiks en circulation viennent tous d'intermédiaires.</td><td>À passer par le circuit TTL. C'est là que se réglerait la part du Sougd dans la consommation nationale.</td></tr>
-<tr><td>Kirghizstan</td><td>National Statistical Committee — bilan combustible-énergie</td><td><code><a href="https://stat.gov.kg">stat.gov.kg/en/publications/toplivno-energeticheskij-balans</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Bilan énergétique annuel en Excel, maquette héritée de l'URSS ; données mensuelles de production et d'échanges également collectées.</td><td>Calage sectoriel de la demande kirghize et vérification indépendante de la clé Nord/Sud.</td></tr>
-<tr><td>Kirghizstan</td><td>Portail Open Data</td><td><code><a href="https://stat.gov.kg">stat.gov.kg/en/opendata</a></code></td><td class="st st-R">TESTÉ — RIEN</td><td>22 catégories en JSON, XML et Excel sous CC BY-NC-SA 4.0 — mais AUCUNE catégorie énergie ou électricité.</td><td>Sans objet pour le modèle : le bilan énergie est une publication séparée, hors portail.</td></tr>
-<tr><td>Ouzbékistan</td><td>stat.uz (SDMX) et data.egov.uz</td><td><code><a href="https://stat.uz,">stat.uz, data.egov.uz</a></code></td><td class="st st-Y">TESTÉ — PARTIEL</td><td>Portail normalisé SDMX, plus de 2 000 indicateurs officiels avec métadonnées ; portail open data national distinct. Rubrique énergie présente.</td><td>Le mieux outillé techniquement de la région, accès machine possible. Reste à identifier les séries électricité utiles : NON FAIT.</td></tr>
-<tr><td>Ouzbékistan</td><td>Stratégie énergétique 2030 (via profil AIE)</td><td><code><a href="https://iea.org">iea.org/reports/uzbekistan-energy-profile</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Objectifs officiels : &gt;120 TWh et 54 % de renouvelable en 2030, 27 GW d'ENR. Capacité ~25,8 GW fin 2025 dont 8 GW ENR, production 86,7 TWh en 2025.</td><td>Cadrage de scénario et borne haute sur pMaxNewCapacity ENR. Ce sont des objectifs politiques : à traiter comme tels.</td></tr>
-<tr><td>Turkménistan</td><td>Turkmenenergo, statistique d'État</td><td><code>-</code></td><td class="st st-R">TESTÉ — RIEN</td><td>Aucune publication officielle accessible. Seules des estimations tierces : ~7,1 GW au gaz, ~44,8 TWh en 2024, aucune capacité ENR en 2025.</td><td>Le carnet DeCA TM, tout dégradé qu'il soit (journée moyenne par mois, aucune résolution régionale), reste la meilleure source. Hypothèses à expliciter dans la note de méthode.</td></tr>
-<tr><td>Afghanistan</td><td>DABS, NSIA, UN Energy Statistics</td><td><code><a href="https://unstats.un.org">unstats.un.org/unsd/energystats</a></code></td><td class="st st-R">TESTÉ — RIEN</td><td>Aucune publication statistique régulière depuis 2021. Éléments épars : ~670 MW importés pour ~280 M USD/an selon DABS, imports de 4,6 à 5,2 TWh sur 2017-2022 selon l'ONU, panorama sectoriel privé de novembre 2025.</td><td>Suffit à recaler le NIVEAU des imports afghans, pas à reconstruire une demande zonale. Les cinq zones NEPS restent issues du modèle 2020, confiance basse assumée.</td></tr>
-<tr><td>Régional</td><td>Ember — Monthly &amp; Yearly Electricity Data</td><td><code><a href="https://ember-energy.org">ember-energy.org/data/monthly-electricity-data</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Production par filière, demande, capacité et émissions en MENSUEL pour 85 géographies dont nos sept pays, jusqu'à avril 2026. Téléchargement libre.</td><td>Quatre années d'actuels que DeCA n'a pas : l'historique des carnets s'arrête en 2022. Calage de l'année de base et seul jeu homogène sur les sept pays.</td></tr>
-<tr><td>Régional</td><td>Global Energy Monitor — Global Integrated Power Tracker</td><td><code><a href="https://globalenergymonitor.org">globalenergymonitor.org/projects/global-integrated-power-tracker/download-data</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Parc mondial unité par unité, géolocalisé, avec statut et dates. UNE VERSION D'AOÛT 2026 EST PARUE ; nous détenons celle de septembre 2025.</td><td>Rafraîchissement immédiat du parc et seule couverture d'AFG et de PAK avec l'IGCEP. Le Tadjikistan y est sous-représenté : compléter par DeCA.</td></tr>
-<tr><td>Régional</td><td>Renewables.ninja, Global Wind Atlas, atlite/ERA5</td><td><code><a href="https://renewables.ninja,">renewables.ninja, globalwindatlas.info</a></code></td><td class="st st-G">TESTÉ — DISPONIBLE</td><td>Profils horaires solaire et éolien simulés en tout point du globe à partir de la réanalyse ERA5.</td><td>Seule voie pour pVREProfile au Turkménistan, en Afghanistan et là où DeCA ne donne rien. Déjà branché dans pre-analysis/pipelines/vre_pipeline.py.</td></tr>
-<tr><td>Régional</td><td>gridfinder, OpenStreetMap power, energydata.info</td><td><code><a href="https://energydata.info,">energydata.info, gridfinder.rdrn.me</a></code></td><td class="st st-Y">TESTÉ — PARTIEL</td><td>Carte mondiale des lignes prédite depuis les lumières nocturnes et OSM (grid.gpkg, targets.tif), précision annoncée ~70 % à 1 km.</td><td>Contrôle de TOPOLOGIE seulement : vérifier qu'un corridor existe et par où il passe. NE DONNE AUCUNE NTC — les capacités d'échange restent à demander aux opérateurs.</td></tr>
-<tr><td>Régional</td><td>AIE profils pays, UN Comtrade, OWID</td><td><code><a href="https://iea.org">iea.org/countries, comtradeplus.un.org</a></code></td><td class="st st-Y">TESTÉ — PARTIEL</td><td>Bilans énergétiques nationaux en PDF gratuit, flux d'électricité déclarés en douane par paire de pays, séries longues de consommation.</td><td>Contrôle croisé des échanges historiques. Comtrade est de qualité inégale en Asie centrale : à ne pas utiliser seul.</td></tr>
-<tr><td>Régional</td><td>CASA-1000 — documents projet</td><td><code>-</code></td><td class="st st-B">NON TESTÉ</td><td>Calendrier, quantités contractuelles, saisonnalité d'export.</td><td>Indispensable pour corriger pTransferLimit et pContractedTrade.</td></tr>
-<tr><td>Kirghizstan</td><td>Electric Power Plants OJSC / NESK</td><td><code>-</code></td><td class="st st-B">NON TESTÉ</td><td>Production de la cascade du Naryn, niveau de Toktogul.</td><td>Le niveau de Toktogul est LA variable à suivre pour le bilan hiver.</td></tr>
-<tr><td>Ouzbékistan</td><td>National Electric Grid of Uzbekistan</td><td><code>-</code></td><td class="st st-B">NON TESTÉ</td><td>Réseau et échanges régionaux.</td><td>UZB est le pivot du CAPS : ce sont ses NTC internes qui conditionnent un éventuel découpage.</td></tr>
-</tbody></table>
-<div class="foot">Page produite par <code>data_build/docs.py</code> à partir de <code>build_report.json</code> et de <code>build_casa.yaml</code>. Ne pas éditer à la main : régénérer.</div>
+<div class="foot">Page produced by <code>data_build/docs.py</code> from <code>build_report.json</code> and <code>build_casa.yaml</code>. Do not edit by hand: regenerate. The leads on public online sources are kept in the tracking workbook.</div>
 </body>
 </html>
