@@ -27,6 +27,7 @@ countries it belongs to.
 from __future__ import annotations
 
 import argparse
+import inspect
 import shutil
 import sys
 import tempfile
@@ -82,16 +83,41 @@ def zcmap_for(data_dir, stem):
 
 
 def regenerate(data_dir, stem, out_dir):
-    """Cut one pair of layers into out_dir, from today's resources."""
+    """Cut one pair of layers into out_dir, from today's resources.
+
+    Returns False when this model's postprocessing cannot cut the target, which
+    is not a failure: create_geojson_for_tableau only grew `output_stem` partway
+    through, so a branch that has not picked that up yet can still have its
+    default pair rebuilt. Requiring every model to update its postprocessing
+    first would make the geometry migration wait on an unrelated one.
+    """
     from epm.postprocessing.create_geojson import create_geojson_for_tableau
 
     zcmap = zcmap_for(data_dir, stem)
     table = pd.read_csv(zcmap)
     zone_col = "zone" if "zone" in table.columns else "z"
-    create_geojson_for_tableau(
-        geojson_to_epm=None, zcmap=str(zcmap),
-        selected_zones=table[zone_col].unique().tolist(),
-        folder=data_dir.name, output_path=str(out_dir), output_stem=stem)
+    kwargs = dict(geojson_to_epm=None, zcmap=str(zcmap),
+                  selected_zones=table[zone_col].unique().tolist(),
+                  folder=data_dir.name, output_path=str(out_dir))
+    if "output_stem" in inspect.signature(create_geojson_for_tableau).parameters:
+        kwargs["output_stem"] = stem
+    elif stem:
+        return False
+    create_geojson_for_tableau(**kwargs)
+    return True
+
+
+def zone_key(*frames):
+    """The column that names a zone, in every frame given.
+
+    Models do not agree on it -- some layers carry `z`, the ones cut from the
+    reference polygons carry `ADMIN` -- and a layer written years ago may not
+    use the same one as the layer replacing it.
+    """
+    for candidate in ("z", "ADMIN", "zone"):
+        if all(candidate in f.columns for f in frames):
+            return candidate
+    return None
 
 
 def compare(old_path, new_path):
@@ -101,7 +127,13 @@ def compare(old_path, new_path):
         return new, [f"    new file, {len(new)} zones"], []
 
     old = gpd.read_file(old_path)
-    key = "z" if "z" in new.columns else "ADMIN"
+    key = zone_key(old, new)
+    if key is None:
+        # Nothing names the zones in both files, so there is no way to say which
+        # zone moved. That is a schema change, not a geometry one, and it is the
+        # model owner's call -- report it and compare nothing.
+        return new, [f"    cannot compare: on disk {sorted(old.columns)}, "
+                     f"rebuilt {sorted(new.columns)}"], []
     notes, problems = [], []
     gone = sorted(set(old[key]) - set(new[key]))
     added = sorted(set(new[key]) - set(old[key]))
@@ -130,7 +162,15 @@ def align(zones, countries):
     about.
     """
     problems = []
-    key = "z" if "z" in zones.columns else "ADMIN"
+    key = zone_key(zones)
+    if key is None:
+        # The overlap and containment tests are about geometry, so they still
+        # mean something on a layer whose zones are not named. Number them, and
+        # do not fall back to some other column: picking `geometry` makes the
+        # spatial join below join a frame to itself twice over.
+        zones = zones.copy()
+        key = "_row"
+        zones[key] = [f"row {i}" for i in range(len(zones))]
     broken = zones[~zones.geometry.is_valid]
     if len(broken):
         problems.append(f"    invalid geometry: {', '.join(broken[key])}")
@@ -175,7 +215,10 @@ def run(artifact, data_dir, apply=False):
         for stem, zones_path, lines_path in targets(data_dir):
             if not zones_path.exists() and not lines_path.exists():
                 continue
-            regenerate(data_dir, stem, tmp)
+            if not regenerate(data_dir, stem, tmp):
+                print(f"  {zones_path.name}: this model's create_geojson cannot "
+                      "cut a named zcmap - skipped")
+                continue
             fresh_zones = tmp / zones_path.name
             fresh_lines = tmp / lines_path.name
             zones, notes, found = compare(zones_path, fresh_zones)
