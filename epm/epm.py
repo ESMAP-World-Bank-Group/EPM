@@ -64,7 +64,6 @@ from postprocessing.utils import (
     set_utils_logger,
 )
 from postprocessing.postprocessing import postprocess_output
-from postprocessing.geojson_freshness import warn_if_stale as warn_if_map_layers_stale
 
 PATH_GAMS = {
     'path_main_file': 'main.gms',
@@ -560,12 +559,6 @@ def launch_epm_multi_scenarios(config='config.csv',
     config = config.dropna()
     # Normalize path
     config = normalize_path(config)
-
-    # The zone GeoJSON layers read by EPM View are generated artefacts committed
-    # in this folder; nothing refreshes them when zcmap or the zone mapping
-    # changes. Report a stale map here rather than letting the viewer show the
-    # previous zoning indefinitely. Never blocks the run.
-    warn_if_map_layers_stale(folder_input, log_func=logger.warning)
 
     # Filter zcmap by country if specified
     if country is not None:
