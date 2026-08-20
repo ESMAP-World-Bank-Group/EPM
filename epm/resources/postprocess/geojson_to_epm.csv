@@ -1,4 +1,4 @@
-epm_zone,source_name,subregion,split
+﻿epm_zone,source_name,subregion,split
 Angola,Angola,,
 DRC,Democratic Republic of the Congo,north,NSE
 DRC_South,Democratic Republic of the Congo,south,NSE
@@ -22,5 +22,6 @@ SouthEast,SouthEast,,
 EastAna,EastAna,,
 Armenia,Armenia,,
 Georgia,Georgia,,
-AzerbaijanMain,Azerbaijan,,
+AzerbaijanMain,AzerbaijanMain,,
+Nakhchivan,Nakhchivan,,
 iran_swap,Iran,,
