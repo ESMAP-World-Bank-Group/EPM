@@ -56,7 +56,7 @@ def read_geojson_mapping(path):
     - epm_zone: Zone name in the EPM model (required)
     - source_name: Zone/country name in GeoJSON file matching ADMIN field (required)
     - subregion: For split zones only - north/south/east/west/center
-    - split: For split zones only - NS/EW/NSE/NCS
+    - split: For split zones only - NS/EW/NSE/NCS/NCSE/SWNE
 
     Some exported CSVs append the header again without a newline, causing pandas
     to fail when parsing. This helper inserts the missing newline and removes
@@ -74,7 +74,7 @@ def read_geojson_mapping(path):
             f"    - epm_zone: Zone name in your EPM model\n"
             f"    - source_name: Zone name in GeoJSON file (matches ADMIN field)\n"
             f"    - subregion: Optional, for split zones (north/south/east/west/center)\n"
-            f"    - split: Optional, split pattern (NS/EW/NSE/NCS)"
+            f"    - split: Optional, split pattern (NS/EW/NSE/NCS/NCSE/SWNE)"
         )
 
     pattern = r'(?<=.)(?<![\r\n])' + re.escape(_GEOJSON_HEADER)
@@ -136,6 +136,8 @@ def divide(geodf, country, division):
         - 'EW' (East-West) splits along the longitude midpoint.
         - 'NSE' (North-South-East) splits into three quadrants.
         - 'NCS' (North-Center-South) splits into three horizontal bands.
+        - 'NCSE' (North-West, North-East, Center, South) splits into four regions.
+        - 'SWNE' (South-West, North-East) splits along the diagonal.
 
     Returns
     -------
@@ -229,8 +231,53 @@ def divide(geodf, country, division):
 
         return pd.concat([east_part, north_part, south_part])
 
+    elif division == 'NCSE':
+        # South and center are full-width bands; the north is split left-right.
+        median_longitude = (minx + maxx) / 2
+        third_latitude = (maxy - miny) / 3
+        south_limit = miny + third_latitude
+        central_limit = south_limit + third_latitude
+
+        south_polygon = Polygon([(minx, miny), (minx, south_limit), (maxx, south_limit), (maxx, miny)])
+        central_polygon = Polygon([(minx, south_limit), (minx, central_limit), (maxx, central_limit), (maxx, south_limit)])
+        nw_polygon = Polygon([(minx, central_limit), (minx, maxy), (median_longitude, maxy), (median_longitude, central_limit)])
+        ne_polygon = Polygon([(median_longitude, central_limit), (median_longitude, maxy), (maxx, maxy), (maxx, central_limit)])
+
+        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
+        central_gdf = gpd.GeoDataFrame(geometry=[central_polygon], crs=crs)
+        nw_gdf = gpd.GeoDataFrame(geometry=[nw_polygon], crs=crs)
+        ne_gdf = gpd.GeoDataFrame(geometry=[ne_polygon], crs=crs)
+
+        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
+        central_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], central_gdf, how='intersection')
+        nw_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], nw_gdf, how='intersection')
+        ne_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], ne_gdf, how='intersection')
+
+        south_part['region'] = 'south'
+        central_part['region'] = 'center'
+        nw_part['region'] = 'northwest'
+        ne_part['region'] = 'northeast'
+
+        return pd.concat([nw_part, ne_part, central_part, south_part])
+
+    elif division == 'SWNE':
+        # Cut along the diagonal rather than a meridian or a parallel.
+        sw_polygon = Polygon([(minx, miny), (minx, maxy), (maxx, miny)])
+        ne_polygon = Polygon([(minx, maxy), (maxx, maxy), (maxx, miny)])
+
+        sw_gdf = gpd.GeoDataFrame(geometry=[sw_polygon], crs=crs)
+        ne_gdf = gpd.GeoDataFrame(geometry=[ne_polygon], crs=crs)
+
+        sw_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], sw_gdf, how='intersection')
+        ne_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], ne_gdf, how='intersection')
+
+        sw_part['region'] = 'southwest'
+        ne_part['region'] = 'northeast'
+
+        return pd.concat([sw_part, ne_part])
+
     else:
-        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', or 'NCS'.")
+        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', 'NCS', 'NCSE' or 'SWNE'.")
 
 
 def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
