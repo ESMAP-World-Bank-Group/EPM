@@ -1,0 +1,51 @@
+name: Post-processing guard
+
+# GAMS writes EPS/UNDF/NA/INF into output CSVs as text. One of them left in a
+# value column makes pandas infer object dtype, and a cumsum then concatenates
+# strings instead of adding them - producing cost files that are both enormous
+# and numerically wrong. The fix is read-time coercion in epm/output_treatment.py.
+#
+# It came back once, on a study branch that never received the fix and tried
+# fillna(0) instead, which cannot work on a string. This job is what keeps it
+# from coming back a second time: it runs on every branch, not just main, so a
+# study branch that reopens the hole says so.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Study branches diverged before these tests landed and most do not carry
+      # them yet. The probe keeps the job green there, saying what it skipped,
+      # rather than failing on an expected absence.
+      - name: Look for the tests
+        id: probe
+        run: |
+          if [ -f tools/test_output_treatment.py ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::tools/test_output_treatment.py not present on this branch - nothing to check. If this branch runs EPM post-processing, it likely needs the GAMS special-value fix; see CHANGELOG.md on main."
+          fi
+
+      - name: Set up Python
+        if: steps.probe.outputs.present == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: steps.probe.outputs.present == 'true'
+        run: pip install pandas
+
+      - name: Run post-processing regression tests
+        if: steps.probe.outputs.present == 'true'
+        run: python tools/test_output_treatment.py
