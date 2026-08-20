@@ -22,7 +22,7 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
 - `tools/test_output_treatment.py`: regression tests for the above, including a
   guard that fails if a new unprotected `pd.read_csv` is added to
   `epm/output_treatment.py`.
-- `tools/audit_postprocessing_sync.sh`: reports which branches carry the
+- `tools/audit_postprocessing_sync.py`: reports which branches carry the
   post-processing fixes, so drift between study branches stays visible.
 
 ---
