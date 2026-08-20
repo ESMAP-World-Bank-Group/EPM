@@ -103,7 +103,8 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
 
     sources = None
     if dict_specs is None:
-        mapping = Path(geojson_to_epm) if geojson_to_epm else             recipe.resolve_geojson_to_epm(out_dir)
+        mapping = (Path(geojson_to_epm) if geojson_to_epm
+                   else recipe.resolve_geojson_to_epm(out_dir))
         sources = zone_layers.Sources(
             zcmap=zcmap if isinstance(zcmap, (str, Path)) else None,
             geojson_to_epm=mapping,
