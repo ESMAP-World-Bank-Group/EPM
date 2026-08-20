@@ -260,12 +260,14 @@ def _check_pair(folder, zcmap_path, zones_name, linestring_name, require_exists)
 def check_folder(folder):
     """Every freshness issue of one epm/input/data_* folder.
 
-    A folder is only checked when it already carries map layers (a zones
-    GeoJSON exists); folders that never opted in are left alone.
+    A folder is only checked when it already carries map layers; folders that
+    never opted in are left alone. Any layer counts, not just a zones one: a
+    folder that ships the linestring alone -- which several do -- was being
+    skipped entirely, so the check reported it clean without looking at it.
     """
     folder = Path(folder)
     legacy_zones, legacy_lines = legacy_names()
-    if not (folder / legacy_zones).exists() and not list(folder.glob('zones_*.geojson')):
+    if not any(folder.glob('zones*.geojson')) and not any(folder.glob('linestring*.geojson')):
         return []
 
     issues = []
@@ -273,7 +275,11 @@ def check_folder(folder):
         zones_name, linestring_name = output_names(zcmap_path.stem)
         issues += _check_pair(folder, zcmap_path, zones_name, linestring_name,
                               require_exists=(folder / zones_name).exists())
-        if zcmap_path.stem == 'zcmap' and (folder / legacy_zones).exists():
+        # Either half of the unsuffixed pair means the base zcmap owns it.
+        # Keying on the zones file alone hid every folder that ships only the
+        # linestring, which is the state most of them are in.
+        if zcmap_path.stem == 'zcmap' and ((folder / legacy_zones).exists()
+                                           or (folder / legacy_lines).exists()):
             issues += _check_pair(folder, zcmap_path, legacy_zones, legacy_lines,
                                   require_exists=False)
     return issues
@@ -302,7 +308,7 @@ def format_issues(issues_by_folder):
         for issue in issues:
             lines.append(f'    - {Path(issue.path).name}: {issue.kind} - {issue.detail}')
     lines.append('')
-    lines.append('  Fix: python epm/postprocessing/create_geojson.py --all')
+    lines.append('  Fix: python -m epm.geodata.zone_layers --folder <folder>')
     return '\n'.join(lines)
 
 
