@@ -49,7 +49,7 @@ import pandas as pd
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
-from .create_geojson import create_geojson_for_tableau
+from epm.geodata import zone_layers
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
@@ -2154,16 +2154,28 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     zcmap_df = epm_results['pZoneCountry'][['zone', 'country']].drop_duplicates()
                     selected_zones = list(epm_results['pCapacityTechFuel']['zone'].unique())
 
-                    create_geojson_for_tableau(
-                        geojson_to_epm=dict_specs['geojson_to_epm'],
-                        zcmap=zcmap_df,
+                    # The layers describe the zoning this run solved, so cut them
+                    # from it. pZoneCountry comes out of the GDX and is therefore
+                    # the zoning that was actually used, filtered runs included;
+                    # the recipe -- the admin-area-to-zone mapping, the reference
+                    # polygons, the hand-drawn overlay -- comes from the input
+                    # folder.
+                    sources = (zone_layers.resolve(folder_input, zones=selected_zones, stem=None)
+                               if folder_input else None)
+                    zones_gdf, lines_gdf = zone_layers.build(
+                        sources=sources,
+                        zone_country=zcmap_df,
+                        dict_specs=None if sources else dict_specs,
                         selected_zones=selected_zones,
-                        output_path=RESULTS_FOLDER,
-                        dict_specs=dict_specs
+                        log=lambda msg: log_warning(msg, logger=active_logger),
                     )
-                    log_info('Generated Tableau GeoJSON file: linestring_countries.geojson', logger=active_logger)
+                    written = zone_layers.write(
+                        zones_gdf, lines_gdf, RESULTS_FOLDER, stem=None,
+                        fingerprint=sources.fingerprint() if sources else None)
+                    log_info(f'Map layers written: {", ".join(x.name for x in written)}',
+                             logger=active_logger)
                 except Exception as e:
-                    log_warning(f'Could not generate Tableau GeoJSON: {e}', logger=active_logger)
+                    log_warning(f'Could not generate the map layers: {e}', logger=active_logger)
 
                 if (
                     'pTransmissionCapacity' in epm_results

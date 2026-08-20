@@ -75,20 +75,27 @@ def resolve(folder, zcmap=None, zones=None, stem=..., zone_map=None):
     otherwise the shared resources apply. `stem` defaults to the zcmap's own
     name, so `zcmap_robg.csv` writes `zones_zcmap_robg.geojson` and cannot
     overwrite the layers of the base zoning; pass None for the unsuffixed pair.
+
+    `zones` may be given instead of a zcmap. A run takes its zoning from the
+    GDX, which is the zoning it actually solved -- a `--country` run solves a
+    filtered one that no file in the folder describes -- and needs this only
+    for the mapping and the reference polygons.
     """
     folder = Path(folder)
     zcmap_path = Path(zcmap) if zcmap else folder / 'zcmap.csv'
     if not zcmap_path.is_absolute() and not zcmap_path.exists():
         zcmap_path = folder / zcmap_path
     if not zcmap_path.exists():
-        raise FileNotFoundError(f'zcmap not found: {os.path.abspath(zcmap_path)}')
+        if zones is None:
+            raise FileNotFoundError(f'zcmap not found: {os.path.abspath(zcmap_path)}')
+        zcmap_path = None
     return Sources(
         zcmap=zcmap_path,
         geojson_to_epm=recipe.resolve_geojson_to_epm(folder),
         zones_custom=recipe.resolve_zones_custom(folder),
         zone_map=Path(zone_map) if zone_map else recipe.SHARED_ZONE_MAP,
         zones=list(zones) if zones else recipe.zcmap_zones(zcmap_path),
-        stem=zcmap_path.stem if stem is ... else stem,
+        stem=(zcmap_path.stem if zcmap_path else None) if stem is ... else stem,
     )
 
 
