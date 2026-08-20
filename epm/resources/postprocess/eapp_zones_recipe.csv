@@ -1,0 +1,59 @@
+zone,iso_a3,level,code,name,coverage
+Burundi,BDI,country,BDI,Burundi,1.000
+Djibouti,DJI,country,DJI,Djibouti,1.000
+Egypt,EGY,country,EGY,"Egypt, Arab Republic of",1.000
+Ethiopia,ETH,country,ETH,Ethiopia,1.000
+Kenya,KEN,country,KEN,Kenya,1.000
+Libya,LBY,country,LBY,Libya,0.999
+Rwanda,RWA,country,RWA,Rwanda,1.000
+Sudan,SDN,country,SDN,Sudan,1.000
+South Sudan,SSD,country,SSD,South Sudan,0.995
+Somaliland,SOM,adm1,SO.AW,Awdal,1.000
+Somaliland,SOM,adm1,SO.SA,Sanaag,0.967
+Somaliland,SOM,adm1,SO.SO,Sool,0.935
+Somaliland,SOM,adm1,SO.TO,Togdheer,1.000
+Somaliland,SOM,adm1,SO.WO,Woqooyi Galbeed,1.000
+Somalia,SOM,adm1,SO.BK,Bakool,1.000
+Somalia,SOM,adm1,SO.BN,Banadir,1.000
+Somalia,SOM,adm1,SO.BR,Bari,1.000
+Somalia,SOM,adm1,SO.BY,Bay,1.000
+Somalia,SOM,adm1,SO.GA,Galgaduud,0.990
+Somalia,SOM,adm1,SO.GE,Gedo,1.000
+Somalia,SOM,adm1,SO.HI,Hiraan,1.000
+Somalia,SOM,adm1,SO.JD,Juba Dhexe,1.000
+Somalia,SOM,adm1,SO.JH,Juba Hoose,1.000
+Somalia,SOM,adm1,SO.MU,Mudug,1.000
+Somalia,SOM,adm1,SO.NU,Nugaal,0.991
+Somalia,SOM,adm1,SO.SD,Shabelle Dhexe,1.000
+Somalia,SOM,adm1,SO.SH,Shabelle Hoose,1.000
+Tanzania,TZA,country,TZA,Tanzania,1.000
+Uganda,UGA,country,UGA,Uganda,1.000
+Drc_E,COD,adm1,COD.G1075.Bas-Uélé,Bas-Uélé,1.000
+Drc_E,COD,adm1,COD.G1071.Haut-Katanga,Haut-Katanga,1.000
+Drc_E,COD,adm1,COD.G1071.Haut-Lomami,Haut-Lomami,1.000
+Drc_E,COD,adm1,COD.G1075.Haut-Uélé,Haut-Uélé,1.000
+Drc_E,COD,adm1,COD.G1075.Ituri,Ituri,1.000
+Drc_E,COD,adm1,COD.G1069.Kasaï-Central,Kasaï-Central,0.948
+Drc_E,COD,adm1,CD.KO.Kasaï-Oriental,Kasaï-Oriental,1.000
+Drc_E,COD,adm1,CD.KO.Lomami,Lomami,1.000
+Drc_E,COD,adm1,COD.G1071.Lualaba,Lualaba,1.000
+Drc_E,COD,adm1,CD.MN,Maniema,1.000
+Drc_E,COD,adm1,CD.NK,Nord-Kivu,1.000
+Drc_E,COD,adm1,CD.KO.Sankuru,Sankuru,1.000
+Drc_E,COD,adm1,CD.SK,Sud-Kivu,1.000
+Drc_E,COD,adm1,COD.G1071.Tanganyka,Tanganyka,1.000
+Drc_E,COD,adm1,COD.G1075.Tshopo,Tshopo,1.000
+Drc_E,COD,adm1,CD.ET.Tshuapa,Tshuapa,0.506
+Mogadishu,SOM,adm1,SO.BK,Bakool,1.000
+Mogadishu,SOM,adm1,SO.BN,Banadir,1.000
+Mogadishu,SOM,adm1,SO.BY,Bay,1.000
+Mogadishu,SOM,adm1,SO.GE,Gedo,1.000
+Mogadishu,SOM,adm1,SO.HI,Hiraan,0.963
+Mogadishu,SOM,adm1,SO.JD,Juba Dhexe,1.000
+Mogadishu,SOM,adm1,SO.JH,Juba Hoose,1.000
+Mogadishu,SOM,adm1,SO.SD,Shabelle Dhexe,0.618
+Mogadishu,SOM,adm1,SO.SH,Shabelle Hoose,1.000
+SomaliaROC,SOM,adm1,SO.BR,Bari,1.000
+SomaliaROC,SOM,adm1,SO.GA,Galgaduud,0.855
+SomaliaROC,SOM,adm1,SO.MU,Mudug,1.000
+SomaliaROC,SOM,adm1,SO.NU,Nugaal,0.991

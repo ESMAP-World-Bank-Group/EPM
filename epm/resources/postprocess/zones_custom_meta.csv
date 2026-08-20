@@ -1,0 +1,26 @@
+zone,epm_zone,epm_country,split_rationale,grid_area,model_plants,caveat
+Trakia,,,,,,
+WestAna,,,,,,
+NorthWest,,,,,,
+WestMed,,,,,,
+CenterBlack,,,,,,
+CenterAna,,,,,,
+EastMed,,,,,,
+SouthEast,,,,,,
+EastAna,,,,,,
+PAK_KAR,PAK_KAR,PAK,Karachi is served by a vertically-integrated private utility with its own generation and a limited NTDC interconnection - the reason it is a zone of its own rather than part of PAK_S.,K-Electric (KESC) control area,"Bin Qasim, Port Qasim, Korangi, KESC units",
+NEPS_TAJ,NEPS_TAJ,AFG,"Import delivery node, not a generating area: the model gives it zero capacity and only a transfer limit. The polygon is the north-east provinces served by that corridor and by CASA-1000.",NEPS import node from Tajikistan (Sherkhan Bandar 220 kV),(none - import node),
+TAJ_N,TAJ_N,TAJ,Sughd is separated from the rest of Tajikistan by the Zarafshan range and was fed from the Central Asian ring through Uzbekistan; the South-North 500 kV line closed the gap but remains a modelled constraint.,Sughd (northern Tajikistan),Kairakkum,
+NEPS_UZB,NEPS_UZB,AFG,Import delivery node with no generation; the Hairatan line is Kabul's single largest supply. Polygon = the provinces on that corridor.,NEPS import node from Uzbekistan (Hairatan 220 kV),(none - import node),
+NEPS_TKM,NEPS_TKM,AFG,"Import delivery node with no generation, on the north-western Turkmen feeds.",NEPS import node from Turkmenistan (Andkhoy / Sheberghan),(none - import node),
+NEPS_HERAT,NEPS_HERAT,AFG,"Herat is not synchronised with the rest of Afghanistan: it is a separate island fed from Iran (Islam Qala) and Turkmenistan, with Salma dam as its only local plant - hence its own zone.",Herat island,"Salma, Iran import",
+KGZ_S,KGZ_S,KGZ,Hydro-rich half: the Toktogul cascade and the Datka hub that exports to Uzbekistan and Tajikistan.,Kyrgyz southern grid (Naryn cascade / Datka),"Toktogul, Kurpsai, Tash-Kumyr, Shamaldy-Say, Uch-Kurgan",
+TAJ_S,TAJ_S,TAJ,"Holds the Vakhsh cascade and the national load centre, and is the export node towards Afghanistan and Pakistan (CASA-1000).",Southern Tajikistan (Nurek / Dushanbe),"Nurek, Rogun, Sangtuda 1/2, Baipaza, Dushanbe-2",
+KGZ_N,KGZ_N,KGZ,Before the Datka-Kemin 500 kV line the Kyrgyz north could only reach the southern cascade through Kazakh and Uzbek networks; the model keeps the two halves as separate nodes with an internal limit.,Kyrgyz northern grid (Bishkek / Kemin),"Bishkek CHP, At-Bashi, Kambarata-2","Kambarata-2 sits in Jalal-Abad (territorially KGZ_S) but feeds the northern 500 kV corridor, so the model dispatches it in KGZ_N. The polygon follows territory, not this single plant."
+NEPS_AFG,NEPS_AFG,AFG,The only Afghan zone with its own generation: the Kabul river plants and Kajaki. Everything the country imports is delivered to it through the four border nodes below.,NEPS core (Kabul) + domestic hydro,"Tarakhil, Naghlu, Sorobi, Darunta, Mahipar, Kajaki, Pul-e-Khumri","Kandahar, Helmand, Uruzgan and Zabul are physically the separate SEPS island, but the 2020 model carries a single domestic Afghan zone and dispatches Kajaki (Helmand, which supplies SEPS) in it, so they are folded in here. Within the polygon, provinces served only by isolated micro-grids are covered by approximation."
+PAK_N,PAK_N,PAK,"Pakistan's system is one long north-south chain. The hydro north and the thermal south are separated by the Guddu / Muzaffargarh transfer bottleneck, which is what the PAK_N-PAK_S link represents.",NTDC northern region,"Tarbela, Diamer-Basha, Dasu, Ghazi-Barotha, Mangla, Neelum-Jhelum, Chashma, Muzaffargarh, Kot Addu, Faisalabad, Balloki",
+PAK_S,PAK_S,PAK,"Thermal and coal south (Sindh + Balochistan) minus the Karachi utility territory, which is a separate control area.",NTDC southern region (excl. K-Electric),"Guddu, Uch, Jamshoro, Thar, Qadirpur, Karachi-Coastal, Sahiwal",Sahiwal coal is in Punjab territorially but is dispatched in PAK_S by the model. The polygon follows territory.
+UZB,UZB,UZB,Single meshed national system - no internal constraint is represented.,Uzbekistan UPS,"Syrdarya, Tashkent, Novo-Angren, Navoi, Talimarjan, Charvak, Fergana",
+TUR,TUR,TUR,"Single national system; modelled as one node, exporting to Afghanistan and Iran. (Zone code TUR is the model's label for Turkmenistan - the ISO3 is TKM.)",Turkmenistan national grid,"Mary, Ahal, Derweze, Balkanabat, Turkmenbashi, Dashoguz, Lebap",
+KAZ_S,KAZ_S,KAZ,"Deficit zone around Almaty and Shymkent, historically supplied through the Central Asian ring (Uzbekistan / Kyrgyzstan) and by the North-South transit; modelled separately because that transit is the binding limit.",KEGOC Southern zone,"Balkhash-Ulken, Zhambyl GRES, Almaty CHPs, Kapchagay, Moynak, Chimkent, Shardara",
+KAZ_N,KAZ_N,KAZ,"Kazakhstan's UPS is three weakly-coupled zones. The Northern zone is the coal belt synchronised with Russia; it is linked to the South only by the North-South 500 kV transit, which is the constraint the model represents as the KAZ_N-KAZ_S corridor.",KEGOC Northern zone,"Ekibastuz GRES-1/2, Aksu, Karaganda, Petropavlovsk, Ust-Kamenogorsk",
