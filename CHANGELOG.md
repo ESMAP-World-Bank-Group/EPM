@@ -8,6 +8,23 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
 
 ## [Unreleased]
 
+### Fixed
+- Post-processing: GAMS special values (`EPS`, `UNDF`, `NA`, `±INF`) are now
+  translated to numbers when output CSVs are read, instead of reaching pandas as
+  text. A single `EPS` left in a `value` column made pandas infer `object` dtype,
+  and `cumsum`/`sum` then concatenated strings instead of adding them: cumulative
+  cost files grew quadratically (one run produced a 122 MB `pCostsMerged.csv`) and,
+  more importantly, held wrong numbers. `EPS` maps to `0` (a stored zero, not a
+  missing value). Runs affected before this fix must be regenerated —
+  `pDiscountedWeightedCostsCumulated` values were incorrect, not merely bulky.
+
+### Added
+- `tools/test_output_treatment.py`: regression tests for the above, including a
+  guard that fails if a new unprotected `pd.read_csv` is added to
+  `epm/output_treatment.py`.
+- `tools/audit_postprocessing_sync.sh`: reports which branches carry the
+  post-processing fixes, so drift between study branches stays visible.
+
 ---
 
 ## [9.0.1-beta] - 2026-05-27
