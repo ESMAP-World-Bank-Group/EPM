@@ -229,52 +229,18 @@ def render(cfg, report, deployment, source_dir):
     a('</div>')
 
     a('<div class="toc"><b>Contents</b><ul>'
-      '<li><a href="#resources">Model resources</a></li>'
       '<li><a href="#coverage">Country coverage</a></li>'
+      '<li><a href="#resources">Model resources</a></li>'
       '<li><a href="#detail">What was done, resource by resource</a></li>'
       '<li><a href="#sources">The sources</a></li>'
       '</ul></div>')
     a('<div><a class="dl" href="%s">Download the tracking workbook (.xlsx)</a></div>'
       % h(workbook_href(deployment)))
 
-    # -- Resource table --------------------------------------------------------
-    a('<h2 id="resources">Model resources</h2>')
-    a('<p class="meta">The <i>Inherited content</i> column describes the file as it '
-      'comes from the 2020 model; the state says what the build made of it, and the '
-      'detail follows further down.</p>')
-    a('<table><thead><tr><th>Resource</th><th>File</th><th>Inherited content</th>'
-      '<th>Rows</th><th>State</th><th>Phase</th><th>Vintage</th><th>Sources</th>'
-      '</tr></thead><tbody>')
-    group = None
-    tally = {"G": 0, "Y": 0, "R": 0, "B": 0}
-    for e in res:
-        if e.get("group") != group:
-            group = e.get("group")
-            a('<tr class="cat-row"><td colspan="8">%s</td></tr>'
-              % h(group or "unclassified"))
-        code, label = state_of(e)
-        tally[code] += 1
-        links = " ".join('<a href="#%s">%s</a>' % (anchor(k), h(k))
-                         for k in (e.get("source") or []))
-        n = e.get("rows_out")
-        # A transformed resource links to its own detail block further down.
-        cell = '<code>%s</code>' % h(e["resource"])
-        if e.get("action") not in ("keep", "shared"):
-            cell = '<a href="#%s">%s</a>' % (anchor(e["resource"], "res"), cell)
-        a('<tr><td>%s</td><td><code>%s</code></td><td>%s</td>'
-          '<td>%s</td><td class="st st-%s">%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
-          % (cell, h(e.get("path", "")), h(e.get("what", "")),
-             h(n) if n not in (None, "-") else '<span class="muted">&mdash;</span>',
-             code, h(label), h(phase_of(e).lstrip("P")), h(e.get("vintage", "")),
-             links or '<span class="muted">&mdash;</span>'))
-    a('</tbody></table>')
-    a('<p class="meta">%d resources: %d done &middot; %d partial &middot; %d to do '
-      '&middot; %d out of scope</p>'
-      % (len(res), tally["G"], tally["Y"], tally["R"], tally["B"]))
-
     # -- Country coverage ------------------------------------------------------
     a('<h2 id="coverage">Country coverage</h2>')
-    a('<p class="meta">Two layers. The chips are the <b>declared</b> coverage: the '
+    a('<p class="meta">Which source can speak for which country, resource by '
+      'resource. Two layers. The chips are the <b>declared</b> coverage: the '
       'sources attached to the resource that state they can speak for that country. '
       'The dot above them is <b>verified in the data</b>: the file really carries rows '
       'for that country, found by matching column values against the zones of '
@@ -319,6 +285,41 @@ def render(cfg, report, deployment, source_dir):
       'checked against the data; the other %d are indexed by plant, fuel, technology '
       'or season and rest on the declared layer alone.</p>'
       % (verified, len(res), len(res) - verified))
+
+    # -- Resource table --------------------------------------------------------
+    a('<h2 id="resources">Model resources</h2>')
+    a('<p class="meta">The <i>Inherited content</i> column describes the file as it '
+      'comes from the 2020 model; the state says what the build made of it, and the '
+      'detail follows further down.</p>')
+    a('<table><thead><tr><th>Resource</th><th>File</th><th>Inherited content</th>'
+      '<th>Rows</th><th>State</th><th>Phase</th><th>Vintage</th><th>Sources</th>'
+      '</tr></thead><tbody>')
+    group = None
+    tally = {"G": 0, "Y": 0, "R": 0, "B": 0}
+    for e in res:
+        if e.get("group") != group:
+            group = e.get("group")
+            a('<tr class="cat-row"><td colspan="8">%s</td></tr>'
+              % h(group or "unclassified"))
+        code, label = state_of(e)
+        tally[code] += 1
+        links = " ".join('<a href="#%s">%s</a>' % (anchor(k), h(k))
+                         for k in (e.get("source") or []))
+        n = e.get("rows_out")
+        # A transformed resource links to its own detail block further down.
+        cell = '<code>%s</code>' % h(e["resource"])
+        if e.get("action") not in ("keep", "shared"):
+            cell = '<a href="#%s">%s</a>' % (anchor(e["resource"], "res"), cell)
+        a('<tr><td>%s</td><td><code>%s</code></td><td>%s</td>'
+          '<td>%s</td><td class="st st-%s">%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
+          % (cell, h(e.get("path", "")), h(e.get("what", "")),
+             h(n) if n not in (None, "-") else '<span class="muted">&mdash;</span>',
+             code, h(label), h(phase_of(e).lstrip("P")), h(e.get("vintage", "")),
+             links or '<span class="muted">&mdash;</span>'))
+    a('</tbody></table>')
+    a('<p class="meta">%d resources: %d done &middot; %d partial &middot; %d to do '
+      '&middot; %d out of scope</p>'
+      % (len(res), tally["G"], tally["Y"], tally["R"], tally["B"]))
 
     # -- Detail, transformed resources only ------------------------------------
     a('<h2 id="detail">What was done, resource by resource</h2>')

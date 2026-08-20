@@ -25,6 +25,12 @@ Method, in three steps.
    NON-COINCIDENT, which is what generate_demand.gms expects: it multiplies the
    normalised zone profile by that peak.
 
+A zone whose mapping row carries scope=excluded is served by the model perimeter,
+not by the data: it still takes its share of the national energy and of the national
+peak, so the zones that stay keep their true weight, but it is not written out. This
+is how West Kazakhstan leaves the model without its load being pushed back onto the
+North and the South.
+
 Afghanistan and Pakistan have no 2026 source. They are carried over from the 2020
 model pDemandData and extended at their own growth rate.
 """
@@ -151,6 +157,11 @@ def legacy_demand(ref_dir):
     return energy, peak
 
 
+def in_model(m):
+    """A zone is written out unless its mapping row marks it as out of perimeter."""
+    return str(m.get("scope", "")).strip().lower() != "excluded"
+
+
 def extend(series, years):
     """Extend a series at the compound rate of its last five years."""
     known = sorted(series)
@@ -273,13 +284,14 @@ def main():
                             e_country[base] / 1e3))
 
     for m in mapping:
-        if m["workbook"]:
+        if m["workbook"] or not in_model(m):
             continue
         e = extend({y: v for (zz, y), v in legacy_energy.items() if zz == m["z"]}, years)
         p = extend({y: v for (zz, y), v in legacy_peak.items() if zz == m["z"]}, years)
         rows[(m["z"], "Energy")], rows[(m["z"], "Peak")] = e, p
 
-    order = [m["z"] for m in mapping]
+    order = [m["z"] for m in mapping if in_model(m)]
+    dropped = [m["z"] for m in mapping if not in_model(m)]
     path = os.path.join(out_dir, "pDemandForecast.csv")
     with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
         w = csv.writer(fh, lineterminator="\n")
@@ -291,6 +303,8 @@ def main():
     print("Scenario used: {}".format(args.scenario))
     print("\n".join(diag))
     print("\n".join(warnings))
+    if dropped:
+        print("Out of perimeter, share taken but not written: {}".format(", ".join(dropped)))
     print("Written: {}".format(path))
     for y in (years[0], years[-1]):
         tot_e = sum(rows[(z, "Energy")][y] for z in order)

@@ -41,7 +41,7 @@
       ],
       "note": "Sixteen months later than the V5.1 books, hence takes precedence over them for UZB. Format .xlsb, read through pyxlsb.\n"
     },
-    "gabarit_2026": {
+    "template_2026": {
       "name": "2026 template, CASA CENTRAL ASIA DATA REQUEST",
       "date": 2026,
       "access": "internal_wb",
@@ -145,7 +145,7 @@
       ],
       "note": "Hourly solar and wind profiles by coordinates. Already used by pre-analysis/pipelines/vre_pipeline.py.\n"
     },
-    "demande_tso": {
+    "tso_request": {
       "name": "Direct request to the transmission system operators",
       "date": 2026,
       "access": "internal_wb",
@@ -175,7 +175,7 @@
         "UZB"
       ]
     },
-    "equipe": {
+    "team": {
       "name": "Modelling team decision",
       "date": 2026,
       "access": "internal_wb",
@@ -189,7 +189,7 @@
         "UZB"
       ]
     },
-    "hypothese": {
+    "assumed": {
       "name": "NO SOURCE - assumption made",
       "date": 2026,
       "access": "assumption",
@@ -204,7 +204,7 @@
       ],
       "note": "To be made explicit in the methodology note: every value carried here is to be justified or replaced.\n"
     },
-    "courriels_equipe": {
+    "team_emails": {
       "name": "CASA team emails",
       "date": "2026-08",
       "access": "internal_wb",
@@ -229,7 +229,7 @@
       "work": "EXTEND",
       "priority": "P1",
       "source": [
-        "equipe"
+        "team"
       ],
       "confidence": "high",
       "what": "horizon 2017-2030\n",
@@ -348,7 +348,7 @@
       "priority": "P2",
       "source": [
         "deca_v51",
-        "gabarit_2026"
+        "template_2026"
       ],
       "confidence": "low",
       "sheet": "Demand Profile (8760h) + Demand Evolution\n",
@@ -375,7 +375,7 @@
       "sheet": "Demand Evolution + Demand Profile\n",
       "vintage": "2023-2060",
       "what": "demand trajectory by zone, energy GWh and peak MW\n",
-      "note": "Filled by extract_demand.py, DeCA Reference scenario. Demand Evolution covers 2023-2060 BY COUNTRY: no extrapolation is needed for Central Asia. The intra- country split comes from the 8760 h profiles and stays constant over time, DeCA giving no regional trajectory. The zonal peak is NON COINCIDENT, as required by generate_demand.gms which multiplies it by the normalised profile of the zone: the own peak is therefore rescaled by the growth of the country peak, through the observed coincidence factor (KG 1.03, KZ 1.02, TJ 1.07, TM and UZ 1.00). Three deliberate departures, all documented in mappings/zones_demand.csv: the Tajik split is REVERSED with respect to the 2020 model (North 27.7 % against 74.9 %), the Kyrgyz split too (North 63.9 % against 93.2 %), and Western Kazakhstan is attached to KAZ_N for want of a third zone. The peak block of the TJ book was in GW under a MW label: corrected by a generic guard, a peak not being allowed to fall below the average power. AFG and PAK have no 2026 source: carried over from the 2020 pDemandData and extended at their own rate, LOW confidence.\n",
+      "note": "Filled by extract_demand.py, DeCA Reference scenario. Demand Evolution covers 2023-2060 BY COUNTRY: no extrapolation is needed for Central Asia. The intra- country split comes from the 8760 h profiles and stays constant over time, DeCA giving no regional trajectory. The zonal peak is NON COINCIDENT, as required by generate_demand.gms which multiplies it by the normalised profile of the zone: the own peak is therefore rescaled by the growth of the country peak, through the observed coincidence factor (KG 1.03, KZ 1.02, TJ 1.07, TM and UZ 1.00). Three deliberate departures, all documented in mappings/zones_demand.csv: the Tajik split is REVERSED with respect to the 2020 model (North 27.7 % against 74.9 %), the Kyrgyz split too (North 63.9 % against 93.2 %), and Western Kazakhstan is OUT OF PERIMETER. The West (Atyrau, Mangystau) is a gas island synchronous with Russia, unable to trade with CAPS; the 2020 model folded its load into KAZ_N without its plants, which overstated the tightness of the North. It keeps its 12.9 % share of the national energy so that the North and the South are not inflated by it, and is dropped from the output: the KZ split is KAZ_N 64.4 %, KAZ_S 22.7 %, out of perimeter 12.9 %. Modelled Kazakhstan is North plus South, about 87 % of national consumption, which is what the results must be read against. The peak block of the TJ book was in GW under a MW label: corrected by a generic guard, a peak not being allowed to fall below the average power. AFG and PAK have no 2026 source: carried over from the 2020 pDemandData and extended at their own rate, LOW confidence.\n",
       "todo": "PHASE 9. Add the DeCA Net Zero scenario as a variant. Replace AFG and PAK as soon as a source arrives (NTDC IGCEP first). Review the TAJ and KGZ splits with the TTLs: they change the unserved energy diagnosis of the 2020 model.\n",
       "resource": "pDemandForecast",
       "rows_in": 0,
@@ -433,7 +433,7 @@
       "priority": "P1",
       "source": [
         "deca_v51",
-        "gabarit_2026"
+        "template_2026"
       ],
       "confidence": "low",
       "sheet": "Thermal PP / Expansion / Candidates + HydroPP + Renewable PP\n",
@@ -471,7 +471,7 @@
       "work": "FILL",
       "priority": "P2",
       "source": [
-        "hypothese"
+        "assumed"
       ],
       "what": "default availability (z,tech,fuel)\n",
       "todo": "DeCA does NOT give the forced outage rates of the thermal fleet, and the GenAvailability sheet of the template is empty.\n",
@@ -574,7 +574,7 @@
       "priority": "P3",
       "source": [
         "deca_v51",
-        "hypothese"
+        "assumed"
       ],
       "sheet": "PP Candidates\n",
       "what": "storage (batteries, pumped hydro)\n",
@@ -618,7 +618,7 @@
       "priority": "P1",
       "source": [
         "deca_v51",
-        "demande_tso"
+        "tso_request"
       ],
       "confidence": "low",
       "sheet": "TJ > Exchanges ; KZ > Exchanges with non CA countries\n",
@@ -759,7 +759,7 @@
       "work": "DECIDE",
       "priority": "P2",
       "source": [
-        "hypothese"
+        "assumed"
       ],
       "what": "prices at the external borders\n",
       "todo": "No source. To be built consistently and owned as an assumption.\n",
@@ -891,7 +891,7 @@
       "work": "REVISE",
       "priority": "P2",
       "source": [
-        "hypothese"
+        "assumed"
       ],
       "vintage": "2020",
       "what": "reserve margin, 15 % everywhere\n",
@@ -937,7 +937,7 @@
       "work": "DECIDE",
       "priority": "P3",
       "source": [
-        "hypothese"
+        "assumed"
       ],
       "what": "spinning reserve by country\n",
       "todo": "Disabled in pSettings, and no source.\n",
@@ -952,7 +952,7 @@
       "work": "DECIDE",
       "priority": "P3",
       "source": [
-        "hypothese"
+        "assumed"
       ],
       "what": "system-wide spinning reserve\n",
       "resource": "pSpinningReserveReqSystem",

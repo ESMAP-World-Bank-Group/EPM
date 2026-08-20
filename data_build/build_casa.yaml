@@ -67,7 +67,7 @@ sources:
       Sixteen months later than the V5.1 books, hence takes precedence over them for
       UZB. Format .xlsb, read through pyxlsb.
 
-  gabarit_2026:
+  template_2026:
     name: 2026 template, CASA CENTRAL ASIA DATA REQUEST
     date: 2026
     access: internal_wb
@@ -141,7 +141,7 @@ sources:
       Hourly solar and wind profiles by coordinates. Already used by
       pre-analysis/pipelines/vre_pipeline.py.
 
-  demande_tso:
+  tso_request:
     name: Direct request to the transmission system operators
     date: 2026
     access: internal_wb
@@ -155,13 +155,13 @@ sources:
     where: EPM/pre-analysis/
     covers: [AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB]
 
-  equipe:
+  team:
     name: Modelling team decision
     date: 2026
     access: internal_wb
     covers: [AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB]
 
-  hypothese:
+  assumed:
     name: NO SOURCE - assumption made
     date: 2026
     access: assumption
@@ -170,7 +170,7 @@ sources:
       To be made explicit in the methodology note: every value carried here is to be
       justified or replaced.
 
-  courriels_equipe:
+  team_emails:
     name: CASA team emails
     date: 2026-08
     access: internal_wb
@@ -231,7 +231,7 @@ resources:
     rows: [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2040, 2045, 2050]
     work: EXTEND
     priority: P1
-    source: ["equipe"]
+    source: ["team"]
     confidence: high
     what: >
       horizon 2017-2030
@@ -347,7 +347,7 @@ resources:
     action: empty
     work: REBUILD
     priority: P2
-    source: ["deca_v51", "gabarit_2026"]
+    source: ["deca_v51", "template_2026"]
     confidence: low
     sheet: >
       Demand Profile (8760h) + Demand Evolution
@@ -384,7 +384,14 @@ resources:
       Three deliberate departures, all documented in mappings/zones_demand.csv: the
       Tajik split is REVERSED with respect to the 2020 model (North 27.7 % against
       74.9 %), the Kyrgyz split too (North 63.9 % against 93.2 %), and Western
-      Kazakhstan is attached to KAZ_N for want of a third zone. The peak block of the
+      Kazakhstan is OUT OF PERIMETER. The West (Atyrau, Mangystau) is a gas island
+      synchronous with Russia, unable to trade with CAPS; the 2020 model folded its
+      load into KAZ_N without its plants, which overstated the tightness of the North.
+      It keeps its 12.9 % share of the national energy so that the North and the South
+      are not inflated by it, and is dropped from the output: the KZ split is KAZ_N
+      64.4 %, KAZ_S 22.7 %, out of perimeter 12.9 %. Modelled Kazakhstan is North plus
+      South, about 87 % of national consumption, which is what the results must be
+      read against. The peak block of the
       TJ book was in GW under a MW label: corrected by a generic guard, a peak not
       being allowed to fall below the average power. AFG and PAK have no 2026 source:
       carried over from the 2020 pDemandData and extended at their own rate, LOW
@@ -441,7 +448,7 @@ resources:
     action: keep
     work: REPLACE
     priority: P1
-    source: ["deca_v51", "gabarit_2026"]
+    source: ["deca_v51", "template_2026"]
     confidence: low
     sheet: >
       Thermal PP / Expansion / Candidates + HydroPP + Renewable PP
@@ -486,7 +493,7 @@ resources:
     action: keep
     work: FILL
     priority: P2
-    source: ["hypothese"]
+    source: ["assumed"]
     what: >
       default availability (z,tech,fuel)
     todo: >
@@ -577,7 +584,7 @@ resources:
     action: keep
     work: DECIDE
     priority: P3
-    source: ["deca_v51", "hypothese"]
+    source: ["deca_v51", "assumed"]
     sheet: >
       PP Candidates
     what: >
@@ -619,7 +626,7 @@ resources:
     value: Q5
     work: REVISE
     priority: P1
-    source: ["deca_v51", "demande_tso"]
+    source: ["deca_v51", "tso_request"]
     confidence: low
     sheet: >
       TJ > Exchanges ; KZ > Exchanges with non CA countries
@@ -747,7 +754,7 @@ resources:
     action: keep
     work: DECIDE
     priority: P2
-    source: ["hypothese"]
+    source: ["assumed"]
     what: >
       prices at the external borders
     todo: >
@@ -868,7 +875,7 @@ resources:
     action: keep
     work: REVISE
     priority: P2
-    source: ["hypothese"]
+    source: ["assumed"]
     vintage: "2020"
     what: >
       reserve margin, 15 % everywhere
@@ -915,7 +922,7 @@ resources:
     action: keep
     work: DECIDE
     priority: P3
-    source: ["hypothese"]
+    source: ["assumed"]
     what: >
       spinning reserve by country
     todo: >
@@ -927,7 +934,7 @@ resources:
     action: keep
     work: DECIDE
     priority: P3
-    source: ["hypothese"]
+    source: ["assumed"]
     what: >
       system-wide spinning reserve
 
