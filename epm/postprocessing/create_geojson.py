@@ -60,7 +60,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # Importing utility functions for data processing using the package path
-from epm.postprocessing.maps import get_json_data, create_zonemap
+from epm.geodata.zone_geometry import get_json_data, create_zonemap
 from epm.postprocessing.utils import log_warning, log_info
 
 
