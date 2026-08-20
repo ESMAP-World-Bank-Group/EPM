@@ -3,12 +3,39 @@ EPM Dashboard — Data loader
 Scans output/ and input/ directories, reads CSVs with caching.
 """
 
+import importlib.util
 from pathlib import Path
 from functools import lru_cache
 from typing import Optional
 import pandas as pd
 
 from config import OUTPUT_ROOT, INPUT_ROOT, CSV, INPUT_CSV
+
+# GAMS writes EPS/UNDF/NA/INF into output CSVs as text. Read naively, one of
+# them makes pandas infer object dtype and every sum concatenates strings; read
+# with pd.to_numeric alone, EPS becomes NaN and a stored zero silently vanishes
+# from the charts. epm/gams_values.py holds the one correct translation, shared
+# with the post-processing pipeline that produced these files.
+#
+# It is loaded by path rather than imported: putting epm/ on sys.path would
+# expose epm/epm.py as a top-level module named `epm` and shadow the package.
+_GAMS_VALUES_PATH = Path(__file__).resolve().parents[1] / "epm" / "gams_values.py"
+_spec = importlib.util.spec_from_file_location("epm_gams_values", _GAMS_VALUES_PATH)
+if _spec is None or _spec.loader is None:
+    raise ImportError(f"cannot load GAMS value handling from {_GAMS_VALUES_PATH}")
+_gams_values = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_gams_values)
+coerce_value_column = _gams_values.coerce_value_column
+
+# Coercion warnings are emitted once per file: load_merged runs on every Dash
+# callback and would otherwise repeat the same message on each interaction.
+_warned: set[str] = set()
+
+
+def _warn_once(message: str) -> None:
+    if message not in _warned:
+        _warned.add(message)
+        print(message)
 
 
 # ---------------------------------------------------------------------------
@@ -48,7 +75,9 @@ def _load_csv(path: str) -> pd.DataFrame:
     p = Path(path)
     if not p.exists():
         return pd.DataFrame()
-    return pd.read_csv(p, comment="#")
+    return coerce_value_column(
+        pd.read_csv(p, comment="#"), source=p.name, log_func=_warn_once
+    )
 
 
 def load_output(run: str, scenario: str, key: str) -> pd.DataFrame:
@@ -341,7 +370,9 @@ def _load_input_csv(path: str) -> pd.DataFrame:
     if not p.exists():
         return pd.DataFrame()
     try:
-        return pd.read_csv(p, comment="#")
+        return coerce_value_column(
+            pd.read_csv(p, comment="#"), source=p.name, log_func=_warn_once
+        )
     except Exception:
         return pd.DataFrame()
 
@@ -733,9 +764,10 @@ def load_merged(run: str, filename: str,
         p = run_path / sc / "output_csv" / filename
         if p.exists():
             try:
-                df = pd.read_csv(p, low_memory=False)
-                if "value" in df.columns:
-                    df["value"] = pd.to_numeric(df["value"], errors="coerce")
+                df = coerce_value_column(
+                    pd.read_csv(p, low_memory=False),
+                    source=f"{sc}/{filename}", log_func=_warn_once,
+                )
                 df["scenario"] = sc
                 dfs.append(df)
             except Exception:
@@ -865,8 +897,9 @@ def load_phours_merged(run: str) -> dict:
             p = OUTPUT_ROOT / run / sc / "output_csv" / "pHours.csv"
         if p.exists():
             try:
-                df = pd.read_csv(p)
-                df["value"] = pd.to_numeric(df["value"], errors="coerce")
+                df = coerce_value_column(
+                    pd.read_csv(p), source=p.name, log_func=_warn_once
+                )
                 unique_qd = df.groupby(["q", "d"])["value"].first()
                 total = unique_qd.sum()
                 if total > 0:

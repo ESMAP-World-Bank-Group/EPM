@@ -17,11 +17,20 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
   more importantly, held wrong numbers. `EPS` maps to `0` (a stored zero, not a
   missing value). Runs affected before this fix must be regenerated —
   `pDiscountedWeightedCostsCumulated` values were incorrect, not merely bulky.
+- Dashboard: the same translation now applies when the dashboard reads output
+  CSVs. It previously used `pd.to_numeric(errors='coerce')`, which avoided the
+  string concatenation but mapped `EPS` to `NaN` — and `load_yearly_zone` drops
+  `NaN` rows, so stored zeros disappeared from the charts instead of showing as
+  zero.
 
 ### Added
+- `epm/gams_values.py`: single definition of GAMS special-value handling
+  (`GAMS_SPECIAL_VALUES`, `coerce_value_column`, `read_output_csv`), shared by
+  `epm/output_treatment.py` and `dashboard/data_loader.py`. Duplicating this
+  logic is how the bug came back the first time, so it lives in one place.
 - `tools/test_output_treatment.py`: regression tests for the above, including a
-  guard that fails if a new unprotected `pd.read_csv` is added to
-  `epm/output_treatment.py`.
+  guard that fails if an unprotected `pd.read_csv` is added to any of the
+  guarded modules (post-processing or dashboard).
 - `tools/audit_postprocessing_sync.py`: reports which branches carry the
   post-processing fixes, so drift between study branches stays visible.
 

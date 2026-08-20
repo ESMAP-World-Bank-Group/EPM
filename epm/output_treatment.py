@@ -49,6 +49,26 @@ import os
 import pandas as pd
 from typing import Callable, Dict, List, Optional, Tuple
 
+# GAMS special-value handling lives in its own module so that the dashboard
+# reads output CSVs exactly the way the pipeline writes them. Keep it a single
+# definition: a second copy is how this bug came back the first time.
+try:
+    # flat import - GAMS embedded Python, epm.py, and the module's own CLI all
+    # run with the epm/ directory on sys.path
+    from gams_values import (
+        GAMS_SPECIAL_VALUES,
+        _default_log,
+        coerce_value_column,
+        read_output_csv,
+    )
+except ImportError:  # imported as epm.output_treatment
+    from epm.gams_values import (
+        GAMS_SPECIAL_VALUES,
+        _default_log,
+        coerce_value_column,
+        read_output_csv,
+    )
+
 
 # =============================================================================
 # CONFIGURATION
@@ -272,98 +292,6 @@ ESSENTIAL_FILES = [
 # =============================================================================
 # HELPER FUNCTIONS
 # =============================================================================
-
-def _default_log(message: str) -> None:
-    """Default logging function that prints to stdout."""
-    print(message)
-
-
-# GAMS exports special values as text (EPS, UNDF, +INF, ...). A single one left in
-# a value column makes pandas infer 'object' dtype, and arithmetic on strings then
-# concatenates instead of adding: a cumsum over years becomes a growing text blob
-# rather than a running total. Translate them at read time so no downstream
-# aggregation is ever handed a string column.
-GAMS_SPECIAL_VALUES = {
-    'EPS': 0.0,           # stored zero - a meaningful zero, not a missing value
-    'UNDF': float('nan'),
-    'NA': float('nan'),
-    'INF': float('inf'),
-    '+INF': float('inf'),
-    '-INF': float('-inf'),
-}
-
-
-def coerce_value_column(
-    df: pd.DataFrame,
-    value_col: str = 'value',
-    source: str = '',
-    log_func: Callable[[str], None] = _default_log
-) -> pd.DataFrame:
-    """
-    Force `value_col` to a numeric dtype, translating GAMS special values.
-
-    Unrecognised non-numeric tokens become NaN and are reported, so a malformed
-    export surfaces as a warning instead of silently corrupting later arithmetic.
-    Returns the frame unchanged when there is no value column or it is already
-    numeric.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Frame to coerce (modified in place and returned)
-    value_col : str
-        Name of the numeric column (default: 'value')
-    source : str
-        File name used in log messages
-    log_func : callable
-        Logging function (default: print)
-    """
-    if value_col not in df.columns or pd.api.types.is_numeric_dtype(df[value_col]):
-        return df
-
-    numeric = pd.to_numeric(df[value_col], errors='coerce')
-    unparsed = numeric.isna() & df[value_col].notna()
-
-    if unparsed.any():
-        tokens = df[value_col][unparsed].astype(str).str.strip().str.upper()
-        numeric.loc[unparsed] = tokens.map(GAMS_SPECIAL_VALUES)
-
-        counts = tokens.value_counts()
-        known = {t: n for t, n in counts.items() if t in GAMS_SPECIAL_VALUES}
-        unknown = {t: n for t, n in counts.items() if t not in GAMS_SPECIAL_VALUES}
-        label = f"{source}: " if source else ""
-
-        if known:
-            detail = ', '.join(f"{t}={n}" for t, n in known.items())
-            log_func(f"[output_treatment]   {label}translated GAMS special values "
-                     f"in '{value_col}' ({detail})")
-        if unknown:
-            detail = ', '.join(f"{t}={n}" for t, n in list(unknown.items())[:5])
-            log_func(f"[output_treatment]   {label}WARNING - {sum(unknown.values())} "
-                     f"non-numeric value(s) in '{value_col}' set to NaN ({detail})")
-
-    df[value_col] = numeric
-    return df
-
-
-def read_output_csv(
-    path: str,
-    value_col: str = 'value',
-    log_func: Callable[[str], None] = _default_log,
-    **kwargs
-) -> pd.DataFrame:
-    """
-    Read an EPM output CSV with `value_col` guaranteed numeric.
-
-    Every output CSV read in this module goes through here, so that merges,
-    cumulative sums and group aggregations downstream can rely on the value
-    column being a real numeric dtype.
-    """
-    df = pd.read_csv(path, **kwargs)
-    return coerce_value_column(
-        df, value_col=value_col, source=os.path.basename(path), log_func=log_func
-    )
-
 
 # Preferred column order for merged files
 COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
