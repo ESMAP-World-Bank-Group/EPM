@@ -366,6 +366,12 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
+# Reference polygons and the loader that assembles them. Defined in
+# epm/geodata/zone_geometry.py so that the layer builder can use them without
+# importing this module, and re-exported here for existing callers.
+from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
+
+
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
