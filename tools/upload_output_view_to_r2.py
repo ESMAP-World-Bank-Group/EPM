@@ -1,10 +1,10 @@
 """
-Upload des RESULTATS choisis (epm/output_view/) vers le data store, en LISIBLE
-pour EPM View. Arrive sous {branch}/epm/output/...  (l'app lit "output").
+Upload the selected RESULTS (epm/output_view/) to the data store, in a READABLE
+form for EPM View. Lands under {branch}/epm/output/...  (the app reads "output").
 
-On n'envoie QUE les .csv (les gros .gdx/logs sont ignores).
+ONLY .csv files are sent (the large .gdx/logs are ignored).
 
-Variables d'env (via publish.ps1 -> tools/.env) :
+Env variables (via publish.ps1 -> tools/.env):
   EPM_REPO, EPM_BRANCH, STORE_ENDPOINT, STORE_BUCKET + AWS_* (s3fs)
 """
 import os
@@ -21,14 +21,14 @@ LOCAL  = Path(EPM_REPO) / "epm" / "output_view"
 PREFIX = f"{BRANCH}/epm/output"
 
 if not LOCAL.is_dir():
-    print("  (pas de epm/output_view -> rien a publier cote resultats)")
+    print("  (no epm/output_view -> nothing to publish on the results side)")
     raise SystemExit(0)
 
 fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": endpoint})
 
 files = [p for p in LOCAL.rglob("*.csv") if p.is_file()]
 if not files:
-    print("  (output_view vide -> rien a publier)")
+    print("  (output_view empty -> nothing to publish)")
     raise SystemExit(0)
 
 print(f"  {len(files)} csv -> s3://{bucket}/{PREFIX}/")

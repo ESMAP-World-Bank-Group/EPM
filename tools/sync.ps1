@@ -1,6 +1,6 @@
-# sync.ps1 — recupere code + donnees (lance par Sync.bat sur Windows).
-#   git pull   (code + pointeurs)
-#   dvc pull   (donnees depuis le store)
+# sync.ps1 - gets the latest code + data (launched by Sync.bat on Windows).
+#   git pull   (code + pointers)
+#   dvc pull   (data from the store)
 $ErrorActionPreference = "Stop"
 $TOOLS = $PSScriptRoot
 $REPO  = Split-Path $TOOLS -Parent
@@ -17,4 +17,4 @@ Write-Host "[1/2] git pull ..." -ForegroundColor Cyan
 git pull
 Write-Host "[2/2] dvc pull ..." -ForegroundColor Cyan
 dvc pull
-Write-Host "OK - code + donnees a jour." -ForegroundColor Green
+Write-Host "OK - code + data up to date." -ForegroundColor Green
