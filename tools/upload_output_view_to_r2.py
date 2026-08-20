@@ -88,6 +88,16 @@ for p in files:
     fs.put_file(str(p), f"{bucket}/{PREFIX}/{rel}")
 print(f"  OK ({len(files)} csv)")
 
+# A run now draws its own map and writes the pair next to input_scenarios.csv,
+# so EPM View reads the layers from the run folder before falling back to the
+# input one. Send them too -- they are small, and without them the fallback is
+# the only thing left and it shows the zoning of whatever the input folder
+# happens to ship rather than the one the run solved.
+layers = [p for p in LOCAL.glob("*/*.geojson") if p.is_file()]
+for p in layers:
+    fs.put_file(str(p), f"{bucket}/{PREFIX}/{p.relative_to(LOCAL).as_posix()}")
+print(f"  OK ({len(layers)} map layer(s))")
+
 # --- manifest des runs (R2 public ne liste pas les dossiers -> EPM View lit ce json) ---
 runs = sorted({
     p.relative_to(LOCAL).parts[0]
