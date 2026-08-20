@@ -47,156 +47,77 @@ from .utils import *
 from .plots import subplot_pie, make_fuel_dispatchplot
 
 
-_GEOJSON_HEADER = "Geojson,EPM,region,country,division"
+# Required CSV format for zone-to-GeoJSON mapping
+# The geometry of the zones themselves is not post-processing: it reads no model
+# result. It lives in epm/geodata/zone_geometry.py, which the standalone layer
+# builder also uses, and is re-exported here so existing callers keep working.
+from epm.geodata.zone_geometry import (  # noqa: F401
+    create_zonemap,
+    divide,
+    get_json_data,
+    load_zone_map,
+    read_geojson_mapping,
+)
+
+_read_geojson_mapping = read_geojson_mapping
 
 
-def _read_geojson_mapping(path):
+
+def create_zone_map_context(epm_results, dict_specs):
     """
-    Read a GeoJSON-to-EPM mapping CSV while normalizing repeated header rows.
+    Create a validated ZoneMapContext from model results.
 
-    Some exported CSVs append the header again without a newline, causing pandas
-    to fail when parsing. This helper inserts the missing newline and removes
-    duplicate header rows so that `pd.read_csv` can succeed.
-    """
-    with open(path, encoding='utf-8-sig') as fp:
-        raw_text = fp.read()
-
-    if _GEOJSON_HEADER not in raw_text:
-        return pd.read_csv(path)
-
-    pattern = r'(?<=.)(?<![\r\n])' + re.escape(_GEOJSON_HEADER)
-    normalized_text = re.sub(pattern, '\n' + _GEOJSON_HEADER, raw_text)
-
-    clean_lines = []
-    header_seen = False
-    for line in normalized_text.splitlines():
-        if line.strip() == _GEOJSON_HEADER:
-            if header_seen:
-                continue
-            header_seen = True
-        clean_lines.append(line)
-
-    clean_text = "\n".join(clean_lines)
-    if not clean_text.endswith("\n"):
-        clean_text += "\n"
-
-    return pd.read_csv(io.StringIO(clean_text))
-
-
-def create_zonemap(zone_map, map_geojson_to_epm):
-    """
-    Convert zone map to the correct coordinate reference system (CRS) and extract centroids.
-
-    This function ensures that the provided `zone_map` is in EPSG:4326 (latitude/longitude),
-    extracts the centroid coordinates of each zone, and maps them to the EPM zone names.
-
-    Parameters
-    ----------
-    zone_map : gpd.GeoDataFrame
-        A GeoDataFrame containing zone geometries and attributes.
-    map_geojson_to_epm : dict
-        Dictionary mapping GeoJSON zone names to EPM zone names.
-
-    Returns
-    -------
-    tuple
-        - zone_map (gpd.GeoDataFrame): The zone map converted to EPSG:4326.
-        - centers (dict): Dictionary mapping EPM zone names to their centroid coordinates [longitude, latitude].
-    """
-    if zone_map.crs is not None and zone_map.crs.to_epsg() != 4326:
-        zone_map = zone_map.to_crs(epsg=4326)  # Convert to EPSG:4326 for folium
-
-    # Get the coordinates of the centers of the zones
-    centers = {
-        row['ADMIN']: [row.geometry.centroid.x, row.geometry.centroid.y]
-        for _, row in zone_map.iterrows()
-    }
-
-    centers = {map_geojson_to_epm[c]: v for c, v in centers.items() if c in map_geojson_to_epm}
-
-    return zone_map, centers
-
-
-def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
-                  zone_map=None, zones_custom=None):
-    """
-    Extract and process zone map data, handling divisions for sub-national regions.
-
-    This function retrieves the zone map, identifies zones that need to be divided
-    (e.g., North-South or East-West split), applies the `divide` function, and
-    returns a processed GeoDataFrame ready for visualization.
+    Uses pZoneCountry as the single source of truth for which zones to include.
+    This function centralizes all zone validation logic to ensure consistent
+    handling across all map generation functions.
 
     Parameters
     ----------
     epm_results : dict
-        Dictionary containing EPM results, including transmission capacity data.
+        Dictionary containing EPM results, must include 'pZoneCountry'.
     dict_specs : dict
-        Dictionary with mapping specifications, including:
-        - `geojson_to_epm`: Mapping from GeoJSON names to EPM zone names.
-        - `map_zones`: GeoDataFrame of all countries.
+        Dictionary with mapping specifications from read_plot_specs().
 
     Returns
     -------
-    tuple
-        - zone_map (gpd.GeoDataFrame): Processed zone map including divided regions.
-        - geojson_to_epm (dict): Updated mapping of GeoJSON names to EPM zones.
+    ZoneMapContext
+        A validated context object containing:
+        - model_zones: zones from pZoneCountry (source of truth)
+        - zones_with_geometry: zones that have GeoJSON boundaries
+        - zones_mapped: successfully mapped zones
+        - zones_missing_geometry: zones that cannot be visualized
+        - zone_map: filtered GeoDataFrame
+        - centers: zone centroid coordinates
+        - geojson_to_epm: mapping dictionary
     """
-    # If neither dict_specs nor geojson_to_epm is provided, load default specs
-    if dict_specs is None:
-        dict_specs = read_plot_specs()
-    if geojson_to_epm is None:
-        geojson_to_epm = dict_specs['geojson_to_epm']
-    else:
-        if not os.path.exists(geojson_to_epm):
-            raise FileNotFoundError(f"GeoJSON to EPM mapping file not found: {os.path.abspath(geojson_to_epm)}")
-        geojson_to_epm = _read_geojson_mapping(geojson_to_epm)
-    epm_to_geojson = {v: k for k, v in
-                      geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
-    geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
-    geojson_complete = geojson_to_epm.loc[~geojson_to_epm.region.notna()]
-    if selected_zones is None:
-        selected_zones_epm = geojson_to_epm['EPM'].unique()
-    else:
-        selected_zones_epm = selected_zones
-    selected_zones_to_divide = [e for e in selected_zones_epm if e in geojson_to_divide['EPM'].values]
-    selected_countries_geojson = [
-        epm_to_geojson[key] for key in selected_zones_epm if
-        ((key not in selected_zones_to_divide) and (key in epm_to_geojson))
-    ]
+    # Source of truth: zones from the actual model run
+    model_zones = list(epm_results['pZoneCountry']['zone'].unique())
 
-    if zone_map is None and zones_custom is None:
-        zone_map = dict_specs['map_zones']  # getting json data on all countries
-    else:
-        # Reading a map explicitly must still pick up the hand-drawn zones, or a
-        # standalone regeneration would silently drop every zone that has no
-        # admin polygon.
-        zone_map = load_zone_map(zone_map, zones_custom)
+    # Get zone geometries filtered to model zones only
+    zone_map, geojson_to_epm = get_json_data(
+        selected_zones=model_zones,
+        dict_specs=dict_specs
+    )
 
-    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
+    # Extract centroids (create_zonemap also does validation)
+    zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
-    if geo_add is not None:
-        zone_map_add = gpd.read_file(geo_add)
-        zone_map = pd.concat([zone_map, zone_map_add])
+    # Compute diagnostic sets
+    zones_with_geometry = list(centers.keys())
+    zones_missing_geometry = [z for z in model_zones if z not in centers]
+    zones_mapped = [z for z in model_zones if z in centers]
 
-    divided_parts = []
-    for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
-        # Apply division function
-        divided_parts.append(divide(dict_specs['map_zones'], country, division))
+    return ZoneMapContext(
+        model_zones=model_zones,
+        zones_with_geometry=zones_with_geometry,
+        zones_mapped=zones_mapped,
+        zones_missing_geometry=zones_missing_geometry,
+        zone_map=zone_map,
+        centers=centers,
+        geojson_to_epm=geojson_to_epm
+    )
 
-    if divided_parts:
-        zone_map_divide = pd.concat(divided_parts)
 
-        zone_map_divide = \
-        geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
-            ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
-        zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
-        # Convert zone_map_divide back to a GeoDataFrame
-        zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
-
-        # Ensure final zone_map is in EPSG:4326
-        zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
-    geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
-    return zone_map, geojson_to_epm
 
 
 def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):
@@ -208,179 +129,10 @@ def get_value(df, zone, year, scenario, attribute, column_to_select='attribute')
     return value.values[0] if not value.empty else 0
 
 
-def divide(geodf, country, division):
-    """
-    Divide a country's geometry into two or more subzones using North-South (NS), East-West (EW), or
-    three-way splits.
-
-    This function overlays the country geometry with a dividing polygon and extracts
-    the two subregions.
-
-    Parameters
-    ----------
-    geodf : gpd.GeoDataFrame
-        GeoDataFrame containing geometries of all countries.
-    country : str
-        Name of the country to divide.
-    division : str
-        Type of division:
-        - 'NS' (North-South) splits along the latitude midpoint.
-        - 'EW' (East-West) splits along the longitude midpoint.
-        - 'NSE' (North-South-East) splits into three quadrants.
-        - 'NCS' (North-Center-South) splits into three horizontal bands.
-        - 'NCSE' (North West, North East, Central, South) splits into four regions.
-
-    Returns
-    -------
-    gpd.GeoDataFrame
-        GeoDataFrame containing the divided subregions with the correct CRS.
-    """
-    # Get the country geometry
-    crs = geodf.crs
-    country_geometry = geodf.loc[geodf['ADMIN'] == country, 'geometry'].values[0]
-
-    # Get bounds
-    minx, miny, maxx, maxy = country_geometry.bounds
-
-    if division == 'NS':
-        median_latitude = (miny + maxy) / 2
-        south_polygon = Polygon([(minx, miny), (minx, median_latitude), (maxx, median_latitude), (maxx, miny)])
-        north_polygon = Polygon([(minx, median_latitude), (minx, maxy), (maxx, maxy), (maxx, median_latitude)])
-
-        # Convert to GeoDataFrame with the correct CRS
-        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
-        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
-
-        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
-        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
-        south_part = south_part.to_crs(crs)
-        north_part = north_part.to_crs(crs)
-        south_part['region'] = 'south'
-        north_part['region'] = 'north'
-
-        return pd.concat([south_part, north_part])
-
-    elif division == 'EW':
-        median_longitude = (minx + maxx) / 2
-        west_polygon = Polygon([(minx, miny), (minx, maxy), (median_longitude, maxy), (median_longitude, miny)])
-        east_polygon = Polygon([(median_longitude, miny), (median_longitude, maxy), (maxx, maxy), (maxx, miny)])
-
-        # Convert to GeoDataFrame with the correct CRS
-        west_gdf = gpd.GeoDataFrame(geometry=[west_polygon], crs=crs)
-        east_gdf = gpd.GeoDataFrame(geometry=[east_polygon], crs=crs)
-
-        west_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country],west_gdf, how='intersection')
-        east_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], east_gdf, how='intersection')
-        west_part['region'] = 'west'
-        east_part['region'] = 'east'
-        
-        return pd.concat([west_part, east_part])
-
-    elif division == 'NCS':
-        third_latitude = (maxy - miny) / 3
-        south_limit = miny + third_latitude
-        north_limit = maxy - third_latitude
-
-        south_polygon = Polygon([(minx, miny), (minx, south_limit), (maxx, south_limit), (maxx, miny)])
-        center_polygon = Polygon([(minx, south_limit), (minx, north_limit), (maxx, north_limit), (maxx, south_limit)])
-        north_polygon = Polygon([(minx, north_limit), (minx, maxy), (maxx, maxy), (maxx, north_limit)])
-
-        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
-        center_gdf = gpd.GeoDataFrame(geometry=[center_polygon], crs=crs)
-        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
-
-        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
-        center_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], center_gdf, how='intersection')
-        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
-
-        south_part['region'] = 'south'
-        center_part['region'] = 'center'
-        north_part['region'] = 'north'
-
-        return pd.concat([north_part, center_part, south_part])
-
-    elif division == 'NSE':
-        median_latitude = (miny + maxy) / 2
-        median_longitude = (minx + maxx) / 2
-        north_polygon = Polygon([(minx, median_latitude), (minx, maxy), (median_longitude, maxy), (median_longitude, median_latitude)])
-        south_polygon = Polygon([(minx, miny), (minx, median_latitude), (median_longitude, median_latitude), (median_longitude, miny)])
-        east_polygon = Polygon([(median_longitude, miny), (median_longitude, median_latitude), (maxx, median_latitude), (maxx, miny)])
-        west_polygon = Polygon([(minx, median_latitude), (minx, maxy), (median_longitude, maxy), (median_longitude, median_latitude)])
-        # Convert to GeoDataFrame with the correct CRS
-        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
-        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs= crs)
-        east_gdf = gpd.GeoDataFrame(geometry=[east_polygon], crs= crs)
-        west_gdf = gpd.GeoDataFrame(geometry=[west_polygon], crs= crs)
-        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
-        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
-        east_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], east_gdf, how='intersection')
-        west_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], west_gdf, how='intersection')
-        north_part['region'] = 'north'
-        south_part['region'] = 'south'
-        east_part['region'] = 'east'
-        west_part['region'] = 'west'
-
-        return pd.concat([east_part, north_part, south_part])
-
-    elif division == 'NCSE':
-        # Divide into 4 regions: NW, NE, Central, South
-        # South: bottom 1/3, Central: middle 1/3, North: split left-right
-        median_longitude = (minx + maxx) / 2
-        third_latitude = (maxy - miny) / 3
-        
-        south_limit = miny + third_latitude
-        central_limit = south_limit + third_latitude
-        
-        # Define the four regions
-        south_polygon = Polygon([(minx, miny), (minx, south_limit), (maxx, south_limit), (maxx, miny)])
-        central_polygon = Polygon([(minx, south_limit), (minx, central_limit), (maxx, central_limit), (maxx, south_limit)])
-        nw_polygon = Polygon([(minx, central_limit), (minx, maxy), (median_longitude, maxy), (median_longitude, central_limit)])
-        ne_polygon = Polygon([(median_longitude, central_limit), (median_longitude, maxy), (maxx, maxy), (maxx, central_limit)])
-        
-        # Convert to GeoDataFrames with the correct CRS
-        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
-        central_gdf = gpd.GeoDataFrame(geometry=[central_polygon], crs=crs)
-        nw_gdf = gpd.GeoDataFrame(geometry=[nw_polygon], crs=crs)
-        ne_gdf = gpd.GeoDataFrame(geometry=[ne_polygon], crs=crs)
-        
-        # Perform overlay operations
-        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
-        central_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], central_gdf, how='intersection')
-        nw_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], nw_gdf, how='intersection')
-        ne_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], ne_gdf, how='intersection')
-        
-        # Assign region labels
-        south_part['region'] = 'south'
-        central_part['region'] = 'center'
-        nw_part['region'] = 'northwest'
-        ne_part['region'] = 'northeast'
-        
-        return pd.concat([nw_part, ne_part, central_part, south_part])
-    
-    elif division == 'SWNE':
-        # Divide into 2 regions: SW and NE
-        # Use the diagonal line to create two polygons
-        # Create a polygon for the SW region
-        sw_polygon = Polygon([(minx, miny), (minx, maxy), (maxx, miny)])
-        # Create a polygon for the NE region
-        ne_polygon = Polygon([(minx, maxy),(maxx, maxy), (maxx, miny)])
-        # Convert to GeoDataFrames with the correct CRS
-        sw_gdf = gpd.GeoDataFrame(geometry=[sw_polygon], crs=crs)
-        ne_gdf = gpd.GeoDataFrame(geometry=[ne_polygon], crs=crs)
-        sw_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], sw_gdf, how='intersection')
-        ne_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], ne_gdf, how='intersection')
-        sw_part['region'] = 'southwest'
-        ne_part['region'] = 'northeast'
-
-        return pd.concat([sw_part, ne_part])
-       
-
-    else:
-        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', 'NCS','SWNE' or 'NCSE'.")
 
 
 def plot_zone_map_on_ax(ax, zone_map):
-    zone_map.plot(ax=ax, color='white', edgecolor='black')
+    zone_map.plot(ax=ax, color='white', edgecolor='none')
 
     # Adjusting the limits to better center the zone_map on the region
     ax.set_xlim(zone_map.bounds.minx.min() - 1, zone_map.bounds.maxx.max() + 1)
@@ -442,15 +194,15 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
-            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:  # plot_colored_countries is a list of countries
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map['color'] = zone_map['ADMIN'].apply(
             lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
         )
-        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='none')
 
     handles, labels = [], []
     # Plot pie charts for each zone
@@ -465,7 +217,10 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -558,7 +313,10 @@ def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, yea
             continue
 
         # Get map coordinates
-        coordinates = centers.get(zone, (0, 0))
+        coordinates = centers.get(zone)
+        if coordinates is None:
+            log_warning(f"Zone '{zone}' has no map geometry - skipping pie chart")
+            continue
         loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
 
         # Pie chart positioning and size
@@ -701,7 +459,7 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.show()
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
     df1 = pCapacityTechFuel.copy()
@@ -725,7 +483,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
     df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
     df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
 
-    df_price = pPrice.copy()
+    df_price = pHourlyPrice.copy()
 
     dfs_to_plot_area = {
         'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
@@ -746,8 +504,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
         'pNetExchange': net_exchange,
     }
 
-    seasons = pDispatchPlant.season.unique()
-    days = pDispatchPlant.day.unique()
+    seasons = pDispatchPlant['season'].unique()
+    days = pDispatchPlant['day'].unique()
 
     select_time = {'season': seasons, 'day': days}
 
@@ -888,23 +646,23 @@ def make_complete_dispatch_plot_for_interactive(pDispatchTechFuel, pDispatch, di
     dispatch_seasons = list(pDispatchTechFuel['season'].unique())
     n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
-    # Filtrer les données de production
+    # Filter the generation data
     pDispatchTechFuel_zone = pDispatchTechFuel.loc[
         (pDispatchTechFuel['zone'] == zone) & (pDispatchTechFuel['year'] == year) & (pDispatchTechFuel['scenario'] == scenario)
     ]
 
-    # Exclure les stockages si nécessaire
+    # Exclude storage if required
     if not BESS_included:
         pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
         pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Pumped-Hydro']
     y_max_dispatch = float(pDispatchTechFuel_zone['value'].max())
 
-    # Mise en forme pour le stacked area plot
+    # Reshape for the stacked area plot
     pDispatchTechFuel_pivot = pDispatchTechFuel_zone.pivot_table(index=['season', 'day', 't'],
                                                           columns='fuel', values='value', aggfunc='sum')
 
-    # Récupérer la demande
+    # Retrieve the demand
     pDemand_zone = pDispatch.loc[
         (pDispatch['zone'] == zone) & (pDispatch['year'] == year) & (pDispatch['scenario'] == scenario) & (pDispatch['attribute'] == 'Demand')
     ]
@@ -912,18 +670,18 @@ def make_complete_dispatch_plot_for_interactive(pDispatchTechFuel, pDispatch, di
 
     pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
 
-    # Extraire les saisons et jours représentatifs
+    # Extract the seasons and representative days
     dispatch_seasons = list(pDispatchTechFuel['season'].unique())
     n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
-    # Créer le graphique
+    # Create the figure
     fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
 
-    # Tracer la production en stacked area
+    # Plot generation as a stacked area
     if not pDispatchTechFuel_pivot.empty:
         pDispatchTechFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchTechFuel_pivot.columns])
 
-    # Tracer la demande
+    # Plot the demand
     if not pDemand_pivot.empty:
         pDemand_pivot.plot(ax=ax, linewidth=1.5, color='darkred', linestyle='-', label='Demand')
 
@@ -1064,9 +822,9 @@ def _plot_interconnection_map_on_axis(
     if isinstance(plot_colored_countries, bool):
         if plot_colored_countries:
             zone_map_plot = zone_map.assign(color=zone_map['ADMIN'].map(predefined_colors))
-            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
         else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
+            zone_map.plot(ax=ax, color='white', edgecolor='none')
     else:
         assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
         zone_map_plot = zone_map.assign(
@@ -1074,7 +832,7 @@ def _plot_interconnection_map_on_axis(
                 lambda c: predefined_colors.get(c, 'white') if c in plot_colored_countries else 'white'
             )
         )
-        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='none')
 
     ax.set_aspect('equal')
     ax.set_axis_off()
@@ -1112,10 +870,14 @@ def _plot_interconnection_map_on_axis(
     if transmission_data.empty:
         return
 
+    # Track skipped lines for reporting
+    skipped_lines = []
+
     for _, row in transmission_data.iterrows():
         zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
 
         if zone_from not in centers or zone_to not in centers:
+            skipped_lines.append((zone_from, zone_to))
             continue
 
         coord_from, coord_to = centers[zone_from], centers[zone_to]
@@ -1215,6 +977,14 @@ def _plot_interconnection_map_on_axis(
                     fontweight='bold',
                     color='black'
                 )
+
+    # Report skipped transmission lines at end of function
+    if skipped_lines:
+        unique_skipped = list(set(skipped_lines))
+        log_warning(
+            f"Skipped {len(unique_skipped)} transmission lines - zones without map geometry:\n"
+            f"  {unique_skipped[:5]}{'...' if len(unique_skipped) > 5 else ''}"
+        )
 
 
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
@@ -1547,7 +1317,7 @@ def get_extended_pastel_palette(n):
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
+                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pHourlyPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -1571,7 +1341,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
     # Add country zones
     folium.GeoJson(zone_map, style_function=lambda feature: {
-        'fillColor': '#ffffff', 'color': '#000000', 'weight': 1, 'fillOpacity': 0.3
+        'fillColor': '#ffffff', 'color': 'none', 'weight': 0, 'fillOpacity': 0.3
     }).add_to(energy_map)
 
     # Plotting transmission information
@@ -1612,6 +1382,17 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
                     tooltip=tooltip_text
                 ).add_to(energy_map)
 
+    # Track zones with data but no coordinates
+    zones_in_data = set(energy_data['zone'].unique())
+    zones_in_centers = set(centers.keys())
+    missing_zones = zones_in_data - zones_in_centers
+
+    if missing_zones:
+        log_warning(
+            f"Interactive map: {len(missing_zones)} zones have data but no map geometry:\n"
+            f"  {list(missing_zones)}"
+        )
+
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
         if zone in energy_data['zone'].unique():
@@ -1626,7 +1407,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
             # Generate and embed capacity mix and dispatch plots
             popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch,
-                                                pDispatchPlant, pPrice, scale_factor=0.8)
+                                                pDispatchPlant, pHourlyPrice, scale_factor=0.8)
 
             folium.Marker(
                 location=coords,
@@ -1668,7 +1449,6 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
  
     if selected_scenarios is None:
         selected_scenarios = list(epm_results['pTransmissionCapacity'].scenario.unique())
-        print(selected_scenarios)
 
     years = epm_results['pTransmissionCapacity']['year'].unique()
 
@@ -1679,19 +1459,31 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
 
     # One figure per scenario
     for selected_scenario in selected_scenarios:
-        log_info(f'Generating map for scenario {selected_scenario}')
+        log_info(f'  Scenario: {selected_scenario}')
         # Select first and last years
         #years = [min(years), max(years)]
-        years = [y for y in [2025, 2030, 2035, 2040, 2045] if y in years]
+        years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
-            zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
-            zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+            # Create validated zone context (pZoneCountry is source of truth)
+            ctx = create_zone_map_context(epm_results, dict_specs)
+            ctx.log_diagnostics()
+
+            if not ctx.is_valid:
+                log_warning(f"Skipping map generation for scenario {selected_scenario} - no zones have map geometry.")
+                continue
+
+            # Use context values
+            zone_map = ctx.zone_map
+            centers = ctx.centers
 
         except Exception as e:
             log_error(
-                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
-            raise  # Re-raise the exception for debuggings
+                f"Error creating zone map for scenario {selected_scenario}:\n"
+                f"  {str(e)}\n"
+                f"  - Check geojson_to_epm.csv mappings match your model zone names."
+            )
+            raise  # Re-raise the exception for debugging
 
         capa_transmission = epm_results['pTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
@@ -1703,12 +1495,15 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
+        # Validate transmission zones using context
+        ctx.validate_transmission_zones(transmission_data)
+
         figure_name = 'TransmissionCapacityMapEvolution'
         if _is_enabled(figure_name):
             title = f'Evolution Transmission Capacity [MW] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
-            selected_years = [2025, 2030, 2035, 2040, 2045]
+            selected_years = [2025, 2035, 2040]
             df = transmission_data[
                     (transmission_data['scenario'] == selected_scenario) &
                     (transmission_data['year'].isin(selected_years))
@@ -1717,14 +1512,14 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
             make_interconnection_map_faceted(zone_map, df, centers, title=title, column='capacity',
                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                     min_display_value=50, filename=filename, subplotcolumn='year', col_wrap=3)
-            log_info(f'Saved transmission capacity map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         figure_name = 'TransmissionUtilizationMapEvolution'
         if _is_enabled(figure_name):
             title = f'Evolution Transmission Utilization [%] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
-            selected_years = [2025, 2035, 2040, 2045]
+            selected_years = [2025, 2035, 2040]
             df = transmission_data[
                     (transmission_data['scenario'] == selected_scenario) &
                     (transmission_data['year'].isin(selected_years))
@@ -1735,7 +1530,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                     min_display_value=10, filename=filename, subplotcolumn='year', col_wrap=3,
                                     format_y=lambda y, _: '{:.0f} %'.format(y), show_arrows=True, arrow_offset_ratio=0.4,
                                     arrow_size=25)
-            log_info(f'Saved transmission utilization map: {filename}')
+            log_info(f'    Saved {os.path.basename(filename)}')
         
         
         
@@ -1757,7 +1552,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                             min_display_value=50, filename=filename)
-                    log_info(f'Saved transmission capacity map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
                 figure_name = 'TransmissionUtilizationMap'
                 if _is_enabled(figure_name):
@@ -1770,7 +1565,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                                             format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
                                             title=title, show_arrows=True, arrow_offset_ratio=0.4,
                                             arrow_size=25, plot_colored_countries=True)
-                    log_info(f'Saved transmission utilization map: {filename}')
+                    log_info(f'    Saved {os.path.basename(filename)}')
              
                 figure_name = 'NetExportsMap'
                 if _is_enabled(figure_name):
@@ -1793,14 +1588,12 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                     df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                     make_interconnection_map(zone_map, df_net, centers, filename=filename,
-                                            title=title,
+                                            title=title, column='value',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
-                                            plot_colored_countries=True,
-                                            min_display_value=100, column='value', plot_lines=False,
-                                            format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
-                                            min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
-                                            color_col='congestion')
-                    log_info(f'Saved net exports map: {filename}')
+                                            plot_colored_countries=True, min_display_value=100,
+                                            format_y=lambda y, _: '{:.0f} GWh'.format(y),
+                                            show_arrows=True, arrow_offset_ratio=0.4, arrow_size=25)
+                    log_info(f'    Saved {os.path.basename(filename)}')
 
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     
@@ -1818,5 +1611,5 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
                         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
-                        log_info(f'Saved interactive map: {filename}')
+                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pHourlyPrice'])
+                        log_info(f'    Saved {os.path.basename(filename)}')

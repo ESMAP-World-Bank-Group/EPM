@@ -244,27 +244,10 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
-ZONES_CUSTOM = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
-
-
-def load_zone_map(zone_map=None, zones_custom=None):
-    """Admin-0 polygons plus the hand-drawn zones that no admin area can supply.
-
-    A zone such as an industrial off-taker (Mozal) or a sub-national market
-    (Trakia) matches no entry of the admin polygon file, so it is drawn from an
-    overlay whose features carry the same ADMIN/ISO_A3 columns and therefore
-    resolve through `geojson_to_epm.csv` like any country.
-
-    The overlay is appended here rather than at each call site, so that the
-    standalone regeneration of the map layers and the plotting pipeline always
-    see the same map. `zones_custom` lets a data folder override the shared
-    overlay with its own.
-    """
-    zones = gpd.read_file(zone_map or GEOJSON)
-    overlay = zones_custom or ZONES_CUSTOM
-    if os.path.exists(overlay):
-        zones = pd.concat([zones, gpd.read_file(overlay)], ignore_index=True)
-    return zones
+# Reference polygons and the loader that assembles them. Defined in
+# epm/geodata/zone_geometry.py so that the layer builder can use them without
+# importing this module, and re-exported here for existing callers.
+from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
 
 
 def read_plot_specs():
