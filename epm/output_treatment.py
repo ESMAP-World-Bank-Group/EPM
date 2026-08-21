@@ -277,6 +277,93 @@ def _default_log(message: str) -> None:
     print(message)
 
 
+# GAMS exports special values as text (EPS, UNDF, +INF, ...). A single one left in
+# a value column makes pandas infer 'object' dtype, and arithmetic on strings then
+# concatenates instead of adding: a cumsum over years becomes a growing text blob
+# rather than a running total. Translate them at read time so no downstream
+# aggregation is ever handed a string column.
+GAMS_SPECIAL_VALUES = {
+    'EPS': 0.0,           # stored zero - a meaningful zero, not a missing value
+    'UNDF': float('nan'),
+    'NA': float('nan'),
+    'INF': float('inf'),
+    '+INF': float('inf'),
+    '-INF': float('-inf'),
+}
+
+
+def coerce_value_column(
+    df: pd.DataFrame,
+    value_col: str = 'value',
+    source: str = '',
+    log_func: Callable[[str], None] = _default_log
+) -> pd.DataFrame:
+    """
+    Force `value_col` to a numeric dtype, translating GAMS special values.
+
+    Unrecognised non-numeric tokens become NaN and are reported, so a malformed
+    export surfaces as a warning instead of silently corrupting later arithmetic.
+    Returns the frame unchanged when there is no value column or it is already
+    numeric.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Frame to coerce (modified in place and returned)
+    value_col : str
+        Name of the numeric column (default: 'value')
+    source : str
+        File name used in log messages
+    log_func : callable
+        Logging function (default: print)
+    """
+    if value_col not in df.columns or pd.api.types.is_numeric_dtype(df[value_col]):
+        return df
+
+    numeric = pd.to_numeric(df[value_col], errors='coerce')
+    unparsed = numeric.isna() & df[value_col].notna()
+
+    if unparsed.any():
+        tokens = df[value_col][unparsed].astype(str).str.strip().str.upper()
+        numeric.loc[unparsed] = tokens.map(GAMS_SPECIAL_VALUES)
+
+        counts = tokens.value_counts()
+        known = {t: n for t, n in counts.items() if t in GAMS_SPECIAL_VALUES}
+        unknown = {t: n for t, n in counts.items() if t not in GAMS_SPECIAL_VALUES}
+        label = f"{source}: " if source else ""
+
+        if known:
+            detail = ', '.join(f"{t}={n}" for t, n in known.items())
+            log_func(f"[output_treatment]   {label}translated GAMS special values "
+                     f"in '{value_col}' ({detail})")
+        if unknown:
+            detail = ', '.join(f"{t}={n}" for t, n in list(unknown.items())[:5])
+            log_func(f"[output_treatment]   {label}WARNING - {sum(unknown.values())} "
+                     f"non-numeric value(s) in '{value_col}' set to NaN ({detail})")
+
+    df[value_col] = numeric
+    return df
+
+
+def read_output_csv(
+    path: str,
+    value_col: str = 'value',
+    log_func: Callable[[str], None] = _default_log,
+    **kwargs
+) -> pd.DataFrame:
+    """
+    Read an EPM output CSV with `value_col` guaranteed numeric.
+
+    Every output CSV read in this module goes through here, so that merges,
+    cumulative sums and group aggregations downstream can rely on the value
+    column being a real numeric dtype.
+    """
+    df = pd.read_csv(path, **kwargs)
+    return coerce_value_column(
+        df, value_col=value_col, source=os.path.basename(path), log_func=log_func
+    )
+
+
 # Preferred column order for merged files
 COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
 
@@ -345,7 +432,7 @@ def merge_csv_files_wide(
         if not os.path.exists(csv_path):
             continue
 
-        df = pd.read_csv(csv_path)
+        df = read_output_csv(csv_path, log_func=log_func)
         if df.empty:
             continue
 
@@ -474,7 +561,7 @@ def merge_csv_files_long(
         if not os.path.exists(csv_path):
             continue
 
-        df = pd.read_csv(csv_path)
+        df = read_output_csv(csv_path, log_func=log_func)
 
         if normalize_cost_component_cols:
             if 'sumhdr' in df.columns:
@@ -557,7 +644,7 @@ def rename_columns(
         log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, log_func=log_func)
     original_cols = list(df.columns)
     df.rename(columns=column_map, inplace=True)
     df.to_csv(output_path, index=False)
@@ -604,7 +691,7 @@ def calculate_cumulative(
         log_func(f"[output_treatment]   {input_name}: WARNING - file not found")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, value_col=value_col, log_func=log_func)
 
     
     # Identify grouping columns (all columns except year and value)
@@ -614,7 +701,7 @@ def calculate_cumulative(
     df = df.sort_values(by=group_cols + [year_col])
     
     # Calculate cumulative sum within each group
-    df[value_col] = df.groupby(group_cols)[value_col].fillna(0).cumsum()
+    df[value_col] = df.groupby(group_cols)[value_col].cumsum()
 
     # Save to output file
     df.to_csv(output_path, index=False)
@@ -669,7 +756,7 @@ def fill_techfuel_combinations(
         log_func(f"[output_treatment]   {file_name}: WARNING - no techfuel pairs provided")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, value_col=value_col, log_func=log_func)
     original_rows = len(df)
 
     # Identify other dimension columns (e.g., zone, year)
@@ -760,7 +847,7 @@ def fill_cost_components(
         log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, value_col=value_col, log_func=log_func)
     original_rows = len(df)
 
     # Identify other dimension columns (e.g., zone, country, year)
@@ -837,7 +924,7 @@ def add_techfuel_column_to_dispatch(
         log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, log_func=log_func)
 
     # Check if file already has tech and fuel columns
     if tech_col not in df.columns:
@@ -930,8 +1017,8 @@ def create_dispatch_complete(
         return False
 
     # Read dispatch files
-    df_dispatch = pd.read_csv(dispatch_path)
-    df_dispatch_techfuel = pd.read_csv(dispatch_techfuel_path)
+    df_dispatch = read_output_csv(dispatch_path, log_func=log_func)
+    df_dispatch_techfuel = read_output_csv(dispatch_techfuel_path, log_func=log_func)
 
     log_func(f"[output_treatment]     - {dispatch_name}: {len(df_dispatch)} rows, columns: {list(df_dispatch.columns)}")
     log_func(f"[output_treatment]     - {dispatch_techfuel_name}: {len(df_dispatch_techfuel)} rows, columns: {list(df_dispatch_techfuel.columns)}")
@@ -1033,7 +1120,7 @@ def aggregate_plant_to_techfuel(
         log_func(f"[output_treatment]   {input_name}: WARNING - no generator techfuel mapping provided")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, value_col=value_col, log_func=log_func)
 
     if generator_col not in df.columns:
         log_func(f"[output_treatment]   {input_name}: WARNING - column '{generator_col}' not found")
@@ -1087,7 +1174,7 @@ def add_total_to_yearly_zone_merged(
     if not os.path.exists(input_file_path):
         return False
     
-    df = pd.read_csv(input_file_path)
+    df = read_output_csv(input_file_path, log_func=log_func)
     
     # Check for required columns
     if 'value' not in df.columns or 'z' not in df.columns or 'y' not in df.columns:
@@ -1101,7 +1188,7 @@ def add_total_to_yearly_zone_merged(
     
     # Append to pYearlyZoneMerged or create it if it doesn't exist
     if os.path.exists(yearly_zone_merged_path):
-        df_zone_merged = pd.read_csv(yearly_zone_merged_path)
+        df_zone_merged = read_output_csv(yearly_zone_merged_path, log_func=log_func)
         df_zone_merged = pd.concat([df_zone_merged, df_total], ignore_index=True)
         df_zone_merged = _reorder_columns(df_zone_merged)
         df_zone_merged.to_csv(yearly_zone_merged_path, index=False)
@@ -1152,7 +1239,7 @@ def add_country_to_zone_file(
         log_func(f"[output_treatment]   {file_name}: WARNING - no zone-country mapping provided")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, log_func=log_func)
 
     # Skip if no zone column
     if zone_col not in df.columns:
@@ -1221,7 +1308,7 @@ def create_summary_csv(
             log_func(f"[output_treatment]   {file_name}: not found, skipping")
             continue
 
-        df = pd.read_csv(csv_path)
+        df = read_output_csv(csv_path, log_func=log_func)
         if df.empty:
             continue
 
@@ -1355,7 +1442,7 @@ def restructure_and_sort_csv(
     if not os.path.exists(input_path):
         return False
     
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, log_func=log_func)
     if df.empty:
         return False
     
@@ -1534,7 +1621,7 @@ def merge_plant_with_generator_techfuel(
         log_func(f"[output_treatment]   {file_name}: WARNING - no generator techfuel mapping provided")
         return False
 
-    df = pd.read_csv(input_path)
+    df = read_output_csv(input_path, log_func=log_func)
 
     if generator_col not in df.columns:
         log_func(f"[output_treatment]   {file_name}: WARNING - column '{generator_col}' not found")
@@ -1760,7 +1847,7 @@ def run_output_treatment(
     # Add techfuel column to pPlantMerged (if tech and f columns exist)
     plant_merged_path = os.path.join(output_dir, 'pPlantMerged.csv')
     if os.path.exists(plant_merged_path):
-        df_plant_merged = pd.read_csv(plant_merged_path)
+        df_plant_merged = read_output_csv(plant_merged_path, log_func=log_func)
         if 'tech' in df_plant_merged.columns and 'f' in df_plant_merged.columns:
             if 'techfuel' not in df_plant_merged.columns:
                 if techfuel_mapping:
@@ -1794,7 +1881,7 @@ def run_output_treatment(
     # - Drop isExternal column (not needed in merged output)
     transmission_merged_path = os.path.join(output_dir, 'pTransmissionMerged.csv')
     if os.path.exists(transmission_merged_path):
-        df_trans = pd.read_csv(transmission_merged_path)
+        df_trans = read_output_csv(transmission_merged_path, log_func=log_func)
         # If both z2 and uni exist, merge them into uni
         if 'z2' in df_trans.columns and 'uni' in df_trans.columns:
             df_trans['uni'] = df_trans['uni'].fillna(df_trans['z2'])

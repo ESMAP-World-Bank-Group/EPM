@@ -60,264 +60,74 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # Importing utility functions for data processing using the package path
-from epm.postprocessing.maps import get_json_data, create_zonemap
+from epm.geodata import recipe, zone_layers
+from epm.geodata.zone_geometry import get_json_data, create_zonemap
 from epm.postprocessing.utils import log_warning, log_info
-from epm.postprocessing import geojson_freshness as freshness
 
-
-def _load_custom_zones(custom_zones, selected_zones):
-    """Hand-drawn geometries for zones that no admin-0 polygon can supply.
-
-    Zones such as an industrial off-taker (Mozal) exist in zcmap but match no
-    entry of the admin polygon file, so they can only be drawn from a
-    hand-maintained overlay. Returns a GeoDataFrame restricted to the zones this
-    model actually uses, or None.
-    """
-    if custom_zones is None or not os.path.exists(custom_zones):
-        return None
-    gdf = gpd.read_file(custom_zones)
-    if 'z' not in gdf.columns:
-        log_warning(f"Custom zones file has no 'z' column, ignored: {custom_zones}")
-        return None
-    gdf = gdf[gdf['z'].isin(selected_zones)].copy()
-    return gdf if len(gdf) else None
-
-
-def _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col,
-                     custom_gdf=None):
-    """Build polygon GeoDataFrame with z, ISO_A3, c, geometry columns for EPM View."""
-    zones = zone_map_gdf.copy()
-    zones['z'] = zones['ADMIN'].map(geojson_to_epm_dict)
-    zones = zones[zones['z'].notna()].copy()
-    if custom_gdf is not None:
-        # Custom geometries win: they describe a zone the admin polygons cannot.
-        zones = zones[~zones['z'].isin(custom_gdf['z'])]
-        keep = ['z', 'geometry'] + [c for c in ('ISO_A3',) if c in custom_gdf.columns]
-        zones = pd.concat([zones, custom_gdf[keep]], ignore_index=True)
-    zcmap_lookup = zcmap_df.set_index(zone_col)[country_col]
-    zones['c'] = zones['z'].map(zcmap_lookup)
-    if 'ISO_A3' not in zones.columns:
-        zones['ISO_A3'] = None
-    return gpd.GeoDataFrame(
-        zones[['z', 'ISO_A3', 'c', 'geometry']].reset_index(drop=True),
-        geometry='geometry',
-        crs=zone_map_gdf.crs
-    )
+# Historical name for the module that resolves and fingerprints the sources.
+freshness = recipe
 
 
 def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
                                zone_map=None, output_path=None, dict_specs=None,
                                output_stem=None, custom_zones=None, stamp_sources=None):
-    """
-    Generate linestring and zones GeoJSON files for selected EPM zones.
+    """Generate the linestring and zones GeoJSON layers for a set of EPM zones.
 
-    Produces two files:
-    - linestring_{output_stem}.geojson (or linestring_countries.geojson by default):
-      LineString geometries connecting zone centroids, for Tableau / NTC visualization.
-    - zones_{output_stem}.geojson (or zones.geojson by default):
-      Polygon geometries per EPM zone, for MapLibre GL fill layers.
+    Kept for the callers that already use it -- post-processing, and the
+    per-model rebuild scripts under tools/. The layers themselves are cut by
+    `epm.geodata.zone_layers`, which is also what `python -m
+    epm.geodata.zone_layers` runs, so a layer built during a run and one built
+    on demand come out of the same code.
 
     Parameters
     ----------
-    geojson_to_epm : str or dict
-        Either a filename (within ../output/{folder}/) of the CSV mapping GeoJSON zone names to EPM zone
-        identifiers, OR a dict mapping GeoJSON names to EPM zone names (for pipeline integration).
-
-    zcmap : str or pd.DataFrame
-        Either a filename (within ../output/{folder}/) of the CSV mapping EPM zone names to countries,
-        OR a DataFrame with columns ['zone', 'country'] (for pipeline integration).
-
+    geojson_to_epm : str or None
+        Path to the admin-area-to-zone mapping CSV. None falls back to the
+        mapping that applies to `output_path`.
+    zcmap : str or pandas.DataFrame
+        Path to a zcmap, or a frame with zone/country (or z/c) columns.
     selected_zones : list of str
-        List of EPM zone identifiers to include in the visualization (e.g., ['ETH_North', 'KEN', 'TZA']).
-
-    folder : str, optional
-        Name of the output folder where processed data and the GeoJSON file should be saved.
-        Used when geojson_to_epm and zcmap are filenames. Default is 'tableau'.
-
-    zone_map : str, optional
-        User-specific geojson file path (default: None, uses built-in zones.geojson).
-
-    output_path : str, optional
-        If provided, use this exact path for output instead of constructing from folder.
-        Useful for pipeline integration.
-
-    dict_specs : dict, optional
-        If provided, use for loading zone data via get_json_data (for pipeline integration).
-
-    output_stem : str, optional
-        Stem for output file names. If provided, outputs are named
-        'linestring_{output_stem}.geojson' and 'zones_{output_stem}.geojson'.
-        Defaults to 'linestring_countries' and 'zones' respectively.
-
-    custom_zones : str, optional
-        Path to a GeoJSON of hand-drawn zone geometries (features carrying a 'z'
-        property). Used for zones that match no admin-0 polygon, and merged on
-        top of the derived ones.
-
-    stamp_sources : dict, optional
-        Fingerprint of the source files, as returned by
-        `geojson_freshness.source_fingerprint`. When given, it is written into
-        both outputs as an `epm_source` member so staleness becomes detectable.
+        The zones to draw.
+    folder, zone_map, output_path, dict_specs, output_stem, custom_zones,
+    stamp_sources
+        As before: `output_path` is where the pair is written, `output_stem`
+        names it, `dict_specs` lets a run pass the polygons it already holds,
+        and `stamp_sources` the fingerprint to record in `epm_source`.
 
     Returns
     -------
-    result_df : geopandas.GeoDataFrame
-        A GeoDataFrame containing pairwise LineStrings between selected zones.
+    geopandas.GeoDataFrame
+        The linestring layer.
     """
+    out_dir = Path(output_path) if output_path else Path('..') / 'output' / folder
 
-    # Handle geojson_to_epm: either a file path (str) or already loaded path for dict_specs
-    if isinstance(geojson_to_epm, str):
-        # Check if it's an absolute path or just a filename
-        if os.path.isabs(geojson_to_epm) or os.path.exists(geojson_to_epm):
-            geojson_to_epm_path = geojson_to_epm
-        else:
-            geojson_to_epm_path = os.path.join('..', 'output', folder, geojson_to_epm)
-    else:
-        geojson_to_epm_path = None
-
-    # Handle zone_map parameter
-    if zone_map is not None and isinstance(zone_map, str):
-        if not os.path.isabs(zone_map) and not os.path.exists(zone_map):
-            zone_map = os.path.join('..', 'output', folder, zone_map)
-
-    # Load zone map and geojson_to_epm mapping
-    if dict_specs is not None:
-        # Pipeline mode: use dict_specs for loading
-        zone_map_gdf, geojson_to_epm_dict = get_json_data(
-            selected_zones=selected_zones,
-            dict_specs=dict_specs
-        )
-    else:
-        # Standalone mode: use default resources or custom file path if provided
-        if geojson_to_epm_path is not None and os.path.exists(geojson_to_epm_path):
-            zone_map_gdf, geojson_to_epm_dict = get_json_data(
-                selected_zones=selected_zones,
-                geojson_to_epm=geojson_to_epm_path,
-                zone_map=zone_map
-            )
-        else:
-            # Use default resources from read_plot_specs()
-            zone_map_gdf, geojson_to_epm_dict = get_json_data(
-                selected_zones=selected_zones,
-                zone_map=zone_map
-            )
-
-    zone_map_gdf, centers = create_zonemap(zone_map_gdf, map_geojson_to_epm=geojson_to_epm_dict)
-
-    # Hand-drawn zones join the derived ones before any diagnostic, so that a
-    # zone covered by the overlay is not reported as missing.
-    custom_gdf = _load_custom_zones(custom_zones, selected_zones)
-    if custom_gdf is not None:
-        if custom_gdf.crs is not None and custom_gdf.crs.to_epsg() != 4326:
-            custom_gdf = custom_gdf.to_crs(epsg=4326)
-        for _, row in custom_gdf.iterrows():
-            centers[row['z']] = [row.geometry.centroid.x, row.geometry.centroid.y]
-        log_info(f"Custom zone geometries merged: {sorted(custom_gdf['z'])}")
-
-    # Zone mapping diagnostics - only warn if there are issues
-    zones_missing_geometry = [z for z in selected_zones if z not in centers]
-    if zones_missing_geometry:
-        log_warning(
-            f"Linestring GeoJSON: {len(zones_missing_geometry)} zones missing map geometry:\n"
-            f"  {zones_missing_geometry}\n"
-            f"  To fix: add a row to the geojson_to_epm.csv that applies to this folder\n"
-            f"  (epm/input/<folder>/geojson_to_epm.csv, else epm/resources/postprocess/geojson_to_epm.csv),\n"
-            f"  or a feature to zones_custom.geojson when the zone matches no admin area."
+    sources = None
+    if dict_specs is None:
+        mapping = Path(geojson_to_epm) if geojson_to_epm else             recipe.resolve_geojson_to_epm(out_dir)
+        sources = zone_layers.Sources(
+            zcmap=zcmap if isinstance(zcmap, (str, Path)) else None,
+            geojson_to_epm=mapping,
+            zones_custom=Path(custom_zones) if custom_zones
+            else recipe.resolve_zones_custom(out_dir),
+            zone_map=Path(zone_map) if zone_map else recipe.SHARED_ZONE_MAP,
+            zones=selected_zones,
+            stem=output_stem,
         )
 
-    # Determine output file names
-    ls_name = f'linestring_{output_stem}.geojson' if output_stem else 'linestring_countries.geojson'
-    zones_name = f'zones_{output_stem}.geojson' if output_stem else 'zones.geojson'
-
-    if output_path is not None:
-        output_file = os.path.join(output_path, ls_name)
-        zones_file = os.path.join(output_path, zones_name)
-    else:
-        output_file = os.path.join('..', 'output', folder, ls_name)
-        zones_file = os.path.join('..', 'output', folder, zones_name)
-
-    if not centers:
-        log_warning(f"No zones have map geometry - creating empty GeoJSON files.")
-        empty_gdf = gpd.GeoDataFrame(geometry=[], crs="EPSG:4326")
-        empty_gdf.to_file(output_file, driver='GeoJSON')
-        empty_gdf.to_file(zones_file, driver='GeoJSON')
-        if stamp_sources:
-            for path in (output_file, zones_file):
-                freshness.stamp(path, stamp_sources, [])
-        return empty_gdf
-
-    # Build GeoDataFrame from centers (already has EPM zone names as keys)
-    countries_shapefile = gpd.GeoDataFrame(
-        {'z': list(centers.keys())},
-        geometry=[Point(coords) for coords in centers.values()],
-        crs="EPSG:4326"
+    zones_gdf, lines_gdf = zone_layers.build(
+        sources=sources,
+        zone_country=zcmap if not isinstance(zcmap, (str, Path)) else None,
+        dict_specs=dict_specs,
+        selected_zones=selected_zones,
+        log=log_warning,
     )
-
-    countries_shapefile = countries_shapefile.reset_index(drop=True)
-
-    # Create pairwise combinations (excluding self) to generate lines between all zones
-    results = []
-    for i, row1 in countries_shapefile.iterrows():
-        for j, row2 in countries_shapefile.iterrows():
-            if i != j:  # exclude self-comparison
-                # Combine the rows as needed
-                combined = {**row1.to_dict(), **{f'{k}_other': v for k, v in row2.to_dict().items()}}
-                results.append(combined)
-
-    result_df = pd.DataFrame(results)
-
-    # Extract coordinates for the starting zone
-    result_df['country_ini_lat'] = result_df['geometry'].apply(lambda x: x.y)
-    result_df['country_ini_lon'] = result_df['geometry'].apply(lambda x: x.x)
-
-    # Create LineString geometries between zone centroids
-    result_df['geometry'] = result_df.apply(
-        lambda row: LineString([row['geometry'], row['geometry_other']]),
-        axis=1
-    )
-    result_df = gpd.GeoDataFrame(result_df, geometry='geometry')
-    result_df.crs = countries_shapefile.crs
-    result_df.drop(columns=['geometry_other'], inplace=True)
-
-    # Compute the centroid of each line (used in Tableau for labeling or tooltips)
-    result_df['centroid'] = result_df['geometry'].centroid
-    result_df['lat_linestring'] = result_df['centroid'].apply(lambda x: x.y)
-    result_df['lon_linestring'] = result_df['centroid'].apply(lambda x: x.x)
-    result_df.drop(columns=['centroid'], inplace=True)
-
-    # Handle zcmap: either a file path (str) or already loaded DataFrame
-    if isinstance(zcmap, str):
-        if os.path.isabs(zcmap) or os.path.exists(zcmap):
-            zcmap_df = pd.read_csv(zcmap)
-        else:
-            zcmap_df = pd.read_csv(os.path.join('..', 'output', folder, zcmap))
-    else:
-        # Already a DataFrame
-        zcmap_df = zcmap.copy()
-
-    # Support both 'z'/'zone' and 'c'/'country' column names
-    zone_col = 'zone' if 'zone' in zcmap_df.columns else 'z'
-    country_col = 'country' if 'country' in zcmap_df.columns else 'c'
-
-    # Build polygon zones GeoDataFrame before zcmap_df index is modified
-    zones_gdf = _build_zones_gdf(zone_map_gdf, geojson_to_epm_dict, zcmap_df, zone_col, country_col,
-                                 custom_gdf=custom_gdf)
-
-    # Add country codes for both zones (start and end)
-    zcmap_df = zcmap_df.set_index(zone_col)
-    result_df = result_df.set_index('z')
-    result_df['c'] = zcmap_df[country_col]
-    result_df = result_df.reset_index().set_index('z_other')
-    result_df['c2'] = zcmap_df[country_col]
-
-    result_df.to_file(output_file, driver='GeoJSON')
-    zones_gdf.to_file(zones_file, driver='GeoJSON')
-    if stamp_sources:
-        for path in (output_file, zones_file):
-            freshness.stamp(path, stamp_sources, sorted(centers))
-    log_info(f"Linestring GeoJSON written: {output_file} ({len(result_df)} lines)")
-    log_info(f"Zones GeoJSON written: {zones_file} ({len(zones_gdf)} zones)")
-    return result_df
+    zone_layers.write(zones_gdf, lines_gdf, out_dir, stem=output_stem,
+                      fingerprint=stamp_sources)
+    zones_name, lines_name = (recipe.output_names(output_stem) if output_stem
+                              else recipe.legacy_names())
+    log_info(f'Linestring GeoJSON written: {out_dir / lines_name} ({len(lines_gdf)} lines)')
+    log_info(f'Zones GeoJSON written: {out_dir / zones_name} ({len(zones_gdf)} zones)')
+    return lines_gdf
 
 
 def regen_zones_from_run(run_folder, dict_specs=None):

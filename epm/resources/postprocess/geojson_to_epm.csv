@@ -1,20 +1,21 @@
-﻿Geojson,EPM,region,country,division
-Angola- North,Angola_North,northwest,Angola,NCSE
-Angola-East,Angola_East,northeast,Angola,NCSE
-Angola-Central,Angola_Central,center,Angola,NCSE
-Angola-South,Angola_South,south,Angola,NCSE
-Democratic Republic of the Congo - North,DRC,north,Democratic Republic of the Congo,NS
-Democratic Republic of the Congo - South,DRC_South,south,Democratic Republic of the Congo,NS
-Namibia,Namibia,,,
-Mozambique - South,Mozambique_South,south,Mozambique,NCS
-Mozambique - Central,Mozambique_Central,center,Mozambique,NCS
-Mozambique - North,Mozambique_North,north,Mozambique,NCS
-South Africa,South_Africa,,,
-Malawi,Malawi,,,
-Zambia,Zambia,,,
-Zimbabwe -East,Zimbabwe_East,northeast,Zimbabwe,SWNE
-Zimbabwe-West,Zimbabwe_West,southwest,Zimbabwe,SWNE
-Botswana,Botswana,,,
-Swaziland,Eswatini,,,
-Lesotho,Lesotho,,,
-United Republic of Tanzania,Tanzania,,,
+﻿epm_zone,source_name,subregion,split
+Angola_North,Angola,northwest,NCSE
+Angola_East,Angola,northeast,NCSE
+Angola_Central,Angola,center,NCSE
+Angola_South,Angola,south,NCSE
+DRC,Democratic Republic of the Congo,north,NS
+DRC_South,Democratic Republic of the Congo,south,NS
+Namibia,Namibia,,
+Mozambique_South,Mozambique,south,NCS
+Mozambique_Central,Mozambique,center,NCS
+Mozambique_North,Mozambique,north,NCS
+South_Africa,South Africa,,
+Malawi,Malawi,,
+Zambia,Zambia,,
+Zimbabwe_East,Zimbabwe,northeast,SWNE
+Zimbabwe_West,Zimbabwe,southwest,SWNE
+Botswana,Botswana,,
+Eswatini,Swaziland,,
+Lesotho,Lesotho,,
+Tanzania,United Republic of Tanzania,,
+Mozal,Mozal,,

@@ -244,6 +244,12 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
+# Reference polygons and the loader that assembles them. Defined in
+# epm/geodata/zone_geometry.py so that the layer builder can use them without
+# importing this module, and re-exported here for existing callers.
+from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
+
+
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
@@ -284,7 +290,7 @@ def read_plot_specs():
     # Merge colors: techfuel colors take precedence, then base colors
     all_colors = {**base_colors, **techfuel_colors}
 
-    zones = gpd.read_file(GEOJSON)
+    zones = load_zone_map()
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
     dict_specs = {
