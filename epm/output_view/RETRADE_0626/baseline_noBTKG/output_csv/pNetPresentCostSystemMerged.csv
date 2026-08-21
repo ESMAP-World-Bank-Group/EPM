@@ -1,47 +1,49 @@
 attribute,uni,value
-NetPresentCostSystem,Carbon costs: $m,69306.69570145584
+NetPresentCostSystem,Carbon costs: $m,61677.35402192826
 NetPresentCostSystem,Excess generation: $m,0.0
 NetPresentCostSystem,Export revenues with external zones: $m,0.0
-NetPresentCostSystem,Export revenues with internal zones: $m,-62015.28365036592
-NetPresentCostSystem,Fixed O&M: $m,48105.30456418129
-NetPresentCostSystem,Fuel costs: $m,9266.131853279803
+NetPresentCostSystem,Export revenues with internal zones: $m,-67417.50921868302
+NetPresentCostSystem,Fixed O&M: $m,47860.99301970786
+NetPresentCostSystem,Fuel costs: $m,6116.24411283358
 NetPresentCostSystem,Generation costs: $m,0.0
 NetPresentCostSystem,Import costs with external zones: $m,0.0
-NetPresentCostSystem,Import costs with internal zones: $m,255709.9116211617
-NetPresentCostSystem,NPV of system cost: $m,294878.141592653
-NetPresentCostSystem,Spinning reserve costs: $m,0.0
+NetPresentCostSystem,Import costs with internal zones: $m,212842.3884982848
+NetPresentCostSystem,Investment costs: $m,39669.88541463961
+NetPresentCostSystem,NPV of system cost: $m,222353.09213261167
+NetPresentCostSystem,Spinning reserve costs: $m,1078.8497989568789
 NetPresentCostSystem,Startup costs: $m,0.0
-NetPresentCostSystem,Trade shared benefits: $m,-193694.627970796
-NetPresentCostSystem,Transmission costs: $m,1350.0553713309228
+NetPresentCostSystem,Trade shared benefits: $m,-145424.8792796018
+NetPresentCostSystem,Transmission costs: $m,1449.0256671292714
 NetPresentCostSystem,Unmet country CO2 backstop cost: $m,0.0
-NetPresentCostSystem,Unmet country planning reserve costs: $m,375.4476301155306
+NetPresentCostSystem,Unmet country planning reserve costs: $m,336.7513047254072
 NetPresentCostSystem,Unmet country spinning reserve costs: $m,0.0
-NetPresentCostSystem,Unmet demand costs: $m,122279.67676594926
+NetPresentCostSystem,Unmet demand costs: $m,59698.589109779765
 NetPresentCostSystem,Unmet system CO2 backstop cost: $m,0.0
 NetPresentCostSystem,Unmet system planning reserve costs: $m,0.0
 NetPresentCostSystem,Unmet system spinning reserve costs: $m,0.0
 NetPresentCostSystem,VRE curtailment: $m,0.0
-NetPresentCostSystem,Variable O&M: $m,4766.5666322927655
-NetPresentCostSystemPerMWh,Carbon costs: $m,17.095445993346924
+NetPresentCostSystem,Variable O&M: $m,4465.399682911114
+NetPresentCostSystemPerMWh,Carbon costs: $m,15.212691690265858
 NetPresentCostSystemPerMWh,Excess generation: $m,0.0
 NetPresentCostSystemPerMWh,Export revenues with external zones: $m,0.0
-NetPresentCostSystemPerMWh,Export revenues with internal zones: $m,-15.296919318931709
-NetPresentCostSystemPerMWh,Fixed O&M: $m,11.865832411242652
-NetPresentCostSystemPerMWh,Fuel costs: $m,2.285618367196937
+NetPresentCostSystemPerMWh,Export revenues with internal zones: $m,-16.628498393508366
+NetPresentCostSystemPerMWh,Fixed O&M: $m,11.80489244950296
+NetPresentCostSystemPerMWh,Fuel costs: $m,1.5085688656141212
 NetPresentCostSystemPerMWh,Generation costs: $m,0.0
 NetPresentCostSystemPerMWh,Import costs with external zones: $m,0.0
-NetPresentCostSystemPerMWh,Import costs with internal zones: $m,63.07435291553308
-NetPresentCostSystemPerMWh,NPV of system cost: $m,72.7357334409728
-NetPresentCostSystemPerMWh,Spinning reserve costs: $m,0.0
+NetPresentCostSystemPerMWh,Import costs with internal zones: $m,52.497479604799786
+NetPresentCostSystemPerMWh,Investment costs: $m,9.784559434675623
+NetPresentCostSystemPerMWh,NPV of system cost: $m,54.84329038804232
+NetPresentCostSystemPerMWh,Spinning reserve costs: $m,0.266097818752102
 NetPresentCostSystemPerMWh,Startup costs: $m,0.0
-NetPresentCostSystemPerMWh,Trade shared benefits: $m,-47.777433596601405
-NetPresentCostSystemPerMWh,Transmission costs: $m,0.3330096530360328
+NetPresentCostSystemPerMWh,Trade shared benefits: $m,-35.86898121129142
+NetPresentCostSystemPerMWh,Transmission costs: $m,0.3574015305112183
 NetPresentCostSystemPerMWh,Unmet country CO2 backstop cost: $m,0.0
-NetPresentCostSystemPerMWh,Unmet country planning reserve costs: $m,0.0926093015834734
+NetPresentCostSystemPerMWh,Unmet country planning reserve costs: $m,0.0830595581850193
 NetPresentCostSystemPerMWh,Unmet country spinning reserve costs: $m,0.0
-NetPresentCostSystemPerMWh,Unmet demand costs: $m,30.161957500338502
+NetPresentCostSystemPerMWh,Unmet demand costs: $m,14.724630212704277
 NetPresentCostSystemPerMWh,Unmet system CO2 backstop cost: $m,0.0
 NetPresentCostSystemPerMWh,Unmet system planning reserve costs: $m,0.0
 NetPresentCostSystemPerMWh,Unmet system spinning reserve costs: $m,0.0
 NetPresentCostSystemPerMWh,VRE curtailment: $m,0.0
-NetPresentCostSystemPerMWh,Variable O&M: $m,1.1757389616013507
+NetPresentCostSystemPerMWh,Variable O&M: $m,1.101388827831138
