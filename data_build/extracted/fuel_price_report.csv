@@ -1,0 +1,26 @@
+c,fuel,basis,first_year,last_year,last_2020_value,ratio_to_2020,note
+AFG,Coal,"2020 model, held flat from 2030",1.8288,1.7442,1.7442,1.05,outside the DeCA perimeter; the 2020 series is held flat past its last year
+AFG,Gas,"2020 model, held flat from 2030",6.9273,6.8366,6.8366,1.01,outside the DeCA perimeter; the 2020 series is held flat past its last year
+AFG,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,outside the DeCA perimeter; the 2020 series is held flat past its last year
+KAZ,Coal,"2020 model, held flat from 2030",0.8583,0.8583,0.8583,1.00,"the DeCA Fuel Prices sheet is headed International Prices and its coal row is one flat 33.53 $/mt for the five countries, the seaborne benchmark and not the price of Ekibastuz coal, which would triple it. The KZ book fills no Local Fuel Costs column, so there is no Kazakh coal price in DeCA at all and the 2020 model is held flat. TOP DATA REQUEST."
+KAZ,Coal_KAZ_S,"2020 model, held flat from 2030",1.2589,1.2589,1.2589,1.00,"same as KAZ Coal, held flat from the 2020 model; the 1.467 delivered north to south ratio it carries is preserved by simply keeping both series"
+KAZ,Gas,DeCA international $/MMBtu,3.3131,5.6880,4.9867,0.66,"molecule only. Transport is genuinely regional in KZ, 0 at Atyrau on the gas fields to 13.3 in Akmola at the end of the pipeline, a spread wider than the commodity itself, so it cannot be averaged into a national price: the model carries only two Kazakh gas plants and each takes its own DeCA transport cost through its VOM, see thermal_plants.csv"
+KAZ,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,DeCA prices no heavy fuel oil; the 2020 series is held flat past its last year
+KAZ,UR,DeCA $/MWh over 9.331 MMBtu/MWh,0.3129,0.3129,0.3842,0.81,DeCA gives 2.92 $/MWh of electricity; converted with the heat rate the model carries for its own uranium units
+KGZ,Coal,"DeCA local adopted, 2.684 $/MMBtu",2.6838,2.6838,4.2802,0.63,"read from what DeCA adopted for its own two Kyrgyz units, 2.706 $/MMBtu at Bishkek and 2.319 at Osh, capacity weighted. Already a delivered price per plant, so the separate transport column is not added on top, and no calorific value is assumed."
+KGZ,Gas,DeCA international $/MMBtu,7.4727,7.5136,4.9867,1.50,"DeCA carries no thermal gas unit in Kyrgyzstan, so there is no transport cost to read"
+KGZ,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,DeCA prices no heavy fuel oil; the 2020 series is held flat past its last year
+PAK,Coal,"2020 model, held flat from 2030",3.2999,3.4629,3.4629,0.95,outside the DeCA perimeter; the 2020 series is held flat past its last year
+PAK,Gas,"2020 model, held flat from 2030",6.9273,6.8366,6.8366,1.01,outside the DeCA perimeter; the 2020 series is held flat past its last year
+PAK,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,outside the DeCA perimeter; the 2020 series is held flat past its last year
+PAK,LNG,"2020 model, held flat from 2030",8.3124,8.2005,8.2005,1.01,outside the DeCA perimeter; the 2020 series is held flat past its last year
+PAK,UR,"2020 model, held flat from 2030",1.1778,1.1778,1.1778,1.00,outside the DeCA perimeter; the 2020 series is held flat past its last year
+TAJ,Coal,"2020 model, held flat from 2030",3.7760,3.7760,3.7760,1.00,"the TJ book fills no Local Fuel Costs column and the international benchmark is not the price of Fon-Yagnob coal, so the 2020 model is held flat. Second data request after Kazakhstan."
+TAJ,Gas,DeCA international $/MMBtu,4.8725,7.0336,4.9867,0.98,DeCA states no transport cost for the single Tajik gas unit
+TAJ,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,DeCA prices no heavy fuel oil; the 2020 series is held flat past its last year
+TUR,Coal,"2020 model, held flat from 2030",1.8288,1.7442,1.7442,1.05,"no coal unit runs in Turkmenistan in this model, the row exists only to keep the table square"
+TUR,Gas,"DeCA international $/MMBtu, transport +0.140",3.2077,6.3741,4.9867,0.64,the DeCA transport adder is a national constant of 0.140 over the seventeen Turkmen gas units
+TUR,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,DeCA prices no heavy fuel oil; the 2020 series is held flat past its last year
+UZB,Coal,"DeCA local adopted, 37.484 $/MWh over an efficiency of 0.313",3.4380,3.4380,1.2024,2.86,"read from what DeCA adopted for its own two Angren units, stated in $/MWh of electricity and converted with the efficiency DeCA gives them. Already a delivered price, and Angren TPP sits on the Angren mine, so the 2.602 transport adder of the Thermal PP column is not used."
+UZB,Gas,"DeCA international $/MMBtu, transport +1.866",6.2307,8.2501,4.9867,1.25,the DeCA transport adder is a national constant of 1.866 over the twenty-two Uzbek gas units
+UZB,HFO,"2020 model, held flat from 2030",9.5350,9.3886,9.3886,1.02,DeCA prices no heavy fuel oil; the 2020 series is held flat past its last year

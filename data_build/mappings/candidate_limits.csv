@@ -1,0 +1,9 @@
+tech,fuel,deca_tech,cap_mw,limit_per_year,note
+PV,Solar,Solar PV,open,deca_max_entry,"How fast solar can actually be connected is the binding constraint on it, not how much of it there is. DeCA states that rate per country in RenewableMaxEntry and it rises after 2030."
+WT,Wind,Wind,open,deca_max_entry,"Same as solar."
+ST,*,,open,keep,"Coal, gas and nuclear steam. Opened everywhere the menu already exists so that no country is silently barred from building."
+CCGT,*,,open,keep,"Combined cycle."
+CHP,*,,open,keep,"Cogeneration."
+GT,*,,open,keep,"Open cycle gas turbine."
+ICE,*,,open,keep,"Reciprocating engines."
+HY,Water,,keep,keep,"Left alone. Every hydro candidate is a named project and its size is the size of that project, not a menu entry. The ones sitting at zero are listed in the manifest as an open question."

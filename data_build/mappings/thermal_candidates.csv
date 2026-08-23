@@ -1,0 +1,12 @@
+tech,fuel,deca_tech,note
+CCGT,Gas,CCGT,"850000 $/MW against 1164000 in the 2020 model, and an efficiency of 0.61738 against 0.570"
+CCGT,LNG,CCGT,"the same machine as the gas CCGT; what the fuel changes is priced in pFuelPrice, not here"
+CHP,Coal,,"DeCA carries CHP-Gas and CHP-Biogas and no coal fired CHP at all, so these keep their 2020 costs. Four rows: the candidates of KAZ_N, TAJ_N and TAJ_S, and the Osh project."
+CHP,Gas,CHP-Gas,"1100000 $/MW against 1358000, and the fixed cost more than doubles, 30500 against 12870"
+GT,Gas,Gas turbine,"480000 $/MW against 776000, and an efficiency of 0.40697 against 0.350"
+GT,LNG,Gas turbine,"the same machine as the gas turbine on gas"
+ICE,HFO,Combustion Engine,"DeCA does not say what its combustion engine burns, and does not need to: 0.47 electrical is a medium speed reciprocating engine, which is the same machine on heavy fuel oil as on gas"
+ST,Coal,Supercritical,"NOT the plain Coal line of DeCA, and this is the judgement of the step. That line states an efficiency of 0.33 at 2500000 $/MW while the Supercritical line of the same table states 0.46137 at 2250000, cheaper to build, cheaper to run and half again as efficient: the plain line is dominated by its own neighbour and no planner would ever pick it. The 2020 model already carried 0.42 here, a supercritical class unit, so this follows the model it replaces as well as the source. Change one word in this column to fall back to the subcritical line."
+ST,Coal_KAZ_S,Supercritical,"the same technology as ST Coal; the separate fuel exists only to carry the delivered coal price of southern Kazakhstan"
+ST,HFO,,"DeCA carries no oil fired steam turbine, a technology nobody is building any more, so the three Pakistani rows keep their 2020 costs"
+ST,UR,Nuclear,"6000000 $/MW over 60 years against 4600000 over 40, which is the largest single move of the step and the one that matters most for the Kazakh nuclear question"

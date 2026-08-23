@@ -1,0 +1,10 @@
+table,key,fuel,basis,note
+country,KGZ,Gas,held_flat,"the KG book carries no Fuel Availability sheet; 37.206 million MMBtu is roughly 1.03 bcm, the Kyrgyz import contract of the 2020 model, held flat to 2050"
+country,PAK,Gas,held_flat,"outside the DeCA perimeter; the domestic gas ceiling of the 2020 model is held flat and wants the NTDC IGCEP to be revised, its own indigenous gas being on a declining path"
+country,PAK,LNG,held_flat,"outside the DeCA perimeter; the LNG terminal capacity of the 2020 model is held flat, and it is a terminal limit rather than a resource one so holding it flat understates any new regasification"
+country,TAJ,Gas,held_flat,"the TJ book carries no Fuel Availability sheet; 100.246 million MMBtu is roughly 2.8 bcm and is generous against a country that burns almost none, so it does not bind"
+country,UZB,Coal,held_flat,"the UZ Fuel Availability sheet does state a coal line but in M m3, a VOLUME: converting it would need a density and a calorific value the book never states, which is exactly the assumption phase 6 removed from the coal prices. Held flat instead."
+zone,KAZ_N,Gas,held_flat,"0.1 million MMBtu is not a limit, it is a statement that northern Kazakhstan has no gas, and it is what forces the coal expansion there. See the todo of pMaxFuellimitZone: the DeCA gas transport table quotes a delivered price in Akmola, so the assumption may be obsolete since the Saryarka pipeline. Kept as it stands, and to be decided rather than drifted."
+zone,PAK_N,Coal,held_flat,"outside the DeCA perimeter; the 2020 railed coal ceiling for the northern zone, held flat"
+zone,PAK_S,Coal,held_flat,"outside the DeCA perimeter; the 2020 imported and Thar coal ramp, held flat from its 2023 plateau"
+zone,UZB,Gas,deca_gas_power,"the ONE row DeCA speaks to: 12.1 bcm of gas available for electricity production, from the Concept Note for ensuring electricity supply in Uzbekistan in 2020-2030, and the book says it holds that limit to 2060. A THIRD BELOW the 667.6 the 2020 model allowed, and it will structure the Uzbek expansion."

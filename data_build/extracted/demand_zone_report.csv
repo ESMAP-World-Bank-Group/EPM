@@ -1,0 +1,17 @@
+z,source,profile_peak_mw,load_factor,peak_uplift
+KAZ_N,hourly,10199,0.801,
+KAZ_S,hourly,4123,0.699,
+KGZ_N,hourly,2104,0.549,
+KGZ_S,hourly,1173,0.555,
+NEPS_AFG,2020 shape,844,0.530,1.352
+NEPS_TAJ,2020 shape,230,0.530,1.352
+NEPS_TKM,2020 shape,95,0.530,1.352
+NEPS_UZB,2020 shape,230,0.530,1.352
+PAK_KAR,2020 shape,2734,0.759,1.000
+PAK_N,2020 shape,12362,0.759,1.000
+PAK_S,2020 shape,7904,0.523,1.484
+TAJ_N,hourly,775,0.715,
+TAJ_S,hourly,2145,0.675,
+TUR,hourly,3555,0.719,
+UZB,hourly,10865,0.806,
+NEPS_HERAT,2020 shape,165,0.530,1.352

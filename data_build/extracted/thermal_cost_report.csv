@@ -1,0 +1,71 @@
+g,book,deca_plant,heatrate_before,heatrate_after,vom_before,vom_after,transport_term,why
+ABADAN _CITY-1_CHP_2023,TM,TMBezmeyinTG,9.7490,9.7486,8.712,8.712,,"2020 value kept, DeCA sits at its own default"
+ABADAN _CITY-2_CCGT_2028,TM,TMCCGT_Akhal,5.9862,6.2036,3.465,3.465,,"2020 value kept, DeCA sits at its own default"
+AKSUSKAYA_ST_2023,KZ,KZ_TPP Aksu Eurasian Energy Corporation,10.3086,8.7688,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+ALMATY-1_CHP_2023,,,11.2300,11.2300,12.870,12.870,,"kept, the mapping says why"
+ALMATY-2_CHP_2023,KZ,KZ_CHP-2 AlES Almaty Electric Stations,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+ALMATY-3_CHP_2023,KZ,KZ_CHP-3 AlES Almaty Electric Stations,11.2300,14.2404,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+ANGREN_ST_2023,UZ,UZAngren__TV,10.8693,11.2982,10.890,9.100,,DeCA states 9.100
+ASTANA-2_CHP_2023,KZ,KZ_CHP-2 Astana-Energia,11.2300,16.4038,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+BISHKEK_CHP_2023,KG,KGBishkek_CO,11.2242,11.2255,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+DUSHANBE-1_CHP_2023,TJ,TJDushamb1CO,11.3738,11.2255,8.712,8.712,,"2020 value kept, DeCA sits at its own default"
+FERGANA_CHP_2023,,,13.4300,13.4300,15.450,15.450,,"kept, the mapping says why"
+KARAGANDA _HPS-2_CHP_2023,KZ,KZ_GRES 2 Karaganda KazakhMys,11.2300,10.3384,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+KARAGANDA _TPS-2_CHP_2023,,,11.2300,11.2300,12.870,12.870,,"kept, the mapping says why"
+KARAGANDA _TPS-3_CHP_2023,KZ,KZ_CHP-3 Karaganda Energo Center,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+KAZ_N_CHP_2023,,,11.2300,11.2300,12.870,12.870,,"kept, the mapping says why"
+KAZ_S_CHP_2023,,,11.2300,11.2300,12.870,12.870,,"kept, the mapping says why"
+MARY_CHP_2023,TM,TMMary_1__TV,9.7490,9.7486,8.712,8.712,,"2020 value kept, DeCA sits at its own default"
+NAVOI_ST_2023,UZ,UZNavoi___TV,11.3738,11.3733,15.450,9.100,,DeCA states 9.100
+PAVLODAR-1_CHP_2023,KZ,KZ_CHP-1 Pavlodar - Aluminium Kazakhstan,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+PAVLODAR-2_CHP_2023,KZ,KZ_CHP-2 PavlodarEnergo,11.2300,15.9186,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+PAVLODAR-3_CHP_2023,KZ,KZ_CHP-3 PavlodarEnergo,11.2300,12.4213,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+PETROPAVLOVSK-2_CHP_2023,KZ,KZ_CHP SevkazEnergo Petropavlovsk,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+SYRDARYA_ST_2023,UZ,UZSyrdarinTV,10.5300,10.2771,15.450,9.100,,DeCA states 9.100
+TAKHIATASH_ST_2023,UZ,UZTakhiataTV,11.1300,11.6448,15.450,3.540,,DeCA states 3.540
+TAKHIATASH_ST_2027,UZ,UZTakhiataTV,11.0069,11.6448,15.450,3.540,,DeCA states 3.540
+TAKHIATASH_ST_2029,UZ,UZTakhiataTV,11.0069,11.6448,15.450,3.540,,DeCA states 3.540
+TCHIMKENT-3_CHP_2023,KZ,KZ_CHP Shymkent,11.2300,6.0929,8.712,39.166,30.454,"2020 value kept, DeCA sits at its own default; transport 4.998 $/MMBtu over 6.093 MMBtu/MWh"
+TURKMENBASHI-1_ST_2024,TM,TMTurkmenbCO,10.3820,9.7486,15.450,15.450,,"2020 value kept, DeCA sits at its own default"
+TURKMENBASHI-1_ST_2026,TM,TMTurkmenbCO,10.3820,9.7486,15.450,15.450,,"2020 value kept, DeCA sits at its own default"
+UST-KAMENOGORSK _TETS_CHP_2023,KZ,KZ_CHP Ust-Kamenogorsk,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+YAVAN_CHP_2023,,,11.3738,11.3738,8.712,8.712,,"kept, the mapping says why"
+ZHAMBYL_ST_2023,KZ,KZ_Zhambyl GRES,10.3820,9.3915,15.450,18.925,3.475,"2020 value kept, DeCA sits at its own default; transport 0.370 $/MMBtu over 9.391 MMBtu/MWh"
+EKIBASTUZ-1_ST_2023,KZ,KZ_Ekibastuz GRES-1,10.3086,10.0313,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+EKIBASTUZ-1_ST_2024,KZ,KZ_Ekibastuz GRES-1,10.3086,10.0313,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+EKIBASTUZ-2_ST_2030,KZ,KZ_Ekibastuz GRES-2,10.3086,10.2019,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+ABADAN _CITY-2_GT_2031,TM,TMBezmeyinTG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+ABADAN _CITY-2_CCGT_2031,TM,TMCCGT_Akhal,5.9862,6.2036,3.465,3.465,,"2020 value kept, DeCA sits at its own default"
+AHAL_GT_2031,TM,TMAhal____TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+ANGREN_ST_2031,UZ,UZAngren__TV,8.1241,11.2982,10.890,9.100,,DeCA states 9.100
+ASHGABAT_GT_2031,TM,TMAshgabatTG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+ASTANA-2_CHP_2031,KZ,KZ_CHP-2 Astana-Energia,11.2300,16.4038,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+AVAZA_GT_2031,TM,TMAvaza___TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+BALKANABAD-2_GT_2031,TM,TMBalkanabTG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+BALKHASH _ULKEN_CHP_NEW_2031,,,9.7490,9.7490,12.870,12.870,,"kept, the mapping says why"
+DASHOGUZ _VELAYAT_CHP_2031,TM,TMDashoguzTG,9.7490,9.7486,8.712,8.712,,"2020 value kept, DeCA sits at its own default"
+DERWEZE_GT_2031,TM,TMDerveze_TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+DUSHANBE-2_CHP_2031,TJ,TJDushamb2CO,9.7490,11.2255,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+DUSHANBE-2_CHP_NEW_2031,TJ,TJDushamb2CO,9.7490,11.2255,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+EKIBASTUZ-2_ST_2031,KZ,KZ_Ekibastuz GRES-2,10.3086,10.2019,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+EKIBASTUZ-2_ST_NEW_2031,KZ,KZ_Ekibastuz GRES-3,8.1241,10.2019,10.890,10.890,,"2020 value kept, DeCA sits at its own default"
+KARAGANDA _TPS-3_CHP_2031,KZ,KZ_CHP-3 Karaganda Energo Center,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+LEBAP_GT_2031,TM,TMLebap___TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+MARY_GT_2031,TM,TMMary_2__TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+NAVOI_ST_NEW_2031,UZ,UZNavoi___TV,11.1300,11.3733,15.450,9.100,,DeCA states 9.100
+NAVOI_CCGT_2031,UZ,UZNavCCGT1CC,6.0900,6.3122,3.465,3.500,,DeCA states 3.500
+PAVLODAR-1_CHP_2031,KZ,KZ_CHP-1 Pavlodar - Aluminium Kazakhstan,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+PAVLODAR-3_CHP_2031,KZ,KZ_CHP-3 PavlodarEnergo,11.2300,12.4213,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+PETROPAVLOVSK-2_CHP_2031,KZ,KZ_CHP SevkazEnergo Petropavlovsk,11.2300,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+TAKHIATASH_ST_NEW_2031,UZ,UZTakhiataTV,11.1300,11.6448,15.450,3.540,,DeCA states 3.540
+TASHKENT_CHP_2031,UZ,UZTashkentCO,11.1900,9.7486,8.712,8.712,,"2020 value kept, DeCA sits at its own default"
+TOLIMARJON_ST_2031,UZ,UZTalimardTV,11.1300,10.9812,15.450,9.100,,DeCA states 9.100
+TOLIMARJON_CCGT_2031,UZ,UZTalimardCC,6.0800,5.5032,3.465,9.100,,DeCA states 9.100
+TURKMENBASHI _REFINERY_GT_2031,TM,TMTurkmenbCO,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+UST-KAMENOGORSK _TETS_CHP_2031,KZ,KZ_CHP Ust-Kamenogorsk,9.7490,12.7940,12.870,12.870,,"2020 value kept, DeCA sits at its own default"
+WATAN_GT_2031,TM,TMVatan___TG,9.7490,9.7486,7.623,7.623,,"2020 value kept, DeCA sits at its own default"
+ZHAMBYL_ST_2031,KZ,KZ_Zhambyl GRES,10.3820,9.3915,15.450,18.925,3.475,"2020 value kept, DeCA sits at its own default; transport 0.370 $/MMBtu over 9.391 MMBtu/MWh"
+TASHKENT_ST_2023,UZ,UZTashkentTV,11.1300,10.6293,15.450,9.100,,DeCA states 9.100
+NOVO-ANGREN_ST_2030,UZ,UZNovoAngrTV,11.1681,10.8317,10.890,9.100,,DeCA states 9.100
+NOVO-ANGREN_ST_2031,UZ,UZNovoAngrTV,9.4780,10.8317,10.890,9.100,,DeCA states 9.100
+KARAGANDA _HPS-1_ST_2031,KZ,KZ_GRES 1 Karaganda Bassel Group,10.3086,16.0023,10.890,10.890,,"2020 value kept, DeCA sits at its own default"

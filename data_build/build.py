@@ -102,6 +102,41 @@ def act_drop_column(header, rows, spec, path):
     return cut(header), [cut(r) for r in rows]
 
 
+def act_header(header, rows, spec, path):
+    """Replace the header and keep no row.
+
+    For a resource whose column set is wrong at the source: the header carries the
+    index of the parameter, so a header from another study is not a cosmetic detail.
+    """
+    return [str(c) for c in spec["header"]], []
+
+
+def act_set(header, rows, spec, path):
+    """Keep the file and override named cells, addressed through a key column.
+
+    For a resource that is right except for a few values, a table of flags above all.
+    Rewriting it whole would hide which value was changed and why; emptying it would
+    throw away the forty values that are correct. The key and value columns are named
+    in the spec, and a key the file does not carry is an error rather than a silent
+    addition: this verb edits, it does not extend.
+    """
+    ki = col_index(header, spec.get("key", header[0]), path)
+    vi = col_index(header, spec.get("value", header[-1]), path)
+    wanted = {str(k).strip(): v for k, v in (spec.get("set") or {}).items()}
+    seen, out = set(), []
+    for r in rows:
+        r = list(r)
+        key = str(r[ki]).strip() if len(r) > ki else ""
+        if key in wanted:
+            r[vi] = "" if wanted[key] is None else str(wanted[key])
+            seen.add(key)
+        out.append(r)
+    missing = sorted(set(wanted) - seen)
+    if missing:
+        raise IOError("resource '{}': no row keyed {} to set.".format(path, missing))
+    return header, out
+
+
 def act_table(header, rows, spec, path):
     """Replace the whole file with a table produced outside the engine.
 
@@ -129,6 +164,8 @@ ACTIONS = {
     "rows": act_rows,
     "drop_where": act_drop_where,
     "drop_column": act_drop_column,
+    "header": act_header,
+    "set": act_set,
     "table": act_table,
 }
 

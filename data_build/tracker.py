@@ -168,13 +168,15 @@ def main():
                 .format(tally["G"], tally["Y"], tally["R"], tally["B"])], font=BOLD)
 
     # ── Sheet 2: sources ───────────────────────────────────────────────────
-    ws = sheet(wb, "Sources", [18, 46, 12, 20, 30, 34, 80],
-               ["Key", "Source", "Date", "Access", "Covers", "Where to find it",
-                "What it contains"])
+    ws = sheet(wb, "Sources", [18, 46, 12, 13, 20, 30, 34, 80],
+               ["Key", "Source", "Date", "Grade", "Access", "Covers",
+                "Where to find it", "What it contains"])
     r = 2
     for key, s in sources.items():
+        # Grade travels with the date: it is what stops a placeholder dated of today
+        # from reading as fresh data. Same field the documentation page grades on.
         r = put(ws, r, [key, s.get("name", ""), str(s.get("date", "")),
-                        s.get("access", ""), covers(s),
+                        s.get("grade", ""), s.get("access", ""), covers(s),
                         s.get("where", ""), s.get("note", "")])
 
     # ── Sheet 3: leads ─────────────────────────────────────────────────────

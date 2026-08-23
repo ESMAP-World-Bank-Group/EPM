@@ -1,0 +1,125 @@
+g,z,tech,fuel,cap_mw,start_year,limit_mw_per_year,why
+KAZ_N_ST_Coal_cand,KAZ_N,ST,Coal,10000,2022,10000000,unchanged
+KAZ_N_CCGT_Gas_cand,KAZ_N,CCGT,Gas,10000,2021,10000000,unchanged
+KAZ_N_CHP_Coal_cand,KAZ_N,CHP,Coal,10000,2022,10000000,unchanged
+KAZ_N_GT_Gas_cand,KAZ_N,GT,Gas,10000,2020,10000000,unchanged
+KAZ_N_HY_Water_cand,KAZ_N,HY,Water,10000,2022,10000000,unchanged
+KAZ_N_PV_Solar_cand_2031,KAZ_N,PV,Solar,42867.2,2031,2143.36,"the rate rises to 6000 MW a year for KAZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KAZ_N_PV_Solar_cand,KAZ_N,PV,Solar,53583.9,2019,2143.36,"DeCA lets KAZ connect 3000 MW of Solar PV a year from 2026, and this zone carries 71% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KAZ_N_WT_Wind_cand_2031,KAZ_N,WT,Wind,42867.2,2031,2143.36,"the rate rises to 6000 MW a year for KAZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KAZ_N_WT_Wind_cand,KAZ_N,WT,Wind,53583.9,2020,2143.36,"DeCA lets KAZ connect 3000 MW of Wind a year from 2025, and this zone carries 71% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KAZ_N_ICE_HFO_cand,KAZ_N,ICE,HFO,10000,2019,10000000,unchanged
+KAZ_N_ST_UR_cand,KAZ_N,ST,UR,10000,2022,10000000,unchanged
+KAZ_S_ST_Coal_cand,KAZ_S,ST,Coal_KAZ_S,10000,2022,10000000,unchanged
+KAZ_S_CCGT_Gas_cand,KAZ_S,CCGT,Gas,10000,2021,10000000,"was barred from building anything, opened"
+KAZ_S_CHP_Gas_cand,KAZ_S,CHP,Gas,10000,2022,10000000,"was barred from building anything, opened"
+KAZ_S_GT_Gas_cand,KAZ_S,GT,Gas,10000,2020,10000000,"was barred from building anything, opened"
+KAZ_S_HY_Water_cand,KAZ_S,HY,Water,10000,2022,10000000,unchanged
+KAZ_S_PV_Solar_cand_2031,KAZ_S,PV,Solar,17132.8,2031,856.642,"the rate rises to 6000 MW a year for KAZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KAZ_S_PV_Solar_cand,KAZ_S,PV,Solar,21416.1,2019,856.642,"DeCA lets KAZ connect 3000 MW of Solar PV a year from 2026, and this zone carries 29% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KAZ_S_WT_Wind_cand_2031,KAZ_S,WT,Wind,17132.8,2031,856.642,"the rate rises to 6000 MW a year for KAZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KAZ_S_WT_Wind_cand,KAZ_S,WT,Wind,21416.1,2020,856.642,"DeCA lets KAZ connect 3000 MW of Wind a year from 2025, and this zone carries 29% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KAZ_S_ICE_HFO_cand,KAZ_S,ICE,HFO,10000,2019,10000000,unchanged
+KAZ_S_ST_UR_cand,KAZ_S,ST,UR,10000,2022,10000000,unchanged
+KGZ_N_ST_Coal_cand,KGZ_N,ST,Coal,10000,2022,10000000,"was barred from building anything, opened"
+KGZ_N_CCGT_Gas_cand,KGZ_N,CCGT,Gas,10000,2021,10000000,"was barred from building anything, opened"
+KGZ_N_CHP_Gas_cand,KGZ_N,CHP,Gas,10000,2022,10000000,"was barred from building anything, opened"
+KGZ_N_GT_Gas_cand,KGZ_N,GT,Gas,10000,2020,10000000,"was barred from building anything, opened"
+KGZ_N_PV_Solar_cand_2031,KGZ_N,PV,Solar,12470.6,2031,623.531,"the rate rises to 1500 MW a year for KGZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KGZ_N_PV_Solar_cand,KGZ_N,PV,Solar,7794.14,2019,311.765,"was barred from building anything, opened; DeCA lets KGZ connect 500 MW of Solar PV a year from 2026, and this zone carries 62% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KGZ_N_WT_Wind_cand_2031,KGZ_N,WT,Wind,12470.6,2031,623.531,"the rate rises to 1500 MW a year for KGZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KGZ_N_WT_Wind_cand,KGZ_N,WT,Wind,7794.14,2020,311.765,"was barred from building anything, opened; DeCA lets KGZ connect 500 MW of Wind a year from 2025, and this zone carries 62% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KGZ_N_ICE_HFO_cand,KGZ_N,ICE,HFO,10000,2019,10000000,"was barred from building anything, opened"
+KGZ_S_ST_Coal_cand,KGZ_S,ST,Coal,10000,2022,10000000,"was barred from building anything, opened"
+KGZ_S_CCGT_Gas_cand,KGZ_S,CCGT,Gas,10000,2021,10000000,"was barred from building anything, opened"
+KGZ_S_CHP_Gas_cand,KGZ_S,CHP,Gas,10000,2022,10000000,"was barred from building anything, opened"
+KGZ_S_GT_Gas_cand,KGZ_S,GT,Gas,10000,2020,10000000,"was barred from building anything, opened"
+KGZ_S_PV_Solar_cand_2031,KGZ_S,PV,Solar,7529.38,2031,376.469,"the rate rises to 1500 MW a year for KGZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KGZ_S_PV_Solar_cand,KGZ_S,PV,Solar,4705.86,2019,188.235,"was barred from building anything, opened; DeCA lets KGZ connect 500 MW of Solar PV a year from 2026, and this zone carries 38% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KGZ_S_WT_Wind_cand_2031,KGZ_S,WT,Wind,7529.38,2031,376.469,"the rate rises to 1500 MW a year for KGZ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+KGZ_S_WT_Wind_cand,KGZ_S,WT,Wind,4705.86,2020,188.235,"was barred from building anything, opened; DeCA lets KGZ connect 500 MW of Wind a year from 2025, and this zone carries 38% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+KGZ_S_ICE_HFO_cand,KGZ_S,ICE,HFO,10000,2019,10000000,"was barred from building anything, opened"
+NEPS_AFG_ST_Coal_cand,NEPS_AFG,ST,Coal,10000,2022,10000000,unchanged
+NEPS_AFG_CCGT_Gas_cand,NEPS_AFG,CCGT,Gas,10000,2021,10000000,unchanged
+NEPS_AFG_GT_Gas_cand,NEPS_AFG,GT,Gas,10000,2020,10000000,unchanged
+NEPS_AFG_PV_Solar_cand,NEPS_AFG,PV,Solar,10000,2020,10000000,"DeCA states no rate for AFG, left without a limit"
+NEPS_AFG_ICE_HFO_cand,NEPS_AFG,ICE,HFO,10000,2020,10000000,unchanged
+NEPS_TAJ_ST_Coal_cand,NEPS_TAJ,ST,Coal,10000,2022,10000000,unchanged
+NEPS_TAJ_CCGT_Gas_cand,NEPS_TAJ,CCGT,Gas,10000,2021,10000000,unchanged
+NEPS_TAJ_GT_Gas_cand,NEPS_TAJ,GT,Gas,10000,2020,10000000,unchanged
+NEPS_TAJ_PV_Solar_cand,NEPS_TAJ,PV,Solar,10000,2020,10000000,"DeCA states no rate for AFG, left without a limit"
+NEPS_TAJ_ICE_HFO_cand,NEPS_TAJ,ICE,HFO,10000,2020,10000000,unchanged
+NEPS_TKM_ST_Coal_cand,NEPS_TKM,ST,Coal,10000,2022,10000000,unchanged
+NEPS_TKM_CCGT_Gas_cand,NEPS_TKM,CCGT,Gas,10000,2021,10000000,unchanged
+NEPS_TKM_GT_Gas_cand,NEPS_TKM,GT,Gas,10000,2020,10000000,unchanged
+NEPS_TKM_PV_Solar_cand,NEPS_TKM,PV,Solar,10000,2020,10000000,"DeCA states no rate for AFG, left without a limit"
+NEPS_TKM_ICE_HFO_cand,NEPS_TKM,ICE,HFO,10000,2020,10000000,unchanged
+NEPS_UZB_ST_Coal_cand,NEPS_UZB,ST,Coal,10000,2022,10000000,unchanged
+NEPS_UZB_CCGT_Gas_cand,NEPS_UZB,CCGT,Gas,10000,2021,10000000,unchanged
+NEPS_UZB_GT_Gas_cand,NEPS_UZB,GT,Gas,10000,2020,10000000,unchanged
+NEPS_UZB_PV_Solar_cand,NEPS_UZB,PV,Solar,10000,2020,10000000,"DeCA states no rate for AFG, left without a limit"
+NEPS_UZB_ICE_HFO_cand,NEPS_UZB,ICE,HFO,10000,2020,10000000,unchanged
+PAK_KAR_ST_Coal_cand,PAK_KAR,ST,Coal,10000,2022,10000000,unchanged
+PAK_KAR_CCGT_Gas_cand,PAK_KAR,CCGT,Gas,10000,2021,10000000,unchanged
+PAK_KAR_GT_Gas_cand,PAK_KAR,GT,Gas,10000,2020,10000000,unchanged
+PAK_KAR_CCGT_LNG_cand,PAK_KAR,CCGT,LNG,10000,2021,10000000,unchanged
+PAK_KAR_GT_LNG_cand,PAK_KAR,GT,LNG,10000,2020,10000000,unchanged
+PAK_KAR_PV_Solar_cand,PAK_KAR,PV,Solar,10000,2019,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_KAR_WT_Wind_cand,PAK_KAR,WT,Wind,10000,2020,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_KAR_ST_HFO_cand,PAK_KAR,ST,HFO,10000,2022,10000000,unchanged
+PAK_N_ST_Coal_cand,PAK_N,ST,Coal,10000,2022,10000000,unchanged
+PAK_N_CCGT_Gas_cand,PAK_N,CCGT,Gas,10000,2021,10000000,unchanged
+PAK_N_GT_Gas_cand,PAK_N,GT,Gas,10000,2020,10000000,unchanged
+PAK_N_CCGT_LNG_cand,PAK_N,CCGT,LNG,10000,2021,10000000,unchanged
+PAK_N_GT_LNG_cand,PAK_N,GT,LNG,10000,2020,10000000,unchanged
+PAK_N_PV_Solar_cand,PAK_N,PV,Solar,10000,2019,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_N_WT_Wind_cand,PAK_N,WT,Wind,10000,2020,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_N_ST_HFO_cand,PAK_N,ST,HFO,10000,2022,10000000,unchanged
+PAK_S_ST_Coal_cand,PAK_S,ST,Coal,10000,2022,10000000,unchanged
+PAK_S_CCGT_LNG_cand,PAK_S,CCGT,LNG,10000,2021,10000000,unchanged
+PAK_S_GT_LNG_cand,PAK_S,GT,LNG,10000,2020,10000000,unchanged
+PAK_S_CCGT_Gas_cand,PAK_S,CCGT,Gas,10000,2021,10000000,unchanged
+PAK_S_GT_Gas_cand,PAK_S,GT,Gas,10000,2020,10000000,unchanged
+PAK_S_PV_Solar_cand,PAK_S,PV,Solar,10000,2019,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_S_WT_Wind_cand,PAK_S,WT,Wind,10000,2020,10000000,"DeCA states no rate for PAK, left without a limit"
+PAK_S_ST_HFO_cand,PAK_S,ST,HFO,10000,2022,10000000,unchanged
+TAJ_N_ST_Coal_cand,TAJ_N,ST,Coal,10000,2022,10000000,"was barred from building anything, opened"
+TAJ_N_CCGT_Gas_cand,TAJ_N,CCGT,Gas,200,2021,10000000,unchanged
+TAJ_N_CHP_Coal_cand,TAJ_N,CHP,Coal,10000,2022,10000000,"was barred from building anything, opened"
+TAJ_N_GT_Gas_cand,TAJ_N,GT,Gas,10000,2020,10000000,"was barred from building anything, opened"
+TAJ_N_PV_Solar_cand_2031,TAJ_N,PV,Solar,5049.17,2031,252.459,"the rate rises to 1500 MW a year for TAJ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TAJ_N_PV_Solar_cand,TAJ_N,PV,Solar,3155.73,2019,126.229,"was barred from building anything, opened; DeCA lets TAJ connect 500 MW of Solar PV a year from 2026, and this zone carries 25% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TAJ_N_WT_Wind_cand_2031,TAJ_N,WT,Wind,5049.17,2031,252.459,"the rate rises to 1500 MW a year for TAJ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TAJ_N_WT_Wind_cand,TAJ_N,WT,Wind,3155.73,2020,126.229,"was barred from building anything, opened; DeCA lets TAJ connect 500 MW of Wind a year from 2025, and this zone carries 25% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TAJ_N_ICE_HFO_cand,TAJ_N,ICE,HFO,10000,2019,10000000,"was barred from building anything, opened"
+TAJ_S_ST_Coal_cand,TAJ_S,ST,Coal,10000,2022,10000000,"was barred from building anything, opened"
+TAJ_S_CCGT_Gas_cand,TAJ_S,CCGT,Gas,10000,2021,10000000,"was barred from building anything, opened"
+TAJ_S_CHP_Coal_cand,TAJ_S,CHP,Coal,10000,2022,10000000,"was barred from building anything, opened"
+TAJ_S_GT_Gas_cand,TAJ_S,GT,Gas,10000,2020,10000000,"was barred from building anything, opened"
+TAJ_S_PV_Solar_cand_2031,TAJ_S,PV,Solar,14950.8,2031,747.541,"the rate rises to 1500 MW a year for TAJ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TAJ_S_PV_Solar_cand,TAJ_S,PV,Solar,9344.27,2019,373.771,"was barred from building anything, opened; DeCA lets TAJ connect 500 MW of Solar PV a year from 2026, and this zone carries 75% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TAJ_S_WT_Wind_cand_2031,TAJ_S,WT,Wind,14950.8,2031,747.541,"the rate rises to 1500 MW a year for TAJ in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TAJ_S_WT_Wind_cand,TAJ_S,WT,Wind,9344.27,2020,373.771,"was barred from building anything, opened; DeCA lets TAJ connect 500 MW of Wind a year from 2025, and this zone carries 75% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TAJ_S_ICE_HFO_cand,TAJ_S,ICE,HFO,10000,2019,10000000,"was barred from building anything, opened"
+TUR_ST_Coal_cand,TUR,ST,Coal,10000,2022,10000000,unchanged
+TUR_CCGT_Gas_cand,TUR,CCGT,Gas,10000,2021,10000000,unchanged
+TUR_CHP_Gas_cand,TUR,CHP,Gas,10000,2022,10000000,unchanged
+TUR_GT_Gas_cand,TUR,GT,Gas,10000,2020,10000000,unchanged
+TUR_PV_Solar_cand_2031,TUR,PV,Solar,50000,2031,2500,"the rate rises to 3000 MW a year for TUR in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TUR_PV_Solar_cand,TUR,PV,Solar,12500,2019,500,"DeCA lets TUR connect 500 MW of Solar PV a year from 2026, and this zone carries 100% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TUR_WT_Wind_cand_2031,TUR,WT,Wind,50000,2031,2500,"the rate rises to 3000 MW a year for TUR in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+TUR_WT_Wind_cand,TUR,WT,Wind,12500,2020,500,"DeCA lets TUR connect 500 MW of Wind a year from 2025, and this zone carries 100% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+TUR_ICE_HFO_cand,TUR,ICE,HFO,10000,2019,10000000,unchanged
+UZB_ST_Coal_cand,UZB,ST,Coal,10000,2022,10000000,unchanged
+UZB_CCGT_Gas_cand,UZB,CCGT,Gas,10000,2021,10000000,unchanged
+UZB_CHP_Gas_cand,UZB,CHP,Gas,10000,2022,10000000,unchanged
+UZB_GT_Gas_cand,UZB,GT,Gas,10000,2020,10000000,unchanged
+UZB_PV_Solar_cand_2031,UZB,PV,Solar,60000,2031,3000,"the rate rises to 6000 MW a year for UZB in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+UZB_PV_Solar_cand,UZB,PV,Solar,75000,2019,3000,"DeCA lets UZB connect 3000 MW of Solar PV a year from 2026, and this zone carries 100% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+UZB_WT_Wind_cand_2031,UZB,WT,Wind,60000,2031,3000,"the rate rises to 6000 MW a year for UZB in 2031; EPM has one column and cannot step, so this second candidate carries the increment, and it carries it to the end of the run because DeCA stops stating a rate after 2040"
+UZB_WT_Wind_cand,UZB,WT,Wind,75000,2020,3000,"DeCA lets UZB connect 3000 MW of Wind a year from 2025, and this zone carries 100% of the national peak in 2050; the cumulative cap is set to what that rate can deliver over the run, so the rate is what binds and not a round number inherited from a shorter horizon"
+NEPS_HERAT_ST_Coal_cand,NEPS_HERAT,ST,Coal,10000,2022,10000000,unchanged
+NEPS_HERAT_CCGT_Gas_cand,NEPS_HERAT,CCGT,Gas,10000,2021,10000000,unchanged
+NEPS_HERAT_Gas_cand,NEPS_HERAT,GT,Gas,10000,2020,10000000,unchanged
+NEPS_HERAT_PV_Solar_cand,NEPS_HERAT,PV,Solar,10000,2020,10000000,"DeCA states no rate for AFG, left without a limit"
+NEPS_HERAT_ICE_HFO_cand,NEPS_HERAT,ICE,HFO,10000,2020,10000000,unchanged

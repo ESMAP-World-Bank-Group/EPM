@@ -1,0 +1,10 @@
+g,retire_year,reason
+NUREK_1_HY_2022,2025,"Nurek is rehabilitated unit by unit. This row is the unit before rehabilitation and it stops when the unit goes off for works; NUREK_NUREK1-_REHAB_HY_NEW_2031 brings it back at 333 MW. Keeping the dated stop is what prevents the plant from being counted twice."
+NUREK_2_HY_2019,2022,"Same staged rehabilitation, replaced by NUREK_NUREK2-_REHAB_HY_NEW_2031."
+NUREK_3_HY_2023,2026,"Same staged rehabilitation, replaced by NUREK_NUREK3-_REHAB_HY_NEW_2031."
+NUREK_4_HY_2024,2027,"Same staged rehabilitation, replaced by NUREK_NUREK4-_REHAB_HY_NEW_2031."
+NUREK_5_HY_2020,2023,"Same staged rehabilitation, replaced by NUREK_NUREK5-_REHAB_HY_NEW_2031."
+NUREK_6_HY_2025,2028,"Same staged rehabilitation, replaced by NUREK_6-REHAB_HY_NEW_2031."
+NUREK_7_HY_2021,2024,"Same staged rehabilitation, replaced by NUREK_7-REHAB_HY_NEW_2031."
+NUREK_9_HY_2026,2029,"Same staged rehabilitation, replaced by NUREK_9-REHAB_HY_NEW_2031."
+BISHKEK_CHP_2023,2050,"The 2020 model had already singled this one out, giving it 2050 where its own rule would have said 2031. It is right to: Bishkek CHP was modernised in 2017 with two new units, it is the only real thermal plant in Kyrgyzstan and it is what keeps the capital warm. DeCA carries it as existing at 812 MW, against the 666 MW of this row, which is a separate question for the fleet rebuild."

@@ -1,0 +1,9 @@
+g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,StorageDuration,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+KAZ_N_BESS_4h_cand,KAZ_N,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+KAZ_S_BESS_4h_cand,KAZ_S,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+KGZ_N_BESS_4h_cand,KGZ_N,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+KGZ_S_BESS_4h_cand,KGZ_S,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+TAJ_N_BESS_4h_cand,TAJ_N,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+TAJ_S_BESS_4h_cand,TAJ_S,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+TUR_BESS_4h_cand,TUR,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,
+UZB_BESS_4h_cand,UZB,Storage,Battery,,3,2028,,20,10000,4,,10000000,,,0.9,0.247638,0,0,,202.312,0,0,,,,,,,,,,,,,

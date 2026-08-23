@@ -1,0 +1,233 @@
+g,z,tech,fuel,capacity_mw,start_year,retire_2020,retire_new,life,why
+ABADAN _CITY-1_CHP_2023,TUR,CHP,Gas,125,1959,2023,2030,60,"past its life already, held to the floor year"
+ABADAN _CITY-2_CCGT_2028,TUR,CCGT,Gas,123,1998,2028,2033,35,"commissioned 1998, 35 years of life"
+AKSUSKAYA_ST_2023,KAZ_N,ST,Coal,1932,1973,2023,2033,60,"commissioned 1973, 60 years of life"
+ALMATY-1_CHP_2023,KAZ_S,CHP,Coal_KAZ_S,145,1967,2023,2030,60,"past its life already, held to the floor year"
+ALMATY-2_CHP_2023,KAZ_S,CHP,Coal_KAZ_S,469,1986,2023,2046,60,"commissioned 1986, 60 years of life"
+ALMATY-3_CHP_2023,KAZ_S,CHP,Coal_KAZ_S,132,1964,2023,2030,60,"past its life already, held to the floor year"
+ANGREN_ST_2023,UZB,ST,Coal,400,1961,2023,2030,60,"past its life already, held to the floor year"
+ASTANA-2_CHP_2023,KAZ_N,CHP,Coal,221,1981,2023,2041,60,"commissioned 1981, 60 years of life"
+ATLAS _POWER_ICE_2029,PAK_N,ICE,HFO,214,2009,2029,2039,30,"commissioned 2009, 30 years of life"
+BIN _QASIM_ST_2023,PAK_KAR,ST,Gas,350,1983,2023,2038,55,"commissioned 1983, 55 years of life"
+BIN _QASIM_ST_2024,PAK_KAR,ST,Gas,210,1984,2024,2039,55,"commissioned 1984, 55 years of life"
+BIN _QASIM_ST_2029,PAK_KAR,ST,HFO,210,1989,2029,2034,45,"commissioned 1989, 45 years of life"
+BIN _QASIM_ST_2031,PAK_KAR,ST,Gas,420,1994,2031,2049,55,"commissioned 1994, 55 years of life"
+BISHKEK_CHP_2023,KGZ_N,CHP,Coal,666,1971,2050,2050,60,"dated decision: The 2020 model had already singled this one out, giving it 2050 where its own rule would have said 2031. It is right to: Bishkek CHP was modernised in 2017 with two new units, it is the only real thermal plant in Kyrgyzstan and it is what keeps the capital warm. DeCA carries it as existing at 812 MW, against the 666 MW of this row, which is a separate question for the fleet rebuild."
+DUSHANBE-1_CHP_2023,TAJ_S,CHP,Gas,0,1964,2023,2030,60,"past its life already, held to the floor year"
+FAISALABAD _LIBERTY_ICE_2031,PAK_N,ICE,HFO,187.836,2011,2031,2041,30,"commissioned 2011, 30 years of life"
+FAISALABAD_CCGT_2023,PAK_N,CCGT,Gas,144.4,1979,2023,2030,35,"past its life already, held to the floor year"
+FERGANA_CHP_2023,UZB,CHP,HFO,260,1979,2023,2039,60,"commissioned 1979, 60 years of life"
+GUDDU_CCGT_2023,PAK_S,CCGT,HFO,826,1988,2023,2030,35,"past its life already, held to the floor year"
+GUDDU_CCGT_2024,PAK_S,CCGT,Gas,145,1994,2024,2030,35,"past its life already, held to the floor year"
+GUDDU_ST_2023,PAK_S,ST,Gas,430,1976,2023,2031,55,"commissioned 1976, 55 years of life"
+GUDDU_ST_2026,PAK_S,ST,Gas,210,1986,2026,2041,55,"commissioned 1986, 55 years of life"
+HABIBULLAH _COASTAL_CCGT_2029,PAK_S,CCGT,Gas,160,1999,2029,2034,35,"commissioned 1999, 35 years of life"
+JAMSHORO_ST_2029,PAK_S,ST,Gas,200,1989,2029,2044,55,"commissioned 1989, 55 years of life"
+JAMSHORO_ST_2030,PAK_S,ST,HFO,450,1990,2030,2035,45,"commissioned 1990, 45 years of life"
+KABIRWALA_CCGT_2029,PAK_S,CCGT,Gas,157,1999,2029,2034,35,"commissioned 1999, 35 years of life"
+KAPCHAGAY_HY_2031,KAZ_S,HY,Water,364,1971,2031,2051,99,never retires on age
+KARACHI _TAPAL_ICE_2023,PAK_KAR,ICE,HFO,126,1997,2023,2030,30,"past its life already, held to the floor year"
+KARAGANDA _HPS-2_CHP_2023,KAZ_N,CHP,Coal,610,1965,2023,2030,60,"past its life already, held to the floor year"
+KARAGANDA _TPS-2_CHP_2023,KAZ_N,CHP,Coal,400,1977,2023,2037,60,"commissioned 1977, 60 years of life"
+KARAGANDA _TPS-3_CHP_2023,KAZ_N,CHP,Coal,405,1980,2023,2040,60,"commissioned 1980, 60 years of life"
+KAZ_N_CHP_2023,KAZ_N,CHP,Coal,399.5,1961,2023,2030,60,"past its life already, held to the floor year"
+KAZ_S_CHP_2023,KAZ_S,CHP,Coal_KAZ_S,209,1959,2023,2030,60,"past its life already, held to the floor year"
+KOHINOOR_ICE_2023,PAK_N,ICE,HFO,126,1997,2023,2030,30,"past its life already, held to the floor year"
+KORANGI _KORANGI GUL _AHMED_ICE_2023,PAK_KAR,ICE,HFO,125.1,1998,2023,2030,30,"past its life already, held to the floor year"
+KOT _ADDU_CCGT_2023,PAK_N,CCGT,HFO,892,1989,2023,2030,35,"past its life already, held to the floor year"
+KOT _ADDU_CCGT_2024,PAK_N,CCGT,HFO,308,1994,2024,2030,35,"past its life already, held to the floor year"
+KOT _ADDU_CCGT_2025,PAK_N,CCGT,Gas,783,1995,2025,2030,35,"commissioned 1995, 35 years of life"
+KOT _ADDU_CCGT_2026,PAK_N,CCGT,Gas,144,1996,2026,2031,35,"commissioned 1996, 35 years of life"
+KOTRI_CCGT_2023,PAK_S,CCGT,Gas,144.4,1983,2023,2030,35,"past its life already, held to the floor year"
+LIBERTY _DAHARKI_CCGT_2031,PAK_S,CCGT,Gas,213,2001,2031,2036,35,"commissioned 2001, 35 years of life"
+MARY_CHP_2023,TUR,CHP,Gas,1693,1979,2023,2039,60,"commissioned 1979, 60 years of life"
+MORGAH_ICE_2029,PAK_N,ICE,HFO,153.315,2009,2029,2039,30,"commissioned 2009, 30 years of life"
+MULTAN_ST_2023,PAK_S,ST,LNG,130,1963,2023,2030,45,"past its life already, held to the floor year"
+NAROWAL_ICE_2031,PAK_N,ICE,HFO,207.9,2011,2031,2041,30,"commissioned 2011, 30 years of life"
+NAVOI_ST_2023,UZB,ST,Gas,1060,1970,2023,2030,55,"past its life already, held to the floor year"
+NISHAT _CHUNIAN_ICE_2031,PAK_N,ICE,HFO,196,2011,2031,2041,30,"commissioned 2011, 30 years of life"
+NISHAT _POWER_ICE_2029,PAK_N,ICE,HFO,195,2009,2029,2039,30,"commissioned 2009, 30 years of life"
+PAK_N_ICE_2023,PAK_N,ICE,HFO,490.029,1996,2023,2030,30,"past its life already, held to the floor year"
+PAK_N_ICE_2030,PAK_N,ICE,HFO,0,2010,2030,2040,30,"commissioned 2010, 30 years of life"
+PAVLODAR-1_CHP_2023,KAZ_N,CHP,Coal,322,1969,2023,2030,60,"past its life already, held to the floor year"
+PAVLODAR-2_CHP_2023,KAZ_N,CHP,Coal,101,1962,2023,2030,60,"past its life already, held to the floor year"
+PAVLODAR-3_CHP_2023,KAZ_N,CHP,Coal,202.5,1974,2023,2034,60,"commissioned 1974, 60 years of life"
+PETROPAVLOVSK-2_CHP_2023,KAZ_N,CHP,Coal,338,1965,2023,2030,60,"past its life already, held to the floor year"
+RAIWIND _JPGL_ICE_2023,PAK_N,ICE,HFO,0,2000,2023,2030,30,"commissioned 2000, 30 years of life"
+RAIWIND _SEPCOL_ICE_2023,PAK_N,ICE,HFO,0,1999,2023,2030,30,"past its life already, held to the floor year"
+ROUSCH_CCGT_2029,PAK_S,CCGT,LNG,395,1999,2029,2034,35,"commissioned 1999, 35 years of life"
+SYRDARYA_ST_2023,UZB,ST,Gas,3000,1978,2023,2033,55,"commissioned 1978, 55 years of life"
+TAKAKHIL_ICE_2030,NEPS_AFG,ICE,HFO,108,2010,2030,2040,30,"commissioned 2010, 30 years of life"
+TAKHIATASH_ST_2023,UZB,ST,Gas,100,1966,2023,2030,55,"past its life already, held to the floor year"
+TAKHIATASH_ST_2027,UZB,ST,Gas,200,1987,2027,2042,55,"commissioned 1987, 55 years of life"
+TAKHIATASH_ST_2029,UZB,ST,Gas,200,1989,2029,2044,55,"commissioned 1989, 55 years of life"
+TCHIMKENT-3_CHP_2023,KAZ_S,CHP,Gas,160,1982,2023,2042,60,"commissioned 1982, 60 years of life"
+TURKMENBASHI-1_ST_2024,TUR,ST,Gas,210,1984,2024,2039,55,"commissioned 1984, 55 years of life"
+TURKMENBASHI-1_ST_2026,TUR,ST,Gas,210,1986,2026,2041,55,"commissioned 1986, 55 years of life"
+UCH_CCGT_2030,PAK_S,CCGT,LNG,549,2000,2030,2035,35,"commissioned 2000, 35 years of life"
+UST-KAMENOGORSK _TETS_CHP_2023,KAZ_N,CHP,Coal,220,1959,2023,2030,60,"past its life already, held to the floor year"
+YAVAN_CHP_2023,TAJ_S,CHP,Gas,0,1968,2023,2030,60,"past its life already, held to the floor year"
+ZHAMBYL_ST_2023,KAZ_S,ST,Gas,1230,1972,2023,2030,55,"past its life already, held to the floor year"
+EKIBASTUZ-1_ST_2023,KAZ_N,ST,Coal,3000,1982,2023,2042,60,"commissioned 1982, 60 years of life"
+EKIBASTUZ-1_ST_2024,KAZ_N,ST,Coal,500,1984,2024,2044,60,"commissioned 1984, 60 years of life"
+EKIBASTUZ-2_ST_2030,KAZ_N,ST,Coal,460,1990,2030,2050,60,"commissioned 1990, 60 years of life"
+ABADAN _CITY-2_GT_2031,TUR,GT,Gas,126,2003,2031,2038,35,"commissioned 2003, 35 years of life"
+ABADAN _CITY-2_CCGT_2031,TUR,CCGT,Gas,363,2009,2031,2044,35,"commissioned 2009, 35 years of life"
+AHAL_GT_2031,TUR,GT,Gas,626.2,2013,2031,2048,35,"commissioned 2013, 35 years of life"
+UZB_HY_2031,UZB,HY,Water,618.903,1965,2031,2051,99,never retires on age
+ANDIJAN-1_HY_2031,UZB,HY,Water,140,1981,2031,2051,99,never retires on age
+ANGREN_ST_2031,UZB,ST,Coal,150,2016,2031,2051,60,reaches the end of the run still standing
+ASHGABAT_GT_2031,TUR,GT,Gas,254.2,2006,2031,2041,35,"commissioned 2006, 35 years of life"
+ASTANA-2_CHP_2031,KAZ_N,CHP,Coal,110,2006,2031,2051,60,reaches the end of the run still standing
+AVAZA_GT_2031,TUR,GT,Gas,254,2010,2031,2045,35,"commissioned 2010, 35 years of life"
+BAIPAZA_HY_2031,TAJ_S,HY,Water,600,1986,2031,2051,99,never retires on age
+BALKANABAD-2_GT_2031,TUR,GT,Gas,380.2,2006,2031,2041,35,"commissioned 2006, 35 years of life"
+BALKHASH _ULKEN_CHP_NEW_2031,KAZ_S,CHP,Coal_KAZ_S,1320,2022,2031,2051,60,reaches the end of the run still standing
+CHARVAK_HY_2031,UZB,HY,Water,620,1971,2031,2051,99,never retires on age
+DASHOGUZ _VELAYAT_CHP_2031,TUR,CHP,Gas,254.2,2007,2031,2051,60,reaches the end of the run still standing
+DERWEZE_GT_2031,TUR,GT,Gas,504.4,2015,2031,2050,35,"commissioned 2015, 35 years of life"
+DUSHANBE-2_CHP_2031,TAJ_S,CHP,Coal,400,2014,2031,2051,60,reaches the end of the run still standing
+DUSHANBE-2_CHP_NEW_2031,TAJ_S,CHP,Coal,0,2018,2031,2051,60,reaches the end of the run still standing
+EKIBASTUZ-2_ST_2031,KAZ_N,ST,Coal,460,1993,2031,2051,60,reaches the end of the run still standing
+EKIBASTUZ-2_ST_NEW_2031,KAZ_N,ST,Coal,630,2018,2031,2051,60,reaches the end of the run still standing
+GAZALKENT_HY_2031,UZB,HY,Water,120,1980,2031,2051,99,never retires on age
+KAMBARATA-2_HY_2031,KGZ_N,HY,Water,120,2010,2031,2051,99,never retires on age
+KAMBARATA-2_HY_NEW_2031,KGZ_N,HY,Water,120,2023,2031,2051,99,never retires on age
+KARAGANDA _TPS-3_CHP_2031,KAZ_N,CHP,Coal,160,2015,2031,2051,60,reaches the end of the run still standing
+KHODZHIKENT_HY_2031,UZB,HY,Water,165,1976,2031,2051,99,never retires on age
+KURPSAI_HY_2031,KGZ_S,HY,Water,800,1982,2031,2051,99,never retires on age
+LEBAP_GT_2031,TUR,GT,Gas,149.1,2014,2031,2049,35,"commissioned 2014, 35 years of life"
+MARY_GT_2031,TUR,GT,Gas,150,2013,2031,2048,35,"commissioned 2013, 35 years of life"
+MOYNAK_HY_2031,KAZ_S,HY,Water,300,2012,2031,2051,99,never retires on age
+NAVOI_ST_NEW_2031,UZB,ST,Gas,160,2023,2031,2051,55,reaches the end of the run still standing
+NAVOI_CCGT_2031,UZB,CCGT,Gas,927.7,2015,2031,2050,35,"commissioned 2015, 35 years of life"
+PAVLODAR-1_CHP_2031,KAZ_N,CHP,Coal,120,2007,2031,2051,60,reaches the end of the run still standing
+PAVLODAR-3_CHP_2031,KAZ_N,CHP,Coal,202.5,2015,2031,2051,60,reaches the end of the run still standing
+PETROPAVLOVSK-2_CHP_2031,KAZ_N,CHP,Coal,113,2014,2031,2051,60,reaches the end of the run still standing
+SANGTUDA-1_HY_2031,TAJ_S,HY,Water,670,2009,2031,2051,99,never retires on age
+SANGTUDA-2_HY_2031,TAJ_S,HY,Water,225,2013,2031,2051,99,never retires on age
+SHAMALDYSAI_HY_2031,KGZ_S,HY,Water,240,1994,2031,2051,99,never retires on age
+SHARDARINSKYA_HY_2031,KAZ_S,HY,Water,126,2017,2031,2051,99,never retires on age
+SHULBINSKAYA_HY_2031,KAZ_N,HY,Water,702,1989,2031,2051,99,never retires on age
+TAKHIATASH_ST_NEW_2031,UZB,ST,Gas,200,2023,2031,2051,55,reaches the end of the run still standing
+TASHKENT_CHP_2031,UZB,CHP,Gas,372,2016,2031,2051,60,reaches the end of the run still standing
+TASH-KUMYR_HY_2031,KGZ_S,HY,Water,450,1986,2031,2051,99,never retires on age
+TOKTOGUL_HY_2031,KGZ_S,HY,Water,1200,1976,2031,2051,99,never retires on age
+TOLIMARJON_ST_2031,UZB,ST,Gas,720,2004,2031,2051,55,reaches the end of the run still standing
+TOLIMARJON_CCGT_2031,UZB,CCGT,Gas,900,2016,2031,2051,35,reaches the end of the run still standing
+TURKMENBASHI _REFINERY_GT_2031,TUR,GT,Gas,126,2003,2031,2038,35,"commissioned 2003, 35 years of life"
+TYUYAMUYUNSKAYA_HY_2031,UZB,HY,Water,156,1984,2031,2051,99,never retires on age
+UST-KAMENOGORSK _HPP_HY_2031,KAZ_N,HY,Water,325,1970,2031,2051,99,never retires on age
+UST-KAMENOGORSK _TETS_CHP_2031,KAZ_N,CHP,Coal,109,2016,2031,2051,60,reaches the end of the run still standing
+WATAN_GT_2031,TUR,GT,Gas,254.2,2016,2031,2051,35,reaches the end of the run still standing
+ZHAMBYL_ST_2031,KAZ_S,ST,Gas,150,2002,2031,2051,55,reaches the end of the run still standing
+ALLAI _KHWAR_HY_2031,PAK_N,HY,Water,121,2013,2031,2051,99,never retires on age
+PAK_N_HY_2031,PAK_N,HY,Water,799.603,1995,2031,2051,99,never retires on age
+HAVELI _HAVELI BAHADUR _SHAH_CCGT_2031,PAK_N,CCGT,LNG,0,2017,2031,2051,35,reaches the end of the run still standing
+BALLOKI _RLNG_CCGT_2031,PAK_N,CCGT,LNG,746,2021,2031,2051,35,reaches the end of the run still standing
+BALLOKI _RLNG_CCGT_NEW_2031,PAK_N,CCGT,LNG,497,2021,2031,2051,35,reaches the end of the run still standing
+BHIKKI _RENTAL_GT_2031,PAK_N,GT,LNG,135.9,2008,2031,2043,35,"commissioned 2008, 35 years of life"
+BHIKKI _RLNG_CCGT_2031,PAK_N,CCGT,LNG,0,2017,2031,2051,35,reaches the end of the run still standing
+BHIKKI _RLNG_CCGT_NEW_2031,PAK_N,CCGT,Gas,0,2018,2031,2051,35,reaches the end of the run still standing
+BIN _QASIM_CCGT_2031,PAK_KAR,CCGT,LNG,560,2012,2031,2047,35,"commissioned 2012, 35 years of life"
+PAK_N_HY_NEW_2031,PAK_N,HY,Water,408.56,2023,2031,2051,99,never retires on age
+CHASHMA _(CHASNUPP)_ST_2031,PAK_N,ST,UR,1232,2011,2031,2051,60,reaches the end of the run still standing
+CHASHMA_HY_2031,PAK_N,HY,Water,184,2001,2031,2051,99,never retires on age
+DAHARKI _FOUNDATION_CCGT_2031,PAK_S,CCGT,LNG,202,2011,2031,2046,35,"commissioned 2011, 35 years of life"
+DASU _DHP-1_HY_NEW_2031,PAK_N,HY,Water,1977.397,2023,2031,2051,99,never retires on age
+DIAMER _BASHA_HY_NEW_2031,PAK_N,HY,Water,4500,2024,2031,2051,99,never retires on age
+DUBER _KHWAR_HY_2031,PAK_N,HY,Water,130,2014,2031,2051,99,never retires on age
+GHAZI-BAROTHA_HY_2031,PAK_N,HY,Water,1450,2004,2031,2051,99,never retires on age
+GUDDU_CCGT_2031,PAK_S,CCGT,Gas,0,2016,2031,2051,35,reaches the end of the run still standing
+GULPUR_HY_NEW_2031,PAK_N,HY,Water,104,2020,2031,2051,99,never retires on age
+HALMORE _POWER_CCGT_2031,PAK_N,CCGT,LNG,207,2011,2031,2046,35,"commissioned 2011, 35 years of life"
+HUB _RIVER_ST_2031,PAK_S,ST,HFO,0,1997,2031,2042,45,"commissioned 1997, 45 years of life"
+KAJAKI I_HY,NEPS_AFG,HY,Water,51.5,2023,2031,2051,99,never retires on age
+JAMSHORO_ST_2031,PAK_S,ST,LNG,200,1992,2031,2037,45,"commissioned 1992, 45 years of life"
+KARACHI _COASTAL_ST_NEW_2031,PAK_S,ST,UR,3300,2024,2031,2051,60,reaches the end of the run still standing
+KORANGI _CREEK_CCGT_2031,PAK_KAR,CCGT,LNG,188,2009,2031,2044,35,"commissioned 2009, 35 years of life"
+LAKHRA_ST_2031,PAK_S,ST,Coal,120,1996,2031,2051,60,reaches the end of the run still standing
+LAL _PIR_ST_2031,PAK_N,ST,HFO,0,1997,2031,2042,45,"commissioned 1997, 45 years of life"
+MANGLA_HY_2031,PAK_N,HY,Water,1000,1983,2031,2051,99,never retires on age
+MUZAFFARGARH_ST_2031,PAK_N,ST,LNG,1350,1995,2031,2040,45,"commissioned 1995, 45 years of life"
+NANDIPUR_CCGT_2031,PAK_N,CCGT,HFO,0,2015,2031,2050,35,"commissioned 2015, 35 years of life"
+ORIENT _POWER_CCGT_2031,PAK_N,CCGT,LNG,720,2010,2031,2045,35,"commissioned 2010, 35 years of life"
+PAK _GEN_ST_2031,PAK_N,ST,HFO,0,1998,2031,2043,45,"commissioned 1998, 45 years of life"
+PATRIND_HY_2031,PAK_N,HY,Water,150,2017,2031,2051,99,never retires on age
+PORT _PORT QASIM _THERMAL_ST_NEW_2031,PAK_KAR,ST,Coal,1320,2017,2031,2051,60,reaches the end of the run still standing
+QADIRPUR_CCGT_2031,PAK_S,CCGT,LNG,233,2010,2031,2045,35,"commissioned 2010, 35 years of life"
+QUAID-E-AZAM _SOLAR_PV_2031,PAK_S,PV,Solar,130,2015,2031,2040,25,"commissioned 2015, 25 years of life"
+SABA_ST_2031,PAK_N,ST,HFO,61,1999,2031,2044,45,"commissioned 1999, 45 years of life"
+SAHIWAL_CCGT_2031,PAK_S,CCGT,LNG,222.5,2010,2031,2045,35,"commissioned 2010, 35 years of life"
+SAPPHIRE _ELECTRIC_CCGT_2031,PAK_N,CCGT,LNG,234,2010,2031,2045,35,"commissioned 2010, 35 years of life"
+TARBELA_HY_2031,PAK_N,HY,Water,3478,1985,2031,2051,99,never retires on age
+THAR _THAR BLOCK-II _ENGRO_ST_NEW_2031,PAK_S,ST,Coal,1018,2017,2031,2051,60,reaches the end of the run still standing
+UCH_CCGT_2031,PAK_S,CCGT,LNG,375,2014,2031,2049,35,"commissioned 2014, 35 years of life"
+WARSAK_HY_2031,PAK_N,HY,Water,243,1967,2031,2051,99,never retires on age
+THAR _THAR BLOCK-II _HUB_ST_NEW_2031,PAK_S,ST,Coal,1533.3333333333,2021,2031,2051,60,reaches the end of the run still standing
+JAMSHORO_ST_NEW_2031,PAK_S,ST,Coal,1533.3333333333,2023,2031,2051,60,reaches the end of the run still standing
+KAMBARATA-1_HY_NEW_2031,KGZ_N,HY,Water,0,2027,2031,2051,99,never retires on age
+BUKHTARMASKAYA_HY_2031,KAZ_N,HY,Water,675,1962,2031,2051,99,never retires on age
+FARKHAD_HY_2031,UZB,HY,Water,311,1949,2031,2051,99,never retires on age
+GOLOVNAYA_HY_2031,TAJ_S,HY,Water,240,1963,2031,2051,99,never retires on age
+KAIRAKKUM_HY_2031,TAJ_N,HY,Water,126,1957,2031,2051,99,never retires on age
+TASHKENT_ST_2023,UZB,ST,Gas,1800,1968,2023,2030,55,"past its life already, held to the floor year"
+NOVO-ANGREN_ST_2030,UZB,ST,Coal,1440,1987,2030,2047,60,"commissioned 1987, 60 years of life"
+NOVO-ANGREN_ST_2031,UZB,ST,Coal,240,2000,2031,2051,60,reaches the end of the run still standing
+KARACHI _KARACHI NPP _(KANUPP)_ST_2023,PAK_KAR,ST,UR,0,1972,2023,2032,60,"commissioned 1972, 60 years of life"
+KESC _SITE_ICE_2031,PAK_KAR,ICE,LNG,107,2011,2031,2041,30,"commissioned 2011, 30 years of life"
+KORANGI_ICE_2030,PAK_KAR,ICE,LNG,107,2010,2030,2040,30,"commissioned 2010, 30 years of life"
+KABANBAI _BATYR_PV_2031,KAZ_N,PV,Solar,100,2017,2031,2042,25,"commissioned 2017, 25 years of life"
+KARAGANDA _HPS-1_ST_2031,KAZ_N,ST,Coal,100,1992,2031,2051,60,reaches the end of the run still standing
+FAISALABAD_GT_2023,PAK_N,GT,LNG,1153,1975,2023,2030,35,"past its life already, held to the floor year"
+NAGHLU_HY_2031,NEPS_AFG,HY,Water,100,1967,2031,2051,99,never retires on age
+APPOLO _SOLAR_PV_2031,PAK_S,PV,Solar,100,2016,2031,2041,25,"commissioned 2016, 25 years of life"
+BEST _GREEN_PV_2031,PAK_S,PV,Solar,100,2016,2031,2041,25,"commissioned 2016, 25 years of life"
+Crest _Solar_PV_2031,PAK_S,PV,Solar,100,2016,2031,2041,25,"commissioned 2016, 25 years of life"
+UCH-KURGANSK_HY_2020,KGZ_S,HY,Water,120,1963,2050,2051,99,never retires on age
+SAHIWAL _PROJECT_ST_NEW_2031,PAK_S,ST,Coal,1533.3333333333,2023,2031,2051,60,reaches the end of the run still standing
+KEYAL _KHWAR_HY_NEW_2031,PAK_N,HY,Water,122,2021,2031,2051,99,never retires on age
+NUREK-2_HY_NEW_2031,TAJ_S,HY,Water,0,2022,2031,2051,99,never retires on age
+UCH-KURGANSK_HY_NEW_2031,KGZ_S,HY,Water,220,2021,2031,2051,99,never retires on age
+HAVELI _HAVELI BAHADUR _SHAH_CCGT_NEW_2031,PAK_N,CCGT,Gas,0,2018,2031,2051,35,reaches the end of the run still standing
+GOLEN _GOL_HY_NEW_2031,PAK_N,HY,Water,526,2021,2031,2051,99,never retires on age
+NEELUM-JHELUM_HY_NEW_2031,PAK_N,HY,Water,969,2026,2031,2051,99,never retires on age
+TARBELA-IV_HY_NEW_2031,PAK_N,HY,Water,1410,2026,2031,2051,99,never retires on age
+NUREK_1_HY_2022,TAJ_S,HY,Water,270,1972,2025,2025,53,"dated decision: Nurek is rehabilitated unit by unit. This row is the unit before rehabilitation and it stops when the unit goes off for works; NUREK_NUREK1-_REHAB_HY_NEW_2031 brings it back at 333 MW. Keeping the dated stop is what prevents the plant from being counted twice. (life set to 53 years, the stop being dated)"
+NUREK_2_HY_2019,TAJ_S,HY,Water,270,1972,2022,2022,50,"dated decision: Same staged rehabilitation, replaced by NUREK_NUREK2-_REHAB_HY_NEW_2031. (life set to 50 years, the stop being dated)"
+NUREK_3_HY_2023,TAJ_S,HY,Water,300,1973,2026,2026,53,"dated decision: Same staged rehabilitation, replaced by NUREK_NUREK3-_REHAB_HY_NEW_2031. (life set to 53 years, the stop being dated)"
+NUREK_4_HY_2024,TAJ_S,HY,Water,300,1976,2027,2027,51,"dated decision: Same staged rehabilitation, replaced by NUREK_NUREK4-_REHAB_HY_NEW_2031. (life set to 51 years, the stop being dated)"
+NUREK_5_HY_2020,TAJ_S,HY,Water,280,1977,2023,2023,46,"dated decision: Same staged rehabilitation, replaced by NUREK_NUREK5-_REHAB_HY_NEW_2031. (life set to 46 years, the stop being dated)"
+NUREK_6_HY_2025,TAJ_S,HY,Water,300,1978,2028,2028,50,"dated decision: Same staged rehabilitation, replaced by NUREK_6-REHAB_HY_NEW_2031. (life set to 50 years, the stop being dated)"
+NUREK_7_HY_2021,TAJ_S,HY,Water,300,1979,2024,2024,45,"dated decision: Same staged rehabilitation, replaced by NUREK_7-REHAB_HY_NEW_2031. (life set to 45 years, the stop being dated)"
+NUREK_8_HY_2031,TAJ_S,HY,Water,340,2022,2031,2051,99,never retires on age
+NUREK_9_HY_2026,TAJ_S,HY,Water,300,1979,2029,2029,50,"dated decision: Same staged rehabilitation, replaced by NUREK_9-REHAB_HY_NEW_2031. (life set to 50 years, the stop being dated)"
+NUREK_NUREK1-_REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2027,2031,2051,99,never retires on age
+NUREK_NUREK2-_REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2024,2031,2051,99,never retires on age
+NUREK_NUREK3-_REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2028,2031,2051,99,never retires on age
+NUREK_NUREK4-_REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2029,2031,2051,99,never retires on age
+NUREK_NUREK5-_REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2025,2031,2051,99,never retires on age
+NUREK_6-REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2030,2031,2051,99,never retires on age
+NUREK_7-REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2026,2031,2051,99,never retires on age
+NUREK_9-REHAB_HY_NEW_2031,TAJ_S,HY,Water,333,2031,2051,2051,99,never retires on age
+ROGUN_1_HY_NEW_2031,TAJ_S,HY,Water,600,2019,2031,2051,99,never retires on age
+ROGUN_2_HY_NEW_2031,TAJ_S,HY,Water,600,2021,2031,2051,99,never retires on age
+ROGUN_3_HY_NEW_2031,TAJ_S,HY,Water,600,2023,2031,2051,99,never retires on age
+ROGUN_4_HY_NEW_2031,TAJ_S,HY,Water,600,2025,2031,2051,99,never retires on age
+ROGUN_5_HY_NEW_2031,TAJ_S,HY,Water,600,2027,2031,2051,99,never retires on age
+ROGUN_6_HY_NEW_2031,TAJ_S,HY,Water,600,2029,2031,2051,99,never retires on age
+PAK_S_WT_2031,PAK_S,WT,Wind,934,2014,2031,2039,25,"commissioned 2014, 25 years of life"
+FWEL_WT_2031,PAK_S,WT,Wind,250,2014,2031,2039,25,"commissioned 2014, 25 years of life"
+JHAMPIR _TRICON_WT_NEW_2031,PAK_S,WT,Wind,0,2019,2031,2044,25,"commissioned 2019, 25 years of life"
+ATBASH_HY_2010,KGZ_N,HY,Water,40,2010,2031,2051,99,never retires on age
+PAK_KAR_PV_Solar_committed,PAK_KAR,WT,Wind,600,2021,2031,2046,25,"commissioned 2021, 25 years of life"
+SALMA_HPP,NEPS_HERAT,HY,Water,42,2017,2066,2051,99,never retires on age
+NEPS_HERAT_PV_1,NEPS_HERAT,PV,Solar,20,2022,2047,2047,25,"commissioned 2022, 25 years of life"
+NEPS_HERAT_WT,NEPS_HERAT,WT,Wind,25,2022,2047,2047,25,"commissioned 2022, 25 years of life"
+IRAN_Import,NEPS_HERAT,INT,Import,400,2015,2031,2051,99,never retires on age
+DARUNTA_HY,NEPS_AFG,HY,Water,11.55,1990,2031,2051,99,never retires on age
+MAHIPER_HY,NEPS_AFG,HY,Water,66,1990,2031,2051,99,never retires on age
+SOROBI_HY,NEPS_AFG,HY,Water,22,1990,2031,2051,99,never retires on age
+PUL_E_KHUMRI_HY,NEPS_AFG,HY,Water,9,1990,2031,2051,99,never retires on age
+KAJAKI II_HY,NEPS_AFG,HY,Water,100,2023,2031,2051,99,never retires on age
+SEPS_PV,NEPS_AFG,PV,Solar,40,2023,2047,2048,25,"commissioned 2023, 25 years of life"
