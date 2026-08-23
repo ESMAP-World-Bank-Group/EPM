@@ -130,14 +130,15 @@
       "name": "Mercados report and the associated PLEXOS model",
       "date": 2025,
       "access": "internal_wb",
-      "grade": "secondary",
+      "grade": "placeholder",
       "covers": [
         "KAZ",
         "KGZ",
         "TAJ",
         "TUR",
         "UZB"
-      ]
+      ],
+      "note": "Same consultant and same 2025 study as the AssumptionBooks, a DIFFERENT deliverable: the report and the PLEXOS database behind it. We hold the five Excel books, not the model. Graded a placeholder for that reason.\n"
     },
     "renewables_ninja": {
       "name": "Renewables.ninja / ERA5",
@@ -189,22 +190,6 @@
         "UZB"
       ],
       "note": "NTCs and commissioning schedules of the corridors. Not started to date."
-    },
-    "pipeline": {
-      "name": "Output of the pre-analysis pipeline (representative days, VRE profiles)",
-      "date": 2026,
-      "access": "internal_wb",
-      "grade": "secondary",
-      "where": "EPM/pre-analysis/",
-      "covers": [
-        "AFG",
-        "KAZ",
-        "KGZ",
-        "PAK",
-        "TAJ",
-        "TUR",
-        "UZB"
-      ]
     },
     "team": {
       "name": "Modelling team decision",
@@ -304,7 +289,7 @@
       "priority": "P1",
       "source": [
         "casa_2020",
-        "pipeline"
+        "team"
       ],
       "vintage": "2020",
       "what": "~40 flags and scalars, one of them set by the build\n",
@@ -338,7 +323,8 @@
       "work": "DONE",
       "priority": "P3",
       "source": [
-        "pipeline"
+        "deca_v51",
+        "team"
       ],
       "confidence": "high",
       "sheet": "DeCA Demand Profile 8760h\n",
@@ -465,7 +451,7 @@
       "work": "REBUILD",
       "priority": "P3",
       "source": [
-        "pipeline"
+        "team"
       ],
       "what": "day types retained\n",
       "todo": "Output of the representative days pipeline. Deferred with pHours.\n",
@@ -1000,7 +986,7 @@
       "work": "REBUILD",
       "priority": "P1",
       "source": [
-        "pipeline"
+        "team"
       ],
       "confidence": "high",
       "what": "peak season = Q5\n",

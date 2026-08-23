@@ -230,6 +230,57 @@ def weights(deployment, zmap):
     return {c: v / total for c, v in out.items() if c and total} if total else {}
 
 
+# The YAML writes its notes as folded scalars, so they reach the page as one block of
+# text however many subjects they cover. What separates the subjects is a convention the
+# notes already follow: a new point opens on a run of capitals, PHASE 8 REBUILT IT and
+# the like. That run is the title of the point, and this is what cuts the block on it.
+LEAD = re.compile(r"^((?:[A-Z0-9][A-Z0-9\-,.'():]*\s+){2,})")
+CUT = re.compile(r"(?<=\. )(?=(?:[A-Z0-9][A-Z0-9\-]*\s+){2,})")
+SENTENCE = re.compile(r"(?<=[.;]) (?=[A-Z(])")
+LIMIT = 420          # characters beyond which a point is cut again, on a full stop
+
+
+def points(text):
+    """Prose from the YAML, cut into readable points. One point when it is short."""
+    text = " ".join(str(text or "").split())
+    if not text:
+        return []
+    out = []
+    for block in CUT.split(text):
+        if len(block) <= LIMIT:
+            out.append(block.strip())
+            continue
+        # Too long to read in one breath and carrying no title: regroup its sentences.
+        current = ""
+        for sentence in SENTENCE.split(block):
+            if current and len(current) + len(sentence) > LIMIT:
+                out.append(current.strip())
+                current = ""
+            current += sentence + " "
+        if current.strip():
+            out.append(current.strip())
+    return [x for x in out if x]
+
+
+def bullets(a, text, keep=1, css="pts"):
+    """Write the text as points, the first ones open and the rest behind a fold."""
+    pts = points(text)
+    if not pts:
+        return
+
+    def item(point):
+        m = LEAD.match(point)
+        if not m:
+            return "<li>%s</li>" % h(point)
+        return "<li><b>%s</b> %s</li>" % (h(m.group(1)), h(point[m.end():]))
+
+    a('<ul class="%s">%s</ul>' % (css, "".join(item(x) for x in pts[:keep])))
+    if len(pts) > keep:
+        a('<details><summary>%d more %s</summary><ul class="%s">%s</ul></details>'
+          % (len(pts) - keep, "point" if len(pts) - keep == 1 else "points",
+             css, "".join(item(x) for x in pts[keep:])))
+
+
 def workbook_href(deployment):
     """Link to the tracking workbook: raw GitHub when the remote is known, else relative.
 
@@ -288,6 +339,13 @@ a{color:#1a5276}
 .src .tag.open{background:#27865a}.src .tag.conf{background:#a33228}.src .tag.hyp{background:#b8860b}
 .src p{margin:5px 0;color:#555}
 .todo{color:#8a5e12}
+ul.pts{margin:4px 0 8px;padding-left:18px;color:#555}
+ul.pts li{margin:3px 0}
+ul.pts b{color:#1a5276;font-size:.9em;letter-spacing:.02em}
+ul.pts.left li{color:#8a5e12}
+details{margin:2px 0 10px}
+summary{cursor:pointer;color:#1a5276;font-size:.82em;user-select:none}
+summary:hover{text-decoration:underline}
 .muted{color:#999}
 .matrix{table-layout:fixed}
 .matrix th.cc{text-align:center;width:9.5%}
@@ -361,22 +419,18 @@ def render(cfg, report, deployment, source_dir):
 
     # -- Country coverage ------------------------------------------------------
     a('<h2 id="coverage">Country coverage</h2>')
-    a('<p class="meta">Which source can speak for which country, resource by '
-      'resource, and <b>how old and how solid</b> that source is. The colour of a cell '
-      'is the best source covering that country for that resource, and the year below '
-      'the chips is that source\'s. The chips are the <b>declared</b> coverage: the '
-      'sources attached to the resource that state they can speak for that country. '
-      'The dot above them is <b>verified in the data</b>: the file really carries rows '
-      'for that country, found by matching column values against the zones of '
-      '<code>zcmap.csv</code>. A resource marked &dagger; has no geographic key at all '
-      '(it is indexed by plant, fuel or technology), so only the declared layer applies '
-      'to it.</p>')
-    a('<p class="meta">A source is graded in the YAML as <i>primary</i> (dedicated to '
-      'that country), <i>secondary</i> (an earlier model, a derived product, a template '
-      'nobody has validated) or <i>placeholder</i> (an assumption, or a request that has '
-      'not come back). Age gives the band and the grade caps it, so a secondary source '
-      'never reads as current however fresh its date, and a placeholder never reads as '
-      'data at all. This says where a number comes from. It does not say it is right.</p>')
+    a('<ul class="pts">'
+      '<li><b>COLOUR</b> the best source covering that country for that resource, and '
+      'the year under the chips is its date.</li>'
+      '<li><b>GRADE</b> <i>primary</i> dedicated to that country &middot; <i>secondary</i> '
+      'an earlier model, a derived product, an unvalidated template &middot; '
+      '<i>placeholder</i> an assumption, or a request that never came back. Age gives '
+      'the band, the grade caps it: a placeholder is never data whatever its date.</li>'
+      '<li><b>THE DOT</b> rows for that country really are in the file, checked against '
+      'the zones of <code>zcmap.csv</code>. A &dagger; resource has no geographic key '
+      'at all.</li>'
+      '<li><b>WHAT IT DOES NOT SAY</b> whether the number is right.</li>'
+      '</ul>')
     a('<div class="legend">')
     for key in BAND_ORDER:
         col, _, txt = BAND[key]
@@ -430,10 +484,8 @@ def render(cfg, report, deployment, source_dir):
 
     # -- Country by country ----------------------------------------------------
     a('<h2 id="countries">Country by country</h2>')
-    a('<p class="meta">The same grading read down the columns rather than across the '
-      'rows, with what each country weighs in the model. The share is that country\'s '
-      'demand in the first year of the horizon, read from the demand forecast, so a '
-      'weak column can be read against what depends on it.</p>')
+    a('<p class="meta">The same grading read down the columns, against what each '
+      'country weighs: its share of the demand in the first year of the horizon.</p>')
     share = weights(deployment, zmap)
     a('<div class="cards">')
     for c in countries:
@@ -543,7 +595,8 @@ def render(cfg, report, deployment, source_dir):
     # -- Detail, transformed resources only ------------------------------------
     a('<h2 id="detail">What was done, resource by resource</h2>')
     a('<p class="meta">Only the resources actually transformed by the build appear '
-      'here. The others are carried over as is from the 2020 model.</p>')
+      'here; the others are carried over as is from the 2020 model. The first point of '
+      'each is open, the rest folded.</p>')
     for e in res:
         if e.get("action") in ("keep", "shared"):
             continue
@@ -551,10 +604,11 @@ def render(cfg, report, deployment, source_dir):
         a('<h3 id="%s"><code>%s</code> <span class="muted">&mdash; %s</span></h3>'
           % (anchor(e["resource"], "res"), h(e["resource"]), h(label)))
         if e.get("note"):
-            a('<p>%s</p>' % h(e["note"]))
+            bullets(a, e["note"], keep=2)
         left = remaining(e)
         if left:
-            a('<p class="todo"><b>Left to do:</b> %s</p>' % h(left))
+            a('<p class="lbl">Left to do</p>')
+            bullets(a, left, css="pts left")
 
     # -- The sources -----------------------------------------------------------
     a('<h2 id="sources">The sources</h2>')
@@ -572,7 +626,7 @@ def render(cfg, report, deployment, source_dir):
         if s.get("where"):
             a('<p class="meta">Location: <code>%s</code></p>' % h(s["where"]))
         if s.get("note"):
-            a('<p>%s</p>' % h(s["note"]))
+            bullets(a, s["note"])
         a('</div>')
 
     a('<div class="foot">Page produced by <code>data_build/docs.py</code> from '
