@@ -235,9 +235,110 @@ def weights(deployment, zmap):
 # notes already follow: a new point opens on a run of capitals, PHASE 8 REBUILT IT and
 # the like. That run is the title of the point, and this is what cuts the block on it.
 LEAD = re.compile(r"^((?:[A-Z0-9][A-Z0-9\-,.'():]*\s+){2,})")
-CUT = re.compile(r"(?<=\. )(?=(?:[A-Z0-9][A-Z0-9\-]*\s+){2,})")
+CUT = re.compile(r"(?<=\. )(?=(?:[A-Z0-9][A-Z0-9\-]*[,.:;]?\s+){2,})")
 SENTENCE = re.compile(r"(?<=[.;]) (?=[A-Z(])")
 LIMIT = 420          # characters beyond which a point is cut again, on a full stop
+TITLE = 70           # a lead longer than this is a sentence, not a title
+# The notes number the phases of the build. That numbering is ours, it means nothing to
+# a reader of the page, and it opens a good half of the points: it is dropped on the way
+# out. The YAML keeps it, being the record of how the model was built.
+PHASE = re.compile(r"^(?:PHASE|Phase)\s+\d+[\s,:.\-]*")
+# The same numbering is also referred to mid-sentence, "the dispatch of phase 8". There
+# the number cannot simply be deleted without breaking the sentence, so it is said in
+# words instead, against the furthest step the build has reached.
+STEP = re.compile(r"\bphase\s+(\d+)\b", re.I)
+# A phase with no number attached is just a stage of the work, and says so.
+BARE = re.compile(r"\bphases?\b", re.I)
+# Runs of two or more words in capitals, anywhere in the text and not only at the head
+# of a point. The notes shout to mark a new subject; the page does not have to.
+SHOUT = re.compile(r"\b[A-Z0-9][A-Z0-9\-']+(?:[,.:;]?\s+[A-Z0-9][A-Z0-9\-']+)+\b")
+REACHED = [0]
+
+
+def in_words(m):
+    return "an earlier step" if int(m.group(1)) <= REACHED[0] else "a later step"
+
+# The vocabulary the notes use outside their shouting, each word kept in the casing they
+# most often give it. A word missing from here and written in capitals is a real acronym,
+# IGCEP or NTDC or MW; a word present in it was shouting, and the page restores the
+# casing the notes themselves use, which is what keeps Tajik a proper noun. Built from
+# the notes, so there is no list of acronyms and no list of countries to maintain.
+SPOKEN = {}
+# Words in capitals that the notes use inside ordinary prose, both neighbours in lower
+# case: IGCEP in "8 years old, IGCEP missing". That is what tells an acronym apart from
+# a word that is only ever shouted, since a shout runs several capitals together and
+# never leaves one of its words alone between two lower-case ones.
+SOLO = set()
+WORD = re.compile(r"[A-Za-z][A-Za-z\-']*")
+
+
+def learn(*texts):
+    """Collect the vocabulary the notes use in ordinary case, casing and all."""
+    for t in texts:
+        t = str(t or "")
+        hits = list(WORD.finditer(t))
+        words = [m.group(0) for m in hits]
+        for i, (m, w) in enumerate(zip(hits, words)):
+            if not w.isupper():
+                # A capital picked up at the head of a sentence says nothing about the
+                # word, so it is counted as the lower-case form it really is. Only a
+                # capital met mid-sentence is evidence of a proper noun.
+                before = t[:m.start()].rstrip()
+                if not before or before[-1] in ".;:!?":
+                    w = w[:1].lower() + w[1:]
+                SPOKEN.setdefault(w.lower(), {})
+                seen = SPOKEN[w.lower()]
+                seen[w] = seen.get(w, 0) + 1
+            elif not any(words[j].isupper()
+                         for j in (i - 1, i + 1) if 0 <= j < len(words)):
+                SOLO.add(w.lower())
+
+
+def is_spoken(word):
+    """Whether a word in capitals is an ordinary word rather than an acronym.
+
+    It is one if the notes write it in lower case somewhere, if a plural or a tense of
+    it is written there, if it is too long to be an acronym, or if it never once stands
+    alone in ordinary prose the way a real acronym does.
+    """
+    w = word.lower()
+    if not w:
+        return False
+    stems = {w, w.rstrip("s"), w[:-2] if w.endswith("es") else w,
+             w[:-1] if w.endswith("d") else w, w[:-3] if w.endswith("ing") else w}
+    return bool(stems & set(SPOKEN)) or len(w) > 6 or w not in SOLO
+
+
+def as_spoken(word):
+    """A word in capitals given back the casing the notes usually write it in."""
+    seen = SPOKEN.get(word.lower())
+    if not seen:
+        return word.lower()
+    # Plain lower case wins as soon as the notes ever use it: a capital picked up from
+    # the head of a sentence is not evidence of a proper noun, but Tajik never appearing
+    # in lower case is.
+    return word.lower() if word.lower() in seen else max(seen, key=seen.get)
+
+
+def spoken_case(run, start=True):
+    """A run of capitals put back into ordinary case, acronyms left alone.
+
+    start says the run opens a sentence, in which case its first word is capitalised;
+    a run met in the middle of one is simply lowered.
+    """
+    out = []
+    for i, w in enumerate(run.split()):
+        core = re.sub(r"[^A-Za-z]", "", w)
+        if is_spoken(core):
+            said = w.replace(core, as_spoken(core)) if core else w
+            w = said[:1].upper() + said[1:] if (start and not i) else said
+        out.append(w)
+    return " ".join(out)
+
+
+def unshout(text):
+    """Every run of capitals in the text put back into ordinary case."""
+    return SHOUT.sub(lambda m: spoken_case(m.group(0), start=False), text)
 
 
 def points(text):
@@ -246,7 +347,10 @@ def points(text):
     if not text:
         return []
     out = []
-    for block in CUT.split(text):
+    for block in CUT.split(PHASE.sub("", text)):
+        block = BARE.sub("step", STEP.sub(in_words, PHASE.sub("", block)))
+        if len(block) < 30:
+            continue          # "done." on its own, once the phase number is gone
         if len(block) <= LIMIT:
             out.append(block.strip())
             continue
@@ -262,6 +366,16 @@ def points(text):
     return [x for x in out if x]
 
 
+def fold(a, lines, keep, label):
+    """A list, the head of it open and the tail behind a fold."""
+    if not lines:
+        return
+    a('<ul class="tight">%s</ul>' % "".join(lines[:keep]))
+    if len(lines) > keep:
+        a('<details><summary>%d %s</summary><ul class="tight">%s</ul></details>'
+          % (len(lines) - keep, label, "".join(lines[keep:])))
+
+
 def bullets(a, text, keep=1, css="pts"):
     """Write the text as points, the first ones open and the rest behind a fold."""
     pts = points(text)
@@ -271,8 +385,11 @@ def bullets(a, text, keep=1, css="pts"):
     def item(point):
         m = LEAD.match(point)
         if not m:
-            return "<li>%s</li>" % h(point)
-        return "<li><b>%s</b> %s</li>" % (h(m.group(1)), h(point[m.end():]))
+            return "<li>%s</li>" % h(unshout(point))
+        lead, rest = spoken_case(m.group(1).strip()), unshout(point[m.end():])
+        if len(lead) > TITLE:
+            return "<li>%s %s</li>" % (h(lead), h(rest))
+        return "<li><b>%s</b> %s</li>" % (h(lead), h(rest))
 
     a('<ul class="%s">%s</ul>' % (css, "".join(item(x) for x in pts[:keep])))
     if len(pts) > keep:
@@ -362,6 +479,8 @@ summary:hover{text-decoration:underline}
 .ctry h3{margin:0;font-size:1.05em}
 .ctry .zones{color:#888;font-size:.8em;margin:2px 0 8px}
 .ctry ul{margin:3px 0 8px;padding-left:17px;font-size:.85em}
+ul.tight{margin:3px 0 6px;padding-left:17px;font-size:.85em}
+ul.tight li{margin:1px 0}
 .ctry li{margin:1px 0}
 .ctry .lbl{font-size:.74em;letter-spacing:.06em;text-transform:uppercase;color:#888;
  margin:10px 0 2px;font-weight:600}
@@ -393,6 +512,12 @@ def render(cfg, report, deployment, source_dir):
     res = report.get("resources") or []
     zmap = perimeter(deployment)
     countries = sorted(set(zmap.values()))
+    # The furthest step the build has reached, read off the resources themselves.
+    REACHED[0] = max([int(phase_of(e).lstrip("P") or 0) for e in res] or [0])
+    for e in res:
+        learn(e.get("note"), e.get("todo"), e.get("what"))
+    for v in src.values():
+        learn(v.get("note"), v.get("name"))
     today = date.today()
     out = []
     a = out.append
@@ -420,16 +545,17 @@ def render(cfg, report, deployment, source_dir):
     # -- Country coverage ------------------------------------------------------
     a('<h2 id="coverage">Country coverage</h2>')
     a('<ul class="pts">'
-      '<li><b>COLOUR</b> the best source covering that country for that resource, and '
-      'the year under the chips is its date.</li>'
-      '<li><b>GRADE</b> <i>primary</i> dedicated to that country &middot; <i>secondary</i> '
-      'an earlier model, a derived product, an unvalidated template &middot; '
-      '<i>placeholder</i> an assumption, or a request that never came back. Age gives '
-      'the band, the grade caps it: a placeholder is never data whatever its date.</li>'
-      '<li><b>THE DOT</b> rows for that country really are in the file, checked against '
-      'the zones of <code>zcmap.csv</code>. A &dagger; resource has no geographic key '
-      'at all.</li>'
-      '<li><b>WHAT IT DOES NOT SAY</b> whether the number is right.</li>'
+      '<li><b>The colour</b> is the best source covering that country for that '
+      'resource, and the year under the chips is its date.</li>'
+      '<li><b>The grade</b> is what that source is worth: <i>primary</i>, dedicated to '
+      'that country &middot; <i>secondary</i>, an earlier model, a derived product, an '
+      'unvalidated template &middot; <i>placeholder</i>, an assumption or a request that '
+      'never came back. Age gives the band, the grade caps it: a placeholder is never '
+      'data whatever its date.</li>'
+      '<li><b>The dot</b> means rows for that country really are in the file, checked '
+      'against the zones of <code>zcmap.csv</code>. A &dagger; resource has no '
+      'geographic key at all.</li>'
+      '<li><b>What it does not say</b> is whether the number is right.</li>'
       '</ul>')
     a('<div class="legend">')
     for key in BAND_ORDER:
@@ -520,27 +646,32 @@ def render(cfg, report, deployment, source_dir):
                 for k, v in src.items() if c in (v.get("covers") or [])]
         mine.sort(key=lambda t: (t[0], -t[1]))
         if mine:
-            a('<p class="lbl">Sources naming this country</p><ul>')
-            for _, _, k, v in mine:
+            def source_line(item):
+                _, _, k, v = item
                 grade = str(v.get("grade", ""))
-                a('<li><a href="#%s">%s</a> <span class="muted">%s</span>'
-                  '<span class="grade %s">%s</span></li>'
-                  % (anchor(k), h(v.get("name", k)), h(v.get("date", "")),
-                     h(grade), h(grade or "ungraded")))
-            a('</ul>')
+                return ('<li><a href="#%s">%s</a> <span class="muted">%s</span> '
+                        '<span class="grade %s">%s</span></li>'
+                        % (anchor(k), h(v.get("name", k)), h(v.get("date", "")),
+                           h(grade), h(grade or "ungraded")))
+            a('<p class="lbl">Sources naming this country</p>')
+            fold(a, [source_line(x) for x in mine], keep=4, label="weaker sources")
 
         weak = [e for e in res
                 if grid.get((e["resource"], c)) in ("legacy", "assumed")
                 and e.get("priority") in ("P1", "P2")]
         if weak:
-            a('<p class="lbl">Weakest inputs that matter (P1-P2)</p><ul>')
+            weak.sort(key=lambda e: (e.get("priority", "P9"),
+                                     BAND_ORDER.index(grid[(e["resource"], c)])))
+            lines = []
             for e in weak:
                 band = grid[(e["resource"], c)]
                 target = (anchor(e["resource"], "res")
                           if e.get("action") not in ("keep", "shared") else "detail")
-                a('<li><a href="#%s"><code>%s</code></a> <span class="muted">%s</span></li>'
-                  % (target, h(e["resource"]), h(BAND[band][2])))
-            a('</ul>')
+                lines.append('<li><a href="#%s"><code>%s</code></a> '
+                             '<span class="muted">%s</span></li>'
+                             % (target, h(e["resource"]), h(BAND[band][2])))
+            a('<p class="lbl">Weakest inputs that matter (P1-P2)</p>')
+            fold(a, lines, keep=5, label="more inputs")
         a('<p class="barkey">%d of the %d resources have a source for this country.</p>'
           % (graded, len(res)))
         a('</div>')
@@ -561,14 +692,14 @@ def render(cfg, report, deployment, source_dir):
           % (col, txt))
     a('</div>')
     a('<table><thead><tr><th>Resource</th><th>File</th><th>Inherited content</th>'
-      '<th>Rows</th><th>State</th><th>Phase</th><th>Vintage</th><th>Confidence</th>'
+      '<th>Rows</th><th>State</th><th>Vintage</th><th>Confidence</th>'
       '<th>Sources</th></tr></thead><tbody>')
     group = None
     tally = {"G": 0, "Y": 0, "R": 0, "B": 0}
     for e in res:
         if e.get("group") != group:
             group = e.get("group")
-            a('<tr class="cat-row"><td colspan="9">%s</td></tr>'
+            a('<tr class="cat-row"><td colspan="8">%s</td></tr>'
               % h(group or "unclassified"))
         code, label = state_of(e)
         tally[code] += 1
@@ -580,11 +711,11 @@ def render(cfg, report, deployment, source_dir):
         if e.get("action") not in ("keep", "shared"):
             cell = '<a href="#%s">%s</a>' % (anchor(e["resource"], "res"), cell)
         a('<tr><td>%s</td><td><code>%s</code></td><td>%s</td>'
-          '<td>%s</td><td class="st st-%s">%s</td><td>%s</td><td>%s</td><td>%s</td>'
+          '<td>%s</td><td class="st st-%s">%s</td><td>%s</td><td>%s</td>'
           '<td>%s</td></tr>'
           % (cell, h(e.get("path", "")), h(e.get("what", "")),
              h(n) if n not in (None, "-") else '<span class="muted">&mdash;</span>',
-             code, h(label), h(phase_of(e).lstrip("P")), h(e.get("vintage", "")),
+             code, h(label), h(e.get("vintage", "")),
              h(e.get("confidence", "")) or '<span class="muted">&mdash;</span>',
              links or '<span class="muted">&mdash;</span>'))
     a('</tbody></table>')
