@@ -118,6 +118,12 @@ def calendar():
     return month_of_day, day_of_hour
 
 
+def date_of(day, month_of_day):
+    """A day of the year written as month/day."""
+    m = month_of_day[day]
+    return "{0}/{1}".format(m, day - sum(MONTH_LENGTH[:m - 1]) + 1)
+
+
 def seasons(path):
     """season -> the months it covers, in the order the file states them."""
     out = collections.OrderedDict()
@@ -217,9 +223,11 @@ def legacy_shapes(reference, quarters):
 def representative(day_load, groups):
     """Split the days of a season: the peak day alone, then the rest by energy.
 
-    The peak day stands for itself, one day, and is what gives the reserve constraint
-    a true maximum to see. The others are ranked by their own energy and cut into
-    groups of as equal a size as the count allows, each represented by its mean day.
+    day_load holds, per day, the energy of the region and the height of the stress
+    signal. The peak day is the one that stresses the most zones at once; it stands
+    for itself, one day, and is what gives the reserve constraint a maximum to see.
+    The others are ranked by their own energy and cut into groups of as equal a size
+    as the count allows.
     """
     peak_day = max(day_load, key=lambda d: day_load[d][1])
     rest = sorted((d for d in day_load if d != peak_day),
@@ -229,6 +237,93 @@ def representative(day_load, groups):
     for i in range(groups - 1):
         out.append(rest[i * n // (groups - 1):(i + 1) * n // (groups - 1)])
     return [g for g in out if g]
+
+
+def medoid(system, group):
+    """The day of the group that is closest to the group's own average day.
+
+    A mean day is not a day. Averaging seventy-six days flattens every trough that
+    does not fall at the same hour twice, and the model reads that flattening as a
+    baseload the system does not have: the load factor of Tajikistan came out 0.15
+    above the truth, and the night valley of TAJ_S ended at three per cent of the peak
+    once generate_demand.gms had stretched the flattened shape back onto the annual
+    energy it is given. The day kept here is a real one, the least unusual member of
+    its group, so every hour of it was actually observed together on one date.
+    """
+    mean = [sum(system[d * HOURS_PER_DAY + h] for d in group) / float(len(group))
+            for h in range(HOURS_PER_DAY)]
+    return min(group, key=lambda d: sum(
+        (system[d * HOURS_PER_DAY + h] - mean[h]) ** 2 for h in range(HOURS_PER_DAY)))
+
+
+def solve_weights(day_load, groups, chosen):
+    """How many days each representative day stands for.
+
+    The size of each group alone would lose the energy of the season, because the
+    medoid of a group is its most typical day and not the day carrying its average
+    energy. The peak day always counts one. The others start from the size of their
+    group and are moved the shortest distance that makes the total energy of the
+    season come out right, which for two groups is the exact solution of the two
+    equations and for more is the least-squares one. The number of days in the season
+    is untouched by construction, the correction summing to zero.
+    """
+    n = [float(len(g)) for g in groups]
+    e = [day_load[d][0] for d in chosen]
+    w = [1.0] + n[1:]
+    rest = sum(day_load[d][0] for g in groups for d in g) - e[0]
+    idx = list(range(1, len(groups)))
+    if not idx:
+        return w
+    bar = sum(e[k] for k in idx) / len(idx)
+    denom = sum((e[k] - bar) ** 2 for k in idx)
+    if denom <= 0:
+        return w
+    lam = (rest - sum(n[k] * e[k] for k in idx)) / denom
+    trial = [n[k] + lam * (e[k] - bar) for k in idx]
+    if min(trial) < 1.0:
+        return w        # the correction would empty a day; the sizes stand
+    for k, v in zip(idx, trial):
+        w[k] = v
+    return w
+
+
+def whole(w):
+    """The weights in whole days, their total unchanged and none of them empty.
+
+    input_verification.py compares the sum of pHours to 8760 with no tolerance at all,
+    so this column has to hold values that add up exactly, and the same check refuses
+    a block of zero hours. Largest remainder, then a floor of one day.
+    """
+    base = [int(x) for x in w]
+    short = int(round(sum(w))) - sum(base)
+    order = sorted(range(len(w)), key=lambda i: w[i] - base[i], reverse=True)
+    for i in order[:short]:
+        base[i] += 1
+    while min(base) < 1:
+        base[base.index(min(base))] += 1
+        base[base.index(max(base))] -= 1
+    return base
+
+
+def duration(blocks, steps=20):
+    """A load duration curve, read at every 1/steps of the year.
+
+    blocks are (value, hours) pairs, which is what a representative day is and what a
+    calendar year is too, so both curves are built by this one function and compared
+    point by point.
+    """
+    blocks = sorted(blocks, key=lambda x: -x[0])
+    marks = [sum(h for _, h in blocks) * i / float(steps) for i in range(1, steps)]
+    out, seen, i = [], 0.0, 0
+    for v, hrs in blocks:
+        seen += hrs
+        while i < len(marks) and seen >= marks[i]:
+            out.append(v)
+            i += 1
+    while i < len(marks):
+        out.append(blocks[-1][0])
+        i += 1
+    return out
 
 
 def main():
@@ -264,6 +359,16 @@ def main():
 
     # ---- the representative days, chosen on the zones that have an hourly source
     system = [sum(series[z][h] for z in sourced) for h in range(8760)]
+    # Which day of a season is its peak day is not the same question as how much power
+    # the region draws that day. Summed in MW the answer is decided by Kazakhstan and
+    # Uzbekistan alone, and the peak day of every season then falls on a day when
+    # southern Tajikistan is at 78 % of its own maximum and Turkmenistan at 91 %; the
+    # planning reserve of EPM is written per zone, so those two would be sized against
+    # a peak the model never sees. Each zone divided by its own maximum first gives
+    # every zone one vote, and the day chosen is the one that stresses the most of
+    # them at once. Energy is still counted in MW, below: that question is about size.
+    zone_peak = dict((z, max(series[z])) for z in sourced)
+    stress = [sum(series[z][h] / zone_peak[z] for z in sourced) for h in range(8760)]
     hours_rows, profile = [], collections.defaultdict(dict)
     report = []
 
@@ -271,30 +376,50 @@ def main():
         days_of_q = [d for d in range(365) if month_of_day[d] in months]
         load = {}
         for d in days_of_q:
-            block = system[d * HOURS_PER_DAY:(d + 1) * HOURS_PER_DAY]
-            load[d] = (sum(block), max(block))
+            lo, hi = d * HOURS_PER_DAY, (d + 1) * HOURS_PER_DAY
+            load[d] = (sum(system[lo:hi]), max(stress[lo:hi]))
         groups = representative(load, args.days)
+        chosen = [groups[0][0]] + [medoid(system, g) for g in groups[1:]]
+        w = whole(solve_weights(load, groups, chosen))
 
-        for k, group in enumerate(groups, 1):
+        for k, (group, day, days) in enumerate(zip(groups, chosen, w), 1):
             d = "d{0}".format(k)
-            hours_rows.append([q, d] + [len(group)] * HOURS_PER_DAY)
+            hours_rows.append([q, d] + [days] * HOURS_PER_DAY)
             for z in sourced:
-                profile[z][(q, d)] = [
-                    sum(series[z][day * HOURS_PER_DAY + h] for day in group) / len(group)
-                    for h in range(HOURS_PER_DAY)]
+                profile[z][(q, d)] = list(
+                    series[z][day * HOURS_PER_DAY:(day + 1) * HOURS_PER_DAY])
             for z in legacy:
                 shape = legacy_days[z][q]
                 factor = uplift[z] if k == 1 else 1.0
                 profile[z][(q, d)] = [v * factor for v in shape]
-            report.append([q, d, len(group),
-                           ",".join(str(month_of_day[day]) + "/" +
-                                    str(day - sum(MONTH_LENGTH[:month_of_day[day] - 1]) + 1)
-                                    for day in group[:1]) if k == 1 else "",
-                           "peak day" if k == 1 else "mean of the group"])
+            report.append([q, d, days, date_of(day, month_of_day), len(group),
+                           "peak day" if k == 1 else "median day of the group"])
 
     total = sum(sum(r[2:]) for r in hours_rows)
     if total != 365 * HOURS_PER_DAY:
         raise ValueError("the time structure covers {0} h, not 8760".format(total))
+
+    # ---- each zone reaches its own maximum on the peak day
+    # One day per season is shared by every zone, so the day that stresses the region
+    # is not the day on which each zone separately reaches its own annual maximum:
+    # northern Tajikistan only got to 84 % of its own. Left there, the profile of that
+    # zone carries a load factor of 0.70 where its own series shows 0.60, and
+    # generate_demand.gms, which is given the peak and the energy of the zone and has
+    # to make the profile fit both, takes the excess out of the troughs and drives the
+    # winter night of TAJ_N below zero. The peak days are therefore lifted, one factor
+    # per zone, until the highest hour of the year in the profile is the highest hour
+    # of the year in the series. It says that a zone reaches its own maximum when the
+    # region is under stress, which is an assumption about coincidence and is stated
+    # in the report as peak_uplift; it is also exactly the convention the 2020 model
+    # used for Afghanistan and Pakistan, applied here to measured data rather than to
+    # an inherited one.
+    firsts = [(q, "d1") for q in quarters]
+    for z in sourced:
+        crest = max(max(profile[z][k]) for k in firsts)
+        lift = zone_peak[z] / crest if crest else 1.0
+        for k in firsts:
+            profile[z][k] = [v * lift for v in profile[z][k]]
+        uplift[z] = lift
 
     # ---- normalisation, one zone at a time
     keys = [(q, "d{0}".format(k)) for q in quarters
@@ -309,10 +434,31 @@ def main():
         energy = sum(sum(profile[z][k]) * weight[k] for k in keys)
         for q, d in keys:
             rows.append([z, q, d] + ["{0:.6g}".format(v / top) for v in profile[z][(q, d)]])
+
+        # THE RECONSTRUCTION TEST. Twelve days are asked to stand for three hundred
+        # and sixty five, and nothing in the model will ever say how well they do it.
+        # So it is measured here, against the series the days were drawn from, and
+        # written beside them: the load factor the twelve days produce against the one
+        # the year really has, the annual energy they carry against the real one, and
+        # the largest gap between the two load duration curves read at every five per
+        # cent of the year, as a percentage of the true peak. A zone with no hourly
+        # series has nothing to be tested against and its columns stay empty.
+        if z in sourced:
+            truth = series[z]
+            top_true = max(truth)
+            rec = duration([(v, weight[k]) for k in keys for v in profile[z][k]])
+            tru = duration([(v, 1.0) for v in truth])
+            test = ["{0:.3f}".format(sum(truth) / (top_true * 8760.0)),
+                    "{0:+.2f}".format((energy / sum(truth) - 1.0) * 100.0),
+                    "{0:.2f}".format(max(abs(a - b) for a, b in zip(rec, tru))
+                                     / top_true * 100.0)]
+        else:
+            test = ["", "", ""]
+
         zone_report.append([z, "hourly" if z in sourced else "2020 shape",
                             "{0:.0f}".format(top),
-                            "{0:.3f}".format(energy / (top * 8760.0)),
-                            "{0:.3f}".format(uplift.get(z, 1.0)) if z in legacy else ""])
+                            "{0:.3f}".format(energy / (top * 8760.0))] + test +
+                           ["{0:.3f}".format(uplift.get(z, 1.0))])
 
     out = os.path.join(HERE, "extracted")
     write_csv(os.path.join(out, "pHours.csv"),
@@ -322,9 +468,10 @@ def main():
               ["z", "q", "d"] + ["t{0}".format(h) for h in range(1, HOURS_PER_DAY + 1)],
               rows)
     write_csv(os.path.join(out, "demand_report.csv"),
-              ["q", "d", "days", "peak_day", "kind"], report)
+              ["q", "d", "days_stood_for", "date", "days_in_group", "kind"], report)
     write_csv(os.path.join(out, "demand_zone_report.csv"),
-              ["z", "source", "profile_peak_mw", "load_factor", "peak_uplift"],
+              ["z", "source", "profile_peak_mw", "load_factor", "load_factor_8760",
+               "energy_error_pct", "duration_curve_error_pct", "peak_uplift"],
               zone_report)
 
     print("structure  {0} seasons x {1} days x {2} h = {3} blocks, {4} h covered"
@@ -333,8 +480,15 @@ def main():
     print("zones      {0}, of which {1} on their own hourly series and {2} on the "
           "2020 shape".format(len(zones), len(sourced), len(legacy)))
     for r in report:
-        if r[4] == "peak day":
-            print("peak day   {0}  {1}".format(r[0], r[3]))
+        print("{0} {1}     {2:>3} days  {3:>6}  {4}".format(r[0], r[1], r[2], r[3], r[5]))
+    tested = [r for r in zone_report if r[4]]
+    if tested:
+        worst = max(tested, key=lambda r: float(r[6]))
+        print("test       {0} zones checked against their own 8760 h; worst duration "
+              "curve error {1} % of peak, on {2}".format(len(tested), worst[6], worst[0]))
+        thick = max(tested, key=lambda r: float(r[7]))
+        print("           the peak days are lifted at most {0} times, on {1}, to reach "
+              "the annual maximum of that zone".format(thick[7], thick[0]))
 
 
 if __name__ == "__main__":

@@ -398,6 +398,35 @@ def bullets(a, text, keep=1, css="pts"):
              css, "".join(item(x) for x in pts[keep:])))
 
 
+def measured(a, entry):
+    """The table a resource points at with its check key, shown as it stands.
+
+    A build that rewrites a file can also say how well it did it, and where it does
+    the page prints that instead of asking the reader to trust the prose. The key
+    names a CSV under data_build/ and the columns are whatever that file carries, so
+    nothing here knows what is being measured; the resource says what to read of it.
+    """
+    spec = entry.get("check")
+    if not spec:
+        return
+    path = spec if isinstance(spec, str) else spec.get("from", "")
+    head, rows = read_csv(os.path.join(HERE, path))
+    if not head:
+        return
+    a('<p class="lbl">What the build measured</p>')
+    if not isinstance(spec, str) and spec.get("note"):
+        a('<p class="meta">%s</p>' % h(spec["note"]))
+    a('<div class="scroll"><table class="chk"><thead><tr>%s</tr></thead><tbody>'
+      % "".join("<th>%s</th>" % h(c) for c in head))
+    for r in rows:
+        a("<tr>%s</tr>" % "".join(
+            '<td>%s</td>' % (h(c) if c.strip() else '<span class="muted">&mdash;</span>')
+            for c in r))
+    a('</tbody></table></div>')
+    a('<p class="meta">Read from <code>data_build/%s</code>, rewritten every time the '
+      'build runs.</p>' % h(path.replace("\\", "/")))
+
+
 def workbook_href(deployment):
     """Link to the tracking workbook: raw GitHub when the remote is known, else relative.
 
@@ -479,6 +508,10 @@ summary:hover{text-decoration:underline}
 .ctry h3{margin:0;font-size:1.05em}
 .ctry .zones{color:#888;font-size:.8em;margin:2px 0 8px}
 .ctry ul{margin:3px 0 8px;padding-left:17px;font-size:.85em}
+table.chk{font-size:.8em;margin:4px 0 2px}
+table.chk th{background:#f7f7f7;font-weight:600;white-space:nowrap}
+table.chk td{white-space:nowrap}
+div.scroll{overflow-x:auto;max-width:100%}
 ul.tight{margin:3px 0 6px;padding-left:17px;font-size:.85em}
 ul.tight li{margin:1px 0}
 .ctry li{margin:1px 0}
@@ -736,6 +769,7 @@ def render(cfg, report, deployment, source_dir):
           % (anchor(e["resource"], "res"), h(e["resource"]), h(label)))
         if e.get("note"):
             bullets(a, e["note"], keep=2)
+        measured(a, e)
         left = remaining(e)
         if left:
             a('<p class="lbl">Left to do</p>')

@@ -40,11 +40,18 @@ STEP TWO, the candidates. Three things were wrong for a 2050 run.
                       limit of a candidate, and it is 0 for every generic candidate
                       of Kyrgyzstan and Tajikistan and for four of Kazakhstan's. Those
                       countries could build nothing at all outside named projects.
-    no speed limit    BuildLimitperYear was ten million MW everywhere, so solar and
-                      wind could appear at any rate at all. DeCA states a real rate
-                      per country, and it steps up after 2030. EPM has one column and
-                      cannot step, so the step is carried by a second candidate that
-                      opens in the later period with the increment.
+    no speed limit    BuildLimitperYear was ten million MW everywhere, so anything
+                      could appear at any rate at all: the run built tens of gigawatts
+                      of gas in its first year, and ten gigawatts of Kazakh nuclear
+                      was available from 2022. For solar and wind DeCA states a real
+                      rate per country, and it steps up after 2030; EPM has one column
+                      and cannot step, so the step is carried by a second candidate
+                      that opens in the later period with the increment. For everything
+                      else no source states a rate, so one is assumed: a share of the
+                      peak the zone already carries, floored at one machine of the
+                      technology, both written per technology in candidate_limits.csv.
+                      The same file dates the first year a technology may be
+                      commissioned where that date is a decision rather than a rate.
     no batteries      there were none, in a model that runs to 2050. DeCA prices them
                       at 2, 4, 6 and 8 hours, and the four prices are exactly linear
                       in duration, which separates the cost of the power from the cost
@@ -217,6 +224,28 @@ def room(rate, first, last):
     return "{0:.6g}".format(rate * (last - first + 1))
 
 
+def implied_share(entry, books, zc, peak, deca_tech):
+    """The rate DeCA states for a technology, read as a share of the peak it applies to.
+
+    DeCA has a book for five of the seven countries and none for Pakistan and
+    Afghanistan, whose candidates would otherwise keep the ten million MW a year of
+    the 2020 table. Read as a share of the peak the country already carries, the rate
+    DeCA states is steady enough across the five to stand in for the two: the median
+    of those shares is what this returns, so the substitute is taken from the source
+    rather than invented.
+    """
+    out = []
+    for c, spec in sorted(books.items()):
+        spans = entry.get((spec.get("book", ""), deca_tech))
+        if not spans:
+            continue
+        national = sum(v for z, v in peak.items() if zc.get(z) == c)
+        if national > 0:
+            out.append(spans[0][2] / national)
+    out.sort()
+    return out[len(out) // 2] if out else 0.0
+
+
 def peaks(path, year):
     """Zone -> its peak demand in that year."""
     header, rows = read_csv(path)
@@ -253,6 +282,11 @@ def main():
     zc = dict((r[0].strip(), r[1].strip())
               for r in read_csv(os.path.join(tgt, "zcmap.csv"))[1])
     peak = peaks(os.path.join(tgt, "load", "pDemandForecast.csv"), horizon)
+    # The VRE rule shares a national rate out by zone, so it wants the weights of
+    # the end of the run. A thermal rate is a share of the system as it stands
+    # today, so it wants the first year: what a country can commission in a year
+    # follows from the system it already operates, not from the one it forecasts.
+    peak_now = peaks(os.path.join(tgt, "load", "pDemandForecast.csv"), start)
 
     entry, capex = {}, None
     for c in sorted(books):
@@ -275,7 +309,7 @@ def main():
         if need not in col:
             raise KeyError("the reference table has no column " + need)
 
-    out, retired, cand, seen = [], [], [], set()
+    out, retired, cand, seen, medians = [], [], [], set(), {}
     for r in rows:
         r = list(r)
         g = r[col["g"]].strip()
@@ -329,6 +363,13 @@ def main():
             continue
         why = []
 
+        if rule.get("first_year"):
+            first = int(rule["first_year"])
+            if styr < first:
+                r[col["StYr"]] = str(first)
+                why.append("cannot be commissioned before {0}".format(first))
+                styr = first
+
         if rule["cap_mw"] == "open":
             if float(r[col["Capacity"]] or 0) <= 0:
                 r[col["Capacity"]] = OPEN
@@ -337,18 +378,36 @@ def main():
             r[col["Capacity"]] = rule["cap_mw"]
             why.append("capped at " + rule["cap_mw"] + " MW by the mapping")
 
+        def set_rate(rate):
+            """The yearly rate, and a cumulative cap derived from it rather than round."""
+            r[col["BuildLimitperYear"]] = "{0:.6g}".format(rate)
+            r[col["Capacity"]] = room(rate, max(styr, start), horizon)
+
         if rule["limit_per_year"] == "deca_max_entry":
             c = zc.get(z, "")
             spans = entry.get((books.get(c, {}).get("book", ""), rule["deca_tech"]))
             if not spans:
-                why.append("DeCA states no rate for {0}, left without a limit".format(c))
+                med = medians.get(rule["deca_tech"])
+                if med is None:
+                    med = implied_share(entry, books, zc, peak_now, rule["deca_tech"])
+                    medians[rule["deca_tech"]] = med
+                rate = med * peak_now.get(z, 0.0)
+                if rate <= 0:
+                    why.append("DeCA states no rate for {0} and none can be inferred, "
+                               "left without a limit".format(c))
+                else:
+                    set_rate(rate)
+                    why.append("DeCA has no book for {0}; across the countries it does "
+                               "cover it lets a median {1:.0%} of the national peak be "
+                               "connected in {2} each year, and that share of the {3} "
+                               "peak of this zone is {4:.6g} MW"
+                               .format(c, med, rule["deca_tech"], start, rate))
             else:
                 share = peak.get(z, 0.0)
                 national = sum(v for zz, v in peak.items() if zc.get(zz) == c)
                 part = share / national if national else 0.0
                 rate = spans[0][2] * part
-                r[col["BuildLimitperYear"]] = "{0:.6g}".format(rate)
-                r[col["Capacity"]] = room(rate, max(styr, start), horizon)
+                set_rate(rate)
                 why.append("DeCA lets {0} connect {1:.0f} MW of {2} a year from {3}, "
                            "and this zone carries {4:.0%} of the national peak in {5}; "
                            "the cumulative cap is set to what that rate can deliver "
@@ -374,6 +433,30 @@ def main():
                                  "candidate carries the increment, and it carries it "
                                  "to the end of the run because DeCA stops stating a "
                                  "rate after {3}".format(span[2], c, span[0], span[1])])
+
+        elif rule["limit_per_year"].endswith("%"):
+            # No source states how fast a country can commission a thermal unit, the
+            # way DeCA states it for solar and wind. What the 2020 table wrote instead
+            # was ten million MW a year, which is not a limit at all and let the run
+            # build tens of gigawatts of gas in its first year. The rate here is a
+            # share of the peak the zone already carries, floored at one machine of
+            # the technology, so that it scales with the system and never bars a small
+            # country from building at all. It is an assumption, stated per technology
+            # in candidate_limits.csv, and it is the number to change first.
+            share = float(rule["limit_per_year"][:-1]) / 100.0
+            top = peak_now.get(z, 0.0)
+            rate = max(share * top, float(rule["floor_mw"] or 0))
+            if rate <= 0:
+                why.append("no peak stated for this zone, left without a limit")
+            else:
+                set_rate(rate)
+                held = rate > share * top
+                why.append("was allowed ten million MW a year; the rate is now {0:.6g} "
+                           "MW, {1:.0%} of the {2} peak of the zone ({3:.0f} MW){4}, "
+                           "and the cumulative cap follows from that rate over the run"
+                           .format(rate, share, start, top,
+                                   ", held up to the floor of one machine" if held
+                                   else ""))
 
         cand.append([g, z, tech, fuel, r[col["Capacity"]], styr,
                      r[col["BuildLimitperYear"]], "; ".join(why) or "unchanged"])

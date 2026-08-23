@@ -390,20 +390,50 @@ resources:
       representative days by twenty four chronological hours, the canonical EPM shape
       that epm/input/data_test also carries, and each cell holds THE NUMBER OF DAYS the
       representative day stands for, repeated over its 24 hours, summing to 8760.
-      THE PEAK REPRESENTATIVE DAY REPLACES THE OLD PEAK SEASON. In each season, d1 is
-      the calendar day carrying the highest system load of that season and weighs one
-      day; d2 and d3 are the mean days of the two halves of the rest of the season,
-      split by daily energy. Energy and peak are therefore both exact by construction,
-      which is what base.gms needs when it takes an smax over (q,d,t) for the reserve.
-      The four peak days chosen are 12 December, 18 March, 28 June and 29 November.
+      THE PEAK REPRESENTATIVE DAY REPLACES THE OLD PEAK SEASON. In each season d1 is a
+      calendar day and weighs one day, which is what base.gms needs when it takes an
+      smax over (q,d,t) for the reserve. The day chosen is the one that stresses the
+      most zones at once, each zone counted against its own maximum rather than in
+      megawatts, because a sum in megawatts is decided by Kazakhstan and Uzbekistan
+      alone and the reserve of EPM is written per zone. The four days are 12 December,
+      1 March, 24 July and 21 November.
+      THE OTHER TWO ARE REAL DAYS AS WELL, AND THEIR WEIGHTS ARE SOLVED, NOT COUNTED.
+      The rest of the season is split in two by daily energy and each half is
+      represented by its medoid, the real day closest to the average of that half. A
+      medoid is the most typical day of its group and not the day carrying its average
+      energy, so the two weights are then solved rather than taken from the sizes of the
+      groups: two unknowns, two equations, the days of the season and the energy of the
+      season, rounded to whole days at the end because input_verification.py compares
+      the sum of this table to 8760 with no tolerance at all and refuses a block of zero
+      hours. The weights that come out are 53 and 36 days for Q1, 28 and 32 for Q2, 79
+      and 73 for Q3, 29 and 31 for Q4.
+      WHY NOT THE MEAN OF EACH GROUP, WHICH IS WHAT THIS STEP DID FIRST. Averaging
+      seventy-six days flattens every trough that does not fall at the same hour twice,
+      and the model reads that flattening as a baseload the system does not have. See
+      pDemandProfile, which carries the measurement and the table of it.
       The season durations are unchanged, 90 / 61 / 153 / 61 days, so pAvailability and
       pTransferLimit did not have to be rebuilt.
+    check:
+      from: extracted/demand_report.csv
+      note: >
+        Written by build_demand.py: the date each representative day actually is, how
+        many days of its season it stands for, and how many days were in the group it
+        was drawn from. The two counts differ because the weights are solved on the
+        energy of the season, not read off the sizes.
     todo: >
       THE NUMBER OF REPRESENTATIVE DAYS IS ONE ARGUMENT, --days, and three is a
       starting point rather than a result: the model went from 35 blocks in 2020 to 288
       here, and if the solve turns out to be comfortable the count should go up, the
       days being grouped by demand alone today and therefore carrying no renewable
       variability. See pVREProfile, where the same limit bites harder.
+      THE WEIGHT SOLVER IS EXACT FOR TWO GROUPS AND LEAST SQUARES BEYOND, so raising
+      --days above three leaves a residual on the energy of the season. It is reported
+      in the demand test and it is small; it would be removed by adding a third
+      condition, the peak of each group, rather than by another solver.
+      Q3 STILL COVERS FIVE MONTHS, May to September, because that is the CASA-1000
+      contract window. Splitting it in two, May-June against July-September, is the
+      next thing worth doing to this file: the irrigation release and the summer
+      cooling peak do not belong to the same shape.
 
   pTechFuel:
     path: pTechFuel.csv
@@ -553,19 +583,64 @@ resources:
       peak. The peak of the profile is therefore the peak of the forecast, and the shape
       carries the rest. pDemandData stays empty on purpose: the year by year scaling is
       the work of the model, not of the pipeline.
-      A CROSS CHECK THAT LARGELY PASSES. The load factor implied by this profile and the
-      one implied by pDemandForecast were built from different sheets of the same books
-      and agree to a thousandth on eleven zones of sixteen. Three do not, and the gap is
-      DeCA disagreeing with itself: see the todo.
+      THE OTHER DAYS ARE REAL DAYS TOO, WHICH THEY WERE NOT AT FIRST. Each group was
+      first represented by the average of its days, and averaging seventy-six days
+      flattens every trough that does not fall at the same hour twice. The model does
+      not read that flattening as a flat shape, it reads it as a baseload the system
+      does not have: the load factor of northern Tajikistan came out at 0.715 where its
+      own series shows 0.600, and generate_demand.gms, which is handed both the peak and
+      the energy of the zone and has to make the shape fit both, took the excess out of
+      the nights and left TAJ_S at three per cent of its peak at four in the morning,
+      under a smelter that never stops. Each group is now represented by its medoid, the
+      real day closest to the average of the group, and the number of days it stands for
+      is solved so that the energy of the season comes out right: two unknowns, the
+      count of days and the energy, two equations. Nothing else changed, the structure
+      is still 4 x 3 x 24.
+      THE PEAK DAY IS CHOSEN ON THE STRESS OF EVERY ZONE, NOT ON THE MEGAWATTS. Summed
+      in MW the peak day of a season is decided by Kazakhstan and Uzbekistan alone, and
+      on the days that won southern Tajikistan sat at 78 per cent of its own maximum and
+      Turkmenistan at 91. The planning reserve of EPM is written per zone, so those two
+      would have been sized against a peak the model never sees. Each zone is divided by
+      its own maximum before the sum, which gives every zone one vote. Energy is still
+      counted in megawatts: that question is about size, this one is not.
+      AND EACH ZONE IS LIFTED ONTO ITS OWN MAXIMUM. One day per season is shared by
+      sixteen zones, so no single day is the day on which each of them separately peaks;
+      northern Tajikistan still only reached 84 per cent of its own. The peak days are
+      therefore multiplied, one factor per zone, until the highest hour of the profile
+      is the highest hour of the series, 1.185 for TAJ_N and 1.05 or less for six of the
+      eight. It is an assumption about coincidence, it is reported per zone as
+      peak_uplift, and it is the same convention the 2020 model already used for
+      Afghanistan and Pakistan, applied here to measured data instead of an inherited
+      one.
+      THE BUILD NOW TESTS ITSELF, which is the point of the table above. Twelve days are
+      asked to stand for three hundred and sixty five and nothing in the model would
+      ever have said how well they do it, so build_demand.py measures it against the
+      series the days were drawn from and writes the answer beside them: the load factor
+      the twelve days produce against the one the year really has, the annual energy,
+      and the largest gap between the two load duration curves read at every five per
+      cent of the year. Every sourced zone now lands within 0.02 of its true load
+      factor, against 0.15 before, the annual energy is within 2.7 per cent, and the
+      duration curve within 5.2 per cent of the peak. The measurement is rerun by the
+      build, so the next change to this step cannot pass unnoticed.
+    check:
+      from: extracted/demand_zone_report.csv
+      note: >
+        Written by build_demand.py. The last three columns compare the twelve
+        representative days against the 8760 hours they were drawn from; a zone with no
+        hourly series has nothing to be compared against and its columns are empty.
     todo: >
-      THREE ZONES WHERE THE PROFILE AND THE FORECAST DISAGREE, profile load factor
-      against forecast load factor: TAJ_N 0.715 against 0.618, TAJ_S 0.675 against
-      0.545, TUR 0.719 against 0.815. On the two Tajik zones the profile is flatter than
-      the stated peak implies, which means the peak of pDemandForecast is high by some
-      14 per cent, and the Tajik peak is precisely the one phase 2 had to repair, the TJ
-      book stating it in GW under a MW label. The simplified demand routine will absorb
-      the gap by digging the valleys, so nothing breaks, but the Tajik reserve
-      requirement is overstated until the peak is settled. ASK THE TJ AND TM SOURCES.
+      TURKMENISTAN IS THE ONE ZONE LEFT WHERE THE PROFILE AND THE FORECAST DISAGREE,
+      0.693 against 0.815, and the disagreement is inside DeCA rather than in this step:
+      the TM book states one average day per month, 288 points and no day to day
+      variation at all, so the shape cannot show the peak the Demand Evolution sheet
+      implies. The simplified demand routine absorbs it by raising the nights of
+      Turkmenistan some 40 per cent above what the profile says. ASK THE TM SOURCE for
+      an hourly series, or fall back on Renewables.ninja for the shape.
+      A NOTE ON WHAT IS NOW SETTLED, since it was written here as an open question and
+      it was wrong: the Tajik profiles do not disagree with the Tajik forecast. Measured
+      against the 8760 hour series, DeCA agrees with itself to within 0.02 of load
+      factor on both zones. The gap of 0.15 recorded here earlier was made by this
+      pipeline, by averaging days, and it is gone.
       No day to day variation for Afghanistan and Pakistan. The NTDC IGCEP would replace
       the Pakistani shape, which is the largest single gap left in the demand.
 
@@ -660,6 +735,43 @@ resources:
       10000 of the 2020 table, which was another number that meant no cap over a horizon
       stopping in 2031 and would have meant four years of Kazakh solar over one running
       to 2050.
+      THE SPEED LIMIT NOW COVERS EVERYTHING, NOT ONLY SOLAR AND WIND. Until this step
+      the ten million MW a year still stood on every thermal, nuclear and hydro menu
+      entry, and the first run spent it: 27 GW of new gas in 2026 alone, and ten
+      gigawatts of Kazakh nuclear available from 2022 because that is the year the 2020
+      table carried. No source states how fast a country can commission a thermal unit
+      the way DeCA states it for renewables, so a rate is assumed, and it is assumed in
+      the open: mappings/candidate_limits.csv now carries, per technology, a share of
+      the peak the zone already serves and a floor in MW below which that share may not
+      fall. Combined cycle and open cycle gas and reciprocating engines get 5 per cent a
+      year, coal and oil steam and cogeneration 3 per cent, the two Kazakh hydro menu
+      entries 2 per cent, with floors of one machine, 400 MW for a CCGT block, 300 for a
+      supercritical unit, 200 for a gas turbine, 100 for an engine or a CHP, 50 for
+      small hydro. Northern Kazakhstan may therefore add 574 MW of CCGT a year and
+      Kyrgyzstan 400, which is the floor doing its work: the share alone would have
+      barred a small system from ever building one machine.
+      NUCLEAR IS DATED, NOT ONLY RATED. Two per cent of the zone peak is 230 MW a year
+      in northern Kazakhstan, one 1200 MW unit every five years, which is the pace of a
+      real programme rather than a wall of capacity; and the same file now carries a
+      first year, 2035, against a candidate whose start year in the 2020 table was 2022.
+      The October 2024 referendum approved a first plant at Ulken, Rosatom was selected
+      in June 2025, and the commissioning date stated publicly is 2035 to 2036. Nothing
+      else in the table has a first year imposed on it.
+      PAKISTAN AND AFGHANISTAN KEEP A RATE THEY WERE NEVER GIVEN. DeCA has no book for
+      them, so their solar and wind candidates fell through the RenewableMaxEntry rule
+      and kept the ten million MW. Rather than invent a number, the rate DeCA states for
+      the five countries it does cover is read as a share of the peak each of them
+      already serves, 18.7 per cent for Kazakhstan down to 11.6 for Tajikistan, and the
+      median of those five, 15.7 per cent, is applied to the Pakistani and Afghan zones.
+      It is a substitute taken from the source rather than from nowhere, and it is flat:
+      the step up after 2030 that the five countries get is not extended to the two, so
+      the two are the conservative case until the IGCEP arrives.
+      WHAT THIS IS NOT. It is not a source. The shares and the floors are an assumption
+      about how fast a power system can build, they are the first numbers to challenge
+      with the TSOs, and they are the reason this resource is graded on assumed as well
+      as on DeCA. Every named project is untouched: a project is not a menu entry, its
+      capacity is the capacity of that project, and the loop never asks this file about
+      it.
       PHASE 6, THE COST COLUMNS. HeatRate and VOM of the existing Central Asian
       thermal fleet are rebuilt by build_costs.py from mappings/thermal_plants.csv,
       which carries all 70 of those units one by one against the DeCA Thermal PP
