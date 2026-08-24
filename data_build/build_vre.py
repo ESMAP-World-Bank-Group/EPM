@@ -102,6 +102,19 @@ def seasons(path):
     return out
 
 
+def legacy_of(path):
+    """season -> the season of the 2020 model it inherits its shape from.
+
+    Our seasons and the 2020 ones share their names by accident of history, not by
+    construction: the 2020 Q5 was a 130 h peak block, ours is July-September. The
+    mapping says which is which so that neither set has to match the other.
+    """
+    out = {}
+    for row in dicts(path):
+        out[row["season"].strip()] = row["legacy"].strip()
+    return out
+
+
 def block_hours(row):
     """The width in hours of each block of the 2020 day. See build_demand.py."""
     values = [v for v in row if v is not None]
@@ -188,6 +201,7 @@ def main():
 
     quarters = seasons(os.path.join(HERE, "mappings", "seasons_months.csv"))
     shape = legacy_profile(reference)
+    inherits = legacy_of(os.path.join(HERE, "mappings", "seasons_months.csv"))
     plan = dicts(os.path.join(HERE, "mappings", "vre_profiles.csv"))
 
     _, hours = read_csv(os.path.join(HERE, "extracted", "pHours.csv"))
@@ -213,9 +227,10 @@ def main():
                         code, sorted(names & taken)[0], tech, other))
 
         for q, months in quarters.items():
-            base = shape.get((z, tech, q))
+            base = shape.get((z, tech, inherits[q]))
             if base is None:
-                raise SystemExit("no 2020 shape for {0} {1} {2}".format(z, tech, q))
+                raise SystemExit("no 2020 shape for {0} {1} {2} (drawn from {3})"
+                                 .format(z, tech, q, inherits[q]))
             mean = sum(base) / float(HOURS_PER_DAY)
             if picked:
                 weight = sum(MONTH_LENGTH[m - 1] for m in months)

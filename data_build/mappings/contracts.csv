@@ -1,0 +1,6 @@
+from,to,months,source,note
+KGZ_S,TAJ_N,"5,6,7,8,9",casa1000_ppa,"CASA-1000 upstream leg. Kyrgyz summer surplus wheeled into the Tajik north; volumes in the reference table."
+TAJ_N,KGZ_S,"5,6,7,8,9",casa1000_ppa,"Return leg, deliberately without a volume: the equality then reads zero and holds the counter-flow shut for the whole window."
+TAJ_S,NEPS_TAJ,"5,6,7,8,9",casa1000_ppa,"Afghan tap of CASA-1000 at Sangtuda-Kunduz."
+TAJ_S,PAK_N,"5,6,7,8,9",casa1000_ppa,"CASA-1000 DC link Sangtuda-Nowshera, the take-or-pay of the project."
+PAK_N,TAJ_S,"5,6,7,8,9",casa1000_ppa,"Return leg, deliberately without a volume: see TAJ_N to KGZ_S."

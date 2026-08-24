@@ -96,6 +96,18 @@ def seasons(path):
     return out
 
 
+def legacy_of(path):
+    """season -> the season of the 2020 model it inherits its value from.
+
+    Our seasons and the 2020 ones share their names by accident of history, not by
+    construction: the 2020 Q5 was a 130 h peak block, ours is July-September. The
+    mapping says which is which so that neither set has to match the other.
+    """
+    header, rows = read_csv(path)
+    i = {name.strip(): j for j, name in enumerate(header)}
+    return dict((r[i["season"]].strip(), r[i["legacy"]].strip()) for r in rows)
+
+
 def header_row(rows, label):
     """Index of the row that holds the column names, found by one of them."""
     for i, r in enumerate(rows):
@@ -243,18 +255,19 @@ def main():
     maps = os.path.join(HERE, "mappings")
     season_set = seasons(os.path.join(maps, "seasons_months.csv"))
     names = [q for q, _, _ in season_set]
+    inherits = legacy_of(os.path.join(maps, "seasons_months.csv"))
 
     ref_path = os.path.join(REPO, args.reference, "supply", "pAvailabilityCustom.csv")
     ref_header, ref_rows = read_csv(ref_path)
     ref_col = {c.strip(): j for j, c in enumerate(ref_header)}
-    missing = [q for q in names if q not in ref_col]
+    missing = [inherits[q] for q in names if inherits[q] not in ref_col]
     if missing:
         raise KeyError("the reference has no column for " + ", ".join(missing))
     base, order = {}, []
     for r in ref_rows:
         g = r[ref_col["g"]].strip()
         order.append(g)
-        base[g] = [num(r[ref_col[q]]) or 0.0 for q in names]
+        base[g] = [num(r[ref_col[inherits[q]]]) or 0.0 for q in names]
 
     header, rows = read_csv(os.path.join(maps, "hydro_plants.csv"))
     col = {c.strip(): j for j, c in enumerate(header)}

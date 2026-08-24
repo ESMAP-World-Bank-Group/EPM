@@ -369,21 +369,40 @@ resources:
       DeCA Demand Profile 8760h
     vintage: "2021-2022"
     what: >
-      4 seasons x 3 representative days x 24 chronological hours = 288 blocks, 8760 h
+      5 seasons x 3 representative days x 24 chronological hours = 360 blocks, 8760 h
     note: >
       q = 4 quarters, the 5th peak season is removed. It was not a structure but a
       patch: the reserve constraint takes a smax over all blocks (base.gms:991) and
       requires no dedicated season. Q5 only served to give that smax a block short
       enough to see the true peak, for want of representative days (d=1 in the 2020
       model).
-      THE FOUR QUARTERS ARE NOT CALENDAR QUARTERS, and the months behind them are now
-      written down in data_build/mappings/seasons_months.csv: Q1 December to February,
-      Q2 March and April, Q3 May to September, Q4 October and November. That split is
-      read off the 2020 durations, Q1 and Q5 together 2180 h that is 90.8 days, Q2
-      1464 h exactly 61 days, Q3 3652 h that is 152.2 days, Q4 1464 h exactly 61 days,
-      and it lands on 8760 h to the hour. Q3 is the irrigation release window and the
-      window of the CASA-1000 contract, 1 May to 30 September. Every season-indexed
-      resource is built against that mapping.
+      THE SEASONS ARE NOT CALENDAR QUARTERS, and the months behind them are written
+      down in data_build/mappings/seasons_months.csv, which is the single place the
+      year is cut: Q1 December to February, Q2 March and April, Q3 May and June, Q5
+      July to September, Q4 October and November. The first cut was read off the 2020
+      durations, Q1 and the peak block together 2180 h that is 90.8 days, Q2 1464 h
+      exactly 61 days, Q3 3652 h that is 152.2 days, Q4 1464 h exactly 61 days, and it
+      lands on 8760 h to the hour. Every season-indexed resource is built against that
+      mapping.
+      PHASE 4 SPLIT THE SUMMER IN TWO, May-June against July-September. One season of
+      five months held two different things at once: the irrigation release, where the
+      reservoirs open for the fields downstream and the hydro runs whether the load
+      calls for it or not, and the cooling peak, where it is the load that is high. A
+      single season had to pick one, and it picked the peak: its representative days
+      were 24 July and two medians drawn from a five-month pool. They are now 27 June
+      for Q3 and 24 July for Q5, and May-June has its own shape at last.
+      THE NAME Q5 IS RECYCLED, not restored. The 2020 model had a Q5 too and it was
+      the 130 h peak block, not a season. Nothing of that block is here. The seasons
+      mapping carries a legacy column saying which 2020 season each of ours draws its
+      inherited shapes from, and ours sends both halves of the summer to the 2020 Q3;
+      without it build_vre matched on the name alone and dressed July-September in a
+      winter peak block, which input_verification.py caught as a capacity factor of
+      1.24 on KAZ_N solar.
+      NO SEASON IS NAMED ANYWHERE ELSE. The CASA-1000 contract window and the seasonal
+      corridor to Afghanistan are written in months in their own mappings and resolved
+      against this file, so the year can be re-cut again without touching them; a
+      window that would take part of a season stops the build rather than being
+      guessed at.
       PHASE 8 REBUILT IT, and this is the file that defines the sets q, d and t for
       the whole model: main.gms:214 reads pHours(q<,d<,t<), so every other hourly
       resource follows whatever shape is written here. It is now four seasons by three
@@ -395,8 +414,8 @@ resources:
       smax over (q,d,t) for the reserve. The day chosen is the one that stresses the
       most zones at once, each zone counted against its own maximum rather than in
       megawatts, because a sum in megawatts is decided by Kazakhstan and Uzbekistan
-      alone and the reserve of EPM is written per zone. The four days are 12 December,
-      1 March, 24 July and 21 November.
+      alone and the reserve of EPM is written per zone. The five days are 12 December,
+      1 March, 27 June, 24 July and 21 November.
       THE OTHER TWO ARE REAL DAYS AS WELL, AND THEIR WEIGHTS ARE SOLVED, NOT COUNTED.
       The rest of the season is split in two by daily energy and each half is
       represented by its medoid, the real day closest to the average of that half. A
@@ -405,14 +424,15 @@ resources:
       groups: two unknowns, two equations, the days of the season and the energy of the
       season, rounded to whole days at the end because input_verification.py compares
       the sum of this table to 8760 with no tolerance at all and refuses a block of zero
-      hours. The weights that come out are 53 and 36 days for Q1, 28 and 32 for Q2, 79
-      and 73 for Q3, 29 and 31 for Q4.
+      hours. The weights that come out are 53 and 36 days for Q1, 28 and 32 for Q2, 31
+      and 29 for Q3, 42 and 49 for Q5, 29 and 31 for Q4.
       WHY NOT THE MEAN OF EACH GROUP, WHICH IS WHAT THIS STEP DID FIRST. Averaging
       seventy-six days flattens every trough that does not fall at the same hour twice,
       and the model reads that flattening as a baseload the system does not have. See
       pDemandProfile, which carries the measurement and the table of it.
-      The season durations are unchanged, 90 / 61 / 153 / 61 days, so pAvailability and
-      pTransferLimit did not have to be rebuilt.
+      The season durations are 90 / 61 / 61 / 92 / 61 days, and every seasonal resource
+      is rebuilt from them: pDemandProfile, pVREProfile, pAvailability, pTransferLimit,
+      pContractedTradeFlag and pContractedTradeEnergy.
     check:
       from: extracted/demand_report.csv
       note: >
@@ -430,10 +450,12 @@ resources:
       --days above three leaves a residual on the energy of the season. It is reported
       in the demand test and it is small; it would be removed by adding a third
       condition, the peak of each group, rather than by another solver.
-      Q3 STILL COVERS FIVE MONTHS, May to September, because that is the CASA-1000
-      contract window. Splitting it in two, May-June against July-September, is the
-      next thing worth doing to this file: the irrigation release and the summer
-      cooling peak do not belong to the same shape.
+      PHASE 4 SPLIT THE SUMMER: Q3 is May-June, the irrigation release, and Q5 is
+      July-September, the cooling peak. 360 blocks now instead of 288. It shows in
+      the representative days, which no longer share one: Q3 peaks on 27 June and Q5
+      on 24 July, where the single five-month season kept only 24 July and drowned
+      May-June in two median days. The contract window did not move, it is written in
+      months now and spans the two seasons.
 
   pTechFuel:
     path: pTechFuel.csv
@@ -1019,11 +1041,17 @@ resources:
       THE FACTOR IS A COUNTRY MEAN over every plant of the technology, existing and
       candidate, high yield and low yield sites together, because the five books name no
       zone for their existing plants. That is an average site, which is what a generic
-      candidate is. Sixty four of the 128 seasonal factors move; the Afghan and
-      Pakistani zones keep their 2020 level, being outside the DeCA perimeter.
-      WHAT MOVES: mean solar capacity factor 0.169 to 0.152, mean wind 0.333 to 0.354.
+      candidate is. Eighty of the 160 seasonal factors move; the Afghan and Pakistani
+      zones keep their 2020 level, being outside the DeCA perimeter.
+      WHAT MOVES: mean solar capacity factor 0.174 to 0.169, mean wind 0.333 to 0.369.
       Solar loses most in winter, KAZ_N Q1 going from 0.144 to 0.089, which matters in a
       system that peaks in December.
+      THE 2020 SHAPE IS DRAWN BY MONTHS, NOT BY NAME, since phase 4 split the summer.
+      Both halves take the 2020 Q3 day and are rescaled to their own DeCA factor, 0.208
+      for KAZ_N solar in Q3 against 0.207 in Q5. Matching on the name instead handed
+      July-September the 2020 peak block, a 130 h winter artefact, and produced a
+      capacity factor of 1.24; the column that says which season feeds which lives in
+      mappings/seasons_months.csv.
       TWO TRAPS THE MAPPING STEPS AROUND. The Tajik book labels its own regions with a
       KZ prefix, Khatlon and Sougd and Gorno-Badakhshan all reading "KZ ...", so the
       selection keys on the workbook and not on the name. And one Kazakh SOLAR plant is
@@ -1247,9 +1275,11 @@ resources:
       pMaxAnnualTransfer requires. CASA-1000 to Pakistan: 1000 MW and not 1300, the
       1300 being the rating of the whole DC link including the Afghan tap. Tajikistan
       to Afghanistan: 188 MW all year plus a May-September window at 638 MW, which is
-      the first seasonal corridor of the model. The Q5 rows dropped by an earlier
-      build are restored: Q5 is the peak season of pHours, and without them no zone
-      could import at the peak.
+      the first seasonal corridor of the model. That window is written in months and
+      not in season names, so the phase 4 split carried it into Q3 and Q5 by itself.
+      The file used to carry Q5 rows inherited from the 2020 season set while pHours
+      had only four seasons: the season set now comes from seasons_months.csv like
+      every other seasonal resource, so the two cannot drift apart again.
     todo: >
       DONE for the corridors that have a source. Two gaps left, both needing an
       external answer: the intra-CAPS NTCs rest on the 2020 model alone (TSO request
@@ -1259,21 +1289,26 @@ resources:
   pContractedTradeFlag:
     path: trade/pContractedTradeFlag.csv
     group: Trade
-    action: keep
+    action: table
+    from: extracted/pContractedTradeFlag.csv    # produced by build_trade.py
     priority: P1
     source: ["casa1000_ppa"]
     confidence: low
     what: >
       contracted corridors, by season
-    work: KEEP
+    work: DONE
     note: >
-      Q3 is not a calendar quarter. In pHours it is worth 3652 h, that is 152 days,
-      which is the May-September export window of CASA-1000 to within one day. The
-      five flags are therefore already on the right season and must not be moved.
+      NO LONGER WRITTEN BY HAND, and no longer naming a season. The window of the
+      contract is declared in months in data_build/mappings/contracts.csv, 1 May to
+      30 September for the five CASA-1000 legs, and the build turns it into whatever
+      seasons cover those months. Phase 4 split the summer in two and the flags
+      followed on their own: ten rows now, Q3 and Q5 for each leg, where there were
+      five on Q3. Two of the five legs carry no volume on purpose; the contracted
+      equality then reads zero and holds the counter-flow shut, which is how the 2020
+      model suppressed them.
     todo: >
-      DONE. Constraint carried to phase 8: the representative-day pipeline has to
-      reproduce this season structure, Q3 = May-September, or every contracted flow
-      of the model moves with it.
+      DONE. The build refuses a window that takes part of a season, so a later re-cut
+      of the year cannot move the contract silently: it stops.
 
   pContractedTradeEnergy:
     path: trade/pContractedTradeEnergy.csv
@@ -1291,7 +1326,16 @@ resources:
       Re-based on the model years. The volumes stopped at 2030, so the contract
       simply disappeared from 2031 on, a year GAMS reads as zero. The 2030 value is
       now held to 2050, which ASSUMES the contract is renewed. The three flows total
-      4343 GWh in Q3, against a 4434 GWh plateau in the PPA note: consistent.
+      4343 GWh over the window, against a 4434 GWh plateau in the PPA note:
+      consistent.
+      PHASE 4 SPLIT THE VOLUME, IT DID NOT DUPLICATE IT. The contracted equality of
+      base.gms is written season by season, so the May-September total is now shared
+      between Q3 and Q5 PRO RATA BY DAYS, 61 against 92: KGZ_S to TAJ_N goes from
+      1595 GWh on one season to 636 and 959 on two. Copying the figure into both
+      would have doubled every contracted flow of the model.
+      The seasons of the reference table are ignored on the way in, only the pair and
+      the yearly total are kept: Q3 there was the 2020 way of cutting the year, not a
+      property of the contract.
     todo: >
       Needs the PPA file, still to be located, to replace the assumption by the real
       schedule: year 1 is said to be 2028 and the term 15 years, so the flows should

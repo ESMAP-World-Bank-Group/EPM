@@ -1,5 +1,6 @@
-season,months,days,note
-Q1,"12,1,2",90,"Winter. The 2020 model gave Q1 2050 h and the peak season Q5 130 h, 2180 h together, that is 90.8 days: December-January-February."
-Q2,"3,4",61,"Spring. 1464 h in the 2020 model, exactly 61 days: March-April."
-Q3,"5,6,7,8,9",153,"Summer, the irrigation release window. 3652 h in the 2020 model, 152.2 days, and the CASA-1000 contract window runs 1 May to 30 September, 153 days."
-Q4,"10,11",61,"Autumn. 1464 h in the 2020 model, exactly 61 days: October-November."
+season,months,days,legacy,note
+Q1,"12,1,2",90,Q1,"Winter. The 2020 model gave Q1 2050 h and its peak block 130 h, 2180 h together, that is 90.8 days: December-January-February."
+Q2,"3,4",61,Q2,"Spring. 1464 h in the 2020 model, exactly 61 days: March-April."
+Q3,"5,6",61,Q3,"Early summer, the irrigation release: the reservoirs open for the fields downstream and the hydro runs whether the load calls for it or not. May-June."
+Q5,"7,8,9",92,Q3,"Late summer, the cooling peak: here it is the load that is high, and it is the season the Pakistani deficit falls in. July-August-September. The name is recycled from the 2020 model, where Q5 was a 130 h peak block and not a season; nothing of that block survives here, which is why the legacy column sends this season to the 2020 Q3 like its other half."
+Q4,"10,11",61,Q4,"Autumn. 1464 h in the 2020 model, exactly 61 days: October-November."

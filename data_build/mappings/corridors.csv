@@ -1,4 +1,4 @@
-from,to,season,2026,2030,2050,source,note
+from,to,months,2026,2030,2050,source,note
 KAZ_N,KAZ_S,all,2300,2300,2300,casa_2020,
 KAZ_S,KAZ_N,all,2300,2300,2300,casa_2020,
 KAZ_S,KGZ_N,all,2300,2300,2300,casa_2020,
@@ -41,4 +41,4 @@ UZB,NEPS_UZB,all,400,400,400,casa_2020,
 UZB,TAJ_N,all,900,900,900,casa_2020,
 UZB,TAJ_S,all,300,300,300,casa_2020,
 UZB,TUR,all,300,300,300,casa_2020,
-TAJ_S,NEPS_TAJ,Q3,638,638,638,deca_v51,May-September window: 188 MW PPA + 150 MW seasonal + 300 MW CASA-1000 Afghan tap = 638 MW.
+TAJ_S,NEPS_TAJ,"5,6,7,8,9",638,638,638,deca_v51,May-September window: 188 MW PPA + 150 MW seasonal + 300 MW CASA-1000 Afghan tap = 638 MW.

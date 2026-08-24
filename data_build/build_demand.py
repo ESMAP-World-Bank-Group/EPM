@@ -135,6 +135,19 @@ def seasons(path):
     return out
 
 
+def legacy_of(path):
+    """season -> the season of the 2020 model it inherits its shape from.
+
+    Our seasons and the 2020 ones share their names by accident of history, not by
+    construction: the 2020 Q5 was a 130 h peak block, ours is July-September. The
+    mapping says which is which so that neither set has to match the other.
+    """
+    out = {}
+    for row in dicts(path):
+        out[row["season"].strip()] = row["legacy"].strip()
+    return out
+
+
 def hourly(path):
     """zone -> [MW], one value per hour of the year.
 
@@ -182,12 +195,14 @@ def block_hours(row):
     return base
 
 
-def legacy_shapes(reference, quarters):
+def legacy_shapes(reference, inherits):
     """zone -> {season: [24 MW]} and zone -> peak uplift, out of the 2020 model.
 
-    The 2020 seasons that survive are read as day shapes; the one that does not, the
-    old peak season, is read only for its maximum, which is the uplift the peak day of
-    a legacy zone is given.
+    Each of our seasons is read from the 2020 season it inherits from, named in
+    seasons_months.csv; two of ours may draw on the same one, which is what the split
+    summer does. Every 2020 season is read for its maximum, including the old peak
+    block that is a season for nobody: that maximum is the uplift the peak day of a
+    legacy zone is given.
     """
     widths = {}
     header, rows = read_csv(os.path.join(reference, "pHours.csv"))
@@ -206,12 +221,14 @@ def legacy_shapes(reference, quarters):
         z, q = r[hi["z"]].strip(), r[hi["q"]].strip()
         values = [num(r[j]) or 0.0 for j in blocks]
         peaks[z] = max(peaks[z], max(values))
-        if q not in quarters:
+        drawn = [ours for ours, theirs in inherits.items() if theirs == q]
+        if not drawn:
             continue
         day = []
         for width, value in zip(widths[q], values):
             day += [value] * width
-        days[z][q] = day
+        for ours in drawn:
+            days[z][ours] = day
 
     uplift = {}
     for z in days:
@@ -341,6 +358,7 @@ def main():
     target = os.path.join(REPO, args.target)
 
     quarters = seasons(os.path.join(HERE, "mappings", "seasons_months.csv"))
+    inherits = legacy_of(os.path.join(HERE, "mappings", "seasons_months.csv"))
     month_of_day, day_of_hour = calendar()
     series = hourly(os.path.join(HERE, "extracted", "deca_demand_hourly.csv"))
 
@@ -351,7 +369,7 @@ def main():
 
     sourced = [z for z in zones
                if zmap.get(z, {}).get("method", "").strip() != "LEGACY" and z in series]
-    legacy_days, uplift = legacy_shapes(reference, quarters)
+    legacy_days, uplift = legacy_shapes(reference, inherits)
     legacy = [z for z in zones if z not in sourced]
     unknown = [z for z in legacy if z not in legacy_days]
     if unknown:
