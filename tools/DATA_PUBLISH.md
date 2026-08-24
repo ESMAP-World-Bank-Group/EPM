@@ -44,9 +44,32 @@ It does everything: re-hash the data (`dvc add`) → commit + push the pointers 
 `dvc push` (data → store, for the server) → upload the readable copies
 (inputs + `epm/output_view/`) → store, for **EPM View**.
 
-> To show **results** in EPM View: copy the runs you want into
-> `epm/output_view/<run>/<scenario>/output_csv/` before publishing (only `.csv` files
-> are sent). `epm/output_view/` is gitignored (local staging area).
+> To show **results** in EPM View: stage the run you want with
+> `python tools/stage_output_view.py` before publishing. It copies the tables EPM
+> View reads into `epm/output_view/<run>/<scenario>/output_csv/` and splits
+> `pDispatchComplete.csv` into one file per year, which the app fetches one at a
+> time; the whole table is tens of megabytes and the browser would pull all of it to
+> draw a single year. Only `.csv` files are sent to the store.
+
+---
+
+## The other route: publishing through git
+
+Not every branch goes through the store. Where the data is public, `epm/input/<data
+folder>` and `epm/output_view/` are simply **tracked in git** and EPM View reads them
+from `raw.githubusercontent.com` — that is what any branch outside `R2_BRANCHES`
+does, and it needs no keys, no DVC and no upload step:
+
+```
+python tools/stage_output_view.py       # the newest run, --replace to drop the old ones
+git add epm/input/<data folder> epm/output_view
+git commit && git push
+```
+
+The whitelist at the top of `.gitignore` decides which input folders that applies to.
+Check it before assuming a folder is published one way or the other, and remember the
+choice is a disclosure decision, not a technical one: pushing here makes the data
+world-readable.
 
 ---
 
@@ -87,4 +110,5 @@ repo). To wire up a new region: add its branch there.
 - `publish.ps1` — engine behind `Publish.bat`
 - `sync.ps1` / `sync.sh` — fetching (Windows / server)
 - `upload_to_r2.py`, `upload_output_view_to_r2.py` — readable-upload helpers
+- `stage_output_view.py` — build `epm/output_view/` from a solved run (both routes)
 - `.env.example` — key template (copy to `.env`, gitignored)

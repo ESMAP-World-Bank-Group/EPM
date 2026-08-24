@@ -106,11 +106,12 @@ epm/input/*
 !epm/input/data_casa_2020/
 !epm/input/data_casa_2020/**
 
-# 2026 model: the data stays in the private store, only the page documenting it is
-# tracked, so that it stays readable online through htmlpreview.github.io.
+# 2026 model: tracked in full, like the folders above it. It used to be held back
+# to the private store with only DATA_SOURCES.html tracked, so that the page
+# documenting the build stayed readable through htmlpreview.github.io; the folder
+# is now published whole, so the page and the tables it describes travel together.
 !epm/input/data_casa/
-epm/input/data_casa/*
-!epm/input/data_casa/DATA_SOURCES.html
+!epm/input/data_casa/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
