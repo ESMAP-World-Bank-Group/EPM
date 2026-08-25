@@ -122,11 +122,12 @@ Two routes. Both need the three `.gms` files and the workbook in the **same fold
 | Folder | Contents |
 |---|---|
 | `Generic model/` | `WB_EPM_8_5.xlsb` — the blank template — plus the three `.gms` files |
-| `Ghana example/` | `WB_EPM_8_5_Ghana_Example.xlsb`, the `.gms` files, `cplex.opt`, `README.txt`, the Ghana decarbonization deck (2022), and `Initial_model/` with a `Ghana_2050_hydro_BaU` variant |
-| `Documentation/` | `WB_Electricity_Planning_Model_Documentation_2023.pdf`, `Running EPM/` (how to run EPM, how to build `base.g00`, the Engine looping tool manual) and two training decks |
+| `Ghana example/` | `WB_EPM_8_5_Ghana_Example.xlsb`, the `.gms` files, `cplex.opt`, `README.txt` |
+| `Running EPM/` | How to run the model, how to build `base.g00`, and the Engine looping tool manual |
 
-The v8.5 documentation is **inside the pack** — the 2023 PDF is the reference manual for that
-version. Nothing on this site describes v8.5 beyond this page.
+Together these are everything needed to run v8.5: a blank workbook to start from, a worked
+example to compare against, and the original run instructions — which this page summarizes
+above.
 
 ---
 
@@ -161,22 +162,22 @@ The tag preserves documentation pages that were dropped from this site, notably
 
 ## Get the pack
 
-<!-- PUBLICATION CHECKLIST — do all three before replacing the URL below:
-     1. Remove `gamslice.txt` from the archive (GAMS license file, must not be redistributed).
-     2. Confirm `WB_Electricity_Planning_Model_Documentation_2023.pdf` and the two training
-        decks are cleared for public release.
-     3. Publish as GitHub release `v8.5-excel-legacy`, then swap PACK_URL in the link below. -->
+<!-- PUBLICATION CHECKLIST:
+     1. Build the archive with tools/build_clean_pack.sh -- it strips the GAMS licence file,
+        the slide decks, the 2023 PDF and the Ghana country study, and refuses to write a zip
+        that still contains any of them.
+     2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
+     3. Replace the `#` below with the release asset URL. -->
 
-**[Download EPM v8.5 Starter pack (.zip, ~20 MB)](#)**{ .md-button }
+**[Download EPM v8.5 Starter pack (.zip)](#)**{ .md-button }
 <!-- ^ replace `#` with the release asset URL -->
 
 !!! info "Not published yet"
     The archive is being prepared for release. Until it is up, contact the EPM team for a copy.
 
-The zip carries the full reference material this page summarizes: the 2023 model
-documentation PDF, the step-by-step *Running EPM* notes, and the training decks. The GAMS
-license file shipped in the original folder is **removed** from the published archive — bring
-your own GAMS licence.
+Slide decks, the 2023 reference PDF and the Ghana country study are **not** in the published
+archive, and neither is the GAMS licence file that shipped in the original folder — bring your
+own licence. Ask the EPM team if you need the reference PDF.
 
 Earlier releases are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
 
