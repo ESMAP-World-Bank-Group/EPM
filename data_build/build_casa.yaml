@@ -310,6 +310,7 @@ resources:
     value: Value
     set:
       fUseSimplifiedDemand: 1
+      fEnableStorage: 1
     work: REVISE
     priority: P1
     source: ["casa_2020", "team"]
@@ -340,8 +341,14 @@ resources:
       The trap it was is worth remembering: at 0 the model reads pDemandData and at 1 it
       rebuilds it out of pDemandProfile, and until phase 8 BOTH were empty, so the model
       had no demand at all whichever way the flag was set.
-      Still to be settled elsewhere: carbon (OFF, phase 9), storage (OFF), ramps
-      (OFF), MinGen and MUDT (OFF, dispatch only).
+      PHASE 5 TURNED fEnableStorage ON, the second value the build overrides. The
+      eight four-hour battery candidates of pStorageDataInput were written in phase 4
+      and were dead while the flag was 0: base.gms only generates the storage balance,
+      the charge and the state-of-charge equations under it, so the rows were read and
+      then never entered an equation. The vocabulary was never the obstacle,
+      Storage/Battery having been in pTechFuel since 2020: the switch was.
+      Still to be settled elsewhere: carbon (OFF, phase 9), ramps (OFF), MinGen and
+      MUDT (OFF, dispatch only).
 
   config:
     path: config.csv
@@ -460,15 +467,76 @@ resources:
   pTechFuel:
     path: pTechFuel.csv
     group: Scope
-    action: keep
-    work: EXTEND
+    action: rows
+    rows:
+      - [CHP, Gas, 0, 0, 1]
+      - [CCGT, Gas, 0, 0, 1]
+      - [ST, Coal, 0, 0, 7]
+      - [CHP, Coal_KAZ_S, 0, 0, 15]
+      - [CHP, Coal, 0, 0, 7]
+      - [ICE, HFO, 0, 0, 2]
+      - [ST, Gas, 0, 0, 1]
+      - [ST, HFO, 0, 0, 2]
+      - [CHP, HFO, 0, 0, 2]
+      - [CCGT, HFO, 0, 0, 2]
+      - [HY, Water, 0, 1, 9]
+      - [ST, LNG, 0, 0, 6]
+      - [CCGT, LNG, 0, 0, 6]
+      - [GT, Gas, 0, 0, 1]
+      - [GT, LNG, 0, 0, 6]
+      - [ST, UR, 0, 0, 14]
+      - [PV, Solar, 1, 1, 11]
+      - [ICE, LNG, 0, 0, 6]
+      - [WT, Wind, 1, 1, 12]
+      - [ST, Coal_KAZ_S, 0, 0, 15]
+      - [INT, Import, 0, 0, 8]
+      - [CSPPlant, CSP, 0, 1, 13]
+      - [PVwSTO, Solar, 1, 1, 11]
+      - [STOPV, Solar, 0, 1, 11]
+      - [Storage, Battery, 0, 0, 16]
+      - [ROR, Water, 1, 1, 9]
+    work: REVISE
     priority: P2
-    source: ["casa_2020"]
-    vintage: "2020"
+    source: ["casa_2020", "epm_resources"]
+    confidence: high
+    vintage: "2020, two flags corrected in 2026"
     what: >
-      26 tech/fuel pairs
+      26 tech/fuel pairs, two of them wrongly flagged
+    note: >
+      THIS TABLE IS THE VOCABULARY OF THE MODEL. main.gms:169 declares the tech and f
+      sets from it and from nothing else, main.gms:598 and 601 read HourlyVariation to
+      build the VRE set and RETechnology to build the RE set, and base.gms:811 then
+      writes a different equation for a unit inside the VRE set than for one outside
+      it. A wrong flag here is not a label, it is a change of formulation.
+      TWO WERE WRONG AND ARE CORRECTED, both against the EPM reference vocabulary in
+      epm/resources/pTechFuel.csv.
+      1. INT/Import CARRIED HourlyVariation 1, so every import contract landed in the
+      VRE set and base.gms:811 forced its output to pVREgenProfile x availability x
+      capacity. pVREProfile holds solar and wind only, so the profile of an import is
+      zero and the equation reads: produce nothing, every hour of every year. The
+      model has one such unit, IRAN_Import, 400 MW into NEPS_HERAT, and the solved run
+      confirms it: pPlantMerged carries its 400 MW of capacity in all 13 years and not
+      one row of energy. The 2020 model had the same flag and the same silence. At 0
+      it becomes what it is, a dispatchable 400 MW at 70 USD/MWh, availability 0.9.
+      The reference calls the technology ImportTransmission and flags it 0,0.
+      2. HY/Water CARRIED RETechnology 0, so no hydro of the model counted as
+      renewable. It is inert today, base.gms:786 firing only when a renewable target
+      is set and sMinRenewableSharePct being 0, but it would have quietly halved the
+      renewable share of any target scenario. The reference flags ReservoirHydro/Water
+      1. HourlyVariation stays 0: reservoir hydro is dispatched against its seasonal
+      availability, not against an hourly profile.
+      FOUR ROWS ARE USED BY NO UNIT and are kept all the same, aligned on the
+      reference: CSPPlant/CSP, PVwSTO/Solar, STOPV/Solar and ROR/Water. They are not
+      spare labels. main.gms:604-625 names those four strings literally to build the
+      cs, so, stp and ror sets, and the strings exist only because this table declares
+      them; deleting the rows would stop the compilation.
+      Storage/Battery WAS ALREADY HERE and needed nothing. What the eight battery
+      candidates were missing was not a vocabulary entry but the switch, and phase 5
+      turned it on: see fEnableStorage in pSettings.
     todo: >
-      Add BESS if storage is turned on.
+      PHASE 9: the DeCA candidate menu this model has no vocabulary for, CCGT with
+      CCS, coal with CCS, ultrasupercritical coal, CCGT on biogas and the dual
+      gas/hydrogen machine. Each needs a row here before it can need anything else.
 
   pFuelCarbonContent:
     path: pFuelCarbonContent.csv
@@ -865,6 +933,43 @@ resources:
       reads Capacity as a cumulative build limit, so writing 300 there would silently
       cap all new coal in a country at one block.
       The fixed cost of the EXISTING units is still the 2020 value, DeCA stating none.
+      PHASE 5, THE NAMED PROJECTS THAT COULD NEVER BE BUILT. Six hydro rows of the 2020
+      table named a real plant and carried a capacity of 0, and in this table that
+      column is the cumulative build limit, so the model was shown 5.9 GW of Kyrgyz and
+      Tajik hydro and forbidden to build one megawatt of it. Two of them were not even
+      candidates, KAMBARATA-1 and NUREK-2 being written with the existing status, so
+      they also counted as zero standing capacity. Five are now sized from DeCA through
+      mappings/named_candidates.csv, which holds one line per project against the sheet
+      and the row it comes from, 4126 MW in all.
+      KOKEMEREN-1 takes Kokomerenskaya, 360 MW at 4.4667 M$/MW, and KOKEMEREN-2 takes
+      Kokomeren, 912 MW at 1.6206, both from 2035. NARYN takes the whole Upper Naryn
+      cascade, 237.7 MW at 3.0627 from 2035, which is what its name says and what DeCA
+      aggregates; ITS ZONE MOVES FROM KGZ_S TO KGZ_N, DeCA putting every plant of the
+      cascade in the Naryn region, area North, and KGZ_N having had no hydro candidate
+      at all. KAMBARATA-1 takes 1860 MW at 1.5677 from 2032, DeCA calling it Committed
+      where it calls the cascades Candidate; the status is left at 1, which lets the
+      model build it rather than forcing it, turning it into a forced commitment being
+      a scenario switch and not a data fix.
+      DASHTIJUM IS THE ONE TO ARGUE ABOUT. DeCA does not name it: its Tajik candidate
+      list is Fondaryo, Nurobad 1 and 2, Shurob, Yavan, Sanobod and Ayni, plus one
+      generic envelope per region, and the dam on the Panj is not in it. What DeCA does
+      state for uncommitted Khatlon hydro is that envelope, TJ Khatlon HPP, 756 MW at
+      2.4653 M$/MW from 2035, and Dashtijum sits in Khatlon, which is TAJ_S. So the row
+      now carries the provincial envelope and no longer the dam, which the feasibility
+      literature sizes an order of magnitude larger. The rule for this build is DeCA
+      over 2020 and that is what was applied, but a TTL could as easily restore the
+      project size or drop the row, and the mapping is one line either way.
+      NUREK-2 IS LEFT AT ZERO, deliberately. It is a dead duplicate: the Nurek
+      rehabilitation is already in the table as the NUREK_*_REHAB units that
+      fleet_retirement.csv pairs with the retiring NUREK_1 to 9, and sizing this row
+      too would count the same plant twice.
+      NO DOUBLE COUNTING WITH THE GENERIC MENU. The only generic hydro candidates of
+      the model are in KAZ_N and KAZ_S; KGZ_N, KGZ_S and TAJ_S have none, so nothing
+      competes with the five projects in their own zones.
+      WHAT DeCA CARRIES AND THIS TABLE DOES NOT, reported rather than silently added,
+      the model having no row to put it in: Karakol 33 MW, the third plant of the
+      Suusamyr-Kokomeren cascade; Kulanak 100 MW; the Kazarman cascade 997 MW; about
+      32 MW of Kyrgyz small hydro; and Nurobad 1 and 2, 920 MW in Tajikistan.
     todo: >
       PHASE 6, WHAT THE HEAT RATE REBUILD EXPOSES. DeCA states the ELECTRICAL
       efficiency of a plant, and for a CHP that is only part of the story: Astana-2 at
@@ -907,11 +1012,16 @@ resources:
       of Central Asian plant of every kind. Whole plants are missing: the 598 MW of
       Tajik thermal, Dushanbe-1 and Dushanbe-2, sits here at zero capacity and retired;
       Bishkek is 666 MW here against 812 MW in DeCA; Turkmenistan is 5.8 GW here against
-      7.7 GW. The named hydro candidates stuck at Capacity 0 are the other half of it:
-      NARYN, KOKEMEREN-1 and 2, DASHTIJUM, against a DeCA pipeline that carries Rogun at
-      3380 MW by 2033, Kambarata-1 at 1860, Kambarata-2 at 240, Kulanak at 100, Pskem at
-      404, Mullalak at 240, an uprating of Nurek of 385 and of Kayrakum of 48. Those are
-      project decisions, not a rule, so they go one by one in a mapping of their own.
+      7.7 GW. Those three are still open and are a fleet question, to be put to the
+      TSOs with the rest of the fleet data request.
+      THE OTHER HALF OF IT IS NOW CLOSED. The named hydro candidates stuck at Capacity
+      0, NARYN, KOKEMEREN-1 and 2, KAMBARATA-1 and DASHTIJUM, are sized from DeCA
+      through mappings/named_candidates.csv, 4126 MW, and the reasoning is written out
+      under pGenDataInput. What the DeCA pipeline carries and this model still has no
+      row for: Kambarata-2 at 240 MW, Kulanak at 100, Mullalak at 240, an uprating of
+      Kayrakum of 48, the Kazarman cascade at 997 and Nurobad 1 and 2 at 920. Rogun at
+      3380 MW by 2033, Pskem at 404 and the Nurek uprating of 385 are already in the
+      table under their own names.
       DeCA also caps its own solar and wind candidates by region, Max. Capacity (MW) in
       Renewable PP Candidates. That is a resource limit and not a connection rate, and it
       is not used here because it is stated per oblast and not per model zone.
@@ -930,7 +1040,7 @@ resources:
       HydroPP + Hydro Profile, Reference hydrology
     vintage: "2025"
     what: >
-      seasonal availability by plant, 403 units x 4 seasons
+      seasonal availability by plant, 419 units x 5 seasons
     note: >
       Rebuilt by build_hydro.py from data_build/mappings/hydro_plants.csv, which
       carries the 134 hydro units of the model one by one, and from
@@ -951,6 +1061,52 @@ resources:
       Q1, that is firm capacity at the peak. PHASE 7 SETTLED WHAT BECOMES OF IT: the convention is
       not restored, the credit stays at the real 0.85, and the consequence is measured
       in pPlanningReserveMarginZone.
+      PHASE 5 REBUILT THE THERMAL SIDE OF THIS TABLE, and it asks a different question
+      of a plant that exists than of one that does not. 156 of the 228 thermal units
+      moved; the other 72 are Pakistani and Afghan and deliberately did not.
+      A CANDIDATE GETS 0.90, the pair rate of data_build/mappings/availability.csv over
+      the ten (tech, fuel) pairs it states. That is DeCA's own arithmetic for a plant in
+      working order, 0.05 forced outage and 0.05 scheduled, against the 0.85 the 2020
+      model wrote without a source. 86 units. A plant not yet built has no history of
+      neglect, so the technology rate is the whole of what can be said about it. Three
+      of those 86 were not even at 0.85 and the same pass corrects them:
+      KGZ_N_ST_Coal_cand and KGZ_S_ST_Coal_cand sat at 1.00, a fifth of a year of
+      outage missing on 15 GW of candidate coal, and NEPS_HERAT_ST_Coal_cand had
+      0.0328654 in Q1 and 0.85 in the other four, which is a typing accident and not an
+      assumption.
+      AN EXISTING UNIT GETS ITS OWN DERATING, which is the correction phase 5 owes the
+      first pass of this table. DeCA states an Available capacity beside the Installed
+      capacity of every plant it carries, and the gap between the two is that plant's
+      condition, stated unit by unit; the first pass wrote a flat 0.90 and threw that
+      column away. 70 units now carry it, 63 read off their own book plant and 7 at the
+      median of the fleet DeCA does describe, and the spread is the point: 0.3857 for
+      the three Turkmenbashi sets, 180 MW available out of 420, against 0.90 for the
+      second Dushanbe set, 360 out of 400. A flat rate said a Soviet CHP nobody has
+      maintained since 1991 and a 2018 combined cycle were the same machine. 17 of the
+      63 sit below 0.60. The ratio is carried and not the absolute capacity, because 17
+      DeCA plants map to several rows of this model at once and a row-by-row capacity
+      rewrite would invent or destroy gigawatts; the Capacity column is left to the
+      fleet data request, see pGenDataInput.
+      BISHKEK_CHP_2023 IS THE ROW THAT SETTLED THE METHOD. It sat at 0.308528 in the
+      2020 table, a real derating written in the availability column rather than in the
+      capacity one, and the flat 0.90 of the first pass would have taken the plant from
+      205 MW effective to 599 on the strength of nothing. DeCA derates Bishkek itself,
+      420 MW available out of 812, so the number is 0.4655 and the plant reads 310 MW
+      effective on the 666 MW this model carries. The 2020 team's instinct was right and
+      its arithmetic was undocumented; DeCA documents it.
+      NOTHING MOVES OUTSIDE THE FIVE COUNTRIES. The 41 Pakistani and 15 Afghan thermal
+      units, plus the 16 the completion pass added, keep their 2020 availability, because
+      the rule of this build is that DeCA wins where DeCA and 2020 DISAGREE and on a
+      Pakistani plant DeCA says nothing at all. Carrying the Central Asian median south
+      would invent a number for a fleet no source in hand describes, and invent it in the
+      one place it moves the answer: Pakistan is the demand this study asks whether
+      Central Asian power is worth exporting to, and derating it is the assumption that
+      makes the interconnector look good. The median is written into
+      extracted/thermal_derating.csv all the same, applied only to the 7 units inside the
+      perimeter that the mapping could not match to a book plant, where the country is
+      described and only the plant is not.
+      HYDRO, SOLAR, WIND, IMPORTS AND STORAGE ARE UNTOUCHED by all of it: for them the
+      column is the resource and not an outage.
       PHASE 7 ALSO CLOSED A HOLE THIS BUILD HAD OPENED ITSELF. The 2020 table covered
       its 403 units exactly; the 16 solar and wind candidates added from 2031 had no
       line, and a generator absent from pAvailability is not defaulted to one, it is
@@ -962,6 +1118,10 @@ resources:
       technology and fuel carry elsewhere by majority, and refusing to guess on a tie
       or on a pair it has never seen. RUN ORDER IS build_fleet.py THEN build_hydro.py.
     todo: >
+      0. The derating of an existing unit is a book figure and not a measurement, and
+      the 7 unmatched Central Asian units rest on a median. Per-unit forced and
+      scheduled outage rates from the TSOs would replace both, and the Pakistani and
+      Afghan fleet needs its own before anything can be said about its condition.
       1. Kambarata-2, Rogun and Shardara have a DeCA yearly production above their own
       capacity, the production of the full project against one unit, so their level
       could not be used. 2. Farhad is carried at 311 MW here against 126 MW in DeCA,
@@ -974,27 +1134,57 @@ resources:
   pAvailabilityDefault:
     path: supply/pAvailabilityDefault.csv
     group: Fleet
-    action: keep
-    work: DECIDE
+    action: header
+    header: [z, tech, fuel, Q1, Q2, Q3, Q5, Q4]
+    work: DONE
     priority: P3
     source: ["deca_v51", "assumed"]
+    confidence: high
     sheet: >
       Thermal PP, columns Forced Outage Rate / Scheduled Outage Rate
+    vintage: "2025"
     what: >
-      default availability (z,tech,fuel)
+      default availability (z,tech,fuel), empty by decision, header fixed
     note: >
-      Empty, and it changes nothing today: all 403 units of the fleet carry a line of
-      their own in pAvailability, and this table only speaks for a unit that has none.
-      It will start to matter with the candidates of phase 5.
-      CORRECTION to an earlier reading of the sources: DeCA DOES give outage rates. It
-      carries 0.05 forced and 0.05 scheduled, 0.10 unavailable in all, for every
-      thermal plant of the five countries, 136 units, with no distinction of country
-      or technology. That is a convention, not a measurement, so adopting it would
-      only trade the 0.85 of the 2020 model for a more generous 0.90.
+      PHASE 5 TOOK THE 0.90 OF DeCA over the 0.85 of the 2020 model, following the
+      rule set for this build that DeCA wins where the two disagree. DeCA carries 0.05
+      forced and 0.05 scheduled, 0.10 unavailable in all, for every thermal plant of
+      the five countries it covers, with no distinction of country or technology. The
+      2020 model wrote 0.85 everywhere and named no source. Neither is a measurement;
+      one has a document behind it.
+      THAT RATE IS THE ANSWER FOR A PLANT THAT DOES NOT EXIST YET, and only for that.
+      An existing unit is written at its own derating instead, DeCA stating an Available
+      capacity beside the Installed one plant by plant, which is why this table could
+      never have carried the decision even if the model let it: a technology rate cannot
+      say that Turkmenbashi runs at 0.39 and the second Dushanbe set at 0.90. See
+      pAvailabilityCustom, where both live.
+      THE DECISION LANDS ON pAvailabilityCustom AND NOT HERE, which is worth stating
+      because this file is the one that looks like it should carry it. The chain is in
+      input_treatment.py: the custom table is read into pAvailabilityInput(g,q),
+      expanded over the years into pAvailability(g,y,q), and only then is this default
+      reached for, to fill the units the custom table left out. It leaves none out:
+      419 units, 419 lines. So this table is inert whatever it holds.
+      IT STAYS EMPTY, AND THAT IS A DECISION THE MODEL FORCED. The build first filled
+      it with the 98 (zone, tech, fuel) triples whose availability is a technology
+      property, so that a generator added later without a line of its own would land on
+      a stated number rather than on zero, and the run refused to compile:
+      input_treatment.py:1403 skips the table when it is empty and
+      input_treatment.py:1426 aborts when it is present and does not cover EVERY
+      (zone, tech, fuel) of pGenDataInput. It is all or nothing. Covering everything
+      would mean writing a default availability for hydro, solar, wind and imports, and
+      for those the column is not an outage rate but the resource itself, the seasonal
+      water of a reservoir or a profile that already carries the weather. A
+      technology-level number must not stand behind plant-level data, so the table is
+      left empty and the partial fill is kept out. build_hydro.py still writes
+      extracted/pAvailabilityDefault.csv, which is the table that would be used if the
+      day comes when every pair can honestly be given one.
+      WHAT DID CHANGE HERE IS THE HEADER. It read z,tech,fuel,Q1,Q2, the two seasons of
+      data_test, inherited when the folder was set up. This model has five, and the
+      header carries the index of the parameter.
     todo: >
-      PHASE 5, with the candidates: either keep the 0.85 of the 2020 model, or take
-      the 0.90 of DeCA, and say which. A real outage rate would have to come from the
-      TSOs.
+      A measured outage rate would have to come from the TSOs, unit by unit, and would
+      replace both the 0.90 of a candidate and the book derating of an existing unit.
+      Ask for it with the fleet data request.
 
   pGenDataInputDefault:
     path: supply/pGenDataInputDefault.csv
@@ -1222,12 +1412,16 @@ resources:
       Afghanistan keep no storage, as in the 2020 model.
       DeCA gives no round-trip efficiency and no operating life for storage: 0.9 and
       20 years are the EPM reference values, data_test.
+      PHASE 5 SWITCHED IT ON. fEnableStorage was 0, and under a 0 base.gms generates
+      none of the storage balance, charge and state-of-charge equations, so these eight
+      rows were read into the model and then never entered one: the candidate existed
+      and could not be built. The flag is now set by the build, see pSettings. The
+      chronology it was waiting on arrived with phase 3, 24 consecutive hours on each of
+      three representative days per season, which is what a four-hour battery needs in
+      order to have something to arbitrage.
     todo: >
-      Storage only earns its keep once the model has intra-day chronology. The candidate
-      is in place so that phase 8 has something to switch on, but nothing will be built
-      until pHours carries real hours. Pumped storage is a separate question: DeCA
-      carries Hodjikent PSH-2 in Uzbekistan, which sits in pGenDataInput as a hydro
-      candidate rather than here.
+      Pumped storage is a separate question: DeCA carries Hodjikent PSH-2 in Uzbekistan,
+      which sits in pGenDataInput as a hydro candidate rather than here.
 
   pEvolutionAvailability:
     path: supply/pEvolutionAvailability.csv

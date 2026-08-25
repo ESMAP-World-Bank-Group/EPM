@@ -1,24 +1,90 @@
 g,z,book,deca_plant,method,applied,annual_2020,annual_deca,annual_new,note
+ABADAN _CITY-1_CHP_2023,TUR,,,thermal,deca_outage,0.8500,0.768248,0.7682,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMBezmeyinTG, 0.768248 available"
+ABADAN _CITY-2_CCGT_2028,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMCCGT_Akhal, 0.9 available"
+AKSUSKAYA_ST_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.767706,0.7677,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_TPP Aksu Eurasian Energy Corporation, 0.767706 available"
+ALMATY-1_CHP_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
+ALMATY-2_CHP_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.711243,0.7112,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-2 AlES Almaty Electric Stations, 0.711243 available"
+ALMATY-3_CHP_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.717232,0.7172,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-3 AlES Almaty Electric Stations, 0.717232 available"
+ANGREN_ST_2023,UZB,,,thermal,deca_outage,0.8500,0.572519,0.5725,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZAngren__TV, 0.572519 available"
+ASTANA-2_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.565868,0.5659,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-2 Astana-Energia, 0.565868 available"
+BISHKEK_CHP_2023,KGZ_N,,,thermal,deca_outage,0.3085,0.465517,0.4655,"was 0.308528, 0.308528, 0.308528, 0.308528, 0.308528, now the derating of KG KGBishkek_CO, 0.465517 available"
+DUSHANBE-1_CHP_2023,TAJ_S,,,thermal,deca_outage,0.8500,0.522727,0.5227,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TJ TJDushamb1CO, 0.522727 available"
+FERGANA_CHP_2023,UZB,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
 KAPCHAGAY_HY_2031,KAZ_S,KZ,HPP Kapshagayskaya,deca_profile,deca_profile,0.2618,,0.4231,
+KARAGANDA _HPS-2_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.741205,0.7412,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_GRES 2 Karaganda KazakhMys, 0.741205 available"
+KARAGANDA _TPS-2_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
+KARAGANDA _TPS-3_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.564986,0.5650,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-3 Karaganda Energo Center, 0.564986 available"
+KAZ_N_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
+KAZ_S_CHP_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
+MARY_CHP_2023,TUR,,,thermal,deca_outage,0.8500,0.732461,0.7325,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMMary_1__TV, 0.732461 available"
+NAVOI_ST_2023,UZB,,,thermal,deca_outage,0.8500,0.631579,0.6316,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZNavoi___TV, 0.631579 available"
+PAVLODAR-1_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.581821,0.5818,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-1 Pavlodar - Aluminium Kazakhstan, 0.581821 available"
+PAVLODAR-2_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.711749,0.7117,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-2 PavlodarEnergo, 0.711749 available"
+PAVLODAR-3_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.55412,0.5541,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-3 PavlodarEnergo, 0.55412 available"
+PETROPAVLOVSK-2_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.714636,0.7146,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP SevkazEnergo Petropavlovsk, 0.714636 available"
+SYRDARYA_ST_2023,UZB,,,thermal,deca_outage,0.8500,0.862208,0.8622,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZSyrdarinTV, 0.862208 available"
+TAKHIATASH_ST_2023,UZB,,,thermal,deca_outage,0.8500,0.75,0.7500,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTakhiataTV, 0.75 available"
+TAKHIATASH_ST_2027,UZB,,,thermal,deca_outage,0.8500,0.75,0.7500,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTakhiataTV, 0.75 available"
+TAKHIATASH_ST_2029,UZB,,,thermal,deca_outage,0.8500,0.75,0.7500,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTakhiataTV, 0.75 available"
+TCHIMKENT-3_CHP_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.7209,0.7209,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP Shymkent, 0.7209 available"
+TURKMENBASHI-1_ST_2024,TUR,,,thermal,deca_outage,0.8500,0.385714,0.3857,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMTurkmenbCO, 0.385714 available"
+TURKMENBASHI-1_ST_2026,TUR,,,thermal,deca_outage,0.8500,0.385714,0.3857,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMTurkmenbCO, 0.385714 available"
+UST-KAMENOGORSK _TETS_CHP_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.764712,0.7647,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP Ust-Kamenogorsk, 0.764712 available"
+YAVAN_CHP_2023,TAJ_S,,,thermal,deca_outage,0.8500,0.722015,0.7220,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
+ZHAMBYL_ST_2023,KAZ_S,,,thermal,deca_outage,0.8500,0.757642,0.7576,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_Zhambyl GRES, 0.757642 available"
+EKIBASTUZ-1_ST_2023,KAZ_N,,,thermal,deca_outage,0.8500,0.765332,0.7653,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_Ekibastuz GRES-1, 0.765332 available"
+EKIBASTUZ-1_ST_2024,KAZ_N,,,thermal,deca_outage,0.8500,0.765332,0.7653,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_Ekibastuz GRES-1, 0.765332 available"
+EKIBASTUZ-2_ST_2030,KAZ_N,,,thermal,deca_outage,0.8500,0.789836,0.7898,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_Ekibastuz GRES-2, 0.789836 available"
+ABADAN _CITY-2_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.768248,0.7682,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMBezmeyinTG, 0.768248 available"
+ABADAN _CITY-2_CCGT_2031,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMCCGT_Akhal, 0.9 available"
+AHAL_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.653788,0.6538,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMAhal____TG, 0.653788 available"
 UZB_HY_2031,UZB,,,keep_2020,keep_2020,0.4770,,0.4770,
 ANDIJAN-1_HY_2031,UZB,UZ,Andijan HPP,deca_level,deca_level,0.4718,0.5811,0.5811,
+ANGREN_ST_2031,UZB,,,thermal,deca_outage,0.8500,0.572519,0.5725,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZAngren__TV, 0.572519 available"
+ASHGABAT_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.792014,0.7920,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMAshgabatTG, 0.792014 available"
+ASTANA-2_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8500,0.565868,0.5659,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-2 Astana-Energia, 0.565868 available"
+AVAZA_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.84583,0.8458,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMAvaza___TG, 0.84583 available"
 BAIPAZA_HY_2031,TAJ_S,TJ,Baypazinskaya HPP,deca_level,deca_level,0.4058,0.3689,0.3689,
+BALKANABAD-2_GT_2031,TUR,,,thermal,deca_outage,0.7816,0.70917,0.7092,"was 0.85, 0.440762, 0.85, 0.85, 0.85, now the derating of TM TMBalkanabTG, 0.70917 available"
+BALKHASH _ULKEN_CHP_NEW_2031,KAZ_S,,,thermal,deca_outage,0.8010,0.722015,0.7220,"was 0.85, 0.556621, 0.85, 0.85, 0.85, now the derating of median of the 136 thermal units of the five DeCA books, 0.722015 available"
 CHARVAK_HY_2031,UZB,UZ,Chavark HPP,deca_level,deca_level,0.6003,0.3428,0.3428,
+DASHOGUZ _VELAYAT_CHP_2031,TUR,,,thermal,deca_outage,0.8004,0.830606,0.8306,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TM TMDashoguzTG, 0.830606 available"
+DERWEZE_GT_2031,TUR,,,thermal,deca_outage,0.8004,0.873592,0.8736,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TM TMDerveze_TG, 0.873592 available"
+DUSHANBE-2_CHP_2031,TAJ_S,,,thermal,deca_outage,0.8004,0.81,0.8100,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TJ TJDushamb2CO, 0.81 available"
+DUSHANBE-2_CHP_NEW_2031,TAJ_S,,,thermal,deca_outage,0.8004,0.81,0.8100,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TJ TJDushamb2CO, 0.81 available"
+EKIBASTUZ-2_ST_2031,KAZ_N,,,thermal,deca_outage,0.8004,0.789836,0.7898,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of KZ KZ_Ekibastuz GRES-2, 0.789836 available"
+EKIBASTUZ-2_ST_NEW_2031,KAZ_N,,,thermal,deca_outage,0.8004,0.607566,0.6076,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of KZ KZ_Ekibastuz GRES-3, 0.607566 available"
 GAZALKENT_HY_2031,UZB,UZ,Gazalkent HP,deca_level,deca_level,0.4609,0.3976,0.3976,
 KAMBARATA-2_HY_2031,KGZ_N,KG,Kambarata 2,keep_2020,keep_2020,0.5377,,0.5377,
 KAMBARATA-2_HY_NEW_2031,KGZ_N,KG,Kambarata 2,keep_2020,keep_2020,0.5002,,0.5002,
+KARAGANDA _TPS-3_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8004,0.564986,0.5650,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-3 Karaganda Energo Center, 0.564986 available"
 KHODZHIKENT_HY_2031,UZB,UZ,Hodjikent HP,deca_level,deca_level,0.5168,0.3874,0.3874,
 KURPSAI_HY_2031,KGZ_S,KG,Kurpsay HPP,deca_level,deca_level,0.4655,0.3753,0.3753,
+LEBAP_GT_2031,TUR,,,thermal,deca_outage,0.8004,0.718432,0.7184,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TM TMLebap___TG, 0.718432 available"
+MARY_GT_2031,TUR,,,thermal,deca_outage,0.8004,0.732461,0.7325,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of TM TMMary_2__TG, 0.732461 available"
 MOYNAK_HY_2031,KAZ_S,KZ,HPP Moynakskaya,deca_profile,deca_profile,0.3135,,0.4145,
+NAVOI_ST_NEW_2031,UZB,,,thermal,deca_outage,0.8004,0.631579,0.6316,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of UZ UZNavoi___TV, 0.631579 available"
+NAVOI_CCGT_2031,UZB,,,thermal,deca_outage,0.8004,0.84728,0.8473,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of UZ UZNavCCGT1CC, 0.84728 available"
+PAVLODAR-1_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8004,0.581821,0.5818,"was 0.85, 0.553135, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-1 Pavlodar - Aluminium Kazakhstan, 0.581821 available"
+PAVLODAR-3_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8500,0.55412,0.5541,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP-3 PavlodarEnergo, 0.55412 available"
+PETROPAVLOVSK-2_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8500,0.714636,0.7146,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP SevkazEnergo Petropavlovsk, 0.714636 available"
 SANGTUDA-1_HY_2031,TAJ_S,TJ,Sangtuda-1 HPP,deca_level,deca_level,0.3575,0.3259,0.3259,
 SANGTUDA-2_HY_2031,TAJ_S,TJ,Sangtuda-2 HPP,deca_level,deca_level,0.4733,0.3201,0.3201,
 SHAMALDYSAI_HY_2031,KGZ_S,KG,Shamaldy HPP,deca_level,deca_level,0.5000,0.429,0.4290,
 SHARDARINSKYA_HY_2031,KAZ_S,KZ,HPP Shardaryinskaya,keep_2020,keep_2020,0.5131,,0.5131,
 SHULBINSKAYA_HY_2031,KAZ_N,KZ,HPP AES Shulbinskaya,deca_profile,deca_profile,0.3968,,0.3323,
+TAKHIATASH_ST_NEW_2031,UZB,,,thermal,deca_outage,0.8500,0.75,0.7500,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTakhiataTV, 0.75 available"
+TASHKENT_CHP_2031,UZB,,,thermal,deca_outage,0.8500,0.783947,0.7839,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTashkentCO, 0.783947 available"
 TASH-KUMYR_HY_2031,KGZ_S,KG,TashKum HPP,deca_level,deca_level,0.4837,0.3945,0.3945,
 TOKTOGUL_HY_2031,KGZ_S,KG,Toktogul HPP,deca_level,deca_level,0.5309,0.325,0.3250,
+TOLIMARJON_ST_2031,UZB,,,thermal,deca_outage,0.8500,0.82125,0.8213,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTalimardTV, 0.82125 available"
+TOLIMARJON_CCGT_2031,UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTalimardCC, 0.9 available"
+TURKMENBASHI _REFINERY_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.385714,0.3857,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMTurkmenbCO, 0.385714 available"
 TYUYAMUYUNSKAYA_HY_2031,UZB,UZ,Tuyamuyun,deca_level,deca_level,0.4917,0.435,0.4350,
 UST-KAMENOGORSK _HPP_HY_2031,KAZ_N,KZ,HPP AES Ust-Kamenogorskaya,deca_profile,deca_profile,0.3968,,0.5648,
+UST-KAMENOGORSK _TETS_CHP_2031,KAZ_N,,,thermal,deca_outage,0.8500,0.764712,0.7647,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_CHP Ust-Kamenogorsk, 0.764712 available"
+WATAN_GT_2031,TUR,,,thermal,deca_outage,0.8500,0.822756,0.8228,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of TM TMVatan___TG, 0.822756 available"
+ZHAMBYL_ST_2031,KAZ_S,,,thermal,deca_outage,0.8500,0.757642,0.7576,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_Zhambyl GRES, 0.757642 available"
 ALLAI _KHWAR_HY_2031,PAK_N,,,keep_2020,keep_2020,0.4434,,0.4434,
 PAK_N_HY_2031,PAK_N,,,keep_2020,keep_2020,0.5543,,0.5543,
 PAK_N_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.5543,,0.5543,
@@ -33,6 +99,10 @@ MANGLA_HY_2031,PAK_N,,,keep_2020,keep_2020,0.6535,,0.6535,
 PATRIND_HY_2031,PAK_N,,,keep_2020,keep_2020,0.4814,,0.4814,
 TARBELA_HY_2031,PAK_N,,,keep_2020,keep_2020,0.4969,,0.4969,
 WARSAK_HY_2031,PAK_N,,,keep_2020,keep_2020,0.4138,,0.4138,
+GRANGE _POWER_CCGT_NEW_2031,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+BIN _BIN QASIM _SIDDIQSONS_ST_NEW_2031,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+THAR _BLOCK-I_ST_NEW_2031,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+OSH_CHP_NEW_2031,KGZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Coal"
 TARBELA-V_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.5543,,0.5543,
 MANGLA_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.5543,,0.5543,
 BUNJI_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.3981,,0.3981,
@@ -57,10 +127,15 @@ DASHTIJUM_HY_NEW_2031,TAJ_S,,,keep_2020,keep_2020,0.4273,,0.4273,
 KOKEMEREN-1_HY_NEW_2031,KGZ_S,KG,Kokomerenskaya,keep_2020,keep_2020,0.2902,,0.2902,
 KOKEMEREN-2_HY_NEW_2031,KGZ_S,KG,Kokomeren,keep_2020,keep_2020,0.2902,,0.2902,
 KAMBARATA-1_HY_NEW_2031,KGZ_N,KG,Kambarata 1,keep_2020,keep_2020,0.3461,,0.3461,
+FAN-YAGNOB_ST_NEW_2031,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
 BUKHTARMASKAYA_HY_2031,KAZ_N,KZ,HPP Buhtarminskaya,deca_profile,deca_profile,0.3968,,0.5723,
 FARKHAD_HY_2031,UZB,UZ,Farhad HPP,keep_2020,keep_2020,0.5758,,0.5758,
 GOLOVNAYA_HY_2031,TAJ_S,TJ,Golovnaya HPP,deca_level,deca_level,0.5304,0.3571,0.3571,
 KAIRAKKUM_HY_2031,TAJ_N,TJ,Kayrakkumskaya HPP,deca_level,deca_level,0.7886,0.6566,0.6566,
+TASHKENT_ST_2023,UZB,,,thermal,deca_outage,0.8500,0.774194,0.7742,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZTashkentTV, 0.774194 available"
+NOVO-ANGREN_ST_2030,UZB,,,thermal,deca_outage,0.8500,0.527143,0.5271,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZNovoAngrTV, 0.527143 available"
+NOVO-ANGREN_ST_2031,UZB,,,thermal,deca_outage,0.8500,0.527143,0.5271,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of UZ UZNovoAngrTV, 0.527143 available"
+KARAGANDA _HPS-1_ST_2031,KAZ_N,,,thermal,deca_outage,0.8500,0.733851,0.7339,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the derating of KZ KZ_GRES 1 Karaganda Bassel Group, 0.733851 available"
 NAGHLU_HY_2031,NEPS_AFG,,,keep_2020,keep_2020,0.2704,,0.2704,
 SUKI _KANARI_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.3980,,0.3980,
 KOTLI_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.5422,,0.5422,
@@ -71,6 +146,7 @@ MUNDA _DAM_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.5543,,0.5543,
 AYNI _(ZARAFSHAN)_HY_NEW_2031,TAJ_N,,,keep_2020,keep_2020,0.4545,,0.4545,
 UCH-KURGANSK_HY_2020,KGZ_S,KG,Uchkurgan HPP,deca_level,deca_level,0.8925,0.52,0.5200,
 KEYAL _KHWAR_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.3728,,0.3728,
+THAR _THAR BLOCK-II _THAL_ST_NEW_2031,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
 FANDARYA_HY_NEW_2031,TAJ_N,,,keep_2020,keep_2020,0.3559,,0.3559,
 Sanobad_HY_NEW_2031,TAJ_S,,,keep_2020,keep_2020,0.9936,,0.9936,
 NUREK-2_HY_NEW_2031,TAJ_S,TJ,Nurek HPP,deca_level,deca_level,0.4698,0.4265,0.4265,
@@ -91,13 +167,14 @@ Gulbahar_HY_NEW_2031,NEPS_UZB,,,keep_2020,keep_2020,0.5651,,0.5651,
 Capar_HY_NEW_2031,NEPS_UZB,,,keep_2020,keep_2020,0.5649,,0.5649,
 Kunar-B_HY_NEW_2031,NEPS_AFG,,,keep_2020,keep_2020,0.5651,,0.5651,
 UCH-KURGANSK_HY_NEW_2031,KGZ_S,KG,Uchkurgan HPP,deca_level,deca_level,0.4587,0.52,0.5200,
-NARYN_HY_NEW_2031,KGZ_S,KG,"Narynskaya HPP-1 (47,7 MW)",deca_profile,deca_profile,0.4526,,0.5645,
+NARYN_HY_NEW_2031,KGZ_N,KG,"Narynskaya HPP-1 (47,7 MW)",deca_profile,deca_profile,0.4526,,0.5645,
 Hodjikent_PSH_2_HY_NEW_2031,UZB,,,keep_2020,keep_2020,0.4300,,0.4300,
 HPP_in_Pskem_1_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,deca_profile,0.4300,,0.2611,
 HPP_in_Pskem_2_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,deca_profile,0.4300,,0.2611,
 HPP_in_Pskem_3_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,deca_profile,0.4300,,0.2611,
 HPP_in_Pskem_4_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,deca_profile,0.4300,,0.2611,
 HPP_in_Pskem_5_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,deca_profile,0.4300,,0.2611,
+CHASHMA _(CHASNUPP)_ST_NEW_2031,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on UR"
 GOLEN _GOL_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.4700,,0.4700,
 NEELUM-JHELUM_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.6073,,0.6073,
 TARBELA-IV_HY_NEW_2031,PAK_N,,,keep_2020,keep_2020,0.3109,,0.3109,
@@ -124,10 +201,89 @@ ROGUN_3_HY_NEW_2031,TAJ_S,TJ,Rogun HPP,keep_2020,keep_2020,0.5069,,0.5069,
 ROGUN_4_HY_NEW_2031,TAJ_S,TJ,Rogun HPP,keep_2020,keep_2020,0.5069,,0.5069,
 ROGUN_5_HY_NEW_2031,TAJ_S,TJ,Rogun HPP,keep_2020,keep_2020,0.5069,,0.5069,
 ROGUN_6_HY_NEW_2031,TAJ_S,TJ,Rogun HPP,keep_2020,keep_2020,0.5069,,0.5069,
+KAZ_N_ST_Coal_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+KAZ_N_CCGT_Gas_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+KAZ_N_CHP_Coal_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Coal"
+KAZ_N_GT_Gas_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
 KAZ_N_HY_Water_cand,KAZ_N,,,keep_2020,keep_2020,0.4000,,0.4000,
+KAZ_N_ICE_HFO_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+KAZ_N_ST_UR_cand,KAZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on UR"
+KAZ_S_ST_Coal_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal_KAZ_S"
+KAZ_S_CCGT_Gas_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+KAZ_S_CHP_Gas_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Gas"
+KAZ_S_GT_Gas_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
 KAZ_S_HY_Water_cand,KAZ_S,,,keep_2020,keep_2020,0.4000,,0.4000,
+KAZ_S_ICE_HFO_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+KAZ_S_ST_UR_cand,KAZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on UR"
+KGZ_N_ST_Coal_cand,KGZ_N,,,thermal,deca_outage,1.0000,0.9,0.9000,"was 1, 1, 1, 1, 1, now the 0.9 rate of a new ST on Coal"
+KGZ_N_CCGT_Gas_cand,KGZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+KGZ_N_CHP_Gas_cand,KGZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Gas"
+KGZ_N_GT_Gas_cand,KGZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+KGZ_N_ICE_HFO_cand,KGZ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+KGZ_S_ST_Coal_cand,KGZ_S,,,thermal,deca_outage,1.0000,0.9,0.9000,"was 1, 1, 1, 1, 1, now the 0.9 rate of a new ST on Coal"
+KGZ_S_CCGT_Gas_cand,KGZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+KGZ_S_CHP_Gas_cand,KGZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Gas"
+KGZ_S_GT_Gas_cand,KGZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+KGZ_S_ICE_HFO_cand,KGZ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+NEPS_AFG_ST_Coal_cand,NEPS_AFG,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+NEPS_AFG_CCGT_Gas_cand,NEPS_AFG,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+NEPS_AFG_GT_Gas_cand,NEPS_AFG,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+NEPS_AFG_ICE_HFO_cand,NEPS_AFG,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+NEPS_TAJ_ST_Coal_cand,NEPS_TAJ,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+NEPS_TAJ_CCGT_Gas_cand,NEPS_TAJ,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+NEPS_TAJ_GT_Gas_cand,NEPS_TAJ,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+NEPS_TAJ_ICE_HFO_cand,NEPS_TAJ,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+NEPS_TKM_ST_Coal_cand,NEPS_TKM,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+NEPS_TKM_CCGT_Gas_cand,NEPS_TKM,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+NEPS_TKM_GT_Gas_cand,NEPS_TKM,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+NEPS_TKM_ICE_HFO_cand,NEPS_TKM,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+NEPS_UZB_ST_Coal_cand,NEPS_UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+NEPS_UZB_CCGT_Gas_cand,NEPS_UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+NEPS_UZB_GT_Gas_cand,NEPS_UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+NEPS_UZB_ICE_HFO_cand,NEPS_UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+PAK_KAR_ST_Coal_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+PAK_KAR_CCGT_Gas_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+PAK_KAR_GT_Gas_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+PAK_KAR_CCGT_LNG_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on LNG"
+PAK_KAR_GT_LNG_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on LNG"
+PAK_KAR_ST_HFO_cand,PAK_KAR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on HFO"
+PAK_N_ST_Coal_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+PAK_N_CCGT_Gas_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+PAK_N_GT_Gas_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+PAK_N_CCGT_LNG_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on LNG"
+PAK_N_GT_LNG_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on LNG"
+PAK_N_ST_HFO_cand,PAK_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on HFO"
+PAK_S_ST_Coal_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+PAK_S_CCGT_LNG_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on LNG"
+PAK_S_GT_LNG_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on LNG"
+PAK_S_CCGT_Gas_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+PAK_S_GT_Gas_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+PAK_S_ST_HFO_cand,PAK_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on HFO"
+TAJ_N_ST_Coal_cand,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+TAJ_N_CCGT_Gas_cand,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+TAJ_N_CHP_Coal_cand,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Coal"
+TAJ_N_GT_Gas_cand,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+TAJ_N_ICE_HFO_cand,TAJ_N,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+TAJ_S_ST_Coal_cand,TAJ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+TAJ_S_CCGT_Gas_cand,TAJ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+TAJ_S_CHP_Coal_cand,TAJ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Coal"
+TAJ_S_GT_Gas_cand,TAJ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+TAJ_S_ICE_HFO_cand,TAJ_S,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+TUR_ST_Coal_cand,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+TUR_CCGT_Gas_cand,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+TUR_CHP_Gas_cand,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Gas"
+TUR_GT_Gas_cand,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+TUR_ICE_HFO_cand,TUR,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
+UZB_ST_Coal_cand,UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+UZB_CCGT_Gas_cand,UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+UZB_CHP_Gas_cand,UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CHP on Gas"
+UZB_GT_Gas_cand,UZB,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
 ATBASH_HY_2010,KGZ_N,KG,Atbashinskaya,keep_2020,keep_2020,0.4355,,0.4355,
 SALMA_HPP,NEPS_HERAT,,,keep_2020,keep_2020,0.0402,,0.0402,
+NEPS_HERAT_ST_Coal_cand,NEPS_HERAT,,,thermal,deca_outage,0.6485,0.9,0.9000,"was 0.0328654, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ST on Coal"
+NEPS_HERAT_CCGT_Gas_cand,NEPS_HERAT,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new CCGT on Gas"
+NEPS_HERAT_Gas_cand,NEPS_HERAT,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new GT on Gas"
+NEPS_HERAT_ICE_HFO_cand,NEPS_HERAT,,,thermal,deca_outage,0.8500,0.9,0.9000,"was 0.85, 0.85, 0.85, 0.85, 0.85, now the 0.9 rate of a new ICE on HFO"
 DARUNTA_HY,NEPS_AFG,,,keep_2020,keep_2020,0.4220,,0.4220,
 MAHIPER_HY,NEPS_AFG,,,keep_2020,keep_2020,0.1051,,0.1051,
 SOROBI_HY,NEPS_AFG,,,keep_2020,keep_2020,0.8309,,0.8309,

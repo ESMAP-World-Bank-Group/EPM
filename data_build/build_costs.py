@@ -301,7 +301,23 @@ DECA_DEFAULT_VOM = 3.4        # the value DeCA writes where it has nothing to sa
 
 
 def read_thermal(path):
-    """{assigned name: (efficiency, vom, transport)} from a DeCA Thermal PP sheet."""
+    """{assigned name: (efficiency, vom, transport, derating)} from a Thermal PP sheet.
+
+    THE DERATING IS THE SECOND CAPACITY COLUMN. DeCA states an installed capacity and,
+    beside it, an available capacity, and the two differ for most of the fleet: Bishkek
+    is 812 MW installed and 420 available, Turkmenbashi 420 and 180, Angren 393 and
+    250. That is not the outage rate, which sits three columns further right in
+    Forced and Scheduled Outage Rate and is 0.05 each for every unit of all five
+    books; it is what an ageing plant can actually put on the bars. The two multiply:
+    a unit is derated to its available capacity and then out of service a tenth of the
+    time. Returned as one number per plant, available / installed x (1 - forced -
+    scheduled), so that whoever uses it cannot apply half of it.
+
+    It is a RATIO and that matters, the mapping from model units to DeCA plants not
+    being one to one: 17 DeCA plants are split across several rows of this model, so
+    an absolute capacity could not be carried across it without deciding how to share
+    it, while a ratio applies to each row of a group unchanged.
+    """
     import openpyxl
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     rows = list(wb["Thermal PP"].iter_rows(values_only=True))
@@ -316,11 +332,23 @@ def read_thermal(path):
     c_eff = col["Efficiency (MWh produced / MWh fuel)"]
     c_vom = col["Non-fuel Variable Costs (US$/MWh)"]
     c_tr = col["Transport Variable Costs (US$/MMBTU)"]
+    c_inst = col["Installed Capacity (MW)"]
+    c_avail = col["Available capacity (MW)"]
+    c_fo = col["Forced Outage Rate"]
+    c_so = col["Scheduled Outage Rate"]
     out = {}
     for r in rows[h + 1:]:
         name = r[c_name]
-        if isinstance(name, str) and name.strip():
-            out[name.strip()] = (num(r[c_eff]), num(r[c_vom]), num(r[c_tr]))
+        if not isinstance(name, str) or not name.strip():
+            continue
+        inst, avail = num(r[c_inst]), num(r[c_avail])
+        up = 1.0 - (num(r[c_fo]) or 0.0) - (num(r[c_so]) or 0.0)
+        derate = None
+        if inst and avail is not None:
+            # Uzbekistan states an available capacity above the installed one for two
+            # units, which is a book error and not a plant that exceeds its rating.
+            derate = min(avail / inst, 1.0) * up
+        out[name.strip()] = (num(r[c_eff]), num(r[c_vom]), num(r[c_tr]), derate)
     return out
 
 
@@ -387,7 +415,7 @@ def thermal(maps, books_dir, target, reference):
         if plant not in decks[cc]:
             raise KeyError("the mapping points at a plant the book does not carry: "
                            + cc + " " + plant)
-        eff, vom_deca, tr = decks[cc][plant]
+        eff, vom_deca, tr, _derate = decks[cc][plant]
         if not eff:
             raise ValueError("no efficiency stated for " + cc + " " + plant)
 
@@ -419,8 +447,50 @@ def thermal(maps, books_dir, target, reference):
     write_csv(os.path.join(HERE, "extracted", "thermal_cost_report.csv"),
               ["g", "book", "deca_plant", "heatrate_before", "heatrate_after",
                "vom_before", "vom_after", "transport_term", "why"], report)
+
+    # ---- the derating, handed to build_hydro.py -------------------------------
+    # Written here and not there because the sheet and the mapping are already open
+    # here, and read there because availability is that file's subject. RUN ORDER IS
+    # THEREFORE build_fleet.py, THIS, THEN build_hydro.py.
+    every = sorted(d for deck in decks.values() for (_e, _v, _t, d) in deck.values()
+                   if d is not None)
+    if not every:
+        raise ValueError("no book states an available capacity, the derating is empty")
+    mid = every[len(every) // 2] if len(every) % 2 else (
+        every[len(every) // 2 - 1] + every[len(every) // 2]) / 2.0
+    # THE FILE IS THE PERIMETER. It carries a line for a unit of the five DeCA
+    # countries and for no one else, so a Pakistani or Afghan plant is simply absent
+    # and keeps whatever the 2020 model gave it. That is the rule of this build read
+    # strictly: DeCA wins where DeCA and 2020 disagree, and outside the five countries
+    # DeCA says nothing, so there is nothing to disagree with. Carrying the Central
+    # Asian median across the border would be the opposite -- inventing a number for a
+    # fleet no source in hand describes, and moving the answer of a study whose subject
+    # is how much Central Asian power is worth to Pakistan.
+    drows = []
+    for g in sorted(by_g):
+        cc, plant = by_g[g]
+        d = decks[cc][plant][3] if cc and plant in decks.get(cc, {}) else None
+        if d is not None:
+            drows.append([g, "{0:.6g}".format(d), cc + " " + plant,
+                          "available over installed capacity, times one less the "
+                          "forced and scheduled outage rates"])
+        else:
+            # Inside the perimeter, unmatched: the country is described, this plant is
+            # not. The median of the fleet DeCA does describe is the substitute, the
+            # same move build_fleet.py makes for the RenewableMaxEntry rate.
+            drows.append([g, "{0:.6g}".format(mid),
+                          "median of the {0} thermal units of the five DeCA books"
+                          .format(len(every)),
+                          "DeCA carries no such plant, see thermal_plants.csv for why; "
+                          "the median of the fleet it does carry stands in"])
+    write_csv(os.path.join(HERE, "extracted", "thermal_derating.csv"),
+              ["g", "availability", "source", "why"], drows)
+
     print("thermal    {0} units in the mapping, {1} rebuilt from DeCA".format(
         len(by_g), touched))
+    own = sum(1 for r in drows if not r[2].startswith("median"))
+    print("derating   {0} unit(s), {1} on their own DeCA plant, {2} on the median "
+          "{3:.4f}".format(len(drows), own, len(drows) - own, mid))
     return report
 
 

@@ -1,4 +1,9 @@
 g,z,tech,fuel,cap_mw,start_year,limit_mw_per_year,why
+DASHTIJUM_HY_NEW_2031,TAJ_S,HY,Water,756,2035,10000000,"756 MW at 2.4653 million USD per MW, not before 2035, after DeCA TJ / Hydro PP Candidates, TJ Khatlon HPP"
+KOKEMEREN-1_HY_NEW_2031,KGZ_S,HY,Water,360,2035,10000000,"360 MW at 4.4667 million USD per MW, not before 2035, after DeCA KG / Hydro PP Candidate, Kokomerenskaya"
+KOKEMEREN-2_HY_NEW_2031,KGZ_S,HY,Water,912,2035,10000000,"912 MW at 1.6206 million USD per MW, not before 2035, after DeCA KG / Hydro PP Candidate, Kokomeren"
+KAMBARATA-1_HY_NEW_2031,KGZ_N,HY,Water,1860,2032,10000000,"1860 MW at 1.5677 million USD per MW, not before 2032, after DeCA KG / Hydro PP Candidate, Kambarata 1"
+NARYN_HY_NEW_2031,KGZ_N,HY,Water,237.7,2035,10000000,"zone moved from KGZ_S to KGZ_N; 237.7 MW at 3.0627 million USD per MW, not before 2035, after DeCA KG / Hydro PP Candidate, Upper Naryn HPP Cascade"
 KAZ_N_ST_Coal_cand,KAZ_N,ST,Coal,8615.02,2022,344.601,"was allowed ten million MW a year; the rate is now 344.601 MW, 3% of the 2026 peak of the zone (11487 MW), and the cumulative cap follows from that rate over the run"
 KAZ_N_CCGT_Gas_cand,KAZ_N,CCGT,Gas,14358.4,2021,574.335,"was allowed ten million MW a year; the rate is now 574.335 MW, 5% of the 2026 peak of the zone (11487 MW), and the cumulative cap follows from that rate over the run"
 KAZ_N_CHP_Coal_cand,KAZ_N,CHP,Coal,8615.02,2022,344.601,"was allowed ten million MW a year; the rate is now 344.601 MW, 3% of the 2026 peak of the zone (11487 MW), and the cumulative cap follows from that rate over the run"

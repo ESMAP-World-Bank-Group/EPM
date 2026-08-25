@@ -91,7 +91,7 @@ Gulbahar_HY_NEW_2031,NEPS_UZB,,,keep_2020,"Outside the DeCA perimeter, which cov
 Capar_HY_NEW_2031,NEPS_UZB,,,keep_2020,"Outside the DeCA perimeter, which covers the five Central Asian countries only. Pakistan needs the NTDC IGCEP, Afghanistan the DABS fleet."
 Kunar-B_HY_NEW_2031,NEPS_AFG,,,keep_2020,"Outside the DeCA perimeter, which covers the five Central Asian countries only. Pakistan needs the NTDC IGCEP, Afghanistan the DABS fleet."
 UCH-KURGANSK_HY_NEW_2031,KGZ_S,KG,Uchkurgan HPP,deca_level,Rehabilitation of the same plant.
-NARYN_HY_NEW_2031,KGZ_S,KG,"Narynskaya HPP-1 (47,7 MW)",deca_profile,"Upper Naryn candidate. DeCA gives the cascade a marked summer regime, 0.21 in January against 1.00 from May to August."
+NARYN_HY_NEW_2031,KGZ_N,KG,"Narynskaya HPP-1 (47,7 MW)",deca_profile,"Upper Naryn candidate, and in this table the whole cascade: named_candidates.csv sizes it at the 237.7 MW of the four plants DeCA lists, so the profile of Narynskaya HPP-1 now speaks for all four, which share one river and one regime. THE ZONE MOVED from KGZ_S to KGZ_N, DeCA putting every plant of the cascade in the Naryn region, area North. DeCA gives it a marked summer regime, 0.21 in January against 1.00 from May to August."
 Hodjikent_PSH_2_HY_NEW_2031,UZB,,,keep_2020,"No usable counterpart in DeCA: the country profile is a single national average, which would say less than the 2020 value."
 HPP_in_Pskem_1_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,"Pskem candidate. One of the rare Uzbek profiles that is not the national average: 0.08 in January against 0.46 in July, a summer regime."
 HPP_in_Pskem_2_HY_NEW_2031,UZB,UZ,Pskem HPP (Pskem river),deca_profile,Same cascade.

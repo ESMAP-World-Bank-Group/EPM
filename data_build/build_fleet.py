@@ -7,6 +7,7 @@ Reads:
     mappings/tech_lifetime.csv        operating life assumed per technology
     mappings/fleet_retirement.csv     the units whose retirement is a dated decision
     mappings/candidate_limits.csv     what a candidate may build, and how fast
+    mappings/named_candidates.csv     the projects the 2020 table named without sizing
     mappings/storage_candidates.csv   the shape of a battery candidate
     mappings/country_book.csv         which DeCA book speaks for which country
     <reference>/supply/pGenDataInput.csv          the 2020 table
@@ -276,6 +277,7 @@ def main():
     lives = dict((k, int(v["life"])) for k, v in
                  pairs(os.path.join(maps, "tech_lifetime.csv")).items())
     fixed = mapping(os.path.join(maps, "fleet_retirement.csv"), "g")
+    named = mapping(os.path.join(maps, "named_candidates.csv"), "g")
     limits = pairs(os.path.join(maps, "candidate_limits.csv"))
     books = mapping(os.path.join(maps, "country_book.csv"), "c")
 
@@ -305,11 +307,12 @@ def main():
     header, rows = read_csv(os.path.join(ref, "pGenDataInput.csv"))
     col = index(header)
     for need in ("g", "z", "tech", "fuel", "Status", "StYr", "RetrYr", "Life",
-                 "Capacity", "BuildLimitperYear"):
+                 "Capacity", "Capex", "BuildLimitperYear"):
         if need not in col:
             raise KeyError("the reference table has no column " + need)
 
     out, retired, cand, seen, medians = [], [], [], set(), {}
+    named_seen = set()
     for r in rows:
         r = list(r)
         g = r[col["g"]].strip()
@@ -318,6 +321,33 @@ def main():
         fuel = r[col["fuel"]].strip()
         styr = int(r[col["StYr"]])
         out.append(r)
+
+        # A few rows name a real project and carry no size, which in this table means
+        # the model may not build them: six hydro lines of the 2020 table, 5.9 GW of
+        # Kyrgyz and Tajik plant, sat at zero capacity for the whole horizon.
+        # named_candidates.csv gives them the size, the cost and the earliest year
+        # DeCA states for the project, so that what the run may build is a plant name
+        # against a source and not a number appearing from nowhere. This runs before
+        # the status branch because such a row can be written with either status, and
+        # ahead of the candidate rules because those speak for the generic candidates
+        # alone, a named project being sized by its own study and not by a rate.
+        if g in named:
+            spec = named[g]
+            named_seen.add(g)
+            why = []
+            if spec["zone"] and spec["zone"] != z:
+                why.append("zone moved from {0} to {1}".format(z, spec["zone"]))
+                z = spec["zone"]
+                r[col["z"]] = z
+            r[col["Capacity"]] = spec["capacity_mw"]
+            r[col["Capex"]] = spec["capex_musd_per_mw"]
+            r[col["StYr"]] = spec["first_year"]
+            styr = int(spec["first_year"])
+            why.append("{0} MW at {1} million USD per MW, not before {2}, after DeCA "
+                       "{3}".format(spec["capacity_mw"], spec["capex_musd_per_mw"],
+                                    spec["first_year"], spec["deca_source"]))
+            cand.append([g, z, tech, fuel, r[col["Capacity"]], styr,
+                         r[col["BuildLimitperYear"]], "; ".join(why)])
 
         if r[col["Status"]].strip() == "1":
             was = int(r[col["RetrYr"]])
@@ -461,6 +491,11 @@ def main():
         cand.append([g, z, tech, fuel, r[col["Capacity"]], styr,
                      r[col["BuildLimitperYear"]], "; ".join(why) or "unchanged"])
 
+    unnamed = sorted(set(named) - named_seen)
+    if unnamed:
+        raise KeyError("named_candidates.csv names units that are not in the "
+                       "reference table: " + ", ".join(unnamed))
+
     unused = sorted(set(fixed) - seen)
     if unused:
         raise KeyError("fleet_retirement.csv names units that are not existing "
@@ -550,6 +585,9 @@ def main():
           .format(moved, len(retired) - moved))
     print("candidates   {0} lines, {1} of them were barred from building"
           .format(len(cand), opened))
+    print("named        {0} project(s) sized from DeCA, {1:.0f} MW in all"
+          .format(len(named_seen),
+                  sum(float(named[g]["capacity_mw"]) for g in named_seen)))
     print("batteries    {0} in {1} zones, {2:.0f} $/MW and {3:.0f} $/MWh in {4}"
           .format(len(srows), len(inside), base["bess_mw"], base["bess_mwh"], start))
     print("trajectories {0} rows, {1} to {2}, of which {3} on a DeCA cost curve"

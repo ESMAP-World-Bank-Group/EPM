@@ -1,0 +1,11 @@
+tech,fuel,availability,source,note
+CCGT,*,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates","DeCA states the same two rates for every thermal unit of the five countries it covers: 5% forced plus 5% scheduled, so 0.90 of the year available. The 2020 model wrote a flat 0.85 for all of them and named no source. The rule for this build is DeCA over 2020."
+GT,*,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.
+ST,Coal,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.
+ST,Coal_KAZ_S,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates","Kazakh southern coal, a fuel of its own in this model only because its price differs."
+ST,Gas,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.
+ST,LNG,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.
+ST,HFO,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.
+ST,UR,0.9,"assumption, aligned on the thermal rate","DeCA carries no nuclear unit, the Kazakh reactors being candidates no book prices. 0.90 is written explicitly rather than inherited from a wildcard so that a reviewer sees it is an assumption and not a DeCA number. A pressurised water reactor is usually planned above this, 0.90 is the conservative end."
+CHP,*,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates","Same rates. EPM has no heat side, so a CHP is dispatched as a power plant and its availability is an outage rate like any other."
+ICE,*,0.9,"DeCA AssumptionBooks, Thermal PP sheet, forced and scheduled outage rates",Same rates.

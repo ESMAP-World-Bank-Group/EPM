@@ -6,16 +6,59 @@
 Reads:
     mappings/seasons_months.csv   the season set and the months behind it
     mappings/hydro_plants.csv     one line per hydro unit of the model, hand-edited
+    mappings/availability.csv     the outage rate of a new thermal (tech, fuel) pair
     extracted/pGenDataInput.csv   the fleet, to see whom the table is missing
+    extracted/thermal_derating.csv  the DeCA derating of an existing thermal unit
     <reference>/supply/pAvailabilityCustom.csv   the 2020 values, used as the base
     the DeCA AssumptionBooks                     sheets HydroPP and Hydro Profile
 
-RUN ORDER IS build_fleet.py THEN build_hydro.py, the fleet being read here to catch the
-units the availability table does not cover.
+RUN ORDER IS build_fleet.py, THEN build_costs.py, THEN build_hydro.py. The fleet is
+read here to catch the units the availability table does not cover, and the derating
+this script applies is the one build_costs.py extracts on its way through the DeCA
+thermal sheets.
 
 Writes:
     extracted/pAvailabilityCustom.csv        taken as is by the build
+    extracted/pAvailabilityDefault.csv       idem
     extracted/hydro_availability_report.csv  what each unit was given, and why
+
+THE THERMAL SIDE IS A FOURTH METHOD, deca_outage, and it asks a different question of
+an existing unit than of one still to be built.
+
+A CANDIDATE is written at the pair rate of availability.csv, 0.90 across the seasons.
+That is DeCA's own arithmetic for a plant in working order: it gives the same two
+outage rates to every thermal unit of the five countries it covers, 5% forced and 5%
+scheduled. A plant that does not exist yet has no history of dereliction, so the pair
+rate is all there is to say about it, and it is what the two Kyrgyz coal candidates
+get in place of the 1 the 2020 table gave them -- a fifth of the year of outage simply
+missing -- and what NEPS_HERAT_ST_Coal_cand gets in place of 0.0329 in Q1 alone, which
+is a typo and not an assumption.
+
+AN EXISTING UNIT IS WRITTEN AT ITS OWN DERATING, because DeCA states an Available
+capacity beside the Installed capacity of every plant it carries and the gap between
+the two is the plant's condition, unit by unit. thermal_derating.csv holds the ratio,
+already multiplied by the 0.90: 0.4655 for Bishkek, whose 812 MW book capacity is
+available at 420, against 0.90 for the second Dushanbe set. Ignoring it would have
+told the model that a Soviet CHP nobody has maintained since 1991 and a 2018 combined
+cycle are the same machine. The 2020 model wrote 0.85 everywhere and named no source;
+BISHKEK_CHP_2023 alone sat at 0.3085, which was the right instinct -- a real derating
+hidden in the availability column -- and lands at 0.4655 once DeCA states it, so 310
+MW effective out of the 666 the model carries rather than 205.
+
+OUTSIDE THE FIVE COUNTRIES NOTHING MOVES. Pakistan and Afghanistan keep their 2020
+availability, because the rule of this build is that DeCA wins where DeCA and 2020
+disagree and on a Pakistani plant DeCA says nothing at all. Carrying the Central Asian
+median south would be inventing a number for a fleet no source in hand describes, and
+inventing it in the one place it would move the answer: Pakistan is the demand this
+study asks whether Central Asian power is worth exporting to. The median is still
+computed and written into thermal_derating.csv for the units inside the perimeter that
+the mapping could not match to a book plant, where the country is described and only
+the plant is not.
+
+WHAT THE MAPPING DELIBERATELY DOES NOT NAME is hydro, solar, wind, imports and
+storage. For those the column is not an outage rate but the resource itself -- the
+seasonal water of a reservoir, a profile that already carries the weather -- and a
+plant-level number must not be overwritten by a technology-level one.
 
 Three methods, declared per unit in the mapping:
 
@@ -195,6 +238,20 @@ def annual(values, season_set):
     return sum(v * h for v, h in zip(values, hours)) / sum(hours)
 
 
+def for_pair(table, tech, fuel):
+    """The row that speaks for this pair, the exact one first, then the wildcard."""
+    return table.get((tech, fuel)) or table.get((tech, "*"))
+
+
+def fleet_pairs(fleet_path):
+    """(tech, fuel, zone, status) of every unit of the fleet, by generator name."""
+    header, gens = read_csv(fleet_path)
+    col = {c.strip(): j for j, c in enumerate(header)}
+    return dict((r[0].strip(), (r[col["tech"]].strip(), r[col["fuel"]].strip(),
+                                r[col["z"]].strip(), r[col["Status"]].strip()))
+                for r in gens)
+
+
 def complete(out, names, fleet_path, report):
     """The lines the fleet needs and the availability table does not have.
 
@@ -269,6 +326,18 @@ def main():
         order.append(g)
         base[g] = [num(r[ref_col[inherits[q]]]) or 0.0 for q in names]
 
+    fleet_path = os.path.join(HERE, "extracted", "pGenDataInput.csv")
+    fleet = fleet_pairs(fleet_path)
+    aheader, arows = read_csv(os.path.join(maps, "availability.csv"))
+    acol = {c.strip(): j for j, c in enumerate(aheader)}
+    outage = dict(((r[acol["tech"]].strip(), r[acol["fuel"]].strip()),
+                   r[acol["availability"]].strip()) for r in arows)
+    dheader, drows = read_csv(os.path.join(HERE, "extracted",
+                                           "thermal_derating.csv"))
+    dcol = {c.strip(): j for j, c in enumerate(dheader)}
+    derating = dict((r[0].strip(), (r[dcol["availability"]].strip(),
+                                    r[dcol["source"]].strip())) for r in drows)
+
     header, rows = read_csv(os.path.join(maps, "hydro_plants.csv"))
     col = {c.strip(): j for j, c in enumerate(header)}
     plan = {}
@@ -312,6 +381,34 @@ def main():
             else:
                 applied, why = "keep_2020", "DeCA gives no capacity or no yearly production"
 
+        rate, said = None, ""
+        if p is None:
+            tech, fuel, zone, status = fleet.get(g, ("", "", "", ""))
+            pair = for_pair(outage, tech, fuel)
+            if pair is None:
+                # Hydro, solar, wind, imports, storage: the column is not an outage
+                # rate there but the resource itself, and must not be overwritten.
+                pass
+            elif status != "1":
+                rate = pair
+                said = "the {0} rate of a new {1} on {2}".format(pair, tech, fuel)
+            elif g in derating:
+                rate, source = derating[g]
+                said = "the derating of {0}, {1} available".format(source, rate)
+            # An existing unit outside the DeCA perimeter falls through and keeps its
+            # 2020 value, which is the whole of the Pakistani and Afghan fleet.
+        if rate is not None:
+            was = list(values)
+            values = [float(rate)] * len(names)
+            applied = "deca_outage"
+            if ["{0:.6g}".format(v) for v in was] != ["{0:.6g}".format(v)
+                                                      for v in values]:
+                why = "was {0}, now {1}".format(
+                    ", ".join("{0:.6g}".format(v) for v in was), said)
+                report.append([g, zone, "", "", "thermal", applied,
+                               "{0:.4f}".format(cf_ref), rate,
+                               "{0:.4f}".format(float(rate)), why])
+
         clipped = [min(v, 1.0) for v in values]
         if clipped != values:
             why = (why + "; " if why else "") + "a season was clipped at 1"
@@ -323,8 +420,21 @@ def main():
                            "{0:.4f}".format(cf_ref), cf_deca,
                            "{0:.4f}".format(annual(values, season_set)), why])
 
-    out += complete(out, names, os.path.join(HERE, "extracted", "pGenDataInput.csv"),
-                    report)
+    out += complete(out, names, fleet_path, report)
+
+    # The default table is read only for a (zone, tech, fuel) the custom table does
+    # not cover unit by unit, which today is none of them: input_treatment fills
+    # pAvailability from the custom rows first and reaches for the default only for
+    # what is left. It is written all the same, for the pairs whose availability is a
+    # technology property and not plant data, so that a generator added later without
+    # a line of its own lands on a stated number instead of on zero. It also carried
+    # the two-season header of data_test, which no longer matches this model.
+    zones = sorted(set((z, tech, fuel) for tech, fuel, z, _s in fleet.values()
+                       if for_pair(outage, tech, fuel) is not None))
+    write_csv(os.path.join(HERE, "extracted", "pAvailabilityDefault.csv"),
+              ["z", "tech", "fuel"] + names,
+              [[z, tech, fuel] + [for_pair(outage, tech, fuel)] * len(names)
+               for z, tech, fuel in zones])
 
     write_csv(os.path.join(HERE, "extracted", "pAvailabilityCustom.csv"),
               ["g"] + names, out)
@@ -332,11 +442,20 @@ def main():
               ["g", "z", "book", "deca_plant", "method", "applied",
                "annual_2020", "annual_deca", "annual_new", "note"], report)
 
-    hydro = [r for r in report if r[5] != "fleet_default"]
+    thermal = [r for r in report if r[5] == "deca_outage"]
+    hydro = [r for r in report if r[5] not in ("fleet_default", "deca_outage")]
     done = sum(1 for r in hydro if r[5] != "keep_2020")
     print("units      {0}, of which completed against the fleet {1}".format(
         len(out), sum(1 for r in report if r[5] == "fleet_default")))
     print("hydro      {0}, of which rebuilt from DeCA {1}".format(len(hydro), done))
+    own = sum(1 for r in thermal if "derating" in r[9])
+    print("thermal    {0} unit(s) moved, {1} on their own DeCA derating and {2} on the "
+          "{3} pair rate(s)".format(len(thermal), own, len(thermal) - own,
+                                    len(outage)))
+    print("           {0} default row(s), {1} existing unit(s) left on 2020".format(
+        len(zones), sum(1 for g, (t, f, z, st) in fleet.items()
+                        if st == "1" and for_pair(outage, t, f) is not None
+                        and g not in derating)))
     print("seasons    " + ", ".join("{0} ({1:.0f} h)".format(q, h)
                                     for q, _, h in season_set))
 

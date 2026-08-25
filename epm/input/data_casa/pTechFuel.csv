@@ -9,7 +9,7 @@ ST,Gas,0,0,1
 ST,HFO,0,0,2
 CHP,HFO,0,0,2
 CCGT,HFO,0,0,2
-HY,Water,0,0,9
+HY,Water,0,1,9
 ST,LNG,0,0,6
 CCGT,LNG,0,0,6
 GT,Gas,0,0,1
@@ -19,9 +19,9 @@ PV,Solar,1,1,11
 ICE,LNG,0,0,6
 WT,Wind,1,1,12
 ST,Coal_KAZ_S,0,0,15
-INT,Import,1,1,8
-CSPPlant,CSP,0,0,13
-PVwSTO,Solar,0,0,11
-STOPV,Solar,0,0,11
+INT,Import,0,0,8
+CSPPlant,CSP,0,1,13
+PVwSTO,Solar,1,1,11
+STOPV,Solar,0,1,11
 Storage,Battery,0,0,16
-ROR,Water,0,0,9
+ROR,Water,1,1,9
