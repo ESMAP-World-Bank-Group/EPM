@@ -89,7 +89,11 @@ def test_cumulative_sum_adds_instead_of_concatenating():
         "value": ["1", "2", "EPS", "4"],
     }).to_csv(src, index=False)
 
-    assert pd.read_csv(src)["value"].dtype == object, "test data must trip dtype inference"
+    # Not `dtype == object`: pandas 3 reads text columns as `str`, and either way
+    # what matters is that the column is not numeric, which is what breaks cumsum.
+    assert not pd.api.types.is_numeric_dtype(
+        pd.read_csv(src)["value"]
+    ), "test data must trip dtype inference"
     assert ot.calculate_cumulative(src, dst, log_func=lambda m: None)
 
     got = pd.read_csv(dst).sort_values("y")["value"].tolist()
