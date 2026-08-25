@@ -59,6 +59,31 @@ DATA_BUILD = REPO / "data_build"
 INPUT_DIR = BASE / "input"
 OUTPUT_DIR = BASE / "output" / "casa"
 
+VRE_PROFILE = REPO / "epm" / "input" / "data_casa" / "supply" / "pVREProfile.csv"
+
+# The model names its renewable technologies in pVREProfile and those names are what
+# the clustering must carry: representativedays_pipeline.py uses the key of input_files
+# as the `fuel` label it writes out, so a series handed over as "Wind" would reach
+# pVREProfile as "Wind" and match no plant in a model that says WT. The names are read
+# from the deployed file rather than written down, and the aliases below only say which
+# spelling means which resource.
+SOLAR_ALIASES = ("PV", "SOLAR", "SPV", "SPP", "SOLARPV")
+WIND_ALIASES = ("WT", "WIND", "WPP", "WTG")
+
+
+def model_vre_labels(path):
+    """(solar label, wind label) exactly as the deployed pVREProfile spells them."""
+    with open(path, encoding="utf-8-sig") as handle:
+        found = {row["tech"].strip() for row in csv.DictReader(handle) if row.get("tech")}
+    solar = [t for t in found if t.upper() in SOLAR_ALIASES]
+    wind = [t for t in found if t.upper() in WIND_ALIASES]
+    if len(solar) != 1 or len(wind) != 1:
+        raise SystemExit(
+            "cannot tell which technology is which in {0}: found {1}. Add the spelling "
+            "to SOLAR_ALIASES or WIND_ALIASES.".format(path, sorted(found)))
+    return solar[0], wind[0]
+
+
 HOURS_PER_DAY = 24
 # A non-leap calendar, matching the 8760 h the DeCA series carry and the 365 days the
 # season mapping adds up to. February 29 never appears, so none has to be dropped.
@@ -169,10 +194,14 @@ def main():
     print("[casa-repdays] seasons        : {0}".format(" ".join(order)))
 
     load_path, kept = extract_load(zones)
+    solar_label, wind_label = model_vre_labels(VRE_PROFILE)
     input_files = {"Load": load_path}
-    for label, path in (("PV", args.pv), ("Wind", args.wind)):
+    for label, path in ((solar_label, args.pv), (wind_label, args.wind)):
         if path:
             input_files[label] = path
+    if len(input_files) > 1:
+        print("[casa-repdays] vre labels     : {0}".format(
+            ", ".join(k for k in input_files if k != "Load")))
 
     if len(input_files) == 1:
         print("[casa-repdays] WARNING: clustering on Load alone. The renewable side is\n"

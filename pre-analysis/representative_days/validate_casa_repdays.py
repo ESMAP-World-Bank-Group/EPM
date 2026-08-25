@@ -50,6 +50,23 @@ TOL_DC = 3.0        # per cent, on the duration curve quantiles
 TOL_EXTREME = 5.0   # per cent, on the maximum
 
 
+# See run_casa_repdays.py for why the technology names are read and not written down.
+SOLAR_ALIASES = ("PV", "SOLAR", "SPV", "SPP", "SOLARPV")
+WIND_ALIASES = ("WT", "WIND", "WPP", "WTG")
+
+
+def model_vre_labels():
+    path = REPO / "epm" / "input" / "data_casa" / "supply" / "pVREProfile.csv"
+    with open(path, encoding="utf-8-sig") as handle:
+        found = {row["tech"].strip() for row in csv.DictReader(handle) if row.get("tech")}
+    solar = [t for t in found if t.upper() in SOLAR_ALIASES]
+    wind = [t for t in found if t.upper() in WIND_ALIASES]
+    if len(solar) != 1 or len(wind) != 1:
+        raise SystemExit("cannot tell which technology is which in {0}: found {1}".format(
+            path, sorted(found)))
+    return solar[0], wind[0]
+
+
 def active_zones():
     path = REPO / "epm" / "input" / "data_casa" / "zcmap.csv"
     with open(path, encoding="utf-8-sig") as fh:
@@ -164,11 +181,11 @@ def main():
     if round(total) != 8760:
         print("[gate] WARNING: that is not 8760 h; input_verification.py will refuse it")
 
-    sources = [
-        ("Load", read_truth("Load_casa.csv"), read_profile("pDemandProfile.csv")),
-        ("PV", read_truth("PV_casa.csv"), read_profile("pVREProfile.csv", "PV")),
-        ("Wind", read_truth("Wind_casa.csv"), read_profile("pVREProfile.csv", "Wind")),
-    ]
+    solar_label, wind_label = model_vre_labels()
+    sources = [("Load", read_truth("Load_casa.csv"), read_profile("pDemandProfile.csv"))]
+    for label in (solar_label, wind_label):
+        sources.append((label, read_truth("{0}_casa.csv".format(label)),
+                        read_profile("pVREProfile.csv", label)))
     if not sources[1][1] and not sources[2][1]:
         print("[gate] no renewable series staged: this run clustered on Load alone and\n"
               "       the gate can say nothing about PV or wind.")
