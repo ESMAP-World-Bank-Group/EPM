@@ -158,6 +158,44 @@ def act_table(header, rows, spec, path):
     return new_header, new_rows
 
 
+def act_settings(text, spec, path):
+    """Keep a whitespace-separated settings file and override named keys.
+
+    A CPLEX option file is `key value` lines with * for a comment, not a table, and
+    read_csv would make nonsense of it -- `threads 8` is one cell, not two. So this verb
+    is handed the raw text instead and hands raw text back. Comments, blank lines and
+    the order of the keys all survive, because a solver option file is read by people
+    at least as often as by CPLEX.
+
+    A key the file does not already carry is an error rather than a silent addition,
+    exactly as in act_set: this verb edits, it does not extend. If a setting has to be
+    introduced that the reference never had, add it to the reference or say so out loud
+    in a new verb, because a solver silently given an option nobody declared is how a
+    run becomes unreproducible.
+    """
+    wanted = {str(k).strip(): v for k, v in (spec.get("set") or {}).items()}
+    seen, out = set(), []
+    for raw in text.splitlines():
+        stripped = raw.strip()
+        key = stripped.split()[0] if stripped and stripped[0] not in "*#" else ""
+        if key in wanted:
+            out.append("{0} {1}".format(key, wanted[key]))
+            seen.add(key)
+        else:
+            out.append(raw)
+    missing = sorted(set(wanted) - seen)
+    if missing:
+        raise IOError("resource '{}': no setting named {} to set.".format(path, missing))
+    return "\n".join(out) + "\n"
+
+
+# Verbs that work on raw text rather than on a header and rows. They are dispatched
+# before the CSV read, because for these resources there is no CSV to read.
+TEXT_ACTIONS = {
+    "settings": act_settings,
+}
+
+
 ACTIONS = {
     "keep": act_keep,
     "empty": act_empty,
@@ -237,9 +275,9 @@ def build(cfg, out_dir):
     for name, spec in (cfg.get("resources") or {}).items():
         spec = spec or {}
         action = spec.get("action", "keep")
-        if action not in ACTIONS:
-            raise KeyError("resource '{}': unknown action '{}' (known: {})"
-                           .format(name, action, ", ".join(sorted(ACTIONS))))
+        if action not in ACTIONS and action not in TEXT_ACTIONS:
+            raise KeyError("resource '{}': unknown action '{}' (known: {})".format(
+                name, action, ", ".join(sorted(list(ACTIONS) + list(TEXT_ACTIONS)))))
 
         rel, shown = resolve(name, spec, known, source_dir)
         # Every descriptive field of the YAML is carried over as is into the report:
@@ -255,6 +293,17 @@ def build(cfg, out_dir):
             continue
 
         path = os.path.join(out_dir, rel.replace("/", os.sep))
+
+        if action in TEXT_ACTIONS:
+            with open(path, "r", encoding="utf-8") as fh:
+                text = fh.read()
+            text = TEXT_ACTIONS[action](text, spec, rel)
+            with open(path, "w", encoding="utf-8", newline="") as fh:
+                fh.write(text)
+            entry["rows_in"] = entry["rows_out"] = len(text.splitlines())
+            report.append(entry)
+            continue
+
         header, rows = read_csv(path)
         entry["rows_in"] = len(rows)
 

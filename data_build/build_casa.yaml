@@ -452,6 +452,38 @@ resources:
       Still to be settled elsewhere: carbon (OFF, phase 9), ramps (OFF), MinGen and
       MUDT (OFF, dispatch only).
 
+  cplex_baseline:
+    path: cplex/cplex_baseline.opt
+    group: Scope
+    action: settings
+    set:
+      threads: 4
+    work: DONE
+    priority: P3
+    source: ["casa_2020"]
+    vintage: "2020"
+    what: >
+      CPLEX options for the baseline solve
+    note: >
+      THE ONLY VALUE THE BUILD OVERRIDES HERE IS threads, AND IT IS ABOUT THIS MACHINE
+      AND NOT ABOUT CENTRAL ASIA. The reference asks for barrier on 8 threads
+      (lpmethod 4, startalg 4), and barrier holds its Cholesky factor per thread: the
+      reduced LP is 1.5 million rows by 2.0 million columns with 1.5 million rows in
+      the factor, and on a 31 GB machine already sitting at 56 GB of commit charge
+      CPLEX failed three times with error 1001, out of memory, before it had finished
+      presolve. Four threads fit. The run that produced the comparison baseline had got
+      through on eight earlier the same day, so this is a headroom question and not a
+      model one -- nothing about the formulation or the data changed between them.
+      IT IS DECLARED HERE RATHER THAN EDITED IN PLACE because build.py copies the whole
+      reference tree before applying its verbs, so an option file edited in the
+      deployment is silently reverted by the next --apply. Anything that has to survive
+      a rebuild has to be said in this file.
+      Raise it back to 8, or drop lpmethod to 2 for dual simplex, on a machine with room.
+    todo: >
+      The value is a property of the machine the run happens on and the build has no way
+      to read that. If the model is ever run somewhere with real headroom, this override
+      is the first thing to remove.
+
   config:
     path: config.csv
     group: Scope
@@ -1403,13 +1435,22 @@ resources:
       through atlite, or a mesoscale run. Raising the twofold bound instead would buy the
       right annual mean at the price of a fabricated shape -- the hour-to-hour pattern of
       a dead valley, multiplied.
-      ONE ZONE REGRESSED AND IT IS A JUDGEMENT CALL. KAZ_S passed on its centroid and
-      fails on its atlas site, because the Dzungarian Gate is a ten kilometre gap that a
-      half degree cell cannot hold. Keeping KAZ_S on its centroid is expressible in data
-      -- the override column of extracted/zone_points.csv already outranks the atlas site
-      -- and has not been done, because choosing per zone whichever point happens to pass
-      is selection on the outcome and needs to be a decision taken openly rather than a
-      rule the builder applies quietly.
+      FOUR ZONES REGRESSED AND THE DECISION WAS TAKEN TO LEAVE THEM. KAZ_S, NEPS_AFG,
+      KGZ_N and PAK_N all passed on their centroid and fail on their atlas site. Each
+      could be put back with the override column of extracted/zone_points.csv, which
+      outranks the atlas site by design, and none has been: choosing per zone whichever
+      point happens to clear the bound is selection on the outcome, and it would encode
+      a coordinate we believe to be wrong for the sole reason that a reanalysis is
+      comfortable there. KAZ_S is the clearest case -- its best ground is the Dzungarian
+      Gate, a ten kilometre gap between mountain ranges, and MERRA-2 averages that gap
+      into the plateau around it. The Gate is where the wind is and where turbines get
+      built; the half degree cell is what is wrong. Giving KAZ_S its centroid back would
+      model a plateau in place of a corridor and would look like an improvement only
+      because a number would stop being refused.
+      SO THOSE FOUR KEEP THE 2020 FLAT DAY FOR THEIR SHAPE, WITH A LEVEL THAT IS RIGHT:
+      DeCA's for KAZ_S and KGZ_N, the atlas's for NEPS_AFG and PAK_N. That is the honest
+      state -- the energy is defensible, the hour-to-hour distribution is not -- and it
+      is what a mesoscale wind year would repair.
       AND THE DAYS ARE STILL CHOSEN ON THE LOAD ALONE. build_demand.py picked the peak
       day and the median days without looking at the weather, so a still evening of high
       demand is in the set only by luck, and the seasonal multiplier that repairs the

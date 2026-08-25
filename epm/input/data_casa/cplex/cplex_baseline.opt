@@ -7,6 +7,6 @@
 startalg 4
 scaind  1
 lpmethod 4
-threads 8
+threads 4
 predual -1
 
