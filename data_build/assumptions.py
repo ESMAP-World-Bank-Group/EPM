@@ -33,6 +33,7 @@ import yaml
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from tracker import remaining, state_of   # noqa: E402  same state as the tracker
+import calibration                       # noqa: E402  the demand-side check
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -322,6 +323,32 @@ def facts(data_dir, cfg):
     f["carbon_lo"] = "{0:.0f}".format(min(prices)) if prices else "n/a"
     f["carbon_hi"] = "{0:.0f}".format(max(prices)) if prices else "n/a"
 
+    # THE ONE THING ON THIS PAGE THAT IS CHECKED AGAINST A MEASUREMENT. Everything
+    # else states what the model assumes; this states what the reduction kept of the
+    # metered year it was built from, which is a different kind of claim.
+    cal, uncovered = calibration.compare(data_dir)
+    f["cal"] = cal
+    f["cal_zones"] = len(cal)
+    f["cal_uncovered"] = len(uncovered)
+    f["cal_uncovered_list"] = ", ".join(uncovered)
+    f["cal_lf_max"] = max(abs(r["lf_error"]) for r in cal)
+    f["cal_lf_pp"] = "{0:.1f}".format(100 * f["cal_lf_max"])
+    f["cal_season_pp"] = "{0:.1f}".format(100 * max(r["season_error"] for r in cal))
+    f["cal_trough_pp"] = "{0:.1f}".format(100 * max(abs(r["trough_error"])
+                                                    for r in cal))
+    # The peak plateau is where the reduction does lose something, so the worst zone
+    # is named rather than averaged away.
+    worst = max(cal, key=lambda r: r["measured"]["peak_hours"]
+                - r["model"]["peak_hours"])
+    f["cal_peak_zone"] = worst["zone"]
+    f["cal_peak_meas"] = "{0:.0f}".format(worst["measured"]["peak_hours"])
+    f["cal_peak_mod"] = "{0:.0f}".format(worst["model"]["peak_hours"])
+    f["cal_peak_lost"] = sum(1 for r in cal if r["measured"]["peak_hours"]
+                             > 2 * r["model"]["peak_hours"])
+    neg = [r["zone"] for r in cal if r["measured"]["minimum"] < 0]
+    f["cal_negative"] = ", ".join(neg) if neg else "none"
+    f["cal_negative_n"] = len(neg)
+
     ss = cfg.get("sources", {})
     f["source_count"] = len(ss)
     f["primary_count"] = sum(1 for v in ss.values() if v.get("grade") == "primary")
@@ -426,6 +453,54 @@ CHAPTERS = [
              "curve instead, which does need a data request."),
         ],
         resources=["pHours", "pVREProfile", "pDemandProfile"]),
+
+    dict(
+        key="calibration", title="Calibration: demand",
+        lead="One thing on this page is checked against a measurement rather than "
+             "asserted. The demand profile was not assumed: it was reduced from an "
+             "hourly metered year the DeCA books carry, so both ends of the reduction "
+             "are on disk and the reduction can be audited. {cal_zones} zones have a "
+             "full metered year and are compared below; {cal_uncovered} do not and are "
+             "not ({cal_uncovered_list}).",
+        extra="calibration_grid",
+        points=[
+            ("What is being calibrated, and what is not",
+             "This asks whether the {blocks} blocks still describe the year they came "
+             "from -- the load factor, the trough, the seasonal split, the peak. It "
+             "does not ask whether the model is right about the future, and it is not "
+             "a dispatch calibration: that would mean comparing modelled output by "
+             "fuel against metered output by fuel, and no such series exists for any "
+             "of the {countries} countries in this study. That is the outstanding data "
+             "request, not something more work on this page can close."),
+            ("Energy, shape and trough survive the reduction",
+             "The load factor lands within {cal_lf_pp} points of the metered year in "
+             "every zone, the seasonal energy split within {cal_season_pp} points, and "
+             "the first-percentile trough within {cal_trough_pp}. That is the medoid "
+             "reduction working: each representative day is a real day of its group "
+             "rather than the average of the group, and averaging is what would have "
+             "filled in the troughs. The earlier averaged version put northern "
+             "Tajikistan at a load factor of 0.715 against its own measured 0.600."),
+            ("The peak plateau is the one thing that does not survive",
+             "{cal_peak_zone} spends {cal_peak_meas} hours of the metered year within "
+             "five per cent of its peak; the model spends {cal_peak_mod}. "
+             "{cal_peak_lost} zones lose more than half their peak plateau this way. "
+             "The reduction does not flatten the year, which was the worry -- it "
+             "sharpens the peak, holding the maximum for a few hours where the real "
+             "system holds it for days. A planning reserve sized on this sees a "
+             "shorter stress than the one that actually occurs, so peaking capacity "
+             "and import contracts are read against too brief a need. One representative "
+             "day per season carries the peak, and one day cannot be a heatwave."),
+            ("The metered series has its own defects, and they are not nights",
+             "{cal_negative_n} zone reads below zero at its worst hour "
+             "({cal_negative}), and several read within a hundredth of nothing for a "
+             "handful of hours. Those are metering accidents. Compared on the raw "
+             "minimum the reduction would appear to raise the floor of Uzbekistan by "
+             "43 points; compared on the first percentile, which is 88 hours and "
+             "cannot be one bad reading, it tracks to within one. The table above "
+             "reads on the percentile and prints the raw minimum under it, so neither "
+             "is hidden."),
+        ],
+        resources=["pDemandProfile", "pHours", "pDemandForecast"]),
 
     dict(
         key="sources", title="Which source wins, and why",
@@ -636,7 +711,70 @@ def season_grid(f):
     return "".join(out)
 
 
-EXTRAS = {"season_grid": season_grid}
+def overlay(a, b, w=190, h=54):
+    """Two curves on one frame, sharing a scale: the measured year and the model."""
+    top = max(max(a), max(b)) or 1.0
+
+    def line(series, colour, dash=""):
+        step = float(w - 2) / (len(series) - 1)
+        pts = " ".join("{0:.1f},{1:.1f}".format(1 + i * step,
+                                                h - 1 - (v / top) * (h - 3))
+                       for i, v in enumerate(series))
+        return ('<polyline points="{0}" fill="none" stroke="{1}" stroke-width="1.6"'
+                '{2}/>').format(pts, colour, dash)
+
+    return (line(a, "#33445e") +
+            line(b, "#c0392b", ' stroke-dasharray="3,2"'))
+
+
+def calibration_grid(f):
+    """Per zone: the two load duration curves, and where the reduction differs.
+
+    The measured year is the solid line, the model the dashed one. They are read in
+    per unit of each zone's own peak, because the profile table carries shape and not
+    level, and drawn on the same horizontal axis of cumulative hours so 360 weighted
+    blocks and 8760 hours can be compared at all.
+    """
+    out = ['<div class="method"><b>The metered year against the reduction.</b> '
+           '<span style="color:#33445e">&#9472;&#9472; measured</span> &middot; '
+           '<span style="color:#c0392b">&#9476;&#9476; model</span>. Load duration '
+           'curves in per unit of each zone&rsquo;s own peak. Where the dashed line '
+           'falls away at the left edge, the model is holding its peak for fewer '
+           'hours than the real system did.</div>']
+    out.append('<table class="cal"><thead><tr><th>Zone</th><th>Peak</th>'
+               '<th>Load duration curve</th><th>Load factor</th><th>Trough (p1)</th>'
+               '<th>Hours near peak</th><th>Season split</th></tr></thead><tbody>')
+    for r in f["cal"]:
+        m, d = r["measured"], r["model"]
+
+        def pair(a, b, fmt="{0:.3f}", warn=0.02):
+            cls = ' style="color:#c0392b;font-weight:600"' if abs(a - b) > warn else ""
+            return ('{0} <span class="muted">&rarr;</span> <span{1}>{2}</span>'
+                    .format(fmt.format(a), cls, fmt.format(b)))
+
+        out.append(
+            '<tr><td><b>{0}</b></td><td class="muted">{1:,.0f} MW</td>'
+            '<td><svg width="190" height="54">{2}</svg></td>'
+            '<td>{3}</td><td>{4}<div class="muted" style="font-size:.85em">min '
+            '{7:.3f}{8}</div></td><td>{5}</td><td class="muted">{6}</td></tr>'
+            .format(
+                esc(r["zone"]), r["peak_mw"],
+                overlay(r["ldc_measured"], r["ldc_model"]),
+                pair(m["load_factor"], d["load_factor"]),
+                pair(m["trough"], d["trough"]),
+                pair(m["peak_hours"], d["peak_hours"], "{0:,.0f} h", warn=20),
+                " &middot; ".join("{0} {1:+.1f}".format(q, 100 * (b - a))
+                                  for q, (a, b) in r["seasons"].items()),
+                m["minimum"],
+                ", {0:.0f} h under a tenth".format(m["low_hours"])
+                if m["low_hours"] else ""))
+    out.append('</tbody></table>')
+    out.append('<div class="method">Season split reads as the model&rsquo;s share '
+               'minus the metered share, in points of annual energy.</div>')
+    return "".join(out)
+
+
+EXTRAS = {"season_grid": season_grid, "calibration_grid": calibration_grid}
 
 def badge(text, bg, fg, title=""):
     return ('<span class="pill" style="background:{0};color:{1}"{3}>{2}</span>'
