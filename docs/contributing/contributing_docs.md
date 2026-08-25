@@ -30,6 +30,21 @@ nav:
 
 ---
 
+## Screenshots
+
+The Dashboard is beta and its interface changes — screenshots go stale fast. When you add or
+refresh one:
+
+- capture a **local** instance, never a hosted demo (a deployment path such as
+  `/opt/render/...` visible in the shot is a bug)
+- use the `data_test` project and the `epm_env` environment, to match the rest of the docs
+- keep a consistent window width (~1400 px)
+- do not show controls the docs say are unavailable, such as the **Launch Run** button
+
+Files go in `docs/images/dashboard/`.
+
+---
+
 ## Git workflow
 
 1. Make sure your `main` branch is up to date:

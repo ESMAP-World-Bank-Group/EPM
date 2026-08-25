@@ -2,6 +2,8 @@
 
 Full reference of all EPM output variables — name, description, dimensions, units, and whether they are exported to CSV by default or available in GDX only.
 
+--8<-- "beta_schema.md"
+
 ---
 
 ## Quick Reference

@@ -39,6 +39,8 @@ flowchart TD
 4. All other CSV files contain the actual data: plants, demand, fuel prices, transmission limits, etc.
 5. If you pass `--scenarios`, a `scenarios.csv` overlays changes on the baseline. Only the files that differ need to be specified.
 
+--8<-- "beta_schema.md"
+
 ---
 
 ??? "config.csv"
