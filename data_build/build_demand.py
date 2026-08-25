@@ -138,9 +138,11 @@ def seasons(path):
 def legacy_of(path):
     """season -> the season of the 2020 model it inherits its shape from.
 
-    Our seasons and the 2020 ones share their names by accident of history, not by
-    construction: the 2020 Q5 was a 130 h peak block, ours is July-September. The
-    mapping says which is which so that neither set has to match the other.
+    The two sets overlap in name without overlapping in meaning: Q1, Q2 and Q4 stand
+    for the same months in both, but the 2020 Q3 was one five-month summer where ours
+    is two, Q3a and Q3b, and the 2020 Q5 was a 130 h peak block that has no successor
+    here at all. The mapping says which feeds which so that neither set has to match
+    the other.
     """
     out = {}
     for row in dicts(path):

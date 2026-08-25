@@ -1722,7 +1722,10 @@ def _generate_demand_profile_plots(case_id: str, profile_df: Optional[pd.DataFra
         figure_paths["demand_profile_hourly_avg"] = str(path_hourly)
 
     # Average per season for each zone.
-    season_order = ["Q1", "Q2", "Q3", "Q4"]
+    # Taken from the data and not from a fixed list of four quarters: a season set is
+    # whatever pHours declares, and a hard-coded list turns every season outside it
+    # into NaN below, which drops it from the chart without saying so.
+    season_order = sorted({s for s in profile_df["season"].dropna().unique()})
     season_records = []
     for (zone, season), subset in profile_df.groupby(["zone", "season"], dropna=False):
         if season is None:
