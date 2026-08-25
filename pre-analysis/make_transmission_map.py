@@ -34,6 +34,9 @@ _EXT_LINE = "#A8957E"
 _C_EXIST, _C_COMMIT, _C_CAND = "#1f4e79", "#2e9e44", "#e8851a"
 
 # External neighbour anchors (lat, lon) — placed inside each country, discreet dots.
+# The same eight points are written into data_blacksea/zones_ext.geojson as
+# properties.centroid ([lon, lat] there), which is what EPM View attaches its
+# corridors and border-price dots to. Change one, change the other.
 _EXT_ANCHOR = {
     "Bulgaria": (42.7, 25.3), "Greece": (40.9, 24.5), "Romania": (44.3, 27.8),
     "Serbia": (44.8, 20.5), "Hungary": (47.4, 19.1), "Moldova": (47.0, 28.9),
