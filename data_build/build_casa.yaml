@@ -182,6 +182,18 @@ sources:
       data_build/build_vre_coords.py, because no plant in the fleet carries a
       latitude anywhere. Global Wind Atlas at one kilometre is the source that would
       settle the wind level properly.
+      NOW IN THE MODEL, on exactly those terms, through two steps.
+      data_build/build_vre_hourly.py multiplies each zone, technology and month onto
+      its stated DeCA factor and writes PV_casa.csv and WT_casa.csv beside the
+      untouched _rninja files it read; 22 of the 32 series land exactly, and the ten
+      that do not are all wind in mountain zones, where the gap is not a loss to be
+      scaled away but a disagreement about whether the resource exists at all -- TAJ_S
+      would need a factor of 23.6. Those ten keep the 2020 construction.
+      build_vre.py then reads each representative block off the CALENDAR DAY that block
+      stands for, taken from extracted/demand_report.csv, so the winter peak block is
+      the weather of 12 December and not a seasonal average. 101 of the 160 zone-seasons
+      now carry real days; the annual capacity factor of every zone is unchanged to four
+      decimals, because only the shape moved.
 
   epa_ghg_factors:
     name: US EPA greenhouse gas emission factors for stationary combustion
@@ -258,7 +270,7 @@ leads:
   - [Afghanistan, "DABS, NSIA, UN Energy Statistics", "unstats.un.org/unsd/energystats", "TESTED - NOTHING", "No regular statistical publication since 2021. Scattered elements: ~670 MW imported for ~280 M USD/yr according to DABS, imports of 4.6 to 5.2 TWh over 2017-2022 according to the UN, private sector overview of November 2025.", "Enough to recalibrate the LEVEL of Afghan imports, not to rebuild a zonal demand. The five NEPS zones stay as they came from the 2020 model, low confidence assumed."]
   - [Regional, "Ember - Monthly and Yearly Electricity Data", "ember-energy.org/data/monthly-electricity-data", "TESTED - AVAILABLE", "Generation by technology, demand, capacity and emissions MONTHLY for 85 geographies including our seven countries, up to April 2026. Free download.", "Four years of actuals that DeCA does not have: the history of the books stops in 2022. Base year calibration and the only homogeneous dataset over the seven countries."]
   - [Regional, "Global Energy Monitor - Global Integrated Power Tracker", "globalenergymonitor.org/projects/global-integrated-power-tracker/download-data", "TESTED - AVAILABLE", "Global fleet unit by unit, geolocated, with status and dates. AN AUGUST 2026 RELEASE IS OUT; we hold the September 2025 one.", "Immediate refresh of the fleet, and the only coverage of AFG and PAK alongside IGCEP. Tajikistan is under-represented there: complete with DeCA."]
-  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - FETCHED", "Hourly solar and wind profiles simulated anywhere on the globe. FETCHED for 2022, sixteen zones, both technologies, 8760 h each, relabelled to zone local time. Held outside the repo in pre-analysis/representative_days/input as PV_casa.csv and WT_casa.csv.", "The route out of the pVREProfile staircase, and the only route at all in Turkmenistan and Afghanistan. Take the SHAPE and keep the DeCA level: solar reads 22 per cent high on average and the wind levels are a turbine-model artifact over a half-degree grid. Global Wind Atlas, still untested, is what would settle the wind level."]
+  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - IN USE", "Hourly solar and wind profiles simulated anywhere on the globe. FETCHED for 2022, sixteen zones, both technologies, 8760 h each, relabelled to zone local time. Held outside the repo in pre-analysis/representative_days/input, as _rninja files at their own level and plain ones rescaled to DeCA.", "Now the shape of 101 of the 160 zone-seasons of pVREProfile, read off the calendar day each block stands for, with the DeCA level kept. The ten wind series it could not be rescaled into keep the 2020 construction. Global Wind Atlas, still untested, is what would settle the wind level."]
   - [Regional, "gridfinder, OpenStreetMap power, energydata.info", "energydata.info, gridfinder.rdrn.me", "TESTED - PARTIAL", "Global map of lines predicted from night lights and OSM (grid.gpkg, targets.tif), announced accuracy ~70 % at 1 km.", "TOPOLOGY check only: confirm that a corridor exists and where it runs. GIVES NO NTC, transfer capacities still have to be requested from the operators."]
   - [Regional, "IEA country profiles, UN Comtrade, OWID", "iea.org/countries, comtradeplus.un.org", "TESTED - PARTIAL", "National energy balances as free PDFs, electricity flows declared at customs by country pair, long consumption series.", "Cross-check of historical exchanges. Comtrade is of uneven quality in Central Asia: not to be used alone."]
   - [Regional, "CASA-1000 - project documents", "-", "NOT TESTED", "Schedule, contractual quantities, export seasonality.", "Indispensable to correct pTransferLimit and pContractedTrade."]
@@ -1228,11 +1240,11 @@ resources:
     from: extracted/pVREProfile.csv            # produced by build_vre.py
     work: DONE
     priority: P2
-    source: ["deca_v51", "casa_2020"]
+    source: ["deca_v51", "renewables_ninja", "casa_2020"]
     confidence: medium
     sheet: >
       RenewableProfile, monthly utilization factors
-    vintage: "2025 level / 2020 shape"
+    vintage: "2025 level / 2022 weather"
     what: >
       solar and wind production by (z,tech,q,d,t), as a fraction of capacity
     note: >
@@ -1246,7 +1258,8 @@ resources:
       and SPP power plants". THE 2020 MODEL GIVES THE SHAPE and a level five years old.
       So the day shape comes from the 2020 profile, normalised to a mean of one, and is
       multiplied by the DeCA seasonal factor, the month length weighted mean over the
-      months of the season and over the plants mappings/vre_profiles.csv selects.
+      months of the season and over the plants mappings/vre_profiles.csv selects. That
+      is still how the table is built wherever the third source below cannot reach.
       THE FACTOR IS A COUNTRY MEAN over every plant of the technology, existing and
       candidate, high yield and low yield sites together, because the five books name no
       zone for their existing plants. That is an average site, which is what a generic
@@ -1255,6 +1268,26 @@ resources:
       WHAT MOVES: mean solar capacity factor 0.174 to 0.169, mean wind 0.333 to 0.369.
       Solar loses most in winter, KAZ_N Q1 going from 0.144 to 0.089, which matters in a
       system that peaks in December.
+      PHASE 9 PUT REAL WEATHER BEHIND 101 OF THE 160 ZONE-SEASONS, and changed no
+      level at all: the annual capacity factor of all 32 series is the same to four
+      decimals before and after. Two steps do it. build_vre_hourly.py takes the
+      Renewables.ninja year fetched for 2022 and multiplies each zone, technology and
+      month onto its stated DeCA factor, writing the plain PV_casa.csv and WT_casa.csv
+      beside the _rninja files it read, so that the Poncelet clustering and this builder
+      read the same corrected series rather than each rescaling its own copy. It refuses
+      a series it would have to stretch more than twofold or that a single month cannot
+      reach: ten wind series fail, all of them in mountain zones, and TAJ_S would have
+      needed 23.6. Those ten keep the construction described above.
+      build_vre.py then reads each block off the CALENDAR DAY it stands for, recorded by
+      build_demand.py in extracted/demand_report.csv: the winter peak block is 12
+      December, the second late-summer block is 8 September. The three days of a season
+      differ from each other for the first time -- Karachi solar in Q3b runs 0.244, 0.499
+      and 0.549 at its peak hour, a monsoon day beside two clear ones -- and one
+      multiplier per season, bounded to 1.5 either way, puts the season back on its DeCA
+      level without flattening those differences. A season needing more than that is one
+      whose three days are not a sample of it, KAZ_N winter solar wanting 2.3 because the
+      days it drew were overcast, and it falls back on its own without costing the other
+      four seasons of the zone.
       THE 2020 SHAPE IS DRAWN BY MONTHS, NOT BY NAME, since phase 4 split the summer.
       Both halves take the 2020 Q3 day and are rescaled to their own DeCA factor, 0.208
       for KAZ_N solar in Q3a against 0.207 in Q3b. Matching on the name instead handed
@@ -1267,14 +1300,23 @@ resources:
       named Arm Wind: the exclude column of the mapping settles it on the _SP suffix,
       and the builder refuses outright any row two technologies claim at once.
     todo: >
-      EVERY REPRESENTATIVE DAY OF A SEASON CARRIES THE SAME RENEWABLE DAY, because a
-      monthly factor holds no day to day variation. There is no cloudy day and no calm
-      day in this model, only an average one, which understates the backup a large
-      renewable fleet needs. It costs little today, the VRE fleet being small, and it
-      becomes the binding weakness of the time structure as soon as the model starts
-      building solar and wind at scale. The repair is an hourly renewable source,
-      Renewables.ninja or the ERA5 reanalysis, clustered on the same representative days
-      as the demand.
+      FIFTY-NINE ZONE-SEASONS STILL CARRY THREE IDENTICAL DAYS, and 56 of them are wind.
+      Fifty are a whole year at a time: every season of KGZ_N, KGZ_S, NEPS_AFG, NEPS_TAJ,
+      NEPS_TKM, NEPS_UZB, PAK_N, PAK_S, TAJ_N and TAJ_S wind, where the fetched resource
+      is too far from the stated level to be rescaled into it. There is no calm day in those zones, only an average one.
+      Global Wind Atlas at one kilometre is what would settle whether the 2020 flat 0.33
+      to 0.42 or the near-zero reanalysis is closer to the truth; until then the flat
+      value stands and it is the weakest number in this table.
+      AND THE DAYS ARE STILL CHOSEN ON THE LOAD ALONE. build_demand.py picked the peak
+      day and the median days without looking at the weather, so a still evening of high
+      demand is in the set only by luck, and the seasonal multiplier that repairs the
+      level is the measure of that luck. Choosing days on load and renewables jointly is
+      the Poncelet clustering in pre-analysis/representative_days, which waits on the
+      Pakistani and Afghan hourly load.
+      THE YEARS DO NOT LINE UP EVERYWHERE either: DeCA load vintages, Kazakhstan 2022 and
+      Tajikistan 2021 with the rest unstated, against a 2022 weather year. Kazakhstan is
+      a true same-day pairing; elsewhere it is the same date of another year, which is
+      seasonally right and synoptically a coincidence.
 
   pCapexTrajectoriesCustom:
     path: supply/pCapexTrajectoriesCustom.csv

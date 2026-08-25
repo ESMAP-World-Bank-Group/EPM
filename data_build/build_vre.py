@@ -7,15 +7,18 @@ Reads:
     mappings/vre_profiles.csv              which DeCA rows each (zone, technology) reads
     mappings/seasons_months.csv            which months make each season
     extracted/pHours.csv                   the time structure, for its days
+    extracted/demand_report.csv            which calendar day each block stands for
+    <hourly>/PV_casa.csv, WT_casa.csv      the rescaled hourly year, one day at a time
     <reference>/pHours.csv                 the 2020 structure, for its block widths
-    <reference>/supply/pVREProfile.csv     the only intra-day shape there is
+    <reference>/supply/pVREProfile.csv     the fallback intra-day shape
     the five DeCA AssumptionBooks, sheet RenewableProfile
 
 Writes:
     extracted/pVREProfile.csv
     extracted/vre_report.csv
 
-RUN AFTER build_demand.py: it reads the pHours that step writes.
+RUN AFTER build_demand.py, which writes the pHours and the representative dates this
+reads, and AFTER build_vre_hourly.py, which writes the rescaled hourly year.
 
 WHY IT IS BUILT FROM TWO SOURCES. base.gms:812 writes the output of every solar and
 wind unit as pVREgenProfile times the availability times the capacity, so this table
@@ -28,9 +31,15 @@ source gives both.
   - The 2020 model gives the SHAPE and a level that is now five years old: its blocks
     are chronological hour-of-day groups, verifiable on the file itself, solar at zero
     in the first and last blocks and highest in the middle one.
-So the day shape is taken from the 2020 profile, normalised to a mean of one, and
-multiplied by the DeCA seasonal utilization factor, which is the month-length weighted
-mean of the monthly factors of the season over the plants the mapping selects.
+A third source now settles the shape where it can. build_vre_hourly.py holds a
+Renewables.ninja year per zone already brought onto the DeCA level, and
+extracted/demand_report.csv records which calendar day each representative block stands
+for. So for a zone that has one, the block is READ OFF THAT DAY: 12 December for the
+winter peak day, 8 September for the second late-summer day, the weather that actually
+happened on the day the load was measured on. Where no hourly series survived the
+rescale, the day shape falls back to the 2020 profile normalised to a mean of one. Either
+way the level is the DeCA seasonal utilization factor, the month-length weighted mean of
+the monthly factors of the season over the plants the mapping selects.
 
 WHAT THE MAPPING SAYS. One line per (zone, technology): which workbook to read and
 which rows of it, by a list of substrings matched on the DeCA name. The five books name
@@ -43,11 +52,25 @@ One trap the mapping steps around: the Tajik book labels its own regions with a 
 prefix, Khatlon and Sougd and Gorno-Badakhshan all reading "KZ ...". Matching on the
 workbook rather than on the name is what keeps Tajik sites out of Kazakhstan.
 
-WHAT IT DOES NOT DO. Every representative day of a season carries the same renewable
-day, because a monthly factor holds no day to day variation: there is no cloudy day and
-no calm day in this model, only an average one. That understates the backup a large
-renewable fleet needs and it will have to be revisited when the fleet grows, with an
-hourly source. It is written here so that it is not discovered later in the results.
+WHAT IT STILL DOES NOT DO, and it is now a shorter list than it was. Where the hourly
+year is used, the three representative days of a season differ from each other and a
+cloudy one can appear; where it is not, every representative day of the season carries
+the same renewable day and there is no cloudy day and no calm day at all, only an average
+one. The second case is what ten wind series fall back to, all of them in mountain zones
+where MERRA-2 cannot see the terrain, and it understates the backup a large wind fleet
+would need there. vre_report.csv names them in its shape column.
+
+The days themselves are also chosen on the LOAD alone: build_demand.py picked the peak
+day and the median days of each group without looking at the weather, so a still evening
+of high demand is in the set only by luck. Choosing days on load and renewables jointly
+is what the Poncelet clustering in pre-analysis/representative_days does, and it waits on
+the Pakistani and Afghan hourly load that does not exist yet.
+
+And the years do not line up everywhere. The load years behind the representative dates
+are DeCA vintages, Kazakhstan 2022 and Tajikistan 2021 with the others unstated, against
+a 2022 weather year. For Kazakhstan the pairing is a true one, same day of the same year;
+elsewhere it is the same date of a different year, which is seasonally right and
+synoptically a coincidence.
 """
 
 import argparse
@@ -67,6 +90,17 @@ MONTH_LENGTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December"]
 HOURS_PER_DAY = 24
+HOURLY = os.path.join(REPO, "pre-analysis", "representative_days", "input")
+
+# The furthest the three representative days of a season may be moved, either way, to put
+# the season back on its stated level. They are three real days standing for sixty, chosen
+# on the load and not on the weather, so their own mean is not the season's and a
+# correction is expected. A LARGE one means they are not a sample of that season at all:
+# northern Kazakhstan needs 2.3 to lift its winter days to the stated solar factor, which
+# says the days it drew were overcast ones, and an overcast day multiplied by 2.3 is a
+# clear day with the wrong curvature rather than a better winter. The bound is symmetric
+# because three unusually windy days are no more a season than three unusually calm ones.
+SEASON_STRETCH = 1.5
 
 
 def read_csv(path):
@@ -195,9 +229,118 @@ def selected(rows, match, exclude=""):
             and not any(w in n.lower() for w in barred)]
 
 
+def fit_scale(values, weights, target, limit, ceiling=1.0):
+    """The multiplier bringing a series to a target mean without leaving [0, ceiling].
+
+    Plain multiplication is the right model going down: soiling, outages and curtailment
+    all scale output by a factor, which is what the solar gap is. It only breaks going up,
+    because a series already at rated power cannot be doubled and a capacity factor above
+    one is not a number the model can use. So the multiplier is fitted with the ceiling in
+    place, which spends an increase on more hours AT rated rather than on hours above it,
+    which is also what a stronger wind resource physically does.
+
+    Returns None when the ceiling cannot reach the target however hard it is pushed, which
+    happens when a series is zero for more of the year than the target leaves room for,
+    or when the target is simply further away than the caller's limit allows.
+    """
+    total = float(sum(weights))
+
+    def mean_at(scale):
+        if not total:
+            return 0.0
+        return sum(min(v * scale, ceiling) * w
+                   for v, w in zip(values, weights)) / total
+
+    if mean_at(limit) < target:
+        return None
+    low, high = 0.0, limit
+    for _ in range(60):
+        middle = (low + high) / 2.0
+        if mean_at(middle) < target:
+            low = middle
+        else:
+            high = middle
+    return (low + high) / 2.0
+
+
+def representative_dates(path):
+    """(season, day type) -> (month, day of month), the day each block stands for.
+
+    build_demand.py chose these days on the load and wrote them down here. Reading the
+    renewable year on the SAME days is the whole point: it is what puts the weather of a
+    real evening behind the peak that was measured that evening, instead of a seasonal
+    average behind every hour of the season.
+    """
+    out = {}
+    for row in dicts(path):
+        month, day = row["date"].split("/")
+        out[(row["q"].strip(), row["d"].strip())] = (int(month), int(day))
+    return out
+
+
+def hourly_days(path):
+    """(zone, month, day) -> [24 values], from a rescaled hourly year.
+
+    A day is kept only if all 24 hours of it are there; a partial day would be read as a
+    dark one and would quietly lower the season it fell in.
+    """
+    out = {}
+    with io.open(path, encoding="utf-8-sig", newline="") as fh:
+        for row in csv.DictReader(fh):
+            value = (row.get("value") or "").strip()
+            if not value:
+                continue
+            key = (row["zone"].strip(), int(row["month"]), int(row["day"]))
+            day = out.setdefault(key, [None] * HOURS_PER_DAY)
+            day[int(row["hour"]) - 1] = float(value)
+    return dict((k, v) for k, v in out.items() if None not in v)
+
+
+def real_days(zone, hourly, dates, days, weights, factors):
+    """season -> ({day type: [24 values]}, multiplier), for the seasons that hold up.
+
+    WHY THERE IS A SECOND RESCALE HERE when build_vre_hourly.py already put the whole
+    year on the stated level. The three days kept out of a season are not a mean
+    preserving sample of it: they were chosen on the load, so whether they happen to be
+    sunny is luck, and the model integrates the season as those three days weighted by
+    pHours and nothing else. Without this step a peak day that happened to be clear would
+    raise the annual solar energy of the whole model by however much luck it had. The
+    multiplier is ONE PER SEASON, so the three days keep their differences from each
+    other, which is the reason for reading real days in the first place.
+
+    A SEASON AT A TIME, not a zone at a time. A representative-days model has no
+    continuity across a season boundary -- each season is its own set of blocks and
+    already carries its own shape -- so a season that has to fall back costs the others
+    nothing, and northern Kazakhstan keeps real spring, summer and autumn days instead of
+    losing them all to one overcast February. Seasons missing from the returned map are
+    the ones the caller must build the old way.
+    """
+    out = {}
+    for season, types in days.items():
+        picked = {}
+        for day_type in types:
+            day = hourly.get((zone,) + dates[(season, day_type)])
+            if day is None:
+                picked = None
+                break
+            picked[day_type] = day
+        if picked is None:
+            continue
+        values = [v for t in types for v in picked[t]]
+        hours = [h for t in types for h in weights[(season, t)]]
+        scale = fit_scale(values, hours, factors[season], SEASON_STRETCH)
+        if scale is None or scale < 1.0 / SEASON_STRETCH:
+            continue
+        out[season] = (dict((t, [min(v * scale, 1.0) for v in picked[t]])
+                            for t in types), scale)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser(description="Build the solar and wind profiles.")
     ap.add_argument("--reference", default=os.path.join("epm", "input", "data_casa_2020"))
+    ap.add_argument("--hourly", default=HOURLY,
+                    help="where build_vre_hourly.py left the rescaled year")
     args = ap.parse_args()
     reference = os.path.join(REPO, args.reference)
 
@@ -206,10 +349,22 @@ def main():
     inherits = legacy_of(os.path.join(HERE, "mappings", "seasons_months.csv"))
     plan = dicts(os.path.join(HERE, "mappings", "vre_profiles.csv"))
 
-    _, hours = read_csv(os.path.join(HERE, "extracted", "pHours.csv"))
-    days = collections.OrderedDict()
+    header, hours = read_csv(os.path.join(HERE, "extracted", "pHours.csv"))
+    days, weights = collections.OrderedDict(), {}
     for r in hours:
-        days.setdefault(r[0].strip(), []).append(r[1].strip())
+        key = (r[0].strip(), r[1].strip())
+        days.setdefault(key[0], []).append(key[1])
+        weights[key] = [num(c) or 0.0 for c in r[2:]]
+
+    dates = representative_dates(os.path.join(HERE, "extracted", "demand_report.csv"))
+    hourly = {}
+    for tech in sorted(set(line["tech"].strip() for line in plan)):
+        path = os.path.join(args.hourly, "{0}_casa.csv".format(tech))
+        hourly[tech] = hourly_days(path) if os.path.exists(path) else {}
+        if not hourly[tech]:
+            print("no rescaled hourly year for {0} at {1}:".format(tech, path))
+            print("  every {0} zone falls back to the 2020 block shape. Run "
+                  "build_vre_hourly.py".format(tech))
 
     books, out, report, claimed = {}, [], [], {}
     for line in plan:
@@ -221,51 +376,78 @@ def main():
         if code and not picked:
             raise SystemExit("no DeCA row matches {0} for {1} {2}".format(match, z, tech))
         if code:
-            names = {n for n, _ in picked}
+            names = set(n for n, _ in picked)
             claimed.setdefault((code, z), {})[tech] = names
             for other, taken in claimed[(code, z)].items():
                 if other != tech and names & taken:
                     raise SystemExit("{0}: {1} is claimed by both {2} and {3}".format(
                         code, sorted(names & taken)[0], tech, other))
 
-        for q, months in quarters.items():
-            base = shape.get((z, tech, inherits[q]))
+        # The seasonal level first, because it is the same whatever the day shape is.
+        means, factors = {}, {}
+        for season, months in quarters.items():
+            base = shape.get((z, tech, inherits[season]))
             if base is None:
                 raise SystemExit("no 2020 shape for {0} {1} {2} (drawn from {3})"
-                                 .format(z, tech, q, inherits[q]))
-            mean = sum(base) / float(HOURS_PER_DAY)
+                                 .format(z, tech, season, inherits[season]))
+            means[season] = sum(base) / float(HOURS_PER_DAY)
             if picked:
                 weight = sum(MONTH_LENGTH[m - 1] for m in months)
-                factor = sum(sum(v[m - 1] for _, v in picked) / len(picked)
-                             * MONTH_LENGTH[m - 1] for m in months) / weight
+                factors[season] = sum(sum(v[m - 1] for _, v in picked) / len(picked)
+                                      * MONTH_LENGTH[m - 1] for m in months) / weight
             else:
-                factor = mean
-            scale = (factor / mean) if mean else 0.0
-            day = [v * scale for v in base]
-            for d in days[q]:
-                out.append([z, tech, q, d] + ["{0:.6g}".format(v) for v in day])
-            report.append([z, tech, q, "deca" if picked else "casa_2020",
-                           len(picked), "{0:.4f}".format(mean), "{0:.4f}".format(factor),
-                           "{0:.4f}".format(max(day))])
+                factors[season] = means[season]
+
+        built = real_days(z, hourly[tech], dates, days, weights, factors)
+        for season in quarters:
+            if season in built:
+                day_of, scale = built[season]
+            else:
+                stretch = (factors[season] / means[season]) if means[season] else 0.0
+                flat = [v * stretch for v in shape[(z, tech, inherits[season])]]
+                day_of, scale = dict((d, flat) for d in days[season]), None
+            for d in days[season]:
+                out.append([z, tech, season, d]
+                           + ["{0:.6g}".format(v) for v in day_of[d]])
+            report.append([z, tech, season, "deca" if picked else "casa_2020",
+                           "rninja hourly" if season in built else "casa_2020 blocks",
+                           len(picked), "{0:.4f}".format(means[season]),
+                           "{0:.4f}".format(factors[season]),
+                           "{0:.3f}".format(scale) if scale else "",
+                           "{0:.4f}".format(max(max(d) for d in day_of.values()))])
 
     write_csv(os.path.join(HERE, "extracted", "pVREProfile.csv"),
               ["z", "tech", "q", "d"] + ["t{0}".format(h) for h in
                                          range(1, HOURS_PER_DAY + 1)], out)
     write_csv(os.path.join(HERE, "extracted", "vre_report.csv"),
-              ["z", "tech", "q", "source", "deca_rows", "cf_2020", "cf_new", "max"],
-              report)
+              ["z", "tech", "q", "level", "shape", "deca_rows", "cf_2020", "cf_new",
+               "day_scale", "max"], report)
 
     moved = [r for r in report if r[3] == "deca"]
+    real = [r for r in report if r[4] == "rninja hourly"]
     print("rows       {0} on {1} seasons x {2} days".format(
         len(out), len(quarters), len(days[list(quarters)[0]])))
     print("levels     {0} of {1} seasonal factors taken from DeCA".format(
         len(moved), len(report)))
-    for tech in ("PV", "WT"):
-        old = [float(r[5]) for r in moved if r[1] == tech]
-        new = [float(r[6]) for r in moved if r[1] == tech]
-        if old:
-            print("{0:<10} mean capacity factor {1:.3f} in 2020, {2:.3f} now"
-                  .format(tech, sum(old) / len(old), sum(new) / len(new)))
+    print("shapes     {0} of {1} zone-seasons read off their own representative days"
+          .format(len(real), len(report)))
+    for tech in sorted(set(r[1] for r in report)):
+        before = [float(r[6]) for r in moved if r[1] == tech]
+        after = [float(r[7]) for r in moved if r[1] == tech]
+        if before:
+            print("{0:<10} mean capacity factor {1:.3f} in 2020, {2:.3f} now".format(
+                tech, sum(before) / len(before), sum(after) / len(after)))
+        seen = set(r[0] for r in real if r[1] == tech)
+        counted = collections.Counter(r[0] for r in real if r[1] == tech)
+        flat = sorted(set(r[0] for r in report if r[1] == tech) - seen)
+        partial = sorted(z for z in counted if counted[z] < len(quarters))
+        print("{0:<10} {1} zone(s) on real days, {2} of them for part of the year"
+              .format(tech, len(seen), len(partial)))
+        if partial:
+            print("{0:<10}   part of the year: {1}".format(tech, ", ".join(
+                "{0} {1}/{2}".format(z, counted[z], len(quarters)) for z in partial)))
+        if flat:
+            print("{0:<10}   flat 2020 day all year: {1}".format(tech, ", ".join(flat)))
 
 
 if __name__ == "__main__":

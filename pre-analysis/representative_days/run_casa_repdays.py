@@ -11,11 +11,15 @@ the year is cut and one place where the perimeter is set, and a second copy in t
 would be a second thing to keep in step. Re-cut the year in the mapping and this driver
 follows without being edited.
 
-WHAT IS NOT READY YET. The pipeline clusters Load, PV and Wind JOINTLY: that is the whole
-point of it, and it is what makes a cloudy day exist. The hourly VRE series do not exist
-in this repo yet -- they come from pipelines/vre_pipeline.py against Renewables.ninja --
-so this driver runs on Load alone until they land, and says so on every run rather than
-letting a load-only clustering pass for the real thing.
+WHAT IS READY AND WHAT IS NOT. The pipeline clusters Load, PV and Wind JOINTLY: that is
+the whole point of it, and it is what makes a cloudy day exist. The hourly VRE series now
+do exist -- fetched by pipelines/run_casa_vre_fetch.py and brought onto the DeCA levels by
+data_build/build_vre_hourly.py, which leaves them in input/ as PV_casa.csv and WT_casa.csv
+-- so --pv and --wind can be passed and mean something. PASS THE PLAIN FILES, NOT THE
+_rninja ONES: those carry Renewables.ninja's own levels, which the wind comparison says
+are wrong by up to a factor of five in the mountains, and clustering on them would choose
+the still days of a year that is not this system's.
+The load is what is still missing, and it is the half that matters.
 
 THE ZONES ARE HALF THE SYSTEM. Only seven zones carry a full metered year in the DeCA
 books, and they are 45% of 2050 demand: Pakistan and Afghanistan, the other 55%, have no
@@ -29,6 +33,7 @@ Inputs
     ../../data_build/extracted/deca_demand_hourly.csv   z,hour,MW over 8760 h
     ../../data_build/mappings/seasons_months.csv        the season set and its months
     ../../epm/input/data_casa/zcmap.csv                 the zones in the perimeter
+    input/PV_casa.csv, input/WT_casa.csv                the rescaled hourly VRE year
 
 ENVIRONMENT. This runs in gams_env, not epm_env: the pipeline needs scikit-learn, scipy
 and seaborn for the clustering and gams.transfer for the weight optimisation, and epm_env
@@ -38,7 +43,7 @@ carries none of them.
 
 Usage
     python run_casa_repdays.py --days 5
-    python run_casa_repdays.py --days 5 --pv PV.csv --wind Wind.csv   once VRE exists
+    python run_casa_repdays.py --days 5 --pv input/PV_casa.csv --wind input/WT_casa.csv
 """
 from pathlib import Path
 import argparse
@@ -206,8 +211,8 @@ def main():
     if len(input_files) == 1:
         print("[casa-repdays] WARNING: clustering on Load alone. The renewable side is\n"
               "               absent, so the days chosen cannot contain a cloudy or a\n"
-              "               still one. Fetch hourly PV and wind with\n"
-              "               pipelines/vre_pipeline.py and pass --pv/--wind before\n"
+              "               still one. The series exist: pass\n"
+              "               --pv input/PV_casa.csv --wind input/WT_casa.csv before\n"
               "               treating any of this as final.")
 
     print("[casa-repdays] days/season    : {0}  ({1} seasons -> {2} day types)".format(

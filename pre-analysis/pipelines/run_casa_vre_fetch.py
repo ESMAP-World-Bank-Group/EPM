@@ -198,7 +198,7 @@ def main():
             print("  {0}: nothing written at {1}".format(label, raw.name))
             continue
         print("[vre] relabelling {0} to local time:".format(label))
-        frame = to_repdays_shape(raw, REPDAYS_INPUT / "{0}_casa.csv".format(label),
+        frame = to_repdays_shape(raw, REPDAYS_INPUT / "{0}_casa_rninja.csv".format(label),
                                  args.year, coordinates)
         means = frame.groupby("zone")["value"].mean().sort_values(ascending=False)
         print("  {0:<6}{1}".format(label, "  ".join(
@@ -208,10 +208,13 @@ def main():
         if len(short):
             print("  {0}: NOT a full year for {1}".format(label, dict(short)))
         print("  {0:<6}written to {1}".format(
-            "", REPDAYS_INPUT / "{0}_casa.csv".format(label)))
+            "", REPDAYS_INPUT / "{0}_casa_rninja.csv".format(label)))
 
-    print("\n[vre] nothing was deployed. These feed run_casa_repdays.py --pv/--wind;\n"
-          "      pVREProfile still comes from build_vre.py until the clustering runs.")
+    print("\n[vre] nothing was deployed, and these files carry Renewables.ninja's own\n"
+          "      levels, which the wind comparison says are not the ones to model with.\n"
+          "      Next: data_build/build_vre_hourly.py, which rescales them onto the DeCA\n"
+          "      levels and writes the plain PV_casa.csv / WT_casa.csv that build_vre.py\n"
+          "      and run_casa_repdays.py read.")
 
 
 if __name__ == "__main__":
