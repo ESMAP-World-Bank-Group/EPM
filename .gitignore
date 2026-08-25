@@ -217,7 +217,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-/config/api_tokens.ini
+# Every api_tokens.ini, wherever it sits. The rule used to be anchored to the
+# repo root, but vre_pipeline.py defaults to pre-analysis/config/api_tokens.ini
+# (BASE_DIR/parents[1]), which the anchored rule did not cover -- and this repo
+# is public. The .example.ini keeps a different name and stays tracked.
+api_tokens.ini
 /.python-version
 
 # PEP 582
