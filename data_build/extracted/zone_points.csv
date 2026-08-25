@@ -1,0 +1,17 @@
+z,c,lat,lon,method,area_km2,note
+KAZ_N,KAZ,49.8658,69.83,centroid,1576079,
+KAZ_S,KAZ,44.6293,70.6051,centroid,713162,
+KGZ_N,KGZ,41.9623,75.9393,centroid,119698,
+KGZ_S,KGZ,40.0949,73.222,pole of inaccessibility,79476,"The centroid of this zone falls outside it and lands in UZB, so the most interior point is used instead. Note that the corridor anchors in linestring_zcmap.geojson are raw centroids and therefore carry that error."
+NEPS_AFG,AFG,32.902,67.0193,centroid,298983,
+NEPS_HERAT,AFG,34.1957,62.1207,centroid,54902,
+NEPS_TAJ,AFG,36.7596,69.3731,centroid,20361,
+NEPS_TKM,AFG,35.8701,64.6341,centroid,53027,
+NEPS_UZB,AFG,36.1491,66.9407,centroid,45101,
+PAK_KAR,PAK,25.0963,67.2272,centroid,4027,
+PAK_N,PAK,32.7019,72.5457,centroid,385554,
+PAK_S,PAK,27.6938,66.6887,centroid,486942,
+TAJ_N,TAJ,39.8036,69.2239,centroid,25511,
+TAJ_S,TAJ,38.2458,71.4154,centroid,116951,
+TUR,TUR,39.1159,59.376,centroid,471690,
+UZB,UZB,41.756,63.14,centroid,448406,
