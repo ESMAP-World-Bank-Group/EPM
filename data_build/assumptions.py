@@ -689,7 +689,7 @@ def season_grid(f):
            'load lines separate, the day types are doing work; the solar chart is a '
            'single line because all {0} days of a season are the same day.</div>'
            .format(f["days"])]
-    out.append('<table class="cal"><thead><tr><th>Season</th><th>Hours</th>'
+    out.append('<div class="gridtbl"><table class="cal"><thead><tr><th>Season</th><th>Hours</th>'
                '<th>Load, {0} day types</th><th>Day weights</th>'
                '<th>Solar, all {0} days</th></tr></thead><tbody>'.format(f["days"]))
     for d in shapes:
@@ -707,7 +707,7 @@ def season_grid(f):
             '<td><svg width="170" height="46">{4}</svg></td></tr>'.format(
                 esc(d["season"]), d["hours"], lines, weights,
                 spark(d["solar"], colour="#b8860b", fill="#f6e6b8", top=pvtop)))
-    out.append('</tbody></table>')
+    out.append('</tbody></table></div>')
     return "".join(out)
 
 
@@ -741,7 +741,7 @@ def calibration_grid(f):
            'curves in per unit of each zone&rsquo;s own peak. Where the dashed line '
            'falls away at the left edge, the model is holding its peak for fewer '
            'hours than the real system did.</div>']
-    out.append('<table class="cal"><thead><tr><th>Zone</th><th>Peak</th>'
+    out.append('<div class="gridtbl"><table class="cal"><thead><tr><th>Zone</th><th>Peak</th>'
                '<th>Load duration curve</th><th>Load factor</th><th>Trough (p1)</th>'
                '<th>Hours near peak</th><th>Season split</th></tr></thead><tbody>')
     for r in f["cal"]:
@@ -768,7 +768,7 @@ def calibration_grid(f):
                 m["minimum"],
                 ", {0:.0f} h under a tenth".format(m["low_hours"])
                 if m["low_hours"] else ""))
-    out.append('</tbody></table>')
+    out.append('</tbody></table></div>')
     out.append('<div class="method">Season split reads as the model&rsquo;s share '
                'minus the metered share, in points of annual energy.</div>')
     return "".join(out)
@@ -830,44 +830,58 @@ def chapter_state(keys, res):
 
 CSS = """
 body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:1040px;
-margin:22px auto;padding:0 18px;color:#1a2230;line-height:1.55;background:#fff}
+margin:22px auto;padding:0 18px;color:#1a2230;line-height:1.5;background:#fff}
 h1{font-size:1.5rem;border-bottom:3px solid #1E6DB8;padding-bottom:8px;margin-bottom:4px;
 color:#12355b}
 .sub{color:#5a6577;margin-top:0;font-size:.9rem}
-.intro{background:#eef4fb;border-radius:8px;padding:13px 17px;font-size:.86rem;margin:14px 0}
+.intro{background:#eef4fb;border-radius:8px;padding:12px 16px;font-size:.85rem;margin:12px 0}
 .intro a{color:#1E6DB8}
-.sm{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
-@media(max-width:720px){.sm{grid-template-columns:repeat(2,1fr)}}
-.smcell{border:1px solid #e4e9f1;border-radius:8px;padding:9px 11px;background:#fbfcfe}
-.smv{font-size:1.18rem;font-weight:800;color:#12355b}
-.smt{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#7a869c;
-font-weight:700;margin-top:2px}
-.tabs{display:flex;gap:5px;flex-wrap:wrap;margin:20px 0 0;border-bottom:2px solid #dde3ec}
-.tab{font:inherit;font-size:.9rem;padding:9px 15px;border:none;background:none;
-color:#5a6577;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;
-font-weight:600}
-.tab.active{color:#12355b;border-bottom-color:#1E6DB8}
-.panel{display:none}.panel.active{display:block}
-.phead{display:flex;justify-content:space-between;align-items:center;margin:20px 0 6px;
+.sparkrow{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.sparkcard{border:1px solid #eef1f6;border-radius:8px;padding:8px 10px;background:#fff;
+min-width:120px;flex:1}
+.spt{font-size:.74rem;font-weight:700;color:#33445e;margin-bottom:3px}
+.spv{font-size:1.5rem;font-weight:800;color:#12355b}
+.spd{font-size:.72rem;color:#7a869c;margin-top:2px}
+.toptabs{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
+.toptab{font:inherit;font-size:.95rem;font-weight:700;padding:10px 18px;
+border:1px solid #dde3ec;border-bottom:none;background:#f2f5fa;color:#5a6577;
+cursor:pointer;border-radius:9px 9px 0 0}
+.toptab.active{background:#1E6DB8;color:#fff;border-color:#1E6DB8}
+.toppanel{display:none;border-top:3px solid #1E6DB8;padding-top:10px}
+.toppanel.active{display:block}
+.phead{display:flex;justify-content:space-between;align-items:center;margin:18px 0 6px;
 flex-wrap:wrap;gap:10px}
-h2{font-size:1.3rem;margin:0;color:#12355b}
-.lead{font-size:.93rem;color:#2a3648;margin:6px 0 14px}
-.sec{border:1px solid #e4e9f1;border-radius:9px;padding:13px 16px;margin:11px 0;
-background:#fbfcfe}
-.sn{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#1E6DB8;
-font-weight:800;margin-bottom:7px}
-.body{font-size:.855rem;color:#2a3648}
+h2{font-size:1.35rem;margin:0;color:#12355b}
+.vb{font-size:.72rem;padding:3px 12px;border-radius:20px;font-weight:700}
+.lead{font-size:.9rem;color:#2a3648;margin:6px 0 14px}
+h3.roman{font-size:1.15rem;color:#12355b;margin:26px 0 4px;padding-bottom:5px;
+border-bottom:2px solid #cfe0f2}
+.body{font-size:.85rem;color:#2a3648;margin:8px 0 0}
+.method{background:#f4f8fd;border-left:4px solid #1E6DB8;border-radius:6px;
+padding:9px 13px;margin:8px 0 12px;font-size:.82rem;color:#2a3648}
+.subh{font-size:.9rem;font-weight:800;color:#1E6DB8;margin:16px 0 8px}
+.pn{font-size:.74rem;color:#54617a;margin-top:6px;font-style:italic}
 .pill{display:inline-block;font-size:.62rem;font-weight:800;padding:2px 7px;
 border-radius:4px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
-table{border-collapse:collapse;width:100%;font-size:.79rem;margin-top:12px}
-th,td{border-bottom:1px solid #eef1f6;padding:6px 9px;text-align:left;vertical-align:top}
+.gridtbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.78rem;margin-top:12px}
+th,td{border-bottom:1px solid #eef1f6;padding:5px 9px;text-align:left;vertical-align:top}
 th{background:#eef2f8;color:#33445e;font-weight:700}
-table.res td:first-child{width:24%}
+table.res td:first-child{width:24%;font-weight:600;color:#33445e}
+table.cal{border-collapse:collapse;width:100%;font-size:.8rem}
+table.cal th,table.cal td{border-bottom:1px solid #eef1f6;padding:5px 8px;
+text-align:right;vertical-align:middle}
+table.cal th:first-child,table.cal td:first-child{text-align:left}
+table.cal th{background:#eef2f8;color:#33445e;font-weight:700}
+.ok{color:#2b6b2e;font-weight:700}.wm{color:#8a5a12;font-weight:700}
+.bd{color:#a5381f;font-weight:700}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 2px;font-size:.7rem;color:#5a6678}
+.leg span{display:inline-flex;align-items:center;gap:4px}
 code{background:#f2f5fa;padding:1px 5px;border-radius:3px;font-size:.93em;color:#12355b}
 a{color:#1E6DB8}a code{color:#1E6DB8}
 .muted{color:#8a94a6;font-style:italic}
-.gap{border-left:4px solid #c0682a;background:#fff7ed;border-radius:0 8px 8px 0;
-padding:11px 15px;margin:10px 0;font-size:.855rem}
+.gap{border:1px solid #e4e9f1;border-left:4px solid #c0682a;border-radius:8px;
+padding:11px 15px;margin:10px 0;font-size:.85rem;background:#fff}
 .gap b{color:#8a4a12}
 .srcrow td:first-child{font-weight:700;color:#33445e;width:22%}
 .foot{margin-top:26px;padding-top:12px;border-top:1px solid #e4e9f1;font-size:.76rem;
@@ -876,12 +890,13 @@ color:#7a869c}
 
 JS = """
 function show(id){
-  var ps=document.querySelectorAll('.panel');
+  var ps=document.querySelectorAll('.toppanel');
   for(var i=0;i<ps.length;i++){ps[i].classList.remove('active');}
-  var ts=document.querySelectorAll('.tab');
+  var ts=document.querySelectorAll('.toptab');
   for(var j=0;j<ts.length;j++){ts[j].classList.remove('active');}
   document.getElementById('p-'+id).classList.add('active');
   document.getElementById('t-'+id).classList.add('active');
+  window.scrollTo(0,0);
 }
 """
 
@@ -916,38 +931,40 @@ def render(cfg, f, data_dir):
              (f["installed_gw"] + " GW", "installed"),
              (f["demand_twh_1"] + " TWh", "demand in {0}".format(f["y1"])),
              (f["corridors"], "corridors")]
-    a('<div class="sm">')
+    a('<div class="sparkrow">')
     for v, t in tiles:
-        a('<div class="smcell"><div class="smv">{0}</div><div class="smt">{1}</div>'
+        a('<div class="sparkcard"><div class="spt">{1}</div><div class="spv">{0}</div>'
           '</div>'.format(v, t))
     a('</div>')
 
-    a('<div class="tabs">')
+    a('<div class="toptabs">')
     for ch in CHAPTERS:
-        a('<button class="tab{0}" id="t-{1}" onclick="show(\'{1}\')">{2}</button>'
+        a('<button class="toptab{0}" id="t-{1}" onclick="show(\'{1}\')">{2}</button>'
           .format(" active" if ch is CHAPTERS[0] else "", ch["key"], esc(ch["title"])))
-    a('<button class="tab" id="t-gaps" onclick="show(\'gaps\')">Gaps &amp; requests'
+    a('<button class="toptab" id="t-gaps" onclick="show(\'gaps\')">Gaps &amp; requests'
       '</button>')
-    a('<button class="tab" id="t-srcs" onclick="show(\'srcs\')">Sources</button>')
+    a('<button class="toptab" id="t-srcs" onclick="show(\'srcs\')">Sources</button>')
     a('</div>')
 
     for ch in CHAPTERS:
         bg, fg, label = chapter_state(ch["resources"], res)
-        a('<div class="panel{0}" id="p-{1}">'.format(
+        a('<div class="toppanel{0}" id="p-{1}">'.format(
             " active" if ch is CHAPTERS[0] else "", ch["key"]))
-        a('<div class="phead"><h2>{0}</h2>{1}</div>'.format(
-            esc(ch["title"]), badge(label, bg, fg)))
+        a('<div class="phead"><h2>{0}</h2><span class="vb" style="background:{1};'
+          'color:{2}">{3}</span></div>'.format(
+              esc(ch["title"]), bg, fg, esc(label)))
         a('<p class="lead">{0}</p>'.format(esc(ch["lead"].format(**f))))
         if ch.get("extra"):
             a(EXTRAS[ch["extra"]](f))
-        for head, text in ch["points"]:
-            a('<div class="sec"><div class="sn">{0}</div><div class="body">{1}</div>'
-              '</div>'.format(esc(head.format(**f)), esc(text.format(**f))))
+        for i, (head, text) in enumerate(ch["points"], 1):
+            a('<h3 class="roman">{0} &middot; {1}</h3>'.format(
+                i, esc(head.format(**f))))
+            a('<div class="body">{0}</div>'.format(esc(text.format(**f))))
         a(resource_table(ch["resources"], res, registry))
         a('</div>')
 
     # ---- gaps, read off the YAML rather than restated -----------------------
-    a('<div class="panel" id="p-gaps"><div class="phead"><h2>Gaps and open data '
+    a('<div class="toppanel" id="p-gaps"><div class="phead"><h2>Gaps and open data '
       'requests</h2></div>')
     a('<p class="lead">Every open point declared in the build, in its own words. '
       '{res_done} tables are settled, {res_partial} are partial, {res_to_do} are still '
@@ -964,7 +981,7 @@ def render(cfg, f, data_dir):
     a('</div>')
 
     # ---- the source registry ------------------------------------------------
-    a('<div class="panel" id="p-srcs"><div class="phead"><h2>Sources</h2></div>')
+    a('<div class="toppanel" id="p-srcs"><div class="phead"><h2>Sources</h2></div>')
     a('<p class="lead">The {source_count} sources declared by the build, '
       '{primary_count} of them primary. Coverage country by country, and which source '
       'won for which table, is on the <a href="{page}">data sources page</a>.</p>'
