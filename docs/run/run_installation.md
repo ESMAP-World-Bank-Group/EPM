@@ -3,7 +3,7 @@
 !!! question "Coming from an Excel `.xlsb` model?"
     These instructions install **EPM 9**, which reads CSV inputs and is driven from Python.
     If your model is a workbook, you are on **v8.5** — see
-    [Legacy version](../introduction/legacy_v8_5.md), or
+    [Legacy version](run_legacy_v8_5.md), or
     [port it to CSV](../input/input_from_excel_to_csv.md) and come back here.
 
 ---

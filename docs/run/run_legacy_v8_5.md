@@ -6,7 +6,7 @@ generation is archived here for teams that still maintain a v8.5 model.
 !!! danger "Archived — not maintained"
     v8.5 receives no fixes, no support and no new features. Use it only to read or re-run an
     existing study. For anything new, use the current version — see
-    [Installation](../run/run_installation.md).
+    [Installation](run_installation.md).
 
 ---
 
@@ -25,7 +25,7 @@ generation is archived here for teams that still maintain a v8.5 model.
     Some familiarity with **Python and GAMS helps** and unlocks customization, but is not
     required for a standard run.
 
-    [→ Get started](../run/run_installation.md)
+    [→ Get started](run_installation.md)
 
 -   **EPM v8.5 — Excel** *(legacy)*
 
@@ -155,17 +155,28 @@ Two distinct things carry the "v8.5" name — don't confuse them:
 The tag preserves documentation pages that were dropped from this site, notably
 `old/step_by_step.md` (adapting the `WB_EPM_v8_5_*.gms` files by hand) and
 `engine_looping_tool.md` (the Engine looping tool, now superseded by
-[Advanced Python Options](../run/run_python_advanced.md)).
+[Advanced Python Options](run_python_advanced.md)).
 
 ---
 
 ## Get the pack
 
-<!-- TODO: replace with the public archive URL (Zenodo DOI or GitHub release v8.5-legacy).
-     Before publishing: remove `gamslice.txt` from the archive — it is a GAMS license file —
-     and confirm the 2023 PDF and the training decks are cleared for external release. -->
+<!-- PUBLICATION CHECKLIST — do all three before replacing the URL below:
+     1. Remove `gamslice.txt` from the archive (GAMS license file, must not be redistributed).
+     2. Confirm `WB_Electricity_Planning_Model_Documentation_2023.pdf` and the two training
+        decks are cleared for public release.
+     3. Publish as GitHub release `v8.5-excel-legacy`, then swap PACK_URL in the link below. -->
 
-The pack is not yet published to a public archive. Contact the EPM team to obtain it.
+**[Download EPM v8.5 Starter pack (.zip, ~20 MB)](#)**{ .md-button }
+<!-- ^ replace `#` with the release asset URL -->
+
+!!! info "Not published yet"
+    The archive is being prepared for release. Until it is up, contact the EPM team for a copy.
+
+The zip carries the full reference material this page summarizes: the 2023 model
+documentation PDF, the step-by-step *Running EPM* notes, and the training decks. The GAMS
+license file shipped in the original folder is **removed** from the published archive — bring
+your own GAMS licence.
 
 Earlier releases are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
 

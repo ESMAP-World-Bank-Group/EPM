@@ -53,5 +53,5 @@ Initial public release on GitHub.
 ---
 
 > EPM versions prior to 9.0-beta were internal World Bank tools not tracked on GitHub.  
-> The last of them, the Excel-driven **v8.5**, is described in [Legacy version](legacy_v8_5.md).  
+> The last of them, the Excel-driven **v8.5**, is described in [Legacy version](../run/run_legacy_v8_5.md).  
 > Archived releases are available on [Zenodo](https://doi.org/10.5281/zenodo.15591290).
