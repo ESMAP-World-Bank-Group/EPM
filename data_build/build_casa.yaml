@@ -166,8 +166,22 @@ sources:
     where: renewables.ninja
     covers: [AFG, KAZ, KGZ, PAK, TAJ, TUR, UZB]
     note: >
-      Hourly solar and wind profiles by coordinates. Already used by
-      pre-analysis/pipelines/vre_pipeline.py.
+      Hourly solar and wind profiles by coordinates. FETCHED: 2022, one year, all
+      sixteen zones and both technologies, by pre-analysis/pipelines/run_casa_vre_fetch.py.
+      Two things to know before using it. THE LEVEL IS NOT DECA'S. Solar comes out
+      3 to 46 per cent above the profiles now in the model, mean 0.204 against 0.167,
+      which is what a clean modelled array with a flat ten per cent loss does against
+      metered output carrying outages, soiling and curtailment. Wind does not differ
+      by a level at all but by which zones are windy: the model gives every zone 0.33
+      to 0.42, a placeholder, while this says Herat 0.63, Kazakhstan 0.51 and the
+      mountain zones near zero, TAJ_S at 0.016. The ranking is physically right and
+      the model's flat value is wrong, but neither number is usable as a level -- the
+      default turbine is a low specific power machine that reads high by design, and
+      MERRA-2 at half a degree cannot resolve a Pamir valley at all. USE THE SHAPE,
+      KEEP DECA'S LEVEL. THE COORDINATES ARE POLYGON POINTS, one per zone, from
+      data_build/build_vre_coords.py, because no plant in the fleet carries a
+      latitude anywhere. Global Wind Atlas at one kilometre is the source that would
+      settle the wind level properly.
 
   epa_ghg_factors:
     name: US EPA greenhouse gas emission factors for stationary combustion
@@ -244,7 +258,7 @@ leads:
   - [Afghanistan, "DABS, NSIA, UN Energy Statistics", "unstats.un.org/unsd/energystats", "TESTED - NOTHING", "No regular statistical publication since 2021. Scattered elements: ~670 MW imported for ~280 M USD/yr according to DABS, imports of 4.6 to 5.2 TWh over 2017-2022 according to the UN, private sector overview of November 2025.", "Enough to recalibrate the LEVEL of Afghan imports, not to rebuild a zonal demand. The five NEPS zones stay as they came from the 2020 model, low confidence assumed."]
   - [Regional, "Ember - Monthly and Yearly Electricity Data", "ember-energy.org/data/monthly-electricity-data", "TESTED - AVAILABLE", "Generation by technology, demand, capacity and emissions MONTHLY for 85 geographies including our seven countries, up to April 2026. Free download.", "Four years of actuals that DeCA does not have: the history of the books stops in 2022. Base year calibration and the only homogeneous dataset over the seven countries."]
   - [Regional, "Global Energy Monitor - Global Integrated Power Tracker", "globalenergymonitor.org/projects/global-integrated-power-tracker/download-data", "TESTED - AVAILABLE", "Global fleet unit by unit, geolocated, with status and dates. AN AUGUST 2026 RELEASE IS OUT; we hold the September 2025 one.", "Immediate refresh of the fleet, and the only coverage of AFG and PAK alongside IGCEP. Tajikistan is under-represented there: complete with DeCA."]
-  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - AVAILABLE", "Hourly solar and wind profiles simulated anywhere on the globe from the ERA5 reanalysis.", "The only route to pVREProfile in Turkmenistan, in Afghanistan and wherever DeCA gives nothing. Already wired into pre-analysis/pipelines/vre_pipeline.py."]
+  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - FETCHED", "Hourly solar and wind profiles simulated anywhere on the globe. FETCHED for 2022, sixteen zones, both technologies, 8760 h each, relabelled to zone local time. Held outside the repo in pre-analysis/representative_days/input as PV_casa.csv and WT_casa.csv.", "The route out of the pVREProfile staircase, and the only route at all in Turkmenistan and Afghanistan. Take the SHAPE and keep the DeCA level: solar reads 22 per cent high on average and the wind levels are a turbine-model artifact over a half-degree grid. Global Wind Atlas, still untested, is what would settle the wind level."]
   - [Regional, "gridfinder, OpenStreetMap power, energydata.info", "energydata.info, gridfinder.rdrn.me", "TESTED - PARTIAL", "Global map of lines predicted from night lights and OSM (grid.gpkg, targets.tif), announced accuracy ~70 % at 1 km.", "TOPOLOGY check only: confirm that a corridor exists and where it runs. GIVES NO NTC, transfer capacities still have to be requested from the operators."]
   - [Regional, "IEA country profiles, UN Comtrade, OWID", "iea.org/countries, comtradeplus.un.org", "TESTED - PARTIAL", "National energy balances as free PDFs, electricity flows declared at customs by country pair, long consumption series.", "Cross-check of historical exchanges. Comtrade is of uneven quality in Central Asia: not to be used alone."]
   - [Regional, "CASA-1000 - project documents", "-", "NOT TESTED", "Schedule, contractual quantities, export seasonality.", "Indispensable to correct pTransferLimit and pContractedTrade."]

@@ -155,7 +155,7 @@
         "TUR",
         "UZB"
       ],
-      "note": "Hourly solar and wind profiles by coordinates. Already used by pre-analysis/pipelines/vre_pipeline.py.\n"
+      "note": "Hourly solar and wind profiles by coordinates. FETCHED: 2022, one year, all sixteen zones and both technologies, by pre-analysis/pipelines/run_casa_vre_fetch.py. Two things to know before using it. THE LEVEL IS NOT DECA'S. Solar comes out 3 to 46 per cent above the profiles now in the model, mean 0.204 against 0.167, which is what a clean modelled array with a flat ten per cent loss does against metered output carrying outages, soiling and curtailment. Wind does not differ by a level at all but by which zones are windy: the model gives every zone 0.33 to 0.42, a placeholder, while this says Herat 0.63, Kazakhstan 0.51 and the mountain zones near zero, TAJ_S at 0.016. The ranking is physically right and the model's flat value is wrong, but neither number is usable as a level -- the default turbine is a low specific power machine that reads high by design, and MERRA-2 at half a degree cannot resolve a Pamir valley at all. USE THE SHAPE, KEEP DECA'S LEVEL. THE COORDINATES ARE POLYGON POINTS, one per zone, from data_build/build_vre_coords.py, because no plant in the fleet carries a latitude anywhere. Global Wind Atlas at one kilometre is the source that would settle the wind level properly.\n"
     },
     "epa_ghg_factors": {
       "name": "US EPA greenhouse gas emission factors for stationary combustion",
