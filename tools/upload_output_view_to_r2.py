@@ -104,6 +104,24 @@ runs = sorted({
     for p in files
     if len(p.relative_to(LOCAL).parts) > 1
 })
-manifest = json.dumps({"runs": runs}, indent=2)
+
+# EPM View also needs to know WHICH csv each run/scenario holds. The catalogue is
+# not fixed -- a merged publish writes 11 files, an older run about 55 -- and a
+# public bucket cannot be listed, so without this the app is left probing names.
+# The answer is already here: it is the very list of files this script uploaded.
+files_by_run = {}
+for p in files:
+    parts = p.relative_to(LOCAL).parts
+    if len(parts) < 4 or parts[2] != "output_csv":
+        continue                      # input_scenarios.csv, map layers, anything else
+    run, scenario = parts[0], parts[1]
+    files_by_run.setdefault(run, {}).setdefault(scenario, []).append("/".join(parts[3:]))
+for scenarios in files_by_run.values():
+    for names in scenarios.values():
+        names.sort()
+
+# "runs" stays first and unchanged: an older EPM View reads it and ignores the rest.
+manifest = json.dumps({"runs": runs, "files": files_by_run}, indent=2)
 fs.pipe_file(f"{bucket}/{PREFIX}/manifest.json", manifest.encode("utf-8"))
-print(f"  manifest.json -> {len(runs)} run(s): {', '.join(runs)}")
+n_csv = sum(len(v) for sc in files_by_run.values() for v in sc.values())
+print(f"  manifest.json -> {len(runs)} run(s), {n_csv} csv indexed: {', '.join(runs)}")
