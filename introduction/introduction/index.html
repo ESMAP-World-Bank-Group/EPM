@@ -85,6 +85,18 @@
     </div>
     <div data-md-component="announce">
       
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+  EPM 9 is <strong>beta software</strong> — input/output schemas and the Dashboard may still
+  change between releases.
+  <a href="../changelog/">What this means →</a>
+
+          </div>
+          
+        </aside>
+      
     </div>
     
     
@@ -425,6 +437,8 @@
       
         
       
+        
+      
     
     
     
@@ -570,6 +584,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="History &amp; versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-version-are-you-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which version are you on?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -652,6 +683,34 @@
     
   
     Versions & Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legacy_v8_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy version (v8.5, Excel)
   
 
     
@@ -1387,6 +1446,8 @@
       
         
       
+        
+      
     
     
     
@@ -1587,6 +1648,34 @@
     
   
     Input Treatment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_from_excel_to_csv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From Excel to CSV (v8.5 → v9)
   
 
     
@@ -2385,6 +2474,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="History &amp; versions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-version-are-you-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which version are you on?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -2454,6 +2560,49 @@
 <hr />
 <h2 id="history-versions">History &amp; versions<a class="headerlink" href="#history-versions" title="Permanent link">&para;</a></h2>
 <p>EPM was first deployed in 2016 and has evolved through several versions. Previous versions are archived on <a href="https://zenodo.org/communities/esmap-epm">Zenodo</a>.</p>
+<h3 id="which-version-are-you-on">Which version are you on?<a class="headerlink" href="#which-version-are-you-on" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>EPM 9</strong> — CSV + Python <em>(current)</em></th>
+<th><strong>EPM v8.5</strong> — Excel <em>(legacy)</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inputs</td>
+<td>CSV files, tracked in git</td>
+<td>One <code>.xlsb</code> workbook</td>
+</tr>
+<tr>
+<td>Run from</td>
+<td><code>python epm.py</code></td>
+<td>GAMS Studio</td>
+</tr>
+<tr>
+<td>Features</td>
+<td>Full set — scenarios, parallel runs, sensitivity &amp; Monte-Carlo, H2, automated postprocessing</td>
+<td>Frozen</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>Python and GAMS knowledge <strong>helps</strong> and unlocks customization, but is not required for a standard run</td>
+<td>Excel only</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Beta — actively developed</td>
+<td>Archived, unsupported</td>
+</tr>
+<tr>
+<td>Where</td>
+<td>This documentation</td>
+<td><a href="../legacy_v8_5/">Legacy version</a></td>
+</tr>
+</tbody>
+</table>
+<p>Porting an existing workbook to the current version: <a href="../../input/input_from_excel_to_csv/">From Excel to CSV</a>.</p>
 
 
 

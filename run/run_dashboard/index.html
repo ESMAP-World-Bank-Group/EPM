@@ -87,6 +87,18 @@
     </div>
     <div data-md-component="announce">
       
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+  EPM 9 is <strong>beta software</strong> — input/output schemas and the Dashboard may still
+  change between releases.
+  <a href="../../introduction/changelog/">What this means →</a>
+
+          </div>
+          
+        </aside>
+      
     </div>
     
     
@@ -425,6 +437,8 @@
       
         
       
+        
+      
     
     
     
@@ -569,6 +583,34 @@
     
   
     Versions & Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/legacy_v8_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy version (v8.5, Excel)
   
 
     
@@ -1304,6 +1346,8 @@
       
         
       
+        
+      
     
     
     
@@ -1504,6 +1548,34 @@
     
   
     Input Treatment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../input/input_from_excel_to_csv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From Excel to CSV (v8.5 → v9)
   
 
     
@@ -2519,7 +2591,14 @@ above.</p>
 <p><img alt="Dashboard input settings" src="../../images/dashboard/dashboard_input_settings.png" /></p>
 <h3 id="2-configure-your-run">2. Configure your run<a class="headerlink" href="#2-configure-your-run" title="Permanent link">&para;</a></h3>
 <p>Set key parameters directly from the interface: model type (MIP / RMIP), number of scenarios, CPU cores. The <strong>Run Config</strong> tab assembles them into the matching <code>python epm.py</code> command, which you then <strong>copy and run in a terminal</strong> — see <a href="../run_python/">Run from Python</a>.</p>
-<p><img alt="Dashboard run configuration" src="../../images/dashboard/dashboard_run_config.png" /></p>
+<p>The <strong>Generated Command</strong> panel gives you the line to paste into your terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--scenarios<span class="w"> </span>scenarios.csv
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The tab ends with a <strong>Launch Run</strong> button. It is not operational — copy the command above
+and run it yourself.</p>
+</div>
 <h3 id="3-explore-results">3. Explore results<a class="headerlink" href="#3-explore-results" title="Permanent link">&para;</a></h3>
 <p>Once the run completes, navigate the built-in charts: capacity expansion by technology and year, generation dispatch, costs breakdown, emissions trajectory.</p>
 <p><img alt="Dashboard results overview" src="../../images/dashboard/dashboard_results_overview.png" /></p>

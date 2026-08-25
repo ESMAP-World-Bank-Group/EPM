@@ -13,6 +13,10 @@
       
       
       
+        <link rel="prev" href="../input_treatment/">
+      
+      
+        <link rel="next" href="../input_open_data/">
       
       
         
@@ -23,7 +27,7 @@
     
     
       
-        <title>Transitioning from Excel to CSV - EPM — Electricity Planning Model</title>
+        <title>From Excel to CSV (v8.5 → v9) - EPM — Electricity Planning Model</title>
       
     
     
@@ -83,6 +87,18 @@
     </div>
     <div data-md-component="announce">
       
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+            
+  EPM 9 is <strong>beta software</strong> — input/output schemas and the Dashboard may still
+  change between releases.
+  <a href="../../introduction/changelog/">What this means →</a>
+
+          </div>
+          
+        </aside>
+      
     </div>
     
     
@@ -111,7 +127,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Transitioning from Excel to CSV
+              From Excel to CSV (v8.5 → v9)
             
           </span>
         </div>
@@ -268,10 +284,12 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../input_setup/" class="md-tabs__link">
           
   
@@ -410,6 +428,8 @@
   
     
     
+      
+        
       
         
       
@@ -563,6 +583,34 @@
     
   
     Versions & Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction/legacy_v8_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legacy version (v8.5, Excel)
   
 
     
@@ -1279,8 +1327,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1298,23 +1348,28 @@
       
         
       
+        
+      
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -1332,7 +1387,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1506,6 +1561,103 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From Excel to CSV (v8.5 → v9)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    From Excel to CSV (v8.5 → v9)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#best-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2309,6 +2461,7 @@
 
 <h1 id="transitioning-from-excel-to-csv">Transitioning from Excel to CSV<a class="headerlink" href="#transitioning-from-excel-to-csv" title="Permanent link">&para;</a></h1>
 <p>Older models used Excel files for inputs, but the current version of EPM requires CSV-formatted inputs. You will need to convert your existing Excel data accordingly.</p>
+<p>For what the Excel generation was and how to obtain it, see <a href="../../introduction/legacy_v8_5/">Legacy version — EPM v8.5</a>.</p>
 <h2 id="best-practice">Best practice<a class="headerlink" href="#best-practice" title="Permanent link">&para;</a></h2>
 <p>Start from an existing csv folder:
 - <code>data_test</code> for a country-level model. This model was built for a study focused on solar+BESS potential in Gambia.
