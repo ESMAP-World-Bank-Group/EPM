@@ -15,19 +15,19 @@ TAJ_N,PV,deca,rescaled,,0.1968,0.1695,0.1695,x0.44-1.18
 TAJ_S,PV,deca,rescaled,,0.2215,0.1695,0.1695,x0.44-1.07
 TUR,PV,deca,rescaled,,0.1932,0.1627,0.1627,x0.43-1.12
 UZB,PV,deca,rescaled,,0.1942,0.1880,0.1880,x0.59-1.16
-KAZ_N,WT,deca,rescaled,,0.5046,0.4156,0.4156,x0.65-1.19
-KAZ_S,WT,deca,rescaled,,0.5133,0.4156,0.4156,x0.53-1.14
-KGZ_N,WT,deca,kept 2020 construction,month 4 cannot reach its stated factor,0.1798,0.3351,,
-KGZ_S,WT,deca,kept 2020 construction,would need x4.4,0.0764,0.3351,,
-NEPS_AFG,WT,casa_2020,kept 2020 construction,month 6 cannot reach its stated factor,0.1790,0.3329,,
-NEPS_HERAT,WT,casa_2020,rescaled,,0.6282,0.3329,0.3329,x0.35-0.98
-NEPS_TAJ,WT,casa_2020,kept 2020 construction,would need x4.5,0.0735,0.3329,,
-NEPS_TKM,WT,casa_2020,kept 2020 construction,month 12 cannot reach its stated factor,0.2915,0.3329,,
-NEPS_UZB,WT,casa_2020,kept 2020 construction,would need x2.1,0.1607,0.3329,,
-PAK_KAR,WT,casa_2020,rescaled,,0.4417,0.3333,0.3333,x0.45-1.75
-PAK_N,WT,casa_2020,kept 2020 construction,would need x2.1,0.1562,0.3333,,
-PAK_S,WT,casa_2020,kept 2020 construction,month 8 cannot reach its stated factor,0.2439,0.3333,,
-TAJ_N,WT,deca,kept 2020 construction,would need x3.5,0.1063,0.3726,,
-TAJ_S,WT,deca,kept 2020 construction,would need x23.6,0.0158,0.3726,,
-TUR,WT,deca,rescaled,,0.4464,0.3490,0.3490,x0.50-1.31
-UZB,WT,deca,rescaled,,0.4726,0.3625,0.3625,x0.62-0.93
+KAZ_N,WT,deca,rescaled,,0.5440,0.4156,0.4156,x0.58-0.98
+KAZ_S,WT,deca,kept 2020 construction,month 5 cannot reach its stated factor,0.2726,0.4156,,
+KGZ_N,WT,deca,kept 2020 construction,would need x2.4,0.1417,0.3351,,
+KGZ_S,WT,deca,kept 2020 construction,would need x4.3,0.0780,0.3351,,
+NEPS_AFG,WT,atlas_p90,kept 2020 construction,would need x2.1,0.1438,0.2961,,
+NEPS_HERAT,WT,atlas_p90,rescaled,,0.6396,0.5604,0.5604,x0.60-1.40
+NEPS_TAJ,WT,atlas_p90,kept 2020 construction,would need x8.4,0.0208,0.1759,,
+NEPS_TKM,WT,atlas_p90,rescaled,,0.3674,0.3416,0.3416,x0.60-1.73
+NEPS_UZB,WT,atlas_p90,rescaled,,0.3663,0.3633,0.3633,x0.63-1.93
+PAK_KAR,WT,atlas_p90,rescaled,,0.4475,0.3714,0.3714,x0.49-1.86
+PAK_N,WT,atlas_p90,kept 2020 construction,would need x14.3,0.0149,0.2139,,
+PAK_S,WT,atlas_p90,rescaled,,0.5053,0.3615,0.3615,x0.47-1.17
+TAJ_N,WT,deca,rescaled,,0.3423,0.3726,0.3726,x0.89-1.58
+TAJ_S,WT,deca,kept 2020 construction,would need x6.1,0.0613,0.3726,,
+TUR,WT,deca,rescaled,,0.5504,0.3490,0.3490,x0.41-1.04
+UZB,WT,deca,rescaled,,0.4900,0.3625,0.3625,x0.52-1.03

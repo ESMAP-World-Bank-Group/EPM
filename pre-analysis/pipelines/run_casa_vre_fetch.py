@@ -16,11 +16,21 @@ matches the largest metered zone group and sits inside MERRA-2 coverage. What th
 costs: the correlation between a windy hour and a high-load hour is real within
 Kazakhstan and approximate everywhere else. Say so wherever these profiles are used.
 
-WHERE THE COORDINATES COME FROM, and it is the weaker assumption. No plant in the CASA
-fleet carries a latitude, so the points are derived from the zone polygons by
-data_build/build_vre_coords.py -- one point per zone. See that script for what that does
-and does not mean; the short version is that KAZ_N is 1.6 million km2 and one point
-speaks for very little of it.
+WHERE THE COORDINATES COME FROM, and solar and wind no longer share them. No plant in the
+CASA fleet carries a latitude, so the points start from the zone polygons, one per zone,
+via data_build/build_vre_coords.py. Solar keeps that point: irradiance varies by a few per
+cent across a zone and the centroid is as good a place to ask about as any.
+
+WIND DOES NOT KEEP IT, AND THAT WAS THE BUG. The first fetch asked about the centroid for
+both technologies and came back with mountain wind near zero -- TAJ_S at 0.016, TAJ_N at
+0.106 -- which read like a failure of the reanalysis. It was not. Sampled at those exact
+coordinates the Global Wind Atlas, at 250 m, says 0.010 and 0.048: the two sources agree,
+r = 0.90 across the region. The centroid of a mountain zone is a valley floor, and a
+valley floor is where the wind is not. So wind is fetched from data_build/wind_sites.csv
+instead, the centre of the best ten-kilometre square of each zone, 29 to 936 km away --
+further than a MERRA-2 cell is wide, so it is different weather and not a rescaled copy.
+KAZ_N is still 1.6 million km2 and one point still speaks for a slice of it; the
+difference is that it is now the slice a developer would build on.
 
 LOCAL TIME IS ON, deliberately. The region spans UTC+4:30 to UTC+6, and the demand
 series are local-time series. Fetching in local time puts solar noon in the same column
@@ -34,11 +44,13 @@ ENVIRONMENT. gams_env, like the rest of the representative-days chain.
 Usage
     python run_casa_vre_fetch.py --dry-run     # show the points, call nothing
     python run_casa_vre_fetch.py               # about six minutes, 32 API requests
+    python run_casa_vre_fetch.py --only wind   # refetch wind at the atlas sites
 """
 from pathlib import Path
 import argparse
 import csv
 import sys
+from math import cos, hypot, radians
 
 import pandas as pd
 from timezonefinder import TimezoneFinder
@@ -51,6 +63,7 @@ from vre_pipeline import (rninja_output_filename,  # noqa: E402
 BASE = Path(__file__).resolve().parent
 REPO = BASE.parents[1]
 POINTS = REPO / "data_build" / "extracted" / "zone_points.csv"
+WIND_SITES = REPO / "data_build" / "extracted" / "wind_sites.csv"
 RAW_DIR = BASE / "output" / "rninja_casa"
 REPDAYS_INPUT = REPO / "pre-analysis" / "representative_days" / "input"
 
@@ -87,6 +100,43 @@ def read_points(path):
             "no zone points at {0}: run data_build/build_vre_coords.py first".format(path))
     with open(path, encoding="utf-8-sig") as handle:
         return [row for row in csv.DictReader(handle) if row.get("z", "").strip()]
+
+
+def read_optional(path):
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8-sig") as handle:
+        return [row for row in csv.DictReader(handle) if row.get("z", "").strip()]
+
+
+def points_by_technology(zone_points, wind_sites, wind_label):
+    """{technology: {zone: (lat, lon)}}, and they are not the same points.
+
+    SOLAR KEEPS THE ZONE POINT. Irradiance varies little across a zone -- a few per cent
+    between one end of Uzbekistan and the other -- so the centroid is as good a place to
+    ask about as any, and the sixteen solar series fetched from it all rescaled onto their
+    stated level without complaint.
+
+    WIND DOES NOT. Sampling the Global Wind Atlas at the exact centroids these series were
+    fetched from showed the reanalysis was right all along and the point was wrong: 0.010
+    at TAJ_S, 0.048 at TAJ_N, against zone P95 values of 0.393 and 0.433. The centroid of a
+    mountain zone is a valley floor. data_build/build_wind_atlas.py writes the centre of
+    the best ten-kilometre square of each zone instead, and that is what wind is fetched
+    from -- between 29 and 936 km away from the old point, which is further than a MERRA-2
+    cell is wide, so this samples different weather rather than a rescaled copy.
+    """
+    centroids = {row["z"]: (float(row["lat"]), float(row["lon"])) for row in zone_points}
+    wind = dict(centroids)
+    for row in wind_sites:
+        if row["z"] in wind:
+            wind[row["z"]] = (float(row["lat"]), float(row["lon"]))
+    if not wind_sites:
+        print("[vre] WARNING: no wind sites at {0}. Wind will be fetched from the same"
+              .format(WIND_SITES))
+        print("               centroids as solar, which is the arrangement the atlas")
+        print("               showed to be the cause of the near-zero mountain series.")
+        print("               Run data_build/build_wind_atlas.py first.")
+    return {"solar": centroids, "wind": wind}
 
 
 def to_repdays_shape(raw_path, target_path, year, coordinates):
@@ -154,6 +204,8 @@ def main():
     parser.add_argument("--dry-run", action="store_true",
                         help="print the points and the request count, call nothing")
     parser.add_argument("--no-plots", action="store_true")
+    parser.add_argument("--only", choices=["solar", "wind"], default=None,
+                        help="fetch one technology and leave the other file alone")
     args = parser.parse_args()
 
     solar_label, wind_label = model_vre_labels(VRE_PROFILE)
@@ -162,17 +214,35 @@ def main():
         solar_label, wind_label))
 
     points = read_points(POINTS)
-    coordinates = {row["z"]: (float(row["lat"]), float(row["lon"])) for row in points}
-    locations = {tech: dict(coordinates) for tech in techs}
+    locations = points_by_technology(points, read_optional(WIND_SITES), wind_label)
+    if args.only:
+        techs = {k: v for k, v in techs.items() if k == args.only}
+        locations = {k: v for k, v in locations.items() if k == args.only}
+        print("[vre] fetching    : {0} only; the other technology keeps the series it has"
+              .format(args.only))
 
+    zones = sorted({z for tech in locations for z in locations[tech]})
+    requests_needed = sum(len(v) for v in locations.values())
     print("[vre] year        : {0}, local time".format(args.year))
-    print("[vre] zones       : {0}".format(len(coordinates)))
-    print("[vre] requests    : {0} ({1} zones x {2} technologies), about {3:.0f} min at "
-          "6 per minute".format(len(coordinates) * len(techs), len(coordinates),
-                                len(techs), len(coordinates) * len(techs) / 6.0))
-    for row in points:
-        print("  {0:<12}{1:>9}{2:>10}   {3}".format(
-            row["z"], row["lat"], row["lon"], row["method"]))
+    print("[vre] zones       : {0}".format(len(zones)))
+    print("[vre] requests    : {0}, about {1:.0f} min at 6 per minute".format(
+        requests_needed, requests_needed / 6.0))
+    print("  {0:<12}{1:>10}{2:>10}   {3:>10}{4:>10}   {5}".format(
+        "zone", "solar lat", "lon", "wind lat", "lon", "apart"))
+    for zone in zones:
+        solar = locations.get("solar", {}).get(zone)
+        wind = locations.get("wind", {}).get(zone)
+        apart = ""
+        if solar and wind:
+            middle = radians((solar[0] + wind[0]) / 2.0)
+            apart = "{0:.0f} km".format(hypot(wind[0] - solar[0],
+                                              (wind[1] - solar[1]) * cos(middle)) * 111.32)
+        print("  {0:<12}{1:>10}{2:>10}   {3:>10}{4:>10}   {5}".format(
+            zone,
+            "{0:.4f}".format(solar[0]) if solar else "-",
+            "{0:.4f}".format(solar[1]) if solar else "-",
+            "{0:.4f}".format(wind[0]) if wind else "-",
+            "{0:.4f}".format(wind[1]) if wind else "-", apart))
 
     if args.dry_run:
         print("\nDry run. Nothing fetched.")
@@ -198,8 +268,12 @@ def main():
             print("  {0}: nothing written at {1}".format(label, raw.name))
             continue
         print("[vre] relabelling {0} to local time:".format(label))
+        # The timezone is read off the point the series was actually fetched from, so
+        # the wind relabelling follows the wind point: KAZ_S moved 936 km east to the
+        # Dzungarian Gate, and asking the solar centroid for its offset would put that
+        # series in the wrong hour.
         frame = to_repdays_shape(raw, REPDAYS_INPUT / "{0}_casa_rninja.csv".format(label),
-                                 args.year, coordinates)
+                                 args.year, locations[tech])
         means = frame.groupby("zone")["value"].mean().sort_values(ascending=False)
         print("  {0:<6}{1}".format(label, "  ".join(
             "{0} {1:.3f}".format(z, v) for z, v in means.items())))

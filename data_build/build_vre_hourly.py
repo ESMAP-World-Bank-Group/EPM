@@ -13,6 +13,16 @@ So the rule, and it is the whole of this file: TAKE THE SHAPE FROM RENEWABLES.NI
 THE LEVEL FROM DECA. Each zone, technology and month is multiplied by whatever factor
 brings its mean onto the stated one, and nothing else about the series is touched.
 
+AND WHERE DECA IS SILENT, TAKE THE LEVEL FROM THE TERRAIN, NOT FROM 2020. The eight
+Afghan and Pakistani wind zones have no book, and the 2020 model gave all eight the same
+0.333 -- one number repeated, not eight readings. The Global Wind Atlas has now been
+sampled over each zone's own polygon at 250 m, and it contradicts that placeholder in
+both directions: Herat, where the Wind of 120 Days blows, reaches 0.56 on its best tenth,
+while the Tajik lowland of northern Afghanistan tops out near 0.18. Those zones carry
+level_source = atlas_p90 in the mapping and take their height from the atlas, keeping
+2020's month-to-month shape because the atlas has no calendar to offer. Zones with a DeCA
+book are left alone: a measurement outranks a terrain model.
+
 WHY THE RESCALE IS HERE AND NOT IN build_vre.py. Two consumers need the corrected series,
 not one. build_vre.py reads it to build pVREProfile on the demand's own representative
 days; the Poncelet clustering in pre-analysis/representative_days reads it to choose those
@@ -23,6 +33,7 @@ by a factor of five in the mountains.
 
 Reads:
     mappings/vre_profiles.csv                          zone x technology -> DeCA rows
+    extracted/wind_atlas.csv                           the terrain, where 2020 guessed
     mappings/seasons_months.csv                        the season set and its months
     <reference>/pHours.csv                             the 2020 block widths
     <reference>/supply/pVREProfile.csv                 the 2020 level, where DeCA is silent
@@ -60,6 +71,14 @@ HOURS_PER_DAY = 24
 # construction build_vre.py already had, and the report says which ones they are.
 MAX_STRETCH = 2.0
 
+# Where the atlas levels are read from, and at which turbine class. Class 3 is the
+# low-wind machine -- the large rotor per kilowatt these sites are actually built with,
+# and the class that reads highest. Choosing 1 or 2 instead moves a zone's percentile by
+# 0.05-0.09, an order of magnitude below the disagreement the atlas was brought in to
+# settle, so the choice is stated here rather than argued per zone.
+ATLAS = vre.ATLAS
+ATLAS_CLASS = vre.ATLAS_CLASS
+
 
 def month_of_season(quarters):
     """month number -> season name, from the one file that cuts the year."""
@@ -70,14 +89,26 @@ def month_of_season(quarters):
     return out
 
 
-def stated_levels(reference, plan, quarters, inherits):
+def stated_levels(reference, plan, quarters, inherits, atlas):
     """(zone, tech) -> (12 monthly capacity factors, where the level came from).
 
     DeCA states a factor per calendar month, which is the finest level it has and the one
-    used directly. Where there is no DeCA book, which is the nine Afghan and Pakistani
-    zones, the level falls back to the 2020 profile's own seasonal mean, spread over the
-    months of that season. That is the order of preference the rest of the build follows:
-    DeCA where it speaks, 2020 where it does not.
+    used directly. Where there is no DeCA book, which is the Afghan and Pakistani zones,
+    the level falls back to the 2020 profile's own seasonal mean, spread over the months
+    of that season. That is the order of preference the rest of the build follows: DeCA
+    where it speaks, 2020 where it does not.
+
+    AND THEN THERE IS THE ATLAS, which outranks the 2020 fallback and nothing else. A
+    zone whose mapping row carries level_source = atlas_p90 keeps the shape it was just
+    given and has its height set by the Global Wind Atlas instead. It is turned on for
+    the eight book-less wind zones and no others, because 2020 gives all eight the same
+    0.333 -- one placeholder repeated, which the atlas contradicts in both directions:
+    Herat's Wind of 120 Days is understated by two thirds, and the Tajik lowland of
+    northern Afghanistan is overstated by half the other way. It is deliberately NOT
+    turned on where DeCA has spoken. DeCA is the client's own consultant reading metered
+    plant, the atlas is a model of the terrain, and where the two are close -- and they
+    are, within a few points, in six of the seven -- there is no case for overruling the
+    measurement with the model.
     """
     shape = vre.legacy_profile(reference)
     belongs = month_of_season(quarters)
@@ -93,16 +124,24 @@ def stated_levels(reference, plan, quarters, inherits):
                 raise SystemExit(
                     "no DeCA row matches {0} for {1} {2}".format(match, z, tech))
             monthly = [sum(v[m] for _, v in picked) / len(picked) for m in range(12)]
-            levels[(z, tech)] = (monthly, "deca")
-            continue
-        monthly = []
-        for month in range(1, 13):
-            day = shape.get((z, tech, inherits[belongs[month]]))
-            if day is None:
-                raise SystemExit("no 2020 shape for {0} {1} in month {2}".format(
-                    z, tech, month))
-            monthly.append(sum(day) / float(HOURS_PER_DAY))
-        levels[(z, tech)] = (monthly, "casa_2020")
+            origin = "deca"
+        else:
+            monthly = []
+            for month in range(1, 13):
+                day = shape.get((z, tech, inherits[belongs[month]]))
+                if day is None:
+                    raise SystemExit("no 2020 shape for {0} {1} in month {2}".format(
+                        z, tech, month))
+                monthly.append(sum(day) / float(HOURS_PER_DAY))
+            origin = "casa_2020"
+
+        override = (line.get("level_source") or "").strip().lower()
+        if override:
+            by_month, origin = vre.onto_atlas(
+                dict(enumerate(monthly)), dict(enumerate(vre.MONTH_LENGTH)),
+                atlas, z, override)
+            monthly = [by_month[m] for m in range(12)]
+        levels[(z, tech)] = (monthly, origin)
     return levels
 
 
@@ -158,6 +197,10 @@ def main():
     parser.add_argument("--reference",
                         default=os.path.join("epm", "input", "data_casa_2020"))
     parser.add_argument("--staging", default=STAGING)
+    parser.add_argument("--atlas", default=ATLAS,
+                        help="the per-zone Global Wind Atlas sample")
+    parser.add_argument("--atlas-class", default=ATLAS_CLASS,
+                        help="turbine class the atlas levels are read at")
     args = parser.parse_args()
     reference = os.path.join(REPO, args.reference)
 
@@ -165,7 +208,8 @@ def main():
     quarters = vre.seasons(mapping)
     inherits = vre.legacy_of(mapping)
     plan = vre.dicts(os.path.join(HERE, "mappings", "vre_profiles.csv"))
-    levels = stated_levels(reference, plan, quarters, inherits)
+    levels = stated_levels(reference, plan, quarters, inherits,
+                           vre.atlas_levels(args.atlas, args.atlas_class))
 
     report = []
     for tech in sorted({line["tech"].strip() for line in plan}):

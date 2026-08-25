@@ -47,6 +47,16 @@ Reads:
 
 Writes:
     extracted/wind_atlas.csv              the distribution per zone and IEC class
+    extracted/wind_sites.csv              where in each zone the wind actually is
+
+WHY IT WRITES A POINT AS WELL AS A TABLE. Sampling the atlas at the exact coordinate each
+Renewables.ninja series was fetched from showed the two sources agreeing, r = 0.90: the
+reanalysis was never wrong about the mountains, it was asked about a valley floor, because
+the fetch points are polygon centroids. So the atlas is also asked WHERE, and it answers
+with the centre of the best ten-kilometre square of each zone -- a square and not a pixel,
+because a single 250 m cell on a knife-edge ridge carries no road and no room for a second
+turbine. Solar keeps the centroid; irradiance varies little across a zone and wind does
+not, which is the whole reason this file exists.
 
 THE COUNTRY CODE COMES FROM THE GEOMETRY, not from a table written down here: every
 feature of zones.geojson already carries ISO_A3, so a zone that changes country, or a
@@ -61,6 +71,7 @@ Usage
     python build_wind_atlas.py                    # about 350 MB per IEC class, once
     python build_wind_atlas.py --classes IEC3     # one class only
     python build_wind_atlas.py --losses 0.80      # a harsher net-of-gross assumption
+    python build_wind_atlas.py --site-window-km 25 # a coarser idea of a site
 """
 from pathlib import Path
 import argparse
@@ -74,6 +85,7 @@ import numpy as np
 import rasterio
 import rasterio.mask
 import requests
+from scipy.ndimage import uniform_filter
 from shapely.geometry import shape
 
 HERE = Path(__file__).resolve().parent
@@ -101,6 +113,14 @@ NET_OF_GROSS = 0.85
 KM_PER_DEGREE = 111.32
 
 PERCENTILES = (50, 75, 90, 95, 99)
+
+# The side of the square the best site is judged over. A wind farm is not a pixel: a
+# single 250 m cell on a knife-edge ridge can read 0.7 and carry no road, no grid and no
+# room for a second turbine. Averaging over ten kilometres asks instead which ten by ten
+# block of the zone is best, which is a question a developer would recognise. It does not
+# screen slope, altitude, protected land or access, and nothing here does.
+SITE_WINDOW_KM = 10.0
+SITES = HERE / "extracted" / "wind_sites.csv"
 
 
 def zone_polygons(path):
@@ -187,7 +207,75 @@ def zone_distribution(path, geometry):
         weights=weights,
         area_km2=float(weights.sum()) * cell,
         cell_km2=cell,
+        block=block,
+        transform=transform,
     )
+
+
+def best_site(spread, losses, window_km):
+    """The centre of the best window_km square of the zone, and what it reads.
+
+    The capacity factor field is averaged over a moving square and the maximum of THAT is
+    taken, so what wins is a broad windy area rather than the sharpest point in the zone.
+    Cells outside the polygon count as missing rather than as zero: a coastal site would
+    otherwise be beaten by an inland one purely for being surrounded by land.
+    """
+    block = spread["block"] * losses
+    transform = spread["transform"]
+
+    rows = np.arange(block.shape[0])
+    latitudes = transform.f + (rows + 0.5) * transform.e
+    middle = float(np.radians(latitudes.mean()))
+    height = max(1, int(round(window_km / (abs(transform.e) * KM_PER_DEGREE))))
+    width = max(1, int(round(
+        window_km / (abs(transform.a) * KM_PER_DEGREE * math.cos(middle)))))
+
+    valid = np.isfinite(block)
+    filled = np.where(valid, block, 0.0).astype("float64")
+    covered = uniform_filter(valid.astype("float64"), size=(height, width),
+                             mode="constant", cval=0.0)
+    averaged = uniform_filter(filled, size=(height, width), mode="constant", cval=0.0)
+
+    # A window has to be mostly inside the zone before its average means anything, AND
+    # its centre has to be inside the zone at all. Without the second test the best
+    # window can be centred on a cell just over the border -- NEPS_UZB and NEPS_TKM both
+    # picked the same point on the line between them -- and the fetch would then be asked
+    # about a place the zone does not own.
+    enough = (covered >= 0.5) & valid
+    if not enough.any():
+        enough = valid
+    smoothed = np.where(enough, averaged / np.maximum(covered, 1e-9), -np.inf)
+
+    row, column = np.unravel_index(int(np.argmax(smoothed)), smoothed.shape)
+    return dict(
+        lat=float(transform.f + (row + 0.5) * transform.e),
+        lon=float(transform.c + (column + 0.5) * transform.a),
+        cf_window=float(smoothed[row, column]),
+        cf_pixel=float(block[row, column]) if valid[row, column] else float("nan"),
+        window_km=window_km,
+    )
+
+
+def existing_points(path):
+    """zone -> (lat, lon, method), the points the fetch has been using so far."""
+    out = {}
+    if not path.exists():
+        return out
+    with io.open(str(path), encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            try:
+                out[row["z"]] = (float(row["lat"]), float(row["lon"]),
+                                 row.get("method", ""))
+            except (KeyError, ValueError):
+                continue
+    return out
+
+
+def separation_km(first, second):
+    """Great-circle-ish distance, good to a per cent over these ranges."""
+    (lat1, lon1), (lat2, lon2) = first, second
+    mean = math.radians((lat1 + lat2) / 2.0)
+    return math.hypot(lat2 - lat1, (lon2 - lon1) * math.cos(mean)) * KM_PER_DEGREE
 
 
 def stated_levels(path):
@@ -214,6 +302,10 @@ def main():
     parser.add_argument("--losses", type=float, default=NET_OF_GROSS,
                         help="net capacity factor as a fraction of the atlas gross figure")
     parser.add_argument("--tech", default="WT", help="the model's label for wind")
+    parser.add_argument("--site-window-km", type=float, default=SITE_WINDOW_KM,
+                        help="side of the square the best site is judged over")
+    parser.add_argument("--site-class", default="IEC3",
+                        help="the IEC class the site search is run on")
     args = parser.parse_args()
 
     zones = zone_polygons(args.zones)
@@ -223,7 +315,7 @@ def main():
 
     known = stated_levels(HERE / "extracted" / "vre_hourly_report.csv")
 
-    rows = []
+    rows, sites = [], []
     for klass in args.classes:
         print("[{0}]".format(klass))
         for zone, iso, geometry in zones:
@@ -248,6 +340,11 @@ def main():
             record.update(cf_stated=stated, cf_rninja=ninja, level_from=origin)
             rows.append(record)
 
+            if klass == args.site_class:
+                site = best_site(spread, args.losses, args.site_window_km)
+                site.update(z=zone, iso=iso, iec=klass, p95=record["p95"])
+                sites.append(site)
+
     if not rows:
         raise SystemExit("nothing sampled")
 
@@ -262,7 +359,61 @@ def main():
         writer.writerows(rows)
     print("\nwrote {0} ({1} rows)".format(TARGET, len(rows)))
 
+    if sites:
+        write_sites(sites, existing_points(HERE / "extracted" / "zone_points.csv"), args)
+
     report(rows, args)
+
+
+def write_sites(sites, points, args):
+    """Record where the wind is, so the hourly fetch can be asked about that place.
+
+    This does not overwrite extracted/zone_points.csv. That file is the zone general
+    purpose point and solar is content with it -- irradiance varies little across a zone
+    and its centroid is as good a place as any. Wind is not like that, so it gets its own
+    file and the fetch driver reads this one for wind alone.
+
+    A point already carried by an override wins: a real plant coordinate beats an atlas
+    guess, and the override file exists precisely for the day a plant list with latitudes
+    arrives.
+    """
+    rows = []
+    for site in sorted(sites, key=lambda s: s["z"]):
+        zone = site["z"]
+        previous = points.get(zone)
+        overridden = bool(previous) and "override" in (previous[2] or "").lower()
+        lat, lon = (previous[0], previous[1]) if overridden else (site["lat"], site["lon"])
+        moved = separation_km((previous[0], previous[1]), (lat, lon)) if previous else ""
+        rows.append(dict(
+            z=zone, c=site["iso"], lat=round(lat, 4), lon=round(lon, 4),
+            method="override" if overridden else "atlas best {0:.0f} km window".format(
+                args.site_window_km),
+            iec=site["iec"],
+            cf_window=round(site["cf_window"], 4),
+            cf_pixel=round(site["cf_pixel"], 4),
+            cf_zone_p95=site["p95"],
+            km_from_zone_point=round(moved, 1) if moved != "" else "",
+            note=("kept from mappings/zone_points_override.csv" if overridden else
+                  "centre of the best {0:.0f} km square of the zone on {1}, net of "
+                  "{2:.0f}% losses. Not screened for slope, altitude, protected land "
+                  "or grid access.".format(args.site_window_km, site["iec"],
+                                           (1 - args.losses) * 100))))
+    header = ["z", "c", "lat", "lon", "method", "iec", "cf_window", "cf_pixel",
+              "cf_zone_p95", "km_from_zone_point", "note"]
+    with io.open(str(SITES), "w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=header, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+    print("wrote {0} ({1} rows)".format(SITES, len(rows)))
+
+    print("\nWHERE THE WIND IS, against where the hourly series were fetched from")
+    print("{0:<12}{1:>10}{2:>10}{3:>10}{4:>10}   {5}".format(
+        "zone", "lat", "lon", "cf here", "P95", "moved"))
+    print("-" * 68)
+    for row in rows:
+        print("{0:<12}{1:>10.4f}{2:>10.4f}{3:>10.3f}{4:>10}   {5} km".format(
+            row["z"], row["lat"], row["lon"], row["cf_window"], row["cf_zone_p95"],
+            row["km_from_zone_point"]))
 
 
 def report(rows, args):

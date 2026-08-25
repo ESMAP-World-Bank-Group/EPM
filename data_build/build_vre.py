@@ -102,6 +102,78 @@ HOURLY = os.path.join(REPO, "pre-analysis", "representative_days", "input")
 # because three unusually windy days are no more a season than three unusually calm ones.
 SEASON_STRETCH = 1.5
 
+# Where the atlas levels are read from, and at which turbine class. Class 3 is the
+# low-wind machine -- the large rotor per kilowatt these sites are actually built with,
+# and the class that reads highest. Choosing 1 or 2 instead moves a zone's percentile by
+# 0.05-0.09, an order of magnitude below the disagreement the atlas was brought in to
+# settle, so the choice is stated once here rather than argued per zone.
+ATLAS = os.path.join(HERE, "extracted", "wind_atlas.csv")
+ATLAS_CLASS = "IEC3"
+
+
+def atlas_levels(path, klass):
+    """(zone, percentile) -> capacity factor, from the Global Wind Atlas sample.
+
+    The percentile is a percentile OF THE ZONE'S LAND, area-weighted: p90 is the factor
+    the best tenth of the zone reaches. That is the statistic a capacity expansion model
+    wants, because it will build on the good ground first and it is the good ground it
+    has to be told about. A zone mean would answer a different question -- what a turbine
+    dropped at random would make -- and would understate every mountain zone.
+    """
+    if not os.path.exists(path):
+        raise SystemExit(
+            "no atlas sample at {0}. Run build_wind_atlas.py first; it is what turns the "
+            "Global Wind Atlas rasters into the per-zone table this reads.".format(path))
+    out = {}
+    with io.open(path, encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if row["iec"].strip() != klass:
+                continue
+            for name, value in row.items():
+                if name.startswith("p") and name[1:].isdigit() and value.strip():
+                    out[(row["z"].strip(), name)] = float(value)
+    if not out:
+        raise SystemExit("{0} carries no {1} rows".format(path, klass))
+    return out
+
+
+def onto_atlas(levels, weights, atlas, zone, spec):
+    """The same profile, scaled so its weighted mean is what the atlas says.
+
+    THE ATLAS GIVES A LEVEL AND NOTHING ELSE. It is a long-run mean per pixel with no
+    calendar in it, so it cannot say whether a zone's wind blows in March or in August.
+    The shape therefore stays exactly as it came -- the 2020 profile's, or DeCA's where a
+    book exists -- and only its height moves. Multiplying every period by one number is
+    precisely the operation that changes the level and leaves the shape.
+
+    It is deliberately written over whatever keys the caller uses: build_vre_hourly.py
+    hands it twelve months and this file hands it five seasons, and the two mean the same
+    thing once each period is weighted by how many days it holds.
+    """
+    percentile = spec.split("_", 1)[1] if "_" in spec else ""
+    if not (percentile[:1] == "p" and percentile[1:].isdigit()):
+        raise SystemExit(
+            "level_source '{0}' for {1} is not understood. Write atlas_p90, atlas_p95 or "
+            "any percentile the atlas table carries a column for.".format(spec, zone))
+    target = atlas.get((zone, percentile))
+    if target is None:
+        raise SystemExit(
+            "the atlas has no {0} for {1}. Either the zone is missing from {2} or that "
+            "percentile was not sampled.".format(percentile, zone, ATLAS))
+    span = float(sum(weights[k] for k in levels))
+    current = sum(levels[k] * weights[k] for k in levels) / span
+    if not current:
+        raise SystemExit("the base shape for {0} is flat zero; nothing to scale".format(zone))
+    scale = target / current
+    return dict((k, v * scale) for k, v in levels.items()), "atlas_{0}".format(percentile)
+
+
+def season_days(quarters):
+    """season -> how many days of the year it holds."""
+    return dict((season, sum(MONTH_LENGTH[m - 1] for m in months))
+                for season, months in quarters.items())
+
+
 
 def read_csv(path):
     with io.open(path, encoding="utf-8-sig", newline="") as fh:
@@ -339,6 +411,10 @@ def real_days(zone, hourly, dates, days, weights, factors):
 def main():
     ap = argparse.ArgumentParser(description="Build the solar and wind profiles.")
     ap.add_argument("--reference", default=os.path.join("epm", "input", "data_casa_2020"))
+    ap.add_argument("--atlas", default=ATLAS,
+                    help="the per-zone Global Wind Atlas sample")
+    ap.add_argument("--atlas-class", default=ATLAS_CLASS,
+                    help="turbine class the atlas levels are read at")
     ap.add_argument("--hourly", default=HOURLY,
                     help="where build_vre_hourly.py left the rescaled year")
     args = ap.parse_args()
@@ -366,6 +442,8 @@ def main():
             print("  every {0} zone falls back to the 2020 block shape. Run "
                   "build_vre_hourly.py".format(tech))
 
+    atlas = atlas_levels(args.atlas, args.atlas_class)
+    lengths = season_days(quarters)
     books, out, report, claimed = {}, [], [], {}
     for line in plan:
         z, tech = line["z"].strip(), line["tech"].strip()
@@ -398,6 +476,15 @@ def main():
             else:
                 factors[season] = means[season]
 
+        # THE ATLAS OUTRANKS THE 2020 FALLBACK AND NOTHING ELSE. Without this the level
+        # build_vre_hourly.py just put on the hourly year would be squashed straight back
+        # onto 2020's seasonal factor here, and the zones the atlas exists to correct
+        # would reach pVREProfile at the very placeholder they were corrected away from.
+        origin = "deca" if picked else "casa_2020"
+        override = (line.get("level_source") or "").strip().lower()
+        if override:
+            factors, origin = onto_atlas(factors, lengths, atlas, z, override)
+
         built = real_days(z, hourly[tech], dates, days, weights, factors)
         for season in quarters:
             if season in built:
@@ -409,7 +496,7 @@ def main():
             for d in days[season]:
                 out.append([z, tech, season, d]
                            + ["{0:.6g}".format(v) for v in day_of[d]])
-            report.append([z, tech, season, "deca" if picked else "casa_2020",
+            report.append([z, tech, season, origin,
                            "rninja hourly" if season in built else "casa_2020 blocks",
                            len(picked), "{0:.4f}".format(means[season]),
                            "{0:.4f}".format(factors[season]),

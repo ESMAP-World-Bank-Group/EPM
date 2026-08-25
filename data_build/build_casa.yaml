@@ -180,27 +180,41 @@ sources:
       MERRA-2 at half a degree cannot resolve a Pamir valley at all. USE THE SHAPE,
       KEEP DECA'S LEVEL. THE COORDINATES ARE POLYGON POINTS, one per zone, from
       data_build/build_vre_coords.py, because no plant in the fleet carries a
-      latitude anywhere. Global Wind Atlas at one kilometre is the source that would
-      settle the wind level properly.
+      latitude anywhere, AND THE CENTROID IS NO LONGER THE WIND POINT: see below.
       NOW IN THE MODEL, on exactly those terms, through two steps.
       data_build/build_vre_hourly.py multiplies each zone, technology and month onto
       its stated DeCA factor and writes PV_casa.csv and WT_casa.csv beside the
-      untouched _rninja files it read; 22 of the 32 series land exactly, and the ten
+      untouched _rninja files it read; 25 of the 32 series land exactly, and the seven
       that do not are all wind in mountain zones, where the gap is not a loss to be
-      scaled away but a disagreement about whether the resource exists at all -- TAJ_S
-      would need a factor of 23.6. Those ten keep the 2020 construction.
+      scaled away but a disagreement about whether the resource exists at all. Those
+      seven keep the 2020 construction.
       build_vre.py then reads each representative block off the CALENDAR DAY that block
       stands for, taken from extracted/demand_report.csv, so the winter peak block is
-      the weather of 12 December and not a seasonal average. 101 of the 160 zone-seasons
-      now carry real days; the annual capacity factor of every zone is unchanged to four
-      decimals, because only the shape moved.
+      the weather of 12 December and not a seasonal average. 111 of the 160 zone-seasons
+      now carry real days.
       AND THE WIND LEVEL WAS NOT ITS FAULT. Sampled against the Global Wind Atlas AT THE
       VERY POINT EACH SERIES WAS FETCHED FROM, these numbers agree: r = 0.90 across the
       fourteen zones where MERRA-2 is not smearing a corridor across its cell. The atlas
       reads 0.010 at the point TAJ_S was fetched from and Renewables.ninja read 0.016.
       The mountain zones are not a modelling failure, they are dead ground correctly
-      reported, and the fault is the CENTROID: build_vre_coords.py put the point at the
+      reported, and the fault was the CENTROID: build_vre_coords.py put the point at the
       geometric middle of the zone, which in a mountain country is a valley floor.
+      SO THE WIND WAS REFETCHED SOMEWHERE ELSE. build_wind_atlas.py writes the best ten
+      kilometre square of each zone to extracted/wind_sites.csv and
+      pipelines/run_casa_vre_fetch.py now fetches WIND from those points and SOLAR from
+      the centroids, which is the whole of the difference: solar is near uniform over a
+      zone and its sixteen series always rescaled cleanly, wind is not and did not. The
+      new points are 29 to 936 km from the old ones and the timezone each series is
+      relabelled into follows the point it was fetched from, not the zone's centroid.
+      WHAT THE MOVE BOUGHT, AND WHAT IT DID NOT. Four zones came into reach that were
+      out of it -- TAJ_N 0.106 to 0.342, NEPS_UZB 0.161 to 0.366, PAK_S 0.244 to 0.505,
+      NEPS_TKM 0.292 to 0.367 -- and one went the other way: KAZ_S fell from 0.513 to
+      0.273 because its best ground is the Dzungarian Gate, a ten kilometre gap in the
+      mountains that a half degree cell smears into the plateau around it. Six others
+      barely moved. The lesson is that a reanalysis can be pointed at better ground only
+      where its own grid can represent that ground; on a Hindu Kush or Pamir ridge it
+      reads LOWER at the good point than at the valley, PAK_N falling from 0.156 to
+      0.015, which is the grid failing and not the wind.
 
   global_wind_atlas:
     name: Global Wind Atlas 3.3 (DTU Wind Energy / World Bank / ESMAP)
@@ -236,6 +250,24 @@ sources:
       Independent corroboration that the atlas is pointing somewhere real: its best ground
       in Turkmenistan is the Balkan Caspian coast, where Serdar sits, and in Uzbekistan
       Karakalpakstan near Nukus, where the 2 x 500 MW is being built.
+      AND IT IS NOW A LEVEL IN THE MODEL, not only a diagnosis. The eight wind zones
+      with no DeCA book -- the Afghan and Pakistani ones -- carried the same 0.333 in the
+      2020 model, which is one placeholder repeated eight times rather than eight
+      readings. They now carry level_source = atlas_p90 in mappings/vre_profiles.csv and
+      take their annual level from the atlas: the capacity factor of the best TENTH of
+      the zone's own land, area weighted, net of the 0.85 factor. That is the statistic a
+      capacity expansion model wants, because it builds on the good ground first. The
+      spread that replaces the flat 0.333 runs from 0.176 at NEPS_TAJ to 0.560 at
+      NEPS_HERAT, and the 2020 month-to-month shape is kept underneath it because the
+      atlas has no calendar to offer. The seven zones WITH a DeCA book are deliberately
+      left alone: DeCA is the client's consultant reading metered plant and the atlas is
+      a model of terrain, and where the two agree within a few points there is no case
+      for overruling the measurement with the model.
+      WHAT P90 DOES NOT SCREEN FOR. The best tenth of a mountain zone includes ridges
+      with no road, no grid and no slope or protected-area exclusion applied. The ten
+      kilometre averaging window mitigates this and does not remove it. The plains zones
+      -- KAZ, TUR, UZB, PAK_S -- are unaffected; KGZ_S and TAJ_S sites are in the
+      Pamir-Alay and any methodology note has to say so.
       Cached outside the repo in pre-analysis/pipelines/output/gwa_casa, about 350 MB per
       IEC class.
 
@@ -314,7 +346,7 @@ leads:
   - [Afghanistan, "DABS, NSIA, UN Energy Statistics", "unstats.un.org/unsd/energystats", "TESTED - NOTHING", "No regular statistical publication since 2021. Scattered elements: ~670 MW imported for ~280 M USD/yr according to DABS, imports of 4.6 to 5.2 TWh over 2017-2022 according to the UN, private sector overview of November 2025.", "Enough to recalibrate the LEVEL of Afghan imports, not to rebuild a zonal demand. The five NEPS zones stay as they came from the 2020 model, low confidence assumed."]
   - [Regional, "Ember - Monthly and Yearly Electricity Data", "ember-energy.org/data/monthly-electricity-data", "TESTED - AVAILABLE", "Generation by technology, demand, capacity and emissions MONTHLY for 85 geographies including our seven countries, up to April 2026. Free download.", "Four years of actuals that DeCA does not have: the history of the books stops in 2022. Base year calibration and the only homogeneous dataset over the seven countries."]
   - [Regional, "Global Energy Monitor - Global Integrated Power Tracker", "globalenergymonitor.org/projects/global-integrated-power-tracker/download-data", "TESTED - AVAILABLE", "Global fleet unit by unit, geolocated, with status and dates. AN AUGUST 2026 RELEASE IS OUT; we hold the September 2025 one.", "Immediate refresh of the fleet, and the only coverage of AFG and PAK alongside IGCEP. Tajikistan is under-represented there: complete with DeCA."]
-  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - IN USE", "Hourly solar and wind profiles simulated anywhere on the globe. FETCHED for 2022, sixteen zones, both technologies, 8760 h each, relabelled to zone local time. Held outside the repo in pre-analysis/representative_days/input, as _rninja files at their own level and plain ones rescaled to DeCA.", "Now the shape of 101 of the 160 zone-seasons of pVREProfile, read off the calendar day each block stands for, with the DeCA level kept. The ten wind series it could not be rescaled into keep the 2020 construction. GLOBAL WIND ATLAS NOW TESTED AND SAMPLED, 250 m, all sixteen zones and three IEC classes, by data_build/build_wind_atlas.py -> extracted/wind_atlas.csv: it corroborates the DeCA wind level at the best ground of fourteen zones, contradicts it in NEPS_TAJ and PAK_N, and shows the Renewables.ninja fetch points are sitting on valley floors 28 to 498 km from the wind."]
+  - [Regional, "Renewables.ninja, Global Wind Atlas, atlite/ERA5", "renewables.ninja, globalwindatlas.info", "TESTED - IN USE", "Hourly solar and wind profiles simulated anywhere on the globe. FETCHED for 2022, sixteen zones, both technologies, 8760 h each, relabelled to zone local time. Solar is fetched at the zone centroid and WIND AT THE BEST TEN KILOMETRE SQUARE THE ATLAS FOUND IN THAT ZONE, 29 to 936 km away. Held outside the repo in pre-analysis/representative_days/input, as _rninja files at their own level and plain ones rescaled to DeCA.", "Now the shape of 111 of the 160 zone-seasons of pVREProfile, read off the calendar day each block stands for. The seven wind series it could not be rescaled into keep the 2020 construction. GLOBAL WIND ATLAS NOW TESTED AND SAMPLED, 250 m, all sixteen zones and three IEC classes, by data_build/build_wind_atlas.py -> extracted/wind_atlas.csv: it corroborates the DeCA wind level at the best ground of fourteen zones and NOW SETS THE LEVEL OUTRIGHT in the eight zones with no DeCA book, where the 2020 model repeated one placeholder of 0.333 eight times."]
   - [Regional, "gridfinder, OpenStreetMap power, energydata.info", "energydata.info, gridfinder.rdrn.me", "TESTED - PARTIAL", "Global map of lines predicted from night lights and OSM (grid.gpkg, targets.tif), announced accuracy ~70 % at 1 km.", "TOPOLOGY check only: confirm that a corridor exists and where it runs. GIVES NO NTC, transfer capacities still have to be requested from the operators."]
   - [Regional, "IEA country profiles, UN Comtrade, OWID", "iea.org/countries, comtradeplus.un.org", "TESTED - PARTIAL", "National energy balances as free PDFs, electricity flows declared at customs by country pair, long consumption series.", "Cross-check of historical exchanges. Comtrade is of uneven quality in Central Asia: not to be used alone."]
   - [Regional, "CASA-1000 - project documents", "-", "NOT TESTED", "Schedule, contractual quantities, export seasonality.", "Indispensable to correct pTransferLimit and pContractedTrade."]
@@ -1338,33 +1370,46 @@ resources:
       July-September the 2020 peak block, a 130 h winter artefact, and produced a
       capacity factor of 1.24; the column that says which season feeds which lives in
       mappings/seasons_months.csv.
+      AND A THIRD SOURCE FOR THE LEVEL WHERE DECA IS SILENT. A mapping row may carry
+      level_source = atlas_p90, and eight do: the Afghan and Pakistani wind zones, which
+      have no DeCA book and which the 2020 model gave the same 0.333 apiece. Those take
+      their annual level from extracted/wind_atlas.csv and keep the 2020 seasonal shape.
+      The override is applied in build_vre.py, which both builders share, because
+      applying it in build_vre_hourly.py alone would lift the hourly year onto the atlas
+      and let build_vre.py squash the representative days straight back onto the 2020
+      seasonal factor -- which is exactly what happened the first time, and cost
+      NEPS_HERAT four of its five seasons. The order of preference is therefore DeCA,
+      then the atlas, then 2020.
       TWO TRAPS THE MAPPING STEPS AROUND. The Tajik book labels its own regions with a
       KZ prefix, Khatlon and Sougd and Gorno-Badakhshan all reading "KZ ...", so the
       selection keys on the workbook and not on the name. And one Kazakh SOLAR plant is
       named Arm Wind: the exclude column of the mapping settles it on the _SP suffix,
       and the builder refuses outright any row two technologies claim at once.
     todo: >
-      FIFTY-NINE ZONE-SEASONS STILL CARRY THREE IDENTICAL DAYS, and 56 of them are wind.
-      Fifty are a whole year at a time: every season of KGZ_N, KGZ_S, NEPS_AFG, NEPS_TAJ,
-      NEPS_TKM, NEPS_UZB, PAK_N, PAK_S, TAJ_N and TAJ_S wind, where the fetched resource
-      is too far from the stated level to be rescaled into it. There is no calm day in those zones, only an average one.
-      THE ATLAS HAS NOW ANSWERED, and it clears both sources and convicts the coordinate.
-      data_build/build_wind_atlas.py samples all sixteen zone polygons against the Global
-      Wind Atlas at 250 m. Read at the exact point each Renewables.ninja series was
-      fetched from, the atlas agrees with it, r = 0.90: 0.010 against 0.016 at TAJ_S,
-      0.048 against 0.106 at TAJ_N. The reanalysis was never wrong about the mountains,
-      it was asked about a valley floor, because build_vre_coords.py sets the point at the
-      geometric centre of the zone. Read instead over the whole polygon, the atlas puts
-      the DeCA level within reach of the best ground of fourteen zones -- TAJ_S P95 0.393
-      against a stated 0.373 -- and out of reach in exactly two, NEPS_TAJ at 0.215 and
-      PAK_N at 0.241, both of which the build currently states at 0.333. It also says
-      casa_2020 understates NEPS_HERAT twofold, P95 0.596 in the Wind of 120 Days corridor.
-      SO THE REPAIR IS THE POINT, NOT THE MULTIPLIER. The best ground of each zone lies 28
-      to 498 km from where its series was fetched, further than a MERRA-2 cell is wide, so
-      refetching there samples different weather and not merely a rescaled copy of the
-      same. Until that is done the flat value stands in those ten zones, and stretching it
-      onto them by raising the twofold bound would buy the right annual mean at the price
-      of a fabricated shape -- the hour-to-hour pattern of a dead valley, multiplied.
+      FORTY-NINE ZONE-SEASONS STILL CARRY THREE IDENTICAL DAYS, and 46 of them are wind.
+      Thirty-five are a whole year at a time: every season of KAZ_S, KGZ_N, KGZ_S,
+      NEPS_AFG, NEPS_TAJ, PAK_N and TAJ_S wind, where the fetched resource is still too
+      far from the stated level to be rescaled into it. There is no calm day in those
+      zones, only an average one. It was 59 before the wind points were moved.
+      THE LEVEL OF THOSE SEVEN IS NOW RIGHT EVEN WHERE THE SHAPE IS NOT, which is the
+      part worth saying plainly: NEPS_TAJ and PAK_N carry the atlas level on the 2020
+      flat day rather than an unreachable 0.333 on it, so the energy they contribute is
+      defensible and only its hour-to-hour distribution is not.
+      WHAT WOULD FIX THE REMAINING SEVEN, and it is not another multiplier. Renewables.ninja
+      runs on MERRA-2 at half a degree, and on a Pamir or Hindu Kush ridge that grid does
+      not represent the site at any coordinate you give it -- asked about the atlas's best
+      ground in PAK_N it returns 0.015, LOWER than at the valley centroid it was asked
+      about before. A reanalysis with real orography is the answer: ERA5-Land at 9 km
+      through atlite, or a mesoscale run. Raising the twofold bound instead would buy the
+      right annual mean at the price of a fabricated shape -- the hour-to-hour pattern of
+      a dead valley, multiplied.
+      ONE ZONE REGRESSED AND IT IS A JUDGEMENT CALL. KAZ_S passed on its centroid and
+      fails on its atlas site, because the Dzungarian Gate is a ten kilometre gap that a
+      half degree cell cannot hold. Keeping KAZ_S on its centroid is expressible in data
+      -- the override column of extracted/zone_points.csv already outranks the atlas site
+      -- and has not been done, because choosing per zone whichever point happens to pass
+      is selection on the outcome and needs to be a decision taken openly rather than a
+      rule the builder applies quietly.
       AND THE DAYS ARE STILL CHOSEN ON THE LOAD ALONE. build_demand.py picked the peak
       day and the median days without looking at the weather, so a still evening of high
       demand is in the set only by luck, and the seasonal multiplier that repairs the
