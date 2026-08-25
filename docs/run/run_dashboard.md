@@ -45,7 +45,15 @@ Upload or select your input folder from the left panel. The dashboard validates 
 
 Set key parameters directly from the interface: model type (MIP / RMIP), number of scenarios, CPU cores. The **Run Config** tab assembles them into the matching `python epm.py` command, which you then **copy and run in a terminal** — see [Run from Python](run_python.md).
 
-![Dashboard run configuration](../images/dashboard/dashboard_run_config.png)
+The **Generated Command** panel gives you the line to paste into your terminal:
+
+```sh
+python epm.py --folder_input data_test --scenarios scenarios.csv
+```
+
+!!! note
+    The tab ends with a **Launch Run** button. It is not operational — copy the command above
+    and run it yourself.
 
 ### 3. Explore results
 

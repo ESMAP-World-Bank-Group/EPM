@@ -32,3 +32,16 @@ Concretely, EPM handles:
 ## History & versions
 
 EPM was first deployed in 2016 and has evolved through several versions. Previous versions are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
+
+### Which version are you on?
+
+| | **EPM 9** — CSV + Python *(current)* | **EPM v8.5** — Excel *(legacy)* |
+|---|---|---|
+| Inputs | CSV files, tracked in git | One `.xlsb` workbook |
+| Run from | `python epm.py` | GAMS Studio |
+| Features | Full set — scenarios, parallel runs, sensitivity & Monte-Carlo, H2, automated postprocessing | Frozen |
+| Skills | Python and GAMS knowledge **helps** and unlocks customization, but is not required for a standard run | Excel only |
+| Status | Beta — actively developed | Archived, unsupported |
+| Where | This documentation | [Legacy version](legacy_v8_5.md) |
+
+Porting an existing workbook to the current version: [From Excel to CSV](../input/input_from_excel_to_csv.md).

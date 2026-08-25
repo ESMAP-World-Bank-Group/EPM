@@ -2,6 +2,8 @@
 
 Older models used Excel files for inputs, but the current version of EPM requires CSV-formatted inputs. You will need to convert your existing Excel data accordingly.
 
+For what the Excel generation was and how to obtain it, see [Legacy version — EPM v8.5](../introduction/legacy_v8_5.md).
+
 ## Best practice
 
 Start from an existing csv folder:

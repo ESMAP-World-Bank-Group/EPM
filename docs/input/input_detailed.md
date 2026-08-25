@@ -2,6 +2,8 @@
 
 Complete documentation for all EPM input files. For how the inputs fit together, see [Setup](input_setup.md). For typical parameter values, see [Typical Values](input_parameter_guide.md).
 
+--8<-- "beta_schema.md"
+
 ---
 
 ## Quick Reference

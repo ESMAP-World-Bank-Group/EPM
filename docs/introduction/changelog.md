@@ -2,6 +2,13 @@
 
 The full changelog is maintained in [CHANGELOG.md](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/CHANGELOG.md) on GitHub.
 
+!!! info "What \"beta\" means here"
+    The optimization core is mature and used in live World Bank studies. What is **not
+    frozen** is the input/output schema — file names, folder layout, parameter names — and
+    the [Dashboard](../run/run_dashboard.md), which cannot launch a run yet.
+
+    Breaking changes are listed below. Pin an EPM version for the duration of a study.
+
 ---
 
 ## [9.0.1-beta] - 2026-05-27
@@ -46,4 +53,5 @@ Initial public release on GitHub.
 ---
 
 > EPM versions prior to 9.0-beta were internal World Bank tools not tracked on GitHub.  
+> The last of them, the Excel-driven **v8.5**, is described in [Legacy version](legacy_v8_5.md).  
 > Archived releases are available on [Zenodo](https://doi.org/10.5281/zenodo.15591290).

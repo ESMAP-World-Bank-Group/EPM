@@ -9,10 +9,12 @@ edit_uri: edit/main/docs/
 docs_dir: docs
 exclude_docs: |
   _build/
+  _snippets/
   data/~$*
 
 theme:
   name: material
+  custom_dir: overrides
   logo: images/esmap_white.png
   favicon: images/favicon.webp
   language: en
@@ -43,6 +45,7 @@ nav:
     - EPM in Practice: introduction/introduction_case_studies.md
     - How EPM Works: introduction/introduction_workflow.md
     - Versions & Changelog: introduction/changelog.md
+    - Legacy version (v8.5, Excel): introduction/legacy_v8_5.md
   - Installation & Run:
     - Prerequisites: run/run_prerequisites.md
     - Installation: run/run_installation.md
@@ -71,6 +74,7 @@ nav:
     - Technologies: input/input_technology_brief.md
     - Fuels: input/input_fuel_brief.md
     - Input Treatment: input/input_treatment.md
+    - From Excel to CSV (v8.5 → v9): input/input_from_excel_to_csv.md
     - Open Data Sources: input/input_open_data.md
   - Output:
     - Overview: output/output_overview.md
@@ -111,6 +115,9 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.details
+  - pymdownx.snippets:
+      base_path: ['docs/_snippets']
+      check_paths: true
   - pymdownx.tabbed:
       alternate_style: true
 
