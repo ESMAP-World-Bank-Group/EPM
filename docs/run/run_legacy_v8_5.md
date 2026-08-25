@@ -163,9 +163,9 @@ The tag preserves documentation pages that were dropped from this site, notably
 ## Get the pack
 
 <!-- PUBLICATION CHECKLIST:
-     1. Build the archive with tools/build_clean_pack.sh -- it strips the GAMS licence file,
-        the slide decks, the 2023 PDF and the Ghana country study, and refuses to write a zip
-        that still contains any of them.
+     1. Build the archive with `python tools/build_clean_pack.py <original.zip>` -- it strips
+        the GAMS licence file, the slide decks, the 2023 PDF and the Ghana country study, and
+        refuses to write a zip that still contains any of them.
      2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
      3. Replace the `#` below with the release asset URL. -->
 
