@@ -10,6 +10,37 @@ generation is archived here for teams that still maintain a v8.5 model.
 
 ---
 
+## Get the pack
+
+<!-- PUBLICATION CHECKLIST:
+     1. Build the archive with `python tools/build_clean_pack.py <original.zip>` -- it strips
+        the GAMS licence file, the slide decks, the 2023 PDF and the Ghana country study, and
+        refuses to write a zip that still contains any of them.
+     2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
+     3. Swap the admonition below for:
+        **[Download the Starter pack (.zip)](URL)**{ .md-button .md-button--primary } -->
+
+!!! info "Not published yet"
+    The archive is being prepared for release. **Contact the EPM team** for a copy in the
+    meantime — there is no download link yet.
+
+| Folder | Contents |
+|---|---|
+| `Generic model/` | `WB_EPM_8_5.xlsb` — the blank template — plus the three `.gms` files |
+| `Ghana example/` | `WB_EPM_8_5_Ghana_Example.xlsb`, the `.gms` files, `cplex.opt`, `README.txt` |
+| `Running EPM/` | How to run the model, how to build `base.g00`, and the Engine looping tool manual |
+
+That is everything needed to run v8.5: a blank workbook to start from, a worked example to
+compare against, and the original run instructions — which this page summarizes below.
+
+Slide decks, the 2023 reference PDF and the Ghana country study are **not** in the archive,
+and neither is the GAMS licence file that shipped in the original folder — bring your own
+licence. Ask the EPM team if you need the reference PDF.
+
+Earlier releases are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
+
+---
+
 ## Which version should I use?
 
 <div class="grid cards" markdown>
@@ -36,7 +67,7 @@ generation is archived here for teams that still maintain a v8.5 model.
 
     Frozen feature set, and no way to track changes in git.
 
-    [→ Contents of the pack](#what-is-in-the-pack)
+    [→ Contents of the pack](#get-the-pack)
 
 </div>
 
@@ -52,34 +83,33 @@ One Excel workbook holds every input. Three GAMS files do the work:
 | `WB_EPM_v8_5_base.gms` | Core equations (equivalent of today's `base.gms`) |
 | `WB_EPM_v8_5_Report.gms` | Result extraction back to Excel |
 
-<div class="compact-diagram" markdown="1">
+<div class="diagram" markdown="1">
 ```mermaid
 flowchart TD
-    XLSB[("<b>WB_EPM_8_5.xlsb</b>\nEvery input — demand, plants,\nfuels, transmission, policy")]
-
-    STUDIO["<b>GAMS Studio</b>\n--XLS_INPUT &lt;file&gt;.xlsb"]
+    STUDIO["<b>GAMS Studio</b>\n--XLS_INPUT"]
     BUTTON["<b>RUN button</b>\nin the workbook"]
 
+    XLSB[("<b>WB_EPM_8_5.xlsb</b>\nAll inputs")]
+
     subgraph gams ["GAMS"]
-        MAIN["<b>_main.gms</b>\nReads the workbook"]
-        BASE["<b>_base.gms</b>\nEquations · CPLEX"]
-        REP["<b>_Report.gms</b>\nExtraction"]
+        direction TB
+        MAIN["<b>_main.gms</b>\nreads the workbook"]
+        BASE["<b>_base.gms</b>\nequations · CPLEX"]
+        REP["<b>_Report.gms</b>\nextraction"]
+        MAIN --> BASE --> REP
     end
 
-    OUT[("<b>EPMRESULTS</b>\nRename it or the next run\noverwrites it")]
+    OUT[("<b>EPMRESULTS</b>\nExcel results")]
 
-    STUDIO -->|launch| MAIN
-    BUTTON -->|launch| MAIN
+    STUDIO -->|launch| XLSB
+    BUTTON -->|launch| XLSB
     XLSB --> MAIN
-    MAIN --> BASE
-    BASE --> REP
     REP --> OUT
 ```
 </div>
 
-There is no command line and no scenario system: **one workbook is one run**. Variants are
-separate copies of the file — which is why the pack ships `Ghana_2050_hydro_BaU` as its own
-workbook rather than as a scenario.
+There is no command line and no scenario system: **one workbook is one run**. A variant means
+a separate copy of the whole file — there is nothing equivalent to today's `scenarios.csv`.
 
 ---
 
@@ -117,20 +147,6 @@ Two routes. Both need the three `.gms` files and the workbook in the **same fold
 
 ---
 
-## What is in the pack
-
-| Folder | Contents |
-|---|---|
-| `Generic model/` | `WB_EPM_8_5.xlsb` — the blank template — plus the three `.gms` files |
-| `Ghana example/` | `WB_EPM_8_5_Ghana_Example.xlsb`, the `.gms` files, `cplex.opt`, `README.txt` |
-| `Running EPM/` | How to run the model, how to build `base.g00`, and the Engine looping tool manual |
-
-Together these are everything needed to run v8.5: a blank workbook to start from, a worked
-example to compare against, and the original run instructions — which this page summarizes
-above.
-
----
-
 ## Requirements
 
 - **Windows** — the workbook relies on Excel macros
@@ -157,29 +173,6 @@ The tag preserves documentation pages that were dropped from this site, notably
 `old/step_by_step.md` (adapting the `WB_EPM_v8_5_*.gms` files by hand) and
 `engine_looping_tool.md` (the Engine looping tool, now superseded by
 [Advanced Python Options](run_python_advanced.md)).
-
----
-
-## Get the pack
-
-<!-- PUBLICATION CHECKLIST:
-     1. Build the archive with `python tools/build_clean_pack.py <original.zip>` -- it strips
-        the GAMS licence file, the slide decks, the 2023 PDF and the Ghana country study, and
-        refuses to write a zip that still contains any of them.
-     2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
-     3. Replace the `#` below with the release asset URL. -->
-
-**[Download EPM v8.5 Starter pack (.zip)](#)**{ .md-button }
-<!-- ^ replace `#` with the release asset URL -->
-
-!!! info "Not published yet"
-    The archive is being prepared for release. Until it is up, contact the EPM team for a copy.
-
-Slide decks, the 2023 reference PDF and the Ghana country study are **not** in the published
-archive, and neither is the GAMS licence file that shipped in the original folder — bring your
-own licence. Ask the EPM team if you need the reference PDF.
-
-Earlier releases are archived on [Zenodo](https://zenodo.org/communities/esmap-epm).
 
 ---
 
