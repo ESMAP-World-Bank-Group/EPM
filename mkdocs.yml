@@ -45,7 +45,6 @@ nav:
     - EPM in Practice: introduction/introduction_case_studies.md
     - How EPM Works: introduction/introduction_workflow.md
     - Versions & Changelog: introduction/changelog.md
-    - Legacy version (v8.5, Excel): introduction/legacy_v8_5.md
   - Installation & Run:
     - Prerequisites: run/run_prerequisites.md
     - Installation: run/run_installation.md
@@ -59,6 +58,7 @@ nav:
     - Performance & Threads: run/options_thread.md
     - Debugging: run/run_debugging.md
     - Troubleshooting: run/run_troubleshooting.md
+    - Legacy version (v8.5, Excel): run/run_legacy_v8_5.md
   - Model:
     - Overview: model/model_overview.md
     - Objective Function: model/model_objective.md

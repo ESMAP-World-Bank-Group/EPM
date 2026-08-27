@@ -42,6 +42,6 @@ EPM was first deployed in 2016 and has evolved through several versions. Previou
 | Features | Full set — scenarios, parallel runs, sensitivity & Monte-Carlo, H2, automated postprocessing | Frozen |
 | Skills | Python and GAMS knowledge **helps** and unlocks customization, but is not required for a standard run | Excel only |
 | Status | Beta — actively developed | Archived, unsupported |
-| Where | This documentation | [Legacy version](legacy_v8_5.md) |
+| Where | This documentation | [Legacy version](../run/run_legacy_v8_5.md) |
 
 Porting an existing workbook to the current version: [From Excel to CSV](../input/input_from_excel_to_csv.md).
