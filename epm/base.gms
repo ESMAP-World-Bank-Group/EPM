@@ -5,8 +5,7 @@
 * Description:
 * This GAMS-based model is designed for electricity system planning, 
 * incorporating capacity expansion, generation dispatch, and policy 
-* constraints such as renewable energy targets, emissions reductions, 
-* and market mechanisms.
+* constraints such as renewable energy targets, emissions reductions.
 *
 * Author(s): ESMAP Modelling Team
 * Organization: World Bank
