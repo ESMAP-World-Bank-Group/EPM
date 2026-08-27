@@ -1089,6 +1089,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#get-the-pack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the pack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#which-version-should-i-use" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1122,17 +1133,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-in-the-pack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is in the pack
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1148,17 +1148,6 @@
     <span class="md-ellipsis">
       
         Archived documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-the-pack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get the pack
       
     </span>
   </a>
@@ -2484,6 +2473,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#get-the-pack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Get the pack
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#which-version-should-i-use" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2517,17 +2517,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-in-the-pack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is in the pack
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2543,17 +2532,6 @@
     <span class="md-ellipsis">
       
         Archived documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-the-pack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get the pack
       
     </span>
   </a>
@@ -2601,6 +2579,49 @@ existing study. For anything new, use the current version — see
 <a href="../run_installation/">Installation</a>.</p>
 </div>
 <hr />
+<h2 id="get-the-pack">Get the pack<a class="headerlink" href="#get-the-pack" title="Permanent link">&para;</a></h2>
+<!-- PUBLICATION CHECKLIST:
+     1. Build the archive with `python tools/build_clean_pack.py <original.zip>` -- it strips
+        the GAMS licence file, the slide decks, the 2023 PDF and the Ghana country study, and
+        refuses to write a zip that still contains any of them.
+     2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
+     3. Swap the admonition below for:
+        **[Download the Starter pack (.zip)](URL)**{ .md-button .md-button--primary } -->
+
+<div class="admonition info">
+<p class="admonition-title">Not published yet</p>
+<p>The archive is being prepared for release. <strong>Contact the EPM team</strong> for a copy in the
+meantime — there is no download link yet.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Generic model/</code></td>
+<td><code>WB_EPM_8_5.xlsb</code> — the blank template — plus the three <code>.gms</code> files</td>
+</tr>
+<tr>
+<td><code>Ghana example/</code></td>
+<td><code>WB_EPM_8_5_Ghana_Example.xlsb</code>, the <code>.gms</code> files, <code>cplex.opt</code>, <code>README.txt</code></td>
+</tr>
+<tr>
+<td><code>Running EPM/</code></td>
+<td>How to run the model, how to build <code>base.g00</code>, and the Engine looping tool manual</td>
+</tr>
+</tbody>
+</table>
+<p>That is everything needed to run v8.5: a blank workbook to start from, a worked example to
+compare against, and the original run instructions — which this page summarizes below.</p>
+<p>Slide decks, the 2023 reference PDF and the Ghana country study are <strong>not</strong> in the archive,
+and neither is the GAMS licence file that shipped in the original folder — bring your own
+licence. Ask the EPM team if you need the reference PDF.</p>
+<p>Earlier releases are archived on <a href="https://zenodo.org/communities/esmap-epm">Zenodo</a>.</p>
+<hr />
 <h2 id="which-version-should-i-use">Which version should I use?<a class="headerlink" href="#which-version-should-i-use" title="Permanent link">&para;</a></h2>
 <div class="grid cards">
 <ul>
@@ -2620,7 +2641,7 @@ required for a standard run.</p>
 <p>All inputs in one <code>.xlsb</code> workbook, launched from GAMS Studio, results written back into
 Excel. <strong>No Python involved</strong> — the whole model is driven from the spreadsheet.</p>
 <p>Frozen feature set, and no way to track changes in git.</p>
-<p><a href="#what-is-in-the-pack">→ Contents of the pack</a></p>
+<p><a href="#get-the-pack">→ Contents of the pack</a></p>
 </li>
 </ul>
 </div>
@@ -2649,31 +2670,30 @@ Excel. <strong>No Python involved</strong> — the whole model is driven from th
 </tr>
 </tbody>
 </table>
-<div class="compact-diagram">
+<div class="diagram">
 <pre class="mermaid"><code>flowchart TD
-    XLSB[("&lt;b&gt;WB_EPM_8_5.xlsb&lt;/b&gt;\nEvery input — demand, plants,\nfuels, transmission, policy")]
-
-    STUDIO["&lt;b&gt;GAMS Studio&lt;/b&gt;\n--XLS_INPUT &amp;lt;file&amp;gt;.xlsb"]
+    STUDIO["&lt;b&gt;GAMS Studio&lt;/b&gt;\n--XLS_INPUT"]
     BUTTON["&lt;b&gt;RUN button&lt;/b&gt;\nin the workbook"]
 
+    XLSB[("&lt;b&gt;WB_EPM_8_5.xlsb&lt;/b&gt;\nAll inputs")]
+
     subgraph gams ["GAMS"]
-        MAIN["&lt;b&gt;_main.gms&lt;/b&gt;\nReads the workbook"]
-        BASE["&lt;b&gt;_base.gms&lt;/b&gt;\nEquations · CPLEX"]
-        REP["&lt;b&gt;_Report.gms&lt;/b&gt;\nExtraction"]
+        direction TB
+        MAIN["&lt;b&gt;_main.gms&lt;/b&gt;\nreads the workbook"]
+        BASE["&lt;b&gt;_base.gms&lt;/b&gt;\nequations · CPLEX"]
+        REP["&lt;b&gt;_Report.gms&lt;/b&gt;\nextraction"]
+        MAIN --&gt; BASE --&gt; REP
     end
 
-    OUT[("&lt;b&gt;EPMRESULTS&lt;/b&gt;\nRename it or the next run\noverwrites it")]
+    OUT[("&lt;b&gt;EPMRESULTS&lt;/b&gt;\nExcel results")]
 
-    STUDIO --&gt;|launch| MAIN
-    BUTTON --&gt;|launch| MAIN
+    STUDIO --&gt;|launch| XLSB
+    BUTTON --&gt;|launch| XLSB
     XLSB --&gt; MAIN
-    MAIN --&gt; BASE
-    BASE --&gt; REP
     REP --&gt; OUT</code></pre>
 </div>
-<p>There is no command line and no scenario system: <strong>one workbook is one run</strong>. Variants are
-separate copies of the file — which is why the pack ships <code>Ghana_2050_hydro_BaU</code> as its own
-workbook rather than as a scenario.</p>
+<p>There is no command line and no scenario system: <strong>one workbook is one run</strong>. A variant means
+a separate copy of the whole file — there is nothing equivalent to today's <code>scenarios.csv</code>.</p>
 <hr />
 <h2 id="running-it">Running it<a class="headerlink" href="#running-it" title="Permanent link">&para;</a></h2>
 <p>Two routes. Both need the three <code>.gms</code> files and the workbook in the <strong>same folder</strong>.</p>
@@ -2710,33 +2730,6 @@ workbook rather than as a scenario.</p>
 <p>From GAMS Studio the output is always written to <strong><code>EPMRESULTS</code></strong> in the model folder, and
 the next run overwrites it. <strong>Rename it after every run</strong> you want to keep.</p>
 </div>
-<hr />
-<h2 id="what-is-in-the-pack">What is in the pack<a class="headerlink" href="#what-is-in-the-pack" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Folder</th>
-<th>Contents</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Generic model/</code></td>
-<td><code>WB_EPM_8_5.xlsb</code> — the blank template — plus the three <code>.gms</code> files</td>
-</tr>
-<tr>
-<td><code>Ghana example/</code></td>
-<td><code>WB_EPM_8_5_Ghana_Example.xlsb</code>, the <code>.gms</code> files, <code>cplex.opt</code>, <code>README.txt</code></td>
-</tr>
-<tr>
-<td><code>Running EPM/</code></td>
-<td>How to run the model, how to build <code>base.g00</code>, and the Engine looping tool manual</td>
-</tr>
-</tbody>
-</table>
-<p>Together these are everything needed to run v8.5: a blank workbook to start from, a worked
-example to compare against, and the original run instructions — which this page summarizes
-above.</p>
 <hr />
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2778,26 +2771,6 @@ does not run.</p>
 <code>old/step_by_step.md</code> (adapting the <code>WB_EPM_v8_5_*.gms</code> files by hand) and
 <code>engine_looping_tool.md</code> (the Engine looping tool, now superseded by
 <a href="../run_python_advanced/">Advanced Python Options</a>).</p>
-<hr />
-<h2 id="get-the-pack">Get the pack<a class="headerlink" href="#get-the-pack" title="Permanent link">&para;</a></h2>
-<!-- PUBLICATION CHECKLIST:
-     1. Build the archive with `python tools/build_clean_pack.py <original.zip>` -- it strips
-        the GAMS licence file, the slide decks, the 2023 PDF and the Ghana country study, and
-        refuses to write a zip that still contains any of them.
-     2. Attach the result to a GitHub release tagged `v8.5-excel-legacy`.
-     3. Replace the `#` below with the release asset URL. -->
-
-<p><strong class="md-button"><a href="#">Download EPM v8.5 Starter pack (.zip)</a></strong></p>
-<!-- ^ replace `#` with the release asset URL -->
-
-<div class="admonition info">
-<p class="admonition-title">Not published yet</p>
-<p>The archive is being prepared for release. Until it is up, contact the EPM team for a copy.</p>
-</div>
-<p>Slide decks, the 2023 reference PDF and the Ghana country study are <strong>not</strong> in the published
-archive, and neither is the GAMS licence file that shipped in the original folder — bring your
-own licence. Ask the EPM team if you need the reference PDF.</p>
-<p>Earlier releases are archived on <a href="https://zenodo.org/communities/esmap-epm">Zenodo</a>.</p>
 <hr />
 <h2 id="moving-to-version-9">Moving to version 9<a class="headerlink" href="#moving-to-version-9" title="Permanent link">&para;</a></h2>
 <p>The current version expects CSV inputs. See

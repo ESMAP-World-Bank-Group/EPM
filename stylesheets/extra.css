@@ -331,6 +331,27 @@
   margin-bottom: -40%;
 }
 
+/* ---------- Diagrams ----------
+   `.compact-diagram` above shrinks its SVG with `transform: scale()`, which leaves the
+   layout box at full height, so it claws the space back with negative margins tuned by hand
+   to one diagram. Any other diagram overlaps the text below it. Use `.diagram` instead: the
+   SVG is constrained by width, so the box always matches what is drawn. */
+.diagram {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.diagram .mermaid {
+  display: flex;
+  justify-content: center;
+  min-width: min-content;
+}
+
+.diagram .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
 /* ---------- Wide scrollable tables (technology parameter guide) ---------- */
 .scrollable-table {
   overflow-x: auto;
