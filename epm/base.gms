@@ -23,7 +23,7 @@
 * - The model requires input data in .GDX or Excel format.
 *
 * Contact:
-* Claire Nicolas, cnicolas@worldbank.org
+* Claire Nicolas, cnicolas@worldbank.org 
 **********************************************************************
 
 $offEolCom
