@@ -2,7 +2,7 @@
 
 Live file: every external zone flat across all hours and years - Bulgaria, Greece, Romania and Kazakhstan at 70 USD/MWh, Iran, Iraq and Syria at 40, Russia at 45.
 
-On the sell side the non-EU exporter absorbs its own transmission loss: Russia -2.5%.
+On the sell side the non-EU exporter absorbs its own transmission loss: Kazakhstan -9.5%, Russia -2.5%.
 
 Only Bulgaria, Greece and Romania are rewritten. The other five external zones have no liquid hub, no TYNDP entry and no ETS; they keep their cost-based values, copied through on the buy side and net of the seller's loss on the sell side.
 
@@ -87,6 +87,6 @@ Buy side (`pTradePrice`), which is the only file the model reads today.
 |---|---|---|
 | Iran | 40 | cost-based, unchanged |
 | Iraq | 40 | cost-based, unchanged |
-| Kazakhstan | 70 | cost-based, unchanged |
+| Kazakhstan | 47 | cost-based, unchanged |
 | Russia | 45 | cost-based, unchanged |
 | Syria | 40 | cost-based, unchanged |

@@ -126,7 +126,12 @@ COST_COMPONENT_FILES = [
 
 # All cost components from sumhdr set in generate_report.gms
 ALL_COST_COMPONENTS = [
-    "Generation costs: $m",
+    # This list is a transcription of the sumhdr set in generate_report.gms, and
+    # fill_cost_components left-joins pCosts onto it: a name that does not match the GAMS
+    # one drops the real rows and materialises an all-zero component in their place. The
+    # first entry read "Generation costs: $m" until 2026-08-30, so every run treated before
+    # then lost its investment costs, the largest line of the objective.
+    "Investment costs: $m",
     "Fixed O&M: $m",
     "Variable O&M: $m",
     "Startup costs: $m",

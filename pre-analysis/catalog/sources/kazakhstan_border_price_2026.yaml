@@ -1,0 +1,136 @@
+id: kazakhstan_border_price_2026
+name: "Kazakh border price for the TransCaspian anchor (CASA model dual, KAZ_N)"
+type: internal_wb
+category: modelled
+date: "2026"
+url: "https://kegoc.kz/en/electric-power/electricity-market/"
+access_note: >
+  Basis for the Kazakhstan rows of pTradePrice and pTradePriceExport in data_blacksea.
+  Applied 2026-08-30. Replaces a flat 70 USD/MWh carried in both directions and in every
+  hour of every year.
+
+  WHAT WAS WRONG WITH 70. EPM prices external trade in two directions, not one.
+  pTradePrice is what the region pays to import (base.gms:683) and pTradePriceExport is
+  what it receives when it exports (base.gms:687); where a scenario leaves the second
+  blank, input_readers.gms:101 falls back to the first and the two are equal. Seventy is
+  defensible as what Kazakhstan pays at its own border: the observed weighted price on the
+  centralised market ran at about 7.6 tenge/kWh over January to May 2025, which is roughly
+  70 USD/MWh at the prevailing rate once transmission and market fees are included. It is
+  not defensible as pTradePriceExport, which is what Kazakhstan pays US. That has to be
+  Kazakhstan's own marginal cost, otherwise the model has Kazakhstan buying at 70 the
+  power it produces at 20. Held flat at 70 the sale is profitable in all 8,760 hours
+  against an Azerbaijani marginal cost that never exceeds 51, so the TransCaspian cable
+  saturates by construction and its utilisation is an artefact of the price rather than a
+  result.
+
+  THE SOURCE OF LEVEL AND SHAPE. The Kazakh marginal cost is taken from the Central Asia
+  deployment's own dual, ca_2026 pHourlyPrice.csv, run simulations_run_20260825_173849,
+  scenario baseline, zone KAZ_N. Using another EPM model's shadow price rather than a
+  quoted tariff is deliberate: the quantity the export price needs is the cost of the
+  marginal Kazakh MWh in a given season and year, which is what a dispatch dual is and
+  what no published tariff is.
+
+  WHY KAZ_N. CASA splits Kazakhstan into KAZ_N (64.4 percent of national energy) and
+  KAZ_S (22.7 percent), with western Kazakhstan, Atyrau and Mangystau, 12.9 percent,
+  OUTSIDE the CASA perimeter: it is a gas island synchronous with Russia and unable to
+  trade with CAPS. Western Kazakhstan is exactly where the TransCaspian cable lands, at
+  Aktau. The 500 kV Aktobe to Atyrau line, 604 km, under construction from 2025 and due
+  2027-2028, joins that island to the unified system, and that is the condition under
+  which a unified-system price is the right price for a cable that exists from 2035. Until
+  that line is commissioned the anchor would be mispriced, but the cable does not exist
+  before 2035 either, so the two dates are consistent.
+
+  SEASON REMAP. CASA does not use calendar quarters. Its five seasons run 2160, 1464,
+  1464, 2208 and 1464 hours against the Black Sea's 2160, 2184, 2208 and 2208. Mapping
+  CASA "Q2" on to Black Sea "Q2" by its label would move two months of price into the
+  wrong season and would not conserve the annual mean; it gave 46.95 USD/MWh against
+  CASA's own 43.51. Both grids run consecutively from 1 January in file order, so each
+  season is an interval on the 8,760 hour year and the weight is the length of the
+  intersection. Built that way the hour-weighted annual mean is preserved exactly, which
+  the code asserts on every run.
+
+  YEARS. CASA supplies 2026 to 2035 and 2040. Black Sea 2025 takes CASA 2026, 2026 to 2035
+  and 2040 map directly, 2036 to 2039 are linearly interpolated. CASA's 2045 and 2050 are
+  NOT used: they carry 500 USD/MWh scarcity spikes that reflect that model's own capacity
+  mix in years beyond this study. Outside the 2025-2040 horizon the series is held flat at
+  the nearest year it has. Those years are absent from y.csv and GAMS never reads them.
+
+  THE SPREAD, AND IT IS THE ONLY ASSUMPTION HERE. The region buys at MC x 1.05 and sells
+  at MC x 0.95. The 5 percent stands for KEGOC wheeling, converter losses on the HVDC
+  crossing and a trader margin. It is not sourced. It is implemented as a seller-side
+  deduction in build_trade_prices.py, NON_EU_SELLER_LOSS["Kazakhstan"] = 1 - 0.95/1.05 =
+  9.5238 percent, applied to a template that carries MC x 1.05, which closes the round
+  trip. Russia already carried a 2.5 percent spread on the same mechanism, so the shape of
+  the treatment is not new.
+
+  NO INTRADAY SHAPE. CASA runs at fDispatchMode = 0 on three representative days, so its
+  dual is constant within the day. There is no Kazakh intraday price shape to take and
+  none has been invented. The series is seasonal only: four values per year per direction,
+  the same on all seven representative days and all 24 hours. This costs less than it
+  sounds. The dispatch decision compares a flat foreign price to an Azerbaijani cost that
+  the model computes hour by hour, and the Azerbaijani cost is itself nearly flat within a
+  season, 43.9 to 46.1 in Q1 and 51.2 throughout Q4, with a real tail only in Q2 where
+  solar surplus takes it to 0.5. The defect of the old value was its level, not its
+  flatness.
+
+  BOTTOM-UP CORROBORATION. CASA prices Kazakh coal at 0.858 USD/MMBtu. At the heat rates
+  in that deployment's pGenDataInput the running fleet has a short-run marginal cost of
+  18.4 USD/MWh at Aksu and Ekibastuz, rising to 29.0 at the Almaty CHPs on dearer southern
+  coal. The dual, 26.8 to 68.3 depending on the season, brackets that, the upper end being
+  winter scarcity rather than fuel.
+
+  RESULTING VALUES, 2035, USD/MWh, hour-weighted on the Black Sea season grid:
+    marginal cost   Q1 68.3   Q2 37.8   Q3 26.8   Q4 42.4   year 43.7
+    we sell at      Q1 64.9   Q2 35.9   Q3 25.4   Q4 40.3   year 41.5
+    we buy at       Q1 71.7   Q2 39.7   Q3 28.1   Q4 44.5   year 45.9
+  Against the Azerbaijani marginal cost of 43.9 / 36.2 / 49.4 / 51.2 this turns 8,760
+  hours of export into 2,284 hours of export, 4,416 of import and 2,060 of no flow.
+coverage:
+  countries: [Azerbaijan]
+  years: "2025-2040"
+  notes: >
+    The anchor is external, so no Black Sea country is the subject of the source. The
+    coverage is the Azerbaijani border, which is the only place the Kazakhstan anchor
+    connects: the TransCaspian cable, 1,000 MW from 2035, landing at AzerbaijanMain.
+fills_epm_resources:
+  - resource: pTradePrice
+    coverage: "Kazakhstan rows, all seasons, days, hours and years"
+  - resource: pTradePriceExport
+    coverage: "Kazakhstan rows, derived from pTradePrice by the seller-side deduction"
+file: "pHourlyPrice.csv"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/staging/*/pTradePrice.csv"
+    description: >
+      Staged buy side. build_trade_prices.py reads the live pTradePrice.csv as its
+      template, overwrites the three EU zones from netback.csv and copies every other
+      zone through, so the Kazakh series is written into the template once and reaches
+      all ten staged scenarios from there.
+    source_file: "pHourlyPrice.csv"
+  - path: "EPM/pre-analysis/output_prices/staging/*/pTradePriceExport.csv"
+    description: >
+      Staged sell side, derived from the buy side by NON_EU_SELLER_LOSS["Kazakhstan"].
+    source_file: "pHourlyPrice.csv"
+used_in:
+  - script: "blacksea_2026/apply_kz_price.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_trade_prices.py"
+  - script: "blacksea_2026/EPM/pre-analysis/promote_trade_prices.py"
+  - script: "blacksea_2026/Kazakhstan_price_method_slide.py"
+quality:
+  confidence: medium
+  notes: >
+    Medium and not high, for three reasons stated rather than hidden. The 5 percent spread
+    is unsourced. The series has no intraday shape, because the source has none. And it is
+    one model's dual read into another model, so it inherits whatever the CASA baseline
+    assumes about Kazakh capacity, fuel and demand; a different CASA scenario would give a
+    different anchor. What it does fix is unambiguous: the export price is no longer above
+    the exporter's own cost in every hour of the year.
+
+    The same treatment has NOT been extended to Iran, Iraq, Syria and Russia. They remain
+    flat, at 40, 40, 40 and 45, and carry the same class of defect on the export side. No
+    comparable dual exists for them in any deployment at hand, so correcting them would
+    mean inventing a cost rather than reading one. That is an open item, not an oversight.
+
+    Method slide: blacksea_2026/Kazakhstan_price_method.pptx, built by
+    Kazakhstan_price_method_slide.py. apply_kz_price.py imports compute() from that same
+    module to write the CSV, so the slide and the data are produced by one piece of code
+    and cannot diverge.

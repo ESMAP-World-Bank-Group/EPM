@@ -22,18 +22,14 @@ in which every line has moved and no reviewer could see what actually changed.
 Scope
 -----
 Bulgaria, Greece and Romania take the EU hypothesis. Iran, Iraq, Syria, Russia
-and Kazakhstan keep the cost-based values already in the template: no liquid
-hub, no TYNDP entry, no ETS. They are copied through, and the DIFF says so
-explicitly rather than leaving a reader to notice the absence. Copied through is
-not the same as flat: since 2026-08-30 the template carries a seasonal Kazakh
-series, and this pipeline is what propagates it to all fifteen staged files.
+and Kazakhstan keep the cost-based values already in the file: no liquid hub, no
+TYNDP entry, no ETS. They are copied through, and the DIFF says so explicitly
+rather than leaving a reader to notice the absence.
 
-Both files are read. config.csv points pTradePrice at pTradePrice_eu_central.csv
-and pTradePriceExport at pTradePriceExport_eu_central.csv, and base.gms:687
-values exports at the second. Where a scenario leaves pTradePriceExport blank,
-input_readers.gms:101 falls back to the pTradePrice file and the two sides are
-equal - which is why an asymmetric price has to be expressed as a seller-side
-deduction here rather than as a separate hand-written export file.
+The export file exists because base.gms:686 currently credits exports at the
+import price. Until the pTradePriceExport patch lands, only pTradePrice.csv is
+read and the sell side is silently overstated by the whole spread - which the
+DIFF quantifies so the size of that error is on the record.
 """
 from __future__ import annotations
 
@@ -61,12 +57,7 @@ EU_ZONES = ("Bulgaria", "Greece", "Romania")
 # Russia is metered at the far end, so Georgia is paid for 97.5% of what it
 # injects, while an imported MWh is delivered at the border at the quoted
 # price and the loss is the exporter's problem.
-# Kazakhstan carries more than a line loss. Its 9.5238% is the round trip of a
-# symmetric +/-5% band around the Kazakh marginal cost: the template holds
-# MC * 1.05 on the buy side, and 1 - 0.95/1.05 = 0.095238 brings the sell side
-# back to MC * 0.95. The band stands for KEGOC wheeling, converter losses and a
-# trader margin, and it is the only unsourced number in the Kazakh series.
-NON_EU_SELLER_LOSS = {"Russia": 0.025, "Kazakhstan": 1 - 0.95 / 1.05}
+NON_EU_SELLER_LOSS = {"Russia": 0.025}
 
 # Written precision. Deliberately finer than the two decimals a price needs:
 # main.gms:894-895 deletes any hour whose price rounds to zero, in both
@@ -203,15 +194,11 @@ def gate_g5a(template: Path, staged: Path) -> dict:
 def gate_g5b(buy: pd.DataFrame, sell: pd.DataFrame) -> dict:
     """The sell price may never exceed the buy price, hour by hour.
 
-    Checked on every zone, not only the EU ones. It used to be EU-only on the
-    grounds that the cost-based zones carried one value in both files, which
-    stopped being true once Russia and then Kazakhstan took a seller-side
-    deduction. Equality is still allowed - the zones with no deduction sit at
-    zero spread - so widening the gate costs nothing and catches a sign error
-    in NON_EU_SELLER_LOSS, which is exactly the mistake this cannot afford.
+    Checked only on the EU zones: the five cost-based zones carry one value in
+    both files by construction, so equality there is intended, not a breach.
     """
-    b = buy.set_index(KEY)[HOURS]
-    s = sell.set_index(KEY)[HOURS]
+    b = buy[buy["zext"].isin(EU_ZONES)].set_index(KEY)[HOURS]
+    s = sell[sell["zext"].isin(EU_ZONES)].set_index(KEY)[HOURS]
     b, s = b.align(s, join="inner")
     spread = (b - s).to_numpy()
     return {"min_spread_usd": float(spread.min()),
