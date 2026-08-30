@@ -1,0 +1,101 @@
+id: ramp_mingen_ccdr_2026
+name: "Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)"
+type: internal_wb
+category: derived
+date: "2026"
+url: "https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/"
+access_note: >
+  Calibration basis for RampUpRate, RampDnRate and MinGenShareAllHours in
+  pGenDataInputDefault.csv, and for fApplyRampConstraint and fApplyMinGenShareAllHours
+  in pSettings.csv.
+
+  WHAT THE MODEL CAN ACTUALLY READ. This deployment runs on representative days,
+  fDispatchMode = 0. Three parameters survive that setting:
+    - RampUpRate and RampDnRate, through eRampUpLimit and eRampDnLimit (base.gms:867-871),
+      gated on fApplyRampConstraint and fDispatchMode = 0. The hours of a representative
+      day are consecutive, so the constraint genuinely binds within the day; it says
+      nothing about the transition between one representative day and the next.
+    - MinGenShareAllHours, through eMinGen (base.gms:789-790), gated on
+      fApplyMinGenShareAllHours. It is a floor on vCap(g,y) in EVERY hour of EVERY
+      representative day, so it grows with the capacity the model builds.
+  Everything else in the unit-commitment family is unreachable: MinGenCommitment, minUT,
+  minDT, StUpCost, HoursOn, HoursOff and the isOn / isStartup / isShutdown binaries are
+  all gated on fDispatchMode = 1 (base.gms:799-860). The CCDR default table fills those
+  columns and none of them is read. They are left in place, unused, rather than deleted.
+
+  THE UNITS OF RampRate. The parameter is a share of installed capacity PER HOUR
+  (base.gms:867: vPwrOut(t-1) - vPwrOut(t) =l= vCap * pGenData(RampDnRate)), and
+  main.gms:604 sets RampRate(g) = pGenData(g,"RampDnRate"), so a unit whose RampDnRate is
+  blank or zero is EXCLUDED from the constraint rather than frozen. That sign convention
+  is the reason the deployment carried 196 Turkish cells at 0.05 and 0.08: those are the
+  textbook figures for coal, CCGT and OCGT in percent per MINUTE, loaded into a per-hour
+  parameter. At 0.05 per hour a 600 MW unit needs 20 hours to reach full output and cannot
+  follow a 14-hour daily load cycle at all. They have been cleared; the region now runs on
+  one default table.
+
+  RAMP RATES USED, share of capacity per hour, from the EPM CCDR generic set:
+    Nuclear 0.15; ST, all coal fuels 0.50; CCGT, OCGT, ICE, biomass, hydro and storage
+    1.00, which is unconstrained in practice; PV and wind blank, hence outside the
+    constraint. These are deliberately loose. A ramp limit that binds on a representative
+    day is a modelling artefact more often than a physical fact, because the day carries
+    no memory of the day before.
+
+  MINIMUM GENERATION. MinGenShareAllHours is the share of installed capacity a unit cannot
+  go below in any hour. It is NOT a commitment threshold, which is what the CCDR
+  MinGenCommitment column holds and what the values previously sitting in this column were
+  written as. Read as a year-round floor they are not merely expensive, they are
+  infeasible: base.gms:770 caps SEASONAL ENERGY at availability x capacity, so a share
+  above a unit's lowest seasonal availability cannot be met. The previous table put 0.55
+  on Turkish domestic lignite against a pAvailabilityCustom of 0.45, which made 72 units
+  and 12,288 MW infeasible, and 0.45 on CCGT in every hour, which forced 148 percent of
+  Armenia's night trough and 110 percent of Azerbaijan's.
+
+  THE RULE:
+
+      MinGenShareAllHours(z,tech,fuel) = min[ m(tech,fuel) , lowest seasonal availability
+                                              of the units that (z,tech,fuel) governs ]
+
+  m is the share below which the technology cannot be turned down without shutting it off,
+  restricted to what is physically or contractually true year-round rather than to what a
+  unit does while committed. The cap is what makes the rule safe: it can only ever lower a
+  value, never raise one, and it is what takes Georgia to 0.00, Tkibuli being the only
+  Georgian ST unit and carrying an availability of 0.00.
+
+  m USED, and the reason for each. Every one of these is an ASSUMPTION:
+    - Nuclear 0.70. Baseload by design. Below CCDR's 0.75 commitment threshold, which is
+      the right order but was written for a committed unit.
+    - ST, all coal fuels 0.25. Mine-mouth lignite and take-or-pay coal supply keep a
+      minimum burn. Well below the 0.55 and 0.30 commitment thresholds, and below the
+      0.45 availability of the Turkish lignite fleet, which is what the old value broke on.
+    - ST, geothermal 0.55. The brine loop cannot be cycled; a geothermal field is run flat.
+      Held below its 0.65 availability rather than at the 0.60 an engineering reading would
+      give, to keep margin against the seasonal energy cap.
+    - CCGT 0.10. District heat obligations and ancillary services only, not the 0.45 that
+      was there. A CCGT with no heat load has no year-round floor at all.
+    - OCGT, ICE, hydro, biomass, storage, PV and wind 0.00. No year-round floor.
+
+  WHAT THIS COSTS THE SYSTEM, MW forced against the trough of the 2025 night load:
+  Turkiye 12,441 of 28,044, 44 percent; Azerbaijan 573 of 2,337, 24 percent; Armenia 380
+  of 495, 77 percent; Georgia 106 of 881, 12 percent. Armenia is high because Metsamor is
+  large relative to the system, which is a fact about Armenia and not an artefact. The
+  shares fall as demand grows, to 34 percent in Turkiye and 62 percent in Armenia by 2035.
+coverage:
+  countries: [Turkiye, Armenia, Georgia, Azerbaijan]
+  years: "2025-2040"
+fills_epm_resources:
+  - resource: pGenDataInputDefault
+    coverage: "MinGenShareAllHours, RampUpRate, RampDnRate, all zones"
+  - resource: pGenDataInput
+    coverage: "RampUpRate and RampDnRate cleared, so the default table governs"
+  - resource: pSettings
+    coverage: "fApplyRampConstraint, fApplyMinGenShareAllHours"
+quality:
+  confidence: medium
+  notes: >
+    The ramp rates are the EPM CCDR generic values, unmodified. The minimum generation
+    shares m are expert judgment, stated per technology above and capped by each zone's
+    own availability. They are loose by construction: the intent is that neither
+    constraint should determine the least-cost mix on its own. If either binds hard, that
+    is a finding to report rather than a result to publish. Method slide:
+    blacksea_2026/RampMinGen_method.pptx, built by RampMinGen_method_slide.py from the
+    deployment's own inputs.
