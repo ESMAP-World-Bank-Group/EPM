@@ -1,0 +1,89 @@
+id: turkiye_gas_import_parity_2026
+name: "Türkiye gas import-parity cost, 2026 review (World Bank CMO April 2026 + BOTAŞ contract indexation)"
+type: open_source
+category: derived
+date: "2026-08"
+url: "https://thedocs.worldbank.org/en/doc/f3138644a1e8e2bb631399ae11d6c408-0050012026/related/CMO-April-2026-Forecasts.pdf"
+access_note: >
+  A constructed trajectory, not a published series. Türkiye imports ~99% of its gas, so its
+  delivered cost is an import-parity blend of the two indices its supply contracts are written
+  against. Two published inputs, one conventional parameter.
+
+  (1) INDEXATION SPLIT. Türkiye's active gas import contracts were indexed to 40% TTF and
+      60% oil as of 2024 (Enerji IQ, cited in Ibrahim Said Arınç, "Unlocking the Potential of
+      the Turkish Natural Gas Market", Center for International Policy Research,
+      https://cipresearch.org/publication-detail-8.html). The hub-indexed share has been
+      rising: ICIS reported Turkish importers raising hub indexation from 2021 onward.
+      BOTAŞ's long- and short-term contracts with Russia and Iran — 55% of import volume —
+      expire by end-2026, so renewals will be struck against post-crisis market conditions,
+      not against the pre-2022 slopes.
+
+  (2) TTF LEG. World Bank Commodity Markets Outlook, April 2026, Table 1, "Natural gas,
+      Europe", nominal USD/mmbtu: 11.0 (2024), 12.0 (2025), 15.0 (2026f), 12.0 (2027f).
+      The 2026 spike is the Strait of Hormuz closure and damage to Qatari LNG capacity;
+      the CMO expects a ~20% fall in 2027 as disruptions subside, back to 12.0. The CMO
+      publishes no forecast beyond 2027, so 12.0 is taken as the post-disruption level.
+      The same chapter notes that refilling European inventories will require "higher
+      pipeline shipments from North Africa and Russia (for example, through Türkiye)" —
+      directly relevant to the transit value this study is trying to price.
+
+  (3) OIL LEG. CMO April 2026 Brent forecast: 80.7 (2024), 69.0 (2025), 86.0 (2026f),
+      70.0 (2027f). At a conventional 12% Brent slope for oil-indexed long-term gas
+      contracts (industry range 10-14%), 70 USD/bbl gives 8.4 USD/mmbtu.
+
+  BLEND: 0.40 x 12.0 + 0.60 x 8.4 = 9.84 USD/mmbtu, rounded to 10.0. LNG regasification
+  and inland transport are not added, so 10.0 is if anything a floor on delivered cost to
+  a Turkish CCGT.
+coverage:
+  countries: [Turkiye]
+  years: "2024-2027 published; 2028-2053 constructed plateau"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Turkiye/Gas row of supply/pFuelPrice_tr_gas_flat.csv"
+    coverage: >
+      Gas 11.3 USD/mmbtu (2024-2025, unchanged from the TEİAŞ/BOTAŞ-calibrated base year),
+      then a five-year linear glide 11.04 / 10.78 / 10.52 / 10.26 to a 10.0 plateau in 2030
+      held to 2053. Only the Turkiye/Gas row differs from supply/pFuelPrice.csv; every other
+      country, fuel and year is identical.
+quality:
+  confidence: medium
+  notes: >
+    A SCENARIO, NOT A FORECAST, and it should be labelled as such in any deck. What it
+    encodes is that the post-2022 repricing of European gas is durable rather than
+    transitory. The alternative it replaced — IEA WEO STEPS via the WB EPM Türkiye v7
+    workbook, 6.5 USD/mmbtu by 2030 — encodes the opposite. Neither is observable.
+
+    WHY THE STEPS TRAJECTORY WAS DEMOTED TO A SENSITIVITY. Its 6.5 in 2030 traces back to a
+    pre-2022 market view; the World Bank's own April 2021 long-term forecast carried
+    6.5 USD/mmbtu for 2035, and the WEO STEPS number is of that vintage. Against the CMO
+    April 2026 realised print of 12.0 for 2025 it is off by nearly a factor of two in the
+    base year of the projection period, and it requires Türkiye's delivered cost to fall
+    below the European hub price while the hub-indexed share of its contracts is rising.
+
+    WHY 10 AND NOT 8.5. An earlier version of this file used 8.5, read off European forward
+    quotes. The forwards are thinly traded beyond three years and were struck before the
+    Hormuz disruption; the contract-indexation derivation above is reproducible from two
+    published World Bank numbers and is the reason the plateau was raised to 10.0 on
+    2026-08-25.
+
+    WHAT IT ACTUALLY DID (run simulations_run_20260825_053953, first run on this
+    trajectory). Not what was predicted here before the run, and the difference matters.
+    The forecast was that the Turkish zonal price would rise to ~60 USD/MWh (10.0 x the
+    5.88 mmbtu/MWh heat rate of the marginal generic CCGT) and saturate the 700 MW
+    Georgia-EastAna corridor. Neither happened. At 10.0 USD/mmbtu gas leaves the merit
+    order of eastern Turkiye altogether: EastAna generates 0.6 GWh from gas in 2040 against
+    15,433 GWh of PV and 14,662 GWh of hydro, holds 33 MW of gas capacity, and emits
+    0.00 MtCO2. The generic CCGT is never built. The zonal price settles at 46.6 USD/MWh,
+    set by the solar-plus-storage system rather than by fuel, and the corridor falls to
+    2,947 GWh in 2035 out of 6,132 available, so the model is still arbitraging on price.
+    The price-equals-gas-times-heat-rate rule holds only while gas is marginal, and at this
+    level it no longer is in the east; western Turkiye still burns (WestAna 42.2 MtCO2,
+    NorthWest 30.8) and still prices at 47-53. THE EFFECT OF THIS ASSUMPTION IS A CHANGE OF
+    MIX, NOT A CHANGE OF PRICE. It also removed the 2030-2033 reversal of the
+    Georgia-Turkiye corridor seen under the STEPS trajectory, which was an artefact of gas
+    falling to 6.5 in 2030.
+
+    THIS IS AN IMPORT-PARITY COST, NOT THE BOTAŞ TARIFF. BOTAŞ resells to power plants at a
+    regulated tariff historically below its own cost. Pricing the resource rather than the
+    tariff is the correct economic-cost convention and matches the treatment of Azerbaijan.
+  used_in_studies: [data_blacksea]

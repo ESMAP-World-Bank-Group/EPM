@@ -1,31 +1,63 @@
 id: georgia_fuel_subsidies_2022
-name: "Georgia Fuel Subsidies Database 2022 (IMF/World Bank methodology)"
+name: "IMF Energy Subsidies Database — South Caucasus extract (Georgia file, 2022 vintage)"
 type: internal_wb
 date: "2022"
 access_note: >
   File: Team/Georgia_fuel-subsidies_2022.xlsx
-  Sheet: Single_Country_Fuel — Georgia 2021 fuel prices by sector (power, industrial,
-  residential) and by type (consumer price vs. supply cost/wholesale).
-  Covers 2017-2025 historical data and projections.
-  Available in WB project internal drive.
+  Sheet 'data' — the raw country x year panel; sheet 'variables' is the data dictionary;
+  sheet 'Single_Country_Fuel' is the Georgia presentation view.
+  Covers Georgia, Armenia and Azerbaijan, 2015–2025.
+  Available on the WB project internal drive.
+  COLUMN NAMING (from sheet 'variables'), all in real 2021 USD/GJ:
+    mit_sp_<fuel>_pow  = supply cost, electricity sector
+    mit_rp_<fuel>_pow  = retail price, electricity sector
+    mit_preunit_*      = explicit subsidy per unit  (= supply cost - retail price)
+    cor_lap_* / cor_cc_* / cor_vat_* = local air pollution, climate and VAT corrections
+    mit_potunit_*      = implicit subsidy per unit  (uncharged externalities)
+  Fuel codes: nga = natural gas, coa = coal. Sector codes: pow / ind / res.
 coverage:
-  countries: [Georgia]
-  years: "2017–2025"
+  countries: [Georgia, Armenia, Azerbaijan]
+  years: "2015–2025"
 fills_epm_resources:
   - resource: pFuelPrice
-    location: "Sheet Single_Country_Fuel, Natural Gas / Power sector (consumer price)"
+    location: "Sheet 'data', column mit_sp_coa_pow, countrycode = GEO"
     coverage: >
-      DomesticCoal power sector price only: 3.62 USD/GJ = 3.82 USD/MMBtu (2021).
-      NOTE: Natural gas prices from this file (11.99 USD/GJ) are retail/end-user
-      prices including distribution and taxes — NOT used for Gas in pFuelPrice.
-      Georgia Gas uses South Caucasus wholesale proxy instead (see provenance).
+      Georgia DomesticCoal ONLY: 3.62 USD/GJ (2021) = 3.82 USD/MMBtu, used flat.
+      Tkibuli domestic coal has minimal distribution markup (mine-to-plant), so the
+      supply cost is close to the commodity price at the generator meter.
+      Georgia natural gas from this file is NOT used — see quality notes.
+      For Azerbaijan gas, which IS taken from this file, the catalog entry is
+      imf_energy_subsidies (same workbook, different resource).
 quality:
   confidence: medium
   notes: >
-    Prices reported are end-user/consumer prices, not wholesale commodity prices at
-    the generation meter. Natural gas power sector price (11.99 USD/GJ) is approximately
-    3x the actual SOCAR Azerbaijan export price to Georgia (~3.6-4.6 USD/GJ based on
-    contract volumes ~130-165 USD/1000m3 reported in trade data).
-    DomesticCoal power price (3.62 USD/GJ) is considered closer to the commodity price
-    since Tkibuli coal has minimal distribution markup (mine-to-plant pipeline).
+    WHAT THIS DATABASE IS FOR. It is a subsidy database, not a price database. Its
+    question is not "what does gas cost" but "how far does the price paid sit from the
+    price that should be paid". Prices are a by-product, and each of the three levels it
+    publishes answers a different question. For a least-cost study the relevant level is
+    the SUPPLY COST (mit_sp_*): a subsidy is a transfer, not a resource cost, so
+    optimising on the subsidised price makes the model build plants the country will pay
+    more for than assumed. The efficient price (supply cost plus externalities) must NOT
+    go into pFuelPrice — carbon is handled separately via the emission constraint, and
+    loading it into the fuel price would double-count it.
+    CORRECTION 2026-08-24 — PREVIOUS VERSION OF THIS FILE WAS WRONG. It described the
+    Georgian figure of 11.99 USD/GJ as a "retail/end-user price including distribution
+    and taxes". It is not: 11.99 is the SUPPLY COST column (mit_sp_nga_pow, 2022), and
+    the retail column for the same country and year is 11.62 — i.e. BELOW it. The IMF is
+    therefore saying Georgian power-sector gas is slightly subsidised, not over-taxed.
+    The argument "it is a retail price, so we discard it" did not hold.
+    WHY GEORGIAN GAS IS STILL DISCARDED — the real reason is SECTOR ATTRIBUTION. The
+    Georgian series sits at 9–12 USD/GJ across the whole 2015–2025 decade, roughly double
+    the contract price Georgia actually pays, and it does not move with the European gas
+    crisis the way an import-parity construct would. 11.22 USD/GJ (2024) equals about
+    383 USD/1000m3, which matches Georgia's COMMERCIAL gas tariff. The IMF appears to
+    have attributed a generic non-household tariff to the power sector, whereas Georgian
+    TPPs receive a dedicated regulated supply. Sanity check: at 11.83 $/MMBtu Gardabani's
+    SRMC (HR 6.93) would be 84 USD/MWh and the plant would never run — it does run.
+    Georgia gas is instead taken from caucasus_gas_contracts_2026.
+    THE ARMENIAN SERIES IS ALSO UNUSABLE, for a different reason: 8.74 USD/GJ (2024) is
+    ~309 USD/1000m3 against the 165 USD/1000m3 actually paid to Gazprom since 2019.
+    THE AZERBAIJANI SERIES IS USABLE and is used: Azerbaijan is a producer, its series is
+    stable across the crisis (3.5 → 4.4 USD/GJ), and that stability is the signature of a
+    genuine domestic production cost rather than an import-parity construct.
   used_in_studies: [data_blacksea]

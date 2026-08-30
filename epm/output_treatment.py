@@ -204,6 +204,14 @@ TRANSMISSION_MERGE_FILES = [
     'pNewTransmissionCapacity',
     'pCongestionShare',
     'pNetImport',
+    # Exchange with external zones, published per direction. pNetImport carries only a
+    # single net figure per corridor, which cannot say how much crossed each way and
+    # collapses a corridor that imports in winter and exports in summer to one number.
+    # Their GAMS dimensions are declared in opposite orders -- Imports(zext, z, y) and
+    # Exports(z, zext, y) -- but the columns are named, and the merge aligns on names,
+    # so both arrive with z as the internal zone and zext as the external one.
+    'pInterchangeExternalImports',
+    'pInterchangeExternalExports',
 ]
 
 # Yearly zone files to merge (dimensions: z, y, value)
@@ -1892,11 +1900,20 @@ def run_output_treatment(
         # If only z2 exists, rename to uni
         elif 'z2' in df_trans.columns:
             df_trans = df_trans.rename(columns={'z2': 'uni'})
+        # The external exchange files name their counterparty zext rather than z2. Same
+        # role, same column: without this the rows land with an empty uni and are read
+        # as having no counterparty at all.
+        if 'zext' in df_trans.columns:
+            if 'uni' in df_trans.columns:
+                df_trans['uni'] = df_trans['uni'].fillna(df_trans['zext'])
+            else:
+                df_trans = df_trans.rename(columns={'zext': 'uni'})
+            df_trans = df_trans.drop(columns=['zext'], errors='ignore')
         # Drop isExternal column if present
         if 'isExternal' in df_trans.columns:
             df_trans = df_trans.drop(columns=['isExternal'])
         df_trans.to_csv(transmission_merged_path, index=False)
-        log_func(f"[output_treatment]   pTransmissionMerged.csv: standardized columns (z2 -> uni, dropped isExternal)")
+        log_func(f"[output_treatment]   pTransmissionMerged.csv: standardized columns (z2/zext -> uni, dropped isExternal)")
 
     # Merge Yearly zone files (demand, emissions) (z, y) -> long format
     merge_csv_files_long(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)

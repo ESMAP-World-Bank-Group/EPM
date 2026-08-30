@@ -27,7 +27,21 @@ access_note: >
 
   VRE (solar & wind, per zone): Renewables Ninja for each zone centroid (2018-2023, UTC).
   ROR NOT clustered here -> auto-filled by the model (EPM_FILL_ROR_FROM_AVAILABILITY=1).
-  OffshoreWind profile = OnshoreWind proxy (no offshore Ninja).
+  OffshoreWind profile: Renewables Ninja has no offshore series for these zones, so the
+  onshore SHAPE is reused. Until 2026-08-29 it was reused UNCHANGED, i.e. the offshore
+  profile was byte-identical to the onshore one in all 15 zones — offshore therefore ran at
+  the onshore capacity factor (0.21-0.26) against offshore capex (3.0 M$/MW, FOM 70000) and
+  could never be built anywhere in the model, including the 35 GW of Turkish offshore
+  candidates. The shape is now uplifted by a single scalar per zone, saturating at 1.0, until
+  the pHours-weighted capacity factor reaches a target for the sea basin: 0.42 Caspian
+  (AzerbaijanMain, uplift x2.39), 0.45 Turkish Black Sea (NorthWest, x2.42) and 0.45 Aegean
+  (WestAna, x2.06). Trakia was left untouched: its onshore CF is already 0.494, above the
+  target — which is itself implausibly high for onshore wind and is an open item on the
+  Turkish wind profiles, not on offshore. Saturation clips 15-29% of the hours at 1.0, so the
+  uplifted series understates offshore variability at the top of the distribution. This is a
+  yield correction on a borrowed shape, NOT an offshore wind resource assessment; replace with
+  a real offshore reanalysis (ERA5 at hub height over the licence areas) before reporting any
+  result that depends on offshore build.
 
   REPRESENTATIVE DAYS (Poncelet et al. 2017): 4 calendar seasons x 7 days = 28 slices.
   Per season: 4 clustered "representative" days + 3 extreme days (min_PV, min_Wind, max_Load),

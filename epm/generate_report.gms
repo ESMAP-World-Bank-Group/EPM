@@ -1153,16 +1153,21 @@ pYearlyInterchangeExternalCountry(c, thrd, y) =
 * ---------------------------------------------------------
 
 * Net import from internal zones
-* pInterchange(z, z2, y) represents flow from z to z2
-* Net import from z2 to z = -pInterchange(z, z2, y) when sTopology(z, z2) exists
-* If only reverse direction exists, use pInterchange(z2, z, y) directly
-pNetImport(z, z2, y, "Internal")$sTopology(z, z2) = -pInterchange(z, z2, y) / 1e3;
-pNetImport(z, z2, y, "Internal")$(sTopology(z2, z) and not sTopology(z, z2)) = pInterchange(z2, z, y) / 1e3;
+* pInterchange(z, z2, y) is the flow from z to z2, already in GWh.
+* The net import of z from z2 is what came in less what went out, so both legs are
+* subtracted. Both directions of a corridor are solved and published, and keeping only
+* one of them reports a gross flow as if it were the net. pInterchange is zero off
+* sTopology, so the single condition below covers either direction being declared.
+pNetImport(z, z2, y, "Internal")$(sTopology(z, z2) or sTopology(z2, z)) =
+  pInterchange(z2, z, y) - pInterchange(z, z2, y);
 
 * Net import from external zones
-* Net import from zext to z = imports from zext - exports to zext
+* Net import from zext to z = imports from zext - exports to zext.
+* Both legs are already in GWh (see their definitions above), so neither is rescaled
+* here. Applying a /1e3 to the export term alone annihilates it and publishes a net
+* exporter as a net importer.
 pNetImport(z, zext, y, "External") =
-  pInterchangeExternalImports(zext, z, y) - pInterchangeExternalExports(z, zext, y) / 1e3;
+  pInterchangeExternalImports(zext, z, y) - pInterchangeExternalExports(z, zext, y);
 
 * ============================================================
 * 7. EMISSIONS
@@ -1418,7 +1423,9 @@ embeddedCode Connect:
         "pInterconUtilization",
         "pCongestionShare",
         "pNetImport",
-        
+        "pInterchangeExternalImports",
+        "pInterchangeExternalExports",
+
         "pEmissionsZone",
         "pEmissionsIntensityZone",
 

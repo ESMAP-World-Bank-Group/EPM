@@ -1,0 +1,173 @@
+/* Black Sea results report — visual language borrowed from calibration_review
+   so the two documents read as one family. */
+:root {
+  --ink: #1a2333;
+  --ink-soft: #55627a;
+  --ink-faint: #8a94a6;
+  --rule: #e3e8f0;
+  --rule-soft: #eef1f6;
+  --paper: #ffffff;
+  --wash: #f7f9fc;
+  --accent: #1b6ca8;
+  --accent-soft: #e8f1f9;
+  --warn: #c0682a;
+  --good: #16794b;
+  --shadow: 0 1px 2px rgba(20, 32, 54, .05), 0 8px 24px rgba(20, 32, 54, .05);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--wash);
+  color: var(--ink);
+  font: 14px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------- chrome */
+
+header.top {
+  background: linear-gradient(135deg, #123a5c, #1b6ca8);
+  color: #fff;
+  padding: 26px 34px 22px;
+}
+header.top h1 { margin: 0; font-size: 22px; letter-spacing: -.2px; }
+header.top .sub { margin-top: 6px; font-size: 12.5px; opacity: .8; }
+header.top .meta {
+  margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px;
+}
+header.top .meta span {
+  background: rgba(255, 255, 255, .13); border-radius: 4px;
+  padding: 3px 9px; font-size: 11.5px;
+}
+
+nav.tabs {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; flex-wrap: wrap; gap: 2px;
+  background: var(--paper); border-bottom: 1px solid var(--rule);
+  padding: 0 22px;
+}
+nav.tabs button {
+  border: 0; background: none; cursor: pointer;
+  padding: 12px 15px; font: inherit; font-size: 13px;
+  color: var(--ink-soft); border-bottom: 2px solid transparent;
+}
+nav.tabs button:hover { color: var(--ink); background: var(--wash); }
+nav.tabs button.on { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+main { padding: 22px; max-width: 1500px; margin: 0 auto; }
+section.tab { display: none; }
+section.tab.on { display: block; }
+
+/* ----------------------------------------------------------------- cards */
+
+.card {
+  background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 8px; box-shadow: var(--shadow);
+  padding: 18px 20px; margin-bottom: 18px;
+}
+.card > h2 {
+  margin: 0 0 3px; font-size: 15.5px; letter-spacing: -.1px;
+}
+.card > h2 .num {
+  display: inline-block; min-width: 22px;
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.card > .lede {
+  margin: 0 0 14px; font-size: 12.5px; color: var(--ink-soft); max-width: 90ch;
+}
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; }
+@media (max-width: 1100px) {
+  .grid2, .grid3, .split { grid-template-columns: 1fr; }
+}
+
+.panel > h3 {
+  margin: 0 0 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
+/* -------------------------------------------------------------- findings */
+
+.findings { background: var(--wash); border: 1px solid var(--rule); border-radius: 7px; padding: 14px 16px; }
+.findings h3 {
+  margin: 0 0 9px; font-size: 11.5px; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--accent);
+}
+.findings ul { margin: 0; padding-left: 16px; }
+.findings li { margin-bottom: 8px; font-size: 12.5px; color: var(--ink-soft); }
+.findings li b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.findings .auto {
+  margin-top: 10px; font-size: 10.5px; color: var(--ink-faint); font-style: italic;
+}
+
+/* ---------------------------------------------------------------- tables */
+
+table.kv { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+table.kv th, table.kv td { padding: 5px 9px; border-bottom: 1px solid var(--rule-soft); text-align: right; }
+table.kv th { color: var(--ink-faint); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+table.kv th:first-child, table.kv td:first-child { text-align: left; }
+table.kv td { font-variant-numeric: tabular-nums; }
+table.kv tr.total td { border-top: 1.5px solid var(--rule); font-weight: 700; }
+td.up { color: var(--good); } td.dn { color: var(--warn); }
+
+/* ---------------------------------------------------------------- charts */
+
+.chart { width: 100%; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart text { font-family: "Segoe UI", system-ui, sans-serif; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 4px 13px; margin-top: 8px; font-size: 11px; color: var(--ink-soft); }
+.legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; vertical-align: -1px; margin-right: 4px; }
+.legend i.line { height: 2px; border-radius: 1px; vertical-align: 3px; }
+
+/* Plot on the left, key in a column on its right — the layout the data
+   explorer uses, so the same chart reads the same way in both places. */
+.chartrow { display: flex; gap: 14px; align-items: flex-start; }
+.chartrow > .plot { flex: 1 1 auto; min-width: 0; }
+.chartrow > .legendcol { flex: 0 0 auto; width: 152px; padding-top: 20px; }
+.legendcol .legend {
+  flex-direction: column; flex-wrap: nowrap; align-items: flex-start;
+  gap: 5px; margin-top: 0; line-height: 1.25;
+}
+.legendcol .legend span { display: block; }
+/* Too narrow for a side column: the key goes back under the plot. */
+.chartrow.stackleg { display: block; }
+.chartrow.stackleg > .legendcol { width: auto; padding-top: 0; }
+.chartrow.stackleg .legend { flex-direction: row; flex-wrap: wrap; gap: 4px 13px; margin-top: 8px; }
+
+.tip {
+  position: fixed; z-index: 90; pointer-events: none; opacity: 0;
+  transition: opacity .08s;
+  background: #16202f; color: #fff; border-radius: 5px;
+  padding: 7px 10px; font-size: 11.5px; line-height: 1.45;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .28); max-width: 280px;
+}
+.tip.on { opacity: 1; }
+.tip b { color: #ffd98a; }
+.tip .k { color: #9fb6d0; }
+.tip hr { border: 0; border-top: 1px solid #34455e; margin: 5px 0; }
+
+.picker { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
+.picker label { font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .04em; }
+.picker button {
+  border: 1px solid var(--rule); background: var(--paper); border-radius: 5px;
+  padding: 4px 11px; font: inherit; font-size: 12px; color: var(--ink-soft); cursor: pointer;
+}
+.picker button:hover { border-color: var(--accent); color: var(--accent); }
+.picker button.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+footer { padding: 22px; text-align: center; font-size: 11px; color: var(--ink-faint); }
+
+/* Deck mode: the page keeps its layout, the charts just repaint bigger. */
+.deckbtn {
+  position: absolute; top: 16px; right: 20px;
+  font: 600 11px/1 inherit; color: var(--ink-soft);
+  background: #fff; border: 1px solid #c8d0dc; border-radius: 5px;
+  padding: 6px 10px; cursor: pointer;
+}
+.deckbtn.on { background: #12356e; border-color: #12356e; color: #fff; }
+.top { position: relative; }

@@ -105,7 +105,9 @@ def run_input_verification(gams):
     _step("Settings required entries")
     _check_settings_required_entries(gams, db)
     gams.printLog("[input_verification] Settings required entries completed.")
-    # _check_candidate_build_limits(gams, db)
+    _step("Candidate build limits")
+    _check_candidate_build_limits(gams, db)
+    gams.printLog("[input_verification] Candidate build limits completed.")
     _step("Hours")
     _check_hours(gams, db)
     gams.printLog("[input_verification] Hours completed.")
@@ -124,6 +126,9 @@ def run_input_verification(gams):
     _step("Demand forecast")
     _check_demand_forecast(gams, db)
     gams.printLog("[input_verification] Demand forecast completed.")
+    _step("Simplified demand feasibility")
+    _check_simplified_demand_feasibility(gams, db)
+    gams.printLog("[input_verification] Simplified demand feasibility completed.")
     _step("Fuel prices")
     _check_fuel_price_presence(gams, db)
     gams.printLog("[input_verification] Fuel prices completed.")
@@ -351,8 +356,57 @@ def _check_settings_required_entries(gams, db):
         raise
 
 
+def _strict_build_limits_enabled(db):
+    """True when the deployment wants unbuildable candidates to abort the run.
+
+    Off by default: several deployments in this repo have always carried blank
+    BuildLimitperYear on candidates, and this check must not turn their inputs into a
+    hard failure. A deployment that wants the guard sets EPM_STRICT_BUILD_LIMITS=1 in
+    pSettings.csv (data_blacksea does). The environment variable of the same name wins
+    over the setting, matching the EPM_FILL_* flags in input_treatment.
+    """
+    env_value = str(os.environ.get("EPM_STRICT_BUILD_LIMITS", "")).strip().lower()
+    if env_value:
+        return env_value in {"1", "true", "yes", "on"}
+    try:
+        records = db["pSettings"].records
+    except Exception:
+        return False
+    if records is None or records.empty:
+        return False
+    value = dict(zip(records["pSettingsHeader"], records["value"])).get(
+        "EPM_STRICT_BUILD_LIMITS"
+    )
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return False
+    try:
+        return float(value) != 0
+    except (TypeError, ValueError):
+        return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
 def _check_candidate_build_limits(gams, db):
-    """Ensure BuildLimitperYear is positive for candidate plants (status 2/3)."""
+    """Ensure a candidate that states a capacity can actually be built.
+
+    main.gms:722 sets vBuild.up = BuildLimitperYear * pWeightYear for non-committed
+    plants, so a candidate whose BuildLimitperYear is blank or zero is pinned at zero
+    and never builds, whatever its capex. That is always a data error, and a silent
+    one: the run completes and simply reports that the project is uneconomic.
+
+    Two deliberate narrowings against the first version of this check, which was
+    disabled because it fired on rows that are not defects:
+
+    * committed plants (Status 2) are exempt. main.gms:727-729 ignores
+      BuildLimitperYear for them and forces the full capacity at StYr, so a blank
+      limit changes nothing.
+    * a row with no Capacity is a placeholder, not a broken project — vCap.up is
+      already zero for it (main.gms:715). Those get a warning, not an error, so an
+      empty template row cannot abort a run.
+    * the remaining, genuine defect aborts the run only where the deployment opts in
+      through EPM_STRICT_BUILD_LIMITS; elsewhere it is a warning. Other deployments in
+      this repo (data_test among them) ship candidates with blank build limits, and
+      failing their runs is not this check to decide.
+    """
     try:
         records = db["pGenDataInput"].records
         if records is None or records.empty:
@@ -375,7 +429,7 @@ def _check_candidate_build_limits(gams, db):
             if identifier_column:
                 df_wide = df_wide.rename(columns={identifier_column: "g"})
 
-        required_columns = {"Status", "BuildLimitperYear"}
+        required_columns = {"Status", "BuildLimitperYear", "Capacity"}
         if not required_columns.issubset(df_wide.columns):
             missing = required_columns - set(df_wide.columns)
             msg = (
@@ -387,22 +441,47 @@ def _check_candidate_build_limits(gams, db):
 
         status_numeric = pd.to_numeric(df_wide["Status"], errors="coerce")
         build_limit_numeric = pd.to_numeric(df_wide["BuildLimitperYear"], errors="coerce")
-        candidate_mask = status_numeric.isin([2, 3])
-        violation_mask = candidate_mask & (build_limit_numeric.isna() | (build_limit_numeric == 0))
+        capacity_numeric = pd.to_numeric(df_wide["Capacity"], errors="coerce")
 
+        def _names(mask):
+            rows = df_wide.loc[mask]
+            return (rows["g"].astype(str).tolist() if "g" in rows.columns
+                    else rows.index.tolist())
+
+        candidate_mask = status_numeric == 3
+        no_limit = build_limit_numeric.isna() | (build_limit_numeric == 0)
+        no_capacity = capacity_numeric.isna() | (capacity_numeric == 0)
+
+        # A placeholder row cannot build anyway; say so, but do not stop the run.
+        # Deployments generate these by the hundred as empty cells of a zone x year
+        # grid, so print a count and a sample rather than the whole list.
+        placeholder_mask = status_numeric.isin([2, 3]) & no_capacity
+        if placeholder_mask.any():
+            names = _names(placeholder_mask)
+            shown = ", ".join(map(str, names[:10]))
+            more = f", ... (+{len(names) - 10} more)" if len(names) > 10 else ""
+            gams.printLog(
+                f"[input_verification][build_limit] Warning: {len(names)} candidate/committed "
+                f"plant(s) have no Capacity and can never be built: {shown}{more}"
+            )
+
+        violation_mask = candidate_mask & no_capacity.eq(False) & no_limit
         if violation_mask.any():
-            violations = df_wide.loc[violation_mask]
-            offending_entries = (
-                violations["g"].astype(str).tolist()
-                if "g" in violations.columns
-                else violations.index.tolist()
+            detail = (
+                "BuildLimitperYear is blank or zero for candidate plants (Status 3) that declare "
+                "a Capacity. main.gms:722 pins vBuild.up at zero for them, so they can never be "
+                "built, at any capex, and the run reports them as simply not selected. Set "
+                "BuildLimitperYear to the Capacity to allow a single-year build. "
+                f"Offending entries: {_names(violation_mask)}"
             )
-            msg = (
-                "Error: BuildLimitperYear must be strictly positive for candidate plants (Status 2 or 3). "
-                f"Offending entries: {offending_entries}"
+            if _strict_build_limits_enabled(db):
+                msg = f"Error: {detail}"
+                gams.printLog(msg)
+                raise ValueError(msg)
+            gams.printLog(
+                f"[input_verification][build_limit] Warning: {detail} "
+                "Set EPM_STRICT_BUILD_LIMITS=1 in pSettings to make this abort the run."
             )
-            gams.printLog(msg)
-            raise ValueError(msg)
     except ValueError:
         raise
     except Exception:
@@ -618,6 +697,173 @@ def _check_demand_forecast(gams, db):
     except Exception:
         gams.printLog('Unexpected error when checking pDemandForecast')
         raise
+
+
+def _check_simplified_demand_feasibility(gams, db):
+    """Reject a Peak/Energy/profile triplet that generate_demand.gms can only reconcile
+    with negative load.
+
+    With fUseSimplifiedDemand=1, generate_demand.gms builds pDemandData as
+    pDemandProfile * Peak and then spreads the gap to the declared Energy over the
+    hours, weighted by (pmax - profile), so the whole correction lands on the lowest
+    hours.  Its closed form is
+
+        pDemandData = profile * Peak + pdiff * (pmax - profile) / S
+        pdiff = Energy * 1e3 - sum(profile * Peak * pHours)
+        S     = sum((pmax - profile) * pHours)
+
+    When the declared Energy is far below what profile * Peak implies and the profile
+    is coarse, the correction overshoots and the low hours go negative.  A zone with
+    negative load is a free generator: it injects power the model never produced.  The
+    failure is silent in the GAMS log, so it is caught here.
+    """
+    try:
+        if not _simplified_demand_enabled(db):
+            return
+        for name in ("pDemandProfile", "pDemandForecast", "pHours"):
+            if name not in db or db[name].records is None or db[name].records.empty:
+                gams.printLog(
+                    f"Warning: {name} unavailable, skipping simplified demand feasibility check."
+                )
+                return
+
+        # Domain columns are read by position: the sets carry different labels across
+        # deployments, but a parameter's records are always its domains then "value".
+        def _domains(name, expected):
+            records = db[name].records
+            cols = [c for c in records.columns if c != "value"]
+            if len(cols) != expected:
+                return None, None
+            return records, cols
+
+        hours_rec, hours_cols = _domains("pHours", 3)
+        prof_rec, prof_cols = _domains("pDemandProfile", 4)
+        fcst_rec, fcst_cols = _domains("pDemandForecast", 3)
+        if hours_cols is None or prof_cols is None or fcst_cols is None:
+            gams.printLog(
+                "Warning: unexpected demand input shape, skipping simplified demand "
+                "feasibility check."
+            )
+            return
+
+        hours = hours_rec.set_index(hours_cols)["value"]
+        hours.index.names = ["q", "d", "t"]
+        profile = prof_rec.set_index(prof_cols)["value"]
+        profile.index.names = ["z", "q", "d", "t"]
+
+        z_col, pe_col, y_col = fcst_cols
+        fcst = fcst_rec.copy()
+        fcst[pe_col] = fcst[pe_col].astype(str).str.strip().str.lower()
+        fcst = fcst[fcst[pe_col].isin(["peak", "energy"])]
+        if fcst.empty:
+            gams.printLog(
+                "Warning: pDemandForecast lacks Energy/Peak, skipping simplified demand "
+                "feasibility check."
+            )
+            return
+        forecast = fcst.pivot(index=[z_col, y_col], columns=pe_col, values="value")
+        if not {"energy", "peak"}.issubset(forecast.columns):
+            gams.printLog(
+                "Warning: pDemandForecast lacks Energy/Peak, skipping simplified demand "
+                "feasibility check."
+            )
+            return
+        forecast = forecast.dropna(subset=["energy", "peak"])
+
+        failures, worst = [], []
+        for zone, prof in profile.groupby(level="z"):
+            if zone not in forecast.index.get_level_values(0):
+                continue
+            prof = prof.droplevel("z")
+            w = hours.reindex(prof.index)
+            if w.isna().any():
+                gams.printLog(
+                    f"Warning: zone {zone} has demand profile entries outside pHours; "
+                    "skipping its simplified demand feasibility check."
+                )
+                continue
+            pmax = prof.max()
+            gap = pmax - prof
+            s_gap = float((gap * w).sum())
+            for year, row in forecast.xs(zone, level=0).iterrows():
+                peak, energy = float(row["peak"]), float(row["energy"])
+                pdiff = energy * 1e3 - float((prof * peak * w).sum())
+                shift = pdiff * gap / s_gap if s_gap else 0.0
+                low = float((prof * peak + shift).min())
+                worst.append((low, zone, year))
+                if low < 0:
+                    failures.append((zone, year, low, peak, energy))
+
+        if failures:
+            strict = _strict_demand_enabled(db)
+            level = "Error" if strict else "Warning"
+            for zone, year, low, peak, energy in failures[:20]:
+                gams.printLog(
+                    f"{level}: zone {zone}, year {year}: simplified demand yields "
+                    f"{low:.1f} MW in its lowest hour ({100 * low / peak:.1f}% of peak; "
+                    f"Peak {peak:g} MW, Energy {energy:g} GWh). profile x Peak is "
+                    "inconsistent with Energy; the zone would inject power it never generated."
+                )
+            if len(failures) > 20:
+                gams.printLog(f"{level}: {len(failures) - 20} further zone-years affected.")
+            zones_hit = sorted({f[0] for f in failures})
+            msg = (
+                f"{level}: negative demand from fUseSimplifiedDemand in zones "
+                f"{zones_hit}. Rescale pDemandProfile or correct Peak/Energy in "
+                "pDemandForecast so profile * Peak matches the declared Energy."
+            )
+            gams.printLog(msg)
+            if strict:
+                raise ValueError(msg)
+            return
+
+        if worst:
+            low, zone, year = min(worst)
+            gams.printLog(
+                "Success: simplified demand stays positive everywhere "
+                f"(minimum {low:.1f} MW, zone {zone}, year {year})."
+            )
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog("Unexpected error when checking simplified demand feasibility")
+        raise
+
+
+def _strict_demand_enabled(db):
+    """True when a demand inconsistency must abort the run rather than warn.
+
+    Off by default: data_test ships a zone whose Peak/Energy pair already yields a
+    small negative hour, and this check must not turn the reference dataset into a
+    hard failure. A deployment that wants the guard sets EPM_STRICT_DEMAND=1 in
+    pSettings.csv (data_blacksea does), mirroring EPM_STRICT_BUILD_LIMITS.
+    """
+    return _opt_in_flag(db, "EPM_STRICT_DEMAND")
+
+
+def _opt_in_flag(db, name):
+    """Read an opt-in switch from the environment, falling back to pSettings."""
+    env_value = str(os.environ.get(name, "")).strip().lower()
+    if env_value:
+        return env_value in {"1", "true", "yes", "on"}
+    try:
+        records = db["pSettings"].records
+    except Exception:
+        return False
+    if records is None or records.empty:
+        return False
+    value = dict(zip(records["pSettingsHeader"], records["value"])).get(name)
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return False
+    try:
+        return float(value) != 0
+    except (TypeError, ValueError):
+        return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _simplified_demand_enabled(db):
+    """True when generate_demand.gms rebuilds pDemandData from Peak/Energy/profile."""
+    return _opt_in_flag(db, "fUseSimplifiedDemand")
 
 
 def _check_fuel_price_presence(gams, db):

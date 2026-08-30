@@ -59,7 +59,12 @@ def find_provenance_files() -> list[Path]:
 
 
 def check_citations(entries: dict[str, dict], errors: list[str], warnings: list[str]) -> None:
-    """Every source_id cited in a provenance file resolves to a catalog entry."""
+    """Every source_id cited in a provenance file resolves to a catalog entry.
+
+    A citation counts whether it sits in source_id or in secondary_source_ids: a
+    source used for one fuel of a block but not the headline one is still used.
+    Reading only source_id made twelve entries look orphaned when they were not.
+    """
     cited: dict[str, list[str]] = defaultdict(list)
 
     for prov_path in find_provenance_files():
@@ -70,12 +75,17 @@ def check_citations(entries: dict[str, dict], errors: list[str], warnings: list[
             for resource, item in block.items():
                 if not isinstance(item, dict):
                     continue
-                raw = item.get("source_id")
-                if not raw:
-                    warnings.append(f"{deployment} · {country} · {resource} — no source_id")
-                    continue
-                for sid in (raw if isinstance(raw, list) else [raw]):
-                    cited[sid].append(f"{deployment} · {country} · {resource}")
+                where = f"{deployment} · {country} · {resource}"
+                primary = item.get("source_id")
+                if not primary:
+                    warnings.append(f"{where} — no source_id")
+                secondary = item.get("secondary_source_ids") or []
+                if isinstance(secondary, str):                # a bare scalar, not a list
+                    secondary = [secondary]
+                for sid in ([primary] if isinstance(primary, str) else list(primary or [])):
+                    cited[sid].append(where)
+                for sid in secondary:
+                    cited[sid].append(f"{where} (secondary)")
 
     for sid, where in sorted(cited.items()):
         if sid not in entries:

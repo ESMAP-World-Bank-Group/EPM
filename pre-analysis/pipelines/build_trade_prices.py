@@ -49,6 +49,16 @@ KEY = ["zext", "q", "d", "year"]
 # The zones the EU hypothesis speaks for. Everything else in the file is copied.
 EU_ZONES = ("Bulgaria", "Greece", "Romania")
 
+# Transmission loss on the non-EU corridors, borne by the seller (bareme of
+# 2026-08-19: 2.5% on an AC interconnector, 3% on an HVDC back-to-back, 5% on
+# a submarine cable). The EU zones already carry their loss inside
+# netback.csv; these zones are flat cost-based figures, so the deduction has
+# to be applied here. Only the sell side moves: a Georgian MWh exported to
+# Russia is metered at the far end, so Georgia is paid for 97.5% of what it
+# injects, while an imported MWh is delivered at the border at the quoted
+# price and the loss is the exporter's problem.
+NON_EU_SELLER_LOSS = {"Russia": 0.025}
+
 # Written precision. Deliberately finer than the two decimals a price needs:
 # main.gms:894-895 deletes any hour whose price rounds to zero, in both
 # directions at once, so the margin between the 0.01 floor and the rounding
@@ -136,6 +146,19 @@ def apply_prices(template: pd.DataFrame, priced: pd.DataFrame) -> pd.DataFrame:
     return tmpl.reset_index().sort_values("_row").drop(columns="_row")
 
 
+def apply_seller_loss(sell: pd.DataFrame) -> pd.DataFrame:
+    """Net the seller's transmission loss out of the non-EU export prices."""
+    out = sell.copy()
+    for z, lam in NON_EU_SELLER_LOSS.items():
+        if z in EU_ZONES:
+            _fail(f"{z} is an EU zone; its loss belongs in the netback")
+        m = out["zext"] == z
+        if not m.any():
+            _fail(f"{z} carries a loss coefficient but is absent from the file")
+        out.loc[m, HOURS] = out.loc[m, HOURS].to_numpy() * (1.0 - lam)
+    return out
+
+
 def write_csv(df: pd.DataFrame, path: Path) -> None:
     """CRLF, no BOM, trailing newline - the shape the live file already has."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -211,11 +234,16 @@ def diff_report(template: pd.DataFrame, staged: Dict[str, Dict[str, pd.DataFrame
     L.append("# P5 - staged trade prices vs the live data_blacksea file\n")
     L.append("Live file: every external zone flat across all hours and years - "
              "Bulgaria, Greece, Romania and Kazakhstan at 70 USD/MWh, Iran, "
-             "Iraq and Syria at 40, Russia at 35.\n")
+             "Iraq and Syria at 40, Russia at 45.\n")
+    L.append("On the sell side the non-EU exporter absorbs its own "
+             "transmission loss: "
+             + ", ".join(f"{z} -{lam:.1%}"
+                         for z, lam in sorted(NON_EU_SELLER_LOSS.items()))
+             + ".\n")
     L.append("Only Bulgaria, Greece and Romania are rewritten. The other five "
              "external zones have no liquid hub, no TYNDP entry and no ETS; "
-             "they keep their cost-based values and are copied through "
-             "unchanged.\n")
+             "they keep their cost-based values, copied through on the "
+             "buy side and net of the seller's loss on the sell side.\n")
 
     base = {z: float(template[template["zext"] == z][HOURS].to_numpy().mean())
             for z in EU_ZONES}
@@ -281,7 +309,8 @@ def run(netback_csv: Path, template_csv: Path, scenarios_yaml: Path,
     for name, spec in scen.items():
         lvl, var = spec["level"], spec["variant"]
         buy = apply_prices(template, pivot_netback(nb, lvl, var, "import"))
-        sell = apply_prices(template, pivot_netback(nb, lvl, var, "export"))
+        sell = apply_seller_loss(
+            apply_prices(template, pivot_netback(nb, lvl, var, "export")))
 
         d = out_dir / name
         write_csv(buy, d / "pTradePrice.csv")

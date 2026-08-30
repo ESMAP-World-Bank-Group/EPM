@@ -1,0 +1,55 @@
+id: entsoe_gen_bg_2019_2023
+name: "ENTSO-E Transparency Platform — Actual Generation per Production Type, Bulgaria (hourly 2019-2023)"
+type: open_source
+category: public_database
+url: "https://transparency.entsoe.eu/"
+file: "pre-analysis/cache/entsoe_gen_bg_2019_2023.parquet"
+date: "2026"
+access_note: >
+  ENTSO-E Transparency Platform, dataset: Actual Generation per Production Type,
+  bidding zone BG. Pulled with the entsoe-py client, query_generation('BG'), and cached
+  as pre-analysis/cache/entsoe_gen_bg_2019_2023.parquet — 43,818 hourly rows spanning
+  2019-01-01 to 2023-12-31 (Europe/Sofia), 11 production-type columns: Biomass, Fossil
+  Brown coal/Lignite, Fossil Gas, Fossil Hard coal, Hydro Pumped Storage, Hydro
+  Run-of-river and poundage, Hydro Water Reservoir, Nuclear, Solar, Waste, Wind Onshore.
+
+  CREATED 2026-08-24. The dataset was already in use and already cited by name in
+  provenance.yaml (Bulgaria · pAvailabilityCustom) and in
+  pre-analysis/studies/blacksea_2026/build_bulgaria_availability.py, but it had no
+  catalog entry. Nothing caught that, because validate.py only inspected `source_id`
+  and never `secondary_source_ids`; once the check was widened the dangling citation
+  surfaced as an error.
+
+  DISTINCT FROM entsoe_hourly_load, which is Actual Total LOAD per bidding zone and
+  feeds pDemandProfile. Different ENTSO-E dataset, different EPM resource.
+
+  WHAT IS ACTUALLY TAKEN FROM IT: the seasonal SHAPE only — the relative Q1/Q2/Q3/Q4
+  distribution of two columns, Nuclear and Hydro Water Reservoir. Absolute levels come
+  from elsewhere in both cases: nuclear is rescaled to the IAEA PRIS energy availability
+  factor (see wna_reactor_database), reservoir hydro to the Kinesys 2025 annual level
+  (see bg_ccdr_kinesys_2026), because 2019-2023 was drier than normal.
+
+coverage:
+  countries: [Bulgaria]
+  years: "2019-2023, hourly"
+
+fills_epm_resources:
+  - resource: pAvailabilityCustom
+    coverage: >
+      Bulgaria — quarterly seasonal shape for Kozloduy 5 and 6 (ENTSO-E reports combined
+      BG nuclear generation only, so both units share one shape) and for the 16 reservoir
+      hydro plants. Shape only; levels are set by other sources.
+
+quality:
+  confidence: high
+  notes: >
+    Measured metered data from the TSO, so the shape itself is reliable. Three caveats
+    carried over from build_bulgaria_availability.py:
+    (1) the raw nuclear Q1 capacity factor comes out slightly above 1.0 (1.02), most
+        likely because K5/K6 were uprated to 1,003 MW each (2,006 MW, not the 2,080 MW
+        used as the denominator); values are capped at 1.0 after scaling to PRIS;
+    (2) reservoir hydro is highly variable year to year (CF 0.12 in 2023 against 0.26 in
+        2021), so a single averaged seasonal profile understates the spread;
+    (3) ENTSO-E publishes no per-plant split for Bulgaria, so all reservoir hydro plants
+        share one profile.
+  used_in_studies: [data_blacksea]

@@ -26,7 +26,9 @@ so the size of what is being lost is on the record.
 Who bears what
 --------------
 lambda falls on the seller in each direction: the exporter delivers at the far
-end of the line and eats the loss. W is a fee for crossing someone else's
+end of the line and eats the loss. It is set per external zone - 2.5% on an AC
+interconnector, 5% on the submarine cable to Romania - via `lambda_<zone>` in
+the config, `lambda` being the default. W is a fee for crossing someone else's
 system and falls on whoever initiates the flow, so it is subtracted from the
 export revenue and added to the import cost. C is the CBAM levy and applies to
 imports *into the EU* only, i.e. to the export direction here, and only in the
@@ -83,6 +85,26 @@ def load_series_config(path: Path) -> pd.DataFrame:
     return df
 
 
+def _lambda_map(cfg: pd.DataFrame, zones) -> Dict[str, float]:
+    """Loss coefficient per external zone.
+
+    `lambda` is the default and `lambda_<zone>` overrides it for one zone. The
+    bareme agreed 2026-08-19 is a single figure per route - 2.5% on an AC
+    interconnector, 3% on an HVDC back-to-back, 5% on a submarine HVDC cable -
+    rather than a voltage x length formula, because EPM applies a *linear*
+    per-unit coefficient while real losses are quadratic in flow, so sub-point
+    precision would be illusory. Romania is reached only by BSSC / GECO, some
+    1175 km of submarine cable, hence its own 5%.
+    """
+    default = _one(cfg, "lambda")
+    out = {}
+    for z in zones:
+        key = f"lambda_{z}"
+        has = not cfg[(cfg["series"] == key) & (cfg["year"] == 0)].empty
+        out[z] = _one(cfg, key) if has else default
+    return out
+
+
 def _one(cfg: pd.DataFrame, series: str, year: int = 0) -> float:
     m = cfg[(cfg["series"] == series) & (cfg["year"] == year)]
     if m.empty:
@@ -100,13 +122,21 @@ def load_emission_factors(path: Path) -> Dict[str, float]:
 
 def build_ets_path(cfg: pd.DataFrame, hicp_base: float, hicp_tyndp: float,
                    log=print) -> pd.Series:
-    """Observed 2024 anchor, then linear to the TYNDP points, flat past 2050.
+    """Observed anchors, then linear to the TYNDP points, flat past 2050.
 
     Identical construction to L on purpose. The alternative - holding the 2030
     TYNDP figure flat back to 2026 - would overstate the levy by about 45 % in
     the first CBAM years, which is precisely the stretch the study cares about.
+
+    Every ets_observed row is an anchor, not just 2024: the first TYNDP point is
+    2030, so anything before it is interpolation, and a traded price is worth
+    more than an interpolated one. The observed rows are already real EUR 2024
+    and take no deflator; only the TYNDP rows are EUR 2022.
     """
-    pts = {2024: _one(cfg, "ets_observed", 2024)}
+    obs = cfg[cfg["series"] == "ets_observed"]
+    if obs.empty:
+        _fail("no ets_observed points in the netback config")
+    pts = {int(r.year): float(r.value) for r in obs.itertuples()}
     fwd = cfg[cfg["series"] == "ets_tyndp"]
     if fwd.empty:
         _fail("no ets_tyndp points in the netback config")
@@ -134,7 +164,8 @@ def build_ets_path(cfg: pd.DataFrame, hicp_base: float, hicp_tyndp: float,
 
 
 # ── Assembly ────────────────────────────────────────────────────────────────
-def build_netback(level: pd.DataFrame, shape: pd.DataFrame, lam: float,
+def build_netback(level: pd.DataFrame, shape: pd.DataFrame,
+                  lam: Dict[str, float],
                   w_eur: float, ets: pd.Series, ef: Dict[str, float],
                   rate: float, floor: float) -> pd.DataFrame:
     """One row per zone x scenario x year x q x d x direction x variant.
@@ -173,6 +204,9 @@ def build_netback(level: pd.DataFrame, shape: pd.DataFrame, lam: float,
         if exporter not in ef:
             _fail(f"no Annex III factor for {exporter}, the exporter into {zone}")
         factor = ef[exporter]
+        if zone not in lam:
+            _fail(f"no loss coefficient for {zone}")
+        lam_z = lam[zone]
 
         sh = sh[["q", "d"] + HOURS].reset_index(drop=True)
         # Cross the 28 day-types against every scenario-year. The merge is on a
@@ -187,8 +221,8 @@ def build_netback(level: pd.DataFrame, shape: pd.DataFrame, lam: float,
         ).to_numpy()[:, None]
 
         for direction, variant, values in (
-                ("export", "REF", hub * (1.0 - lam) - w_eur),
-                ("export", "CBAM", hub * (1.0 - lam) - w_eur - levy),
+                ("export", "REF", hub * (1.0 - lam_z) - w_eur),
+                ("export", "CBAM", hub * (1.0 - lam_z) - w_eur - levy),
                 # The importer buys at the hub and pays the fee; the EU seller
                 # carries the loss, and CBAM does not touch a flow leaving the
                 # EU, so the two variants coincide.
@@ -323,13 +357,14 @@ def run(prices_dir: Path, config: Path, deflators: Path, ef_path: Path,
     dfl = load_series_config(deflators)
     ef = load_emission_factors(ef_path)
 
-    lam = _one(cfg, "lambda")
+    lam = _lambda_map(cfg, FACING)
     w_eur = _one(cfg, "W")
     rate = _one(dfl, "eur_usd", 2024)
     hicp24 = _one(dfl, "eur_hicp", 2024)
     hicp22 = _one(dfl, "eur_hicp", 2022)
-    log(f"  lambda {lam:.3f} on the seller | W {w_eur:.2f} EUR/MWh | "
-        f"EUR->USD {rate:.4f}")
+    log("  lambda on the seller: "
+        + " | ".join(f"{z} {v:.3f}" for z, v in sorted(lam.items()))
+        + f" | W {w_eur:.2f} EUR/MWh | EUR->USD {rate:.4f}")
 
     ets = build_ets_path(cfg, hicp24, hicp22, log)
 
@@ -362,7 +397,10 @@ def run(prices_dir: Path, config: Path, deflators: Path, ef_path: Path,
                 head[zone][f"{y}_{var}_raw_mean_usd"] = round(
                     float(g["raw_mean_usd"].mean()), 2)
 
-    qc = {"lambda": lam, "lambda_incidence": "seller, in each direction",
+    qc = {"lambda": lam,
+          "lambda_incidence": "seller, in each direction",
+          "lambda_bareme": "2026-08-19: 2.5% AC, 3% HVDC back-to-back, "
+                           "5% submarine HVDC (Romania via BSSC/GECO)",
           "W_eur2024_per_mwh": w_eur, "eur_usd_2024": rate,
           "export_floor_usd": floor,
           "cbam_start": CBAM_START,

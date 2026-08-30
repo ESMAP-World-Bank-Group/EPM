@@ -1,0 +1,45 @@
+id: wb_epm_turkiye_v7
+name: "World Bank EPM Türkiye Least-Cost Model v7 (2025) — fuel prices on IEA WEO scenarios"
+type: internal_wb
+date: "2025"
+file: "input_epm_Turkiye_v7.xlsx"
+access_note: >
+  World Bank internal EPM model for Türkiye.
+  File: Data/Turkey/2025_Türkiye Least Cost Model/input_epm_Turkiye_v7.xlsx
+  Sheet 'Fuel Prices' — three IEA World Energy Outlook scenarios side by side
+  (STEPS, APS, NZE), rows tagged by scenario name in column A, values already in
+  $/MMBtu. Sheet 'FuelTechnologies' carries the active-scenario selector.
+  Shipped alongside WB_EPM_v8_5_main.gms / _base.gms / _Report.gms.
+coverage:
+  countries: [Turkiye]
+  years: "2024–2053"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Sheet 'Fuel Prices', rows where scenario = STEPS and zone = Turkiye"
+    coverage: >
+      Gas, ImportedCoal, DomesticCoal, HFO (FuelOil), Uranium (Nuclear), Biomass.
+      Gas: 11.3 (2024–25) → 6.5 (2030) → 7.6 (2040) → 7.7 (2050+).
+      ImportedCoal 2.942 flat; DomesticCoal 3.152 flat; HFO 19.36 flat;
+      Uranium 0.97 flat; Biomass 5.0 flat.
+      Two alternative gas trajectories are available in the same sheet with no further
+      sourcing effort: APS 6.0 in 2030 falling to 5.28 by 2039; NZE 4.4 in 2030.
+quality:
+  confidence: medium
+  notes: >
+    WHAT THE SCENARIO NAMES MEAN. The IEA World Energy Outlook publishes three
+    scenarios: STEPS (Stated Policies — only policies actually in force or announced),
+    APS (Announced Pledges — all announced climate commitments are met) and NZE (Net
+    Zero Emissions by 2050). The more the world decarbonises, the less gas it burns and
+    the cheaper gas becomes, so STEPS carries the HIGHEST gas price of the three.
+    A model using STEPS is therefore already on the most expensive gas trajectory this
+    source offers; a "gas stays expensive" case must be constructed by hand.
+    PRICE LEVEL: this is an import-parity cost, not the regulated BOTAŞ resale tariff to
+    power plants. Türkiye imports ~99% of its gas and BOTAŞ has historically resold to
+    generators below its own cost; pricing the resource rather than the tariff is the
+    correct economic-cost convention for a least-cost study, and matches the treatment
+    of Azerbaijan in this deployment.
+    INDEPENDENT CHECK: the 2024–25 value of 11.3 $/MMBtu corresponds to the BOTAŞ
+    power-sector tariff of ~12,000 TL/1000m3, so the near-term calibration is sound.
+    The 2025–2030 fall from 11.3 to 6.5 is the model's single largest driver of regional
+    flows and is a scenario, not a forecast.
+  used_in_studies: [data_blacksea]

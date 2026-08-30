@@ -1,8 +1,10 @@
 # P5 - staged trade prices vs the live data_blacksea file
 
-Live file: every external zone flat across all hours and years - Bulgaria, Greece, Romania and Kazakhstan at 70 USD/MWh, Iran, Iraq and Syria at 40, Russia at 35.
+Live file: every external zone flat across all hours and years - Bulgaria, Greece, Romania and Kazakhstan at 70 USD/MWh, Iran, Iraq and Syria at 40, Russia at 45.
 
-Only Bulgaria, Greece and Romania are rewritten. The other five external zones have no liquid hub, no TYNDP entry and no ETS; they keep their cost-based values and are copied through unchanged.
+On the sell side the non-EU exporter absorbs its own transmission loss: Russia -2.5%.
+
+Only Bulgaria, Greece and Romania are rewritten. The other five external zones have no liquid hub, no TYNDP entry and no ETS; they keep their cost-based values, copied through on the buy side and net of the seller's loss on the sell side.
 
 
 ## Annual mean, USD 2024 per MWh
@@ -48,36 +50,36 @@ Buy side (`pTradePrice`), which is the only file the model reads today.
 
 | scenario | zone | mean buy | mean sell | overstatement |
 |---|---|---|---|---|
-| eu_central | Bulgaria | 97.3 | 90.2 | **+7.2** |
-| eu_central | Greece | 100.8 | 93.5 | **+7.3** |
-| eu_central | Romania | 95.5 | 88.4 | **+7.1** |
-| eu_low | Bulgaria | 75.3 | 68.8 | **+6.5** |
-| eu_low | Greece | 65.0 | 58.8 | **+6.2** |
-| eu_low | Romania | 77.2 | 70.7 | **+6.5** |
-| eu_very_low | Bulgaria | 62.4 | 56.3 | **+6.1** |
-| eu_very_low | Greece | 59.0 | 53.0 | **+6.0** |
-| eu_very_low | Romania | 63.9 | 57.7 | **+6.1** |
-| eu_high | Bulgaria | 131.3 | 123.1 | **+8.2** |
-| eu_high | Greece | 168.6 | 159.3 | **+9.3** |
-| eu_high | Romania | 122.0 | 114.1 | **+7.9** |
-| eu_crisis | Bulgaria | 168.1 | 158.8 | **+9.3** |
-| eu_crisis | Greece | 187.3 | 177.4 | **+9.9** |
-| eu_crisis | Romania | 173.7 | 164.3 | **+9.4** |
-| eu_central_cbam | Bulgaria | 97.3 | 15.4 | **+82.0** |
-| eu_central_cbam | Greece | 100.8 | 15.0 | **+85.8** |
-| eu_central_cbam | Romania | 95.5 | 31.4 | **+64.1** |
-| eu_low_cbam | Bulgaria | 75.3 | 11.9 | **+63.4** |
-| eu_low_cbam | Greece | 65.0 | 9.6 | **+55.4** |
-| eu_low_cbam | Romania | 77.2 | 21.6 | **+55.7** |
-| eu_very_low_cbam | Bulgaria | 62.4 | 10.1 | **+52.3** |
-| eu_very_low_cbam | Greece | 59.0 | 9.1 | **+49.9** |
-| eu_very_low_cbam | Romania | 63.9 | 16.4 | **+47.5** |
-| eu_high_cbam | Bulgaria | 131.3 | 32.3 | **+99.0** |
-| eu_high_cbam | Greece | 168.6 | 57.9 | **+110.7** |
-| eu_high_cbam | Romania | 122.0 | 54.0 | **+68.1** |
-| eu_crisis_cbam | Bulgaria | 168.1 | 62.5 | **+105.6** |
-| eu_crisis_cbam | Greece | 187.3 | 74.9 | **+112.4** |
-| eu_crisis_cbam | Romania | 173.7 | 102.6 | **+71.1** |
+| eu_central | Bulgaria | 97.3 | 90.7 | **+6.7** |
+| eu_central | Greece | 100.8 | 94.0 | **+6.8** |
+| eu_central | Romania | 95.5 | 86.5 | **+9.0** |
+| eu_low | Bulgaria | 75.3 | 69.2 | **+6.1** |
+| eu_low | Greece | 65.0 | 59.1 | **+5.9** |
+| eu_low | Romania | 77.2 | 69.2 | **+8.1** |
+| eu_very_low | Bulgaria | 62.4 | 56.6 | **+5.8** |
+| eu_very_low | Greece | 59.0 | 53.3 | **+5.7** |
+| eu_very_low | Romania | 63.9 | 56.5 | **+7.4** |
+| eu_high | Bulgaria | 131.3 | 123.8 | **+7.5** |
+| eu_high | Greece | 168.6 | 160.1 | **+8.5** |
+| eu_high | Romania | 122.0 | 111.7 | **+10.3** |
+| eu_crisis | Bulgaria | 168.1 | 159.7 | **+8.4** |
+| eu_crisis | Greece | 187.3 | 178.3 | **+9.0** |
+| eu_crisis | Romania | 173.7 | 160.9 | **+12.9** |
+| eu_central_cbam | Bulgaria | 97.3 | 16.0 | **+81.4** |
+| eu_central_cbam | Greece | 100.8 | 15.6 | **+85.2** |
+| eu_central_cbam | Romania | 95.5 | 30.1 | **+65.3** |
+| eu_low_cbam | Bulgaria | 75.3 | 12.4 | **+62.9** |
+| eu_low_cbam | Greece | 65.0 | 10.1 | **+54.9** |
+| eu_low_cbam | Romania | 77.2 | 20.9 | **+56.4** |
+| eu_very_low_cbam | Bulgaria | 62.4 | 10.5 | **+51.9** |
+| eu_very_low_cbam | Greece | 59.0 | 9.6 | **+49.5** |
+| eu_very_low_cbam | Romania | 63.9 | 16.0 | **+47.9** |
+| eu_high_cbam | Bulgaria | 131.3 | 33.2 | **+98.1** |
+| eu_high_cbam | Greece | 168.6 | 59.1 | **+109.5** |
+| eu_high_cbam | Romania | 122.0 | 52.0 | **+70.1** |
+| eu_crisis_cbam | Bulgaria | 168.1 | 63.7 | **+104.4** |
+| eu_crisis_cbam | Greece | 187.3 | 76.2 | **+111.1** |
+| eu_crisis_cbam | Romania | 173.7 | 99.6 | **+74.2** |
 
 ## Untouched zones
 
@@ -86,5 +88,5 @@ Buy side (`pTradePrice`), which is the only file the model reads today.
 | Iran | 40 | cost-based, unchanged |
 | Iraq | 40 | cost-based, unchanged |
 | Kazakhstan | 70 | cost-based, unchanged |
-| Russia | 35 | cost-based, unchanged |
+| Russia | 45 | cost-based, unchanged |
 | Syria | 40 | cost-based, unchanged |

@@ -26,8 +26,13 @@ access_note: >
      (Azerbaijan Renewable Energy Agency, AREA, under the Ministry of Energy).
        https://area.gov.az/en/page/yasil-texnologiyalar/boem-potensiali
        https://rise.esmap.org/sites/default/files/library/azerbaijan/Renewable%20Energy/Azerbaijian_The%20Use%20of%20Renewable%20Energy%20Resources%20in%20Azerbaijan%20_Ministry%20of%20Energy%20of%20Azerbaijan.pdf
-     (Caspian OFFSHORE wind technical potential ~157 GW per WB/ESMAP — excluded from
-     near-term onshore candidate ceilings.)
+     Caspian OFFSHORE wind technical potential ~157 GW per WB/ESMAP. That figure is a
+     technical potential including deep-water floating, not a deployable ceiling, and it is
+     NOT the number carried into the model. From 2026-08-29 an offshore candidate exists
+     (AzerbaijanMain_Offshore_Generic) with a 3000 MW ceiling at 300 MW/yr from COD 2032 —
+     a deployment-horizon bound set by assumption, to be reconciled with the WB/ESMAP
+     Azerbaijan offshore wind roadmap. The offshore GENERATION PROFILE is a yield-corrected
+     onshore shape, not an offshore resource assessment: see [blacksea_load_vre_2023].
    - NAKHCHIVAN — no dedicated study; ceiling set by assumption (solar 2 GW / wind 1 GW),
      scaled to the isolated system size.
 
@@ -42,7 +47,8 @@ fills_epm_resources:
       Sets the Capacity (upper build bound) of generic solar/wind expansion candidates
       to the sourced technical/economic potential per zone. Adopted ceilings (MW):
       Armenia PV 8000 / Wind 3000; Georgia PV 4500 / Wind 4000 (GSE); AzerbaijanMain
-      PV 23000 / Wind 3000; Nakhchivan PV 2000 / Wind 1000 (assumption).
+      PV 23000 / Wind 3000 onshore + 3000 offshore (assumption, see above);
+      Nakhchivan PV 2000 / Wind 1000 (assumption).
 
 quality:
   confidence: medium

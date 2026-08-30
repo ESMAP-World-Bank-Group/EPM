@@ -1,0 +1,46 @@
+id: caucasus_gas_contracts_2026
+name: "South Caucasus bilateral gas contract prices (Armenia–Gazprom, Georgia marginal import), 2026 review"
+type: open_source
+date: "2026-08"
+access_note: >
+  Not a downloadable dataset. Contract prices compiled from public reporting and trade
+  statistics during the 2026-08 gas assumptions review for the Black Sea study.
+  ARMENIA: the Armenia–Gazprom border price, publicly reported as frozen at
+  165 USD/1000m3 from 2019 through 2025 and revised to 177.5 USD/1000m3 for 2026.
+  Armenia is supplied almost entirely by Gazprom through a single pipeline crossing
+  Georgia; a secondary barter with Iran exchanges 1 m3 of gas for 3 kWh of electricity.
+  GEORGIA: the price at which Georgian thermal plants buy marginal Russian gas,
+  reported in the 185–215 USD/1000m3 band. Since 2024 Georgian TPPs are supplied
+  "close to the actual market price" rather than at a subsidised blended rate.
+  This is distinct from the cheap Azeri "social gas" (~150 USD/1000m3), which serves
+  households and is NOT what Gardabani burns.
+coverage:
+  countries: [Armenia, Georgia]
+  years: "2019–2026 observed; 2027–2053 assumption"
+fills_epm_resources:
+  - resource: pFuelPrice
+    location: "Gas rows for Armenia and Georgia in supply/pFuelPrice.csv"
+    coverage: >
+      Armenia Gas: 4.583 $/MMBtu (2024–25), 4.931 (2026–30), then +5% per five-year
+      block to 6.293 by 2053.
+      Georgia Gas: 5.50 $/MMBtu (2024) escalated +0.63%/yr in real terms to 6.60 by 2053.
+      Conversion: 36 MMBtu/1000m3 (HHV, ~38.7 MJ/m3), consistent with EPM's
+      efficiency = 3.412/HeatRate convention.
+quality:
+  confidence: medium
+  notes: >
+    These are CONTRACT prices, not market quotations. They are negotiated bilaterally,
+    move in steps rather than continuously, and are politically contingent. The
+    near-term levels are well established and independently verifiable; the post-2030
+    escalation is an explicit modelling assumption (Gazprom's discount to Armenia erodes
+    slowly rather than converging on European hub prices), not an observation.
+    CHOSEN OVER THE IMF SUPPLY COST for both countries because that column behaves as an
+    international import-parity construct for net importers — Georgia jumps 7.82 → 12.36
+    USD/GJ and Armenia 6.41 → 9.52 across the 2021–22 European gas crisis — and lands at
+    roughly double the price actually paid under contract. See the Georgia and Azerbaijan
+    pFuelPrice provenance notes for the full argument, including why the same IMF column
+    IS appropriate for Azerbaijan.
+    UNITS CAVEAT: 36 MMBtu/1000m3 is an HHV basis. On an LHV basis (~33.5) the same
+    contract prices are ~7.5% higher. The HHV/LHV convention is an open item model-wide,
+    not specific to these two countries.
+  used_in_studies: [data_blacksea]
