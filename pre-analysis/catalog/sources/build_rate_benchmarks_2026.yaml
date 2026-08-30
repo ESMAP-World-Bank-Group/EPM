@@ -1,0 +1,181 @@
+id: build_rate_benchmarks_2026
+name: "Observed annual capacity additions and growth-constraint benchmarks (build-limit calibration)"
+type: open_source
+category: derived
+date: "2026"
+url: "https://www.nature.com/articles/s41560-021-00863-0"
+access_note: >
+  Calibration basis for BuildLimitperYear in pGenDataInput and pStorageDataInput. The
+  parameter is a PHYSICAL PLAUSIBILITY GUARD (supply chain, permitting, grid connection,
+  workforce), not a policy target and not an economic parameter. It must be loose enough
+  never to determine the least-cost mix on its own, and tight enough to forbid a single-year
+  build that no comparable country has ever achieved. If it binds, that is a finding to
+  report, not a result to publish.
+
+  THE RULE, per country c, technology t, year y:
+
+      L(c,t,y) = min[ b0(c,t) * gamma_t^(y-2025) , plateau(c,t,y) ]
+      b0(c,t)  = max( additions observed in 2025 in c , sigma_t * Peak2025(c) )
+
+  This is the growth-constraint form used by the capacity-expansion models that treat
+  build rates explicitly, and the coefficient names map one to one onto theirs:
+    - PyPSA: a global constraint of the form G(a,s) <= max_relative_growth(s) * G(a-1,s)
+      + max_growth(s). gamma is max_relative_growth, sigma * Peak is max_growth.
+      https://pypsa.readthedocs.io/en/latest/user-guide/components.html
+    - MESSAGEix: NEW_CAPACITY_CONSTRAINT_UP, with growth_new_capacity_up as the annual
+      growth of the build rate and initial_new_capacity_up as the standing-start seed that
+      lets a technology with no installed base begin.
+      https://docs.messageix.org/en/latest/model/MESSAGE/model_core.html
+    - NREL ReEDS: the same idea applied as a growth PENALTY on the cost of exceeding a
+      historical growth rate, rather than as a hard bound.
+      https://www.nrel.gov/docs/fy24osti/87897.pdf
+
+  WHY b0 IS PER COUNTRY. The rule this replaced was max[s * Peak, g * Fleet2025], a single
+  share of peak applied to every country. It does not survive contact with the data: 2025
+  solar additions as a share of the 2025 peak ran 3.9% in Azerbaijan, 7.3% in Turkiye, 19.7%
+  in Bulgaria, 20.6% in Romania and 36% in Armenia, a factor of nine. Any single coefficient
+  is therefore either absurd for the large systems or binding for the small ones; in
+  practice it gave Turkiye 3.2x its record year while capping Armenia at 343 MW/yr, below
+  the 615 MW Armenia had just installed. b0 is what each country has itself demonstrated,
+  which is the only quantity that transfers between a 75 GW system and a 1.7 GW one.
+
+  b0, OBSERVED ADDITIONS IN CALENDAR 2025 (MW). These are the only country-specific
+  hand-entered numbers in the rule.
+   - SOLAR PV
+       Turkiye  4,694 (cumulative 24,795 MW at end-2025, TEIAS)
+         https://www.pv-magazine.com/2026/01/07/turkiye-installs-4-7-gw-of-solar-in-2025/
+         https://ember-energy.org/latest-insights/turkiye-surpasses-2025-solar-target-as-capacity-doubles-in-2-5-years/
+       Romania  2,200 (1.2 GW utility-scale + 1.0 GW prosumer); 1,700 in 2024
+         https://www.pv-magazine.com/2026/01/14/romania-installs-2-2-gw-of-solar-in-2025/
+         https://www.pv-magazine.com/2025/01/31/romanias-2024-solar-additions-hit-1-7-gw/
+       Bulgaria 1,416 (third consecutive year above 1 GW, cumulative 5,984 MW, ENTSO-E)
+         https://www.pv-magazine.com/2026/02/02/bulgaria-installs-1-4-gw-of-solar-in-2025/
+       Armenia  615 (485 -> 1,100 MW, overwhelmingly distributed)
+         https://www.pv-magazine.com/2026/02/05/armenia-hits-1-1-gw-of-installed-solar/
+       Azerbaijan 230 (Garadagh; Bilasuvar and Neftchala still under construction)
+       Georgia  0 (10.8 MW installed in total at end-2025)
+   - ONSHORE WIND
+       Turkiye  1,900, its record year (6.5 GW of wind and solar combined)
+         https://ember-energy.org/latest-insights/turkiye-electricity-review-2026/
+         https://www.windtech-international.com/windtech-markets/tuerkiyes-wind-sector-expands-capacity-and-industry-base
+       Romania  470 (3.00 -> 3.47 GW)
+       Azerbaijan 240 (Khizi-Absheron)
+       Bulgaria, Armenia, Georgia: 0
+   - Where a technology has no published additions series (CCGT, OCGT, biomass), b0 falls
+     back to the largest single commissioning year in the deployment's own fleet since 2010,
+     excluding the *_AGG_* rows, which collapse decades of commissioning onto one StYr and
+     would read as a fictitious record year. This is thin evidence: it reads one lumpy
+     commissioning as a sustained rate. It is used because it is at least that country's own
+     history, and it is flagged: Azerbaijan CCGT 1,280 MW/yr and Armenia CCGT 467 MW/yr both
+     come from a single plant. In Armenia the row's Capacity of 250 MW binds first, so the
+     limit is inert there.
+
+  sigma_t, THE STANDING-START SEED (share of the 2025 peak). Without it, gamma * 0 = 0
+  forbids anything a country has never built: Georgia has no PV, the region has no offshore
+  wind and no utility-scale battery fleet. sigma is an ASSUMPTION in every case, set low
+  enough that it is the growth term, not the seed, that governs after a few years:
+  PV 2.0%, OnshoreWind 2.0%, OffshoreWind 1.0%, Storage 2.0%, CCGT and OCGT 1.0%,
+  BiomassPlant 0.5%. Peaks come from the deployment's own pDemandForecast (TR 64.2 GW,
+  RO 10.7, BG 7.2, AZ 5.3, GE 2.6, AM 1.4), so the shares are internally consistent with the
+  model rather than with an external peak series.
+
+  gamma_t, THE ANNUAL GROWTH OF THE BUILD RATE. A build programme grows out of the one
+  before it: an industry that installed 1 GW last year can reach 1.2 GW, not 5 GW. Set at
+  +20%/yr for PV, wind and storage, +10% for gas, +5% for biomass. ASSUMPTIONS, but bounded
+  by observation on the fast side: Turkiye's solar fleet grew 10.9 -> 19.8 GW in two years
+  and Bulgaria's 3.6 -> 5.98 GW in one, so +20% on the RATE (not on the fleet) is
+  conservative against what the region has actually done.
+
+  plateau_t, THE SATURATION. National diffusion is logistic, not exponential, so the
+  compounding has to stop somewhere. The plateau is expressed in the metric of the empirical
+  diffusion literature - annual additions as a share of national electricity supply - at 3%
+  for PV and onshore wind and 2% for offshore, converted to MW at the technology's
+  pHours-weighted capacity factor and the year's demand from pDemandForecast. For storage
+  and thermal, where an energy share cannot describe the technology, it is a share of peak:
+  5% for storage, 8% for gas, 2% for biomass. The plateau is NEVER set below b0, so no
+  country is capped below a rate it has already achieved.
+
+  LITERATURE ANCHOR FOR THE PLATEAU.
+   - Cherp, Vinichenko, Tosun, Gordon and Jewell, "National growth dynamics of wind and
+     solar power compared to the growth required for global climate targets", Nature Energy
+     6, 742-754 (2021): the maximum sustained national growth observed is about 0.6% of
+     electricity supply per year for solar and 0.8% for onshore wind.
+     https://www.nature.com/articles/s41560-021-00863-0
+     The 3% used here is 4-5x that maximum, deliberately: this is a plausibility guard, not
+     a forecast, and it must not become the binding constraint on the least-cost mix.
+   - Oberg, Phan, Goransson, Vetier, Jewell and Kazlou (2026), SSRN 6667541: growth limits
+     imposed only at regional level concentrate deployment implausibly in a few countries;
+     limits have to be set nationally. That is why the rule runs per country and the national
+     limit is then split across zones, rather than being set on the region.
+     https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6667541
+
+  TIME. BuildLimitperYear has no year dimension in EPM, one value governs 2025-2040, so the
+  growth path L(y) is flattened to its MEAN over the build years 2026-2040. The mean is the
+  flattening that preserves the cumulative headroom the path allows; only the shape is lost.
+  Making the limit genuinely time-varying without touching the GAMS would mean splitting
+  every generic candidate into vintage tranches (StYr 2027 and StYr 2033, since main.gms:805
+  fixes vCap to zero before StYr), which is about 120 extra rows across pGenDataInput,
+  pStorageDataInput, pAvailabilityCustom and pCapexTrajectoriesCustom. Rejected: the
+  deployment is already near its memory ceiling at a 16-year horizon.
+
+  POLICY CROSS-CHECK. The Turkish National Energy Plan targets 52.9 GW solar and 29.6 GW
+  wind by 2035 (from 7.8 and 10.6 GW in 2021), within 189.7 GW of total capacity, hydro
+  35.1 GW and nuclear 7.2 GW. That is about 3.2 GW/yr of solar and 1.7 GW/yr of wind as the
+  POLICY pace. The rule leaves 8.7 and 5.4 GW/yr, i.e. 2.7x and 3.2x the plan: the guard
+  constrains the absurd, not the ambitious.
+    https://www.enerdata.net/publications/daily-energy-news/turkeys-national-energy-plan-2035-will-boost-solar-and-wind-capacities.html
+    https://www.climatepolicydatabase.org/policies/national-energy-plan-2023-2035
+
+coverage:
+  countries: [Turkiye, Romania, Bulgaria, Georgia, Armenia, Azerbaijan]
+  years: "observed additions 2023-2025; growth path 2026-2040; policy targets to 2035"
+
+fills_epm_resources:
+  - resource: pGenDataInput
+    location: "BuildLimitperYear, generic and aggregated candidate rows (Status 3) only"
+    coverage: >
+      Sets the annual build limit of GENERIC candidates. Named projects keep
+      BuildLimitperYear = Capacity, the lead time being already carried by StYr. Hydro,
+      pumped storage, nuclear and geothermal are excluded from the formula entirely: they are
+      limited by sites, not by build rate. NOTE that tech "ST" holds GEOTHERMAL in this
+      deployment and not coal - the only ST candidates are Geo_Candidate_WestMed, _WestAna
+      and _CenterAna, fuel Geothermal, 265 MW in total - so pinning ST to zero as a
+      no-new-coal assumption would delete Turkish geothermal instead, and is not done.
+      Because EPM applies the limit per ROW (main.gms:722) and has no country-level aggregate
+      constraint, a national limit must be split across the zones that carry a generic
+      candidate: the split key is the zone share of the pHours-weighted capacity factor from
+      pVREProfile for VRE, and the zone share of peak demand for dispatchable technologies.
+      Shares are floored at 5% so that no zone is locked out by a marginal resource, then
+      renormalised. Where several candidate ROWS sit in the same zone for the same technology
+      (the five BESS durations, the two Romanian onshore wind classes) they divide that
+      zone's allowance between them, since EPM would otherwise grant each row the full share.
+      Keys sum to 1, so the national limit is exact and no slack factor is applied.
+  - resource: pStorageDataInput
+    location: "BuildLimitperYear of storage candidates"
+    coverage: >
+      Same rule with gamma = 1.20, sigma = 2.0% of peak and a plateau of 5% of peak
+      (ASSUMPTIONS, no regional anchor: the region has no utility-scale battery fleet),
+      applied to BATTERY candidates only; pumped-hydro rows are excluded by name. NOTE that
+      input_treatment.merge_storage_into_gendata gives pStorageDataInput the last word on a
+      unit present in both files, so a duplicated candidate must be edited here and not in
+      pGenDataInput: Georgia_BESS_Cand sits in both and the pGenDataInput twin is inert.
+
+quality:
+  confidence: medium
+  notes: >
+    The observed 2025 additions behind b0 are the defensible part of the calibration and are
+    individually sourced above. Every gamma and every sigma is an ASSUMPTION with no regional
+    observation behind it, as is the plateau for storage and thermal. The b0 of CCGT, OCGT
+    and biomass comes from the deployment's own fleet rather than from a published series and
+    reads one lumpy commissioning year as a sustained rate; it loosens Azerbaijani CCGT from
+    400 to 1,280 MW/yr, which should be revisited if gas build turns out to matter to the
+    results. Shares of peak use the model's own pDemandForecast rather than published peak
+    series, so they are internally consistent but not directly comparable to external
+    statistics. The rule is symmetric by construction - it tightens the absurd values and
+    loosens the over-constrained ones - which is what distinguishes it from a targeted cut of
+    any one country. If a build turns out to be limited by this parameter, the result must be
+    reported as constrained rather than optimal.
+    Implementation: blacksea_2026/BuildLimit_method_slide.py holds the rule, builds the
+    method slide (BuildLimit_method.pptx) and writes the values into the CSVs, so the
+    documentation and the data come from one compute() and cannot diverge.
+  used_in_studies: [data_blacksea]

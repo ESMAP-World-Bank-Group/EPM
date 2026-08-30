@@ -220,6 +220,11 @@ def h(text):
     return str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def md_cell(text):
+    """A markdown table cell survives neither a newline nor a pipe: keep both visible."""
+    return str(text).strip().replace("|", "&#124;").replace(chr(10), "<br>")
+
+
 def render_proxy_note_md(info, catalog):
     """Return a proxy chain line for MD if proxy_of is set."""
     proxy_of = info.get("proxy_of", "")
@@ -373,7 +378,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
                     lines.append(
                         f"| {row.get('period', '')} "
                         f"| `{row.get('method', '')}` "
-                        f"| {row.get('notes', '')} |"
+                        f"| {md_cell(row.get('notes', ''))} |"
                     )
                 lines.append("")
 
@@ -610,7 +615,7 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
                     out.append(
                         f'<tr><td>{h(row.get("period", ""))}</td>'
                         f'<td><code>{h(row.get("method", ""))}</code></td>'
-                        f'<td>{h(row.get("notes", ""))}</td></tr>'
+                        f'<td>{h(row.get("notes", "")).replace(chr(10), "<br>")}</td></tr>'
                     )
                 out.append('</tbody></table>')
 
