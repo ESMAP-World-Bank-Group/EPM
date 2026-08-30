@@ -296,6 +296,35 @@ def npv(by_year, years, weight, rr):
     return sum(by_year[y] * weight[y] * rr[y] for y in years)
 
 
+def npv_by_zone(r):
+    """Per scenario and internal zone, the discounted cost of the external corridors.
+
+    The model objective never sees this capex - pExtTransferLimit carries no
+    investment variable - so no output of a run can be made to yield it. Written
+    beside summary.csv as npv_external.csv, it is the one component the results
+    dashboard cannot rebuild on its own, and the zone column is what lets it land
+    on the right country.
+
+    Same discounting as npv(): the annuity is paid from commissioning to the end
+    of the horizon, on the model's own year weights.
+    """
+    rows = []
+    for scenario in r["ext_files"]:
+        by_zone = {}
+        for d in r["rows_detail"]:
+            if d["scenario"] != scenario or d["annuity_musd_per_yr"] is None:
+                continue
+            factor = sum(r["weight"][y] * r["rr"][y]
+                         for y in r["years"] if y >= d["commissioning"])
+            by_zone[d["z"]] = (by_zone.get(d["z"], 0.0)
+                               + d["annuity_musd_per_yr"] * factor)
+        for z, v in sorted(by_zone.items()):
+            if abs(v) > 1e-9:
+                rows.append({"scenario": scenario, "zone": z,
+                             "value": round(v, 4)})
+    return rows
+
+
 def annuity_discount_factor(years, weight, rr, commissioning, wacc, life):
     """Discounted cost of one MUSD of capex commissioned in a given year.
 
@@ -445,6 +474,19 @@ def selftest(data, baseline):
               [d["phase"] for d in gr("LC_BSSC")] ==
               [d["phase"] for d in gr("LC_GECO")][:len(gr("LC_BSSC"))])
 
+    # The per-zone split published for the dashboard must be the same money as the
+    # scenario total: a zone dropped there is a benefit invented downstream.
+    zone_npv = {}
+    for row in npv_by_zone(r):
+        zone_npv[row["scenario"]] = zone_npv.get(row["scenario"], 0.0) + row["value"]
+    for s, x in npv_by.items():
+        if x["unpriced_phases"]:
+            continue
+        check("%s npv_external splits its whole NPV" % s,
+              abs(zone_npv.get(s, 0.0) - x["external_capex_npv_musd"]) < 0.01,
+              "total %.1f, zones %.1f"
+              % (x["external_capex_npv_musd"], zone_npv.get(s, 0.0)))
+
     # Capacity conservation: what the catalogue prices must equal what the
     # pExtTransferLimit files actually commission.
     years = r["years"]
@@ -507,6 +549,8 @@ def main():
 
     write_csv(out / "ext_transmission_capex_by_year.csv",
               ["scenario", "attribute", "year", "value"], r["rows_year"])
+    write_csv(out / "npv_external.csv",
+              ["scenario", "zone", "value"], npv_by_zone(r))
     write_csv(out / "ext_transmission_capex_detail.csv",
               ["scenario", "z", "zext", "family", "phase", "commissioning",
                "mw", "capex_musd", "life", "annuity_musd_per_yr"], r["rows_detail"])

@@ -4,10 +4,18 @@ pour EPM View. Arrive sous {branch}/epm/output/...  (l'app lit "output").
 
 On n'envoie QUE les .csv (les gros .gdx/logs sont ignores).
 
+  --only <motif>   n'envoie que les chemins qui matchent (glob, relatif a output_view).
+                   Pour republier UN fichier sans repasser sur les 8+ Go du dossier :
+                     --only "simulations_run_*/npv_external.csv"
+                   Le manifest reste calcule sur TOUS les runs presents : le filtrer
+                   ferait disparaitre de EPM View les runs qu'on n'a pas reuploades.
+
 Variables d'env (via publish.ps1 -> tools/.env) :
   EPM_REPO, EPM_BRANCH, STORE_ENDPOINT, STORE_BUCKET + AWS_* (s3fs)
 """
+import argparse
 import csv
+import fnmatch
 import json
 import os
 import tempfile
@@ -75,10 +83,22 @@ if not LOCAL.is_dir():
 
 fs = s3fs.S3FileSystem(client_kwargs={"endpoint_url": endpoint})
 
-files = [p for p in LOCAL.rglob("*.csv") if p.is_file()]
-if not files:
+ap = argparse.ArgumentParser()
+ap.add_argument("--only", help="glob sur le chemin relatif a output_view (ex: 'run_x/npv_external.csv')")
+args = ap.parse_args()
+
+all_files = [p for p in LOCAL.rglob("*.csv") if p.is_file()]
+if not all_files:
     print("  (output_view vide -> rien a publier)")
     raise SystemExit(0)
+
+files = all_files
+if args.only:
+    files = [p for p in all_files if fnmatch.fnmatch(p.relative_to(LOCAL).as_posix(), args.only)]
+    print(f"  --only {args.only} -> {len(files)}/{len(all_files)} csv")
+    if not files:
+        print("  (aucun fichier ne matche -> rien a publier)")
+        raise SystemExit(1)
 
 print(f"  {len(files)} csv -> s3://{bucket}/{PREFIX}/")
 for p in files:
@@ -93,7 +113,7 @@ print(f"  OK ({len(files)} csv)")
 # input one. Send them too -- they are small, and without them the fallback is
 # the only thing left and it shows the zoning of whatever the input folder
 # happens to ship rather than the one the run solved.
-layers = [p for p in LOCAL.glob("*/*.geojson") if p.is_file()]
+layers = [] if args.only else [p for p in LOCAL.glob("*/*.geojson") if p.is_file()]
 for p in layers:
     fs.put_file(str(p), f"{bucket}/{PREFIX}/{p.relative_to(LOCAL).as_posix()}")
 print(f"  OK ({len(layers)} map layer(s))")
@@ -101,7 +121,7 @@ print(f"  OK ({len(layers)} map layer(s))")
 # --- manifest des runs (R2 public ne liste pas les dossiers -> EPM View lit ce json) ---
 runs = sorted({
     p.relative_to(LOCAL).parts[0]
-    for p in files
+    for p in all_files
     if len(p.relative_to(LOCAL).parts) > 1
 })
 manifest = json.dumps({"runs": runs}, indent=2)
