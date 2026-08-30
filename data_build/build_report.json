@@ -143,6 +143,7 @@
     "renewables_ninja": {
       "name": "Renewables.ninja / ERA5",
       "date": 2026,
+      "url": "https://www.renewables.ninja/",
       "access": "open_source",
       "grade": "secondary",
       "where": "renewables.ninja",
@@ -160,6 +161,7 @@
     "global_wind_atlas": {
       "name": "Global Wind Atlas 3.3 (DTU Wind Energy / World Bank / ESMAP)",
       "date": 2026,
+      "url": "https://globalwindatlas.info/",
       "access": "open_source",
       "grade": "secondary",
       "where": "globalwindatlas.info",
@@ -177,6 +179,7 @@
     "epa_ghg_factors": {
       "name": "US EPA greenhouse gas emission factors for stationary combustion",
       "date": 2014,
+      "url": "https://www.epa.gov/climateleadership/ghg-emission-factors-hub",
       "access": "open_source",
       "grade": "primary",
       "ages": false,
@@ -259,6 +262,7 @@
   },
   "resources": [
     {
+      "name": "Model years",
       "path": "y.csv",
       "group": "Scope",
       "action": "rows",
@@ -276,6 +280,7 @@
       "rows_out": 13
     },
     {
+      "name": "Zones and countries",
       "path": "zcmap.csv",
       "group": "Scope",
       "action": "keep",
@@ -294,6 +299,7 @@
       "rows_out": 16
     },
     {
+      "name": "Model settings",
       "path": "pSettings.csv",
       "group": "Scope",
       "action": "set",
@@ -318,6 +324,7 @@
       "rows_out": 77
     },
     {
+      "name": "Solver options",
       "path": "cplex/cplex_baseline.opt",
       "group": "Scope",
       "action": "settings",
@@ -338,6 +345,7 @@
       "rows_out": 12
     },
     {
+      "name": "Run configuration",
       "path": "config.csv",
       "group": "Scope",
       "action": "keep",
@@ -354,6 +362,7 @@
       "rows_out": 37
     },
     {
+      "name": "Time blocks",
       "path": "pHours.csv",
       "group": "Scope",
       "action": "table",
@@ -379,6 +388,7 @@
       "rows_out": 15
     },
     {
+      "name": "Technology and fuel pairs",
       "path": "pTechFuel.csv",
       "group": "Scope",
       "action": "rows",
@@ -398,6 +408,7 @@
       "rows_out": 26
     },
     {
+      "name": "Carbon content of fuels",
       "path": "pFuelCarbonContent.csv",
       "group": "Scope",
       "action": "keep",
@@ -415,6 +426,7 @@
       "rows_out": 10
     },
     {
+      "name": "Hourly demand, absolute",
       "path": "load/pDemandData.csv",
       "group": "Demand",
       "action": "empty",
@@ -435,6 +447,7 @@
       "rows_out": 0
     },
     {
+      "name": "Annual demand and peak",
       "path": "load/pDemandForecast.csv",
       "group": "Demand",
       "action": "table",
@@ -456,6 +469,7 @@
       "rows_out": 32
     },
     {
+      "name": "Hourly load shape",
       "path": "load/pDemandProfile.csv",
       "group": "Demand",
       "action": "table",
@@ -481,6 +495,7 @@
       "rows_out": 240
     },
     {
+      "name": "Energy efficiency",
       "path": "load/pEnergyEfficiencyFactor.csv",
       "group": "Demand",
       "action": "keep",
@@ -494,6 +509,7 @@
       "rows_out": 0
     },
     {
+      "name": "Representative days kept",
       "path": "load/sRelevant.csv",
       "group": "Demand",
       "action": "keep",
@@ -509,6 +525,7 @@
       "rows_out": 0
     },
     {
+      "name": "Power plants",
       "path": "supply/pGenDataInput.csv",
       "group": "Fleet",
       "action": "table",
@@ -531,6 +548,7 @@
       "rows_out": 419
     },
     {
+      "name": "Plant availability",
       "path": "supply/pAvailabilityCustom.csv",
       "group": "Fleet",
       "action": "table",
@@ -552,6 +570,7 @@
       "rows_out": 419
     },
     {
+      "name": "Default availability",
       "path": "supply/pAvailabilityDefault.csv",
       "group": "Fleet",
       "action": "header",
@@ -582,6 +601,7 @@
       "rows_out": 0
     },
     {
+      "name": "Candidate plants",
       "path": "supply/pGenDataInputDefault.csv",
       "group": "Fleet",
       "action": "keep",
@@ -599,6 +619,7 @@
       "rows_out": 0
     },
     {
+      "name": "Solar and wind output",
       "path": "supply/pVREProfile.csv",
       "group": "Fleet",
       "action": "table",
@@ -621,6 +642,7 @@
       "rows_out": 480
     },
     {
+      "name": "Plant capex over time",
       "path": "supply/pCapexTrajectoriesCustom.csv",
       "group": "Fleet",
       "action": "keep",
@@ -638,6 +660,7 @@
       "rows_out": 0
     },
     {
+      "name": "Default capex over time",
       "path": "supply/pCapexTrajectoriesDefault.csv",
       "group": "Fleet",
       "action": "table",
@@ -657,6 +680,7 @@
       "rows_out": 150
     },
     {
+      "name": "Fuel prices",
       "path": "supply/pFuelPrice.csv",
       "group": "Fleet",
       "action": "table",
@@ -678,6 +702,7 @@
       "rows_out": 25
     },
     {
+      "name": "Storage",
       "path": "supply/pStorageDataInput.csv",
       "group": "Fleet",
       "action": "table",
@@ -699,6 +724,7 @@
       "rows_out": 8
     },
     {
+      "name": "Availability drift",
       "path": "supply/pEvolutionAvailability.csv",
       "group": "Fleet",
       "action": "keep",
@@ -711,6 +737,7 @@
       "rows_out": 0
     },
     {
+      "name": "Concentrated solar",
       "path": "supply/pCSPData.csv",
       "group": "Fleet",
       "action": "keep",
@@ -724,6 +751,7 @@
       "rows_out": 0
     },
     {
+      "name": "Interconnection capacity",
       "path": "trade/pTransferLimit.csv",
       "group": "Trade",
       "action": "table",
@@ -746,6 +774,7 @@
       "rows_out": 210
     },
     {
+      "name": "Contracted trade, corridors",
       "path": "trade/pContractedTradeFlag.csv",
       "group": "Trade",
       "action": "table",
@@ -764,6 +793,7 @@
       "rows_out": 10
     },
     {
+      "name": "Contracted trade, volumes",
       "path": "trade/pContractedTradeEnergy.csv",
       "group": "Trade",
       "action": "table",
@@ -785,6 +815,7 @@
       "rows_out": 6
     },
     {
+      "name": "Historical trade cap",
       "path": "trade/pHistoricalTradeFlag.csv",
       "group": "Trade",
       "action": "keep",
@@ -801,6 +832,7 @@
       "rows_out": 18
     },
     {
+      "name": "Transmission losses",
       "path": "trade/pLossFactorInternal.csv",
       "group": "Trade",
       "action": "keep",
@@ -817,6 +849,7 @@
       "rows_out": 48
     },
     {
+      "name": "Annual transfer cap",
       "path": "trade/pMaxAnnualTransfer.csv",
       "group": "Trade",
       "action": "keep",
@@ -833,6 +866,7 @@
       "rows_out": 8
     },
     {
+      "name": "Candidate lines",
       "path": "trade/pNewTransmission.csv",
       "group": "Trade",
       "action": "keep",
@@ -848,6 +882,7 @@
       "rows_out": 0
     },
     {
+      "name": "Minimum imports",
       "path": "trade/pMinImport.csv",
       "group": "Trade",
       "action": "keep",
@@ -861,6 +896,7 @@
       "rows_out": 0
     },
     {
+      "name": "Capacity to external zones",
       "path": "trade/pExtTransferLimit.csv",
       "group": "Trade",
       "action": "keep",
@@ -874,6 +910,7 @@
       "rows_out": 0
     },
     {
+      "name": "External trade prices",
       "path": "trade/pTradePrice.csv",
       "group": "Trade",
       "action": "keep",
@@ -889,6 +926,7 @@
       "rows_out": 0
     },
     {
+      "name": "External zones",
       "path": "trade/zext.csv",
       "group": "Trade",
       "action": "keep",
@@ -902,6 +940,7 @@
       "rows_out": 0
     },
     {
+      "name": "External trade share cap",
       "path": "trade/pMaxAnnualExternalTradeShare.csv",
       "group": "Trade",
       "action": "header",
@@ -927,6 +966,7 @@
       "rows_out": 0
     },
     {
+      "name": "Carbon price",
       "path": "constraint/pCarbonPrice.csv",
       "group": "Constraints",
       "action": "keep",
@@ -943,6 +983,7 @@
       "rows_out": 14
     },
     {
+      "name": "Emissions cap by country",
       "path": "constraint/pEmissionsCountry.csv",
       "group": "Constraints",
       "action": "keep",
@@ -961,6 +1002,7 @@
       "rows_out": 0
     },
     {
+      "name": "System emissions cap",
       "path": "constraint/pEmissionsTotal.csv",
       "group": "Constraints",
       "action": "keep",
@@ -974,6 +1016,7 @@
       "rows_out": 0
     },
     {
+      "name": "Fuel supply limit by country",
       "path": "constraint/pMaxFuellimit.csv",
       "group": "Constraints",
       "action": "table",
@@ -992,6 +1035,7 @@
       "rows_out": 5
     },
     {
+      "name": "Fuel supply limit by zone",
       "path": "constraint/pMaxFuellimitZone.csv",
       "group": "Constraints",
       "action": "table",
@@ -1012,6 +1056,7 @@
       "rows_out": 4
     },
     {
+      "name": "Generation share by fuel",
       "path": "constraint/pMaxGenerationByFuel.csv",
       "group": "Constraints",
       "action": "keep",
@@ -1025,6 +1070,7 @@
       "rows_out": 0
     },
     {
+      "name": "Reserve margin by zone",
       "path": "reserve/pPlanningReserveMarginZone.csv",
       "group": "Reserves",
       "action": "keep",
@@ -1043,6 +1089,7 @@
       "rows_out": 16
     },
     {
+      "name": "Peak season",
       "path": "reserve/pReserveSeasonFlag.csv",
       "group": "Reserves",
       "action": "rows",
@@ -1052,14 +1099,15 @@
         "team"
       ],
       "confidence": "high",
-      "what": "peak season = Q5\n",
-      "note": "Follows the removal of the peak season. This flag only serves to choose the season whose NTC is used for firm capacity sharing (base.gms:1005); it does not size the reserve, which goes through a smax over all blocks.\n",
+      "what": "peak season = Q1\n",
+      "note": "Follows the removal of the peak season: the 2020 model flagged its Q5, the 130 h peak block, and this model has no such season. This flag only serves to choose the season whose NTC is used for firm capacity sharing (base.gms:1005); it does not size the reserve, which goes through a smax over all blocks.\n",
       "todo": "DONE (phase 1): Q5 -> Q1. This flag serves one purpose only (base.gms:1005): choosing the season whose NTC is used for firm capacity sharing between zones. It does NOT drive the sizing of the reserve, which goes through a smax over all blocks. Q1 = winter quarter, correct. DONE (phase 7): the check this todo owed is made, and the answer is that the credit does fall from 1.0 to 0.85 and that it is kept there. Some 11 GW more firm capacity is asked of the region in 2026 as a result. The reasoning is in pPlanningReserveMarginZone, where it belongs; Q1 stays flagged.\n",
       "resource": "pReserveSeasonFlag",
       "rows_in": 1,
       "rows_out": 1
     },
     {
+      "name": "Reserve margin by country",
       "path": "reserve/pPlanningReserveMargin.csv",
       "group": "Reserves",
       "action": "keep",
@@ -1073,6 +1121,7 @@
       "rows_out": 0
     },
     {
+      "name": "Spinning reserve by country",
       "path": "reserve/pSpinningReserveReqCountry.csv",
       "group": "Reserves",
       "action": "keep",
@@ -1090,6 +1139,7 @@
       "rows_out": 0
     },
     {
+      "name": "Spinning reserve, system",
       "path": "reserve/pSpinningReserveReqSystem.csv",
       "group": "Reserves",
       "action": "keep",
@@ -1106,6 +1156,7 @@
       "rows_out": 0
     },
     {
+      "name": "Hydrogen",
       "path": "h2/pH2DataExcel.csv",
       "group": "Other",
       "action": "keep",
@@ -1119,6 +1170,7 @@
       "rows_out": 0
     },
     {
+      "name": "Generic technology defaults",
       "path": "generic/pGenDataInputGeneric.csv",
       "group": "Other",
       "action": "keep",

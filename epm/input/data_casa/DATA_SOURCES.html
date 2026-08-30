@@ -88,7 +88,7 @@ ul.tight li{margin:1px 0}
 </head>
 <body>
 <h1>Data Sources &mdash; EPM &mdash; Central Asia 2026</h1>
-<p class="meta">Generated on 2026-08-25 &middot; deployment <code>data_casa</code> &middot; 16 zones &middot; 7 countries &middot; horizon 2026-2050 &middot; 13 steps</p>
+<p class="meta">Generated on 2026-08-30 &middot; deployment <code>data_casa</code> &middot; 16 zones &middot; 7 countries &middot; horizon 2026-2050 &middot; 13 steps</p>
 <div class="toc"><b>Contents</b><ul><li><a href="#coverage">Country coverage</a></li><li><a href="#countries">Country by country</a></li><li><a href="#resources">Model resources</a></li><li><a href="#detail">What was done, resource by resource</a></li><li><a href="#sources">The sources</a></li></ul></div>
 <div><a class="dl" href="https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/ca_2026/data_build/DATA_SOURCES_casa.xlsx">Download the tracking workbook (.xlsx)</a></div>
 <h2 id="coverage">Country coverage</h2>
@@ -749,7 +749,7 @@ ul.tight li{margin:1px 0}
 <tr><td><code>pMaxGenerationByFuel</code></td><td><code>constraint/pMaxGenerationByFuel.csv</code></td><td>max share by fuel</td><td></td><td class="st st-B">out of scope</td><td></td><td><span class="muted">&mdash;</span></td><td><span class="muted">&mdash;</span></td></tr>
 <tr class="cat-row"><td colspan="8">Reserves</td></tr>
 <tr><td><code>pPlanningReserveMarginZone</code></td><td><code>reserve/pPlanningReserveMarginZone.csv</code></td><td>reserve margin, 15 % on each of the 16 zones</td><td>16</td><td class="st st-R">inherited 2020, to process</td><td>2020</td><td><span class="muted">&mdash;</span></td><td><a href="#src-assumed">assumed</a> <a href="#src-team">team</a></td></tr>
-<tr><td><a href="#res-preserveseasonflag"><code>pReserveSeasonFlag</code></a></td><td><code>reserve/pReserveSeasonFlag.csv</code></td><td>peak season = Q5</td><td>1</td><td class="st st-G">done</td><td></td><td>high</td><td><a href="#src-team">team</a></td></tr>
+<tr><td><a href="#res-preserveseasonflag"><code>pReserveSeasonFlag</code></a></td><td><code>reserve/pReserveSeasonFlag.csv</code></td><td>peak season = Q1</td><td>1</td><td class="st st-G">done</td><td></td><td>high</td><td><a href="#src-team">team</a></td></tr>
 <tr><td><code>pPlanningReserveMargin</code></td><td><code>reserve/pPlanningReserveMargin.csv</code></td><td>margin by country</td><td></td><td class="st st-B">out of scope</td><td></td><td><span class="muted">&mdash;</span></td><td><span class="muted">&mdash;</span></td></tr>
 <tr><td><code>pSpinningReserveReqCountry</code></td><td><code>reserve/pSpinningReserveReqCountry.csv</code></td><td>spinning reserve by country</td><td></td><td class="st st-G">inherited, fit for purpose</td><td></td><td><span class="muted">&mdash;</span></td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-casa-2020">casa_2020</a></td></tr>
 <tr><td><code>pSpinningReserveReqSystem</code></td><td><code>reserve/pSpinningReserveReqSystem.csv</code></td><td>system-wide spinning reserve</td><td></td><td class="st st-G">inherited, fit for purpose</td><td></td><td><span class="muted">&mdash;</span></td><td><a href="#src-deca-v51">deca_v51</a> <a href="#src-casa-2020">casa_2020</a></td></tr>
@@ -902,7 +902,7 @@ ul.tight li{margin:1px 0}
 <ul class="pts left"><li><b>4, the decision of the</b> step, and it is left to the team rather than taken here. KAZ_N Gas = 0.1 million MMBtu is not a limit, it is a statement that northern kazakhstan has no gas at all, and it is what forces the coal expansion there: no gas candidate can run whatever the carbon price, so the only thermal answer to Kazakh load growth is more coal. The assumption was defensible in 2020.</li></ul>
 <details><summary>2 more points</summary><ul class="pts left"><li>It is doubtful in 2026, the Saryarka pipeline having reached Nur-Sultan in 2019 and Kokshetau since, and DeCA'S own KZ transport table quotes A delivered gas price in Akmola, 13.3 $/MMBtu on top of the commodity, which is a strange thing to state for a region where no gas can arrive.</li><li>Raising it needs the Saryarka throughput and the volumes already committed to heat and industry, and it is the single most consequential unresolved number left in this model. Kept as it stands until then, so that it is a decision and not a drift.</li></ul></details>
 <h3 id="res-preserveseasonflag"><code>pReserveSeasonFlag</code> <span class="muted">&mdash; done</span></h3>
-<ul class="pts"><li>Follows the removal of the peak season. This flag only serves to choose the season whose NTC is used for firm capacity sharing (base.gms:1005); it does not size the reserve, which goes through a smax over all blocks.</li></ul>
+<ul class="pts"><li>Follows the removal of the peak season: the 2020 model flagged its Q5, the 130 h peak block, and this model has no such season. This flag only serves to choose the season whose NTC is used for firm capacity sharing (base.gms:1005); it does not size the reserve, which goes through a smax over all blocks.</li></ul>
 <h2 id="sources">The sources</h2>
 <div class="src" id="src-casa-2020">
 <b>EPM CASA model v7.9, ported and validated</b> <span class="tag ">internal</span>

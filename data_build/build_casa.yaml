@@ -161,6 +161,7 @@ sources:
   renewables_ninja:
     name: Renewables.ninja / ERA5
     date: 2026
+    url: https://www.renewables.ninja/
     access: open_source
     grade: secondary
     where: renewables.ninja
@@ -219,6 +220,7 @@ sources:
   global_wind_atlas:
     name: Global Wind Atlas 3.3 (DTU Wind Energy / World Bank / ESMAP)
     date: 2026
+    url: https://globalwindatlas.info/
     access: open_source
     grade: secondary
     where: globalwindatlas.info
@@ -274,6 +276,7 @@ sources:
   epa_ghg_factors:
     name: US EPA greenhouse gas emission factors for stationary combustion
     date: 2014
+    url: https://www.epa.gov/climateleadership/ghg-emission-factors-hub
     access: open_source
     grade: primary
     ages: false
@@ -366,6 +369,7 @@ resources:
 
   # ---- Scope -------------------------------------------------------------
   y:
+    name: Model years
     path: y.csv
     group: Scope
     action: rows
@@ -386,6 +390,7 @@ resources:
       (main.gms:718), nothing else to enter.
 
   zcmap:
+    name: Zones and countries
     path: zcmap.csv
     group: Scope
     action: keep
@@ -405,6 +410,7 @@ resources:
       that does not exist. The only useful move is to rename them geographically.
 
   pSettings:
+    name: Model settings
     path: pSettings.csv
     group: Scope
     action: set
@@ -453,6 +459,7 @@ resources:
       MUDT (OFF, dispatch only).
 
   cplex_baseline:
+    name: Solver options
     path: cplex/cplex_baseline.opt
     group: Scope
     action: settings
@@ -485,6 +492,7 @@ resources:
       is the first thing to remove.
 
   config:
+    name: Run configuration
     path: config.csv
     group: Scope
     action: keep
@@ -498,6 +506,7 @@ resources:
       Switch to MIP only if unit commitment is turned on.
 
   pHours:
+    name: Time blocks
     path: pHours.csv
     group: Scope
     action: table
@@ -604,6 +613,7 @@ resources:
       months now and spans the two seasons.
 
   pTechFuel:
+    name: Technology and fuel pairs
     path: pTechFuel.csv
     group: Scope
     action: rows
@@ -678,6 +688,7 @@ resources:
       gas/hydrogen machine. Each needs a row here before it can need anything else.
 
   pFuelCarbonContent:
+    name: Carbon content of fuels
     path: pFuelCarbonContent.csv
     group: Scope
     action: keep
@@ -706,6 +717,7 @@ resources:
 
   # ---- Demand ------------------------------------------------------------
   pDemandData:
+    name: Hourly demand, absolute
     path: load/pDemandData.csv
     group: Demand
     action: empty
@@ -730,6 +742,7 @@ resources:
       the sources supports today.
 
   pDemandForecast:
+    name: Annual demand and peak
     path: load/pDemandForecast.csv
     group: Demand
     action: table
@@ -772,6 +785,7 @@ resources:
       the TTLs: they change the unserved energy diagnosis of the 2020 model.
 
   pDemandProfile:
+    name: Hourly load shape
     path: load/pDemandProfile.csv
     group: Demand
     action: table
@@ -874,6 +888,7 @@ resources:
       the Pakistani shape, which is the largest single gap left in the demand.
 
   pEnergyEfficiencyFactor:
+    name: Energy efficiency
     path: load/pEnergyEfficiencyFactor.csv
     group: Demand
     action: keep
@@ -886,6 +901,7 @@ resources:
       Only if an efficiency scenario is requested.
 
   sRelevant:
+    name: Representative days kept
     path: load/sRelevant.csv
     group: Demand
     action: keep
@@ -900,6 +916,7 @@ resources:
 
   # ---- Fleet -------------------------------------------------------------
   pGenDataInput:
+    name: Power plants
     path: supply/pGenDataInput.csv
     group: Fleet
     action: table
@@ -1167,6 +1184,7 @@ resources:
 
 
   pAvailability:
+    name: Plant availability
     path: supply/pAvailabilityCustom.csv
     group: Fleet
     action: table
@@ -1271,6 +1289,7 @@ resources:
       read with --scenario, and are waiting for the scenario phase.
 
   pAvailabilityDefault:
+    name: Default availability
     path: supply/pAvailabilityDefault.csv
     group: Fleet
     action: header
@@ -1326,6 +1345,7 @@ resources:
       Ask for it with the fleet data request.
 
   pGenDataInputDefault:
+    name: Candidate plants
     path: supply/pGenDataInputDefault.csv
     group: Fleet
     action: keep
@@ -1342,6 +1362,7 @@ resources:
       by pGenDataInput alone.
 
   pVREProfile:
+    name: Solar and wind output
     path: supply/pVREProfile.csv
     group: Fleet
     action: table
@@ -1463,6 +1484,7 @@ resources:
       seasonally right and synoptically a coincidence.
 
   pCapexTrajectoriesCustom:
+    name: Plant capex over time
     path: supply/pCapexTrajectoriesCustom.csv
     group: Fleet
     action: keep
@@ -1478,6 +1500,7 @@ resources:
       Rebase in real 2025 USD (requirement of the template).
 
   pCapexTrajectoriesDefault:
+    name: Default capex over time
     path: supply/pCapexTrajectoriesDefault.csv
     group: Fleet
     action: table
@@ -1514,6 +1537,7 @@ resources:
       alone, and the print of build_fleet.py says how many rows are on a curve.
 
   pFuelPrice:
+    name: Fuel prices
     path: supply/pFuelPrice.csv
     group: Fleet
     action: table
@@ -1586,6 +1610,7 @@ resources:
       held flat. Pakistan needs the NTDC IGCEP fuel assumptions.
 
   pStorageDataInput:
+    name: Storage
     path: supply/pStorageDataInput.csv
     group: Fleet
     action: table
@@ -1629,6 +1654,7 @@ resources:
       which sits in pGenDataInput as a hydro candidate rather than here.
 
   pEvolutionAvailability:
+    name: Availability drift
     path: supply/pEvolutionAvailability.csv
     group: Fleet
     action: keep
@@ -1639,6 +1665,7 @@ resources:
       availability drift over time
 
   pCSPData:
+    name: Concentrated solar
     path: supply/pCSPData.csv
     group: Fleet
     action: keep
@@ -1653,6 +1680,7 @@ resources:
 
   # ---- Trade -------------------------------------------------------------
   pTransferLimit:
+    name: Interconnection capacity
     path: trade/pTransferLimit.csv
     group: Trade
     action: table
@@ -1687,6 +1715,7 @@ resources:
       Afghanistan is not in any source we hold, so UZB to NEPS_UZB stays at 400 MW.
 
   pContractedTradeFlag:
+    name: Contracted trade, corridors
     path: trade/pContractedTradeFlag.csv
     group: Trade
     action: table
@@ -1711,6 +1740,7 @@ resources:
       of the year cannot move the contract silently: it stops.
 
   pContractedTradeEnergy:
+    name: Contracted trade, volumes
     path: trade/pContractedTradeEnergy.csv
     group: Trade
     action: table
@@ -1742,6 +1772,7 @@ resources:
       start in 2028 and stop in 2042, where the model holds them flat throughout.
 
   pHistoricalTradeFlag:
+    name: Historical trade cap
     path: trade/pHistoricalTradeFlag.csv
     group: Trade
     action: keep
@@ -1755,6 +1786,7 @@ resources:
       Only acts until 2021: becomes inert if the model starts later.
 
   pLossFactorInternal:
+    name: Transmission losses
     path: trade/pLossFactorInternal.csv
     group: Trade
     action: keep
@@ -1768,6 +1800,7 @@ resources:
       Uniform inherited value, low stakes.
 
   pMaxAnnualTransfer:
+    name: Annual transfer cap
     path: trade/pMaxAnnualTransfer.csv
     group: Trade
     action: keep
@@ -1781,6 +1814,7 @@ resources:
       8 corridors only. Check consistency with the new NTCs.
 
   pNewTransmission:
+    name: Candidate lines
     path: trade/pNewTransmission.csv
     group: Trade
     action: keep
@@ -1794,6 +1828,7 @@ resources:
       has to be filled.
 
   pMinImport:
+    name: Minimum imports
     path: trade/pMinImport.csv
     group: Trade
     action: keep
@@ -1806,6 +1841,7 @@ resources:
       Alternative to pContractedTrade should a firm offtake be needed.
 
   pExtTransferLimit:
+    name: Capacity to external zones
     path: trade/pExtTransferLimit.csv
     group: Trade
     action: keep
@@ -1819,6 +1855,7 @@ resources:
       is modelled as a POWER PLANT (IRAN_Import, 400 MW), not as an exchange.
 
   pTradePrice:
+    name: External trade prices
     path: trade/pTradePrice.csv
     group: Trade
     action: keep
@@ -1831,6 +1868,7 @@ resources:
       No source. To be built consistently and owned as an assumption.
 
   zext:
+    name: External zones
     path: trade/zext.csv
     group: Trade
     action: keep
@@ -1843,6 +1881,7 @@ resources:
       Depends on pExtTransferLimit.
 
   pMaxAnnualExternalTradeShare:
+    name: External trade share cap
     path: trade/pMaxAnnualExternalTradeShare.csv
     group: Trade
     action: header
@@ -1861,6 +1900,7 @@ resources:
 
   # ---- Constraints -------------------------------------------------------
   pCarbonPrice:
+    name: Carbon price
     path: constraint/pCarbonPrice.csv
     group: Constraints
     action: keep
@@ -1882,6 +1922,7 @@ resources:
       candidates DeCA prices and this model does not carry.
 
   pEmissionsCountry:
+    name: Emissions cap by country
     path: constraint/pEmissionsCountry.csv
     group: Constraints
     action: keep
@@ -1928,6 +1969,7 @@ resources:
       Harmless while the cap is loose, not harmless if it is tight.
 
   pEmissionsTotal:
+    name: System emissions cap
     path: constraint/pEmissionsTotal.csv
     group: Constraints
     action: keep
@@ -1944,6 +1986,7 @@ resources:
       the country caps rather than filled in beside them.
 
   pMaxFuellimit:
+    name: Fuel supply limit by country
     path: constraint/pMaxFuellimit.csv
     group: Constraints
     action: table
@@ -1981,6 +2024,7 @@ resources:
       of them binding. Uzbek coal is discussed in the note.
 
   pMaxFuellimitZone:
+    name: Fuel supply limit by zone
     path: constraint/pMaxFuellimitZone.csv
     group: Constraints
     action: table
@@ -2026,6 +2070,7 @@ resources:
       it is a decision and not a drift.
 
   pMaxGenerationByFuel:
+    name: Generation share by fuel
     path: constraint/pMaxGenerationByFuel.csv
     group: Constraints
     action: keep
@@ -2044,6 +2089,7 @@ resources:
 
   # ---- Reserves ----------------------------------------------------------
   pPlanningReserveMarginZone:
+    name: Reserve margin by zone
     path: reserve/pPlanningReserveMarginZone.csv
     group: Reserves
     action: keep
@@ -2091,6 +2137,7 @@ resources:
       published.
 
   pReserveSeasonFlag:
+    name: Peak season
     path: reserve/pReserveSeasonFlag.csv
     group: Reserves
     action: rows
@@ -2100,9 +2147,10 @@ resources:
     source: ["team"]
     confidence: high
     what: >
-      peak season = Q5
+      peak season = Q1
     note: >
-      Follows the removal of the peak season. This flag only serves to choose the
+      Follows the removal of the peak season: the 2020 model flagged its Q5, the 130 h
+      peak block, and this model has no such season. This flag only serves to choose the
       season whose NTC is used for firm capacity sharing (base.gms:1005); it does not
       size the reserve, which goes through a smax over all blocks.
     todo: >
@@ -2116,6 +2164,7 @@ resources:
       pPlanningReserveMarginZone, where it belongs; Q1 stays flagged.
 
   pPlanningReserveMargin:
+    name: Reserve margin by country
     path: reserve/pPlanningReserveMargin.csv
     group: Reserves
     action: keep
@@ -2136,6 +2185,7 @@ resources:
       relax the model. It is a scenario, not a correction.
 
   pSpinningReserveReqCountry:
+    name: Spinning reserve by country
     path: reserve/pSpinningReserveReqCountry.csv
     group: Reserves
     action: keep
@@ -2160,6 +2210,7 @@ resources:
       the expansion.
 
   pSpinningReserveReqSystem:
+    name: Spinning reserve, system
     path: reserve/pSpinningReserveReqSystem.csv
     group: Reserves
     action: keep
@@ -2178,6 +2229,7 @@ resources:
 
   # ---- Other -------------------------------------------------------------
   pH2DataExcel:
+    name: Hydrogen
     path: h2/pH2DataExcel.csv
     group: Other
     action: keep
@@ -2190,6 +2242,7 @@ resources:
       No H2 stakes in the CASA perimeter.
 
   pGenDataInputGeneric:
+    name: Generic technology defaults
     path: generic/pGenDataInputGeneric.csv
     group: Other
     action: keep
