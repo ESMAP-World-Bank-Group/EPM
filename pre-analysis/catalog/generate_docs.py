@@ -5,6 +5,10 @@ Usage:
     python pre-analysis/catalog/generate_docs.py --deployment data_blacksea
     python pre-analysis/catalog/generate_docs.py --deployment data_blacksea --format html
     python pre-analysis/catalog/generate_docs.py --deployment data_blacksea --format both
+
+Each document is written twice: next to the data it describes, and into
+pre-analysis/output_catalog/<deployment>/, which is the copy that can be opened
+from GitHub. See SHARE_ROOT below.
 """
 import argparse
 import csv
@@ -16,6 +20,16 @@ from datetime import date
 CATALOG_DIR = Path(__file__).parent / "sources"
 PARAMS_FILE = Path(__file__).parent / "epm_parameters.yaml"
 REPO_ROOT = Path(__file__).parent.parent.parent
+
+# Where a copy goes so the document has a URL.
+#
+# epm/input/* is kept out of git (.gitignore), because a deployment folder lives in the R2
+# store through DVC, so the copy written next to the data can never be opened from GitHub:
+# raw.githubusercontent answers 404 and htmlpreview shows an empty page. This second copy
+# sits with the other generated outputs of pre-analysis, which are tracked, and is the one
+# to link to. It is not "pre-analysis/catalog/output", which .gitignore drops along with
+# every other pre-analysis/**/output.
+SHARE_ROOT = REPO_ROOT / "pre-analysis" / "output_catalog"
 
 CONFIDENCE_LABEL = {"high": "[HIGH]", "medium": "[MEDIUM]", "low": "[LOW]"}
 
@@ -658,18 +672,21 @@ def main():
     params = load_params()
 
     base = REPO_ROOT / "epm" / "input" / args.deployment
+    share = SHARE_ROOT / args.deployment
+    share.mkdir(parents=True, exist_ok=True)
+
+    def emit(name, content):
+        for out in (base / name, share / name):
+            out.write_text(content, encoding="utf-8")
+            print(f"Written: {out}")
 
     if args.format in ("md", "both"):
-        md = render_md(args.deployment, countries, horizon, params, provenance, catalog)
-        out = base / "DATA_SOURCES.md"
-        out.write_text(md, encoding="utf-8")
-        print(f"Written: {out}")
+        emit("DATA_SOURCES.md",
+             render_md(args.deployment, countries, horizon, params, provenance, catalog))
 
     if args.format in ("html", "both"):
-        html_content = render_html(args.deployment, countries, horizon, params, provenance, catalog)
-        out = base / "DATA_SOURCES.html"
-        out.write_text(html_content, encoding="utf-8")
-        print(f"Written: {out}")
+        emit("DATA_SOURCES.html",
+             render_html(args.deployment, countries, horizon, params, provenance, catalog))
 
 
 if __name__ == "__main__":
