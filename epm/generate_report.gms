@@ -748,8 +748,11 @@ pCosts(z, "Trade shared benefits: $m", y) =
 pCosts(z, "Import costs with external zones: $m", y) =
   vYearlyImportExternalCost.l(z, y) / 1e6;
 
+* Negative sign ensures revenues reduce total cost, matching both the internal
+* export line above and base.gms:679, where the objective takes
+* vYearlyImportExternalCost - vYearlyExportExternalCost.
 pCosts(z, "Export revenues with external zones: $m", y) =
-  vYearlyExportExternalCost.l(z, y) / 1e6;
+  - vYearlyExportExternalCost.l(z, y) / 1e6;
 
 * Discounted weighted yearly costs by zone
 pDiscountedWeightedCosts(z, sumhdr, y) =

@@ -45,6 +45,27 @@ It does everything: re-hash the data (`dvc add`) → commit + push the pointers 
 > `epm/output_view/<run>/<scenario>/output_csv/` before publishing (only `.csv` files
 > are sent). `epm/output_view/` is gitignored (local staging area).
 
+### Only what changed is sent
+
+A file is re-sent only when the store does not have it, has it at a different size, or
+has it older than the local copy. The store itself is the reference, read in one listing
+call, so there is no local state to go stale and no first run that re-sends everything.
+Publishing twice in a row sends nothing the second time, and the 4 GB of
+`pDispatchComplete.csv` are not even re-read when their year slices are already current.
+
+Options, for the command line only (double-clicking `Publish.bat` needs none of them):
+
+```powershell
+powershell -File tools/publish.ps1 -Check        # compare, send nothing, commit nothing
+powershell -File tools/publish.ps1 -Force        # re-send everything
+powershell -File tools/publish.ps1 -SkipResults  # inputs only
+powershell -File tools/publish.ps1 -SkipData     # results only
+powershell -File tools/publish.ps1 -SkipData -Only "simulations_run_*/summary.csv"
+```
+
+Failed uploads are retried three times, then listed at the end and the script exits
+non-zero. Nothing is ever deleted from the store.
+
 ---
 
 ## ⬇️ Fetch code + data
@@ -84,4 +105,5 @@ repo). To wire up a new region: add its branch there.
 - `publish.ps1` — engine behind `Publish.bat`
 - `sync.ps1` / `sync.sh` — fetching (Windows / server)
 - `upload_to_r2.py`, `upload_output_view_to_r2.py` — readable-upload helpers
+- `r2_sync.py` — what gets sent and what is skipped, shared by both uploaders
 - `.env.example` — key template (copy to `.env`, gitignored)
