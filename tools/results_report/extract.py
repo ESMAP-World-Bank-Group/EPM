@@ -563,16 +563,16 @@ def main():
     ap.add_argument("--run", default="simulations_run_20260819_204446")
     ap.add_argument("--scenarios", default="baseline,LC_Iso")
     ap.add_argument("--countries", default="Georgia",
-                    help="pays dont on garde le dispatch horaire")
+                    help="countries whose hourly dispatch is kept")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
 
     run = OUTVIEW / a.run
     if not run.is_dir():
-        sys.exit("run introuvable : %s" % run)
+        sys.exit("run not found: %s" % run)
     scens = [s for s in a.scenarios.split(",") if s in scenario_dirs(run)]
     if not scens:
-        sys.exit("aucun scenario valide parmi %s" % scenario_dirs(run))
+        sys.exit("no valid scenario among %s" % scenario_dirs(run))
 
     zcmap = read_zcmap()
     model_zones = [z for z in zcmap if z != "iran_swap"]
@@ -638,7 +638,7 @@ def main():
     dest = Path(a.out) if a.out else Path(__file__).parent / "cache" / ("%s.json" % run.name)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
-    log("ecrit : %s (%.1f Mo)" % (dest, dest.stat().st_size / 1e6))
+    log("written: %s (%.1f MB)" % (dest, dest.stat().st_size / 1e6))
 
 
 if __name__ == "__main__":

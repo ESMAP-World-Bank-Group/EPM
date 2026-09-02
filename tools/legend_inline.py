@@ -145,17 +145,17 @@ def rewrite(s, report):
         if not m:
             sys.exit("no <style> block to extend")
         s = s[: m.start()] + CSS + s[m.start():]
-        report.append("  CSS .chartrow ajoute")
+        report.append("  CSS .chartrow added")
     else:
         s = re.sub(re.escape(MARKER) + r".*?(?=</style>)", CSS, s, count=1, flags=re.S)
-        report.append("  CSS .chartrow deja present, rafraichi")
+        report.append("  CSS .chartrow already there, refreshed")
 
     done = wrapped_spans(s)
     fresh = lambda p: not any(a <= p < b for a, b in done)
     legends = [t for t in legend_blocks(s) if fresh(t[0])]
     charts = [t for t in real_charts(s, 0, len(s)) if fresh(t[0])]
     if not legends:
-        report.append("  toutes les legendes sont deja dans un cadre, rien a faire")
+        report.append("  every legend is already framed, nothing to do")
         return s
 
     # A legend glued straight after an </svg> belongs to that one chart. Everything else
@@ -206,21 +206,21 @@ def rewrite(s, report):
         if k in used and k not in glued:
             edits.append((lo, hi, ""))          # the group original is now redundant
         elif k not in used:
-            report.append("  %-6s a l offset %d : aucun graphique en portee, laisse en place"
+            report.append("  %-6s at offset %d: no chart in range, left in place"
                           % (cls, lo))
 
     edits.sort(reverse=True)
     for i in range(len(edits) - 1):
         if edits[i][0] < edits[i + 1][1]:
-            sys.exit("edits qui se chevauchent : %r et %r" % (edits[i][:2], edits[i + 1][:2]))
+            sys.exit("overlapping edits: %r and %r" % (edits[i][:2], edits[i + 1][:2]))
     for a, b, new in edits:
         s = s[:a] + new + s[b:]
 
     n_glued = len(set(glued) & used)
-    report.append("  %d legendes collees a un graphique repliees a droite" % n_glued)
-    report.append("  %d legendes de groupe deplacees, en %d exemplaires dans les cadres"
+    report.append("  %d legend(s) glued to a chart, folded to the right" % n_glued)
+    report.append("  %d group legend(s) moved, in %d copies inside the frames"
                   % (len(used) - n_glued, len([e for e in edits if e[2]]) - n_glued))
-    report.append("  %d graphiques recoivent l entree pointe de demande" % demand)
+    report.append("  %d chart(s) get the peak demand entry" % demand)
     return s
 
 
@@ -231,14 +231,14 @@ def main():
 
     for page in PAGES:
         if not os.path.isfile(page):
-            print("%s : absent, ignore" % page)
+            print("%s: missing, skipped" % page)
             continue
         s = io.open(page, encoding="utf-8").read()
         report = []
         out = rewrite(s, report)
         print("\n%s" % os.path.basename(page))
         print("\n".join(report))
-        print("  %d -> %d octets ; %d .chartrow" % (len(s), len(out), out.count('class="chartrow"')))
+        print("  %d -> %d bytes, %d .chartrow" % (len(s), len(out), out.count('class="chartrow"')))
         if not args.check:
             io.open(page, "w", encoding="utf-8", newline="\n").write(out)
 

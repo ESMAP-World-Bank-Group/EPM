@@ -27,21 +27,21 @@ def latest_run():
     runs = sorted(p for p in extract.OUTVIEW.glob("simulations_run_*")
                   if p.is_dir() and (p / "summary.csv").exists())
     if not runs:
-        sys.exit("aucun run dans %s" % extract.OUTVIEW)
+        sys.exit("no run in %s" % extract.OUTVIEW)
     return runs[-1].name
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--run", default=None, help="nom du dossier de run")
+    ap.add_argument("--run", default=None, help="name of the run folder")
     ap.add_argument("--scenarios", default="baseline,LC_Iso")
     ap.add_argument("--countries", default="Georgia",
-                    help="pays a detailler, ou 'all'")
+                    help="countries to detail, or 'all'")
     ap.add_argument("--out", default=str(DEFAULT_OUT))
     ap.add_argument("--no-extract", action="store_true",
-                    help="reutilise le cache existant")
+                    help="reuse the existing cache")
     ap.add_argument("--force", action="store_true",
-                    help="reconstruit le cache meme s'il existe")
+                    help="rebuild the cache even when it exists")
     a = ap.parse_args()
 
     run = a.run or latest_run()
@@ -56,9 +56,9 @@ def main():
         sys.argv = ["extract.py"] + argv
         extract.main()
     elif not cache.exists():
-        sys.exit("pas de cache pour %s ; relance sans --no-extract" % run)
+        sys.exit("no cache for %s, run again without --no-extract" % run)
     else:
-        print("cache reutilise : %s" % cache.name)
+        print("cache reused: %s" % cache.name)
 
     shown = [s.strip() for s in a.scenarios.split(",") if s.strip()]
     out = render.build(cache, a.out, countries=countries,

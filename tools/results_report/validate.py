@@ -22,17 +22,17 @@ def pct(a, b):
 def main():
     files = sorted(CACHE.glob("*.json"))
     if not files:
-        sys.exit("aucun cache dans %s" % CACHE)
+        sys.exit("no cache in %s" % CACHE)
     d = json.loads(files[-1].read_text(encoding="utf-8"))
     years, hours = d["years"], d["hours"]
     fails = []
 
-    print("cache : %s" % files[-1].name)
+    print("cache: %s" % files[-1].name)
 
     # ---- 1. energy balance -------------------------------------------------
     # gen + imports + unmet - exports - surplus should equal demand; the
     # few percent left over are network and storage round-trip losses.
-    print("\n1. bilan energetique  (gen + imp + non-servi - exp - surplus)")
+    print("\n1. energy balance  (gen + imp + unmet - exp - surplus)")
     for scope in d["annual"]:
         for scen in d["scenarios"]:
             a = d["annual"][scope][scen]
@@ -45,14 +45,14 @@ def main():
                 gap = pct(supply, a["demand"][i])
                 if gap > worst:
                     worst, wy = gap, y
-            flag = "OK " if worst < 0.03 else "ECART"
+            flag = "OK " if worst < 0.03 else "GAP"
             print("   %-5s %-10s %-12s max %5.1f %% (%s)"
                   % (flag, scope, scen, worst * 100, wy))
             if worst >= 0.03:
-                fails.append("bilan %s/%s %.1f%%" % (scope, scen, worst * 100))
+                fails.append("balance %s/%s %.1f%%" % (scope, scen, worst * 100))
 
     # ---- 2. dispatch closure ----------------------------------------------
-    print("\n2. bouclage dispatch  (horaire repondere vs energie annuelle)")
+    print("\n2. dispatch closure  (hourly reweighted vs annual energy)")
     for scope in d["dispatch"]:
         for scen in d["scenarios"]:
             disp = d["dispatch"][scope][scen]
@@ -60,8 +60,8 @@ def main():
             w = [hours["%s|%s|%s" % (s["q"], s["d"], s["t"])] for s in axis]
             tot_h = sum(w)
             if abs(tot_h - 8760) > 1:
-                fails.append("pHours somme %.0f h != 8760" % tot_h)
-                print("   ECART somme des heures = %.0f" % tot_h)
+                fails.append("pHours sum %.0f h != 8760" % tot_h)
+                print("   GAP sum of hours = %.0f" % tot_h)
             a = d["annual"][scope][scen]
             for y in d["dispatch_years"]:
                 i = years.index(y)
@@ -73,7 +73,7 @@ def main():
                     if ref < 0.05:
                         continue
                     g = pct(twh, ref)
-                    tag = "OK " if g < TOL else "ECART"
+                    tag = "OK " if g < TOL else "GAP"
                     if g >= TOL:
                         fails.append("%s/%s/%s %s %.2f vs %.2f"
                                      % (scope, scen, y, fuel, twh, ref))
@@ -88,15 +88,15 @@ def main():
                 twh = sum(v * ww for v, ww in zip(dem, w)) / 1e6
                 g = pct(twh, a["demand"][i])
                 if g >= TOL:
-                    fails.append("%s/%s/%s demande %.2f vs %.2f"
+                    fails.append("%s/%s/%s demand %.2f vs %.2f"
                                  % (scope, scen, y, twh, a["demand"][i]))
-                    print("   ECART %-8s %-12s %s demande %8.3f vs %8.3f (%.1f %%)"
+                    print("   GAP %-8s %-12s %s demand %8.3f vs %8.3f (%.1f %%)"
                           % (scope, scen, y, twh, a["demand"][i], g * 100))
-            print("   ...  %-8s %-12s %d combustibles x %d annees verifies"
+            print("   ...  %-8s %-12s %d fuels x %d years checked"
                   % (scope, scen, len(a["gen"]), len(d["dispatch_years"])))
 
     # ---- 3. trade symmetry -------------------------------------------------
-    print("\n3. symetrie des echanges  (couloirs vs agregats annuels)")
+    print("\n3. trade symmetry  (corridors vs annual aggregates)")
     for scen in d["scenarios"]:
         cor = d["corridors"][scen]
         a = d["annual"]["Georgia"][scen]
@@ -117,13 +117,13 @@ def main():
                     g = pct(got, ref)
                     if g > worst:
                         worst, wk = g, "%s %s" % (key, years[i])
-        flag = "OK " if worst < TOL else "ECART"
+        flag = "OK " if worst < TOL else "GAP"
         print("   %-5s %-12s max %5.2f %% (%s)" % (flag, scen, worst * 100, wk))
         if worst >= TOL:
-            fails.append("symetrie %s %.2f%%" % (scen, worst * 100))
+            fails.append("symmetry %s %.2f%%" % (scen, worst * 100))
 
-    print("\n%s" % ("TOUT PASSE" if not fails
-                    else "%d ECART(S):\n  - %s" % (len(fails), "\n  - ".join(fails[:20]))))
+    print("\n%s" % ("ALL PASS" if not fails
+                    else "%d GAP(S):\n  - %s" % (len(fails), "\n  - ".join(fails[:20]))))
     return 1 if fails else 0
 
 
