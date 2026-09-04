@@ -366,12 +366,6 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
-# Reference polygons and the loader that assembles them. Defined in
-# epm/geodata/zone_geometry.py so that the layer builder can use them without
-# importing this module, and re-exported here for existing callers.
-from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
-
-
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
@@ -412,7 +406,13 @@ def read_plot_specs():
     # Merge colors: techfuel colors take precedence, then base colors
     all_colors = {**base_colors, **techfuel_colors}
 
-    zones = load_zone_map()
+    zones = gpd.read_file(GEOJSON)
+
+    # Auto-merge custom zones if zones_custom.geojson exists
+    zones_custom_path = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
+    if os.path.exists(zones_custom_path):
+        zones_custom = gpd.read_file(zones_custom_path)
+        zones = pd.concat([zones, zones_custom], ignore_index=True)
 
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
@@ -548,7 +548,7 @@ def gdx_to_csv(gdx_file, output_csv_folder):
 
     for param in parameters:
         try:
-            df = container.data[param].records  # Retrieve the data
+            df = container.data[param].records  # Récupérer les données
             if df is not None:
                 output_csv = os.path.join(output_csv_folder, f"{param}.csv")
                 df.to_csv(output_csv, index=False)  # Sauvegarder en CSV

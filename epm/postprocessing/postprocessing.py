@@ -50,7 +50,7 @@ import pandas as pd
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
-from epm.geodata import zone_layers
+from .create_geojson import create_geojson_for_tableau
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
@@ -892,35 +892,33 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     make_heatmap_plot(epm_results, filename=filename, reference=scenario_reference)
             
             # ------------------------------------------------------------------------------------
-            # Map layers (written for every run, independent of generate_figures)
+            # Tableau GeoJSON (generated for every run, independent of generate_figures)
             # ------------------------------------------------------------------------------------
-            # The layers describe the zoning this run solved, so cut them from
-            # it. pZoneCountry comes out of the GDX and is therefore the zoning
-            # that was actually used, filtered runs included; the recipe -- the
-            # admin-area-to-zone mapping, the reference polygons, the hand-drawn
-            # overlay -- comes from the input folder. Copying whatever layer the
-            # input folder happened to ship, as this did before, meant a run
-            # could not show its own zones.
             if 'pCapacityTechFuel' in epm_results and len(epm_results['pCapacityTechFuel']['zone'].unique()) > 1:
                 try:
-                    zone_country = epm_results['pZoneCountry'][['zone', 'country']].drop_duplicates()
+                    import shutil
+                    zcmap_df = epm_results['pZoneCountry'][['zone', 'country']].drop_duplicates()
                     selected_zones = list(epm_results['pCapacityTechFuel']['zone'].unique())
-                    sources = (zone_layers.resolve(folder_input, zones=selected_zones, stem=None)
-                               if folder_input else None)
-                    zones_gdf, lines_gdf = zone_layers.build(
-                        sources=sources,
-                        zone_country=zone_country,
-                        dict_specs=None if sources else dict_specs,
-                        selected_zones=selected_zones,
-                        log=lambda msg: log_warning(msg, logger=active_logger),
-                    )
-                    written = zone_layers.write(
-                        zones_gdf, lines_gdf, RESULTS_FOLDER, stem=None,
-                        fingerprint=sources.fingerprint() if sources else None)
-                    log_info(f'Map layers written: {", ".join(p.name for p in written)}',
-                             logger=active_logger)
+                    geojson_dest = os.path.join(RESULTS_FOLDER, 'linestring_countries.geojson')
+                    geojson_src = None
+                    if folder_input:
+                        candidate = os.path.join(str(folder_input), 'linestring_countries.geojson')
+                        if os.path.exists(candidate):
+                            geojson_src = candidate
+                    if geojson_src:
+                        shutil.copy2(geojson_src, geojson_dest)
+                        log_info('Copied linestring_countries.geojson from input folder.', logger=active_logger)
+                    else:
+                        create_geojson_for_tableau(
+                            geojson_to_epm=dict_specs['geojson_to_epm'],
+                            zcmap=zcmap_df,
+                            selected_zones=selected_zones,
+                            output_path=RESULTS_FOLDER,
+                            dict_specs=dict_specs
+                        )
+                        log_info('Generated Tableau GeoJSON file: linestring_countries.geojson', logger=active_logger)
                 except Exception as e:
-                    log_warning(f'Could not generate the map layers: {e}', logger=active_logger)
+                    log_warning(f'Could not generate Tableau GeoJSON: {e}', logger=active_logger)
 
             # ------------------------------------------------------------------------------------
             if generate_figures:

@@ -56,12 +56,6 @@ YEARLY_OUTPUT = [
     'pMaxGenerationByFuel'
 ]
 
-# Transfer limits use `0` (dropped to NaN at GDX read via valueSubstitutions) to mean
-# "line not yet in service" in years before its commissioning date. Interpolation must NOT
-# back-fill the first non-zero capacity into those earlier years; capacity there is 0.
-# (Back-fill stays correct for prices/demand/fuel, which have no leading zeros.)
-NO_BACKFILL_PARAMS = {'pTransferLimit', 'pExtTransferLimit'}
-
 ZONE_RESTRICTED_PARAMS = {
     "pGenDataInput": ("z",),
     "pGenDataInputDefault": ("z",),
@@ -1319,10 +1313,6 @@ def run_input_treatment(gams,
         default_df = db[default_param_name].records
         
         
-        if param_df is None or param_df.empty:
-            gams.printLog('[input_treatment][defaults] {} empty so nothing to overwrite'.format(param_name))
-            return None
-
         if default_df is None:
             gams.printLog('[input_treatment][defaults] {} empty so no effect'.format(default_param_name))
             db.data[param_name].setRecords(param_df)
@@ -1500,20 +1490,40 @@ def run_input_treatment(gams,
 
 
     def warn_missing_availability(gams, db: gt.Container):
-        """Warn if generators have no availability rows (implicit availability=0).
-
-        Checks the FINAL pAvailability (after custom + generic/default fill), NOT the
-        custom-only pAvailabilityInput. This avoids false positives for generators that
-        legitimately have no custom availability but are covered by generic tech/fuel
-        defaults (e.g. VRE, thermal). Only generators that truly end up with no
-        availability at all (and would not dispatch) are reported.
-        """
-        avail_param = "pAvailability" if "pAvailability" in db else "pAvailabilityInput"
-        if "pGenDataInput" not in db or avail_param not in db:
+        """Warn if generators have no pAvailability rows (implicit availability=0)."""
+        if "pGenDataInput" not in db or "pAvailabilityInput" not in db:
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db[avail_param].records
+        avail_records = db["pAvailabilityInput"].records
+        if gen_records is None or gen_records.empty:
+            return
+
+        gens = set(gen_records["g"].dropna().unique())
+        available = set()
+        if avail_records is not None and not avail_records.empty and "g" in avail_records.columns:
+            available = set(avail_records["g"].dropna().unique())
+
+        missing = gens - available
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "[input_treatment][availability] Warning: the following generator(s) have no entries in pAvailability "
+                f"and will have implicit availability of 0 (they will not dispatch){more}: {preview}"
+            )
+
+
+    def warn_missing_availability(gams, db: gt.Container):
+        """Warn if generators have no pAvailability rows (implicit availability=0)."""
+        if "pGenDataInput" not in db or "pAvailabilityInput" not in db:
+            return
+
+        gen_records = db["pGenDataInput"].records
+        avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
 
@@ -2025,9 +2035,6 @@ def run_input_treatment(gams,
                     continue
 
                 interpolated = np.interp(target_years, years, values)
-                if param_name in NO_BACKFILL_PARAMS:
-                    # Do not back-fill capacity into years before the line's first in-service year.
-                    interpolated = np.where(target_years < years[0], 0.0, interpolated)
                 frame = pd.DataFrame({year_column: target_years, "value": interpolated})
 
                 if group_cols:

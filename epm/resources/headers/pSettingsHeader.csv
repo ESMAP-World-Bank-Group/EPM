@@ -40,8 +40,6 @@ fApplyFuelConstraint
 fApplyGenerationPhaseout
 fApplyCapitalConstraint
 sMaxCapitalInvestment
-fApplyContractedTrade
-sContractedTradeFirstYear
 fApplyMinGenShareAllHours
 fApplyMinGenCommitment
 fApplyStartupCost

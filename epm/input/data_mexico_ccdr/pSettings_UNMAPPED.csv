@@ -1,0 +1,70 @@
+OriginalSection,OriginalParameter,Value,Note
+PENALTIES,"Cost of curtailment beyond 2023 per MWh, $",100,No equivalent Abbreviation in target pSettings schema
+OPTIONAL FEATURES,Include TimeStamp in File Name and Rename,YES,Old-framework report/run-naming switch; not a model parameter in new framework
+OPTIONAL FEATURES,Show zero values,YES,Old-framework report-formatting switch
+OPTIONAL FEATURES,Run in interconnected mode,YES,Mapped tentatively to fEnableInternalExchange=1; verify this is the correct switch
+OPTIONAL FEATURES,Allow exports based on price,YES,Mapped tentatively to fEnableExternalExchange=1; verify this is the correct switch
+OPTIONAL FEATURES,Remove transfer limits,NO,Mapped tentatively to fRemoveInternalTransferLimit=0; verify
+OPTIONAL FEATURES,Allow expansion of Transmission Lines,NO,Mapped tentatively to fAllowTransferExpansion=0; verify
+OPTIONAL FEATURES,Use same demand profile for all years,YES,No equivalent Abbreviation in target pSettings schema
+OPTIONAL FEATURES,Include Capex Trajectories,YES,No equivalent Abbreviation found (see supply/pCapexTrajectoriesCustom files instead)
+OPTIONAL FEATURES,User defined Capacity Credits,YES,No equivalent Abbreviation; see ELCC Capacity Credits by Technology table below
+OPTIONAL FEATURES,Seasonal reporting,NO,Old-framework report switch
+OPTIONAL FEATURES,System Results Report,NO,Old-framework report switch
+OPTIONAL FEATURES,Include simultaneous Com Decom (CCS retrofits),NO,No equivalent Abbreviation in target pSettings schema
+OPTIONAL FEATURES,Allow Rooftop Solar in Mix,YES,No equivalent Abbreviation in target pSettings schema
+OPTIONAL FEATURES,"Biomas Potential Level MW",2500,Secondary value in sheet was [10000]; no equivalent Abbreviation
+OPTIONAL FEATURES,"Generic Solar 1X Annual Max Built MW",1000,Secondary value in sheet was [1765]; no equivalent Abbreviation
+OPTIONAL FEATURES,ACTIVE FUEL: Include Gas Price Scaling Factor,1,No equivalent Abbreviation
+OPTIONAL FEATURES,ACTIVE FUEL: Price Sensitivity % variation,0,No equivalent Abbreviation
+OPTIONAL FEATURES,Allow Earliest Retirement Date,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,New Earliest Retirement Date,2030,No equivalent Abbreviation
+OPTIONAL FEATURES,2030 Ban date for New non-abbated gas plants,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Coal Plants Retired beyond 2032,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Activate H2 Capex Trajectories,NO,Mapped tentatively to fEnableCapexTrajectoryH2=0; verify (name differs from "Allow capex trajectory H2" row also present)
+OPTIONAL FEATURES,Gas Share Restriction in H2 mix,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Gas plants Premium for operating dual fuel Gas-H2,0.2,No equivalent Abbreviation
+OPTIONAL FEATURES,Variable CO2 cost scenario,Center,No equivalent Abbreviation (scenario selector, not a pSettings value)
+OPTIONAL FEATURES,CCSPlantCostScenario,Center,No equivalent Abbreviation (scenario selector)
+OPTIONAL FEATURES,Allow Climate Impact on Hydropower Production,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Climate Impact Parameters per °C Level,Low,No equivalent Abbreviation (scenario selector)
+OPTIONAL FEATURES,ALLOW Climate Change Impact Drought,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Climate Change Impact Drought LEVEL,-0.3,No equivalent Abbreviation
+OPTIONAL FEATURES,Climate Change Impact Drought INTENSITY,1.1,No equivalent Abbreviation
+OPTIONAL FEATURES,Allow Fuel Price increases starting 2026,No,No equivalent Abbreviation
+OPTIONAL FEATURES,Fuel Price increases starting 2026 %,0,No equivalent Abbreviation
+OPTIONAL FEATURES,Zero Existing Capacity CAPEX,YES,No equivalent Abbreviation
+OPTIONAL FEATURES,Set Fixed Trade Flows,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Set Fixed Expansion Plan ReRun,NO,No equivalent Abbreviation
+OPTIONAL FEATURES,Allow Transmission supply of Planning Reserves,NO,Mapped tentatively to fCountIntercoForReserves=0; verify
+OPTIONAL FEATURES,Activate Minimum H2 Electrolzer Capacity Factor,YES,No equivalent Abbreviation
+MEXICO SPECIFIC,Allow Generation Expansion with Candidates,NO,Mexico-specific switch, no equivalent Abbreviation
+MEXICO SPECIFIC,Allow CFE Expansion Plan,YES,Mexico-specific switch, no equivalent Abbreviation
+MEXICO SPECIFIC,Constrain GAS Share,YES,Mexico-specific switch, no equivalent Abbreviation
+CONSTRAINTS,RE annual targets Series,YES,"Second value on row was ""Targets Exist""; scenario selector, not a pSettings value"
+CONSTRAINTS,Max Trade Share as Annual Demand with External Regions,0.2,"Likely duplicate/source of trade/pMaxAnnualExternalTradeShare.csv (ExchangeShare sheet), which shows 0.2 for MEXICO/USA/GUATEMALA - already converted there"
+CONSTRAINTS,Model Input Filename,WB_EPMinputs_MX_06.xlsx,Metadata not applicable to new framework
+CONSTRAINTS,Current Scenario Run,2_PATH 2_PMX_CFE_2060,Scenario selector metadata
+CONSTRAINTS,Model Annual Interval,5 yrs,No equivalent Abbreviation (model uses explicit y.csv year list instead)
+CONSTRAINTS,DEMAND forecast Scenario,PLANEACION,Scenario selector - matches the "Scenario" column value used in load/pDemandForecast_from_*.csv
+CONSTRAINTS,Active Regional Price Scenario,NoScenario,Scenario selector metadata
+CONSTRAINTS,ACTIVE FUEL PRICE SCENARIO,Medio,Scenario selector - matches the "Scenario" column value used in supply/pFuelPrice_from_*.csv
+CONSTRAINTS,ACTIVE Transmission Expasion Scenarios,Base,Scenario selector metadata
+CONSTRAINTS,Capex Trajectories Scenario,APS,Scenario selector - matches the "Scenario" column value used in supply/pCapexTrajectoriesCustom_from_*.csv
+CONSTRAINTS,Year of Annual FIXED Trade FLOWS,2024,No equivalent Abbreviation
+CONSTRAINTS,REgenProfile Scenarios,Avg,Scenario selector metadata
+CONSTRAINTS,CO2 Emissions Reductions Scenario,(blank),Scenario selector metadata
+CONSTRAINTS,Active International H2 Price Scenario,Flat,Scenario selector - matches Scenario column in H2 Prices sheet (not converted, see report)
+CONSTRAINTS,H2 Capex Trajectory Level,WECcaptraj_Avg,Scenario selector - matches Scenario column in CapexTrajectoriesH2_Tables (not converted, see report)
+CONSTRAINTS,Scenario for Climate Impact on Hydrology,SSP3-7.0,Scenario selector metadata
+CONSTRAINTS,ALL or Only Existing Transmission Lines,Existing Only,No equivalent Abbreviation
+CONSTRAINTS,MX use Aggreagate Generators Model,NO,Mexico-specific switch, no equivalent Abbreviation
+CONSTRAINTS,ELCC Capacity Credits by Technology - PV,0.1,"Per-technology capacity credit table; target schema has no per-tech CapacityCredit row in pSettings (pGenDataInput.csv also lacks this column per data_test) - needs a dedicated capacity-credit input if required"
+CONSTRAINTS,ELCC Capacity Credits by Technology - Wind,0.2,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - Geo,1,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - RPV,0,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - Wind_Offshore,0.2,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - STO HY,0.9,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - ROR,0.5,See note above
+CONSTRAINTS,ELCC Capacity Credits by Technology - Biomass,0.7,See note above
+OUTPUT,Include in report? (all rows YES except noted),YES,Old-framework report-section toggles (Average export price, Average prices, Capacity by fuel, Capacity plan, Cost of reserves, Demand supply balance, Dispatch hourly energy balance, Emissions by zone, Emissions intensity by zone, Energy by fuel, Energy by plant, Energy mix, Fuel consumption, Fuel costs, New capacity by fuel, Peak demand and capacity, Plant annual average costs, Plant level dispatch, Plant utilization, Price based trade, Reserves by plant, Retirements, Solar cost in zone, Solar value in zone, Solver Parameters, Summary, Summary of costs, Transmission Losses, Utilization of interconnections, Zonal average costs, Zonal interchange - all YES); not applicable to new framework input schema

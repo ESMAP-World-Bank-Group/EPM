@@ -5,7 +5,8 @@
 * Description:
 * This GAMS-based model is designed for electricity system planning, 
 * incorporating capacity expansion, generation dispatch, and policy 
-* constraints such as renewable energy targets, emissions reductions.
+* constraints such as renewable energy targets, emissions reductions, 
+* and market mechanisms.
 *
 * Author(s): ESMAP Modelling Team
 * Organization: World Bank
@@ -23,7 +24,7 @@
 * - The model requires input data in .GDX or Excel format.
 *
 * Contact:
-* Claire Nicolas, cnicolas@worldbank.org 
+* Claire Nicolas, cnicolas@worldbank.org
 **********************************************************************
 
 $offEolCom
@@ -125,14 +126,6 @@ Parameter
    fEnableInternalExchange      'Allow internal zone trading'
    fRemoveInternalTransferLimit 'Override internal transfer limits'
    fAllowTransferExpansion      'Permit expansion of internal transmission (set elsewhere too; redundant flag)'
-* Contracted transfer volumes, off by default (see eContractedSeasonalTransfer).
-* For corridors governed by a power purchase agreement, where the delivered
-* energy is set by contract rather than chosen by the optimiser.
-* 0 = off, 1 = deliver exactly the contracted volume (must-run), 2 = deliver at
-* least the contracted volume (take-or-pay floor). Leaving it at 0 reproduces
-* the model exactly as it was.
-   fApplyContractedTrade        'Contracted transfer mode (0 = off, 1 = exact volume, 2 = minimum volume)'
-   sContractedTradeFirstYear    'First year contracted volumes apply (0 = never)'
    pDR                          'Discount rate applied in objective'
    fEnableCapexTrajectoryH2     'Toggle CAPEX trajectory for hydrogen assets'
    fEnableEnergyEfficiency     'Enable demand-side efficiency adjustments'
@@ -451,8 +444,6 @@ Equations
 * ------------------------------
    eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
    eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
-   eContractedSeasonalTransfer(z,z2,q,y) 'Contracted seasonal transfer volume, exact'
-   eContractedSeasonalTransferMin(z,z2,q,y) 'Contracted seasonal transfer volume, minimum'
    eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
@@ -947,36 +938,6 @@ eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
-* --- Contracted transfer volumes, inactive unless explicitly switched on ------
-* Disabled by default (fApplyContractedTrade = 0) and generating no rows at all
-* when off, so models that do not set it behave exactly as before.
-*
-* Fixes the seasonal energy delivered on a contracted corridor from
-* sContractedTradeFirstYear onwards, for corridors under a power purchase
-* agreement whose volume is set by contract rather than by the optimiser.
-* Membership is carried by pContractedTradeFlag and not by pContractedTradeEnergy
-* being non-zero: a zero in the CSV is read as missing, which would silently drop
-* exactly the (corridor, season) pairs meant to be held at zero flow.
-* The season is data, not a hard-coded set, so the same equation serves contracts
-* written on any season, including one covering the whole year.
-*
-* Mode 1, exact volume: a flagged pair with no volume is held at zero flow, which
-* also suppresses counter-flows on contracted corridors.
-eContractedSeasonalTransfer(sTopology(z,z2),q,y)$(fApplyContractedTrade = 1
-                                                  and pContractedTradeFlag(z,z2,q)
-                                                  and y.val >= sContractedTradeFirstYear)..
-   sum((d,t), vFlow(z,z2,q,d,t,y)*pHours(q,d,t)) =e= pContractedTradeEnergy(z,z2,q,y)*1e3;
-
-* Mode 2, take-or-pay floor: the corridor delivers at least the contracted volume
-* and the optimiser is free to send more.
-* Both modes are hard constraints, like eMinImportRequirement above: a contracted
-* volume the corridor cannot physically carry makes the model infeasible rather
-* than reporting a shortfall.
-eContractedSeasonalTransferMin(sTopology(z,z2),q,y)$(fApplyContractedTrade = 2
-                                                     and pContractedTradeFlag(z,z2,q)
-                                                     and y.val >= sContractedTradeFirstYear)..
-   sum((d,t), vFlow(z,z2,q,d,t,y)*pHours(q,d,t)) =g= pContractedTradeEnergy(z,z2,q,y)*1e3;
-
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
    vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmissionLine(z,z2,y);
@@ -1273,8 +1234,6 @@ Model PA /
    
    eTransferCapacityLimit
    eMinImportRequirement
-   eContractedSeasonalTransfer
-   eContractedSeasonalTransferMin
    eAnnualizedTransmissionCapex
    eCumulativeTransferExpansion
    eSymmetricTransferBuild

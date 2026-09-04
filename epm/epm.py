@@ -438,6 +438,32 @@ def launch_epm(scenario,
 
     if rslt.returncode != 0:
         logfile_path = Path(cwd) / logfile
+
+        # GAMS can return a non-zero exit code purely because it failed to delete its
+        # own scratch process directory afterward (e.g. a file lock held briefly by
+        # OneDrive sync or antivirus on Windows), even though the run itself completed
+        # normally. Treat that specific case as a non-fatal warning instead of a failure.
+        if logfile_path.exists():
+            try:
+                with open(logfile_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    log_text = f.read()
+                if 'Status: Normal completion' in log_text and 'Cannot delete' in log_text:
+                    logger.warning(
+                        "GAMS returned exit code %s for scenario '%s' due to a scratch "
+                        "directory cleanup failure, but the run itself completed normally "
+                        "(Status: Normal completion). Treating as success.",
+                        rslt.returncode, scenario_name
+                    )
+                    metrics = _log_solver_metrics_for_scenario(logfile_path, scenario_name) or {}
+                    return {
+                        "scenario": scenario_name,
+                        "logfile": logfile,
+                        "Objective (Billion USD)": metrics.get("Objective (Billion USD)"),
+                        "Time (s)": metrics.get("Time (s)"),
+                    }
+            except OSError:
+                pass
+
         error_msg = f"GAMS Error (return code {rslt.returncode}) for scenario '{scenario_name}'\n"
         error_msg += f"Log file: {logfile_path}\n"
 

@@ -105,6 +105,10 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
+!epm/input/data_wapp/
+!epm/input/data_wapp/**
+!epm/input/data_mexico_ccdr/
+!epm/input/data_mexico_ccdr/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
