@@ -26,6 +26,8 @@ from pathlib import Path
 
 import pandas as pd
 
+import runcfg
+
 ROOT = Path(__file__).resolve().parents[2]          # .../blacksea_2026/EPM
 EPM = ROOT / "epm"
 OUTVIEW = EPM / "output_view"
@@ -68,8 +70,18 @@ def scenario_dirs(run):
 
 
 def read_zcmap():
-    df = pd.read_csv(DATA / "zcmap.csv", encoding="utf-8-sig")
-    return dict(zip(df["z"], df["c"]))
+    """Zone to country over zcmap.csv and its scenario variants (zcmap_*.csv), so zones that
+    only some scenarios read, such as the GEC hub and node, count with their country. zcmap.csv
+    wins, and zones the base model treats as external (trade/zext.csv) stay out."""
+    zext = set(pd.read_csv(DATA / "trade" / "zext.csv", encoding="utf-8-sig")["zext"]
+               .astype(str).str.strip())
+    out = {}
+    for path in [DATA / "zcmap.csv"] + sorted(DATA.glob("zcmap_*.csv")):
+        df = pd.read_csv(path, encoding="utf-8-sig")
+        for z, c in zip(df["z"].astype(str).str.strip(), df["c"].astype(str).str.strip()):
+            if z not in zext:
+                out.setdefault(z, c)
+    return out
 
 
 def read_hours():
@@ -560,7 +572,7 @@ def build_geo(zcmap):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--run", default="simulations_run_20260819_204446")
+    ap.add_argument("--run", default=runcfg.DEFAULT_RUN)
     ap.add_argument("--scenarios", default="baseline,LC_Iso")
     ap.add_argument("--countries", default="Georgia",
                     help="countries whose hourly dispatch is kept")

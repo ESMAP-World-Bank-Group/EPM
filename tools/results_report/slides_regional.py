@@ -32,15 +32,17 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.colors import to_rgba
 from matplotlib.lines import Line2D
-from matplotlib.patches import Patch, Polygon, FancyArrowPatch
+from matplotlib.patches import Patch, Polygon, FancyArrowPatch, Rectangle
 from matplotlib.ticker import MaxNLocator
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import extract as ex                                   # run layout + summary
 
-RUN = ex.OUTVIEW / "simulations_run_20260825"
-CACHE = HERE / "cache" / "simulations_run_20260825.json"
+import runcfg
+
+RUN = runcfg.run_dir()
+CACHE = runcfg.cache_path()
 OUTDIR = HERE.parents[2] / "Data" / "results" / "slides"
 YEARS = ex.YEARS
 
@@ -99,6 +101,34 @@ def rc(fs):
         "ytick.major.width": .6, "ytick.major.pad": 2,
         "xtick.major.pad": 2, "xtick.labelsize": fs, "ytick.labelsize": fs,
     })
+
+
+def placeholder(a, name, reason):
+    """Stand-in image for a chart the run cannot produce yet.
+
+    Written at the chart's own size so the picture drops into the deck box
+    without distorting it, and loud enough that it cannot be mistaken for a
+    result if the deck goes out before the missing scenarios land.
+    """
+    out = OUTDIR / name
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fig = plt.figure(figsize=(a.width, a.height), facecolor="white")
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_axis_off()
+    ax.add_patch(Rectangle((.012, .02), .976, .96, transform=ax.transAxes,
+                           facecolor="#fdf6f5", edgecolor="#d9534f",
+                           linewidth=1.4, linestyle=(0, (5, 3))))
+    ax.text(.5, .70, "CHART NOT AVAILABLE", transform=ax.transAxes,
+            ha="center", va="center", color="#d9534f", fontsize=11,
+            fontweight="bold")
+    ax.text(.5, .46, reason, transform=ax.transAxes, ha="center", va="center",
+            color=INK, fontsize=7.5, wrap=True)
+    ax.text(.5, .18, "%s  |  %s" % (name, RUN.name), transform=ax.transAxes,
+            ha="center", va="center", color=SOFT, fontsize=6)
+    fig.savefig(out, dpi=a.dpi, facecolor="white")
+    plt.close(fig)
+    print("%s  PLACEHOLDER (%s)" % (out, reason))
+    return out
 
 
 def save(fig, a, name):
@@ -1110,11 +1140,35 @@ def chart_freeexp_build(a):
 # Every project is judged against the counterfactual that shares its EU price
 # assumption.  Comparing a Crisis-price project with the central-price baseline
 # would credit the project with the price path, which is not a project benefit.
-PRICE_PATHS = [("EU central", "baseline", ""),
+ALL_PRICE_PATHS = [("EU central", "baseline", ""),
                ("EU very low", "LC_Base_VeryLow", "_VeryLow"),
                ("EU crisis", "LC_Base_Crisis", "_Crisis"),
                ("EU central + CBAM", "LC_Base_CBAM", "_CBAM")]
 PROJECTS = [("BSSC", "LC_BSSC"), ("All\nprojects", "LC_AllProjects")]
+
+
+@lru_cache(maxsize=1)
+def price_paths():
+    """The price paths this run actually holds.
+
+    The fan is defined for four EU price paths, but a run is built wave by
+    wave: the central one lands first and the sensitivities follow.  A path is
+    kept only when every scenario it needs is on disk, counterfactual and
+    projects alike, so a partial run draws the columns it can rather than
+    failing outright.  Order is preserved, and the central path is never
+    dropped.
+    """
+    keep = []
+    for label, cf, suf in ALL_PRICE_PATHS:
+        need = [cf] + [base + suf for _, base in PROJECTS]
+        missing = [n for n in need if not (RUN / n).is_dir()]
+        if missing:
+            print("price path %-18s skipped, absent from run: %s"
+                  % (label, ", ".join(missing)))
+            continue
+        keep.append((label, cf, suf))
+    return tuple(keep)
+
 
 # Stacking and legend order.  Signs are cost signs: a positive NPV is money the
 # system spends, so a benefit is counterfactual minus scenario.
@@ -1142,12 +1196,21 @@ _CMAP = {
     "Fixed O&M: $m": ("fom", 1), "Variable O&M: $m": ("vom", 1),
     "Fuel costs: $m": ("fuel", 1), "Transmission costs: $m": ("trans", 1),
     "Import costs with external zones: $m": ("imp_ext", 1),
-    # generate_report writes this one as a positive magnitude, but base.gms:679
-    # subtracts it from the objective.  Flip it or the NPV will not reconcile.
-    "Export revenues with external zones: $m": ("exp_ext", -1),
+    # Sign convention is NOT assumed here.  generate_report has written external
+    # export revenue as a positive magnitude in some runs and as a negative cost
+    # in others, so the sign is detected per run by _ext_export_sign(); the 1
+    # below is only the placeholder it overrides.  Getting it wrong moves the
+    # headline benefit by twice the revenue, the largest number on the slide.
+    "Export revenues with external zones: $m": ("exp_ext", 1),
     "Import costs with internal zones: $m": ("imp_int", 1),
     "Export revenues with internal zones: $m": ("exp_int", 1),
     "Trade shared benefits: $m": ("shared", 1),
+    # Investment costs ARE in pCostsMerged, already discounted on the model's
+    # own half-year convention.  Re-deriving them from summary.csv on top of
+    # this line double counted generation capex, once as capex and once in the
+    # residual bucket, which is what the "Reserve and unserved" column of the
+    # 2026-08 deck was actually showing.
+    "Investment costs: $m": ("capex", 1),
 }
 _SKIP = {"NPV of system cost: $m"}
 
@@ -1196,36 +1259,84 @@ def _ext_capex():
     return out
 
 
+def _costs(scen):
+    """The scenario's discounted cost lines, one row per zone and component."""
+    import pandas as pd
+    d = pd.read_csv(RUN / scen / "output_csv" / "pCostsMerged.csv")
+    d = d[d.attribute == "DiscountedWeightedCostsCumulated"]
+    return d[d.y == d.y.max()]
+
+
+def published_npv(scen):
+    """The model's own NPV of system cost, $m."""
+    import pandas as pd
+    d = pd.read_csv(RUN / scen / "output_csv" /
+                    "pNetPresentCostSystemMerged.csv")
+    d = d[(d.attribute == "NetPresentCostSystem")
+          & (d.uni == "NPV of system cost: $m")]
+    return float(d.value.sum())
+
+
+def _reconciles(total, scen):
+    want = published_npv(scen)
+    return abs(total - want) <= max(1.0, 1e-4 * abs(want)), want
+
+
+@lru_cache(maxsize=1)
+def _ext_export_sign():
+    """Whether external export revenue is stored as a cost or as a magnitude.
+
+    The cost lines have to add up to the NPV the model publishes.  They do under
+    one of the two signs and not the other, and the gap between them is twice
+    the revenue, so the run decides rather than a constant written here.
+    """
+    d = _costs("baseline")
+    rev = float(d[d.uni == "Export revenues with external zones: $m"].value.sum())
+    rest = float(d[~d.uni.isin(_SKIP)].value.sum()) - rev
+    for sign in (1, -1):
+        ok, _ = _reconciles(rest + sign * rev, "baseline")
+        if ok:
+            return sign
+    raise RuntimeError(
+        "baseline cost lines do not reconcile with the published NPV under "
+        "either sign: the component list is incomplete, do not draw a benefit "
+        "chart from it")
+
+
 @lru_cache(maxsize=1)
 def benefit_npv():
     """Discounted system cost by scenario, country and component, $m.
 
-    Generation capex is not in pCosts at all, so it is discounted here from the
-    yearly annuities in summary.csv.  External interconnector capex is not in
-    the model either, and comes from _ext_capex.
+    Everything the model charges comes from pCostsMerged, whose lines reconcile
+    with the published NPV to the dollar; the reconciliation is asserted per
+    scenario rather than trusted, because a component silently landing in the
+    residual bucket is invisible on the chart and wrong by its full size.
+
+    The single addition is the external interconnector capex: pExtTransferLimit
+    carries no investment variable, so those corridors are free to the optimiser
+    and their annuity is brought in from _ext_capex.  It is the only component
+    here that the model itself does not charge.
     """
     import pandas as pd
-    scens = ["baseline"] + [c for _, c, _ in PRICE_PATHS[1:]] + \
-            [p + s for _, p in PROJECTS for _, _, s in PRICE_PATHS]
+    scens = ["baseline"] + [c for _, c, _ in price_paths()[1:]] +             [p + s for _, p in PROJECTS for _, _, s in price_paths()]
     sm = pd.read_csv(RUN / "summary.csv")
     zc = dict(sm[["zone", "country"]].drop_duplicates().values)
-    inv = sm[sm.attribute == "Investment costs: $m"]
-    rr = _rr()
+    esign = _ext_export_sign()
 
     rows = []
     for s in scens:
-        d = pd.read_csv(RUN / s / "output_csv" / "pCostsMerged.csv")
-        d = d[d.attribute == "DiscountedWeightedCostsCumulated"]
-        d = d[d.y == d.y.max()]
-        for _, r in d.iterrows():
+        total = 0.0
+        for _, r in _costs(s).iterrows():
             if r["uni"] in _SKIP:
                 continue
             comp, sign = _CMAP.get(r["uni"], ("res", 1))
-            rows.append((s, r["z"], comp, sign * float(r["value"])))
-        for _, r in inv.iterrows():
-            v = float(r[s]) * rr.get(float(r["year"]), 0.0)
-            if v:
-                rows.append((s, r["zone"], "capex", v))
+            v = (esign if comp == "exp_ext" else sign) * float(r["value"])
+            rows.append((s, r["z"], comp, v))
+            total += v
+        ok, want = _reconciles(total, s)
+        if not ok:
+            raise RuntimeError("%s: components sum to %.1f, the model publishes "
+                               "%.1f" % (s, total, want))
 
     ext = _ext_capex()
     for s in scens:
@@ -1326,14 +1437,14 @@ def chart_benefit_regional(a):
     fs = 6.8
     rc(fs)
     fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
-    xs, centres = _grouped(len(PRICE_PATHS), len(PROJECTS))
+    xs, centres = _grouped(len(price_paths()), len(PROJECTS))
     vals = [{k: v / 1e3 for k, v in
              _deltas(df, base + suf, cf, COMPS).items()}
-            for _, cf, suf in PRICE_PATHS for _, base in PROJECTS]
+            for _, cf, suf in price_paths() for _, base in PROJECTS]
     _stack(ax, xs, vals, COMPS, .36, fs)
-    ax.set_xlim(-.62, len(PRICE_PATHS) - 1 + .62)
-    _benefit_axes(ax, centres, [p for p, _, _ in PRICE_PATHS], xs,
-                  [b for _ in PRICE_PATHS for b, _ in PROJECTS], fs)
+    ax.set_xlim(-.62, len(price_paths()) - 1 + .62)
+    _benefit_axes(ax, centres, [p for p, _, _ in price_paths()], xs,
+                  [b for _ in price_paths() for b, _ in PROJECTS], fs)
     if a.title:
         fig.suptitle(a.title, fontsize=fs + 1, fontweight="bold", color=INK,
                      x=.012, y=.995, ha="left", va="top")
@@ -1353,9 +1464,9 @@ def chart_benefit_country(a):
     """
     df = benefit_npv()
     label = a.scenario or "EU central"
-    look = {p: (cf, suf) for p, cf, suf in PRICE_PATHS}
+    look = {p: (cf, suf) for p, cf, suf in price_paths()}
     if label not in look:                                # accept a raw suffix
-        label = next((p for p, _, s in PRICE_PATHS if s == label), "EU central")
+        label = next((p for p, _, s in price_paths() if s == label), "EU central")
     cf, sfx = look[label]
     fs = 6.8
     rc(fs)
@@ -1390,7 +1501,7 @@ def table_benefits(a):
         w = csv.writer(fh)
         w.writerow(["Price path", "Project", "Scope"]
                    + [lab for _, lab, _ in COMPS_COUNTRY] + ["Net benefit"])
-        for plabel, cf, suf in PRICE_PATHS:
+        for plabel, cf, suf in price_paths():
             for blabel, base in PROJECTS:
                 for scope in ["Region"] + COUNTRIES:
                     d = _deltas(df, base + suf, cf, COMPS_COUNTRY,
@@ -1418,7 +1529,7 @@ def table_benefits_xlsx(a):
 
     def block(scope):
         rows = []
-        for plabel, cf, suf in PRICE_PATHS:
+        for plabel, cf, suf in price_paths():
             for blabel, base in PROJECTS:
                 d = _deltas(df, base + suf, cf, COMPS_COUNTRY,
                             country=None if scope == "Region" else scope)
@@ -1439,7 +1550,7 @@ def table_benefits_xlsx(a):
         "(DR = 6%%, half-year convention)." % (YEARS[0], YEARS[-1]),
         "Each project is compared with the counterfactual sharing its EU price "
         "path, not with the central baseline: %s."
-        % ", ".join("%s -> %s" % (p, c) for p, c, _ in PRICE_PATHS),
+        % ", ".join("%s -> %s" % (p, c) for p, c, _ in price_paths()),
         "Positive = benefit, i.e. counterfactual cost minus scenario cost.",
         "'Transmission capex, external' is the capex of the external "
         "interconnectors, "
@@ -1501,9 +1612,9 @@ def table_levels_xlsx(a):
     from openpyxl.utils import get_column_letter
 
     label = a.scenario or "EU central"
-    look = {p: (cf, suf) for p, cf, suf in PRICE_PATHS}
+    look = {p: (cf, suf) for p, cf, suf in price_paths()}
     if label not in look:                                # accept a raw suffix
-        label = next((p for p, _, s in PRICE_PATHS if s == label), "EU central")
+        label = next((p for p, _, s in price_paths() if s == label), "EU central")
     cf, sfx = look[label]
     cols = [("Counterfactual", cf)] + [(b.replace(chr(10), " "), s + sfx)
                                        for b, s in PROJECTS]
@@ -1650,7 +1761,9 @@ def table_freeexp(a):
 # and from the phase names in the external capex catalogue.
 PROJECT_NAMES = {
     ("Georgia", "Romania", "BSSC"): "Black Sea Submarine Cable (BSSC)",
-    ("Georgia", "Romania", "GECO"): "Georgia-EU corridor, GECO phase",
+    ("GEC_GE", "Romania", "L1"): "Green Energy Corridor, link 1",
+    ("GEC_GE", "Romania", "L2"): "Green Energy Corridor, link 2",
+    ("GEC_GE", "Romania", "L3"): "Green Energy Corridor, link 3",
     ("Trakia", "Bulgaria", "EWTC"): "East-West Transmission Corridor (EWTC)",
     ("Trakia", "Greece", "EWTC"): "East-West Transmission Corridor (EWTC)",
     ("AzerbaijanMain", "Kazakhstan", "TransCaspian"):
@@ -1806,7 +1919,8 @@ def _write_project_xlsx(path, df, scen):
 # corridor keys are alphabetical because corridors() sorts each pair, so the
 # solid half of every bar is the first-named zone feeding the second.
 AP_LINES = [
-    ("External", "BSSC + GECO",    "Georgia|Romania"),
+    ("External", "BSSC",           "Georgia|Romania"),
+    ("External", "GEC",            "GEC_GE|Romania"),
     ("External", "EWTC 1",         "Bulgaria|Trakia"),
     ("External", "EWTC 2",         "Greece|Trakia"),
     ("External", "Trans-Caspian",  "AzerbaijanMain|Kazakhstan"),
@@ -1819,7 +1933,8 @@ AP_LINES = [
 AP_SHORT = {"AzerbaijanMain": "AZ Main", "EastAna": "East Ana.",
             "Nakhchivan": "Nakhch.", "Georgia": "Georgia", "Armenia": "Armenia",
             "Trakia": "Trakia", "Romania": "Romania", "Bulgaria": "Bulgaria",
-            "Greece": "Greece", "Kazakhstan": "Kazakhstan"}
+            "Greece": "Greece", "Kazakhstan": "Kazakhstan",
+            "GEC_GE": "GEC GE", "GEC_AZ": "GEC AZ"}
 
 
 def chart_allprojects_lines(a):
@@ -2038,7 +2153,16 @@ def ext_revenue(scen):
 
 def chart_export_revenue(a):
     scen = a.scenario or "LC_AllProjects"
-    rev, cost = ext_revenue(scen)
+    # The chart is by market, and two links can reach the same one (the BSSC and
+    # the GEC both land in Romania), so they are summed here.  Each link is still
+    # valued on its own NTC in ext_revenue.
+    by_link_rev, by_link_cost = ext_revenue(scen)
+    rev, cost, owner = {}, {}, {}
+    for (z, zext), v in by_link_rev.items():
+        owner.setdefault(zext, z)
+        rev[zext] = [s + x for s, x in zip(rev.get(zext, [0.0] * 16), v)]
+        cost[zext] = [s + x for s, x in zip(cost.get(zext, [0.0] * 16),
+                                            by_link_cost[(z, zext)])]
     keys = [k for k in sorted(rev, key=lambda k: -sum(rev[k]))
             if sum(rev[k]) + sum(cost[k]) > 0]
 
@@ -2047,8 +2171,8 @@ def chart_export_revenue(a):
     fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
     x = list(range(len(YEARS)))
     base = [0.0] * 16
-    for z, zext in keys:
-        v = rev[(z, zext)]
+    for zext in keys:
+        v = rev[zext]
         col = EXTZ_COLOR.get(zext, "#9aa5b4")
         ax.bar(x, v, bottom=base, width=.74, zorder=2,
                facecolor=to_rgba(col, .88), edgecolor=to_rgba(col, .88),
@@ -2073,10 +2197,10 @@ def chart_export_revenue(a):
                  x=.012, y=.995, ha="left", va="top")
     right = 1 - LEGEND_IN / a.width
     fig.tight_layout(pad=.3, rect=(.012, 0, right, .92))
-    h = [Patch(label="%s (%s)" % (zext, EXTZ_OWNER.get(zext, z)),
+    h = [Patch(label="%s (%s)" % (zext, EXTZ_OWNER.get(zext, owner[zext])),
                facecolor=to_rgba(EXTZ_COLOR.get(zext, "#9aa5b4"), .88),
                edgecolor=to_rgba(EXTZ_COLOR.get(zext, "#9aa5b4"), .88),
-               linewidth=.2) for z, zext in keys]
+               linewidth=.2) for zext in keys]
     h.append(Line2D([], [], marker="o", markersize=2.4, linewidth=.9,
                     color="#2f3f57", label="Net of import cost"))
     fig.legend(handles=h, loc="upper left", bbox_to_anchor=(right + .012, .93),
@@ -2304,6 +2428,24 @@ def chart_freeexp_expansion(a):
     return save(fig, a, "freeexp_expansion_map.png")
 
 
+def why(e):
+    """One line a reader of the deck can act on, not a stack trace."""
+    if isinstance(e, FileNotFoundError):
+        p = Path(getattr(e, "filename", "") or "")
+        for part in p.parts:
+            if part.startswith("LC_") or part == "baseline":
+                return "scenario %s is not in this run" % part
+        return "missing input: %s" % p.name
+    if isinstance(e, KeyError):
+        return "series not found in this run: %s" % e
+    return "%s: %s" % (type(e).__name__, e)
+
+
+# Chart key -> file name, for the two charts whose PNG is not named after the
+# key.  The deck matches on the file name, so a placeholder must use it too.
+PNGNAME = {"bssc_volume": "bssc_volume_sensitivity.png",
+           "freeexp_expansion": "freeexp_expansion_map.png"}
+
 CHARTS = {
     "region_maps": (chart_region_maps, 9.4, 2.5),
     "region_generation": (chart_region_generation, 5.6, 2.5),
@@ -2348,14 +2490,20 @@ def main():
             a.width = a.width or w
             a.height = a.height or h
         if n == "tables":
-            table_bssc(a)
-            table_freeexp(a)
-            table_benefits(a)
-            table_benefits_xlsx(a)
-            table_levels_xlsx(a)
-            table_allprojects(a)
+            for t in (table_bssc, table_freeexp, table_benefits,
+                      table_benefits_xlsx, table_levels_xlsx, table_allprojects):
+                try:
+                    t(a)
+                except Exception as e:                     # noqa: BLE001
+                    print("%-22s SKIPPED  %s" % (t.__name__, why(e)))
             continue
-        fn(a)
+        try:
+            fn(a)
+        except Exception as e:                             # noqa: BLE001
+            plt.close("all")
+            if not every:
+                raise
+            placeholder(a, PNGNAME.get(n, "%s.png" % n), why(e))
         plt.close("all")
 
 

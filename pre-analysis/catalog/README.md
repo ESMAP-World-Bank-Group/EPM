@@ -37,6 +37,11 @@ resolve by filename. Renaming a source means renaming its citations in the same 
 
 Pass `--strict` to turn warnings into failures.
 
+A deployment that carries `cesi/cesi_register.yaml` (DVC only, so never in CI) gets three
+more checks. **geco**: the `geco:` blocks of `provenance.yaml` match the `cesi/*_cesi.csv`
+files, both ways. **leak**: no CESI figure reaches the text behind a git tracked file.
+**traceability**: a CESI value taken by the main scenario is cited with a CHANGED line.
+
 ## Two axes, not one
 
 `type` is the **access level** — who may receive the data (`open_source`, `internal_wb`,

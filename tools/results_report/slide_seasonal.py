@@ -9,6 +9,7 @@ by pHours turns the hourly Imports/Exports series into GWh per season.
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -19,6 +20,8 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import runcfg  # noqa: E402
 
 # Cool for the buying seasons, warm for the selling ones is misleading here
 # (the sign already says it), so the seasons get one ramp and the sign is read
@@ -44,7 +47,7 @@ def pale(c):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--cache", default=str(HERE / "cache" / "simulations_run_20260825.json"))
+    p.add_argument("--cache", default=str(runcfg.cache_path()))
     p.add_argument("--scope", default="Georgia")
     p.add_argument("--scenario", default="baseline")
     p.add_argument("--width", type=float, default=2.26)

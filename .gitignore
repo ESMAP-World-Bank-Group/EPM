@@ -48,6 +48,8 @@ tools/.env
 # epm/output_view is a LOCAL staging zone whose .csv are uploaded to R2 by Publish (tools/publish.ps1).
 /epm/output/
 /epm/output_view/
+# epm/output_archive holds superseded runs: kept on disk for traceability, never uploaded, never in git.
+/epm/output_archive/
 epm/postprocessing/*.ipynb
 epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results

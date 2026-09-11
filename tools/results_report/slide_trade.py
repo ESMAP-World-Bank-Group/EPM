@@ -10,6 +10,7 @@ column so the bars keep the full width.
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -20,6 +21,8 @@ from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import runcfg  # noqa: E402
 
 MAPBAND = ["#1B6CA8", "#36B5B5", "#E8C547", "#4DA6FF", "#4169E1",
            "#85C1E9", "#2E9EC8", "#5EBCBA", "#1A5276", "#7EC8E3",
@@ -42,7 +45,7 @@ def face(c, hatched):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--cache", default=str(HERE / "cache" / "simulations_run_20260825.json"))
+    p.add_argument("--cache", default=str(runcfg.cache_path()))
     p.add_argument("--scope", default="Georgia")
     p.add_argument("--scenario", default="baseline")
     p.add_argument("--width", type=float, default=5.6)

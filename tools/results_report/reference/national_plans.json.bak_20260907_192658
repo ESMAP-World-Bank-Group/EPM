@@ -1,5 +1,5 @@
 {
- "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run. The base-year (2025) column is the observed fleet as published by the national operator, not a plan projection, so that both bars start from the same system.",
+ "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run.",
  "years": [
   2025,
   2030,
@@ -8,7 +8,7 @@
  ],
  "source": {
   "Turkiye": "NEP (MENR) — reference scenario",
-  "Georgia": "GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030-2040",
+  "Georgia": "GSE TYNDP (10-yr, G2 timing)",
   "Azerbaijan": "COP29 pledge — to 2030, extrapolated to 2035/40",
   "Armenia": "USAID LCEDP / EPSO Base"
  },
@@ -71,25 +71,25 @@
   },
   "Georgia": {
    "Gas": [
-    1.19,
+    1.251,
     1.457,
     1.617,
     1.617
    ],
    "Hydro": [
-    3.41,
+    3.863,
     5.807,
     7.354,
     7.354
    ],
    "Solar": [
-    0.0,
+    0.019,
     0.141,
     0.237,
     0.237
    ],
    "Wind": [
-    0.021,
+    0.154,
     0.796,
     1.316,
     1.316

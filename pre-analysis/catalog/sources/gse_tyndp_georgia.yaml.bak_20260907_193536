@@ -47,26 +47,4 @@ quality:
     Khudoni & Namakhvani downgraded to candidates (COD 2035). (2) Wind entries are template values,
     not real distinct projects. (3) Extract is the generation pipeline only; the network/line part
     of the TYNDP is handled via the transmission pipeline.
-
-    (4) BASE YEAR VALIDATION against the later GSE edition.
-
-    File: Data/NDPs/TYNDP_GE-2024-2034_ENG.pdf
-
-    Edition: TYNDP 2024-2034 (GSE, published 2024-03-27) - a later edition than the
-    2023-2033 pipeline extract above, obtained after the fleet was built.
-
-    Published existing fleet: Fig. 1.4, p.8: 4621 MW total - regulating HPPs 2387, seasonal (run-of-river) HPPs
-    1023, combined-cycle and coal TPPs 1080, gas turbines 110, wind farms 21, no solar
-    listed. Modelled Georgian Status-1 fleet is 4552 MW: hydro 3353 (vs 3410), gas and
-    coal 1179 (vs 1190), wind 20.7 (vs 21), solar 0 (vs none listed). The base year
-    therefore agrees with the national operator to 1.5 %.
-
-    Plan bar note: reference/national_plans.json now takes its 2025 column from this published fleet
-    rather than from the pipeline ramp, so the plan and model bars on the country
-    slides start from the same system. The 2030-2040 columns remain the pipeline on
-    G2 timing.
-
-    Horizon check: Fig. 1.5, p.8 gives 2034: hydro 7222, wind 1291, solar 232, gas 1590 MW. The
-    2023-2033 endpoint carried in national_plans.json (7354 / 1316 / 237 / 1617) sits
-    about 2 % above it, so switching editions would not visibly move the horizon bar.
   used_in_studies: [data_blacksea]

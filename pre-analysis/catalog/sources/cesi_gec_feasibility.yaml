@@ -1,0 +1,81 @@
+id: cesi_gec_feasibility
+name: "CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8"
+type: client_confidential
+category: study_document
+date: "2026-08"
+file: "Green Energy Corridor Task 2 to Task 8 reports (PDF)"
+access_note: >
+  Project data folder Data/GECO/. Client confidential: no figure from this study may
+  appear in a git tracked file. The values used by EPM are recorded in
+  epm/input/data_blacksea/cesi/cesi_register.yaml, which is stored in DVC only.
+  Issue dates: T2 and T3 2024-09-19, T5 2025-11-17, T6 2026-06-05, T8 2026-07-03,
+  T7 2026-08-19. T4 (hydrogen technology review) and the July 2026 ministerial
+  presentation are in the folder but feed no EPM parameter.
+
+coverage:
+  countries: [Azerbaijan, Georgia, Romania, Hungary]
+  years: "2032, 2036, 2040 (T6 simulation years, one per GEC link commissioning)"
+
+fills_epm_resources:
+  - resource: pDemandForecast
+    location: "Task 3, Task 6"
+    coverage: "Reference demand plus EV, Azerbaijan and Georgia"
+
+  - resource: pGenDataInput
+    location: "Task 6"
+    coverage: "Generation fleet by technology and year, Azerbaijan and Georgia. The Azerbaijan hub capacities cap the three GEC_AZ candidates of the GECO scenarios, commissioning left to the model. The fully aligned scenarios impose the fleets as committed tranches, drop the candidates and build the GEC_GE hub in equal steps"
+
+  - resource: pGenDataInputDefault
+    location: "Task 6"
+    coverage: "Capex, FOM and life of PV and wind, fully aligned scenarios only"
+
+  - resource: pCapexTrajectoriesDefault
+    location: "Task 6"
+    coverage: "No trajectory in the study: the fully aligned scenarios set the VRE multipliers to one so the study capex holds flat"
+
+  - resource: pVREProfile
+    location: "Task 2"
+    coverage: "Mean capacity factors for PV, onshore and offshore wind; our hourly profiles are rescaled to them in the fully aligned scenarios"
+
+  - resource: pStorageDataInput
+    location: "Task 6"
+    coverage: "Battery capacity of Azerbaijan and Georgia, one committed unit each in the fully aligned scenarios"
+
+  - resource: pSettings
+    location: "Task 6"
+    coverage: "WACC and discount rate"
+
+  - resource: pExtTransferLimit
+    location: "Task 5, Task 6"
+    coverage: "GEC_GE to Romania link capacity by commissioning stage, derated for availability, in the GECO link files. Georgia to Romania keeps the BSSC alone"
+
+  - resource: zcmap
+    location: "Task 6"
+    coverage: "GEC_AZ hub and GEC_GE node of the GECO scenarios, in zcmap_geco.csv. The hub default costs, availability and VRE profiles are those of AzerbaijanMain, not taken from this study"
+
+  - resource: pTransferLimit
+    location: "Task 5, Task 6"
+    coverage: "GEC layer of the GECO scenarios: GEC_AZ to GEC_GE leg and the taps to the Azerbaijan and Georgia grids, one step per link commissioning, derated for availability"
+
+  - resource: pLossFactorInternal
+    location: "Task 5"
+    coverage: "Bus-bar to bus-bar losses of the GEC_AZ to GEC_GE leg, converter stations included, weighted by the links in service. The taps carry a technical floor, not a figure from this study"
+
+  - resource: pTradePriceExport
+    location: "Task 5, Task 6"
+    coverage: "Subsea link losses applied as the seller side deduction on the Romania export price, fully aligned scenarios only"
+
+  - resource: pExtTransmissionCost
+    location: "Task 5"
+    coverage: "Corridor capex per link, AZ-GE and GE-RO sections, RO-HU excluded, used ex post. Opex and the study asset life are not taken"
+
+quality:
+  confidence: medium
+  notes: >
+    Consultant feasibility study, reviewed 2026-09-10. Known limits: T2 capacity factors
+    use the least favourable onshore turbine class and the most favourable offshore class,
+    with no wake modelling and no hourly profile. T5 prices the links at ENTSO-E standard
+    costs while T6 uses a higher capex basis. T6 demand is the T3 reference plus EV, not
+    revised. T6 benefits rest mainly on the societal CO2 value. Losses and availability
+    appear only in T5. T1 and T9 are not in the package.
+  used_in_studies: [data_blacksea]

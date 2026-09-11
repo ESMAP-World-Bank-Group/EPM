@@ -197,9 +197,9 @@ def read_catalogue(path):
 def pick_family(cat, key, total_mw):
     """Select the catalogue phases whose capacity matches what the data adds.
 
-    A scenario may stop part-way through a family - LC_BSSC builds the first
-    phase of Georgia-Romania and LC_GECO both - so any leading run of phases is
-    a candidate, and the phases have to be listed in build order.
+    A scenario may stop part-way through a family, so any leading run of phases
+    is a candidate, and the phases have to be listed in build order. LC_GECO
+    buys the GEC links on GEC_GE-Romania one after the other, in that order.
 
     Matching on capacity rather than on a hard-coded scenario list keeps the
     catalogue from drifting away from the pExtTransferLimit files: rescale a
@@ -232,9 +232,9 @@ def allocate(steps, phases):
     """Spread a family's phases over the capacity steps read from the data.
 
     Phases are consumed in catalogue order. A step may consume several phases
-    (LC_GECO commissions BSSC and GECO at once) and a phase may span several
-    steps (the 60% scenario ramps one reinforcement from 2027 to 2040), in which
-    case its capex follows the capacity pro rata.
+    and a phase may span several steps (the 60% scenario ramps one
+    reinforcement from 2027 to 2040), in which case its capex follows the
+    capacity pro rata.
     """
     full = dict((p["phase"], p["mw"]) for p in phases)
     queue = [dict(p) for p in phases]
@@ -461,18 +461,29 @@ def selftest(data, baseline):
         if s in npv_by:
             check("%s touches no external corridor" % s, not det.get(s))
 
-    # Phasing: building both phases of a family must cost the sum of the two.
+    # Phasing. Georgia-Romania carries the BSSC alone, in LC_GECO as in LC_BSSC,
+    # and the GEC links sit on GEC_GE-Romania, one phase per link. The GEC capex
+    # is checked against the catalogue, never against a figure written here:
+    # the GEC costs are client confidential and this file is tracked by git.
     if "LC_BSSC" in det and "LC_GECO" in det:
-        gr = lambda s: [d for d in det[s]
-                        if (d["z"], d["zext"]) == ("Georgia", "Romania")]
-        bssc = sum(d["capex_musd"] for d in gr("LC_BSSC"))
-        geco = sum(d["capex_musd"] for d in gr("LC_GECO"))
-        check("LC_GECO = LC_BSSC + the GECO phase",
-              abs(geco - 14000.0) < 1e-6 and abs(bssc - 3500.0) < 1e-6,
-              "BSSC %.0f, GECO %.0f" % (bssc, geco))
-        check("LC_BSSC is a strict prefix of LC_GECO",
-              [d["phase"] for d in gr("LC_BSSC")] ==
-              [d["phase"] for d in gr("LC_GECO")][:len(gr("LC_BSSC"))])
+        on = lambda s, key: [d for d in det[s] if (d["z"], d["zext"]) == key]
+        gr = ("Georgia", "Romania")
+        bssc = sum(d["capex_musd"] for d in on("LC_BSSC", gr))
+        geco = sum(d["capex_musd"] for d in on("LC_GECO", gr))
+        check("LC_GECO carries the BSSC alone on Georgia-Romania",
+              abs(bssc - 3500.0) < 1e-6 and abs(geco - bssc) < 1e-6,
+              "BSSC %.0f, LC_GECO %.0f" % (bssc, geco))
+        gec = on("LC_GECO", ("GEC_GE", "Romania"))
+        fam = read_catalogue(data / "trade" / CATALOGUE_NAME).get(
+            ("GEC_GE", "Romania"), {}).get("GEC", [])
+        yrs = [d["commissioning"] for d in gec]
+        check("LC_GECO buys every GEC link, in catalogue order",
+              bool(fam)
+              and [d["phase"] for d in gec] == [p["phase"] for p in fam]
+              and all(a < b for a, b in zip(yrs, yrs[1:]))
+              and abs(sum(d["capex_musd"] for d in gec)
+                      - sum(p["capex"] for p in fam)) < 1e-6,
+              "%d of %d links" % (len(gec), len(fam)))
 
     # The per-zone split published for the dashboard must be the same money as the
     # scenario total: a zone dropped there is a benefit invented downstream.

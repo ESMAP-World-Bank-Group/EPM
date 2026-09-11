@@ -15,6 +15,10 @@ Outputs (pre-analysis/output_transmission/):
 
 Anti double-count rule: lines of one corridor whose note says "combined" are a single
 border total -> take MAX (not SUM). Genuinely distinct lines -> SUM (and flagged).
+
+Intra-Türkiye links and links of scenario-only zones (zones listed only in a zcmap_*.csv
+variant, such as the GEC hub and node) are not in reference_lines: their pTransferLimit and
+pLossFactorInternal rows are carried over from the current data_blacksea files.
 """
 from __future__ import annotations
 
@@ -77,6 +81,12 @@ def main() -> int:
     # model (not in the cross-border reference_lines), so they are preserved as-is.
     TUR9 = {"WestMed", "WestAna", "EastMed", "EastAna", "SouthEast",
             "NorthWest", "CenterAna", "CenterBlack", "Trakia"}
+    # Zones that only some scenarios read (zcmap_*.csv) are not in reference_lines either,
+    # so their links are preserved as-is too.
+    scen_only = set()
+    for p in sorted(_DB.glob("zcmap_*.csv")):
+        scen_only |= set(pd.read_csv(p, encoding="utf-8-sig")["z"].astype(str).str.strip())
+    scen_only -= internal
     df = pd.read_csv(_REF, comment="#")
 
     corr: dict = {}          # internal undirected corridor (zlo,zhi)
@@ -178,10 +188,11 @@ def main() -> int:
                 for y in YEARS:
                     row[y] = round(ex[key] + (ramp if int(y) >= cod else 0), 1)
                 tl.append(row)
-    # MERGE: keep intra-Türkiye links from the current model file (untouched),
-    # add the cross-border corridors regenerated from reference_lines.
+    # MERGE: keep intra-Türkiye and scenario-only zone links from the current model file
+    # (untouched), add the cross-border corridors regenerated from reference_lines.
     cur_tl = pd.read_csv(_DB / "trade" / "pTransferLimit.csv")
-    intra = cur_tl[cur_tl.z.isin(TUR9) & cur_tl.z2.isin(TUR9)]
+    scen_tl = cur_tl.z.isin(scen_only) | cur_tl.z2.isin(scen_only)
+    intra = cur_tl[(cur_tl.z.isin(TUR9) & cur_tl.z2.isin(TUR9)) | scen_tl]
     merged_tl = pd.concat([intra, pd.DataFrame(tl)], ignore_index=True)
     merged_tl.to_csv(_OUT / "pTransferLimit.ref_generated.csv", index=False)
 
@@ -215,7 +226,8 @@ def main() -> int:
         for a, b in [(zlo, zhi), (zhi, zlo)]:
             lf.append({"z": a, "z2": b, **{y: loss for y in YEARS}})
     cur_lf = pd.read_csv(_DB / "trade" / "pLossFactorInternal.csv")
-    intra_lf = cur_lf[cur_lf.z.isin(TUR9) & cur_lf.z2.isin(TUR9)]
+    scen_lf = cur_lf.z.isin(scen_only) | cur_lf.z2.isin(scen_only)
+    intra_lf = cur_lf[(cur_lf.z.isin(TUR9) & cur_lf.z2.isin(TUR9)) | scen_lf]
     pd.concat([intra_lf, pd.DataFrame(lf)], ignore_index=True
               ).to_csv(_OUT / "pLossFactorInternal.ref_generated.csv", index=False)
 
@@ -253,7 +265,10 @@ def main() -> int:
     # ── DIFF report ──────────────────────────────────────────────────────────────
     lines = ["=" * 70, "AGGREGATION REPORT (staging — nothing overwritten)", "=" * 70,
              f"internal corridors: {len(corr)} | external corridors: {len(ext)} | "
-             f"candidates: {len(candidates)}", "",
+             f"candidates: {len(candidates)}",
+             f"scenario-only zones kept as-is: {', '.join(sorted(scen_only)) or '(none)'} "
+             f"({int(scen_tl.sum())} pTransferLimit rows, {int(scen_lf.sum())} pLossFactorInternal rows)",
+             "",
              "Multi-line corridors (double-count rule applied):"]
     lines += ["  " + r for r in report] or ["  (none)"]
     # quick diff vs current internal pTransferLimit (Q1, 2025)

@@ -33,6 +33,15 @@ SHARE_ROOT = REPO_ROOT / "pre-analysis" / "output_catalog"
 
 CONFIDENCE_LABEL = {"high": "[HIGH]", "medium": "[MEDIUM]", "low": "[LOW]"}
 
+# GECO boxes. A geco block under a country and parameter entry of provenance.yaml says that the
+# CESI GEC feasibility study departs from our data there. It holds no figure: the CESI_Full file,
+# the report reference, the scope and the ids of cesi/cesi_register.yaml (DVC only). Element names
+# and main scenario status are read from the register, so the grey box shrinks as the main scenario
+# takes CESI values, and disappears once it has taken them all. The GLOBAL_KEY section holds the
+# model-wide blocks (pSettings), boxed in every column. validate.py checks the blocks against the files.
+GECO_SOURCE = "cesi_gec_feasibility"
+GLOBAL_KEY = "global"
+
 
 # ── Loaders ────────────────────────────────────────────────────────────────────
 
@@ -94,6 +103,15 @@ def load_params():
         return yaml.safe_load(fh) or []
 
 
+def load_register(deployment):
+    """CESI register entries by id, or {} when the file (DVC only) is absent."""
+    path = REPO_ROOT / "epm" / "input" / deployment / "cesi" / "cesi_register.yaml"
+    if not path.exists():
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return {e["id"]: e for e in (yaml.safe_load(fh) or {}).get("entries", [])}
+
+
 def model_name(deployment, provenance):
     """Derive a human-readable model name."""
     if isinstance(provenance, dict) and "model_name" in provenance:
@@ -151,13 +169,13 @@ def sources_display_md(info, catalog):
     secondary = info.get("secondary_source_ids", [])
     parts = []
     if src_id:
-        parts.append(source_short(src_id, catalog))
+        parts.append(source_short(src_id, catalog) + lock(src_id))
     for sid in secondary:
         s = catalog.get(sid, {})
         name = s.get("name", sid)
         short = re.split(r" [—–\-] ", name)[0].strip()
         url = source_url(sid, catalog)
-        parts.append(f"[{short}]({url})" if url else short)
+        parts.append((f"[{short}]({url})" if url else short) + lock(sid))
     return " + ".join(parts) if parts else "documented"
 
 
@@ -170,16 +188,16 @@ def sources_display_html(info, catalog):
     secondary = info.get("secondary_source_ids", [])
     parts = []
     if src_id:
-        parts.append(h(source_short(src_id, catalog)))
+        parts.append(h(source_short(src_id, catalog)) + lock(src_id))
     for sid in secondary:
         s = catalog.get(sid, {})
         name = s.get("name", sid)
         short = re.split(r" [—–\-] ", name)[0].strip()
         url = source_url(sid, catalog)
         if url:
-            parts.append(f'<a href="{h(url)}" target="_blank">{h(short)}</a>')
+            parts.append(f'<a href="{h(url)}" target="_blank">{h(short)}</a>' + lock(sid))
         else:
-            parts.append(h(short))
+            parts.append(h(short) + lock(sid))
     return " + ".join(parts) if parts else "documented"
 
 
@@ -263,9 +281,97 @@ def render_proxy_note_html(info, catalog):
     )
 
 
+# ── GECO boxes ────────────────────────────────────────────────────────────────
+
+def lock(source_id):
+    """Confidential source whose values the document does not reproduce."""
+    return " 🔒" if source_id == GECO_SOURCE else ""
+
+
+def documented(info):
+    """True when the entry documents a source. An entry holding only a geco block does not."""
+    return isinstance(info, dict) and any(k != "geco" for k in info)
+
+
+def geco_files(g):
+    f = g.get("file") or []
+    return [f] if isinstance(f, str) else list(f)
+
+
+def geco_open(info, register):
+    """[(element, statuses)] of the GECO items the main scenario has not taken. Empty: no box."""
+    g = info.get("geco") if isinstance(info, dict) else None
+    if not isinstance(g, dict):
+        return []
+    items = {}
+    for rid in g.get("ids") or []:
+        e = register.get(rid)
+        if e is None:
+            items.setdefault(rid, set()).add("n/a")
+        elif e.get("main") != "taken":
+            items.setdefault(e.get("element", rid), set()).add(e.get("main") or "pending")
+    return [(el, sorted(st)) for el, st in items.items()]
+
+
+def geco_status(items):
+    """Main scenario status of the open items, e.g. "pending (4)" or "kept (1), pending (2)"."""
+    n = {}
+    for _, st in items:
+        for s in st:
+            n[s] = n.get(s, 0) + 1
+    return ", ".join(f"{s} ({c})" for s, c in sorted(n.items()))
+
+
+def geco_box_md(info, register):
+    items = geco_open(info, register)
+    if not items:
+        return ""
+    g = info["geco"]
+    files = ", ".join(f"`{f}`" for f in geco_files(g)) or "n/a"
+    return (f"> **GECO ≠** {', '.join(el for el, _ in items)}. {g.get('ref', 'n/a')}. "
+            f"Scope: {g.get('scope', 'n/a').rstrip('.')}. CESI_Full file: {files}. "
+            f"Main scenario: {geco_status(items)}. Values not reproduced: confidential source.\n")
+
+
+def geco_box_html(info, register):
+    items = geco_open(info, register)
+    if not items:
+        return ""
+    g = info["geco"]
+    files = ", ".join(f"<code>{h(f)}</code>" for f in geco_files(g)) or "n/a"
+    return (f'<div class="geco-detail"><strong>GECO &ne;</strong> {h(", ".join(el for el, _ in items))}. '
+            f'{h(g.get("ref", "n/a"))}. Scope: {h(g.get("scope", "n/a").rstrip("."))}.<br>'
+            f'CESI_Full file: {files} &middot; Main scenario: {h(geco_status(items))} &middot; '
+            f'values not reproduced, confidential source.</div>')
+
+
+def geco_cell_md(country, pid, provenance, register):
+    """Matrix cell mark: the country block, then the model-wide one."""
+    names = [el for key in (country, GLOBAL_KEY)
+             for el, _ in geco_open(get_info(key, pid, provenance), register)]
+    return f"GECO ≠ {', '.join(names)}" if names else ""
+
+
+def geco_cell_html(country, pid, provenance, register):
+    out = []
+    for key in (country, GLOBAL_KEY):
+        info = get_info(key, pid, provenance)
+        items = geco_open(info, register)
+        if not items:
+            continue
+        g = info["geco"]
+        label = f'GECO &ne; {h(", ".join(el for el, _ in items))}'
+        tip = h(f'{g.get("ref", "n/a")}. {g.get("scope", "n/a").rstrip(".")}. Main scenario: {geco_status(items)}').replace('"', "&quot;")
+        if key == country and documented(info):
+            out.append(f'<a class="geco-box" href="#{anchor(country, pid)}" title="{tip}">{label}</a>')
+        else:
+            out.append(f'<span class="geco-box" title="{tip}">{label}</span>')
+    return "".join(out)
+
+
 # ── Markdown ──────────────────────────────────────────────────────────────────
 
-def render_md(deployment, countries, horizon, params, provenance, catalog):
+def render_md(deployment, countries, horizon, params, provenance, catalog, register):
     lines = []
     today = date.today()
     mname = model_name(deployment, provenance)
@@ -297,13 +403,14 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
         cells = []
         for country in countries:
             info = get_info(country, pid, provenance)
-            if info:
+            if documented(info):
                 cell = sources_display_md(info, catalog)
                 if info.get("needs_review"):
                     cell = f"⚠ {cell}"
-                cells.append(cell)
             else:
-                cells.append("—")
+                cell = "—"
+            box = geco_cell_md(country, pid, provenance, register)
+            cells.append(f"{cell}<br>{box}" if box else cell)
         lines.append(f"| {cat} | {item} | `{pid}` | {desc} | " + " | ".join(cells) + " |")
 
     lines += ["", "---\n"]
@@ -342,7 +449,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
         for p in params:
             pid = p["id"]
             info = cdata.get(pid)
-            if not info:
+            if not documented(info):
                 continue
             src_display = sources_display_md(info, catalog)
             conf = info.get("confidence", "")
@@ -377,6 +484,10 @@ def render_md(deployment, countries, horizon, params, provenance, catalog):
                 secondary_note = render_secondary_sources_md(info, catalog)
                 if secondary_note:
                     lines.append(secondary_note)
+
+            box = geco_box_md(info, register)
+            if box:
+                lines.append(box)
 
             if info.get("needs_review"):
                 review_note = info.get("review_note", "Further data collection needed")
@@ -466,10 +577,15 @@ hr { border: none; border-top: 1px solid #e8e8e8; margin: 36px 0; }
               padding: 8px 14px; margin: 10px 0; font-size: 0.88em; color: #7a3d00; }
 .proxy-chain { background: #fafaf2; border-left: 3px solid #e0c840;
                padding: 6px 12px; margin: 8px 0; font-size: 0.88em; }
+a.geco-box, span.geco-box { display: block; width: fit-content; margin-top: 4px; padding: 1px 6px;
+               border: 1px solid #d6d6d6; border-radius: 3px; background: #f1f1f1; color: #555;
+               font-size: 0.82em; line-height: 1.35; text-decoration: none; }
+.geco-detail { background: #f3f3f3; border-left: 3px solid #b9b9b9; padding: 6px 12px;
+               margin: 8px 0; font-size: 0.88em; color: #444; }
 """
 
 
-def render_html(deployment, countries, horizon, params, provenance, catalog):
+def render_html(deployment, countries, horizon, params, provenance, catalog, register):
     today = date.today()
     mname = model_name(deployment, provenance)
     yr_min, yr_max, step_str = horizon
@@ -525,16 +641,17 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
         out.append(f'<td>{h(desc)}</td>')
         for country in countries:
             info = get_info(country, pid, provenance)
-            if info:
+            box = geco_cell_html(country, pid, provenance, register)
+            if documented(info):
                 cell_html = sources_display_html(info, catalog)
                 link = anchor(country, pid)
                 needs_review = info.get("needs_review", False)
                 if needs_review:
-                    out.append(f'<td class="status-review"><a href="#{link}">&#9651; {cell_html}</a></td>')
+                    out.append(f'<td class="status-review"><a href="#{link}">&#9651; {cell_html}</a>{box}</td>')
                 else:
-                    out.append(f'<td class="status-done"><a href="#{link}">{cell_html}</a></td>')
+                    out.append(f'<td class="status-done"><a href="#{link}">{cell_html}</a>{box}</td>')
             else:
-                out.append('<td class="status-pending">&mdash;</td>')
+                out.append(f'<td class="status-pending">&mdash;{box}</td>')
         out.append('</tr>')
 
     out.append('</tbody></table>\n<hr>')
@@ -575,7 +692,7 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
         for p in params:
             pid = p["id"]
             info = cdata.get(pid)
-            if not info:
+            if not documented(info):
                 continue
             src_display = sources_display_html(info, catalog)
             conf = info.get("confidence", "")
@@ -614,6 +731,10 @@ def render_html(deployment, countries, horizon, params, provenance, catalog):
                 secondary_note = render_secondary_sources_html(info, catalog)
                 if secondary_note:
                     out.append(secondary_note)
+
+            box = geco_box_html(info, register)
+            if box:
+                out.append(box)
 
             if info.get("needs_review"):
                 review_note = info.get("review_note", "Further data collection needed")
@@ -666,10 +787,11 @@ def main():
     # Country list = zcmap (active) + provenance keys not yet in zcmap (in-progress)
     countries = load_zcmap(args.deployment)
     for c in provenance:
-        if c and c != "model_name" and isinstance(provenance[c], dict) and c not in countries:
+        if c and c not in ("model_name", GLOBAL_KEY) and isinstance(provenance[c], dict) and c not in countries:
             countries.append(c)
     horizon = load_horizon(args.deployment)
     params = load_params()
+    register = load_register(args.deployment)
 
     base = REPO_ROOT / "epm" / "input" / args.deployment
     share = SHARE_ROOT / args.deployment
@@ -682,11 +804,11 @@ def main():
 
     if args.format in ("md", "both"):
         emit("DATA_SOURCES.md",
-             render_md(args.deployment, countries, horizon, params, provenance, catalog))
+             render_md(args.deployment, countries, horizon, params, provenance, catalog, register))
 
     if args.format in ("html", "both"):
         emit("DATA_SOURCES.html",
-             render_html(args.deployment, countries, horizon, params, provenance, catalog))
+             render_html(args.deployment, countries, horizon, params, provenance, catalog, register))
 
 
 if __name__ == "__main__":

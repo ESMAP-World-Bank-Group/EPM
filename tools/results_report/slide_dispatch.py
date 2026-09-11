@@ -13,6 +13,7 @@ under the NDP comparison picture (about 5.6 x 2.5 in).
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -24,6 +25,8 @@ from matplotlib.lines import Line2D
 from matplotlib.ticker import MaxNLocator
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import runcfg  # noqa: E402
 
 # Same palette as templates/report.js, so page and slide agree.
 COLORS = {
@@ -145,7 +148,7 @@ def stack(ax, axis, uni, up, down, fs, netline=True):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--cache", default=str(HERE / "cache" / "simulations_run_20260825.json"))
+    p.add_argument("--cache", default=str(runcfg.cache_path()))
     p.add_argument("--scope", default="Georgia")
     p.add_argument("--scenario", default="baseline")
     p.add_argument("--years", default="2025,2030")
