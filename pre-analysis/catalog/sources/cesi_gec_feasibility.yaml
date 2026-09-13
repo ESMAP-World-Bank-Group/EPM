@@ -51,7 +51,7 @@ fills_epm_resources:
 
   - resource: zcmap
     location: "Task 6"
-    coverage: "GEC_AZ and GEC_GE hubs of the GECO scenarios, in zcmap_geco.csv. The hub default costs, availability and VRE profiles are those of the national zone (AzerbaijanMain, Georgia), not taken from this study"
+    coverage: "GEC_AZ and GEC_GE hubs of the GECO scenarios, in zcmap_geco.csv. The hub default costs, availability and VRE profiles are those of the national zone (AzerbaijanMain, Georgia), not taken from this study. Map placement (2026-09-13) is schematic and ours: two hexagons of about 40 km in the shared overlay epm/resources/postprocess/zones_custom.geojson, GEC_AZ in the Caspian Sea off the Absheron peninsula and GEC_GE inland in western Georgia between the Black Sea coast and Kutaisi; the study station and landing sites are not reproduced"
 
   - resource: scenarios.csv
     location: "Task 6"
