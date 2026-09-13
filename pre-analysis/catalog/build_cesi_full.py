@@ -1,12 +1,13 @@
-"""Build the CESI_Full input files of a deployment from cesi/cesi_register.yaml.
+"""Build the CESI aligned input files of a deployment from cesi/cesi_register.yaml.
 
 Usage:
     python pre-analysis/catalog/build_cesi_full.py --deployment data_blacksea
     python pre-analysis/catalog/build_cesi_full.py --deployment data_blacksea --dry-run
 
-The fully aligned scenarios (CESI_Full with the corridor, CESI_NoCorr without) read
-copies of our base files in which Azerbaijan, Georgia and the two GEC zones carry the
-CESI GEC feasibility study assumptions. This script writes those copies under
+The fully aligned scenarios (CESI_NoCorr without the corridor, CESI_GECO with it and the
+hub optimised, CESI_GECOHub with the hub forced to the study phasing) read copies of our
+base files in which Azerbaijan, Georgia and the two GEC zones carry the CESI GEC feasibility
+study assumptions. This script writes those copies under
 <deployment>/cesi/<param>_cesi.csv. It holds no CESI figure: every value comes from
 cesi/cesi_register.yaml (DVC only, client confidential) at run time, and this file may
 be tracked by git. Register ids are cited in the comments so the log can be read against
@@ -19,19 +20,18 @@ What is built, and how a CESI value becomes an EPM input:
                     the first model year, and extended beyond the last anchor with our own
                     growth. Electrolysers (a04, a05, g04, g05) are added as a flat load: the
                     hydrogen energy at 50 kWh per kg, and its average power on the peak.
-                    Azerbaijan anchors cover the whole country, so AzerbaijanMain gets the
-                    anchor minus our Nakhchivan forecast, which is left unchanged.
-  pGenDataInput     Fleet of AzerbaijanMain and Georgia imposed: for PV, onshore wind,
-                    offshore wind, gas and hydro, a committed tranche (Status 2) fills the gap
-                    between our existing and committed units and the CESI capacity at each
-                    anchor year (a06, a09, a10, g06, g09, g11); a CESI level below the fleet
-                    retires the latest tranche, never an existing unit. Every candidate
-                    (Status 3) of the two zones and of the GEC_AZ hub is dropped. The hubs are
-                    committed tranches too: GEC_AZ at the CESI steps (a07), GEC_GE in equal
-                    thirds at the three link commissioning years (g07, the study gives the
-                    2040 total only).
-  pStorageDataInput Candidates of the two zones dropped, one committed BESS per zone at the
-                    CESI capacity from the first anchor year (a17, g14), costs of our candidate.
+                    Azerbaijan anchors are mainland only (Azerenerji perimeter, checked
+                    2026-09-12 against the ministry balance), so AzerbaijanMain takes them
+                    directly and our Nakhchivan forecast is left unchanged.
+  pGenDataInput     NOT BUILT since 2026-09-12 (decision of the generator database step): no
+  pStorageDataInput run imposes the CESI T6 fleet, every scenario builds from our candidates
+                    and the T6 fleets are benchmarks (a06, a09, a10, a17, g06, g09, g11, g14).
+                    The hubs are Status 3 candidates of the base file in every GECO scenario
+                    (a07, g07, build_hub_zone.py), forced to the CESI phasing only in the
+                    GECOHub variants through supply/pGenDataInput_hub.csv. The former imposed
+                    fleet (committed tranches filling the gap to the CESI level at each anchor
+                    year, candidates dropped, one committed BESS per zone) can still be written
+                    for reference with --with-fleet, into cesi/unwired/, read by no scenario.
   pGenDataInputDefault
                     VRE capex, FOM as a share of capex, and life, for AzerbaijanMain, Georgia
                     and the two GEC zones (a11, a12, c02). GEC_GE rows are copies of Georgia.
@@ -48,8 +48,8 @@ What is built, and how a CESI value becomes an EPM input:
 
 The import price file is not copied: the loss sits on the seller, so the buy side is
 unchanged. pExtTransferLimit is not copied either, the GECO link files already carry
-the corridor (k01, k02). Scenario columns CESI_Full and CESI_NoCorr in scenarios.csv
-point at these files.
+the corridor (k01, k02). Scenario columns CESI_NoCorr, CESI_GECO and CESI_GECOHub in
+scenarios.csv point at these files; the GECOHub column also reads supply/pGenDataInput_hub.csv.
 """
 from __future__ import annotations
 
@@ -84,7 +84,7 @@ VRE = ("PV", "OnshoreWind", "OffshoreWind")
 VRE_FUEL = {"PV": "Solar", "OnshoreWind": "Wind", "OffshoreWind": "Wind"}
 ZONES = {"AzerbaijanMain": "a", "Georgia": "g"}      # register id prefix per zone
 HUB = {"AzerbaijanMain": "GEC_AZ", "Georgia": "GEC_GE"}
-EXCLAVE = "Nakhchivan"                                # inside the Azerbaijan anchors, kept as ours
+EXCLAVE = "Nakhchivan"                                # outside the Azerbaijan anchors (mainland only), kept as ours
 EXT_ZONE = "Romania"                                  # end of the subsea link
 LINK_YEARS_ID = "k01_gec_capacity"                    # commissioning years of the three links
 
@@ -222,22 +222,15 @@ def build_demand(dep: Path, reg: dict, cfg: dict, out: Path, dry: bool) -> None:
         p_anchor = year_dict(reg_val(reg, f"{p}02_dem_peak"))
         e_row, p_row = by[(zone, "Energy")], by[(zone, "Peak")]
         e_base, p_base = series(e_row), series(p_row)
-        e_excl = p_excl = None
-        if zone == "AzerbaijanMain":
-            # the study counts the whole country: our exclave forecast is taken out of the anchor
-            e_excl, p_excl = series(by[(EXCLAVE, "Energy")]), series(by[(EXCLAVE, "Peak")])
-            e_base = {y: e_base[y] + e_excl[y] for y in years}
-            p_base = {y: p_base[y] + p_excl[y] for y in years}
+        # The Azerbaijan anchors are mainland only (a01, a02 conversion): the EXCLAVE rows stay as ours.
         e_new, p_new = align(e_base, e_anchor), align(p_base, p_anchor)
         h2_gwh, h2_mw = h2_load(p)
         for y in years:
-            e = e_new[y] + h2_gwh[y] - (e_excl[y] if e_excl else 0.0)
-            pk = p_new[y] + h2_mw[y] - (p_excl[y] if p_excl else 0.0)
-            e_row[str(y)], p_row[str(y)] = fmt(e, 2), fmt(pk, 2)
+            e_row[str(y)], p_row[str(y)] = fmt(e_new[y] + h2_gwh[y], 2), fmt(p_new[y] + h2_mw[y], 2)
         for y in sorted(set(e_anchor) | set(p_anchor)):
             log.append(f"    {zone} {y}: energy {e_row[str(y)]} GWh (h2 {h2_gwh[y]:.0f}), "
                        f"peak {p_row[str(y)]} MW (h2 {h2_mw[y]:.0f})")
-    print("  demand anchors as written (exclave removed where it applies):")
+    print("  demand anchors as written:")
     print("\n".join(log))
     write_csv(out / "pDemandForecast_cesi.csv", header, rows, bom, dry)
 
@@ -530,18 +523,24 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--deployment", default="data_blacksea")
     ap.add_argument("--dry-run", action="store_true", help="log everything, write nothing")
+    ap.add_argument("--with-fleet", action="store_true",
+                    help="also write the former imposed fleet files into cesi/unwired/ (reference only)")
     args = ap.parse_args()
     dep = INPUT_ROOT / args.deployment
     reg = load_register(dep)
     cfg = load_config(dep)
     out = dep / "cesi"
     print(f"build_cesi_full: {dep.name}, {len(reg)} register entries")
-    for name, fn in (("pDemandForecast", build_demand), ("pGenDataInput", build_gendata),
-                     ("pStorageDataInput", build_storage), ("pGenDataInputDefault", build_gendefault),
-                     ("pCapexTrajectoriesDefault", build_capex_traj), ("pSettings", build_settings),
-                     ("pTradePriceExport", build_export_price), ("pVREProfile", build_vre)):
+    steps = [("pDemandForecast", build_demand), ("pGenDataInputDefault", build_gendefault),
+             ("pCapexTrajectoriesDefault", build_capex_traj), ("pSettings", build_settings),
+             ("pTradePriceExport", build_export_price), ("pVREProfile", build_vre)]
+    for name, fn in steps:
         print(f"\n== {name}")
         fn(dep, reg, cfg, out, args.dry_run)
+    if args.with_fleet:
+        for name, fn in (("pGenDataInput", build_gendata), ("pStorageDataInput", build_storage)):
+            print(f"\n== {name} (unwired, reference only)")
+            fn(dep, reg, cfg, out / "unwired", args.dry_run)
     return 0
 
 

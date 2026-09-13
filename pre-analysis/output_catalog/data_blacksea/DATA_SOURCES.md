@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-09-11*
+*Generated 2026-09-13*
 
 ---
 
@@ -12,20 +12,20 @@
 
 | Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | iran_swap | AzerbaijanMain | Nakhchivan | Romania | Bulgaria |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022)<br>GECO ≠ Energy, Peak, Hydrogen | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | ⚠ Modeller expert judgment (2026) | ⚠ Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/)<br>GECO ≠ Energy, Peak, Hydrogen | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
+| Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022)<br>GECO ≠ Energy, Peak, Hydrogen | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/) | ⚠ Modeller expert judgment (2026) | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/)<br>GECO ≠ Hydrogen | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
 | Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | World Bank (internal) (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | Modeller expert judgment (2026) | ⚠ Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) |
-| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | ⚠ Observed annual capacity addit… (2026) + World Bank EPM Türkiye Least-Cost Model v7 (2025) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)<br>GECO ≠ VRE ceilings, Export hubs, Hydro, Gas fleet, Capex, FOM, Life | ⚠ Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)<br>GECO ≠ Capex, FOM, Life | — | ⚠ Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ VRE ceilings, Gas fleet, Hydro, Capex, FOM, Life | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
+| Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | ⚠ Observed annual capacity addit… (2026) + World Bank EPM Türkiye Least-Cost Model v7 (2025) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Capex, FOM, Life | ⚠ Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)<br>GECO ≠ Capex, FOM, Life | — | ⚠ Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Capex, FOM, Life | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | Türkiye gas import-parity cost… (2026-08) + World Bank EPM Türkiye Least-Cost Model v7 (2025) | South Caucasus bilateral gas c… (2026-08) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | South Caucasus bilateral gas c… (2026-08) + IMF Energy Subsidies Database | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | ⚠ World Bank EPM Romania v8.5 (2… (2024) | World Bank Bulgaria CCDR (2026) + World Bank EPM Romania v8.5 (2024, internal model) |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | ⚠ World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | — | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ Bulgarian quarterly availabili… (2026) + [World Nuclear Association](https://world-nuclear.org/nuclear-reactor-database/) + [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) + World Bank Bulgaria CCDR |
-| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | Observed annual capacity addit… (2026) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | EPM Generic Defaults | ⚠ EPM Generic Defaults<br>GECO ≠ BESS, PSH | — | — | EPM Generic Defaults<br>GECO ≠ BESS | EPM Generic Defaults | — | — |
-| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)<br>GECO ≠ PV, Onshore | —<br>GECO ≠ PV, Onshore, Offshore | — | —<br>GECO ≠ PV, Onshore, Offshore | — | Global Energy Monitor (GEM) (2025-09) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ Renewables Ninja (2018–2023) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) |
+| Supply | Storage assumptions | `pStorageDataInput` | For BESS and PSH: capacity, duration, efficiency, cost assumptions | Observed annual capacity addit… (2026) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | EPM Generic Defaults | ⚠ EPM Generic Defaults | — | — | EPM Generic Defaults | EPM Generic Defaults | — | — |
+| Supply | VRE and hydro profiles | `pVREProfile` | Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1) | — | ⚠ Renewables Ninja (2018–2023) + TEİAŞ + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ PV | —<br>GECO ≠ PV, Offshore | — | ⚠ Renewables Ninja (2018–2023) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/)<br>GECO ≠ PV, Offshore | — | Global Energy Monitor (GEM) (2025-09) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ Renewables Ninja (2018–2023) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) |
 | Resources | Maximum installable capacity | `pMaxGenerationByFuel` | Maximum new capacity by technology (resource potential and spatial constraints) | — | — | — | — | — | — | — | — | — |
 | Resources | VRE integration assumptions | `pSettings` | VRE curtailment, variability handling, and balancing cost assumptions | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR | —<br>GECO ≠ WACC, DR |
-| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | Black Sea Cross-Border Lines D… (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | ⚠ Black Sea Cross-Border Lines D… (2026) + Modeller expert judgment + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | Modeller expert judgment (2026) | — | ⚠ Black Sea Cross-Border Lines D… (2026) + Modeller expert judgment | — | — |
+| Trade | Cross-border transmission | `pTransferLimit` | Existing and planned cross-border interconnectors: capacity (MW), year, routing options | — | — | Black Sea Cross-Border Lines D… (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Existing interconnections | ⚠ Black Sea Cross-Border Lines D… (2026) + Modeller expert judgment + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Existing interconnections | Modeller expert judgment (2026) | — | ⚠ Black Sea Cross-Border Lines D… (2026) + Modeller expert judgment | — | — |
 | Trade | Transmission losses | `pLossFactorInternal` | Cross-border interconnector losses (% by corridor) | — | — | ⚠ CESI, Green Energy Corridor (A… (2026-08) 🔒 | ⚠ CESI, Green Energy Corridor (A… (2026-08) 🔒 | — | — | — | — | — |
 | Trade | Trade prices | `pTradePrice` | Import/export prices with temporal variability ($/MWh) — external zones | — | — | — | Kazakh border price for the Tr… (2026) + Modeller expert judgment | — | — | — | —<br>GECO ≠ Losses (lambda) | — |
-| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | — | — | — | — | — | — | — | — | — |
-| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | — | — | — | — | — | — | — | — | — |
+| Reserves | Reserve margin | `pPlanningReserveMargin` | Planning reserve margin (%) and operating reserve assumptions | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) |
+| Other | Carbon pricing | `pCarbonPrice` | Carbon price or emission constraint applied in planning (NDC, ETS membership) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 (model-wide) |
 | Other | Fuel and import limits | `pMaxFuelLimit` | Caps or floors on fuel use or electricity imports (e.g. gas import quotas) | — | — | ⚠ Modeller expert judgment (2026) | — | — | — | — | — | — |
 
 ---
@@ -43,6 +43,7 @@
 - [Nakhchivan](#nakhchivan) — [`pStorageDataInput`](#nakhchivan-pstoragedatainput) · [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom) · [`pTradePrice`](#romania-ptradeprice)
 - [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile) · [`pGenDataInput`](#bulgaria-pgendatainput) · [`pFuelPrice`](#bulgaria-pfuelprice) · [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom)
+- [Model-wide](#global) — [`pSettings`](#global-psettings) · [`pPlanningReserveMargin`](#global-pplanningreservemargin) · [`pCarbonPrice`](#global-pcarbonprice)
 
 ---
 
@@ -353,11 +354,11 @@
 |---|---|---|
 | [`pDemandForecast`](#georgia-pdemandforecast) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
 | [`pDemandProfile`](#georgia-pdemandprofile) | World Bank (internal) (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [MEDIUM] |
-| [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
+| [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#georgia-pfuelprice) | South Caucasus bilateral gas c… (2026-08) + IMF Energy Subsidies Database | [MEDIUM] |
 | [`pAvailabilityCustom`](#georgia-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | [MEDIUM] ⚠ |
 | [`pStorageDataInput`](#georgia-pstoragedatainput) | EPM Generic Defaults | [LOW] ⚠ |
-| [`pVREProfile`](#georgia-pvreprofile) | World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [MEDIUM] ⚠ |
+| [`pVREProfile`](#georgia-pvreprofile) | World Bank EPM Georgia 2022 (i… (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] ⚠ |
 | [`pTransferLimit`](#georgia-ptransferlimit) | Black Sea Cross-Border Lines D… (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] |
 | [`pLossFactorInternal`](#georgia-plossfactorinternal) | CESI, Green Energy Corridor (A… (2026-08) 🔒 | [MEDIUM] ⚠ |
 | [`pMaxFuelLimit`](#georgia-pmaxfuellimit) | Modeller expert judgment (2026) | [LOW] ⚠ |
@@ -371,8 +372,6 @@
 **Source**: EPM Generic Defaults (`epm_generic_defaults`)
 
 **Data / file**: Default technical parameters by technology/fuel combination, applied automatically when fields are left blank in pGenDataInput, pAvailabilityCustom, pCapexTrajectories. Stored in epm/resources/pGenDat…
-
-> **GECO ≠** BESS, PSH. CESI GEC T6 p27. Scope: One committed battery at the study capacity from the first link year, our candidates dropped, efficiency and costs of our candidate. CESI_Full file: `cesi/pStorageDataInput_cesi.csv`. Main scenario: pending (1). Values not reproduced: confidential source.
 
 > ⚠ **Needs review**: Storage ceilings across the four Caucasus zones are anchors chosen for internal consistency, not national targets. Replace with GSE / Ministry of Energy storage planning figures when published. The Georgian PSH candidate in particular should be matched to a real site (the Enguri cascade is the obvious screening candidate) before any result depending on it is reported.
 
@@ -412,7 +411,9 @@
 
 **Also uses**: [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
 
-> **GECO ≠** VRE ceilings, Export hubs, Hydro, Gas fleet, Capex, FOM, Life. CESI GEC T6 p22, p27, p28. Scope: Fleet imposed by technology and year: VRE ceilings, gas and hydro fleets as committed tranches, candidates dropped, GEC_GE hub in equal steps at the link years. VRE capex held flat, FOM and life. GEC_GE defaults copied from Georgia. CESI_Full file: `cesi/pGenDataInput_cesi.csv`, `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: pending (7). Values not reproduced: confidential source.
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
+
+> **GECO ≠** Capex, FOM, Life. CESI GEC T6 p22. Scope: VRE capex held flat, FOM and life, Georgia and its GEC_GE hub. The fleet is not imposed: since 2026-09-12 every run builds from the base candidates. CESI aligned file: `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: kept (3). Values not reproduced: confidential source.
 
 > ⚠ **Needs review**: (1) RESOLVED 2026-07-02 — Large hydro reclassified using gse_tyndp_georgia + 2025-26 news: Khudoni (702, absent from TYNDP, zombie since 1989) and Namakhvani (433, ENKA contract terminated + arbitration, TYNDP COD 2035) DOWNGRADED to candidates (COD 2035). Nenskra (280, only project with real sponsor K-water + IFI finance) kept committed, COD 2029->2032. (2) Tbilsresi CCGT (1963): 60+ year old plant, RetrYr=2027 estimated — confirm operational status with CESI/GSE. (3) Kirnati capacity discrepancy: sesa_georgia_2022 shows 27.47 MW, ge_power_sector_data_repository shows 51.22 MW — used sesa_georgia_2022 value. (4) Mtkvari VOM=0.06 $/MWh from wb_epm_georgia_v85 is unusually low — verify. (5) Tbilsresi labeled CCGT in data sources but 1963 vintage — likely old steam turbine. (6) RESOLVED — DomesticCoal for Tkibuli now priced in pFuelPrice (Georgia/DomesticCoal = 3.82 USD/MMBtu, DIRECT from georgia_fuel_subsidies_2022, power-sector coal price 2021). (7) OPEN 2026-08-24 — candidate RoR Capex is the EPM generic ROR default (2.8), not a per-project estimate. A capex sweep (2.8 / 2.3 / 2.0) is planned to report the threshold at which the pipeline builds; per-project costs would be better. (8) OPEN 2026-08-24 — BuildLimitperYear = Capacity lets any single project be built in one year. Fine per project, but nothing stops all 32 being built the same year. If a realistic national build rate matters, add pAnnualMaxBuildZ (present in extras/ but not wired into config.csv).
 
@@ -421,6 +422,7 @@
 
 | Period | Method | Notes |
 |--------|--------|-------|
+| 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-12. Georgia RES hub of the CESI study, read only by the GECO scenarios through zcmap_geco.csv. Two candidates in the GEC_GE zone, PV and onshore wind, capped at the CESI hub capacity by 2040, from the first GEC link, yearly build limit equal to the cap, so the model chooses the pace within the cap and the corridor capacity, as the GEC_AZ hub of 2026-09-11. Costs, availability and VRE profiles are those of Georgia, copied under GEC_GE in the default files and pVREProfile by pre-analysis/catalog/build_hub_zone.py, not taken from CESI. The GECOHub variants read supply/pGenDataInput_hub.csv, where the same script turns the five hub candidates of both zones into committed tranches at the CESI phasing (GEC_GE in three equal steps at the link years, the study gives the 2040 total only). Values in cesi/cesi_register.yaml (g07). Source CESI GEC T6 p28. Same day decision: no run imposes the CESI national fleets (g06, g09, g11, g14 are benchmarks; our candidates reach the study levels at every anchor); the former L5 tranche files sit in cesi/unwired/ and no scenario reads them. |
 | ramp and minimum generation, 2026-08-30 | `CONSTRUCTED` | Ramp rates and minimum generation put on the CCDR default table and switched on. WHY. fApplyRampConstraint and fApplyMinGenShareAllHours were both 0, so neither constraint was in the model, and the values sitting in the columns could not have been used as they stood. The full rule, the equations that read each parameter, the ones that cannot be reached at fDispatchMode = 0, and the reason for each share are in [ramp_mingen_ccdr_2026]. THE RULE. MinGenShareAllHours(z,tech,fuel) = min[ m(tech,fuel) , lowest seasonal availability of the units that (z,tech,fuel) governs ]. The cap can only lower a value, never raise one: eMinGen forces a floor in every hour while base.gms:770 caps seasonal energy at availability x capacity, so a share above a unit's own availability is INFEASIBLE and not merely expensive. The previous table put 0.55 on Turkish domestic lignite against a pAvailabilityCustom of 0.45, 72 units and 12,288 MW, and 0.45 on CCGT in every hour, 148 percent of Armenia's night trough. Ramp rates are the CCDR generic values unchanged: Nuclear 0.15, ST 0.50, the rest 1.00 per hour, PV and wind outside the constraint. The 196 Turkish cells at 0.05 and 0.08 were the textbook per-MINUTE figures loaded into a per-hour parameter; at 0.05 per hour a 600 MW unit needs 20 hours to reach full output. FLAGS. pSettings.csv fApplyRampConstraint and fApplyMinGenShareAllHours set to 1. fApplyMinGenCommitment stays 0 and MinGenCommitment, minUT, minDT and StUpCost stay unread: they need fDispatchMode = 1. Those columns are left in place. Every m is an ASSUMPTION. Method slide: blacksea_2026/RampMinGen_method.pptx, built by RampMinGen_method_slide.py from the deployment's own inputs. RAMP. No explicit cell in Georgia; the zone reads pGenDataInputDefault. MIN GEN. MinGenShareAllHours in pGenDataInputDefault, before -> after:<br>  CCGT       Gas            0.45     -> 0.10<br>  ICE        Diesel         blank    -> 0.00<br>  ICE        Gas            blank    -> 0.00<br>  ICE        HFO            blank    -> 0.00<br>  Nuclear    Uranium        0.75     -> 0.70<br>  ST         Coal           0.3      -> 0.25<br>  ST         DomesticCoal   0.55     -> 0.00<br>  ST         Gas            blank    -> 0.00<br>  ST         Geothermal     blank    -> 0.55<br>  ST         ImportedCoal   0.3      -> 0.25<br>  ST         Lignite        0.55     -> 0.25 |
 | 2024–2053 | `DIRECT` | 113 plants from sesa_georgia_2022 reduced to 46 rows: plants ≥10 MW kept individual; plants <10 MW aggregated into Georgia_AGG_SmallHydro (~224 MW). Capacity: sesa_georgia_2022. StYr: ge_power_sector_data_repository (commissioning year per plant). tech: mapped from Status column (with Reservoir→ReservoirHydro, Seasonal/Small→ROR) cross-checked with ge_power_sector_data_repository type column. HeatRate for Mtkvari (10.3 MMBtu/MWh) and Gardabani CCGT (6.93 MMBtu/MWh) from wb_epm_georgia_v85. All other technical params (VOM, FOM, Capex, RampRate, ResLimShare, Life) left blank → filled at runtime from pGenDataInputGeneric (EPM generic defaults). |
 | committed | `DIRECT` | Committed rows (Status=2): Nenskra 280 MW (StYr=2032) and Georgia_HydroSHP_Com 549 MW aggregate (near-term hydro in construction, confirmed by gse_tyndp_georgia hydro-<=2027 = 552 MW). UPDATED 2026-07-02: Khudoni (702) and Namakhvani (433) were DOWNGRADED from committed to candidates (see candidates period + review_note); Nenskra COD moved 2029->2032. |
@@ -444,9 +446,9 @@
 
 **Data / file**: Team/Av. 3% Load growth (hourly profiles) 2021-2040.xlsx
 
-> **GECO ≠** Energy, Peak, Hydrogen. CESI GEC T6 p20, p27; T3 p10, p36. Scope: Annual energy and peak, with the electrolyser load for hydrogen. CESI_Full file: `cesi/pDemandForecast_cesi.csv`. Main scenario: pending (3). Values not reproduced: confidential source.
+> **GECO ≠** Energy, Peak, Hydrogen. CESI GEC T6 p20, p27; T3 p10, p36. Scope: Annual energy and peak, with the electrolyser load for hydrogen. CESI aligned file: `cesi/pDemandForecast_cesi.csv`. Main scenario: kept (3). Values not reproduced: confidential source.
 
-> ⚠ **Needs review**: Peak demand (MW) has no independent cross-validation — only georgia_demand_load_2022 provides peak figures. Energy figures validated against historical balance (error <1% for 2023–2024). Growth rate of 3%/yr is undocumented — confirm with GSE/GNERC official load forecasts. Obtain electrification scenario for post-2030 period (EV, heat pumps) as 3%/yr may underestimate long-term growth.
+> ⚠ **Needs review**: Peak demand (MW) has no independent cross-validation — only georgia_demand_load_2022 provides peak figures. Energy figures validated against historical balance (error <1% for 2023–2024). Growth rate of 3%/yr is undocumented — confirm with GSE/GNERC official load forecasts. Obtain electrification scenario for post-2030 period (EV, heat pumps) as 3%/yr may underestimate long-term growth. KEPT 2026-09-12 against the CESI Task 3 forecast (register g01, g02, main kept). Our file sits on the GSE gross balance perimeter (generation plus net import, losses and Abkhazia in), the one EPM needs; the T3 base is final consumption, about 12 percent lower, and its 2040 Reference plus EV lands where our 3 percent average does. Revisit if CESI clarifies its Georgia perimeter. The fully aligned scenarios use the T3 path (cesi/pDemandForecast_cesi.csv).
 
 
 **Method**: DIRECT (2024–2040 from hourly file) + EXTRAP (2041–2053 at 3%/yr)
@@ -456,7 +458,7 @@
 | 2024–2040 | `DIRECT` | Annual peak (MW) = max hourly value per year from Av. 3% Load growth file. Annual energy (GWh) = sum of hourly values / 1000 per year. File covers 2021–2040; 2024 is the first model-relevant year. |
 | 2041–2053 | `EXTRAP` | Extrapolation at 3%/yr from 2040 base (same growth rate as file assumption). |
 
-*Confidence: [MEDIUM] · Last updated: 2026-06-04*
+*Confidence: [MEDIUM] · Last updated: 2026-09-12*
 
 
 <a id="georgia-pdemandprofile"></a>
@@ -492,18 +494,21 @@
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-> **GECO ≠** PV, Onshore. CESI GEC T2 p81, p85, p89, p90; T6 p53. Scope: Mean capacity factors of PV and onshore wind, our profiles rescaled. GEC_GE carries the rescaled Georgia profiles. CESI_Full file: `cesi/pVREProfile_cesi.csv`. Main scenario: pending (2). Values not reproduced: confidential source.
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-> ⚠ **Needs review**: (1) Single typical year — no multi-year average. (2) Wind profile: Timeseries mean CF ~0.27 vs actual Qartli 2021 CF ~0.46 — Timeseries likely represents a generic Georgian wind site, not Qartli's specific high-wind location. Existing Georgia_Qartli_Wind may be under-dispatched in the model; consider a separate pVREProfile entry or pAvailabilityCustom override for Qartli. (3) PV data origin undocumented — replace with Renewables Ninja multi-year average when running representative days pipeline for Georgia. (4) Within-season variability RESOLVED 2026-07-06 — rep-days pipeline rerun, daytypes d1–d7 now distinct (verified in pVREProfile.csv). Items (1)–(3) still open.
+> **GECO ≠** PV. CESI GEC T2 p81, p85, p89, p90; T6 p53. Scope: Fully aligned scenarios: PV rescaled to the study mean capacity factor. GEC_GE carries the Georgia profiles. Since 2026-09-13 the onshore wind rescale sits in the base file too. CESI aligned file: `cesi/pVREProfile_cesi.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
+
+> ⚠ **Needs review**: (1) Single typical year — no multi-year average. (2) Wind profile level RESOLVED 2026-09-13 by the rescale to the CESI Task 2 mean (Timeseries mean CF ~0.27 vs actual Qartli 2021 CF ~0.46; the study mean sits between the two). The hourly shape is still the generic Timeseries site; a Qartli specific profile would still be better. (3) PV data origin undocumented — replace with Renewables Ninja multi-year average when running representative days pipeline for Georgia. (4) Within-season variability RESOLVED 2026-07-06 — rep-days pipeline rerun, daytypes d1–d7 now distinct (verified in pVREProfile.csv). Items (1) and (3) still open.
 
 
-**Method**: DIRECT seasonal mean from typical-year hourly CFs, normalized by tech peak
+**Method**: PV: DIRECT seasonal mean from typical-year hourly CFs, normalized by tech peak. OnshoreWind: the same shape rescaled to the CESI Task 2 mean capacity factor (2026-09-13)
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT` | Three techs (ROR, OnshoreWind, PV) from Timeseries all data.xlsx (sheet RE data). Seasonal mean computed per (season, hour) for 8,760 hourly CF values. Normalized by the maximum seasonal-mean hourly value across all seasons/hours for each tech separately, then mapped onto 28 representative days (d1–d7 × 4 seasons); since the 2026-07-06 rebuild each daytype carries a distinct hourly profile. Seasonal CF characteristics: ROR — Q2 peak (spring snowmelt) cf_mean=0.977, Q4 minimum cf_mean=0.566. Wind — Q2 highest cf_mean=0.902, Q3 lowest cf_mean=0.738. PV — Q3 highest (more sun hours), Q1 lowest. |
+| PV and OffshoreWind, 2024–2053 | `DIRECT` | Three techs (ROR, OnshoreWind, PV) from Timeseries all data.xlsx (sheet RE data). Seasonal mean computed per (season, hour) for 8,760 hourly CF values. Normalized by the maximum seasonal-mean hourly value across all seasons/hours for each tech separately, then mapped onto 28 representative days (d1–d7 × 4 seasons); since the 2026-07-06 rebuild each daytype carries a distinct hourly profile. Seasonal CF characteristics: ROR — Q2 peak (spring snowmelt) cf_mean=0.977, Q4 minimum cf_mean=0.566. Wind — Q2 highest cf_mean=0.902, Q3 lowest cf_mean=0.738. PV — Q3 highest (more sun hours), Q1 lowest. |
+| OnshoreWind, 2024–2053 | `CHANGED` | CHANGED 2026-09-13. The Georgia and GEC_GE OnshoreWind rows are the typical-year shape above rescaled to the CESI Task 2 mean capacity factor for Georgia (T2 p85, p89, p90), pHours weighted, capped at 1 and iterated, taken from cesi/pVREProfile_cesi.csv where the same rows already served the fully aligned scenarios. WHY. The typical-year wind series is a generic site with a pHours weighted mean of 0.17, below the Qartli 2021 actual (about 0.46, item 2 below) and below every Task 2 wind zone, computed with the least favourable turbine class and no wake losses. The GEC_GE hub ran at that 0.17 in the GECO scenarios where the study runs it at the Task 2 value, so the corridor was undervalued against the study. Applies to every scenario. PV and OffshoreWind rows untouched. Value in cesi/cesi_register.yaml (g13). |
 
-*Confidence: [MEDIUM] · Last updated: 2026-07-06*
+*Confidence: [MEDIUM] · Last updated: 2026-09-13*
 
 
 <a id="georgia-pfuelprice"></a>
@@ -589,11 +594,13 @@
 
 **Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
+> **GECO ≠** Existing interconnections. CESI GEC T6 p18, p33, p34 Fig 5-11; T5 p78, p79, p84. Scope: GEC subsea link to Romania by commissioning stage, its unavailability, and the GEC layer of the GECO scenarios: GEC_AZ to GEC_GE leg and GEC_GE to Georgia tap. The existing links carry no study figure (k19). CESI aligned file: `trade/pExtTransferLimit_geco.csv`, `trade/pExtTransferLimit_allprojects.csv`, `trade/pTransferLimit.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
+
 **Method**: DIRECT from crossborder infrastructure database, plus the GEC layer in the GECO scenarios
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024 to 2053 | `DIRECT` | Georgia to Armenia, AzerbaijanMain and EastAna (Turkiye): from blacksea_crossborder_lines_v6, unchanged. |
+| 2024 to 2053 | `DIRECT` | Georgia to Armenia, AzerbaijanMain and EastAna (Turkiye): from blacksea_crossborder_lines_v6, unchanged. Cross-border step 2026-09-13: the CESI study publishes no capacity for these existing links (it records only that the TSOs asked for adjustments of the Azerbaijan to Georgia capacity and of the Georgia to Turkiye and Armenia exchange assumptions), so our values are kept in every scenario, the CESI aligned family included. The BSSC to Romania stays in service in every run, as the study keeps it in every case separately from the GEC. Register k19. |
 | 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC layer, read only by the five GECO scenarios through zcmap_geco.csv. GEC_AZ to GEC_GE leg and GEC_GE to Georgia tap, both directions, all quarters, one step per GEC link at the CESI commissioning dates. GEC_GE to Romania link, one step per GEC link, in trade/pExtTransferLimit_geco.csv and trade/pExtTransferLimit_allprojects.csv, where Georgia to Romania now carries the BSSC alone. Every GEC capacity is derated for the CESI planned and forced unavailability. Values in cesi/cesi_register.yaml (k01, k02, k03, k18). Source CESI GEC T6 p18, p33 and p34 Fig 5-11, T5 p78 and p79. The other scenarios drop the GEC rows through the zone filter and never read the two GECO link files. |
 
 *Confidence: [MEDIUM] · Last updated: 2026-09-11*
@@ -659,7 +666,7 @@
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC_GE, the Georgian node of the CESI corridor, is a zone of its own mapped to Georgia in zcmap_geco.csv, read only by the five GECO scenarios. It receives the GEC links from the Azerbaijan hub and to Romania, and reaches the Georgia grid through a tap only, as in the CESI topology. The tap and link capacities are documented under pTransferLimit. Values in cesi/cesi_register.yaml (k17). Source CESI GEC T6 p34 Fig 5-11. The other scenarios read zcmap.csv and never see this zone. |
+| 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC_GE, the Georgian node of the CESI corridor, is a zone of its own mapped to Georgia in zcmap_geco.csv, read only by the five GECO scenarios. It receives the GEC links from the Azerbaijan hub and to Romania, and reaches the Georgia grid through a tap only, as in the CESI topology. Since 2026-09-12 it also holds the Georgia RES hub candidates (pGenDataInput entry of the same date). The tap and link capacities are documented under pTransferLimit. Values in cesi/cesi_register.yaml (k17). Source CESI GEC T6 p34 Fig 5-11. The other scenarios read zcmap.csv and never see this zone. |
 
 *Confidence: [MEDIUM] · Last updated: 2026-09-11*
 
@@ -676,7 +683,7 @@
 
 | Parameter | Source | Confidence |
 |---|---|---|
-| [`pDemandForecast`](#azerbaijan-pdemandforecast) | Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | [MEDIUM] ⚠ |
+| [`pDemandForecast`](#azerbaijan-pdemandforecast) | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
 | [`pDemandProfile`](#azerbaijan-pdemandprofile) | proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | [LOW] ⚠ |
 | [`pGenDataInput`](#azerbaijan-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#azerbaijan-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] |
@@ -691,7 +698,7 @@
 
 [&#8593; Azerbaijan](#azerbaijan)
 
-> **GECO ≠** PV, Onshore, Offshore. CESI GEC T2 p49, p55, p64, p69, p70; T6 p53. Scope: GEC_AZ hub: the AzerbaijanMain profiles rescaled to the study mean capacity factors. CESI_Full file: `cesi/pVREProfile_cesi.csv`. Main scenario: pending (3). Values not reproduced: confidential source.
+> **GECO ≠** PV, Offshore. CESI GEC T2 p49, p55, p64, p69, p70; T6 p53. Scope: GEC_AZ hub: the AzerbaijanMain profiles, PV and offshore rescaled to the study mean capacity factors in the fully aligned scenarios only. Since 2026-09-13 onshore wind carries the study mean in the base file, every scenario. CESI aligned file: `cesi/pVREProfile_cesi.csv`. Main scenario: kept (2). Values not reproduced: confidential source.
 
 
 <a id="azerbaijan-pgendatainput"></a>
@@ -716,7 +723,7 @@
 
 **Also uses**: [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)
 
-> **GECO ≠** Capex, FOM, Life. CESI GEC T6 p22, p26. Scope: GEC_AZ hub: committed tranches at the study steps in place of the three candidates. Hub defaults and capex trajectory as AzerbaijanMain, VRE capex held flat. CESI_Full file: `cesi/pGenDataInput_cesi.csv`, `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: pending (3). Values not reproduced: confidential source.
+> **GECO ≠** Capex, FOM, Life. CESI GEC T6 p22. Scope: GEC_AZ hub: defaults and capex trajectory as AzerbaijanMain, VRE capex held flat. The hub candidates are those of the base file; the GECOHub variants force their phasing through supply/pGenDataInput_hub.csv. CESI aligned file: `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: kept (3). Values not reproduced: confidential source.
 
 > ⚠ **Needs review**: Further data collection needed
 
@@ -740,22 +747,24 @@
 
 [&#8593; Azerbaijan](#azerbaijan)
 
-**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+**Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Our World in Data — Energy dataset, downloaded 2025. Primary underlying source: International Energy Agency (IEA) — World Energy Statistics and Balances. Full CSV available on OWID GitHub: https://git…
+**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+
+**Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
+
+**Also uses**: [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149)
 
 **Also uses**: [SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)](https://statistika.nmr.az/)
 
-> ⚠ **Needs review**: Peak estimated from load factor (0.58) — no independent peak data available. Nakhchivan split inferred from generation balance; no official demand statistics.
-
-
-**Method**: OWID/IEA 2025 base + 1.9%/yr CAGR; Nakhchivan split ~500 GWh / 84 MW
+**Method**: CESI T3 Reference plus EV for the mainland (AzerbaijanMain), our first two years kept with the peak rebased on the Azerenerji record, Nakhchivan unchanged
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 27.17 TWh (includes CHP self-consumption). CAGR 1.9%/yr from OWID 2020–2025 trend. Peak via load_factor=0.58. Nakhchivan split: 500 GWh / 84 MW (NSU generation balance, 2021). AzerbaijanMain 2024: Energy=26,165 GWh, Peak=5,164 MW. Both zones grow proportionally. |
+| 2024 to 2025 | `CHANGED` | Energy unchanged: OWID electricity_demand 2025 (CHP self-consumption included) and the 2024 value behind it, minus the Nakhchivan share. Peak CHANGED 2026-09-12: the AzerbaijanMain 2025 peak is the Azerenerji record of August 2025 and 2024 follows pro rata of the energy (azerenerji_minenergy_2023_2025); the former 0.58 load factor put 2025 about 8 percent above the metered record. Nakhchivan rows unchanged (NSU generation balance, 2021). |
+| 2026 to 2053 | `CHANGED` | CHANGED 2026-09-12. Energy and peak of AzerbaijanMain follow the CESI Task 3 Reference forecast plus its electric vehicle demand, gross of losses, no hydrogen: linear from our 2025 value to the 2030 anchor, then between the 2030, 2035 and 2040 anchors, then our own growth beyond 2040. The T3 anchors are mainland only (Azerenerji perimeter: the T3 2023 base matches the ministry 2023 balance minus Nakhchivan within 0.3 percent, the whole country within 2.2 percent; Nakhchivan is never mentioned in T3), so they apply to AzerbaijanMain directly and the Nakhchivan rows are left as they were. Written by pre-analysis/catalog/build_demand_baseline.py from the register (a01, a02). Source CESI GEC T3 p9, p30, p32. The T3 path is lower than the former OWID trend and its peak comes from the study load factor, EV included, instead of our 0.58. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+*Confidence: [MEDIUM] · Last updated: 2026-09-12*
 
 
 <a id="azerbaijan-pdemandprofile"></a>
@@ -846,6 +855,8 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
+> **GECO ≠** Existing interconnections. CESI GEC T6 p18, p33, p34 Fig 5-11; T5 p78. Scope: GEC layer of the GECO scenarios: AzerbaijanMain to GEC_AZ tap and GEC_AZ to GEC_GE leg. The existing links carry no study figure (k19). CESI aligned file: `trade/pTransferLimit.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
+
 > ⚠ **Needs review**: Zangezur corridor COD target 2027–2028; modeled as 2028. Run sensitivity with 2029–2030.
 
 
@@ -853,7 +864,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT` | Nakhchivan ↔ EastAna (Türkiye): 50 MW flat (Sederek→Iğdır 154 kV). Nakhchivan ↔ Iran (external zone): 50 MW import+export (Babek→Khoy 132/220 kV). AzerbaijanMain ↔ Nakhchivan (Zangezur corridor): 0 MW 2024–2027, 1,000 MW from 2028. AzerbaijanMain ↔ Armenia / Georgia: from blacksea_crossborder_lines_v6. |
+| 2024–2053 | `DIRECT` | Nakhchivan ↔ EastAna (Türkiye): 50 MW flat (Sederek→Iğdır 154 kV). Nakhchivan ↔ Iran (external zone): 50 MW import+export (Babek→Khoy 132/220 kV). AzerbaijanMain ↔ Nakhchivan (Zangezur corridor): 0 MW 2024–2027, 1,000 MW from 2028. AzerbaijanMain ↔ Armenia / Georgia: from blacksea_crossborder_lines_v6. Cross-border step 2026-09-13: the CESI study publishes no capacity for the existing Azerbaijan to Georgia link (it records only a TSO request to adjust it), and nothing on the Iran, Russia, Kazakhstan or Nakhchivan borders, so our values are kept in every scenario, the CESI aligned family included. Register k19. |
 | 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC layer, read only by the five GECO scenarios through zcmap_geco.csv. AzerbaijanMain to GEC_AZ tap and GEC_AZ to GEC_GE leg, both directions, all quarters, one step per GEC link at the CESI commissioning dates, derated for the CESI planned and forced unavailability. Values in cesi/cesi_register.yaml (k02, k03, k18). Source CESI GEC T6 p18, p33 and p34 Fig 5-11, T5 p78. The other scenarios drop these rows through the zone filter. |
 
 *Confidence: [MEDIUM] · Last updated: 2026-09-11*
@@ -1051,12 +1062,13 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 | Parameter | Source | Confidence |
 |---|---|---|
-| [`pDemandForecast`](#azerbaijanmain-pdemandforecast) | Our World in Data (OWID) (2025) + [SSC](https://statistika.nmr.az/) | [MEDIUM] ⚠ |
+| [`pDemandForecast`](#azerbaijanmain-pdemandforecast) | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
 | [`pDemandProfile`](#azerbaijanmain-pdemandprofile) | Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [LOW] ⚠ |
 | [`pGenDataInput`](#azerbaijanmain-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#azerbaijanmain-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] |
 | [`pAvailabilityCustom`](#azerbaijanmain-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | [LOW] ⚠ |
 | [`pStorageDataInput`](#azerbaijanmain-pstoragedatainput) | EPM Generic Defaults | [LOW] |
+| [`pVREProfile`](#azerbaijanmain-pvreprofile) | Renewables Ninja (2018–2023) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | [MEDIUM] ⚠ |
 
 <a id="azerbaijanmain-pstoragedatainput"></a>
 
@@ -1067,8 +1079,6 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 **Source**: EPM Generic Defaults (`epm_generic_defaults`)
 
 **Data / file**: Default technical parameters by technology/fuel combination, applied automatically when fields are left blank in pGenDataInput, pAvailabilityCustom, pCapexTrajectories. Stored in epm/resources/pGenDat…
-
-> **GECO ≠** BESS. CESI GEC T6 p25. Scope: One committed battery at the study capacity from the first link year, our candidate dropped, efficiency and costs of our candidate. CESI_Full file: `cesi/pStorageDataInput_cesi.csv`. Main scenario: pending (1). Values not reproduced: confidential source.
 
 **Method**: GENERIC — candidate storage anchors (no national target yet)
 
@@ -1098,7 +1108,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-> **GECO ≠** VRE ceilings, Gas fleet, Hydro, Capex, FOM, Life. CESI GEC T6 p22, p25, p26, p28. Scope: Fleet imposed by technology and year: VRE ceilings, gas and hydro fleets as committed tranches, candidates dropped, GEC_AZ hub at the study steps. VRE capex held flat, FOM and life. CESI_Full file: `cesi/pGenDataInput_cesi.csv`, `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: pending (6). Values not reproduced: confidential source.
+> **GECO ≠** Capex, FOM, Life. CESI GEC T6 p22. Scope: VRE capex held flat, FOM and life. The fleet is not imposed: since 2026-09-12 every run builds from the base candidates. CESI aligned file: `cesi/pGenDataInputDefault_cesi.csv`, `cesi/pCapexTrajectoriesDefault_cesi.csv`. Main scenario: kept (3). Values not reproduced: confidential source.
 
 > ⚠ **Needs review**: HeatRate includes gas consumed for district heat (CHP) per SSC definition — the fuel/electricity ratio (10.2 GJ/MWh for old plants) reflects actual AZ power sector gas cost per MWh, not nameplate design efficiency. Modern plants (Janub/Shimal/Gobu) use design efficiency estimate (7.5 GJ/MWh), not SSC data (individual plant fuel data not available from SSC). Khudafarin + Gyz Galasy commissioning year (2026) is an estimate — confirm with AZENERGY / ADB project status when available.
 
@@ -1107,6 +1117,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 | Period | Method | Notes |
 |--------|--------|-------|
+| hydro candidate and offshore build limit, 2026-09-12 | `CHANGED` | CHANGED 2026-09-12, CESI alignment step 2 (generator database). Decision: no run imposes the CESI T6 fleet; every scenario builds from our candidates and the T6 fleets are read as benchmarks (register a06, a09, a10, a17). Two gaps closed so that the study levels stay reachable. (1) AzerbaijanMain_Hydro_Cand added: the zone had no hydro candidate at all while the study hydro fleet grows beyond our existing units. Status 3, sized on the gap between our existing fleet and the study 2036 level, a quarter of it per year from 2028, RetrYr beyond the horizon, capex and life of the AzerbaijanMain reservoir default (as Armenia_Hydro_Cand). Project context in CESI GEC T2 p44 (existing plants and the small hydro of the liberated territories). The model decides. (2) AzerbaijanMain_Offshore_Generic BuildLimitperYear 152 to 250 MW/yr: under the 2026-08-30 rule the study offshore level of 2036 was out of reach; 250 MW/yr is one Caspian project a year and keeps the 2036 and 2040 levels reachable, the ceiling is unchanged. Values in cesi/cesi_register.yaml (a10, a06). Source CESI GEC T6 p25, p26. PV, onshore wind, gas and battery candidates already reach the study levels under the existing limits and are unchanged. The former L5 tranche files are kept in cesi/unwired/ and read by no scenario; the GECOHub variants read supply/pGenDataInput_hub.csv (build_hub_zone.py), which forces the hub phasing only. |
 | ramp and minimum generation, 2026-08-30 | `CONSTRUCTED` | Ramp rates and minimum generation put on the CCDR default table and switched on. WHY. fApplyRampConstraint and fApplyMinGenShareAllHours were both 0, so neither constraint was in the model, and the values sitting in the columns could not have been used as they stood. The full rule, the equations that read each parameter, the ones that cannot be reached at fDispatchMode = 0, and the reason for each share are in [ramp_mingen_ccdr_2026]. THE RULE. MinGenShareAllHours(z,tech,fuel) = min[ m(tech,fuel) , lowest seasonal availability of the units that (z,tech,fuel) governs ]. The cap can only lower a value, never raise one: eMinGen forces a floor in every hour while base.gms:770 caps seasonal energy at availability x capacity, so a share above a unit's own availability is INFEASIBLE and not merely expensive. The previous table put 0.55 on Turkish domestic lignite against a pAvailabilityCustom of 0.45, 72 units and 12,288 MW, and 0.45 on CCGT in every hour, 148 percent of Armenia's night trough. Ramp rates are the CCDR generic values unchanged: Nuclear 0.15, ST 0.50, the rest 1.00 per hour, PV and wind outside the constraint. The 196 Turkish cells at 0.05 and 0.08 were the textbook per-MINUTE figures loaded into a per-hour parameter; at 0.05 per hour a 600 MW unit needs 20 hours to reach full output. FLAGS. pSettings.csv fApplyRampConstraint and fApplyMinGenShareAllHours set to 1. fApplyMinGenCommitment stays 0 and MinGenCommitment, minUT, minDT and StUpCost stay unread: they need fDispatchMode = 1. Those columns are left in place. Every m is an ASSUMPTION. Method slide: blacksea_2026/RampMinGen_method.pptx, built by RampMinGen_method_slide.py from the deployment's own inputs. RAMP. No explicit cell in AzerbaijanMain; the zone reads pGenDataInputDefault. MIN GEN. MinGenShareAllHours in pGenDataInputDefault, before -> after:<br>  CCGT       Gas            0.45     -> 0.10<br>  ICE        Diesel         blank    -> 0.00<br>  ICE        Gas            blank    -> 0.00<br>  ICE        HFO            blank    -> 0.00<br>  Nuclear    Uranium        0.75     -> 0.70<br>  ST         Coal           0.3      -> 0.25<br>  ST         DomesticCoal   0.55     -> 0.25<br>  ST         Gas            blank    -> 0.00<br>  ST         Geothermal     blank    -> 0.55<br>  ST         ImportedCoal   0.3      -> 0.25<br>  ST         Lignite        0.55     -> 0.25 |
 | 2024–2053 | `DIRECT` | 57 GEM/GIPT plants mapped to 39 EPM rows (plants with RetrYr<2025 excluded). Gas: year<2000 -> ST, year>=2000 -> CCGT. Hydro -> ReservoirHydro. Technical params (HeatRate, VOM, FOM, Capex) from epm_generic_defaults. Committed: Mingecevir CCGT 4x320 MW (StYr=2025). Note: Nakhchivan_CCGT (87 MW) and Nakhchivan_Solar_PV (20 MW) previously listed as Azerbaijan have been moved to the Nakhchivan zone. Nakhchivan capacity no longer appears in AzerbaijanMain supply. Sarsang ReservoirHydro (50 MW, Tartar River, Karabakh) retained in AzerbaijanMain. HeatRate (GJ/MWh) calibrated from SSC 002_53-55en ÷ 005_4en by vintage:<br>  Old CCGTs (StYr 2001-2009): 10.2 GJ/MWh — matches SSC 2020-2023 system<br>  average of 10.18 GJ/MWh (gas consumed in TJ / thermal electricity in MWh).<br>  Modern CCGTs (Janub 2013, Shimal 2019, Gobu 2022): 7.5 GJ/MWh — estimated<br>  from GE Frame 9/Siemens SGT5 design specifications (~48% LHV efficiency).<br>  Committed CCGTs (Mingecevir 4x320 MW, Status=2): 7.0 GJ/MWh (new build).<br>  Nakhchivan_CCGT (2007 vintage): 10.2 GJ/MWh (same as old AZ fleet).<br>  Nakhchivan_GasTurbine_OCGT (2005): 12.0 GJ/MWh (open cycle, ~30% eff).<br>Calibration corrections (2026-06-10):<br>  Azerbaijan_CHP_Legacy (985 MW, StYr=1985, RetrYr=2029): aggregate of CHP<br>  and district-heating plants that generate ~4300 GWh/yr in 2024 and are not<br>  captured in GEM/GIPT utility plant list. HeatRate=12.5 GJ/MWh (old CHP,<br>  ~28% efficiency). Derived from SSC 003_1.18en CHP row vs SSC 005_3en<br>  thermal capacity.<br>  Azerbaijan_Khudafarin_Khoda_Afa_ReservoirHydro and Gyz_Galasy_ReservoirHydro<br>  StYr shifted 2024→2026: SSC 005_3en shows hydro capacity dropping 1209→1062 MW<br>  in 2024, inconsistent with commissioning. Plants not yet counted by SSC.<br>  Azerbaijan_AGG_SmallPV reduced 40.5→8 MW: SSC 2024 non-Garadagh solar = 27.6 MW<br>  total (257.6 - 230 Garadagh). After allocating ~20 MW to Nakhchivan, ~8 MW<br>  residual for mainland small PV.<br>  Nakhchivan_Solar_PV reduced 35→20 MW: SSC Nakhchivan capacity data (2022) and<br>  SSC 003_1.18en solar residual consistent with ~20 MW installed.<br>  Azerbaijan_Khizi_Wind added 14 MW (StYr=2009, RetrYr=2034): SSC wind 64 MW vs<br>  model 50 MW (Yeni Yashma); residual ~14 MW attributed to small Khizi-area<br>  turbines predating the Khizi-Absheron committed project.<br>Demand perimeter note: pDemandForecast is calibrated to OWID total supply (~27 TWh = production + imports - exports), which includes CHP/autoproducer self-consumption. As CHP declines (−34% in 2020–2024), utility capacity must grow to replace it. Azerbaijan_CHP_Legacy explicitly bridges this transition: it covers the CHP gap in 2024–2029 and retires as Mingecevir CCGTs (4×320 MW, StYr=2025) come online. |
 | plant lifetimes, 2026-08-29 | `ASSUMPTION` | RetrYr cleanup. Two implicit conventions coexisted in pGenDataInput.csv: a blank RetrYr, and a mechanical StYr + 25/30/50 with Life left blank. Both are unsafe. A blank RetrYr does NOT mean "never retires": main.gms:832 only pins vCap when RetrYr >= y, so the plant keeps a free vCap and an unbounded vRetire and can be retired at zero cost even though fEnableEconomicRetirement = 0. The StYr + N dates were a placeholder formula, not a published schedule, and were retiring the Caucasus gas fleet at ages no operator applies. RULE APPLIED (Life and RetrYr columns only, Status 1 and 2 only): a row is touched if Life is blank AND RetrYr - StYr is exactly 25, 30 or 50 AND RetrYr <= 2040, or if RetrYr is blank. It then receives an explicit Life — CCGT 40 yr (mid-life hot-gas- path retrofit), OCGT 35 yr, hydro 80 yr — and RetrYr = StYr + Life. Hydro is floored at RetrYr 2060, beyond the 2025-2040 horizon: the civil works are the asset and every pre-1980 unit in these fleets operates today after rehabilitation, so StYr + 80 alone would have retired plants in the past (Zahesi 1927 -> 2007, Rioni 1933 -> 2013). A row whose RetrYr is a published plan date, or whose age already exceeds the assumed life, is left untouched. PV and wind keep 25 yr, their real design life. The lifetimes themselves are modeller assumptions — see [epm_expert_judgment]; no decommissioning schedule is published for these fleets. Replace on sight if one is. THIS ZONE: see the same entry under the Azerbaijan country section for the full rule and the plant-by-plant list. Ten CCGTs move to Life 40 and six hydro rows with a blank RetrYr are filled; available capacity in 2040 rises by 1809.6 MW. |
@@ -1124,24 +1135,26 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 [&#8593; AzerbaijanMain](#azerbaijanmain)
 
-**Source**: Our World in Data (OWID) — Energy Dataset (IEA source) (`owid_energy_data`)
+**Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Our World in Data — Energy dataset, downloaded 2025. Primary underlying source: International Energy Agency (IEA) — World Energy Statistics and Balances. Full CSV available on OWID GitHub: https://git…
+**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+
+**Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
+
+**Also uses**: [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149)
 
 **Also uses**: [SSC — Nakhchivan AR: capacity, generation mix, GDP/electricity (2003–2022)](https://statistika.nmr.az/)
 
-> **GECO ≠** Energy, Peak, Hydrogen. CESI GEC T6 p19, p25; T3 p9, p32. Scope: Annual energy and peak, with the electrolyser load for hydrogen. CESI_Full file: `cesi/pDemandForecast_cesi.csv`. Main scenario: pending (3). Values not reproduced: confidential source.
+> **GECO ≠** Hydrogen. CESI GEC T6 p19, p25; T3 p9, p32. Scope: Annual energy and peak, with the electrolyser load for hydrogen. CESI aligned file: `cesi/pDemandForecast_cesi.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
 
-> ⚠ **Needs review**: Peak demand estimated from energy via load factor (0.58) — no independent peak data source. Nakhchivan split based on generation balance method (Nakh_generation_mix_2003-2021.csv: 2021 total generation 444.8 GWh, net Iran swap ~0, so consumption ≈ 480-500 GWh). Peak estimated from load factor assuming similar shape to main AZ (load factor ~0.68).
-
-
-**Method**: DIRECT from OWID + CAGR, minus Nakhchivan (~500 GWh / 84 MW split to Nakhchivan zone)
+**Method**: CESI T3 Reference plus EV, mainland anchors applied to this zone directly; our 2024 and 2025 energy kept, peak rebased on the Azerenerji record
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT_EXTRAPOLATED` | Anchor: OWID electricity_demand 2025 = 27.17 TWh (net consumption) for all AZ. CAGR = 1.9%/yr computed from OWID 2020-2025 trend. Peak estimated via load_factor=0.58. Nakhchivan split: 500 GWh / 84 MW (1.876% energy, 1.60% peak) moved to Nakhchivan zone. AzerbaijanMain 2024: Energy=26165 GWh, Peak=5164 MW. Both zones grow at the same proportional rate as the OWID AZ trajectory. |
+| 2024 to 2025 | `CHANGED` | Energy unchanged: OWID electricity_demand 2025 (CHP self-consumption included), Nakhchivan share moved to the Nakhchivan zone as before. Peak CHANGED 2026-09-12: 2025 = Azerenerji record of August 2025, 2024 pro rata of the energy (azerenerji_minenergy_2023_2025). |
+| 2026 to 2053 | `CHANGED` | CHANGED 2026-09-12. Energy and peak follow the CESI Task 3 Reference forecast plus EV, gross of losses, no hydrogen: linear from our 2025 value to the 2030 anchor, between the anchors to 2040, our own growth beyond. The T3 anchors are mainland only (Azerenerji perimeter, see the Azerbaijan country entry), so they give this zone directly; an earlier version of the same day subtracted our Nakhchivan forecast, a double count now removed. Written by pre-analysis/catalog/build_demand_baseline.py from the register (a01, a02). Source CESI GEC T3 p9, p30, p32. Peak from the study load factor, EV included. The fully aligned scenarios add the electrolyser load on top (cesi/pDemandForecast_cesi.csv). |
 
-*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+*Confidence: [MEDIUM] · Last updated: 2026-09-12*
 
 
 <a id="azerbaijanmain-pdemandprofile"></a>
@@ -1227,7 +1240,27 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 [&#8593; AzerbaijanMain](#azerbaijanmain)
 
-> **GECO ≠** PV, Onshore, Offshore. CESI GEC T2 p49, p55, p64, p69, p70; T6 p53. Scope: Mean capacity factors of PV, onshore and offshore wind, our profiles rescaled. CESI_Full file: `cesi/pVREProfile_cesi.csv`. Main scenario: pending (3). Values not reproduced: confidential source.
+**Source**: Renewables Ninja — PV and Wind capacity factors (`renewables_ninja`)
+
+**Data / file**: https://www.renewables.ninja/ API-based hourly capacity factor time series at arbitrary lat/lon. Solar: fixed-tilt 35°, azimuth 180°, 10% system losses, MERRA-2 reanalysis. Wind: Gamesa G114-2000 turb…
+
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
+
+**Also uses**: [SSC Azerbaijan — Annual Energy Statistics (1913–2024)](https://stat.gov.az/source/balance_energy/)
+
+> **GECO ≠** PV, Offshore. CESI GEC T2 p49, p55, p64, p69, p70; T6 p53. Scope: Fully aligned scenarios: PV and offshore rescaled to the study mean capacity factors. Since 2026-09-13 the onshore wind rescale sits in the base file too. CESI aligned file: `cesi/pVREProfile_cesi.csv`. Main scenario: kept (2). Values not reproduced: confidential source.
+
+> ⚠ **Needs review**: PV level: raise toward the Garadagh 2024 record (pAvailabilityCustom review note, open since 2026-07-09). Wind shape: still our undocumented hourly series, only the mean was set on 2026-09-13; replace with a Khizi-Absheron or Renewables Ninja multi-year series when the representative-days pipeline is rerun for Azerbaijan.
+
+
+**Method**: PV and OffshoreWind: hourly profiles of the representative-days pipeline, method not documented at build time (see review note). OnshoreWind: the same shape rescaled to the CESI Task 2 mean capacity factor (2026-09-13)
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| PV and OffshoreWind, 2024–2053 | `DIRECT` | Hourly capacity factors mapped onto the 28 representative days by the representative-days pipeline. PV: pHours weighted mean 0.17, below the 0.25 implied by the Garadagh 2024 record (SSC, 556 GWh; uplift still pending, see pAvailabilityCustom review note). OffshoreWind: 0.42, added with the 3000 MW Caspian candidate after the byte-identical copy of OnshoreWind was found (see pGenDataInput). No build record was written for these rows before 2026-09-13. |
+| OnshoreWind, 2024–2053 | `CHANGED` | CHANGED 2026-09-13. The AzerbaijanMain and GEC_AZ OnshoreWind rows are our hourly shape rescaled to the CESI Task 2 mean capacity factor for Azerbaijan (T2 p55, p69), pHours weighted, capped at 1 and iterated, taken from cesi/pVREProfile_cesi.csv where the same rows already served the fully aligned scenarios. WHY. Our profile had no documented method and a pHours weighted mean of 0.21, below every Task 2 wind zone, computed with the least favourable turbine class and no wake losses, and below the Khizi-Absheron class of site where the committed 240 MW sits. The GEC_AZ hub ran at that 0.21 in the GECO scenarios where the study runs it at the Task 2 value (T6 p53), so the corridor was undervalued against the study. Applies to every scenario. PV and OffshoreWind rows untouched. Value in cesi/cesi_register.yaml (a14). |
+
+*Confidence: [MEDIUM] · Last updated: 2026-09-13*
 
 
 ---
@@ -1557,7 +1590,7 @@ NOT FIXED because Romania is listed in zext.csv and the zcmap row of scenarios.c
 
 [&#8593; Romania](#romania)
 
-> **GECO ≠** Losses (lambda). CESI GEC T5 p79. Scope: Losses of the subsea link, applied as the seller-side deduction on the export price. CESI_Full file: `cesi/pTradePriceExport_cesi.csv`. Main scenario: pending (1). Values not reproduced: confidential source.
+> **GECO ≠** Losses (lambda). CESI GEC T5 p79; T6 section 7.2. Scope: Losses of the subsea link, applied as the seller-side deduction on the export price, CESI aligned family only. Baseline keeps its own deduction (trade prices step 2026-09-13): the study loss is stated at nominal power and HVDC losses fall with the load, so it overstates the yearly average; the GEC leg loss already sits in pLossFactorInternal. The study publishes no input border price, its Romania price is a model output, so the import file trade/pTradePrice_eu_central.csv is kept in every scenario and the study marginal prices serve as an ex post benchmark only (register b07). CESI aligned file: `cesi/pTradePriceExport_cesi.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
 
 
 ---
@@ -1730,6 +1763,72 @@ NOT FIXED because Romania is listed in zext.csv and the zcmap row of scenarios.c
 | 2024-2053 | `SCALED` | All 13 existing + 3 candidate ReservoirHydro plants: uniform profile Q1=0.214, Q2=0.248, Q3=0.160, Q4=0.156 (mean=0.195). CRITICAL: EPM has no separate hydro energy budget constraint (no pHydroEnergy). pAvailabilityCustom is the ONLY quarterly water availability cap for reservoir hydro. Without custom entry, model dispatches at Generic default 0.85 — ~4x actual output. Method: ENTSO-E 2019-2023 quarterly shape (Hydro Water Reservoir, 1719 MW basis, shape Q1:Q2:Q3:Q4 = 1.10:1.27:0.82:0.80) scaled so mean = Kinesys 2025 CF (0.195). ENTSO-E historical mean = 0.146 (drier-than-average 2019-2023); Kinesys forward projection used for level as more representative of future water availability. Seasonal pattern: spring peak (Q2, snowmelt Rhodopes/Arda/Vacha systems), summer-autumn low (Q3/Q4). Consistent with Bulgarian hydrology. Limitation: single uniform profile for all plants; individual plant hydrological data not available. High inter-annual variability (CF range 0.12-0.29 across years). |
 
 *Confidence: [MEDIUM] · Last updated: 2026-06-12*
+
+
+---
+
+<a id="global"></a>
+
+## Model-wide
+
+[&#8593; Contents](#toc)
+
+### Summary
+
+| Parameter | Source | Confidence |
+|---|---|---|
+| [`pPlanningReserveMargin`](#global-pplanningreservemargin) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] |
+| [`pCarbonPrice`](#global-pcarbonprice) | Modeller expert judgment (2026) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] |
+
+<a id="global-psettings"></a>
+
+### `pSettings`
+
+[&#8593; Model-wide](#global)
+
+> **GECO ≠** WACC, DR. CESI GEC T6 p22. Scope: Discount rate and WACC used to annualise capex, model-wide. No policy target comes from the study (no RE share, CO2 cap or carbon price on Azerbaijan or Georgia, register c09): our carbon price and CO2 cap flags stay off and the Georgia gas cap stays on in every scenario, see the pCarbonPrice block below. CESI aligned file: `cesi/pSettings_cesi.csv`. Main scenario: kept (1). Values not reproduced: confidential source.
+
+
+<a id="global-pplanningreservemargin"></a>
+
+### `pPlanningReserveMargin`
+
+[&#8593; Model-wide](#global)
+
+**Source**: Modeller expert judgment — Black Sea 2026 assumptions (`epm_expert_judgment`)
+
+**Data / file**: Not an external source. Groups the values set by the modeller where no measured data exists, so that those values are traceable like any other and are not mistaken for observed data.
+
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
+
+**Method**: ASSUMPTION - 10 percent of the country peak for the four generating countries, the same figure as the system margin
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024-2053, applied 2026-09-13 | `ASSUMPTION` | reserve/pPlanningReserveMargin.csv held only its header until 2026-09-13, so no country ever carried an adequacy obligation: base.gms:918 guards the country equation on a non zero margin, and only the system equation (sReserveMarginPct 0.1, base.gms:925) fired, pooling adequacy region wide. That let Turkiye lean on the neighbours' surplus in the late years through 700 MW of import capacity that cannot carry it. The file now holds one row per generating country, Turkiye, Georgia, Armenia and Azerbaijan, at 0.1, the system value, so the region wide logic is unchanged and only the per country floor is added. iran_swap has no row on purpose: it holds no generator, the equation stays inactive there. The interconnections keep counting toward the country margin (fCountIntercoForReserves 1). Applies to every scenario, the CESI aligned family included. The CESI study offers nothing here: its fleet is an input to the dispatch (national plans plus the Task 6 long term addition) and it publishes no reserve margin, adequacy or capacity credit criterion (register c08). Expected effect small on the scenario deltas (the constraint binds in a few late, heavily discounted years), to be confirmed on the six run grid. |
+
+*Confidence: [MEDIUM] · Last updated: 2026-09-13*
+
+
+<a id="global-pcarbonprice"></a>
+
+### `pCarbonPrice`
+
+[&#8593; Model-wide](#global)
+
+**Source**: Modeller expert judgment — Black Sea 2026 assumptions (`epm_expert_judgment`)
+
+**Data / file**: Not an external source. Groups the values set by the modeller where no measured data exists, so that those values are traceable like any other and are not mistaken for observed data.
+
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
+
+**Method**: ASSUMPTION - carbon price and system CO2 cap files carried but inert: fEnableCarbonPrice 0 and fApplySystemCo2Constraint 0 in every scenario
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| 2024-2053, reviewed 2026-09-13 | `ASSUMPTION` | constraint/pCarbonPrice.csv (58 USD/t in 2028 rising to 75.85 in 2043) and constraint/pEmissionsTotal.csv (160 Mt in 2024, 190.8 in 2035, 40 in 2050) are placeholders kept from the template: both flags are 0 in pSettings and in cesi/pSettings_cesi.csv, so no run prices carbon or caps emissions, and the country cap file and the renewable share setting are empty. The two operational flags that do bind are fApplyFuelConstraint 1 (Georgia gas cap, see the Georgia pMaxFuelLimit block, our own assumption) and the ramp and minimum generation flags. The CESI study imposes no policy target on Azerbaijan or Georgia: its fleet follows the national plans plus the Task 6 long term VRE addition, the ETS applies to the EU zones only and the non participating countries run on TYNDP 2024 NT+ (register c09), so nothing changes in either family. The societal CO2 value of the study CBA is a benefit convention, not a model input (register c05). |
+
+*Confidence: [MEDIUM] · Last updated: 2026-09-13*
 
 
 ---

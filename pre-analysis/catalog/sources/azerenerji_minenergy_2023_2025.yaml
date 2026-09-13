@@ -1,0 +1,31 @@
+id: azerenerji_minenergy_2023_2025
+name: "Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025"
+type: open_source
+category: official_statistics
+url: "https://minenergy.gov.az/en/xeberler-arxivi/00149"
+access_note: >
+  Two public releases used together. (1) Ministry of Energy, "Electricity figures were
+  announced for January-December 2023": production 29,276.6 GWh for the country, of which
+  Azerenerji OJSC 26,441.2 GWh and the State Energy Agency of Nakhchivan AR 481.0 GWh;
+  exports 3,252.5 GWh, imports 211.8 GWh. (2) Azerenerji, reported by Report.az on
+  2025-08-06 (https://report.az/en/energy/electricity-consumption-in-azerbaijan-reaches-record-high/):
+  electricity demand reached a record 4,871 MW at 15:00 on 6 August 2025, against 3,625 MW in
+  the summer of 2018. Both retrieved 2026-09-12.
+coverage:
+  countries: [Azerbaijan]
+  zones: [AzerbaijanMain, Nakhchivan]
+  years: "2023 balance, 2025 peak"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: >
+      AzerbaijanMain peak of the base year and first model year rebased on the 2025 record
+      (2024 pro rata of the energy). Perimeter test of the CESI Task 3 demand base: country
+      consumption 2023 = production + imports - exports = 26,236 GWh, mainland (minus the
+      Nakhchivan generation, whose Iran swap nets to about zero) = 25,755 GWh.
+quality:
+  confidence: high
+  notes: >
+    Official annual figures and the system operator's own record. The Azerenerji grid does not
+    include Nakhchivan (islanded, tied to Iran and Turkiye), so the record peak is a mainland
+    figure, consistent with the AzerbaijanMain zone. The 2023 balance is gross (losses and own
+    use in), the perimeter EPM expects.

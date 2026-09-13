@@ -34,13 +34,26 @@ SHARE_ROOT = REPO_ROOT / "pre-analysis" / "output_catalog"
 CONFIDENCE_LABEL = {"high": "[HIGH]", "medium": "[MEDIUM]", "low": "[LOW]"}
 
 # GECO boxes. A geco block under a country and parameter entry of provenance.yaml says that the
-# CESI GEC feasibility study departs from our data there. It holds no figure: the CESI_Full file,
+# CESI GEC feasibility study departs from our data there. It holds no figure: the CESI aligned file,
 # the report reference, the scope and the ids of cesi/cesi_register.yaml (DVC only). Element names
 # and main scenario status are read from the register, so the grey box shrinks as the main scenario
 # takes CESI values, and disappears once it has taken them all. The GLOBAL_KEY section holds the
 # model-wide blocks (pSettings), boxed in every column. validate.py checks the blocks against the files.
+# A global block that documents a source (pPlanningReserveMargin, pCarbonPrice) fills every column
+# that has no country block of its own, marked "model-wide", and gets its own detail section.
 GECO_SOURCE = "cesi_gec_feasibility"
 GLOBAL_KEY = "global"
+GLOBAL_LABEL = "Model-wide"
+
+
+def section_label(key):
+    return GLOBAL_LABEL if key == GLOBAL_KEY else key
+
+
+def sections(countries, provenance):
+    """Country sections, then the model-wide section when it holds at least one block."""
+    g = provenance.get(GLOBAL_KEY)
+    return countries + ([GLOBAL_KEY] if isinstance(g, dict) and g else [])
 
 
 # ── Loaders ────────────────────────────────────────────────────────────────────
@@ -329,7 +342,7 @@ def geco_box_md(info, register):
     g = info["geco"]
     files = ", ".join(f"`{f}`" for f in geco_files(g)) or "n/a"
     return (f"> **GECO ≠** {', '.join(el for el, _ in items)}. {g.get('ref', 'n/a')}. "
-            f"Scope: {g.get('scope', 'n/a').rstrip('.')}. CESI_Full file: {files}. "
+            f"Scope: {g.get('scope', 'n/a').rstrip('.')}. CESI aligned file: {files}. "
             f"Main scenario: {geco_status(items)}. Values not reproduced: confidential source.\n")
 
 
@@ -341,7 +354,7 @@ def geco_box_html(info, register):
     files = ", ".join(f"<code>{h(f)}</code>" for f in geco_files(g)) or "n/a"
     return (f'<div class="geco-detail"><strong>GECO &ne;</strong> {h(", ".join(el for el, _ in items))}. '
             f'{h(g.get("ref", "n/a"))}. Scope: {h(g.get("scope", "n/a").rstrip("."))}.<br>'
-            f'CESI_Full file: {files} &middot; Main scenario: {h(geco_status(items))} &middot; '
+            f'CESI aligned file: {files} &middot; Main scenario: {h(geco_status(items))} &middot; '
             f'values not reproduced, confidential source.</div>')
 
 
@@ -403,9 +416,14 @@ def render_md(deployment, countries, horizon, params, provenance, catalog, regis
         cells = []
         for country in countries:
             info = get_info(country, pid, provenance)
+            ginfo = get_info(GLOBAL_KEY, pid, provenance)
             if documented(info):
                 cell = sources_display_md(info, catalog)
                 if info.get("needs_review"):
+                    cell = f"⚠ {cell}"
+            elif documented(ginfo):
+                cell = f"{sources_display_md(ginfo, catalog)} (model-wide)"
+                if ginfo.get("needs_review"):
                     cell = f"⚠ {cell}"
             else:
                 cell = "—"
@@ -417,7 +435,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog, regis
 
     # TOC
     lines += ['<a id="toc"></a>\n', "## Contents\n"]
-    for country in countries:
+    for country in sections(countries, provenance):
         cid = anchor(country)
         cdata = provenance.get(country, {})
         if isinstance(cdata, dict) and cdata:
@@ -426,17 +444,17 @@ def render_md(deployment, countries, horizon, params, provenance, catalog, regis
                 for pid in cdata
                 if isinstance(cdata[pid], dict)
             )
-            lines.append(f"- [{country}](#{cid}) — {param_links}")
+            lines.append(f"- [{section_label(country)}](#{cid}) — {param_links}")
         else:
-            lines.append(f"- [{country}](#{cid}) — *not yet documented*")
+            lines.append(f"- [{section_label(country)}](#{cid}) — *not yet documented*")
     lines += ["", "---\n"]
 
-    # Country sections
-    for country in countries:
+    # Country sections, then the model-wide one
+    for country in sections(countries, provenance):
         cid = anchor(country)
         lines += [
             f'<a id="{cid}"></a>\n',
-            f"## {country}\n",
+            f"## {section_label(country)}\n",
             "[&#8593; Contents](#toc)\n",
         ]
         cdata = provenance.get(country, {})
@@ -467,7 +485,7 @@ def render_md(deployment, countries, horizon, params, provenance, catalog, regis
             lines += [
                 f'<a id="{rid}"></a>\n',
                 f"### `{pid}`\n",
-                f"[&#8593; {country}](#{cid})\n",
+                f"[&#8593; {section_label(country)}](#{cid})\n",
             ]
 
             proxy_note = render_proxy_note_md(info, catalog)
@@ -642,9 +660,14 @@ def render_html(deployment, countries, horizon, params, provenance, catalog, reg
         for country in countries:
             info = get_info(country, pid, provenance)
             box = geco_cell_html(country, pid, provenance, register)
-            if documented(info):
-                cell_html = sources_display_html(info, catalog)
-                link = anchor(country, pid)
+            ginfo = get_info(GLOBAL_KEY, pid, provenance)
+            if documented(info) or documented(ginfo):
+                if not documented(info):
+                    info, link_key, suffix = ginfo, GLOBAL_KEY, " (model-wide)"
+                else:
+                    link_key, suffix = country, ""
+                cell_html = sources_display_html(info, catalog) + suffix
+                link = anchor(link_key, pid)
                 needs_review = info.get("needs_review", False)
                 if needs_review:
                     out.append(f'<td class="status-review"><a href="#{link}">&#9651; {cell_html}</a>{box}</td>')
@@ -658,10 +681,10 @@ def render_html(deployment, countries, horizon, params, provenance, catalog, reg
 
     # ── TOC ───────────────────────────────────────────────────────────────────
     out.append('<h2 id="toc">Contents</h2>\n<div class="toc"><ul>')
-    for country in countries:
+    for country in sections(countries, provenance):
         cid = anchor(country)
         cdata = provenance.get(country, {})
-        out.append(f'<li><a href="#{cid}"><strong>{h(country)}</strong></a>')
+        out.append(f'<li><a href="#{cid}"><strong>{h(section_label(country))}</strong></a>')
         if isinstance(cdata, dict) and cdata:
             out.append(' &mdash; ')
             links = ', '.join(
@@ -675,10 +698,10 @@ def render_html(deployment, countries, horizon, params, provenance, catalog, reg
         out.append('</li>')
     out.append('</ul></div>\n<hr>')
 
-    # ── Country sections ──────────────────────────────────────────────────────
-    for country in countries:
+    # ── Country sections, then the model-wide one ─────────────────────────────
+    for country in sections(countries, provenance):
         cid = anchor(country)
-        out.append(f'<h2 id="{cid}">{h(country)}</h2>')
+        out.append(f'<h2 id="{cid}">{h(section_label(country))}</h2>')
         out.append('<p class="back"><a href="#toc">&#8593; Contents</a></p>')
 
         cdata = provenance.get(country, {})
@@ -712,7 +735,7 @@ def render_html(deployment, countries, horizon, params, provenance, catalog, reg
                 continue
             rid = anchor(country, pid)
             out.append(f'<h3 id="{rid}"><code>{h(pid)}</code></h3>')
-            out.append(f'<p class="back"><a href="#{cid}">&#8593; {h(country)}</a></p>')
+            out.append(f'<p class="back"><a href="#{cid}">&#8593; {h(section_label(country))}</a></p>')
 
             proxy_note = render_proxy_note_html(info, catalog)
             if proxy_note:

@@ -8,7 +8,7 @@ before this script existed. Run it in CI so the drift cannot come back.
 
 A deployment that carries CESI GEC data (cesi/cesi_register.yaml, DVC only) gets
 three more checks, skipped when the register is absent:
-- geco: the geco blocks of provenance.yaml match the CESI_Full files. Every
+- geco: the geco blocks of provenance.yaml match the CESI aligned files. Every
   zone where a cesi/*_cesi.csv differs from its config.csv reference has a
   block, and every block points at a real difference.
 - leak: no register value appears in the text that feeds a git tracked file
@@ -186,7 +186,7 @@ def _norm(cell: str) -> str:
 
 
 def diff_zones(ref: Path, new: Path) -> set[str]:
-    """Zones of the rows where a CESI_Full file differs from its reference. 'all' if it has no zone column."""
+    """Zones of the rows where a CESI aligned file differs from its reference. 'all' if it has no zone column."""
     def rows(p):
         with open(p, encoding="utf-8-sig", newline="") as fh:
             r = list(csv.reader(fh))
@@ -206,7 +206,7 @@ def diff_zones(ref: Path, new: Path) -> set[str]:
 
 
 def geco_findings(dep_dir: Path, prov: dict, register: dict, zc: dict, config: dict) -> tuple[list[str], list[str]]:
-    """Errors and warnings of the geco blocks of one deployment against its CESI_Full files."""
+    """Errors and warnings of the geco blocks of one deployment against its CESI aligned files."""
     errs: list[str] = []
     warns: list[str] = []
     dep = dep_dir.name
@@ -258,7 +258,7 @@ def geco_findings(dep_dir: Path, prov: dict, register: dict, zc: dict, config: d
             if not any(key in _keys(z, zc) for z in diffs[f]):
                 errs.append(f"{where}: {f} does not differ from its reference in {key}")
     if missing:
-        warns.append(f"{dep}: {len(missing)} CESI_Full file(s) named by geco blocks not built yet: "
+        warns.append(f"{dep}: {len(missing)} CESI aligned file(s) named by geco blocks not built yet: "
                      f"{', '.join(sorted(missing))}")
     return errs, warns
 

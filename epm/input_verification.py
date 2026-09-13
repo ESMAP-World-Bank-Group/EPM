@@ -1069,7 +1069,21 @@ def _check_planning_reserves(gams, db):
             return
         countries_planning = set(records['c'].unique())
         countries_def = set(zcmap_records['c'].unique())
-        missing_countries = countries_def - countries_planning
+        # A country with no generator cannot carry an adequacy obligation, and
+        # ePlanningReserveReqCountry stays inactive when its margin is absent, so only warn.
+        gen_records = db["pGenDataInput"].records
+        if gen_records is not None and not gen_records.empty:
+            zones_with_gen = set(gen_records['z'].unique())
+            countries_with_gen = set(zcmap_records.loc[zcmap_records['z'].isin(zones_with_gen), 'c'])
+        else:
+            countries_with_gen = countries_def
+        countries_no_gen = (countries_def - countries_with_gen) - countries_planning
+        if countries_no_gen:
+            gams.printLog(
+                "Warning: no planning reserve margin for countries without generators "
+                f"(constraint inactive): {', '.join(sorted(countries_no_gen))}"
+            )
+        missing_countries = (countries_def & countries_with_gen) - countries_planning
         if missing_countries:
             missing_countries_str = ", ".join(missing_countries)
             msg = (

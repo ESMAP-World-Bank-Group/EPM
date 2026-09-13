@@ -19,43 +19,47 @@ coverage:
 fills_epm_resources:
   - resource: pDemandForecast
     location: "Task 3, Task 6"
-    coverage: "Reference demand plus EV, Azerbaijan and Georgia"
+    coverage: "Reference demand plus EV, Azerbaijan and Georgia. Baseline (decision 2026-09-12): AzerbaijanMain takes the Task 3 Reference plus EV path, no hydrogen, our first two years kept (peak rebased on the Azerenerji 2025 record) and our Nakhchivan rows untouched (build_demand_baseline.py). The Task 3 Azerbaijan figures are mainland only, Azerenerji perimeter: the 2023 base matches the ministry balance minus Nakhchivan within 0.3 percent, the whole country within 2.2 percent, and Nakhchivan is never mentioned in Task 3; Georgia keeps our WB 2021 file because the Task 3 Georgia base is final consumption while our file sits on the GSE gross balance. The fully aligned scenarios take the Task 3 path in both countries plus the Task 6 electrolyser load, kept there for replication only: the hydrogen strategies are the one quantified policy item of the study and the baseline carries none (decision 2026-09-13, policy step)"
 
   - resource: pGenDataInput
     location: "Task 6"
-    coverage: "Generation fleet by technology and year, Azerbaijan and Georgia. The Azerbaijan hub capacities cap the three GEC_AZ candidates of the GECO scenarios, commissioning left to the model. The fully aligned scenarios impose the fleets as committed tranches, drop the candidates and build the GEC_GE hub in equal steps"
+    coverage: "Generation fleet by technology and year, Azerbaijan and Georgia, read as benchmarks: since 2026-09-12 no run imposes the Task 6 fleets, every scenario builds from our candidates (two gaps closed so the study levels stay reachable: an Azerbaijan hydro candidate and a faster offshore build limit). The hub capacities cap the GEC_AZ and GEC_GE candidates of the GECO scenarios, commissioning left to the model; the GECOHub variants force the Task 6 phasing through supply/pGenDataInput_hub.csv (build_hub_zone.py). The former tranche files are kept in cesi/unwired/, read by no scenario"
 
   - resource: pGenDataInputDefault
     location: "Task 6"
-    coverage: "Capex, FOM and life of PV and wind, fully aligned scenarios only"
+    coverage: "Capex, FOM and life of PV and wind, fully aligned scenarios only. Baseline (decision 2026-09-12, costs step): kept on the CCDR defaults with their declining capex trajectory, the same in every zone; our PV capex sits above the flat study value before 2045 and our onshore wind below, offshore at the same level by 2036; our FOM stays above the study; wind life 30 years, PV 25 as in the study"
 
   - resource: pCapexTrajectoriesDefault
     location: "Task 6"
-    coverage: "No trajectory in the study: the fully aligned scenarios set the VRE multipliers to one so the study capex holds flat"
+    coverage: "No trajectory in the study: the fully aligned scenarios set the VRE multipliers to one so the study capex holds flat. Baseline keeps its declining trajectory (decision 2026-09-12)"
 
   - resource: pVREProfile
     location: "Task 2"
-    coverage: "Mean capacity factors for PV, onshore and offshore wind; our hourly profiles are rescaled to them in the fully aligned scenarios"
+    coverage: "Mean capacity factors for PV, onshore and offshore wind, Azerbaijan and Georgia; our hourly profiles are rescaled to them in the fully aligned scenarios. Baseline (decision 2026-09-13, VRE step): onshore wind takes the Task 2 mean in both countries and both hubs, in supply/pVREProfile.csv, because our profiles sat below every Task 2 zone and below the observed plants, and the hubs ran at our national mean where the study runs them at the Task 2 value; PV and offshore keep our profiles, which sit at or above the study means and rest on observed output. The Task 2 potential tables use the published capacity factor as is (energy equals capacity times hours times factor), so the rescale carries no further derating"
 
   - resource: pStorageDataInput
     location: "Task 6"
-    coverage: "Battery capacity of Azerbaijan and Georgia, one committed unit each in the fully aligned scenarios"
+    coverage: "Battery capacity of Azerbaijan and Georgia, benchmark only: our candidates reach it and the model decides (the former committed rows are kept in cesi/unwired/)"
 
   - resource: pSettings
     location: "Task 6"
-    coverage: "WACC and discount rate"
+    coverage: "WACC and discount rate, fully aligned scenarios only. Baseline keeps 6 percent model-wide (decision 2026-09-12): the study rate is a social discount rate for the CBA, not a financing cost; NPV comparisons with the study are rediscounted in post-processing. Policy targets: none imposed by the study on Azerbaijan or Georgia (fleet from the national plans, ETS on the EU zones only), so our carbon price and CO2 cap flags stay off and the Georgia gas cap stays on in every scenario (decision 2026-09-13, policy step)"
 
   - resource: pExtTransferLimit
     location: "Task 5, Task 6"
-    coverage: "GEC_GE to Romania link capacity by commissioning stage, derated for availability, in the GECO link files. Georgia to Romania keeps the BSSC alone"
+    coverage: "GEC_GE to Romania link capacity by commissioning stage, derated for availability, in the GECO link files. Georgia to Romania keeps the BSSC alone, in service in every run as the study keeps it in every case, separately from the GEC (decision 2026-09-13, cross-border step). The Romania to Hungary section of the first link is not modelled: Hungary is outside the model and Romania is the external price zone"
 
   - resource: zcmap
     location: "Task 6"
-    coverage: "GEC_AZ hub and GEC_GE node of the GECO scenarios, in zcmap_geco.csv. The hub default costs, availability and VRE profiles are those of AzerbaijanMain, not taken from this study"
+    coverage: "GEC_AZ and GEC_GE hubs of the GECO scenarios, in zcmap_geco.csv. The hub default costs, availability and VRE profiles are those of the national zone (AzerbaijanMain, Georgia), not taken from this study"
+
+  - resource: scenarios.csv
+    location: "Task 6"
+    coverage: "Six-run grid, all optimised (decision 2026-09-12). Baseline family LC_BSSC (no corridor), LC_GECO (corridor, hub candidates capped at the study 2040 total, model decides the pace), LC_GECOHub (corridor, hub forced to the study phasing through supply/pGenDataInput_hub.csv). CESI aligned family CESI_NoCorr, CESI_GECO, CESI_GECOHub: the same three designs on the cesi/*_cesi.csv inputs (demand with hydrogen, VRE costs and life, WACC, profiles, Romania export price). No run imposes the Task 6 fleets"
 
   - resource: pTransferLimit
     location: "Task 5, Task 6"
-    coverage: "GEC layer of the GECO scenarios: GEC_AZ to GEC_GE leg and the taps to the Azerbaijan and Georgia grids, one step per link commissioning, derated for availability"
+    coverage: "GEC layer of the GECO scenarios: GEC_AZ to GEC_GE leg and the taps to the Azerbaijan and Georgia grids, one step per link commissioning, derated for availability. Existing interconnections (decision 2026-09-13, cross-border step): the study publishes no capacity for them, it records only that the TSOs asked for adjustments of the Azerbaijan to Georgia capacity and of the Georgia to Turkiye and Armenia exchange assumptions, so our limits are kept in every scenario; Russia, Iran, Kazakhstan, Nakhchivan and the Turkiye to EU borders are outside the study"
 
   - resource: pLossFactorInternal
     location: "Task 5"
@@ -63,7 +67,11 @@ fills_epm_resources:
 
   - resource: pTradePriceExport
     location: "Task 5, Task 6"
-    coverage: "Subsea link losses applied as the seller side deduction on the Romania export price, fully aligned scenarios only"
+    coverage: "Subsea link losses applied as the seller side deduction on the Romania export price, fully aligned scenarios only. Baseline keeps its own deduction (decision 2026-09-13, trade prices step): the study loss is stated at nominal power and HVDC losses fall with the load, so it overstates the yearly average; the corridor leg loss already sits in pLossFactorInternal. The Bulgaria and Greece deductions, the perimeter fee and the CBAM scenario files are outside the study and kept"
+
+  - resource: pTradePrice
+    location: "Task 6"
+    coverage: "No input border price published: the study models Romania and Hungary, so its border prices are outputs (average marginal prices, section 7.2), read as an ex post benchmark only. Our Romania import level, on the same TYNDP 2024 NT basis, is kept in every scenario (decision 2026-09-13, trade prices step). Kazakhstan, Russia and Iran prices are outside the study"
 
   - resource: pExtTransmissionCost
     location: "Task 5"
@@ -77,5 +85,18 @@ quality:
     with no wake modelling and no hourly profile. T5 prices the links at ENTSO-E standard
     costs while T6 uses a higher capex basis. T6 demand is the T3 reference plus EV, not
     revised. T6 benefits rest mainly on the societal CO2 value. Losses and availability
-    appear only in T5. T1 and T9 are not in the package.
+    appear only in T5. T1 and T9 are not in the package. T6 fuel prices are EU gas and
+    ETS only, on the TYNDP 2024 NT basis already behind our Romania border price; no
+    fuel price is published for Azerbaijan or Georgia, so pFuelPrice is kept in every
+    scenario (decision 2026-09-12, fuel step). No availability figure beyond the T2 VRE
+    zoning derating: nothing on thermal outage rates, and nothing on hydro energy or
+    seasonality even for Georgia, where T6 carries the national plan capacity only, so our
+    seasonal availabilities are kept in every scenario and the study hydro output cannot be
+    checked against ours (decision 2026-09-12, availability step). No reserve margin,
+    adequacy target or capacity credit either: the study fleet is an input to the
+    dispatch (national plans plus the Task 6 long term VRE addition), and Task 7 only
+    states that the AzerEnergy must run and frequency reserve requirements are met, so
+    our planning and spinning reserve settings are kept in every scenario (decision
+    2026-09-13, reserve step; the per country planning reserve fill of the same day is
+    our own correction, not a study figure).
   used_in_studies: [data_blacksea]

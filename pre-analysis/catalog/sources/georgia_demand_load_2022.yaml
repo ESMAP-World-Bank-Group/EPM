@@ -27,4 +27,10 @@ quality:
     No independent source for peak demand (MW) — only this file provides peak figures.
     Growth assumption (3%/yr) is embedded in filename, not formally documented.
     Profile shape is based on seasonal mean — within-season variability (d1–d6) is lost.
+    Perimeter (checked 2026-09-12): the balance line matched is Total Consumption =
+    generation + import - export, i.e. gross of network losses, own use and Abkhazia,
+    which is the perimeter EPM expects. File last modified June 2021, so 2021 itself is
+    already a projection, not a metered year. Kept as the Baseline demand of Georgia
+    against the CESI Task 3 forecast, whose base is final consumption (see
+    cesi_gec_feasibility); the fully aligned scenarios use the T3 path.
   used_in_studies: [data_blacksea]
