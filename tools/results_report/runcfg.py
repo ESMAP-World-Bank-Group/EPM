@@ -14,6 +14,9 @@ OUTVIEW = ROOT / "epm" / "output_view"
 CACHEDIR = HERE / "cache"
 
 DEFAULT_RUN = os.environ.get("BS_RUN", "simulations_run_20260906")
+# Folder name of the reference scenario inside the run. Older runs carried a
+# "baseline" folder, the 2026-09-13 grid names it LC_Baseline.
+BASE = os.environ.get("BS_BASE", "baseline")
 
 
 def run_dir(name=None):

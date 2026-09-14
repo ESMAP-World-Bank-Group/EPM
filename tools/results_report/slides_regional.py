@@ -478,7 +478,7 @@ def map_right(a):
 
 def chart_region_maps(a):
     d = cache()
-    geo, cor = d["geo"], d["corridors"]["baseline"]
+    geo, cor = d["geo"], d["corridors"][runcfg.BASE]
     years = [y.strip() for y in a.years.split(",")] if a.years else ["2025", "2030", "2035"]
     fs = 6.0
     rc(fs)
@@ -523,7 +523,7 @@ def chart_region_generation(a):
 
     used = []
     for ax, ctry in zip(axes, COUNTRIES):
-        blk = d["annual"][ctry]["baseline"]
+        blk = d["annual"][ctry][runcfg.BASE]
         xs = list(range(len(years)))
         for xi, y in zip(xs, years):
             i = YEARS.index(y)
@@ -753,7 +753,7 @@ def chart_bssc_mix_delta(a):
 
     used = []
     for ax, ctry in zip(axes, COUNTRIES):
-        base, alt = annual_for("baseline", ctry), annual_for(scen, ctry)
+        base, alt = annual_for(runcfg.BASE, ctry), annual_for(scen, ctry)
         # Tighter than unit spacing: the years of one country read as a group,
         # and the gaps between panels do the separating.
         xs = [k * .80 for k in range(len(years))]
@@ -843,7 +843,7 @@ def country_generation(scen):
 
 def chart_bssc_impact(a):
     years = [y.strip() for y in a.years.split(",")] if a.years else ["2030", "2035", "2040"]
-    base = country_generation("baseline")
+    base = country_generation(runcfg.BASE)
     bssc = country_generation(a.scenario or "LC_BSSC")
     fs = 6.0
     rc(fs)
@@ -1224,7 +1224,7 @@ def _rr():
     Rebuilding it from DR would miss the half-year convention EPM uses.
     """
     import pandas as pd
-    d = pd.read_csv(RUN / "baseline" / "output_csv" / "pCostsMerged.csv")
+    d = pd.read_csv(RUN / runcfg.BASE / "output_csv" / "pCostsMerged.csv")
     key = "Fuel costs: $m"
     un = d[(d.attribute == "Costs") & (d.uni == key)].groupby("y").value.sum()
     cu = d[(d.attribute == "DiscountedWeightedCostsCumulated")
@@ -1290,11 +1290,11 @@ def _ext_export_sign():
     one of the two signs and not the other, and the gap between them is twice
     the revenue, so the run decides rather than a constant written here.
     """
-    d = _costs("baseline")
+    d = _costs(runcfg.BASE)
     rev = float(d[d.uni == "Export revenues with external zones: $m"].value.sum())
     rest = float(d[~d.uni.isin(_SKIP)].value.sum()) - rev
     for sign in (1, -1):
-        ok, _ = _reconciles(rest + sign * rev, "baseline")
+        ok, _ = _reconciles(rest + sign * rev, runcfg.BASE)
         if ok:
             return sign
     raise RuntimeError(
@@ -1318,7 +1318,7 @@ def benefit_npv():
     here that the model itself does not charge.
     """
     import pandas as pd
-    scens = ["baseline"] + [c for _, c, _ in price_paths()[1:]] +             [p + s for _, p in PROJECTS for _, _, s in price_paths()]
+    scens = [runcfg.BASE] + [c for _, c, _ in price_paths()[1:]] +             [p + s for _, p in PROJECTS for _, _, s in price_paths()]
     sm = pd.read_csv(RUN / "summary.csv")
     zc = dict(sm[["zone", "country"]].drop_duplicates().values)
     esign = _ext_export_sign()
@@ -2308,7 +2308,7 @@ EXP_GREY = "#b9c2ce"
 EXP_HOT = "#12356e"
 
 
-def free_expansions(scen="LC_FreeExpAll", ref="baseline", year="2040",
+def free_expansions(scen="LC_FreeExpAll", ref=None, year="2040",
                     floor=50.0):
     """Internal corridors the free-expansion run reinforced, MW, largest first.
 
@@ -2316,7 +2316,7 @@ def free_expansions(scen="LC_FreeExpAll", ref="baseline", year="2040",
     2025 capacity: TRIPP is committed in both, so its +800 MW is not a choice
     the model made here.  The floor drops the sub-MW numerical dust that a
     continuous expansion variable leaves on every link."""
-    a, b = corridors(scen), corridors(ref)
+    a, b = corridors(scen), corridors(ref or runcfg.BASE)
     i = YEARS.index(str(year))
     out = []
     for k, c in a.items():
@@ -2333,7 +2333,7 @@ def chart_freeexp_expansion(a):
     d = cache()
     geo = d["geo"]
     scen = a.scenario or "LC_FreeExpAll"
-    ref = "baseline"
+    ref = runcfg.BASE
     year = a.year or "2040"
     i = YEARS.index(str(year))
     cor = corridors(scen)

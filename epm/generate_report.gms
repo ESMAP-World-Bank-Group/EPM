@@ -588,11 +588,17 @@ pHourlyPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)
 * Export revenues:
 *   - Value of outflows to neighboring zones
 *   - Negative sign ensures revenues reduce total cost
+*
+* The trade terms of this section sum over every connected zone
+* (alias z2), not over Zd. Zd only holds the zones with demand, so a
+* link to a zone without demand (a transit hub) would be booked on
+* the hub side alone, and internal trade would stop netting to zero
+* across the region.
 * ---------------------------------------------------------
 
-pImportCostsInternal(z,y) = sum((sTopology(Zd,z),q,d,t), pHourlyPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+pImportCostsInternal(z,y) = sum((sTopology(z2,z),q,d,t), pHourlyPrice(z,q,d,t,y)*vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t));
 
-pExportRevenuesInternal(z,y) = - sum((sTopology(z,Zd),q,d,t), pHourlyPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pExportRevenuesInternal(z,y) = - sum((sTopology(z,z2),q,d,t), pHourlyPrice(z,q,d,t,y)*vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
 * ---------------------------------------------------------
 * Congestion rents between zones [$]
@@ -601,7 +607,7 @@ pExportRevenuesInternal(z,y) = - sum((sTopology(z,Zd),q,d,t), pHourlyPrice(z,q,d
 * Negative sign ensures consistency with rent allocation
 * ---------------------------------------------------------
 
-pCongestionRevenues(z,Zd,y) = - sum((q,d,t), (pHourlyPrice(zD,q,d,t,y) - pHourlyPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pCongestionRevenues(sTopology(z,z2),y) = - sum((q,d,t), (pHourlyPrice(z2,q,d,t,y) - pHourlyPrice(z,q,d,t,y))*vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
 * ---------------------------------------------------------
 * Trade shared benefits [$]
@@ -610,7 +616,7 @@ pCongestionRevenues(z,Zd,y) = - sum((q,d,t), (pHourlyPrice(zD,q,d,t,y) - pHourly
 * importing and exporting zones as the allocation rule
 * ---------------------------------------------------------
 
-pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
+pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(z2,z), pCongestionRevenues(z2,z,y)) + 0.5*sum(sTopology(z,z2), pCongestionRevenues(z,z2,y));
 
 * ---------------------------------------------------------
 * Net trade costs with internal zones [$]
@@ -865,9 +871,10 @@ pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
 pEnergyFuelComplete(z,f,y) = pEnergyFuel(z,f,y);
 pEnergyFuelComplete(z,"UnmetDemand",y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
+* Flows with every connected zone (alias z2), hubs without demand included
+pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Imports External",y) = sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Exports External",y) = -sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
 
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
@@ -1219,18 +1226,19 @@ Parameter
 pFlowMWSum(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y));
 pFlowMWh(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
-* Average price of exports and imports, weighted by actual flows on the lines
-pPriceExport(z,y) $(sum(Zd, pFlowMWh(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pHourlyPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+* Average price of exports and imports, weighted by actual flows on the lines.
+* Flows are taken with every connected zone (alias z2), hubs without demand included.
+pPriceExport(z,y) $(sum(z2, pFlowMWh(z,z2,y))  > 0) = (sum((sTopology(z,z2),q,d,t),  pHourlyPrice(z,q,d,t,y) *vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))
                                                            + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y) * pTradePriceExport(zext,q,d,y,t) * pHours(q,d,t)))
-                                                         /(sum(Zd, pFlowMWh(z,Zd,y))+ sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)* pHours(q,d,t)));
+                                                         /(sum(z2, pFlowMWh(z,z2,y))+ sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)* pHours(q,d,t)));
 
-pPriceImport(z,y) $(sum(Zd, pFlowMWh(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pHourlyPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
-                                                            + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y) * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))) 
-                                                         /(sum(Zd, pFlowMWh(Zd,z,y))+ sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)  * pHours(q,d,t)));
+pPriceImport(z,y) $(sum(z2, pFlowMWh(z2,z,y))  > 0) = (sum((sTopology(z2,z),q,d,t),  pHourlyPrice(z2,q,d,t,y)*vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t))
+                                                            + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y) * pTradePrice(zext,q,d,y,t) * pHours(q,d,t)))
+                                                         /(sum(z2, pFlowMWh(z2,z,y))+ sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)  * pHours(q,d,t)));
 
 * Average price at the hub, weighted by actual flows on the lines (TODO: check not with pHours)
-pPriceHub(Zt,y)$(sum(Zd, pFlowMWSum(Zt,Zd,y))   > 0) = sum((sTopology(Zt,Zd),q,d,t), pHourlyPrice(Zt,q,d,t,y)*vFlow.l(Zt,Zd,q,d,t,y))
-                                                         /sum(Zd, pFlowMWSum(Zt,Zd,y));
+pPriceHub(Zt,y)$(sum(z2, pFlowMWSum(Zt,z2,y))   > 0) = sum((sTopology(Zt,z2),q,d,t), pHourlyPrice(Zt,q,d,t,y)*vFlow.l(Zt,z2,q,d,t,y))
+                                                         /sum(z2, pFlowMWSum(Zt,z2,y));
 
 * Average yearly price paid by consumers, weighted by demand
 pPriceCountry(c,y)$pEnergyBalanceCountry(c,"Demand: GWh",y) = sum(zcmap(z,c), pPrice(z,y)*pEnergyBalance(z,"Demand: GWh",y))/pEnergyBalanceCountry(c,"Demand: GWh",y);
@@ -1249,18 +1257,18 @@ Parameter
     pCountryExportFlowMWh(c,y) "Annual exported energy [MWh] from country c"
     pCountryImportFlowMWh(c,y) "Annual imported energy [MWh] into country c";
 
-pCountryExportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,Zd)), pFlowMWh(z,Zd,y));
+pCountryExportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,z2)), pFlowMWh(z,z2,y));
 
 pPriceExportCountry(c,y)$(pCountryExportFlowMWh(c,y) > 0) =
-    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,Zd),q,d,t),
-        pHourlyPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,z2),q,d,t),
+        pHourlyPrice(z,q,d,t,y)*vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))
     / pCountryExportFlowMWh(c,y);
 
-pCountryImportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(Zd,z)), pFlowMWh(Zd,z,y));
+pCountryImportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z2,z)), pFlowMWh(z2,z,y));
 
 pPriceImportCountry(c,y)$(pCountryImportFlowMWh(c,y) > 0) =
-    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(Zd,z),q,d,t),
-        pHourlyPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z2,z),q,d,t),
+        pHourlyPrice(z2,q,d,t,y)*vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t))
     / pCountryImportFlowMWh(c,y);
 
 
