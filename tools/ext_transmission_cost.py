@@ -457,7 +457,8 @@ def selftest(data, baseline):
 
     # Scenarios that only touch internal transmission must not pick up an
     # external corridor by accident.
-    for s in ("LC_BSTN", "LC_Zangezur", "LC_CTN", "LC_FreeExp"):
+    for s in ("LC_BSTN", "LC_TRIPP", "LC_Zangezur", "LC_CTN", "LC_ArTur",
+              "LC_OnlandCorridor", "LC_FreeExpNational", "LC_FreeExp"):
         if s in npv_by:
             check("%s touches no external corridor" % s, not det.get(s))
 

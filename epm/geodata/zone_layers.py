@@ -44,7 +44,7 @@ warnings.filterwarnings('ignore', message='.*Geometry is in a geographic CRS.*',
 
 @dataclass
 class Sources:
-    """The four files one pair of layers is cut from, plus what to cut.
+    """The files one pair of layers is cut from, plus what to cut.
 
     `stem` names the output pair: `zones_{stem}.geojson`, or the unsuffixed
     `zones.geojson` / `linestring_countries.geojson` when it is None.
@@ -56,12 +56,14 @@ class Sources:
     zone_map: Path
     zones: Sequence[str]
     stem: Optional[str] = None
+    zone_centroids: Optional[Path] = None
 
     def fingerprint(self):
         """Hashes of the sources, for the `epm_source` stamp on the outputs."""
         return recipe.source_fingerprint(
             self.zcmap, self.geojson_to_epm,
-            zone_map_path=self.zone_map, zones_custom_path=self.zones_custom)
+            zone_map_path=self.zone_map, zones_custom_path=self.zones_custom,
+            zone_centroids_path=self.zone_centroids)
 
     def names(self):
         return (recipe.output_names(self.stem) if self.stem
@@ -71,8 +73,8 @@ class Sources:
 def resolve(folder, zcmap=None, zones=None, stem=..., zone_map=None):
     """Which sources apply to a data folder.
 
-    A folder may ship its own `geojson_to_epm.csv` and `zones_custom.geojson`;
-    otherwise the shared resources apply. `stem` defaults to the zcmap's own
+    A folder may ship its own `geojson_to_epm.csv`, `zones_custom.geojson`
+    and `zone_centroids.csv`; otherwise the shared resources apply. `stem` defaults to the zcmap's own
     name, so `zcmap_robg.csv` writes `zones_zcmap_robg.geojson` and cannot
     overwrite the layers of the base zoning; pass None for the unsuffixed pair.
 
@@ -96,6 +98,7 @@ def resolve(folder, zcmap=None, zones=None, stem=..., zone_map=None):
         zone_map=Path(zone_map) if zone_map else recipe.SHARED_ZONE_MAP,
         zones=list(zones) if zones else recipe.zcmap_zones(zcmap_path),
         stem=(zcmap_path.stem if zcmap_path else None) if stem is ... else stem,
+        zone_centroids=recipe.resolve_zone_centroids(folder),
     )
 
 
@@ -196,6 +199,16 @@ def build(sources=None, zone_country=None, dict_specs=None, selected_zones=None,
         empty = gpd.GeoDataFrame(geometry=[], crs='EPSG:4326')
         return empty, empty
 
+    # A zone's node is the centroid of its area unless zone_centroids.csv says
+    # otherwise. The node is what the lines join and where EPM View anchors
+    # flows and pies; the polygon itself is untouched. Only the line endpoints
+    # move: EPM View reads a lon/lat property on a polygon as an override and
+    # would take a null one as (0, 0), so nothing is written on the polygons.
+    placed = recipe.read_zone_centroids(sources.zone_centroids) if sources else {}
+    for z, lonlat in placed.items():
+        if z in centers:
+            centers[z] = list(lonlat)
+
     if zone_country is None:
         zone_country = _zone_country(sources.zcmap)
     elif not isinstance(zone_country, pd.Series):
@@ -257,6 +270,8 @@ Sources, each resolved per folder with a fallback to the shared resources:
   epm/resources/postprocess/zones.geojson     admin-0 polygons
   epm/input/<folder>/zones_custom.geojson     zones no admin area can supply
     else epm/resources/postprocess/zones_custom.geojson
+  epm/input/<folder>/zone_centroids.csv       zone -> lon, lat of its node, when
+    else epm/resources/postprocess/zone_centroids.csv   not the centroid of its area
 """
 
 

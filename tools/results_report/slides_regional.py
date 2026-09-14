@@ -1770,6 +1770,7 @@ PROJECT_NAMES = {
         "Trans-Caspian interconnector",
     ("AzerbaijanMain", "Nakhchivan"): "Zangezur corridor",
     ("Georgia", "Armenia"): "Caucasus Transmission Network (CTN)",
+    ("Armenia", "EastAna"): "Armenia-Turkiye interconnection (ArTur)",
     ("EastAna", "Georgia"): "BSTN Extension, 3rd B2B at Akhaltsikhe",
     ("Nakhchivan", "EastAna"):
         "Azerbaijan-Turkiye-Europe Green Corridor, Zangezur phase",

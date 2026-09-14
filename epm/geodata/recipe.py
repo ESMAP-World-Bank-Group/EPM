@@ -7,7 +7,7 @@ The map layers of EPM View are *derived* artefacts committed under
     zones_{stem}.geojson        one polygon per EPM zone
     linestring_{stem}.geojson   centroid-to-centroid lines between zones
 
-They are built by ``create_geojson.py`` from up to four sources:
+They are built by ``create_geojson.py`` from up to five sources:
 
     epm/input/{folder}/{stem}.csv                       zone -> country (zcmap)
     epm/input/{folder}/geojson_to_epm.csv               admin name -> zone (+ split rules),
@@ -15,6 +15,8 @@ They are built by ``create_geojson.py`` from up to four sources:
     epm/resources/postprocess/zones.geojson             admin-0 polygons
     epm/input/{folder}/zones_custom.geojson             hand-drawn areas no admin polygon
       or epm/resources/postprocess/zones_custom.geojson   supplies, in the same ADMIN schema
+    epm/input/{folder}/zone_centroids.csv               zone -> lon, lat: where a zone's node
+      or epm/resources/postprocess/zone_centroids.csv     sits when not at its area centroid
 
 Nothing regenerates them automatically, so editing any source silently leaves
 the map showing the previous zoning. To make that detectable, every file
@@ -44,6 +46,7 @@ RESOURCES_DIR = REPO_ROOT / 'epm' / 'resources' / 'postprocess'
 SHARED_GEOJSON_TO_EPM = RESOURCES_DIR / 'geojson_to_epm.csv'
 SHARED_ZONE_MAP = RESOURCES_DIR / 'zones.geojson'
 SHARED_ZONES_CUSTOM = RESOURCES_DIR / 'zones_custom.geojson'
+SHARED_ZONE_CENTROIDS = RESOURCES_DIR / 'zone_centroids.csv'
 INPUT_DIR = REPO_ROOT / 'epm' / 'input'
 
 STAMP_KEY = 'epm_source'
@@ -53,6 +56,7 @@ GENERATOR = 'epm/postprocessing/create_geojson.py'
 # next to its zcmap; otherwise the shared resources apply.
 FOLDER_GEOJSON_TO_EPM = 'geojson_to_epm.csv'
 FOLDER_ZONES_CUSTOM = 'zones_custom.geojson'
+FOLDER_ZONE_CENTROIDS = 'zone_centroids.csv'
 
 
 # ---------------------------------------------------------------------------
@@ -71,6 +75,37 @@ def resolve_zones_custom(folder):
     if local.exists():
         return local
     return SHARED_ZONES_CUSTOM if SHARED_ZONES_CUSTOM.exists() else None
+
+
+def resolve_zone_centroids(folder):
+    """Node placement file for `folder`, or None when neither override nor shared file exists."""
+    local = Path(folder) / FOLDER_ZONE_CENTROIDS
+    if local.exists():
+        return local
+    return SHARED_ZONE_CENTROIDS if SHARED_ZONE_CENTROIDS.exists() else None
+
+
+def read_zone_centroids(path):
+    """{zone: (lon, lat)} from a zone_centroids.csv, or {} when `path` is None.
+
+    The file lists only the zones whose node must not sit at the centroid of
+    their area: a grid that hangs off one corner of a country, a hub drawn as
+    a pad. Zones the current zoning does not contain are ignored, so one shared
+    file can serve several models.
+    """
+    if path is None:
+        return {}
+    df = pd.read_csv(path)
+    required = {'epm_zone', 'lon', 'lat'}
+    if not required.issubset(df.columns):
+        raise ValueError(f'{_rel(path)} must carry the columns epm_zone, lon, lat; '
+                         f'found {list(df.columns)}')
+    df = df.dropna(subset=['epm_zone', 'lon', 'lat'])
+    bad = df[(df['lon'].abs() > 180) | (df['lat'].abs() > 90)]
+    if not bad.empty:
+        raise ValueError(f'{_rel(path)}: lon/lat out of range for '
+                         f'{", ".join(bad["epm_zone"].astype(str))} (expected lon, lat order)')
+    return {str(r.epm_zone): (float(r.lon), float(r.lat)) for r in df.itertuples()}
 
 
 def zcmap_files(folder):
@@ -116,13 +151,15 @@ def _rel(path):
         return Path(path).as_posix()
 
 
-def source_fingerprint(zcmap_path, geojson_to_epm_path, zone_map_path=None, zones_custom_path=None):
+def source_fingerprint(zcmap_path, geojson_to_epm_path, zone_map_path=None, zones_custom_path=None,
+                       zone_centroids_path=None):
     """{role: {path, sha256}} for every source a generated file was built from."""
     entries = {
         'zcmap': zcmap_path,
         'geojson_to_epm': geojson_to_epm_path,
         'zone_map': zone_map_path or SHARED_ZONE_MAP,
         'zones_custom': zones_custom_path,
+        'zone_centroids': zone_centroids_path,
     }
     return {
         role: {'path': _rel(p), 'sha256': file_sha256(p)}
@@ -221,7 +258,9 @@ def _check_pair(folder, zcmap_path, zones_name, linestring_name, require_exists)
     folder = Path(folder)
     geojson_to_epm = resolve_geojson_to_epm(folder)
     zones_custom = resolve_zones_custom(folder)
-    expected = source_fingerprint(zcmap_path, geojson_to_epm, zones_custom_path=zones_custom)
+    zone_centroids = resolve_zone_centroids(folder)
+    expected = source_fingerprint(zcmap_path, geojson_to_epm, zones_custom_path=zones_custom,
+                                  zone_centroids_path=zone_centroids)
     declared_zones = set(zcmap_zones(zcmap_path))
 
     issues = []

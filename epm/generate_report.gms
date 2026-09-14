@@ -793,7 +793,7 @@ pNetPresentCostSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
 
 * Annual average cost benchmarks ($/MWh) without discounting:
 * divide yearly costs by the matching energy basis.
-pCostsPerMWh(z,sumhdr,y) =
+pCostsPerMWh(z,sumhdr,y)$pDemandEnergyZone(z,y) =
     pCosts(z,sumhdr,y)*1e6 / (pDemandEnergyZone(z,y) * 1e3);
 
 pCostsCountryPerMWh(c,sumhdr,y) =

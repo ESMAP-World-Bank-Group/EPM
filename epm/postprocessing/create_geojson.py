@@ -112,6 +112,7 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
             zone_map=Path(zone_map) if zone_map else recipe.SHARED_ZONE_MAP,
             zones=selected_zones,
             stem=output_stem,
+            zone_centroids=recipe.resolve_zone_centroids(out_dir),
         )
 
     zones_gdf, lines_gdf = zone_layers.build(
@@ -197,8 +198,8 @@ def generate_for_data_folder(folder, zcmap_path, legacy=False):
     """Generate one (zones, linestring) pair for an epm/input/data_* folder.
 
     Sources are resolved per folder: a data folder may ship its own
-    `geojson_to_epm.csv` and `zones_custom.geojson`, otherwise the shared
-    resources apply. Both outputs are stamped with the fingerprint of the
+    `geojson_to_epm.csv`, `zones_custom.geojson` and `zone_centroids.csv`,
+    otherwise the shared resources apply. Both outputs are stamped with the fingerprint of the
     sources they were built from.
 
     `legacy` writes the unsuffixed `zones.geojson` / `linestring_countries.geojson`
@@ -208,9 +209,11 @@ def generate_for_data_folder(folder, zcmap_path, legacy=False):
     zcmap_path = Path(zcmap_path)
     geojson_to_epm = freshness.resolve_geojson_to_epm(folder)
     custom_zones = freshness.resolve_zones_custom(folder)
+    zone_centroids = freshness.resolve_zone_centroids(folder)
     selected_zones = freshness.zcmap_zones(zcmap_path)
     fingerprint = freshness.source_fingerprint(
-        zcmap_path, geojson_to_epm, zones_custom_path=custom_zones
+        zcmap_path, geojson_to_epm, zones_custom_path=custom_zones,
+        zone_centroids_path=zone_centroids,
     )
     return create_geojson_for_tableau(
         geojson_to_epm=str(geojson_to_epm),
