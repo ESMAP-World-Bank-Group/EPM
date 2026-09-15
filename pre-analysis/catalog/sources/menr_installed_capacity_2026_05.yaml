@@ -1,0 +1,31 @@
+id: menr_installed_capacity_2026_05
+name: "MENR / TEİAŞ — Turkiye installed capacity as of May 2026 (official chart)"
+type: open_source
+category: official_statistics
+date: "2026-05"
+url: "https://www.teias.gov.tr/tr-TR/kurulu-guc-raporlari"
+access_note: >
+  Official bar chart "Installed Capacity as of 05.2026 (MW)" by primary source and owner
+  (EÜAŞ, private sector, unlicensed), shared as a screenshot by the task team on 2026-09-14.
+  Total 125,471 MW; natural gas 24,750 (below 20 pct of the total); domestic coal 11,550;
+  imported coal 10,462; liquids 260; hydro dam 23,868; solar 26,830 (of which 24,102
+  unlicensed); wind 15,105; hydro run of river 8,439; biomass 2,408; geothermal 1,798.
+  Monthly installed capacity reports are published by TEİAŞ at the URL above.
+coverage:
+  countries: [Turkiye]
+  years: "2026 (May)"
+# Reference only: used to check the model starting fleet, not as a model input.
+fills_epm_resources: []
+used_in:
+  - notebook: "Data/calibration/calibration_review.html"
+    charts: ["Turkiye section 7 — starting fleet vs official statistics (May 2026)"]
+quality:
+  confidence: high
+  notes: >
+    Official statistic. Used on 2026-09-14 to check the Turkiye starting fleet of
+    data_blacksea (WB EPM Turkiye v7, end-2024 TEİAŞ fleet under the 2025 label). Every
+    fuel matches within 100 MW except solar: 6.4 GW of unlicensed PV built in 2025-2026
+    is missing from the model in 2025-2026, and the model builds it itself in 2027. Fleet
+    kept unchanged for the September 2026 scenario grid; to be rebased on end-2025 for
+    every country once the TEİAŞ 2025 annual statistics are published.
+  used_in_studies: [data_blacksea]
