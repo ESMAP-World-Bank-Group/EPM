@@ -75,7 +75,7 @@ CONTOURGLGlo-Dual,Senegal,ICE,Gas,2,2035,2041,89.2,,15,8.2,89.2,30,7.7,1,1,,0.5,
 FADA2,Burkina,ICE,Diesel,1,2019,2054,7,,,,7,30,8.6,1,1,,0.2,1.2,36000,7.5,7
 KOSSODO2,Burkina,ICE,HFO,1,2022,2052,50,,,,50,30,9,1,1,,0.2,1.2,36000,7.5,50
 Ouaga-NordOuest,Burkina,ICE,Diesel,2,2026,2056,70,,,,70,30,8.6,1,1,,0.2,1.2,36000,7.5,70
-Brikama3,Gambia,ICE,HFO,1,2020,2050,21.6,,,,20,30,9,1,1,,0.2,1.2,36000,7.5,20
+Brikama3,Gambia,ICE,HFO,1,2021,2041,18.4,,,,18.4,30,9,1,1,,0.2,1.2,36000,7.5,18.4
 Bor(BOAD),GuineaBissau,ICE,HFO,2,2027,2057,15,,,8.6,15,30,9,1,1,,0.2,1.2,36000,7.5,15
 Powership1_IPP,GuineaBissau,ICE,HFO,1,2019,2068,,,,,,30,9,1,1,,0.2,1.2,36000,7.5,
 Powership2_IPP,GuineaBissau,ICE,HFO,1,2021,2068,,,,,,30,9,1,1,,0.2,1.2,36000,7.5,
@@ -98,7 +98,6 @@ GT_Ghana,Ghana,OCGT,Gas,3,2030,2060,,,15,9.8,,30,9,1,1,,0.2,0.8,20000,4,
 CALABAR/Odukpami,Nigeria,OCGT,Gas,1,2015,2050,166,,,,166,30,9,1,1,,0.1,0.8,20000,4,166
 CALABAR_Part2,Nigeria,OCGT,Gas,2,2028,2059,384,,,,384,30,9,1,1,,0.1,0.8,20000,4,384
 Akpakpa1,Benin,ICE,HFO,1,2055,2055,36,,,,36,,9,1,1,,0.2,1.2,36000,7.5,36
-Brikama II,Gambia,ICE,HFO,1,2011,2024,8.9,,,,8.9,,9,1,1,,0.2,1.2,36000,7.5,8.9
 Karpower_IPP,Gambia,ICE,HFO,1,2018,2024,36,,,,36,,9,1,1,,0.2,1.2,36000,7.5,36
 Kaloum1_IPP,Guinea,ICE,HFO,1,2015,2045,22,,,,22,,9,1,1,,0.2,1.2,36000,7.5,22
 Kaloum2_IPP,Guinea,ICE,HFO,1,2016,2046,22,,,,22,,9,1,1,,0.2,1.2,36000,7.5,22
@@ -167,9 +166,14 @@ GT_Togo,Togo,OCGT,Gas,3,2030,2054,,,12,9.9,,30,9,1,1,,0.2,0.8,20000,4,
 EGBIN,Nigeria,ST,Gas,1,1986,2055,636,,,,636,,9.806,0.6,0.6,,0.1,1,31700,5.3,636
 EGBIN_Part2,Nigeria,ST,Gas,2,2029,2059,757,,,,757,30,9.806,0.6,0.6,,0.1,1,31700,5.3,757
 HFO_NEW_Burkina,Burkina,ICE,HFO,3,2027,2057,,,,,,30,9,0.85,0.9,,0.2,1.2,36000,7.5,
-DualFuel_CAND_Gambia,Gambia,ICE,HFO,3,2028,2058,30,,2,8.6,30,30,9,1,1,,0.2,1.2,36000,7.5,30
-Kotu G5,Gambia,ICE,HFO,1,2025,2055,12.2,,,,12.2,,9,1,1,,0.2,1.2,36000,7.5,12.2
-Wartsila,Gambia,ICE,HFO,1,2025,2055,8.9,,,,8.9,,9,1,1,,0.2,1.2,36000,7.5,8.9
+Kotu G5,Gambia,ICE,HFO,1,2018,2043,11,,,,11,30,9,1,1,,0.2,1.2,36000,7.5,11
+Brikama II 1,Gambia,ICE,HFO,1,2018,2038,8.5,,,,8.5,30,9,1,1,,0.2,1.2,36000,7.5,8.5
+Brikama I 7,Gambia,ICE,HFO,1,2018,2030,5.5,,,,5.5,30,9,1,1,,0.2,1.2,36000,7.5,5.5
+Kotu 8,Gambia,ICE,HFO,1,2018,2030,5,,,,5,30,9,1,1,,0.2,1.2,36000,7.5,5
+Basse I,Gambia,ICE,HFO,1,2016,2036,2.7,,,,2.7,30,9,1,1,,0.2,1.2,36000,7.5,2.7
+Basse II,Gambia,ICE,HFO,1,2018,2038,2.7,,,,2.7,30,9,1,1,,0.2,1.2,36000,7.5,2.7
+Faraffenni I,Gambia,ICE,HFO,1,2018,2038,2.4,,,,2.4,30,9,1,1,,0.2,1.2,36000,7.5,2.4
+Faraffenni II,Gambia,ICE,HFO,1,2018,2038,2.4,,,,2.4,30,9,1,1,,0.2,1.2,36000,7.5,2.4
 HFO_NEW_Gambia,Gambia,ICE,HFO,3,2027,2057,,,,,,30,9,0.85,0.9,,0.2,1.2,36000,7.5,
 New_HFO,Guinea,ICE,HFO,3,2030,2050,,,,,,30,9,0.85,0.9,,0.2,1.2,36000,7.5,
 HFO_NEW_GuineaBissau,GuineaBissau,ICE,HFO,3,2027,2057,,,,,,30,9,0.85,0.9,,0.2,1.2,36000,7.5,
@@ -242,7 +246,7 @@ OFSHORE_WIND_GHA,Ghana,OnshoreWind,Wind,3,2035,2065,5000,,,,200,30,,1,1,,,1.3,40
 ONSHORE_WIND_BEN,Benin,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_BUR,Burkina,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
 OFSHORE_WIND_GAM,Gambia,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
-WIND_CAND_GAM,Gambia,OnshoreWind,Wind,3,2030,2060,5000,,,,44,30,,1,1,,,1.3,40000,,44
+WIND_CAND_GAM,Gambia,OnshoreWind,Wind,3,2040,2070,5000,,,,44,30,,1,1,,,1.3,40000,,44
 ONSHORE_WIND_GHA,Ghana,OnshoreWind,Wind,3,2030,2060,5000,,,,65,30,,1,1,,,1.3,40000,,65
 OFSHORE_WIND_GBI,GuineaBissau,OnshoreWind,Wind,3,2035,2065,,,,,,30,,1,1,,,1.3,40000,,
 WIND_CAND_GBI,GuineaBissau,OnshoreWind,Wind,3,2030,2060,,,,,,30,,1,1,,,1.3,40000,,
@@ -286,9 +290,9 @@ Ziga,Burkina,PV,Solar,1,2017,2042,1.1,,,,1.1,,,1,1,,,,17000,,1.1
 Ziga/Gaoua,Burkina,PV,Solar,1,2017,2042,2,,,,2,25,,1,1,,,0.97,17000,,2
 Zina Solaire,Burkina,PV,Solar,1,2024,2049,26,,,,26,25,,1,1,,,0.97,17000,,26
 23 MWp Solar PV,Gambia,PV,Solar,1,2024,2049,18,,,,18,25,,1,1,,,0.97,17000,,18
-Solar Park P1,Gambia,PV,Solar,2,2026,2051,50,,,,50,25,,1,1,,,0.97,17000,,50
-Solar Park P2,Gambia,PV,Solar,2,2026,2051,100,,,,100,25,,1,1,,,0.97,17000,,100
-PV_CAND_Gambia,Gambia,PV,Solar,3,2030,2055,30000,,,,50,25,,1,1,,,0.97,17000,,50
+Solar Park P1,Gambia,PV,Solar,2,2028,2053,50,,,,50,25,,1,1,,,0.97,17000,,50
+Solar Park P2,Gambia,PV,Solar,2,2030,2055,100,,,,100,25,,1,1,,,0.97,17000,,100
+PV_CAND_Gambia,Gambia,PV,Solar,3,2035,2060,30000,,,,50,25,,1,1,,,0.97,17000,,50
 BUI (BXC solar)_IPP,Ghana,PV,Solar,1,2021,2046,50,,,,50,,,1,1,,,,17000,,50
 Ghana_PV,Ghana,PV,Solar,1,2022,2047,,,,,,,,1,1,,,,17000,,
 Kaleo,Ghana,PV,Solar,1,2021,2046,13,,,,13,,,1,1,,,,17000,,13
