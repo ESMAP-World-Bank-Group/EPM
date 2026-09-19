@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-09-15*
+*Generated 2026-09-19*
 
 ---
 
@@ -13,7 +13,7 @@
 | Category | Item | Parameter | Description | Turkiye | Armenia | Georgia | Azerbaijan | iran_swap | AzerbaijanMain | Nakhchivan | Romania | Bulgaria |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Load | Annual demand forecast | `pDemandForecast` | Historical and projected electricity demand (GWh and MW peak) by year | — | CESI (World Bank consultant) /… (2022) | ⚠ World Bank (internal) (2022)<br>GECO ≠ Energy, Peak, Hydrogen | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/) | ⚠ Modeller expert judgment (2026) | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/)<br>GECO ≠ Hydrogen | ⚠ SSC + [Our World in Data (OWID)](https://ourworldindata.org/energy) | ⚠ Our World in Data (OWID) (2025) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) |
-| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Turkiye/EastAna | World Bank (internal) (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | Modeller expert judgment (2026) | ⚠ Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) |
+| Load | Hourly demand profile | `pDemandProfile` | Typical hourly load curve (8760 h) for a representative year | — | ⚠ proxy of Georgia | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ proxy of Turkiye (EPIAS national hourly shape) | Modeller expert judgment (2026) | ⚠ Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | Proxy load profiles (Azerbaija… (2026) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ⚠ ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) |
 | Supply | Generator database | `pGenDataInput` | Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints | ⚠ Observed annual capacity addit… (2026) + World Bank EPM Türkiye Least-Cost Model v7 (2025) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [MENR / TEİAŞ](https://www.teias.gov.tr/tr-TR/kurulu-guc-raporlari) + [TEİAŞ](https://www.teias.gov.tr/tr-TR/turkiye-elektrik-istatistikleri) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Capex, FOM, Life | ⚠ Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/)<br>GECO ≠ Capex, FOM, Life | — | ⚠ Global Energy Monitor (GEM) (2025-09) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [SSC](https://statistika.nmr.az/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒<br>GECO ≠ Capex, FOM, Life | ⚠ SSC + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | ⚠ World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | ⚠ Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) |
 | Supply | Fuel prices | `pFuelPrice` | Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ) | Türkiye gas import-parity cost… (2026-08) + World Bank EPM Türkiye Least-Cost Model v7 (2025) | South Caucasus bilateral gas c… (2026-08) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | South Caucasus bilateral gas c… (2026-08) + IMF Energy Subsidies Database | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | — | ⚠ World Bank EPM Romania v8.5 (2… (2024) | World Bank Bulgaria CCDR (2026) + World Bank EPM Romania v8.5 (2024, internal model) |
 | Supply | Plant availability | `pAvailabilityCustom` | Seasonal capacity factors for thermal, hydro, and other dispatchable units | — | ⚠ World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | — | ⚠ World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) | ⚠ SSC + World Bank EPM Georgia v8.5 (2022, internal model) | World Bank EPM Romania v8.5 (2… (2024) | ⚠ Bulgarian quarterly availabili… (2026) + [World Nuclear Association](https://world-nuclear.org/nuclear-reactor-database/) + [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) + World Bank Bulgaria CCDR |
@@ -153,7 +153,7 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#armenia-pdemandforecast) | CESI (World Bank consultant) /… (2022) | [MEDIUM] |
-| [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Turkiye/EastAna | [LOW] ⚠ |
+| [`pDemandProfile`](#armenia-pdemandprofile) | proxy of Georgia | [LOW] ⚠ |
 | [`pGenDataInput`](#armenia-pgendatainput) | CESI (World Bank consultant) /… (2022) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] |
 | [`pFuelPrice`](#armenia-pfuelprice) | South Caucasus bilateral gas c… (2026-08) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] |
 | [`pAvailabilityCustom`](#armenia-pavailabilitycustom) | World Nuclear Association (updated annually) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + EPSO | [MEDIUM] ⚠ |
@@ -211,20 +211,21 @@
 
 [&#8593; Armenia](#armenia)
 
-**Proxied from**: Turkiye/EastAna  
-**Original source**: TEİAŞ — Turkiye hourly load data (likely)
+**Proxied from**: Georgia  
+**Original source**: ENTSO-E Transparency Platform — Actual Total Load (hourly)
 
-> ⚠ **Needs review**: Obtain GSE/ANRE SCADA hourly load data for Armenia to replace Turkiye/EastAna proxy
+> ⚠ **Needs review**: Obtain EPSO hourly load data for Armenia to replace the Georgia proxy
 
-**Method**: PROXY_TurkiyeEastAna
+**Method**: PROXY_Georgia
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `PROXY_TurkiyeEastAna` | EastAna (East Anatolia) hourly shape copied verbatim — nearest zone geographically, same model |
+| 2024–2053 | `PROXY_Georgia` | Georgian 2023 hourly shape (ENTSO-E Transparency Platform, Actual Total Load), reduced to the 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline. |
+| normalisation and shape, 2026-09-19 | `PROXY_Georgia` | Redeployed by deploy_repdays.py --demand-only --adjust-shape Armenia AzerbaijanMain. Same 28 days and weights. The Georgian shape is divided by its own 2023 annual peak (it was divided by the 2018 to 2024 maximum and topped at 0.73; it now tops at 0.97, the 28 days do not contain the annual peak hour and are not stretched). Then a shape exponent is applied, p = pmax x (p / pmax)^2.270, found by bisection so that the profile load factor equals the mean forecast load factor (0.489). The peak is unchanged; the lowest value is 0.174. The Armenia rows therefore no longer equal the Georgia rows. Previous file kept as load/pDemandProfile.csv.bak_repdays_20260919. |
 
-> No Armenia SCADA or hourly load data available. Proxied from the Turkiye profile (shared across all TR zones, including EastAna). Key limitation: Armenia's residential sector relies heavily on direct electric heating (unlike Turkiye which has significant gas penetration), implying a sharper winter morning peak and a higher load factor in Q1. Profile should be replaced with GSE/ANRE SCADA data when available.
+> No Armenian hourly load data available. The shape is the Georgian one, bent to the Armenian forecast load factor; the level comes from pDemandForecast. CORRECTED 2026-09-19: this entry previously stated a Turkiye EastAna proxy, which does not match the deployed file. Key limitation: the load factor of the Georgian shape (about 0.70) is well above the one implied by the Armenian forecast (about 0.49). Without the exponent the simplified demand routine would remove about half of the energy from the off-peak hours and drive the minimum load to about zero. With it the residual energy gap spread by the routine is about 4 percent in 2030. The hourly pattern remains Georgian. Replace with EPSO hourly data when available.
 
-*Confidence: [LOW] · Last updated: 2026-05-29*
+*Confidence: [LOW] · Last updated: 2026-09-19*
 
 
 <a id="armenia-pvreprofile"></a>
@@ -383,7 +384,7 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#georgia-pdemandforecast) | World Bank (internal) (2022) | [MEDIUM] ⚠ |
-| [`pDemandProfile`](#georgia-pdemandprofile) | World Bank (internal) (2022) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [MEDIUM] |
+| [`pDemandProfile`](#georgia-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [MEDIUM] |
 | [`pGenDataInput`](#georgia-pgendatainput) | SESA (Georgian Power Sector An… (2022-07-01) + Georgia Power Sector Data Repository (WB Internal) + World Bank EPM Georgia v8.5 (2022, internal model) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [GSE Ten-Year Network Development Plan of Georgia (TYNDP 2023-2033)](https://www.gse.com.ge/komunikacia/publikaciebi/saqartvelos-gadamcemi-qselis-ganvitarebis-atwliani-gegma) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 🔒 | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#georgia-pfuelprice) | South Caucasus bilateral gas c… (2026-08) + IMF Energy Subsidies Database | [MEDIUM] |
 | [`pAvailabilityCustom`](#georgia-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + Georgia Hourly Generation Profiles by Technology 2019–2022 | [MEDIUM] ⚠ |
@@ -497,19 +498,20 @@
 
 [&#8593; Georgia](#georgia)
 
-**Source**: World Bank (internal) — Georgia Hourly Load Profile, 3% Annual Growth (2021–2040); original source undocumented (`georgia_demand_load_2022`)
+**Source**: ENTSO-E Transparency Platform — Actual Total Load (hourly) (`entsoe_hourly_load`)
 
-**Data / file**: Team/Av. 3% Load growth (hourly profiles) 2021-2040.xlsx
+**Data / file**: ENTSO-E Transparency Platform, dataset: Actual Total Load per Bidding Zone. Downloaded via entsoe-py Python client (pre-analysis/studies/blacksea_2026/run_blacksea_data.py, step_entsoe_download()). Co…
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-**Method**: DIRECT seasonal mean from 2025 hourly data, normalized by peak
+**Method**: DIRECT 2023 hourly load from the ENTSO-E Transparency Platform, reduced to 28 representative days
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT` | Hourly load profile from 2025 data in Av. 3% Load growth file (2025 = first model year), normalized by max seasonal-mean value (2105 MW in Q4 evening peak), mapped onto 28 representative days (7 daytypes × 4 seasons). Since the 2026-07-06 rebuild each daytype (d1–d7) carries a distinct hourly profile. |
+| 2024–2053 | `DIRECT` | Georgian Actual Total Load as reported by GSE to the ENTSO-E Transparency Platform (zone GE, available from December 2021), downloaded by run_blacksea_data.py. Year 2023 reduced to 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline; each daytype carries a distinct hourly profile. |
+| normalisation, 2026-09-19 | `DIRECT` | Redeployed by deploy_repdays.py --demand-only. Same 28 days and weights; every value divided by the 2023 annual peak of the series (ratio 1.327, constant). The profile was divided by the 2018 to 2024 maximum before and topped at 0.73, so under the simplified demand routine the modelled peak was 27 percent below the Peak forecast and the load was nearly flat. It now tops at 0.97: the 28 days do not contain the annual peak hour (2 234 MW on 11 August 2023) and are not stretched, because stretching would move the load factor away from the full year (0.705 for the 28 days, 0.708 for the year). Previous file kept as load/pDemandProfile.csv.bak_repdays_20260919. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-07-06*
+*Confidence: [MEDIUM] · Last updated: 2026-09-19*
 
 
 <a id="georgia-pvreprofile"></a>
@@ -715,7 +717,7 @@
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#azerbaijan-pdemandforecast) | CESI, Green Energy Corridor (A… (2026-08) 🔒 + [Our World in Data (OWID)](https://ourworldindata.org/energy) + [Ministry of Energy of Azerbaijan, 2023 electricity figures; Azerenerji, record peak load of August 2025](https://minenergy.gov.az/en/xeberler-arxivi/00149) + [SSC](https://statistika.nmr.az/) | [MEDIUM] |
-| [`pDemandProfile`](#azerbaijan-pdemandprofile) | proxy of Turkiye (ENTSO-E hourly shape, scaled to AZ energy) | [LOW] ⚠ |
+| [`pDemandProfile`](#azerbaijan-pdemandprofile) | proxy of Turkiye (EPIAS national hourly shape) | [LOW] ⚠ |
 | [`pGenDataInput`](#azerbaijan-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) + [Renewable resource potential](https://www.irena.org/Publications/2025/May/Investment-opportunities-for-utility-scale-solar-and-wind-areas-Georgia-zoning-assessment) + [RE candidate annual build-rate limits](https://www.pv-magazine.com/2026/02/05/armenia-adds-around-615-mw-of-solar-in-2025/) + [Ramp rates and minimum generation shares (CCDR parameter set, reachable subset)](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#azerbaijan-pfuelprice) | IMF (2022) + [TYNDP / IEA World Energy Outlook 2022](https://www.iea.org/reports/world-energy-outlook-2022) | [MEDIUM] |
 | [`pAvailabilityCustom`](#azerbaijan-pavailabilitycustom) | World Bank EPM Georgia v8.5 (2… (2022) + [SSC Azerbaijan](https://stat.gov.az/source/balance_energy/) + [SSC](https://statistika.nmr.az/) | [LOW] ⚠ |
@@ -804,18 +806,19 @@
 
 [&#8593; Azerbaijan](#azerbaijan)
 
-**Proxied from**: Turkiye (ENTSO-E hourly shape, scaled to AZ energy)  
-**Original source**: TEİAŞ — Turkiye hourly load data (likely)
+**Proxied from**: Turkiye (EPIAS national hourly shape)  
+**Original source**: Proxy load profiles (Azerbaijan, Nakhchivan) — built by run_blacksea_data.py
 
-> ⚠ **Needs review**: No AZ hourly load data. Replace with AZENERGY/TANAP SCADA when available.
+> ⚠ **Needs review**: No AZ hourly load data. Replace with Azerenerji SCADA when available. CORRECTED 2026-09-19: the entry previously cited an ENTSO-E Turkish shape and a seasonal mean.
 
-**Method**: PROXY Turkey ENTSO-E hourly shape, seasonal mean per quarter
+
+**Method**: PROXY Turkish EPIAS national hourly shape, year 2023, reduced to 28 representative days
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `PROXY_Turkey` | Turkey ENTSO-E hourly load profile scaled to AZ annual energy. Seasonal mean per (season, hour), normalized by peak. Q1=0.737 (winter), Q3=0.651 (summer). Same profile applied to AzerbaijanMain and Nakhchivan. No Azerbaijan-specific SCADA data available. |
+| 2024–2053 | `PROXY_Turkey` | Turkish national hourly load from EPIAS (ENTSO-E does not cover Turkiye), year 2023, reduced to 28 representative days (4 seasons x 7 daytypes). Same source shape for AzerbaijanMain and Nakhchivan. No Azerbaijani hourly load data available. Since 2026-09-19 the shape is divided by its own 2023 annual peak (tops at 0.99, was 0.93). Nakhchivan equals the EastAna rows; AzerbaijanMain carries a shape exponent on top, see the zone entry. |
 
-*Confidence: [LOW] · Last updated: 2026-06-05*
+*Confidence: [LOW] · Last updated: 2026-09-19*
 
 
 <a id="azerbaijan-pfuelprice"></a>
@@ -1200,16 +1203,17 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-> ⚠ **Needs review**: PROXY — no Azerbaijan-specific hourly load data. Turkey shape used as proxy (similar climate: continental, hot summers, cold winters). TO RECOMPUTE: run full representative-days pipeline for all Black Sea countries (including AZ) with VRE profiles when all country data is available. Command: python run_blacksea_data.py, then rerun compute_epm_demand.py --profile.
+> ⚠ **Needs review**: PROXY: no Azerbaijani hourly load data. Turkish shape used as proxy (similar climate: continental, hot summers, cold winters), bent to the forecast load factor. Replace with Azerenerji SCADA when available. CORRECTED 2026-09-19: the entry previously cited an ENTSO-E Turkish shape and a seasonal mean.
 
 
-**Method**: PROXY Turkey shape from ENTSO-E, scaled to AZ demand, seasonal mean
+**Method**: PROXY Turkish EPIAS national hourly shape, year 2023, reduced to 28 representative days
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `PROXY_Turkey` | Load shape: Turkey ENTSO-E hourly profile scaled to AZ annual energy (from run_blacksea_data.py, AZE_ANNUAL_MWH=29.3 TWh), mapped onto 28 representative days (d1–d7 × 4 seasons) — each daytype distinct since the 2026-07-06 rebuild. Q1_mean=0.737 (winter heating peak), Q3_mean=0.651 (summer). Computed via compute_epm_demand.py --country AZE --profile. |
+| 2024–2053 | `PROXY_Turkey` | Load shape: Turkish national hourly load from EPIAS (ENTSO-E does not cover Turkiye), built by run_blacksea_data.py, year 2023, reduced to 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline. |
+| normalisation and shape, 2026-09-19 | `PROXY_Turkey` | Redeployed by deploy_repdays.py --demand-only --adjust-shape Armenia AzerbaijanMain. Same 28 days and weights. The Turkish shape is divided by its own 2023 annual peak (tops at 0.99, was 0.93 on the 2018 to 2024 maximum). Then a shape exponent is applied, p = pmax x (p / pmax)^1.447, found by bisection so that the profile load factor equals the mean forecast load factor (0.600, against 0.697 for the Turkish shape). The peak is unchanged; the lowest value is 0.334. The rows therefore no longer equal the EastAna rows. The residual energy gap spread by the simplified demand routine falls to about 2 percent in 2030 (18 percent without the exponent). Previous file kept as load/pDemandProfile.csv.bak_repdays_20260919. |
 
-*Confidence: [LOW] · Last updated: 2026-06-05*
+*Confidence: [LOW] · Last updated: 2026-09-19*
 
 
 <a id="azerbaijanmain-pfuelprice"></a>
@@ -1404,13 +1408,13 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-**Method**: PROXY from AzerbaijanMain load shape (same Turkey ENTSO-E origin)
+**Method**: PROXY from AzerbaijanMain load shape (same Turkish EPIAS origin)
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `PROXY_AzerbaijanMain` | Same 24-hour × 4-quarter × 6-daytype profile as AzerbaijanMain. Nakhchivan has similar climate to southern AZ (continental, hot summers). No Nakhchivan-specific hourly load data available. |
+| 2024–2053 | `PROXY_AzerbaijanMain` | Turkish EPIAS shape on 28 representative days (4 seasons x 7 daytypes), equal to the EastAna rows. Nakhchivan has similar climate to southern AZ (continental, hot summers). No Nakhchivan-specific hourly load data available. Since 2026-09-19 the shape is divided by its own 2023 annual peak (tops at 0.99, was 0.93). No shape exponent: the forecast load factor is within 0.05 of the profile, so the rows differ from AzerbaijanMain, which carries one. |
 
-*Confidence: [LOW] · Last updated: 2026-06-10*
+*Confidence: [LOW] · Last updated: 2026-09-19*
 
 
 <a id="nakhchivan-pavailabilitycustom"></a>
@@ -1475,7 +1479,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#romania-pdemandforecast) | Our World in Data (OWID) (2025) | [LOW] ⚠ |
-| [`pDemandProfile`](#romania-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [HIGH] |
+| [`pDemandProfile`](#romania-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [HIGH] ⚠ |
 | [`pGenDataInput`](#romania-pgendatainput) | World Bank EPM Romania v8.5 (2… (2024) + [Global Energy Monitor (GEM)](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#romania-pfuelprice) | World Bank EPM Romania v8.5 (2… (2024) | [MEDIUM] ⚠ |
 | [`pAvailabilityCustom`](#romania-pavailabilitycustom) | World Bank EPM Romania v8.5 (2… (2024) | [HIGH] |
@@ -1540,13 +1544,16 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-**Method**: DIRECT seasonal mean from ENTSO-E Romania hourly load, all d1-d6 daytypes
+> ⚠ **Needs review**: Since 2026-09-19 the profile is divided by its own 2023 annual peak (tops at 0.97, was 0.86 on the 2018 to 2024 maximum). Open point: the load factor of the profile (0.72) is well above the forecast one (0.58), so the simplified demand routine would remove about 23 percent of the energy from the off-peak hours. No shape exponent applied, because Romania is in no EPM run (no scenario uses zcmap_robg.csv). Settle it before any run that includes Romania.
+
+
+**Method**: DIRECT 2023 hourly load from the ENTSO-E Transparency Platform, reduced to 28 representative days
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT` | Romania zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, RO bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.737 (winter heating peak), Q2_mean=0.631 (spring), Q3_mean=0.651 (summer AC), Q4_mean=0.698. All d1–d6 daytypes within a season share the same seasonal mean profile. Computed via compute_epm_demand.py --country ROU --profile. |
+| 2024–2053 | `DIRECT` | ENTSO-E Actual Total Load, RO bidding zone, downloaded by run_blacksea_data.py. Year 2023 reduced to 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline. Verified 2026-09-19: 28 distinct rows, d1 to d7. CORRECTED 2026-09-19: the entry previously described a seasonal mean over d1 to d6. |
 
-*Confidence: [HIGH] · Last updated: 2026-06-11*
+*Confidence: [HIGH] · Last updated: 2026-09-19*
 
 
 <a id="romania-pvreprofile"></a>
@@ -1637,7 +1644,7 @@ NOT FIXED because Romania is listed in zext.csv and the zcmap row of scenarios.c
 | Parameter | Source | Confidence |
 |---|---|---|
 | [`pDemandForecast`](#bulgaria-pdemandforecast) | World Bank Bulgaria CCDR (2026) + [Our World in Data (OWID)](https://ourworldindata.org/energy) | [MEDIUM] |
-| [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [HIGH] ⚠ |
+| [`pDemandProfile`](#bulgaria-pdemandprofile) | ENTSO-E Transparency Platform (2025) + [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/) | [HIGH] |
 | [`pGenDataInput`](#bulgaria-pgendatainput) | Global Energy Monitor (GEM) (2025-09) + World Bank Bulgaria CCDR + [EPM Generic Defaults](https://esmap-world-bank-group.github.io/EPM/input/input_parameter_guide/) | [MEDIUM] ⚠ |
 | [`pFuelPrice`](#bulgaria-pfuelprice) | World Bank Bulgaria CCDR (2026) + World Bank EPM Romania v8.5 (2024, internal model) | [MEDIUM] |
 | [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom) | Bulgarian quarterly availabili… (2026) + [World Nuclear Association](https://world-nuclear.org/nuclear-reactor-database/) + [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) + World Bank Bulgaria CCDR | [MEDIUM] ⚠ |
@@ -1678,16 +1685,13 @@ NOT FIXED because Romania is listed in zext.csv and the zcmap row of scenarios.c
 
 **Also uses**: [Black Sea hourly load + VRE, representative-days pipeline (ENTSO-E · EPİAŞ · Renewables Ninja)](https://transparency.entsoe.eu/)
 
-> ⚠ **Needs review**: Profile to be recalculated once Bulgaria is fully integrated in the representative days pipeline (run_blacksea_data.py). Current profiles are valid ENTSO-E data but within-season variability (d1–d6 differentiation) is lost — all daytypes share the same seasonal mean. Rerun when all Black Sea countries are integrated.
-
-
-**Method**: DIRECT seasonal mean from ENTSO-E Bulgaria hourly load, all d1-d6 daytypes
+**Method**: DIRECT 2023 hourly load from the ENTSO-E Transparency Platform, reduced to 28 representative days
 
 | Period | Method | Notes |
 |--------|--------|-------|
-| 2024–2053 | `DIRECT` | Bulgaria zone from blacksea_run1/reprdays_input/Load.csv (ENTSO-E hourly load, BG bidding zone, 2018–2024). Seasonal mean per (season, hour), normalized by peak. Q1_mean=0.691 (winter), Q2_mean=0.518 (spring), Q3_mean=0.533 (summer), Q4_mean=0.624. All d1–d6 daytypes share the same seasonal mean profile. Computed via compute_epm_demand.py --country BGR --profile. |
+| 2024–2053 | `DIRECT` | ENTSO-E Actual Total Load, BG bidding zone, downloaded by run_blacksea_data.py. Year 2023 reduced to 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline. Verified 2026-09-19: 28 distinct rows, d1 to d7. CORRECTED 2026-09-19: the entry previously described a seasonal mean over d1 to d6. |
 
-*Confidence: [HIGH] · Last updated: 2026-06-12*
+*Confidence: [HIGH] · Last updated: 2026-09-19*
 
 
 <a id="bulgaria-pvreprofile"></a>

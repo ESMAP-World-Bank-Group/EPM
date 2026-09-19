@@ -59,6 +59,11 @@ ESSENTIAL_INPUT = [
 
 OPTIONAL_INPUT = ["pDemandForecast"]
 
+# Simplified demand: a profile is expected to reach 1 at the zone's annual peak
+PROFILE_MAX_FLOOR = 0.95
+# Tolerated gap between the load factor of the profile and the one of the forecast
+LOAD_FACTOR_GAP_TOLERANCE = 0.05
+
 
 def _log_input_columns(gams, db):
     """Log columns and domain names for each symbol in the container (compact)."""
@@ -771,6 +776,7 @@ def _check_simplified_demand_feasibility(gams, db):
         forecast = forecast.dropna(subset=["energy", "peak"])
 
         failures, worst = [], []
+        low_max, lf_gaps = [], []
         for zone, prof in profile.groupby(level="z"):
             if zone not in forecast.index.get_level_values(0):
                 continue
@@ -793,6 +799,34 @@ def _check_simplified_demand_feasibility(gams, db):
                 worst.append((low, zone, year))
                 if low < 0:
                     failures.append((zone, year, low, peak, energy))
+
+            # Shape checks. The modelled peak is pmax * Peak, and any load factor gap is
+            # absorbed by the off-peak hours, which distorts the shape.
+            zone_fcst = forecast.xs(zone, level=0)
+            zone_fcst = zone_fcst[zone_fcst["peak"] > 0]
+            if pmax < PROFILE_MAX_FLOOR:
+                low_max.append((zone, float(pmax)))
+            if len(zone_fcst) and float(w.sum()) > 0:
+                lf_profile = float((prof * w).sum() / w.sum())
+                lf_forecast = float(
+                    (zone_fcst["energy"] * 1e3 / (zone_fcst["peak"] * float(w.sum()))).mean()
+                )
+                if abs(lf_profile - lf_forecast) > LOAD_FACTOR_GAP_TOLERANCE:
+                    lf_gaps.append((zone, lf_profile, lf_forecast))
+
+        if low_max:
+            listed = ", ".join(f"{zone} {pmax:.3f}" for zone, pmax in low_max)
+            gams.printLog(
+                f"Warning: pDemandProfile peaks below {PROFILE_MAX_FLOOR} in: {listed}. "
+                "The modelled peak is that share of the Peak forecast. A profile should "
+                "be normalised on the annual peak of its own zone."
+            )
+        for zone, lf_profile, lf_forecast in lf_gaps:
+            gams.printLog(
+                f"Warning: zone {zone}: load factor of pDemandProfile is {lf_profile:.3f} "
+                f"against {lf_forecast:.3f} in pDemandForecast (mean over years). The gap "
+                "is closed on the off-peak hours, which reshapes the load."
+            )
 
         if failures:
             strict = _strict_demand_enabled(db)

@@ -158,6 +158,11 @@ def _ensure_normalized_series(df: pd.DataFrame, value_col: str, name: str = "", 
             print(f"{label}Cannot normalize '{value_col}' because max is 0 or NaN.")
         return df_checked
     if max_val <= 1 and min_val >= 0:
+        # Already within [0,1]: left as is. Say so when the maximum is below 1, since a load
+        # series scaled on another reference (other years, other zones) passes here unnoticed.
+        if verbose and max_val < 0.999:
+            print(f"{label}'{value_col}' is within [0,1] and left unscaled, but its max is {max_val:.4g}. "
+                  "Expected for capacity factors; a load series should reach 1 in every zone.")
         return df_checked
     if verbose:
         print(f"{label}Normalizing '{value_col}' to [0,1] (max={max_val:.4g}).")

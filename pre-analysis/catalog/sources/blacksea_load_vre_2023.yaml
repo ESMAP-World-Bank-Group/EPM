@@ -45,8 +45,24 @@ access_note: >
 
   REPRESENTATIVE DAYS (Poncelet et al. 2017): 4 calendar seasons x 7 days = 28 slices.
   Per season: 4 clustered "representative" days + 3 extreme days (min_PV, min_Wind, max_Load),
-  each weighted; weights sum to 365. feature_selection=20 series to keep the GAMS optim tractable.
+  each weighted; weights sum to 365. One regional run per season. Features: 45 raw series
+  (15 zones x load, PV, wind) plus their 990 pairwise products = 1 035; feature_selection keeps
+  45 of them (19 raw, 26 pairwise) so the GAMS optim stays tractable. (CORRECTED 2026-09-19:
+  this entry said 20.)
   Validated: load duration curves reproduced (peak error 0-2.4%).
+
+  FIXED 2026-09-19, load normalisation: until that date the deployed load profiles were divided
+  by the 2018 to 2024 maximum of each series instead of the 2023 peak. They topped at 0.73
+  (Georgia, Armenia) and 0.93 (Turkish shape, Azerbaijan), so under the simplified demand
+  routine the modelled peak was that share of the Peak forecast. deploy_repdays.py now divides
+  each zone by its own 2023 annual peak: 0.97 (Georgia, Armenia), 0.99 (Turkish shape), 0.97
+  (Romania), 0.98 (Bulgaria, unchanged). Same 28 days and weights, no stretching to 1.
+  Armenia and AzerbaijanMain also carry a shape exponent (2.270 and 1.447) that brings the proxy
+  shape to the forecast load factor, peak unchanged. Results produced before that date carry
+  the understated peaks.
+  The "extreme" days are cluster medoids, not the single most extreme day of the season: the
+  day closest to the centre of the cluster with the highest summed load (or lowest PV, wind),
+  weighted by the cluster size.
 
 coverage:
   countries: [Turkiye, Georgia, Armenia, Azerbaijan, Romania, Bulgaria]

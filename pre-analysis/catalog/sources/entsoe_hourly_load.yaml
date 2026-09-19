@@ -20,22 +20,20 @@ access_note: >
   compute_representative_days pipeline (blacksea_run1).
   Each zone normalized to a load factor profile (0–1) for use in pDemandProfile.
 coverage:
-  countries: [Romania, Bulgaria]
-  years: "2018–2024 hourly"
+  countries: [Romania, Bulgaria, Georgia]
+  years: "2018–2024 hourly (Georgia from December 2021)"
 fills_epm_resources:
   - resource: pDemandProfile
     coverage: >
-      Romania (RO bidding zone) and Bulgaria (BG bidding zone).
-      Seasonal mean per (season, hour) across 6 representative daytypes (d1–d6).
-      All d1–d6 daytypes within a season share the same mean profile (simplified approach;
-      within-season variability is lost).
-      Computed via pre-analysis/compute_epm_demand.py --country ROU/BGR --profile.
+      Romania (RO bidding zone), Bulgaria (BG bidding zone) and Georgia (zone GE, data
+      reported by GSE). The Georgian shape is also the proxy for Armenia.
+      Year 2023 reduced to 28 representative days (4 seasons x 7 daytypes, d1 to d7) by the
+      regional representative days pipeline; each daytype carries a distinct hourly profile.
+      CORRECTED 2026-09-19: this entry previously described a seasonal mean over d1 to d6.
 quality:
   confidence: high
   notes: >
     ENTSO-E Actual Total Load is TSO-reported metered consumption, the authoritative
-    source for European country-level hourly demand shapes. High quality for both
-    Romania and Bulgaria. Known limitation: all daytypes within a season share the
-    same mean profile — within-season peak-vs-off-peak differentiation is lost until
-    the full representative days pipeline is rerun with per-daytype segmentation.
+    source for European country-level hourly demand shapes. High quality for Romania and
+    Bulgaria. Georgia: shorter history and a few metering spikes, removed in the pipeline.
   used_in_studies: [data_blacksea]

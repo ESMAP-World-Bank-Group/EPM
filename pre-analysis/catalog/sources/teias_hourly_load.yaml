@@ -17,6 +17,7 @@ quality:
   confidence: low
   notes: >
     Source institution not confirmed in available files. Attributed to TEİAŞ based on
-    standard EPM Turkiye modelling practice. Used as LOW-confidence proxy for Armenia
-    pDemandProfile — see Armenia provenance note for limitations.
+    standard EPM Turkiye modelling practice. CORRECTED 2026-09-19: no longer the source of
+    any Black Sea pDemandProfile. The Turkish zones, Azerbaijan and Nakhchivan use the EPIAS
+    national shape (see blacksea_load_vre_2023); Armenia uses the Georgian ENTSO-E shape.
   used_in_studies: [data_blacksea]

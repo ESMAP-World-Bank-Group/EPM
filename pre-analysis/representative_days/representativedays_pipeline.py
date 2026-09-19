@@ -1057,10 +1057,22 @@ def format_epm_demandprofile(df_energy, repr_days, folder, name_data=''):
     t = repr_days.copy()
     t = t.drop(columns=[c for c in ['rule'] if c in t.columns])
     t = t.set_index(['season', 'day'])
+    annual_max = pDemandProfile.max()
     pDemandProfile = pDemandProfile.unstack('hour')
     # select only the representative days
     pDemandProfile = pDemandProfile.loc[t.index, :]
     pDemandProfile = pDemandProfile.stack('zone', future_stack=True)
+
+    # EPM models the peak as profile max x Peak forecast: report what each zone will reach
+    selected_max = pDemandProfile.max(axis=1).groupby(level='zone').max()
+    print('pDemandProfile maxima per zone (full year | selected days):')
+    for zone in annual_max.index:
+        print(f'  {zone}: {annual_max[zone]:.4f} | {selected_max[zone]:.4f}')
+    low = annual_max[annual_max < 0.999]
+    if len(low):
+        print(f'WARNING: load input does not reach 1 over the year for {", ".join(low.index)}. '
+              'The modelled peak will fall short of the Peak forecast by the same ratio. '
+              'Scale each zone on its own annual peak before running the pipeline.')
 
     pDemandProfile = pd.merge(pDemandProfile.reset_index(), t.reset_index(), on=['season', 'day']).set_index(
         ['zone', 'season', 'daytype'])

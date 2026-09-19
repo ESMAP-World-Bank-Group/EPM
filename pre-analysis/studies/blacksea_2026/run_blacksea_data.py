@@ -61,6 +61,10 @@ AZE_ANNUAL_MWH  = 29_300_000   # ~29.3 TWh (AzerbaijanMain)
 NAKH_ANNUAL_MWH = 500_000      # ~0.5 TWh (Nakhchivan)
 TUR_ANNUAL_MWH  = 290_000_000  # ~290 TWh (proxy — ENTSO-E does not cover Turkey)
 
+# Load spike filter: an hour is a spike when above SPIKE_FACTOR x the SPIKE_QUANTILE of its year
+SPIKE_QUANTILE  = 0.999
+SPIKE_FACTOR    = 1.10
+
 # ENTSO-E countries — Turkey excluded (not an ENTSO-E member)
 ENTSOE_COUNTRIES = ["Romania", "Bulgaria", "Georgia"]
 
@@ -165,17 +169,42 @@ def disaggregate_turkey_load(national_df: pd.DataFrame) -> dict[str, pd.DataFram
     return zones
 
 
+def remove_load_spikes(s: pd.Series, zone: str) -> pd.Series:
+    """Replace isolated metering spikes by time interpolation, year by year.
+
+    A value is a spike when it exceeds SPIKE_FACTOR times the SPIKE_QUANTILE of its own year.
+    Only the flagged hours are changed; existing gaps are left for the downstream step.
+    """
+    years = s.index.year
+    spikes = pd.Series(False, index=s.index)
+    for year in np.unique(years):
+        in_year = years == year
+        cap = SPIKE_FACTOR * s[in_year].quantile(SPIKE_QUANTILE)
+        flagged = in_year & (s > cap).to_numpy()
+        if flagged.any():
+            print(f"[load] {zone} {year}: {int(flagged.sum())} spike hours above {cap:.0f} MW "
+                  f"(max {s[flagged].max():.0f} MW) replaced by interpolation")
+            spikes |= flagged
+    if not spikes.any():
+        return s
+    filled = s.mask(spikes).interpolate(method="time", limit_direction="both")
+    out = s.copy()
+    out[spikes] = filled[spikes]
+    return out
+
+
 def to_reprdays_format(zone_loads: dict[str, pd.DataFrame], output_path: Path) -> Path:
     """Convert {zone: hourly_df} to representative-days input CSV (zone, month, day, hour, value).
 
-    Values are normalized 0–1 within each zone (peak = 1).
+    Values are normalized 0–1 within each zone AND each year (annual peak = 1), after spike removal.
+    EPM models the peak as profile max x Peak forecast, so the year extracted downstream must
+    reach 1 on its own. A single multi-year maximum would leave every other year below 1.
     """
     records = []
     for zone, df in zone_loads.items():
-        s = df["load_mw"].copy()
-        peak = s.max()
-        if peak > 0:
-            s = s / peak
+        s = remove_load_spikes(df["load_mw"].copy(), zone)
+        annual_peak = s.groupby(s.index.year).transform("max")
+        s = s / annual_peak.where(annual_peak > 0)
         tmp = pd.DataFrame({
             "zone":  zone,
             "year":  df.index.year,
