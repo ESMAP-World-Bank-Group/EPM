@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-09-19*
+*Generated 2026-09-20*
 
 ---
 
@@ -222,10 +222,11 @@
 |--------|--------|-------|
 | 2024–2053 | `PROXY_Georgia` | Georgian 2023 hourly shape (ENTSO-E Transparency Platform, Actual Total Load), reduced to the 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline. |
 | normalisation and shape, 2026-09-19 | `PROXY_Georgia` | Redeployed by deploy_repdays.py --demand-only --adjust-shape Armenia AzerbaijanMain. Same 28 days and weights. The Georgian shape is divided by its own 2023 annual peak (it was divided by the 2018 to 2024 maximum and topped at 0.73; it now tops at 0.97, the 28 days do not contain the annual peak hour and are not stretched). Then a shape exponent is applied, p = pmax x (p / pmax)^2.270, found by bisection so that the profile load factor equals the mean forecast load factor (0.489). The peak is unchanged; the lowest value is 0.174. The Armenia rows therefore no longer equal the Georgia rows. Previous file kept as load/pDemandProfile.csv.bak_repdays_20260919. |
+| gap filling, 2026-09-20 | `PROXY_Georgia` | The Georgian series has no data from 15 to 22 August 2023 and representative day Q3 d5 (16 August, weight 11 days) fell inside the straight line that filled the gap. Gaps longer than 6 hours now take the mean of the same hour one week before and one week after (see the Georgia entry). The shape exponent was solved again on the corrected shape: 2.229 (was 2.270), load factor 0.489, peak unchanged at 0.97, lowest value 0.179. Q3 d5 now runs from 0.31 to 0.94; the 27 other days move by less than 0.007. Previous file kept as load/pDemandProfile.csv.bak_repdays_20260920. |
 
 > No Armenian hourly load data available. The shape is the Georgian one, bent to the Armenian forecast load factor; the level comes from pDemandForecast. CORRECTED 2026-09-19: this entry previously stated a Turkiye EastAna proxy, which does not match the deployed file. Key limitation: the load factor of the Georgian shape (about 0.70) is well above the one implied by the Armenian forecast (about 0.49). Without the exponent the simplified demand routine would remove about half of the energy from the off-peak hours and drive the minimum load to about zero. With it the residual energy gap spread by the routine is about 4 percent in 2030. The hourly pattern remains Georgian. Replace with EPSO hourly data when available.
 
-*Confidence: [LOW] · Last updated: 2026-09-19*
+*Confidence: [LOW] · Last updated: 2026-09-20*
 
 
 <a id="armenia-pvreprofile"></a>
@@ -510,8 +511,9 @@
 |--------|--------|-------|
 | 2024–2053 | `DIRECT` | Georgian Actual Total Load as reported by GSE to the ENTSO-E Transparency Platform (zone GE, available from December 2021), downloaded by run_blacksea_data.py. Year 2023 reduced to 28 representative days (4 seasons x 7 daytypes) by the regional representative days pipeline; each daytype carries a distinct hourly profile. |
 | normalisation, 2026-09-19 | `DIRECT` | Redeployed by deploy_repdays.py --demand-only. Same 28 days and weights; every value divided by the 2023 annual peak of the series (ratio 1.327, constant). The profile was divided by the 2018 to 2024 maximum before and topped at 0.73, so under the simplified demand routine the modelled peak was 27 percent below the Peak forecast and the load was nearly flat. It now tops at 0.97: the 28 days do not contain the annual peak hour (2 234 MW on 11 August 2023) and are not stretched, because stretching would move the load factor away from the full year (0.705 for the 28 days, 0.708 for the year). Previous file kept as load/pDemandProfile.csv.bak_repdays_20260919. |
+| gap filling, 2026-09-20 | `DIRECT` | The ENTSO-E series has no data from 15 August 10h to 22 August 20h 2023 (179 hours). The gap was interpolated in a straight line, and representative day Q3 d5 (16 August, weight 11 days) fell entirely inside it: a flat day at 0.90 to 0.93 of the peak. Gaps longer than 6 hours now take the mean of the same hour one week before and one week after (run_blacksea_repdays.py --patch-gaps-only); shorter gaps stay interpolated. Q3 d5 now runs from 0.58 at night to 0.96 at midday, mean 0.81 (was 0.91). It remains the highest summer day, which reflects the heat wave of 7 to 15 August 2023. Only this row changes; the 28 days, their weights and the profile maximum (0.97) are unchanged. No other zone has a gap on a selected day. Previous file kept as load/pDemandProfile.csv.bak_repdays_20260920. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-09-19*
+*Confidence: [MEDIUM] · Last updated: 2026-09-20*
 
 
 <a id="georgia-pvreprofile"></a>

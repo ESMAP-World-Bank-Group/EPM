@@ -27,19 +27,82 @@ SEASONS_MAP = {1: 1, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 3, 8: 3, 9: 3, 10: 4, 11: 
 EXCLUDE_ZONES = []
 
 
+LONG_GAP_HOURS = 6  # above this, a straight line erases the daily shape
+WEEK = 168
+
+
+def fill_zone_gaps(s: pd.Series) -> pd.Series:
+    """Fill the NaN hours of one zone (hourly, sorted in time).
+
+    Short gaps are interpolated in time. Gaps longer than LONG_GAP_HOURS take the mean of the same
+    hour one week before and one week after, which keeps a daily shape; a side that is itself
+    missing is ignored. Whatever is left is interpolated.
+    """
+    v = s.to_numpy(dtype=float).copy()
+    na = pd.Series(v).isna()
+    run = (na != na.shift()).cumsum()
+    long_gap = na & (na.groupby(run).transform("size") > LONG_GAP_HOURS)
+    for i in long_gap[long_gap].index:
+        sides = [s.iloc[j] for j in (i - WEEK, i + WEEK) if 0 <= j < len(v) and not na.iloc[j]]
+        if sides:
+            v[i] = sum(sides) / len(sides)
+    return pd.Series(v, index=s.index).interpolate(limit_direction="both")
+
+
+def filled_load(year: int) -> pd.DataFrame:
+    """Hourly load of the chosen year, all zones, ENTSO-E gaps filled."""
+    load = pd.read_csv(RUN1 / "reprdays_input" / "Load.csv")
+    load_y = load[load["year"] == year][["zone", "month", "day", "hour", "value"]].copy()
+    n_nan = int(load_y["value"].isna().sum())
+    load_y = load_y.sort_values(["zone", "month", "day", "hour"])
+    load_y["value"] = load_y.groupby("zone")["value"].transform(fill_zone_gaps)
+    if n_nan:
+        print(f"[blacksea-repdays] Load {year}: filled {n_nan} NaN hours (ENTSO-E gaps)")
+    return load_y
+
+
+def patch_gaps(year: int):
+    """Apply the gap filling to the existing outputs without selecting the days again.
+
+    Rewrites the hourly input, the season file and the pDemandProfile rows of the selected days
+    whose hourly load changed. pHours and the selection stay as they are.
+    """
+    load_y = filled_load(year)
+    p = INPUT_DIR / f"Load_{year}.csv"
+    old = pd.read_csv(p).sort_values(["zone", "month", "day", "hour"])
+    changed = (old["value"].to_numpy() - load_y["value"].to_numpy()).__abs__() > 1e-9
+    print(f"[blacksea-repdays] {int(changed.sum())} hours changed: "
+          f"{load_y[changed].groupby('zone').size().to_dict()}")
+    load_y.to_csv(p, index=False)
+
+    season_path = OUTPUT_DIR / f"Load_{year}_season.csv"
+    season = pd.read_csv(season_path)
+    vcol = [c for c in season.columns if c not in ("zone", "season", "day", "hour")][0]
+    order = season.sort_values(["zone", "season", "day", "hour"]).index
+    assert (season.loc[order, "zone"].to_numpy() == load_y["zone"].to_numpy()).all()
+    season.loc[order, vcol] = load_y["value"].to_numpy()
+    season.to_csv(season_path, index=False)
+
+    rep = pd.read_csv(OUTPUT_DIR / "repr_days.csv")
+    prof_path = OUTPUT_DIR / "pDemandProfile.csv"
+    prof = pd.read_csv(prof_path)
+    tcols = [c for c in prof.columns if c.startswith("t")]
+    snum = season["season"].map(lambda q: f"Q{q}")
+    for _, r in rep.iterrows():
+        for zone in prof["zone"].unique():
+            day = season[(season["zone"] == zone) & (snum == r["season"]) & (season["day"] == r["day"])]
+            new = day.sort_values("hour")[vcol].round(4).to_numpy()
+            rows = (prof["zone"] == zone) & (prof["season"] == r["season"]) & (prof["daytype"] == r["daytype"])
+            if abs(prof.loc[rows, tcols].to_numpy()[0] - new).max() > 1e-4:
+                prof.loc[rows, tcols] = new
+                print(f"[blacksea-repdays] pDemandProfile {zone} {r['season']} {r['daytype']} rebuilt")
+    prof.to_csv(prof_path, index=False)
+
+
 def extract_year(year: int) -> dict:
     INPUT_DIR.mkdir(parents=True, exist_ok=True)
     out = {}
-    # Load: filter chosen year, drop year col
-    load = pd.read_csv(RUN1 / "reprdays_input" / "Load.csv")
-    load_y = load[load["year"] == year][["zone", "month", "day", "hour", "value"]].copy()
-    # Fill ENTSO-E hourly gaps (NaN) by per-zone time interpolation (both directions)
-    n_nan = int(load_y["value"].isna().sum())
-    load_y = load_y.sort_values(["zone", "month", "day", "hour"])
-    load_y["value"] = load_y.groupby("zone")["value"].transform(
-        lambda s: s.interpolate(limit_direction="both"))
-    if n_nan:
-        print(f"[blacksea-repdays] Load {year}: interpolated {n_nan} NaN hours (ENTSO-E gaps)")
+    load_y = filled_load(year)
     p = INPUT_DIR / f"Load_{year}.csv"
     load_y.to_csv(p, index=False)
     out["Load"] = str(p)
@@ -62,7 +125,13 @@ def main():
     ap.add_argument("--n-clusters", type=int, default=8)
     ap.add_argument("--feature-selection", type=int, default=20,
                     help="keep only N representative series before the Poncelet optim (tractability)")
+    ap.add_argument("--patch-gaps-only", action="store_true",
+                    help="refill the load gaps in the existing outputs, keep the selected days")
     args = ap.parse_args()
+
+    if args.patch_gaps_only:
+        patch_gaps(args.year)
+        return
 
     input_files = extract_year(args.year)
     print(f"[blacksea-repdays] Year {args.year} inputs: {input_files}")
