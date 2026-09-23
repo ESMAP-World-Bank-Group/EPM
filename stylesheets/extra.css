@@ -32,23 +32,32 @@
    near-black on a near-black bar. Colours are set on `.md-banner ...` (higher
    specificity) rather than by weakening the `.md-typeset` rules. */
 .md-banner {
-  background-color: var(--esmap-navy);
-  border-bottom: 2px solid var(--esmap-gold);
+  background-color: #234465;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.md-banner__inner,
+/* Half the default height and a notch under the default 0.7rem type, so the
+   strip reads as a footnote to the header rather than a second header. */
+.md-banner .md-banner__inner {
+  font-size: 0.62rem;
+  line-height: 1.5;
+  margin: 0.3rem auto;
+}
+
+.md-banner .md-banner__inner,
 .md-banner .md-typeset,
 .md-banner .md-typeset p {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .md-banner .md-typeset strong {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
 }
 
 .md-banner .md-typeset a {
-  color: #E8A800;
-  font-weight: 600;
+  color: #E8B44C;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
