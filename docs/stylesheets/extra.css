@@ -26,6 +26,37 @@
   --md-code-bg-color:                 #1e2a3a;
 }
 
+/* ---------- Announcement banner ----------
+   The banner's inner element carries `md-typeset`, so the generic `.md-typeset`
+   colour rules below would win over Material's banner colour and paint the text
+   near-black on a near-black bar. Colours are set on `.md-banner ...` (higher
+   specificity) rather than by weakening the `.md-typeset` rules. */
+.md-banner {
+  background-color: var(--esmap-navy);
+  border-bottom: 2px solid var(--esmap-gold);
+}
+
+.md-banner__inner,
+.md-banner .md-typeset,
+.md-banner .md-typeset p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.md-banner .md-typeset strong {
+  color: #ffffff;
+}
+
+.md-banner .md-typeset a {
+  color: #E8A800;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.md-banner .md-typeset a:hover {
+  color: #ffffff;
+}
+
 /* ---------- Page background ---------- */
 .md-main {
   background-color: var(--content-bg);
@@ -86,19 +117,42 @@
   letter-spacing: 0.01em;
 }
 
-/* Search bar */
-.md-search__input {
+/* Search bar - idle: tinted box in the dark header.
+   Material swaps the form to a white sheet once search is active
+   ([data-md-toggle=search]:checked), so the idle colours are scoped to the idle
+   state and the input keeps Material's own `color: inherit`. */
+.md-search__form {
   background-color: rgba(255, 255, 255, 0.14);
   border-radius: 8px;
-  color: #ffffff;
+}
+
+.md-search__form:hover {
+  background-color: rgba(255, 255, 255, 0.22);
 }
 
 .md-search__input::placeholder {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.md-search__icon {
-  color: rgba(255, 255, 255, 0.7) !important;
+.md-search__input + .md-search__icon,
+.md-search__options > .md-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Active search - white sheet, so text and icons go dark */
+[data-md-toggle="search"]:checked ~ .md-header .md-search__form {
+  background-color: var(--md-default-bg-color);
+  border-radius: 8px 8px 0 0;
+}
+
+[data-md-toggle="search"]:checked ~ .md-header .md-search__input {
+  color: var(--md-default-fg-color);
+}
+
+[data-md-toggle="search"]:checked ~ .md-header .md-search__input::placeholder,
+[data-md-toggle="search"]:checked ~ .md-header .md-search__input + .md-search__icon,
+[data-md-toggle="search"]:checked ~ .md-header .md-search__options > .md-icon {
+  color: var(--md-default-fg-color--light);
 }
 
 /* ---------- Nav tabs — slightly darker than header ---------- */
