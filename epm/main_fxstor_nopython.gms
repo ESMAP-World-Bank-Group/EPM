@@ -164,7 +164,6 @@ Sets
    gmap(g,z,tech,f) 'Generator-to-zone/technology/fuel mapping'
    sRelevant(d) 'Days where minimum generation limits apply'
    mapTS(q,d,t,AT) 'Mapping from season/day/hour tuples to chronological AT index'
-   sStorageLinkedPlant(g,g) 'Storage unit linked to plant (Linked plant column of pStorageDataInput)'
 ;
 
 alias (z,z2), (g,g1,g2);
@@ -283,10 +282,8 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 $load pMaxFuellimit pMaxGenerationByFuel pMinGenByFuel pMaxShareGenerationByTech pTransferLimit pCountryBuildLimitY pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
-$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem
-* $loadDC: a "Linked plant" name that is not a known generator raises a domain error instead of being dropped
-$loadDC sStorageLinkedPlant
-$load pPlanningReserveMargin
+$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pPlanningReserveMargin  
 
 * Load trade data
 $load zext, pTransmissionHeader
@@ -310,77 +307,10 @@ $if %DEBUG%==1 $gdxunload input_loaded.gdx
 * Merge storage units from pStorageDataInput into generator structures
 * This ensures all units (generators + storage) are in set g and have consistent data
 *-------------------------------------------------------------------------------------
-$onMulti
-
-$onEmbeddedCode Python:
-import sys, os
-
-gms_dir = os.path.normpath(r"%modeldir%/")
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_treatment import merge_storage_into_gendata
-merge_storage_into_gendata(gams)
-$offEmbeddedCode
-
-$offMulti
-*-------------------------------------------------------------------------------------
-
-* Make input verification
-$log ##########################
-$log ### INPUT VERIFICATION ###
-$log ##########################
-
-
-$onEmbeddedCode Python:
-import sys, os
-
-# Work from the original GDX on disk so zone/set pruning inside GAMS
-# does not hide issues. "%cd%" points to the run directory where
-# "input.gdx" already exists.
-gms_dir = os.path.normpath(r"%modeldir%/")
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_verification import run_input_verification_from_gdx
-run_input_verification_from_gdx("input.gdx", verbose=False, log_func=gams.printLog)
-$offEmbeddedCode 
-
-
-$if not errorfree $abort PythonError in input_verification.py
-
-*-------------------------------------------------------------------------------------
-* Make input treatment
-
-$log ########################
-$log ### INPUT TREATMENT ####
-$log ########################
-
-$onMulti
-
-$onEmbeddedCode Python:
-import sys, os
-
-# get directory of the .gms file
-gms_dir = os.path.normpath(r"%modeldir%/")
-
-# ensure it's in sys.path
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_treatment import run_input_treatment
-run_input_treatment(gams)
-$offEmbeddedCode 
-
-$if not errorfree $abort PythonError in input_treatment.py
-
-$offMulti
 
 *-------------------------------------------------------------------------------------
 
-$gdxunload input_treated.gdx 
 
-$if not errorFree $abort Data errors.
 
 *-------------------------------------------------------------------------------------
 
@@ -576,7 +506,8 @@ pStorageData(g,pStorageDataHeader) = sum((z,tech,f), pStorageDataInput(g,z,tech,
 * gsmap is used for linked storage (PV+storage pairs)
 * gsmap(g2,g) means storage g is linked to generator g2
 * For standalone storage (empty "Linked plant"), gsmap remains empty
-gsmap(g2,g)$sStorageLinkedPlant(g,g2) = yes;
+* Note: If linked storage is needed, the "Linked plant" column should contain the generator name
+*gsmap(g2,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed') or stostatusmap(g,'candidate') or stostatusmap(g,'committed');
@@ -623,8 +554,8 @@ RampRate(g) = pGenData(g,"RampDnRate");
 * Map zones (`z`) to fuels (`f`) based on generator-fuel assignments (`gzmap` and `gfmap`)
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
 
-* Recreate gsmaps: STOPV units without an explicit "Linked plant" are paired with all PVwSTO plants
-gsmap(g2,g)$(so(g2) and stp(g) and not sum(g1, sStorageLinkedPlant(g,g1))) = yes;
+* Recreate gsmaps
+gsmap(g2,g)$(so(g2) and stp(g)) = yes;
 
 * H2 model specific sets
 nh(hh)  = H2statusmap(hh,'candidate');

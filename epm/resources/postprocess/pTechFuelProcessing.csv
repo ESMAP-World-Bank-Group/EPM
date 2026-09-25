@@ -28,7 +28,8 @@ CSPPlant,CSP,CSP,darkorange
 OffshoreWind,Wind,Offshore Wind,paleturquoise
 OnshoreWind,Wind,Onshore Wind,darkturquoise
 PV,Solar,PV,orange
-pvwsto,Solar,PV+Storage,orange
+PVwSTO,Solar,PV+Storage,bisque
+OCE,Ocean,OCE,royalblue
 STOPV,Battery,Solar Thermal,darkkhaki
 Storage,Battery,Battery,darkkhaki
 Storage,Water,PSH,blue
@@ -46,6 +47,8 @@ INT,Import_MOZ_HCB,Imports,tan
 INT,Import_ZAM,Imports,tan
 INT,Import_SAPP,Imports,tan
 INT,Import_BWA,Imports,tan
+INT,DSM-PB,DSM,darkorange
+INT,DSM-HH,DSM,darkorange
 EXP,Export,Exports,darkgreen
 CCGT,Gas_Moz,CCGT-Gas_Moz,coral
 ST,Coal_Bula,ST-Coal_Bula,dimgray

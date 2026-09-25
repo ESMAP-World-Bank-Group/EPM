@@ -485,6 +485,7 @@ Equations
    eSOCSupportsReserve(g,q,d,t,y)  'Ensure SOC can cover reserve commitment'
    eChargeCapacityLimit(g,q,d,t,y) 'Charging limited by power capacity'
    eChargeLimitWithPVProfile(g,q,d,t,y) 'PV-coupled storage charging limit'
+   eChargeLimitLinkedPlant(g,q,d,t,y) 'Linked storage charges only from its plant output'
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
@@ -1025,6 +1026,10 @@ eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 eChargeLimitWithPVProfile(stp,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
 
+* Charging of grid-scale storage linked to a plant ("Linked plant" column) ≤ that plant's generation
+eChargeLimitLinkedPlant(g2,q,d,t,y)$(fEnableStorage and FD(q,d,t) and sum(gsmap(g2,stg),1))..
+   sum(gsmap(g2,stg), vStorInj(stg,q,d,t,y)) =l= sum(gfmap(g2,f), vPwrOut(g2,f,q,d,t,y));
+
 * Max rate of charge decrease (ramp-down)
 eChargeRampDownLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApplyRampConstraint) and FD(q,d,t))..
    vStorInj(st,q,d,t-1,y) - vStorInj(st,q,d,t,y) =l= pGenData(st,'RampDnRate')*vCap(st,y);
@@ -1280,6 +1285,7 @@ Model PA /
    eStorageFixedDuration
    eChargeCapacityLimit
    eChargeLimitWithPVProfile
+   eChargeLimitLinkedPlant
    eChargeRampDownLimit
    eChargeRampUpLimit
    eNetChargeBalance

@@ -2016,12 +2016,14 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     
                     net_exchange = df_exchange_percentage.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
                     net_exchange.columns.name = None
+                    # If there are no exports or imports, we set them to 0 to avoid errors
+                    net_exchange['Imports'] = net_exchange.get('Imports', 0)
                     net_exchange['Exports'] = net_exchange.get('Exports', 0)
                     net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
                     net_exchange = net_exchange.reset_index()
                     net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
                     net_exchange['fuel'] = 'Net Exchange'
-                    
+
                     heatmap_plot(
                         net_exchange,
                         filename=filename,

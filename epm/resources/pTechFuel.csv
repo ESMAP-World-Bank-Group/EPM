@@ -16,7 +16,7 @@ OCGT,HFO,0,0,7
 OffshoreWind,Wind,1,1,5
 OnshoreWind,Wind,1,1,5
 PV,Solar,1,1,4
-PVwSTO,Solar,1,1,4
+PVwSTO,Solar,1,1,32
 ReservoirHydro,Water,0,1,3
 ROR,Water,1,1,3
 ST,Coal,0,0,1
@@ -44,3 +44,6 @@ INT,Import_MOZ_HCB,0,0,25
 INT,Import_ZAM,0,0,26
 INT,Import_SAPP,0,0,27
 INT,Import_BWA,0,0,28
+INT,DSM-PB,0,0,29
+INT,DSM-HH,0,0,30
+OCE,Ocean,0,1,31

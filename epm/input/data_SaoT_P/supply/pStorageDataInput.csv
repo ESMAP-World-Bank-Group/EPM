@@ -1,0 +1,11 @@
+g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,StorageDuration,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+Battery Agua Casada 1 I,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant,3,2026,2036,15,13,1,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Agua Casada 2 I,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant,3,2026,2036,15,13,2,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Agua Casada 3 I,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant,3,2026,2036,15,13,3,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Agua Casada 1 II,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant II,3,2028,2038,15,200,1,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Agua Casada 2 II,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant II,3,2028,2038,15,200,2,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Agua Casada 3 II,SaoTome,Storage,Battery,Agua Casada ACRE Solar PV Plant II,3,2028,2038,15,200,3,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Principe,Principe,Storage,Battery,Principe Solar,3,2028,2038,15,10,2,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Principe II,Principe,Storage,Battery,Principe Solar,3,2028,2038,15,10,3,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Generic SaoTome,SaoTome,Storage,Battery,,3,2028,2038,15,100,3,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,
+Battery Generic Principe,Principe,Storage,Battery,,3,2028,2038,15,20,3,,,,,0.85,0.1,,,,180,0,0,,,,,,,,,,,,,

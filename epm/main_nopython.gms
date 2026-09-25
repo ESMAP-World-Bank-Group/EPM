@@ -32,13 +32,6 @@ $offinline
 $inlinecom {  }
 $eolcom //
 
-option LP = Cplex;
-$onecho > cplex.opt
-iis 1
-writelp test.lp
-$offecho
-
-
 $if not set DEBUG $set debug 0
 $if not set EPMVERSION    $set EPMVERSION    9.0
 
@@ -61,9 +54,9 @@ $log FOLDER_INPUT is "%FOLDER_INPUT%"
 *-------------------------------------------------------------------------------------
 
 * By default modeltype is MIP
-$if not set MODELTYPE $set MODELTYPE RMIP
+$if not set MODELTYPE $set MODELTYPE MIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
-$if not set MODELTYPE   $set MODELTYPE RMIP
+$if not set MODELTYPE   $set MODELTYPE MIP
 
 * Use the relevant cplex file
 $if not set CPLEXFILE   $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
@@ -98,7 +91,7 @@ option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR
 
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
-$set BASE_FILE "base_limimp.gms"
+$set BASE_FILE "base.gms"
 $endIf
 $if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
 
@@ -164,7 +157,6 @@ Sets
    gmap(g,z,tech,f) 'Generator-to-zone/technology/fuel mapping'
    sRelevant(d) 'Days where minimum generation limits apply'
    mapTS(q,d,t,AT) 'Mapping from season/day/hour tuples to chronological AT index'
-   sStorageLinkedPlant(g,g) 'Storage unit linked to plant (Linked plant column of pStorageDataInput)'
 ;
 
 alias (z,z2), (g,g1,g2);
@@ -194,9 +186,7 @@ Parameter
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
    pMaxGenerationByFuel(z,tech,f,y)                      'Max annual generation by zone-tech-fuel [GWh]'
-   pMaxShareGenerationByTech(z,tech,y)                   'Max annual generation as share of total demand'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
-   pMinGenByFuel(c,tech,f,y)                             'Min annual generation by zone-tech-fuel [GWh]'
 
 * Storage and transmission
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
@@ -204,8 +194,6 @@ Parameter
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
-   pMaxAnnualInternalTradeShare(y,c)                     'Maximum trade share between zones'
-   
    
 * Demand parameters
    pDemandProfile(z,q,d,t)                               'Normalized demand profiles'
@@ -216,7 +204,6 @@ Parameter
    pEmissionsCountry(c,y)                                'Country emission limits (tons)'
    pEmissionsTotal(y)                                    'System-wide emission limits (tons)'
    pCarbonPrice(y)                                       'Carbon price (USD/ton CO2)'
-   pCountryBuildLimitY(c,y)                              'VRE build limit constraint per country'
    
 * Time and transfer parameters
    pHours(q<,d<,t<)                                      'Hours mapping'
@@ -280,18 +267,16 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pMaxGenerationByFuel pMinGenByFuel pMaxShareGenerationByTech pTransferLimit pCountryBuildLimitY pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
-$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem
-* $loadDC: a "Linked plant" name that is not a known generator raises a domain error instead of being dropped
-$loadDC sStorageLinkedPlant
-$load pPlanningReserveMargin
+$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pPlanningReserveMargin  
 
 * Load trade data
 $load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
-$load pTradePrice, pMaxAnnualExternalTradeShare, pMaxAnnualInternalTradeShare
+$load pTradePrice, pMaxAnnualExternalTradeShare
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -310,77 +295,6 @@ $if %DEBUG%==1 $gdxunload input_loaded.gdx
 * Merge storage units from pStorageDataInput into generator structures
 * This ensures all units (generators + storage) are in set g and have consistent data
 *-------------------------------------------------------------------------------------
-$onMulti
-
-$onEmbeddedCode Python:
-import sys, os
-
-gms_dir = os.path.normpath(r"%modeldir%/")
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_treatment import merge_storage_into_gendata
-merge_storage_into_gendata(gams)
-$offEmbeddedCode
-
-$offMulti
-*-------------------------------------------------------------------------------------
-
-* Make input verification
-$log ##########################
-$log ### INPUT VERIFICATION ###
-$log ##########################
-
-
-$onEmbeddedCode Python:
-import sys, os
-
-# Work from the original GDX on disk so zone/set pruning inside GAMS
-# does not hide issues. "%cd%" points to the run directory where
-# "input.gdx" already exists.
-gms_dir = os.path.normpath(r"%modeldir%/")
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_verification import run_input_verification_from_gdx
-run_input_verification_from_gdx("input.gdx", verbose=False, log_func=gams.printLog)
-$offEmbeddedCode 
-
-
-$if not errorfree $abort PythonError in input_verification.py
-
-*-------------------------------------------------------------------------------------
-* Make input treatment
-
-$log ########################
-$log ### INPUT TREATMENT ####
-$log ########################
-
-$onMulti
-
-$onEmbeddedCode Python:
-import sys, os
-
-# get directory of the .gms file
-gms_dir = os.path.normpath(r"%modeldir%/")
-
-# ensure it's in sys.path
-if gms_dir not in sys.path:
-    sys.path.insert(0, gms_dir)
-
-from input_treatment import run_input_treatment
-run_input_treatment(gams)
-$offEmbeddedCode 
-
-$if not errorfree $abort PythonError in input_treatment.py
-
-$offMulti
-
-*-------------------------------------------------------------------------------------
-
-$gdxunload input_treated.gdx 
-
-$if not errorFree $abort Data errors.
 
 *-------------------------------------------------------------------------------------
 
@@ -393,7 +307,6 @@ $include %HYDROGEN_FILE%
 *-------------------------------------------------------------------------------------
 * Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
-parameter stostatIndex(stostatus) / Existing 1, Candidate 3, Committed 2 /;
 parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 
 *H2 model parameter
@@ -423,8 +336,6 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatIndex(gstatus));
-stostatusmap(g,stostatus) = sum((z,tech,f),pStorageDataInput(g,z,tech,f,'status')=stostatIndex(stostatus));
-
 
 
 pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataInput(g,z,tech,f,"Heatrate"));
@@ -486,7 +397,6 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
-fApplyCapacityExpansionLimit     = pSettings("fApplyCapacityExpansionLimit");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
@@ -498,8 +408,6 @@ fApplyCountryCo2Constraint         = pSettings("fApplyCountryCo2Constraint");
 fApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
 fEnableCarbonPrice                     = pSettings("fEnableCarbonPrice");
 fEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
-
-       
 
 
 * --- Settings: Transmission and trade
@@ -576,10 +484,11 @@ pStorageData(g,pStorageDataHeader) = sum((z,tech,f), pStorageDataInput(g,z,tech,
 * gsmap is used for linked storage (PV+storage pairs)
 * gsmap(g2,g) means storage g is linked to generator g2
 * For standalone storage (empty "Linked plant"), gsmap remains empty
-gsmap(g2,g)$sStorageLinkedPlant(g,g2) = yes;
+* Note: If linked storage is needed, the "Linked plant" column should contain the generator name
+gsmap(g2,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
-ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed') or stostatusmap(g,'candidate') or stostatusmap(g,'committed');
+ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
 
 * Define existing generators (`eg(g)`) as those that are not candidates, include comitted
 eg(g)  = not ng(g);
@@ -622,9 +531,6 @@ RampRate(g) = pGenData(g,"RampDnRate");
 
 * Map zones (`z`) to fuels (`f`) based on generator-fuel assignments (`gzmap` and `gfmap`)
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
-
-* Recreate gsmaps: STOPV units without an explicit "Linked plant" are paired with all PVwSTO plants
-gsmap(g2,g)$(so(g2) and stp(g) and not sum(g1, sStorageLinkedPlant(g,g1))) = yes;
 
 * H2 model specific sets
 nh(hh)  = H2statusmap(hh,'candidate');
@@ -765,13 +671,6 @@ vBuildTransmissionLine.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;
 
-*Fix the upper limit of storage assets
-vBuildStor.up(ng,y)$(not gstatusmap(ng, 'committed')) = pStorageData(ng, "BuildLimitperYear")*pWeightYear(y);
-
-*Force the committed storage (status=2) to be build at their start year
-vBuildStor.lo(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
-vBuildStor.up(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
-
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
 vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;
 
@@ -847,7 +746,7 @@ vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg
 vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorageData(eg,"CapacityMWh");
 
 * Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
-vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pStorageData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
+vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
 
 * Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
@@ -866,17 +765,6 @@ vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 
 * Ensure storage capacity is set to zero if storage is not included in the scenario
 vCapStor.fx(ng,y)$(not fEnableStorage) = 0;
-
-
-********************* Equations for storage capacity**********************************************************
-* Fix capacity to zero for storage projects that have not yet started in a given year
-*vCap.fx(g,y)$(pStorageData(g,"StYr") > y.val) = 0;
-
-* Set the fixed capacity for existing generation projects at the start year, if they were commissioned before the model start year
-*vCap.fx(st,sStartYear)$(pStorageData(st,"StYr") < sStartYear.val) = pStorageData(st,"Capacity");
-
-* Set fixed capacity for generation projects in years where they are within their operational period
-*vCap.fx(st,y)$((pStorageData(st,"StYr") <= y.val) and (pStorageData(st,"StYr") >= sStartYear.val)) = pStorageData(st,"Capacity");
 
 
 ********************* Equations for hydrogen production**********************************************************
@@ -965,7 +853,6 @@ PA.optfile = 1;
 
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
-
 
 
 $ifThenI.solvemode %SOLVEMODE% == 2

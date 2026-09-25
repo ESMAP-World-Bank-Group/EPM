@@ -38,7 +38,7 @@ $if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
-$if not set y $set y %FOLDER_INPUT%/y_alt.csv
+$if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
 $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
@@ -413,6 +413,8 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+# Column 5 ("Linked plant") holds generator names, so it is read separately as a set
+# and skipped here: numeric values start at column 6.
 - CSVReader:
     trace: %TRACE%
     file: %pStorageDataInput%
@@ -420,8 +422,18 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: EPS}
     indexColumns: [1,2,3,4]
-    header: [1]
+    valueColumns: "6:lastCol"
+    header: true
+    stack: true
     type: par
+
+# Storage unit (column 1) linked to plant (column 5); rows with an empty "Linked plant" are dropped
+- CSVReader:
+    trace: %TRACE%
+    file: %pStorageDataInput%
+    name: sStorageLinkedPlant
+    indexColumns: [1,5]
+    type: set
 
 - CSVReader:
     trace: %TRACE%
@@ -659,7 +671,7 @@ $onEmbeddedCode Connect:
     file: %pMinGenByFuel%
     name: pMinGenByFuel
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: EPS,.nan: EPS, "":EPS}
+    valueSubstitutions: {0: EPS,.nan: 0, "":0}
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
