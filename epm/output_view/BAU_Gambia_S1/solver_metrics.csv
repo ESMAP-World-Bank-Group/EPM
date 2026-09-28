@@ -1,0 +1,4 @@
+scenario,Objective (Billion USD),Time,Peak Memory (Mb)
+baseline,379.19,3.40 min,3562.0
+TransmissionOptimal,379.19,3.43 min,3562.0
+NoTransmission,379.19,3.42 min,3562.0
