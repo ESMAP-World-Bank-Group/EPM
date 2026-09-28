@@ -9,7 +9,7 @@ Abatta1,0.85,0.85
 Abatta2,0.85,0.85
 Abatta3,0.85,0.85
 Aboisso,0.85,0.85
-Aboisso(Biokala),0.85,0.85
+Aboisso,0.85,0.85
 Adjarala,0.25,0.3
 AFAM TTP,0.85,0.85
 AFAM TTP_Part2,0.85,0.85
@@ -407,7 +407,8 @@ Solar Power Park 1st Phase,1,1
 Solar Power Park 2nd Phase,1,1
 Solar Yekepa / Buchanan,1,1
 SOLEN_GloDjigb,1,1
-Soma_4h_Gambia,1,1
+Soma_4h_Gambia_20MW,1,1
+Soma_4h_Gambia_25MW,1,1
 Songon1,0.85,0.85
 Songon2,0.85,0.85
 Songon3,0.85,0.85
