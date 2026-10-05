@@ -25,7 +25,7 @@ from pptx.oxml.ns import qn
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]                            # blacksea_2026
 SRC = ROOT / "BlackSea_regional_power_trade_followup_September2026_results.pptx"
-DST = ROOT / "BlackSea_regional_power_trade_followup_September2026_results_only.pptx"
+DST = ROOT / "BlackSea_regional_power_trade_results_September2026.pptx"
 PNGS = ROOT / "Data" / "results" / "slides"
 
 PICTURE = 13

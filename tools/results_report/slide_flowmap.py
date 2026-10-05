@@ -130,8 +130,9 @@ def main():
         R.draw_base(ax, geo, fsp)
         crop(ax, geo, reach, panel, a.height * .80)
         R.draw_flows(ax, geo, live, i, fs, scale=sc)
-        # Zoomed in on two or three countries, the outlines alone are ambiguous.
-        R.label_countries(ax, geo, shown, fsp + 1.2)
+        # Zoomed in on two or three countries, the outlines alone are ambiguous,
+        # but the names stay light and under the arrows: the flows are the point.
+        R.label_countries(ax, geo, shown, fsp + 1.2, quiet=True)
         # draw_base names the external polygons; a pseudo zone such as the Iran
         # swap has a centroid but no geometry, so its arrow would end nowhere.
         for name in pseudo:

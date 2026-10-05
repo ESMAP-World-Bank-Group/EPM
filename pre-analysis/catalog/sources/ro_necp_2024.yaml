@@ -1,0 +1,38 @@
+id: ro_necp_2024
+name: "Romania, Integrated National Energy and Climate Plan 2021-2030, 2024 update (final, English), WEM scenario"
+type: government
+category: national_plan
+url: "https://commission.europa.eu/energy-climate-change-environment/implementation-eu-countries/energy-and-climate-governance-and-reporting/national-energy-and-climate-plans_en"
+date: "2024"
+access_note: >
+  Local copy: Data/Romania/4-Literature/RO_FINAL UPDATED NECP 2024-2030 (English).pdf.
+  Used for the Romanian demand forecast (pDemandForecast), applied 2026-10-04.
+
+  Figure 96 (page 230), "Gross electricity generation by technologies, historical and
+  projected values up to 2050 (WEM)", source EUROSTAT 2020-2022 and LEAP-RO 2025-2050. The
+  text on page 229 reads the same totals as electricity consumption: "electricity
+  consumption is projected to increase steadily from 55.5 TWh in 2022 to 98.8 TWh by 2050".
+  Totals read from the figure labels and checked against the rendered page: 2022 55.5,
+  2025 58.0, 2030 73.1, 2035 83.6, 2040 88.6, 2045 93.9, 2050 98.8 TWh (+70 percent
+  2025 to 2050, as labelled).
+
+  WAM (Figure 150, page 259) not used: 59.8, 80.2, 100.3, 115.9, 132.3, 138.5 TWh for
+  2025 to 2050. It is shown as generation only, without a consumption reading in the text,
+  and carries the additional policy measures (hydrogen, electrification). WEM matches the
+  Bulgarian series (Kinesys WEM).
+coverage:
+  countries: [Romania]
+  years: "2022 observed; 2025-2050 projected in 5-year steps"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: "Romania, Energy and Peak, load/pDemandForecast.csv and cesi/pDemandForecast_cesi.csv"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_demand_romania_necp.py"
+quality:
+  confidence: medium
+  notes: >
+    The figure is labelled gross generation while the text calls it consumption. For
+    Romania the two are close in 2022 (net imports small), but the series does not separate
+    exports, own use or losses. The plan publishes no peak; Peak is derived from the
+    deployed 2023 profile (load factor 0.7156).
+  used_in_studies: [data_blacksea]

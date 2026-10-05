@@ -1,0 +1,83 @@
+id: entsoe_fleet_ro_2025
+name: "ENTSO-E Transparency Platform: Romanian installed capacity 2025 and 2026, with project and press sources on the gas pipeline and batteries (RoBg family)"
+type: open_source
+category: public_database
+url: "https://transparency.entsoe.eu/"
+date: "2026"
+access_note: >
+  Basis for the recalibration of the Romanian gas and storage fleet in the RoBg family
+  (LC_Baseline_RoBg), applied 2026-10-04. Used by no other scenario: Romania is an external
+  zone everywhere else and no earlier scenario reads these rows.
+
+  INSTALLED CAPACITY. Dataset A68, Installed Capacity per Production Type, Romania, values
+  for 2025 and 2026 (capacity at the start of each year), fetched with entsoe-py
+  (query_installed_generation_capacity) and cached in
+  Data/cache_entso_e/fleet/instcap_RO_<year>.csv.
+
+    type                     2025 MW   2026 MW   model 2025 before   model 2025 after
+    Fossil gas                 2,179     2,275        4,528               2,379
+    Solar                      1,588     2,788        2,238.5             2,238.5
+    Energy storage               137       493            0                 137
+    Lignite                    2,027     1,557
+    Hard coal                    135        90
+    Run-of-river               2,780     2,780
+    Water reservoir            3,352     3,404
+    Nuclear                    1,300     1,300
+    Wind onshore               3,027     3,068
+
+  GAS PROJECTS.
+  Iernut: Serbia Energy, Romgaz secures extension for Iernut, completion by end 2026
+  (https://serbia-energy.eu/romania-romgaz-secures-extension-for-iernut-gas-power-plant-targets-completion-by-end-of-2026/).
+  Isalnita and Turceni: News Energy and HotNews, CE Oltenia gas projects delayed,
+  commissioning December 2029
+  (https://newsenergy.ro/mintia-intra-partial-in-functiune-in-2026-proiectele-iernut-isalnita-si-turceni-raman-in-blocaj,
+  https://hotnews.ro/cu-ce-inlocuieste-complexul-energetic-oltenia-centralele-pe-carbune-inchise-in-ce-stadiu-se-afla-proiectele-de-energie-cu-trei-companii-foarte-mari-2335752).
+  Borzesti: Global Energy Monitor, status cancelled (https://www.gem.wiki/Borzesti_power_station).
+  Mintia: ActMedia and Power Engineering International, 1,700 MW CCGT by Mass Global, about
+  1,100 MW in operation by end 2026, EUR 1 billion
+  (https://actmedia.eu/energy-and-environment/the-eu-s-largest-gas-fired-power-station-the-mintia-power-station-can-supply-energy-to-the-national-grid/121069,
+  https://www.powerengineeringint.com/gas-oil-fired/romanian-coal-plant-to-be-repurposed-as-1700mw-combined-cycle-flagship/).
+  Petromidia: Energy Industry Review, cogeneration plant in operation under Rompetrol Energy
+  (https://energyindustryreview.com/energy-efficiency/petromidia-cogeneration-plant-entering-operation-under-rompetrol-energy/).
+  Alum Tulcea: Wikipedia, Alum Tulcea Power Station
+  (https://en.wikipedia.org/wiki/Alum_Tulcea_Power_Station).
+
+  BATTERIES. The Diplomat Bucharest, 21 August 2026: Transelectrica counts 989 MW and
+  1,975 MWh of storage connected on 1 August 2026
+  (https://www.thediplomat.ro/2026/08/21/transelectrica-romania-surpasses-2500-mw-of-new-generation-and-storage-capacity-connected-to-the-grid-in-2026/).
+  Balkan Green Energy News, Romania exceeds 1 GWh of battery storage
+  (https://balkangreenenergynews.com/romania-exceeds-1-gwh-in-battery-storage-capacity/).
+
+  RETIREMENT DATES (step 5c, build_fleet_retirement_robg.py).
+  Coal: the 2022 decarbonisation law, written to meet the recovery plan commitment,
+  removes coal from the power mix by the end of 2032; amended in December 2025 to slow
+  the 2025 closures (Bankwatch, https://bankwatch.org/beyond-fossil-fuels/the-energy-sector-in-romania;
+  Balkan Green Energy News, https://balkangreenenergynews.com/eu-allows-romania-to-delay-shutdown-of-coal-plants-until-end-2029/).
+  Cernavoda-1: disconnected in 2027, refurbishment in 2027-2029, back in service in 2030
+  for 30 years (World Nuclear Association,
+  https://world-nuclear.org/information-library/country-profiles/countries-o-s/romania;
+  Romania Insider, https://www.romania-insider.com/nuke-reactor-romania-technical-outage-plans).
+coverage:
+  countries: [Romania]
+  years: "installed capacity at the start of 2025 and 2026; project dates 2026-2030"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "Romania gas projects (removed, re-dated, Mintia added) and battery rows, in supply/pGenDataInput.csv, _hub, _armnuke and cesi/unwired/pGenDataInput_cesi.csv"
+  - resource: pStorageDataInput
+    coverage: "Romania battery rows with CapacityMWh, in supply/pStorageDataInput.csv and cesi/unwired/pStorageDataInput_cesi.csv"
+  - resource: pAvailabilityCustom
+    coverage: "supply/pAvailabilityCustom.csv, rows Mintia CCGT phase 1 and phase 2; three rows removed"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg/ro_fleet_entsoe.csv"
+    description: "ENTSO-E 2025 and 2026 capacity for gas, solar and storage against the model's fleet in service"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_fleet_entsoe_ro.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_fleet_retirement_robg.py"
+quality:
+  confidence: medium
+  notes: >
+    Project dates are announcements and have slipped before (Iernut, Mintia). Batteries
+    connected during 2026 (989 MW by August) are not committed rows; they enter through
+    the candidate Generic Battery Storage row. Lignite and coal are shown for reference
+    only and are handled in step 5c.
+  used_in_studies: [data_blacksea]

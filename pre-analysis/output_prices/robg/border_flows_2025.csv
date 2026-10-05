@@ -1,0 +1,9 @@
+group,zone,zext,border,p99_out_mw,p99_in_mw,export_twh,import_twh,capacity_mw
+modelled,Romania,Hungary,RO-HU,358.3,981.7,0.15,3.72,1000
+modelled,Romania,Serbia,RO-RS,610.3,807.0,0.9,1.44,800
+modelled,Bulgaria,Serbia,BG-RS,744.2,303.8,1.49,0.34,750
+modelled,Bulgaria,NorthMacedonia,BG-MK,388.8,217.7,0.99,0.22,400
+modelled,Bulgaria,Greece,BG-GR,651.8,621.4,0.95,1.1,650
+closed,Romania,Ukraine,RO-UA,322.6,723.0,0.16,2.6,700
+closed,Romania,Moldova,RO-MD,1161.2,218.4,3.26,0.09,1150
+internal,Romania,Bulgaria,RO-BG,1347.1,1393.9,2.61,2.95,1400

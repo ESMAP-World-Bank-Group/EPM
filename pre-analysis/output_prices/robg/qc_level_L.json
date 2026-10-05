@@ -1,0 +1,192 @@
+{
+  "tyndp_money_year": 2022,
+  "anchor_years": [
+    2024
+  ],
+  "currency_gate_G3bis": {
+    "Hungary": {
+      "2015": 1.0,
+      "2016": 1.0,
+      "2017": 1.0,
+      "2018": 1.0,
+      "2019": 1.0,
+      "2020": 1.0,
+      "2021": 1.0,
+      "2022": 1.0,
+      "2023": 1.0,
+      "2024": 1.0
+    },
+    "pass": true
+  },
+  "history": {
+    "Hungary": {
+      "source": "da_HU_lt_2015-01-01_2024-12-31.parquet",
+      "currency_note": "native EUR throughout",
+      "share_converted_by_year": null,
+      "last_local_currency_hour": null,
+      "dropped_years": {
+        "2025": 1
+      }
+    }
+  },
+  "zones": {
+    "Hungary": {
+      "anchor_real_eur2024": 100.82978028233151,
+      "observed_2023_real_eur2024": 109.34651113799296,
+      "observed_2024_real_eur2024": 100.82978028233151,
+      "precrisis_2015_2019_real": 56.15706724616278,
+      "crisis_2021_2023_real": 178.56287934273243,
+      "tyndp_real_eur2024": {
+        "DE": {
+          "2035": 81.1957925098442,
+          "2040": 68.63767943845232,
+          "2050": 65.8884641927752
+        },
+        "GA": {
+          "2035": 62.69570529019003,
+          "2040": 47.80537276151344,
+          "2050": 53.37438173258004
+        },
+        "NT": {
+          "2030": 88.50131266906352,
+          "2040": 92.61515310734463
+        }
+      },
+      "tyndp_as_published": {
+        "DE": {
+          "2035": 75.2383,
+          "2040": 63.6016,
+          "2050": 61.0541
+        },
+        "GA": {
+          "2035": 58.0956,
+          "2040": 44.2978,
+          "2050": 49.4582
+        },
+        "NT": {
+          "2030": 82.0078,
+          "2040": 85.8198
+        }
+      },
+      "G3_backcast": {
+        "back_cast_2023": 102.88452488454284,
+        "observed_2023_real_eur2024": 109.34651113799296,
+        "dev_pct": -5.909640999240691,
+        "tolerance_pct": 2.0,
+        "pass": false
+      },
+      "G3ter_ladder_order": {
+        "ordered_chain": [
+          "VERY_LOW",
+          "LOW",
+          "CENTRAL"
+        ],
+        "upper_unranked": [
+          "HIGH",
+          "EU_HIGH"
+        ],
+        "tested_pairs": [
+          "VERY_LOW<=LOW",
+          "LOW<=CENTRAL",
+          "CENTRAL<=HIGH",
+          "CENTRAL<=EU_HIGH"
+        ],
+        "tolerance_pct": 1.0,
+        "max_inversion_pct": 1.829373699144881,
+        "breaches": [
+          {
+            "below": "LOW",
+            "above": "CENTRAL",
+            "years": [
+              2028,
+              2029,
+              2030
+            ],
+            "max_excess_pct": 1.8293736991448735
+          },
+          {
+            "below": "CENTRAL",
+            "above": "HIGH",
+            "years": [
+              2028,
+              2029,
+              2030
+            ],
+            "max_excess_pct": 1.829373699144881
+          }
+        ],
+        "pass": false
+      },
+      "upper_bound_mirror_check": {
+        "available": true,
+        "years": {
+          "2040": {
+            "eu_high": 178.56287934273243,
+            "mirror_of_very_low": 179.4268319564785,
+            "dev_pct": 0.4838366277057025
+          },
+          "2050": {
+            "eu_high": 178.56287934273243,
+            "mirror_of_very_low": 160.70568513697816,
+            "dev_pct": -10.000507536328021
+          }
+        }
+      },
+      "anchor_sensitivity": {
+        "available": true,
+        "alt_anchor_years": [
+          2023,
+          2024
+        ],
+        "alt_anchor": 105.08814571016224,
+        "scenarios": {
+          "CENTRAL": {
+            "dev_2026_pct": 2.9351754979042783,
+            "dev_2030_pct": 0.0,
+            "dev_2040_pct": 0.0,
+            "mean_abs_dev_pct": 0.5105586814904624
+          },
+          "LOW": {
+            "dev_2026_pct": 3.5822727187410988,
+            "dev_2030_pct": 2.147817920027866,
+            "dev_2040_pct": 0.0,
+            "mean_abs_dev_pct": 0.900006496494532
+          },
+          "VERY_LOW": {
+            "dev_2026_pct": 3.7106006511123244,
+            "dev_2030_pct": 2.418637695331117,
+            "dev_2040_pct": 0.0,
+            "mean_abs_dev_pct": 0.9653271628200206
+          },
+          "HIGH": {
+            "dev_2026_pct": 2.2921208106229187,
+            "dev_2030_pct": -2.102656682993848,
+            "dev_2040_pct": 0.0,
+            "mean_abs_dev_pct": 0.6232484770319558
+          },
+          "EU_HIGH": {
+            "dev_2026_pct": 2.239933776064285,
+            "dev_2030_pct": 0.0,
+            "dev_2040_pct": 0.0,
+            "mean_abs_dev_pct": 0.4154848124562906
+          }
+        }
+      },
+      "scenario_2030": {
+        "CENTRAL": 88.50131266906352,
+        "LOW": 90.12033240642934,
+        "VERY_LOW": 80.02937574116343,
+        "HIGH": 86.9113787643837,
+        "EU_HIGH": 178.56287934273243
+      },
+      "scenario_2050": {
+        "CENTRAL": 92.61515310734463,
+        "LOW": 65.8884641927752,
+        "VERY_LOW": 53.37438173258004,
+        "HIGH": 130.18313129899047,
+        "EU_HIGH": 178.56287934273243
+      }
+    }
+  },
+  "eur_usd_2024": 1.0824
+}

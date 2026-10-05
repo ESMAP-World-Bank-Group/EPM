@@ -1,0 +1,9 @@
+scenario,zone,year,tyndp_code,value,source
+DE,Hungary,2035,HU00,75.2383,MMStandardOutputFile_DE2035_Plexos_CY2009_v11_SoS.xlsb
+DE,Hungary,2040,HU00,63.6016,MMStandardOutputFile_DE2040_Plexos_CY2009_v11_SoS.xlsb
+DE,Hungary,2050,HU00,61.0541,MMStandardOutputFile_DE2050_Plexos_CY2009_v11_SoS.xlsb
+GA,Hungary,2035,HU00,58.0956,MMStandardOutputFile_GA2035_Plexos_CY2009_v11_SoS.xlsb
+GA,Hungary,2040,HU00,44.2978,MMStandardOutputFile_GA2040_Plexos_CY2009_v11_SoS.xlsb
+GA,Hungary,2050,HU00,49.4582,MMStandardOutputFile_GA2050_Plexos_CY2009_v11_SoS.xlsb
+NT,Hungary,2030,HU00,82.0078,MMStandardOutputFile_NT2030_Plexos_CY2009_2.5_v40.xlsx
+NT,Hungary,2040,HU00,85.8198,MMStandardOutputFile_NT2040_Plexos_CY2009_2.5_v40.xlsx

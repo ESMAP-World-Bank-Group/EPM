@@ -1,0 +1,7 @@
+type,entsoe_2025,entsoe_2026,model_existing,aggregate_added,committed_2025,committed_2026_added
+Solar,6104.0,7159.0,2424.1,3679.9,338.0,717.0
+Wind Onshore,715.0,715.0,608.0,107.0,0.0,0.0
+Hydro Run-of-river and poundage,547.0,547.0,0.0,547.0,0.0,0.0
+Hydro Water Reservoir,1807.0,1807.0,1719.0,88.0,0.0,0.0
+Energy storage,1382.0,5406.0,1382.0,0.0,0.0,4024.0
+Hydro Pumped Storage,864.0,864.0,864.0,0.0,0.0,0.0

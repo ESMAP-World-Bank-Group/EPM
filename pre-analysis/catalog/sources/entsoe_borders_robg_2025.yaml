@@ -1,0 +1,100 @@
+id: entsoe_borders_robg_2025
+name: "ENTSO-E Transparency Platform: 2025 cross-border physical flows and day-ahead prices, Romanian and Bulgarian borders (RoBg family)"
+type: open_source
+category: public_database
+url: "https://transparency.entsoe.eu/"
+date: "2025"
+access_note: >
+  Basis for the external borders and the new external prices of LC_Baseline_RoBg, the
+  scenario family where Romania and Bulgaria are internal zones (zcmap_robg.csv). Applied
+  2026-10-04. Used by no other scenario: LC_Baseline and every earlier scenario keep
+  Romania and Bulgaria as external zones and read none of the files below.
+
+  CAPACITIES. Dataset A11, Cross-Border Physical Flow, calendar year 2025, both directions,
+  fetched with entsoe-py (query_crossborder_flows) and cached in
+  Data/cache_entso_e/flows/flow_<from>_<to>_2025.csv. Capacity per border = 99th percentile
+  of the flow in the dominant direction, rounded to 50 MW, symmetric, flat over all years
+  and seasons. Reproduced by pre-analysis/pipelines/build_ext_limits_robg.py, which also
+  writes the statistics to pre-analysis/output_prices/robg/border_flows_2025.csv.
+
+    border   p99 out   p99 in   export TWh   import TWh   capacity MW
+    RO-HU      358       982       0.15        3.72          1000
+    RO-RS      610       807       0.90        1.44           800
+    BG-RS      744       304       1.49        0.34           750
+    BG-MK      389       218       0.99        0.22           400
+    BG-GR      652       621       0.95        1.10           650
+    (out = from Romania or Bulgaria, in = towards it)
+
+  INTERNAL LINKS. Romania-Bulgaria becomes an internal link at 1400 MW both ways, same
+  rule (p99 RO to BG 1,347, BG to RO 1,394; year-ahead NTC 600; about 1,500 MW over the
+  three 400 kV lines in the lines workbook). Trakia-Bulgaria moves to pTransferLimit with
+  its LC_Baseline values (Bulgaria to Trakia 334, Trakia to Bulgaria 200). Loss factor
+  0.025 on both. Reproduced by pre-analysis/pipelines/build_internal_lines_robg.py.
+
+  WHY PHYSICAL FLOWS AND NOT THE PUBLISHED NTC. The year-ahead NTC on the same platform is
+  the firm slice auctioned once a year (2025: RO-HU 350, RO-RS 300, BG-RS 150, BG-GR 400 MW;
+  BG-MK has a month-ahead value only, mean 390, max 500). Romania-Hungary is allocated
+  flow-based in the Core region since 2022, so no NTC describes it. Every observed p99 sits
+  above the year-ahead value, which is the expected sign: the year-ahead NTC is a floor,
+  not the border's capability.
+
+  PRICES. Hungary is priced with the same chain as the existing EU zones (P = L x S,
+  pre-analysis/pipelines/eu_price.py and eu_price_level.py): shape S from the 2023 HU
+  day-ahead price (dataset A44, cached in Data/cache_entso_e), level L anchored on observed
+  2024 and joined to TYNDP 2024 National Trends, node HU00, CENTRAL trajectory, EUR 2024,
+  converted at 1.0824 USD/EUR. Serbia and North Macedonia take the Hungarian price: their
+  TYNDP 2024 NT 2030 marginal costs (RS00 81.8, MK00 83.1 EUR2022/MWh) are within 1.5 percent
+  of HU00 (82.0), and the cache holds no day-ahead series for either. Export side: the
+  seller bears the AC line loss of 2.5 percent; no ITC perimeter fee (all parties are inside
+  the ITC mechanism) and no CBAM (exports from Romania or Bulgaria are not imports into the
+  EU from a third country). Reproduced by pre-analysis/pipelines/build_trade_prices_robg.py.
+
+  Weighted mean Hungary price, USD/MWh: import 109.1 (2024), 95.8 (2030), 100.2 (2040);
+  export 106.4, 93.4, 97.7.
+coverage:
+  countries: [Romania, Bulgaria]
+  years: "2025 observed; held flat 2024-2053"
+  notes: >
+    Neighbours modelled as external zones in the RoBg family: Hungary, Serbia,
+    North Macedonia (zone NorthMacedonia), plus Greece already present. Ukraine and Moldova
+    are closed (option A, decided 2026-10-04).
+fills_epm_resources:
+  - resource: pExtTransferLimit
+    coverage: "trade/pExtTransferLimit_robg.csv, rows Romania-Hungary, Romania-Serbia, Bulgaria-Serbia, Bulgaria-NorthMacedonia, Bulgaria-Greece"
+  - resource: zext
+    coverage: "trade/zext_robg.csv"
+  - resource: pTransferLimit
+    coverage: "trade/pTransferLimit_robg.csv, rows Romania-Bulgaria and Trakia-Bulgaria, both directions"
+  - resource: pLossFactorInternal
+    coverage: "trade/pLossFactorInternal_robg.csv, same four rows"
+  - resource: pTradePrice
+    coverage: "trade/pTradePrice_robg.csv, rows Hungary, Serbia, NorthMacedonia"
+  - resource: pTradePriceExport
+    coverage: "trade/pTradePriceExport_robg.csv, rows Hungary, Serbia, NorthMacedonia"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg/border_flows_2025.csv"
+    description: "p99 per direction, annual energy per direction, retained capacity"
+  - path: "EPM/pre-analysis/output_prices/robg/level_L.csv"
+    description: "Hungarian price level by year and trajectory; QC in qc_level_L.json"
+  - path: "EPM/pre-analysis/output_prices/robg/shape_S.csv"
+    description: "Hungarian hourly shape on the representative days; QC in qc_shape_S.json"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_ext_limits_robg.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_trade_prices_robg.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_internal_lines_robg.py"
+quality:
+  confidence: medium
+  notes: >
+    Physical flows are measured, so the capacities are observed rather than assumed. They are
+    a usage statistic, not a rating: a border that was never stressed in 2025 is understated,
+    and the value says nothing about remedial actions or loop flows. Not inflated for future
+    reinforcements; candidate lines (Romania-Serbia and Romania-Hungary upgrades in the
+    lines workbook) are not added.
+    Prices: Hungary misses the 2023 back-cast gate G3 by 5.9 percent and shows a 1.83 percent
+    ladder inversion (G3ter), recorded in output_prices/robg/qc_level_L.json. The reference
+    EU zones carry the same class of diagnostic (Bulgaria and Greece G3, Romania G3ter) in
+    the promoted files, so the status is the same, not worse. Serbia and North Macedonia as
+    a Hungarian proxy is an ASSUMPTION.
+    Caution: closing Moldova removes a Romanian export of 3.26 TWh in 2025 (p99 1,161 MW),
+    about 5 percent of Romanian demand. Closing Ukraine removes a 2.60 TWh import.
+  used_in_studies: [data_blacksea]

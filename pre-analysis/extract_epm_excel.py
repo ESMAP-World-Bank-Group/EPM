@@ -2,7 +2,7 @@
 
 Sources
 -------
-Romania : WB_EPM_RO_12_42.xlsb  (v8.5.6)
+Romania : WB_EPM_RO_12_46.xlsb  (v8.5.6)
 Georgia : WB_EPM_v8_5.xlsb      (v8.5)
 
 Output
@@ -34,8 +34,9 @@ BASE_DIR    = Path(__file__).resolve().parent
 EPM_INPUT   = BASE_DIR.parent / "epm" / "input"
 TEMPLATE    = EPM_INPUT / "data_blacksea"
 
-RO_EXCEL = Path(r"C:\Users\wb590892\Documents\EPM_Models\black_sea_2026\Data\Romania\2-Model\WB_EPM_RO_12_42.xlsb")
-GE_EXCEL = Path(r"C:\Users\wb590892\Documents\EPM_Models\black_sea_2026\Data\Georgia\EPM_Georgia2022\Baseline\WB_EPM_v8_5.xlsb")
+DATA_DIR = BASE_DIR.parent.parent / "Data"
+RO_EXCEL = DATA_DIR / "Romania" / "2-Model" / "WB_EPM_RO_12_46.xlsb"
+GE_EXCEL = DATA_DIR / "Georgia" / "EPM_Georgia2022" / "Baseline" / "WB_EPM_v8_5.xlsb"
 
 # Year range for output CSVs
 FIRST_YEAR = 2024

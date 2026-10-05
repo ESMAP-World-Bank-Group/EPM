@@ -178,4 +178,8 @@ quality:
     Implementation: blacksea_2026/BuildLimit_method_slide.py holds the rule, builds the
     method slide (BuildLimit_method.pptx) and writes the values into the CSVs, so the
     documentation and the data come from one compute() and cannot diverge.
+    RoBg family (2026-10-04): pre-analysis/pipelines/build_buildlimits_robg.py writes the
+    same compute() values into the Romanian and Bulgarian rows (Romania had never been
+    written; nine onshore wind class rows share the national limit) and sets the named
+    projects of both countries to BuildLimitperYear = Capacity.
   used_in_studies: [data_blacksea]

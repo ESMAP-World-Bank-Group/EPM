@@ -1,49 +1,73 @@
 id: wb_epm_romania_v8
-name: "World Bank EPM Romania v8.5 (2024, internal model) — primary data sources partially documented"
+name: "World Bank EPM Romania v8.5 (internal model) — primary data sources partially documented"
 type: internal_wb
-date: "2024"
-file: "WB_EPM_RO_12_42.xlsb"
+date: "2026"
+file: "WB_EPM_RO_12_46.xlsb"
 access_note: >
-  World Bank internal EPM model for Romania, version 8.5 (2024 calibration).
-  File: WB_EPM_RO_12_42.xlsb (binary Excel format, 12 zones → 42 years).
+  World Bank internal EPM model for Romania, legacy version 8.5.6, maintained by Javier Inon.
+  File: WB_EPM_RO_12_46.xlsb (binary Excel format), received 2026-09.
+  Supersedes WB_EPM_RO_12_42.xlsb, the revision this deployment was first extracted from;
+  the Romanian block was realigned field by field on 12_46 on 2026-09-24.
   Extracted via pre-analysis/extract_epm_excel.py --country Romania.
   Zone name in xlsb: RomaniaZ → mapped to Romania.
+  The model itself is run for the Cernavoda Unit 1 long-term-operation economic analysis
+  (IFC/MIGA), which is a separate study from Black Sea; only its Romanian input data is used here.
   Primary data sources used in original model are partially documented in xlsb notes
   (ANRE, OPCOM, TRANSELECTRICA, ENTSO-E, Romania energy strategy, IEA).
 
 coverage:
   countries: [Romania]
   zones: [Romania]
-  years: "2024–2065 (model horizon)"
+  years: "2022–2062 (model horizon), 2024–2053 used here"
 
 fills_epm_resources:
   - resource: pGenDataInput
     coverage: >
-      179 generators: gas (CCGT/OCGT), nuclear (Cernavoda 1-4, refurbished-1, Doicești SMR),
-      coal (all retiring 2024-2033), biomass (Radauti), run-of-river hydro (12 plants + R-Hydro
-      aggregate), reservoir hydro (12 plants), onshore wind (23 parks + resource-tier generics),
-      PV (22 parks + Generic Solar Fixed 400 GW), committed INECP pipeline.
+      185 generators: gas (CCGT/OCGT, including two CCS generics and two hydrogen generics),
+      nuclear (Cernavoda 1-4, refurbished-1, Doicești SMR), coal (all retiring 2021-2033),
+      biomass (Radauti), run-of-river hydro (12 plants + R-Hydro aggregate), reservoir hydro
+      (12 plants) and their 22 _ext committed extensions, onshore wind (23 parks, 6 committed
+      _corrected_ blocks and 9 resource-tier generics totalling 146 GW), offshore wind
+      (22 GW fixed + 72 GW floating), PV (22 parks + Generic Solar Fixed), geothermal,
+      committed INECP pipeline. Sheet GenData, header row 6.
   - resource: pFuelPrice
     coverage: >
-      Gas, Coal, Uranium, Hydrogen, H2domestic, GasCCS trajectories 2024-2053.
-      Gas: 18.35 USD/GJ in 2024 (spot price), 9.81 from 2025 (flat baseline).
-      Uranium: trajectory 1.5→5.6 USD/GJ.
+      Gas, DomesticCoal, Uranium, Biomass, GasCCS, Hydrogen, Geothermal trajectories 2024-2053.
+      Fuel scenario switched from WBG_TM_APS to IEA WEO 2025 STEPS between revisions 12_45
+      and 12_46, so every fuel except domestic lignite moved.
+      Gas: 12.34 $/MMBtu in 2024, 9.81 in 2025, trough 6.12 in 2035, 7.91 from 2050.
+      Uranium: 0.82 → 1.29 $/MMBtu. Biomass: 15.0 flat. DomesticCoal: 4.4 flat.
   - resource: pDemandForecast
     coverage: >
-      Energy and Peak 2024-2053. Units appear to be in a different normalisation
-      than data_blacksea (3,765 GWh 2024 vs ~55,000 GWh actual). NOT used —
-      replaced by compute_epm_demand.py OWID-based forecast.
+      Energy and Peak 2024-2053, sheet Demand_Forecast, rows RomaniaZ, active scenario
+      RO_BAU_20230510_UpD2025. 58,677 GWh / 9,530 MW in 2024, 73,839 / 12,113 in 2030,
+      100,613 / 16,442 in 2040, 124,863 / 20,371 in 2053. Load factor about 0.70.
+      Adopted 2026-09-24, replacing the OWID declining extrapolation.
   - resource: pAvailabilityCustom
     coverage: >
-      181 generators: Cernavoda nuclear seasonal CFs, gas plant availability (~0.88-0.95),
-      hydro seasonal factors for all named plants.
+      Quarterly capacity factors per generator: Cernavoda nuclear seasonal CFs, gas plant
+      availability (~0.88-0.95), hydro seasonal factors for all named plants. Identical
+      between 12_42 and 12_46.
+  - resource: pCapexTrajectories
+    coverage: >
+      Sheet "Capex Trajectories", scenario StandardCAPTRAJ: 24 plant-level index series,
+      1 in 2022, declining to a plateau around 2050. 23 of them map onto Romanian rows here.
 
 quality:
   confidence: medium
   notes: >
     Well-established World Bank EPM model for Romania. Plant inventory is detailed
     (Cernavoda lifecycle, coal retirement schedule, INECP committed pipeline).
-    Demand data NOT used — units inconsistent with data_blacksea.
-    Fuel WindLow1/2/3 and WindMed1/2/3 represent different resource quality tiers
-    (resource atlas approach); consolidated to single Wind fuel for data_blacksea.
+    Capex trajectory indices are referenced to 2022, unlike every other source in this
+    deployment, and are loaded unrenormalised so that the capex path matches the source.
+    Fuel WindLow1/2/3, WindMed1/2/3 and WindHigh1/2 represent different resource quality
+    tiers (resource atlas approach); they are kept as separate generators but share a single
+    Romanian wind profile, because pVREProfile is keyed by zone and technology only.
+    Items raised with the source and still open: the Cernavoda-1_refurbished capex edit sits
+    on a row whose name cell is blanked by the "Nuke Refurbished? = NO" switch, so it never
+    reaches the GenData sheet the model reads; Doicești carries a heat rate of 3.82 MMBtu/MWh
+    against 12.5 for Cernavoda; the 1.6 $m/MW onshore wind rebase was applied to the generics
+    but not to the named parks nor to the _corrected_ blocks, which stay at 1.3; TPP Craiova
+    unit 1 and unit 2 carry asymmetric ramp rates; rows 198-200 of Generator_Data and
+    GenAvailability are unnamed leftovers.
   used_in_studies: [data_blacksea]

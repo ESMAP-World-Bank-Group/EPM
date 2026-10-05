@@ -279,9 +279,13 @@ def plan_gap(d, scope, ref):
             if y in d["years"]:
                 acc[j] += series[d["years"].index(y)]
     out = []
-    j = len(pyears) - 1
+    covered = [j for j in range(len(pyears))
+               if any(v[j] is not None for v in plan.values())]
+    if not covered:
+        return out
+    j = covered[-1]
     for k in sorted(set(list(plan) + list(model))):
-        p = (plan.get(k) or [0] * len(pyears))[j]
+        p = (plan.get(k) or [0] * len(pyears))[j] or 0.0
         m = (model.get(k) or [0] * len(pyears))[j]
         if max(p, m) < 0.05:
             continue
@@ -294,7 +298,7 @@ def plan_gap(d, scope, ref):
                        % (k, pyears[j], findings.n(m, 1), findings.n(p, 1),
                           "+" if m > p else "-",
                           findings.n(abs(m - p) / p * 100, 0)))
-    tp = sum((plan.get(k) or [0] * len(pyears))[j] for k in plan)
+    tp = sum((plan.get(k) or [0] * len(pyears))[j] or 0.0 for k in plan)
     tm = sum(v[j] for v in model.values())
     if tp > 0:
         out.insert(0, "Total capacity in %s: model <b>%s GW</b> vs plan "

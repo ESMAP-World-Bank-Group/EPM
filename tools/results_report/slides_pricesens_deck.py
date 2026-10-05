@@ -40,7 +40,7 @@ import slide_pricesens as sp  # noqa: E402
 import pandas as pd  # noqa: E402
 
 DECK = HERE.parents[2] / (
-    "BlackSea_regional_power_trade_followup_September2026_results_only.pptx")
+    "BlackSea_regional_power_trade_results_September2026.pptx")
 SLIDES = HERE.parents[2] / "Data" / "results" / "slides"
 
 TITLE_SRC = 13          # slide whose title bar is copied onto the new slides

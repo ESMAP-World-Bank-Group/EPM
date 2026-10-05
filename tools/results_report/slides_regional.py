@@ -75,9 +75,9 @@ ZONE_FILL, ZONE_EDGE = "#f5f8fc", "#1a2333"
 FLOW_HOT, FLOW_WARM, FLOW_COOL = "#c0392b", "#c0682a", "#1b6ca8"
 
 SCEN_COLOR = {"LC_BSSC": "#1B6CA8", "LC_BSSC_VeryLow": "#7CC8FA",
-              "LC_BSSC_Crisis": "#C0392B"}
-SCEN_LABEL = {"LC_BSSC": "EU central", "LC_BSSC_VeryLow": "EU low",
-              "LC_BSSC_Crisis": "EU crisis"}
+              "LC_BSSC_Crisis": "#C0392B", "LC_BSSC_CBAM": "#D98C3F"}
+SCEN_LABEL = {"LC_BSSC": "EU central", "LC_BSSC_VeryLow": "EU very low",
+              "LC_BSSC_Crisis": "EU crisis", "LC_BSSC_CBAM": "Central + CBAM"}
 
 
 def face(k, hatched):
@@ -422,7 +422,12 @@ def draw_flows(ax, geo, cor, i, fs, skip_ext=False, scale=1.0):
     return live
 
 
-def label_countries(ax, geo, zcmap, fs):
+def label_countries(ax, geo, zcmap, fs, quiet=False):
+    """Name the modelled countries at the mean of their zone centroids.
+
+    `quiet` draws the names light, regular weight and under the arrows: on the
+    country flow maps the arrows all meet at the centroid, so a bold name on top
+    of them hid the flows the panel exists to show."""
     pts = {}
     for z, c in zcmap.items():
         if c in COUNTRIES and z in geo["centroids"]:
@@ -453,10 +458,16 @@ def label_countries(ax, geo, zcmap, fs):
         if not moved:
             break
     for c, (lon, lat) in pos.items():
-        ax.text(lon, lat, c, fontsize=fs - .8, color=INK, fontweight="bold",
-                ha="center", va="center", zorder=6,
-                bbox=dict(boxstyle="round,pad=.12", fc="white", ec="none",
-                          alpha=.72))
+        if quiet:
+            ax.text(lon, lat, c, fontsize=fs - 1.2, color="#9aa4b2",
+                    ha="center", va="center", zorder=3.5,
+                    bbox=dict(boxstyle="round,pad=.1", fc="white", ec="none",
+                              alpha=.45))
+        else:
+            ax.text(lon, lat, c, fontsize=fs - .8, color=INK, fontweight="bold",
+                    ha="center", va="center", zorder=6,
+                    bbox=dict(boxstyle="round,pad=.12", fc="white", ec="none",
+                              alpha=.72))
 
 
 def flow_legend(fig, right, fs, extra=None):
@@ -553,7 +564,7 @@ def chart_region_generation(a):
         ax.set_xticks(xs)
         ax.set_xticklabels(years, fontsize=fs - .5, color=SOFT)
         ax.set_xlim(xs[0] - .52, xs[-1] + .52)
-        ax.set_title(ctry, fontsize=fs + .5, fontweight="bold", loc="left",
+        ax.set_title(ctry, fontsize=fs + .5, fontweight="bold", loc="center",
                      pad=2, color=INK)
         ax.yaxis.set_major_locator(MaxNLocator(4))
         ax.yaxis.grid(True, color=GRID, linewidth=.5, zorder=0)
@@ -657,7 +668,10 @@ def chart_bssc_map(a):
 # ------------------------------------------------------------------ chart 4
 
 def chart_bssc_volume(a):
-    scens = ["LC_BSSC", "LC_BSSC_VeryLow", "LC_BSSC_Crisis"]
+    # The BSSC price sensitivities this run holds; the central case is always
+    # there, the others land wave by wave (the 6 Sept run has VeryLow and CBAM,
+    # the 13 Sept grid has the central case only).
+    scens = [s for s in SCEN_LABEL if (RUN / s).is_dir()]
     dat = {s: corridors(s)["Georgia|Romania"] for s in scens}
     # Every other year of the cable's life, anchored on the horizon: the drift
     # under the low EU price path is gradual, so a two-year step still shows it
@@ -722,6 +736,154 @@ def chart_bssc_volume(a):
     return save(fig, a, "bssc_volume_sensitivity.png")
 
 
+
+GEC_PATHS = [("", "EU central", "#1B6CA8"), ("_VeryLow", "EU very low", "#7CC8FA"),
+             ("_CBAM", "Central + CBAM", "#D98C3F")]
+HUB_COLOR = "#4E9A45"
+
+
+def _volume_axes(ax, years, fs, ylabel):
+    ax.set_xticks(range(len(years)))
+    ax.set_xticklabels(years, fontsize=fs, color=INK, fontweight="bold")
+    ax.set_ylabel(ylabel, fontsize=fs, labelpad=2)
+    ax.set_xlim(-.6, len(years) - .4)
+    ax.set_ylim(0, ax.get_ylim()[1] * 1.10)
+    ax.yaxis.set_major_locator(MaxNLocator(5))
+    ax.yaxis.grid(True, color=GRID, linewidth=.5, zorder=0)
+    ax.set_axisbelow(True)
+    for sp in ("top", "right"):
+        ax.spines[sp].set_visible(False)
+
+
+def chart_gec_volume(a):
+    """What the GEC links carry on top of the BSSC, across the EU price paths.
+
+    One bar per scenario and year, in TWh sent to Romania: the pale base is
+    the BSSC cable (Georgia to Romania), the solid block the GEC links (GEC_GE
+    to Romania), the hatched cap what flows back on both.  The figure on top
+    is the load factor of the GEC links alone, energy both ways against their
+    NTC over 8760 h, as in the BSSC volume chart.  A variant run at one price
+    only (--second, GEC Hub at EU central) gets a bar of its own.
+    """
+    scen = a.scenario or "LC_GECO"
+    bars = [(scen + suf, lab, col) for suf, lab, col in GEC_PATHS
+            if (RUN / (scen + suf)).is_dir()]
+    second = getattr(a, "second", None)
+    if second and (RUN / second).is_dir():
+        bars.append((second, "GEC Hub,\nEU central", HUB_COLOR))
+    dat = {sc: corridors(sc) for sc, _, _ in bars}
+    gec, bssc = "GEC_GE|Romania", "Georgia|Romania"
+    live = [y for k, y in enumerate(YEARS)
+            if any(dat[sc][gec]["ntc"][k] > 0 for sc, _, _ in bars)]
+    years = ([y.strip() for y in a.years.split(",")] if a.years
+             else live[(len(live) - 1) % 2::2])
+    fs = 6.0
+    rc(fs)
+    fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
+
+    bw = .80 / len(bars)
+    tops = []
+    for j, (sc, _, col) in enumerate(bars):
+        g, b = dat[sc][gec], dat[sc].get(bssc)
+        for k, y in enumerate(years):
+            i = YEARS.index(y)
+            x, w = k - .40 + bw * (j + .5), bw * .84
+            low = b["fwd"][i] if b else 0.0
+            if low > 0:
+                ax.bar(x, low, width=w, zorder=2, facecolor=to_rgba(col, .30),
+                       edgecolor=to_rgba(col, .60), linewidth=.3)
+            ax.bar(x, g["fwd"][i], bottom=low, width=w, zorder=2,
+                   facecolor=to_rgba(col, .88), edgecolor=to_rgba(col, .88),
+                   linewidth=.2)
+            back = g["rev"][i] + (b["rev"][i] if b else 0.0)
+            top = low + g["fwd"][i]
+            ax.bar(x, back, bottom=top, width=w, zorder=2,
+                   facecolor=to_rgba(col, .22), edgecolor=col, linewidth=.45,
+                   hatch="///")
+            ax.plot([x], [top + back], marker="o", markersize=2.2,
+                    color="#2f3f57", zorder=5, linestyle="none")
+            tops.append((x, top + back, g["util"][i]))
+    _volume_axes(ax, years, fs, "TWh to Romania\npale = BSSC, solid = GEC")
+    pad = .015 * ax.get_ylim()[1]
+    for x, t, u in tops:
+        ax.text(x, t + pad, "%.0f%%" % (100 * u), fontsize=fs - 1.6,
+                color=INK, ha="center", va="bottom", zorder=6)
+
+    fig.suptitle(a.title or "GEC and BSSC cable volume against EU price levels",
+                 fontsize=fs + 1, fontweight="bold", color=INK,
+                 x=.012, y=.995, ha="left", va="top")
+    right = 1 - LEGEND_IN / a.width
+    fig.tight_layout(pad=.3, rect=(.012, 0, right, .92))
+    h = [Patch(label=lab, facecolor=to_rgba(col, .88),
+               edgecolor=to_rgba(col, .88), linewidth=.2)
+         for _, lab, col in bars]
+    h.append(Patch(label="BSSC cable\n(pale base)", facecolor=to_rgba(SOFT, .30),
+                   edgecolor=to_rgba(SOFT, .60), linewidth=.3))
+    h.append(Patch(label="flow back\nto Georgia", facecolor="#ffffff",
+                   edgecolor=SOFT, linewidth=.45, hatch="///"))
+    h.append(Line2D([], [], color="#2f3f57", marker="o", markersize=3.0,
+                    linestyle="none", label="GEC load factor"))
+    fig.legend(handles=h, loc="center left", ncol=1, fontsize=fs, frameon=False,
+               handlelength=1.1, handleheight=.9, handletextpad=.45,
+               labelspacing=.5, borderpad=0, bbox_to_anchor=(right + .015, .5))
+    return save(fig, a, "gec_volume.png")
+
+
+def chart_line_volume(a):
+    """One corridor of one scenario, year by year: energy each way, load factor.
+
+    Solid is the first zone of the corridor key to the second (or --fwdlabel),
+    hatched the flow back, the dashed rule what the line could carry at full
+    capacity over 8760 h, and the figure on top the load factor, both
+    directions against NTC x 8760 h.
+    """
+    scen = a.scenario or "LC_ArTur"
+    c = corridors(scen)[getattr(a, "corridor", None) or "Armenia|EastAna"]
+    live = [y for k, y in enumerate(YEARS) if c["ntc"][k] > 0]
+    years = [y.strip() for y in a.years.split(",")] if a.years else live
+    col = SCEN_COLOR["LC_BSSC"]
+    fs = 6.0
+    rc(fs)
+    fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
+    tops = []
+    for x, y in enumerate(years):
+        i = YEARS.index(y)
+        fwd, rev = c["fwd"][i], c["rev"][i]
+        cap = c["ntc"][i] * 8760.0 / 1e6
+        ax.bar(x, fwd, width=.58, zorder=2, facecolor=to_rgba(col, .88),
+               edgecolor=to_rgba(col, .88), linewidth=.2)
+        ax.bar(x, rev, bottom=fwd, width=.58, zorder=2,
+               facecolor=to_rgba(col, .22), edgecolor=col, linewidth=.45,
+               hatch="///")
+        ax.plot([x - .38, x + .38], [cap, cap], color="#2f3f57", linewidth=.8,
+                linestyle=(0, (3, 2)), zorder=4)
+        ax.plot([x], [fwd + rev], marker="o", markersize=2.6,
+                color="#2f3f57", zorder=5, linestyle="none")
+        tops.append((x, max(cap, fwd + rev), c["util"][i]))
+    _volume_axes(ax, years, fs, "TWh on the line")
+    pad = .015 * ax.get_ylim()[1]
+    for x, t, u in tops:
+        ax.text(x, t + pad, "%.0f%%" % (100 * u), fontsize=fs - 1.0,
+                color=INK, ha="center", va="bottom", zorder=6)
+    fig.suptitle(a.title or "Line volume and load factor", fontsize=fs + 1,
+                 fontweight="bold", color=INK, x=.012, y=.995, ha="left",
+                 va="top")
+    right = 1 - LEGEND_IN / a.width
+    fig.tight_layout(pad=.3, rect=(.012, 0, right, .92))
+    fwdlabel = getattr(a, "fwdlabel", None) or "%s to %s" % (c["a"], c["b"])
+    h = [Patch(label=fwdlabel, facecolor=to_rgba(col, .88),
+               edgecolor=to_rgba(col, .88), linewidth=.2),
+         Patch(label="flow back", facecolor="#ffffff", edgecolor=SOFT,
+               linewidth=.45, hatch="///"),
+         Line2D([], [], color="#2f3f57", linewidth=.8, linestyle=(0, (3, 2)),
+                label="line capacity\nover 8760 h"),
+         Line2D([], [], color="#2f3f57", marker="o", markersize=3.0,
+                linestyle="none", label="load factor")]
+    fig.legend(handles=h, loc="center left", ncol=1, fontsize=fs, frameon=False,
+               handlelength=1.4, handleheight=.9, handletextpad=.45,
+               labelspacing=.5, borderpad=0, bbox_to_anchor=(right + .015, .5))
+    return save(fig, a, "line_volume.png")
+
 # ------------------------------------------------------------------ chart 4b
 
 @lru_cache(maxsize=None)
@@ -740,6 +902,15 @@ def annual_for(scen, ctry):
 def chart_bssc_mix_delta(a):
     d = cache()
     scen = a.scenario or "LC_BSSC"
+    # Two optional knobs.  A counterfactual other than the baseline: the GEC is
+    # built on top of the BSSC, so what it adds reads against LC_BSSC.  And a
+    # second scenario, drawn paler as the right bar of each pair against the
+    # same counterfactual, so two variants compare year by year (GEC Hub next
+    # to GEC).
+    cf = getattr(a, "base", None) or runcfg.BASE
+    second = getattr(a, "second", None)
+    scens = [scen] + ([second] if second else [])
+    labels = (getattr(a, "labels", None) or ",".join(scens)).split(",")
     years = ([y.strip() for y in a.years.split(",")] if a.years
              else ["2030", "2035", "2040"])
     fs = 7.0
@@ -751,45 +922,55 @@ def chart_bssc_mix_delta(a):
     fig, axes = plt.subplots(1, len(COUNTRIES), figsize=(a.width, a.height),
                              dpi=a.dpi, sharey=True)
 
+    slot = .62 / len(scens)                  # a pair shares one year's width
+    bw = slot * (.88 if second else 1.0)
     used = []
     for ax, ctry in zip(axes, COUNTRIES):
-        base, alt = annual_for(runcfg.BASE, ctry), annual_for(scen, ctry)
-        # Tighter than unit spacing: the years of one country read as a group,
-        # and the gaps between panels do the separating.
-        xs = [k * .80 for k in range(len(years))]
-        for xi, y in zip(xs, years):
+        base = annual_for(cf, ctry)
+        # Unit spacing: at .80 the year labels of a 4.25 in box run into
+        # each other, the gaps between panels still group the years.
+        xs = list(range(len(years)))
+        for xc, y in zip(xs, years):
             i = YEARS.index(y)
-            up = dn = 0.0
+            for j, sc in enumerate(scens):
+                alt = annual_for(sc, ctry)
+                xi = xc + (j - (len(scens) - 1) / 2) * slot
+                up = dn = 0.0
 
-            def put(key, v, hatched=False):
-                """Gains stack above the zero line, losses below it."""
-                nonlocal up, dn
-                if abs(v) < 1e-3:
-                    return
-                ax.bar(xi, v, bottom=(up if v > 0 else dn), width=.62,
-                       zorder=2, **face(key, hatched))
-                if v > 0:
-                    up += v
-                else:
-                    dn += v
-                if key not in used:
-                    used.append(key)
+                def put(key, v, hatched=False):
+                    """Gains stack above the zero line, losses below it."""
+                    nonlocal up, dn
+                    if abs(v) < 1e-3:
+                        return
+                    kw = face(key, hatched)
+                    if j:                                  # the paler twin
+                        fc = to_rgba(kw["facecolor"])
+                        kw["facecolor"] = to_rgba(fc, fc[3] * .45)
+                    ax.bar(xi, v, bottom=(up if v > 0 else dn), width=bw,
+                           zorder=2, **kw)
+                    if v > 0:
+                        up += v
+                    else:
+                        dn += v
+                    if key not in used:
+                        used.append(key)
 
-            for f in d["fuel_order"]:
-                b, m = base["gen"].get(f), alt["gen"].get(f)
-                if not b and not m:
-                    continue
-                put(f, (m[i] if m else 0.0) - (b[i] if b else 0.0))
-            for key, side in (("Imports", "imp"), ("Exports", "exp")):
-                b = sum(t[side][i] for t in base["trade"].values())
-                m = sum(t[side][i] for t in alt["trade"].values())
-                # Exports keep the sign convention of the mix chart: more sold
-                # abroad reads downward, the same way it does in the baseline.
-                put(key, (m - b) * (1 if key == "Imports" else -1), True)
+                for f in d["fuel_order"]:
+                    b, m = base["gen"].get(f), alt["gen"].get(f)
+                    if not b and not m:
+                        continue
+                    put(f, (m[i] if m else 0.0) - (b[i] if b else 0.0))
+                for key, side in (("Imports", "imp"), ("Exports", "exp")):
+                    b = sum(t[side][i] for t in base["trade"].values())
+                    m = sum(t[side][i] for t in alt["trade"].values())
+                    # Exports keep the sign convention of the mix chart: more
+                    # sold abroad reads downward, as it does in the baseline.
+                    put(key, (m - b) * (1 if key == "Imports" else -1), True)
 
-            net = up + dn
-            ax.plot([xi - .31, xi + .31], [net, net], color="#2f3f57",
-                    linewidth=1.0, zorder=6, solid_capstyle="butt")
+                net = up + dn
+                ax.plot([xi - bw / 2, xi + bw / 2], [net, net],
+                        color="#2f3f57", linewidth=1.0, zorder=6,
+                        solid_capstyle="butt")
 
         ax.axhline(0, color="#8b96a5", linewidth=.6, zorder=3)
         ax.set_xticks(xs)
@@ -797,14 +978,15 @@ def chart_bssc_mix_delta(a):
         # other a good deal smaller than the panel titles.
         ax.set_xticklabels(years, fontsize=fs - 2.0, color=SOFT)
         ax.set_xlim(xs[0] - .52, xs[-1] + .52)
-        ax.set_title(ctry, fontsize=fs + .5, fontweight="bold", loc="left",
+        ax.set_title(ctry, fontsize=fs + .5, fontweight="bold", loc="center",
                      pad=2, color=INK)
         ax.yaxis.set_major_locator(MaxNLocator(4))
         ax.yaxis.grid(True, color=GRID, linewidth=.5, zorder=0)
         ax.set_axisbelow(True)
         for sp in ("top", "right"):
             ax.spines[sp].set_visible(False)
-    axes[0].set_ylabel("TWh vs baseline", fontsize=fs, labelpad=2)
+    vs = "baseline" if cf == runcfg.BASE else cf.replace("LC_", "")
+    axes[0].set_ylabel("TWh vs %s" % vs, fontsize=fs, labelpad=2)
     for ax in axes[1:]:
         ax.spines["left"].set_visible(False)
         ax.tick_params(axis="y", length=0)
@@ -815,9 +997,16 @@ def chart_bssc_mix_delta(a):
     right = 1 - LEGEND_IN / a.width
     top = .93 if a.title else .995
     fig.tight_layout(pad=.3, w_pad=.4, rect=(.012, .012, right, top))
-    order = [f for f in d["fuel_order"] if f in used] +             [k for k in ("Imports", "Exports") if k in used]
+    order = [f for f in d["fuel_order"] if f in used] + \
+        [k for k in ("Imports", "Exports") if k in used]
     handles = [Patch(label=k, **face(k, k in HATCHED)) for k in order]
     handles.append(Line2D([], [], color="#2f3f57", lw=1.0, label="net"))
+    if second:
+        g = "#6f7f94"
+        handles += [Patch(facecolor=to_rgba(g, .88), edgecolor=to_rgba(g, .88),
+                          linewidth=.2, label="left: %s" % labels[0]),
+                    Patch(facecolor=to_rgba(g, .40), edgecolor=to_rgba(g, .88),
+                          linewidth=.2, label="right: %s" % labels[-1])]
     lfs, lsp = fs, .42
     while len(handles) * lfs * (1 + lsp) > a.height * 72 * .92 and lfs > 4.2:
         lfs -= .2
@@ -1107,7 +1296,7 @@ def chart_freeexp_build(a):
         # Two lines: "AzerbaijanMain - Nakhchivan" on one line runs straight
         # into the next panel's title.  The arrow flags a border crossing.
         ax.set_title((u"↔ " if cross(key) else "") + key.replace("|", "\n"),
-                     fontsize=fs, fontweight="bold", loc="left", pad=2,
+                     fontsize=fs, fontweight="bold", loc="center", pad=2,
                      color=INK, linespacing=1.05)
         ax.yaxis.set_major_locator(MaxNLocator(4))
         ax.yaxis.grid(True, color=GRID, linewidth=.5, zorder=0)
@@ -1153,21 +1342,35 @@ def price_paths():
 
     The fan is defined for four EU price paths, but a run is built wave by
     wave: the central one lands first and the sensitivities follow.  A path is
-    kept only when every scenario it needs is on disk, counterfactual and
-    projects alike, so a partial run draws the columns it can rather than
-    failing outright.  Order is preserved, and the central path is never
-    dropped.
+    kept when its counterfactual and at least one project are on disk, so a
+    partial run draws the columns it can rather than failing outright, and
+    bars_of says which projects each path draws.  Order is preserved, and the
+    central path is never dropped.
     """
     keep = []
     for label, cf, suf in ALL_PRICE_PATHS:
-        need = [cf] + [base + suf for _, base in PROJECTS]
-        missing = [n for n in need if not (RUN / n).is_dir()]
-        if missing:
+        missing = [base + suf for _, base in PROJECTS
+                   if not (RUN / (base + suf)).is_dir()]
+        if not (RUN / cf).is_dir() or len(missing) == len(PROJECTS):
+            gone = ([cf] if not (RUN / cf).is_dir() else []) + missing
             print("price path %-18s skipped, absent from run: %s"
-                  % (label, ", ".join(missing)))
+                  % (label, ", ".join(gone)))
             continue
+        if missing:
+            print("price path %-18s drawn without: %s"
+                  % (label, ", ".join(missing)))
         keep.append((label, cf, suf))
     return tuple(keep)
+
+
+def bars_of(suf):
+    """The projects one price path draws: those whose scenario is on disk.
+
+    A variant can exist on one path only (LC_GECOHub runs at the central EU
+    price alone), so that group carries one bar more than the others rather
+    than the whole path being dropped."""
+    return [(lab, base) for lab, base in PROJECTS
+            if (RUN / (base + suf)).is_dir()]
 
 
 # Stacking and legend order.  Signs are cost signs: a positive NPV is money the
@@ -1318,7 +1521,8 @@ def benefit_npv():
     here that the model itself does not charge.
     """
     import pandas as pd
-    scens = [runcfg.BASE] + [c for _, c, _ in price_paths()[1:]] +             [p + s for _, p in PROJECTS for _, _, s in price_paths()]
+    scens = ([runcfg.BASE] + [c for _, c, _ in price_paths()[1:]]
+             + [p + suf for _, _, suf in price_paths() for _, p in bars_of(suf)])
     sm = pd.read_csv(RUN / "summary.csv")
     zc = dict(sm[["zone", "country"]].drop_duplicates().values)
     esign = _ext_export_sign()
@@ -1375,11 +1579,14 @@ def _stack(ax, xs, vals, comps, width, fs):
             else:
                 neg[i] += v
     span = max(max(pos), 1e-6) - min(min(neg), 0.0)
+    # A project worth tens of millions reads "+0.0" at one decimal of $bn.
+    big = max(abs(p + n) for p, n in zip(pos, neg))
+    fmt = "%+.1f" if big >= 1 else "%+.2f"
     for i, x in enumerate(xs):
         net = pos[i] + neg[i]
         ax.plot([x - width / 2, x + width / 2], [net, net], color="#1d2735",
                 linewidth=1.2, zorder=6, solid_capstyle="butt")
-        ax.text(x, pos[i] + .015 * span, "%+.1f" % net, fontsize=fs - 1.0,
+        ax.text(x, pos[i] + .015 * span, fmt % net, fontsize=fs - 1.0,
                 color="#1d2735", fontweight="bold", ha="center", va="bottom",
                 zorder=7)
     return pos, neg
@@ -1437,14 +1644,25 @@ def chart_benefit_regional(a):
     fs = 6.8
     rc(fs)
     fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
-    xs, centres = _grouped(len(price_paths()), len(PROJECTS))
-    vals = [{k: v / 1e3 for k, v in
-             _deltas(df, base + suf, cf, COMPS).items()}
-            for _, cf, suf in price_paths() for _, base in PROJECTS]
-    _stack(ax, xs, vals, COMPS, .36, fs)
-    ax.set_xlim(-.62, len(price_paths()) - 1 + .62)
-    _benefit_axes(ax, centres, [p for p, _, _ in price_paths()], xs,
-                  [b for _ in price_paths() for b, _ in PROJECTS], fs)
+    paths = price_paths()
+    # A group holds the projects its path has on disk, so the central group
+    # can carry a variant the sensitivities lack.  Three bars share a group
+    # only once they are drawn a little narrower.
+    most = max(len(bars_of(suf)) for _, _, suf in paths)
+    gap, width = (.42, .36) if most < 3 else (.32, .27)
+    xs, centres, blabels, vals = [], [], [], []
+    for gi, (_, cf, suf) in enumerate(paths):
+        bars = bars_of(suf)
+        centres.append(gi * 1.0)
+        for bi, (lab, base) in enumerate(bars):
+            xs.append(gi + (bi - (len(bars) - 1) / 2) * gap)
+            blabels.append(lab)
+            vals.append({k: v / 1e3 for k, v in
+                         _deltas(df, base + suf, cf, COMPS).items()})
+    _stack(ax, xs, vals, COMPS, width, fs)
+    ax.set_xlim(min(-.62, min(xs) - .45),
+                max(len(paths) - 1 + .62, max(xs) + .45))
+    _benefit_axes(ax, centres, [p for p, _, _ in paths], xs, blabels, fs)
     if a.title:
         fig.suptitle(a.title, fontsize=fs + 1, fontweight="bold", color=INK,
                      x=.012, y=.995, ha="left", va="top")
@@ -1471,14 +1689,15 @@ def chart_benefit_country(a):
     fs = 6.8
     rc(fs)
     fig, ax = plt.subplots(figsize=(a.width, a.height), dpi=a.dpi)
-    xs, centres = _grouped(len(COUNTRIES), len(PROJECTS))
+    bars = bars_of(sfx)
+    xs, centres = _grouped(len(COUNTRIES), len(bars))
     vals = [{k: v / 1e3 for k, v in
              _deltas(df, base + sfx, cf, COMPS_COUNTRY, country=ctry).items()}
-            for ctry in COUNTRIES for _, base in PROJECTS]
+            for ctry in COUNTRIES for _, base in bars]
     _stack(ax, xs, vals, COMPS_COUNTRY, .36, fs)
     ax.set_xlim(-.62, len(COUNTRIES) - 1 + .62)
     _benefit_axes(ax, centres, COUNTRIES, xs,
-                  [b for _ in COUNTRIES for b, _ in PROJECTS], fs)
+                  [b for _ in COUNTRIES for b, _ in bars], fs)
     if a.title:
         fig.suptitle(a.title, fontsize=fs + 1, fontweight="bold", color=INK,
                      x=.012, y=.995, ha="left", va="top")
@@ -1502,7 +1721,7 @@ def table_benefits(a):
         w.writerow(["Price path", "Project", "Scope"]
                    + [lab for _, lab, _ in COMPS_COUNTRY] + ["Net benefit"])
         for plabel, cf, suf in price_paths():
-            for blabel, base in PROJECTS:
+            for blabel, base in bars_of(suf):
                 for scope in ["Region"] + COUNTRIES:
                     d = _deltas(df, base + suf, cf, COMPS_COUNTRY,
                                 country=None if scope == "Region" else scope)
@@ -1530,7 +1749,7 @@ def table_benefits_xlsx(a):
     def block(scope):
         rows = []
         for plabel, cf, suf in price_paths():
-            for blabel, base in PROJECTS:
+            for blabel, base in bars_of(suf):
                 d = _deltas(df, base + suf, cf, COMPS_COUNTRY,
                             country=None if scope == "Region" else scope)
                 rows.append([plabel, blabel.replace(chr(10), " ")]
@@ -1617,7 +1836,7 @@ def table_levels_xlsx(a):
         label = next((p for p, _, s in price_paths() if s == label), "EU central")
     cf, sfx = look[label]
     cols = [("Counterfactual", cf)] + [(b.replace(chr(10), " "), s + sfx)
-                                       for b, s in PROJECTS]
+                                       for b, s in bars_of(sfx)]
 
     df = benefit_npv()
 
@@ -2453,6 +2672,8 @@ CHARTS = {
     "bssc_map": (chart_bssc_map, 9.4, 3.2),
     "bssc_volume": (chart_bssc_volume, 5.86, 2.45),
     "bssc_mix_delta": (chart_bssc_mix_delta, 5.86, 2.45),
+    "gec_volume": (chart_gec_volume, 5.56, 2.32),
+    "line_volume": (chart_line_volume, 5.56, 2.32),
     "bssc_impact": (chart_bssc_impact, 5.6, 2.3),
     "freeexp_map": (chart_freeexp_map, 9.4, 3.2),
     "freeexp_expansion": (chart_freeexp_expansion, 6.4, 3.0),
@@ -2480,6 +2701,16 @@ def main():
     p.add_argument("--dpi", type=int, default=300)
     p.add_argument("--title", default=None)
     p.add_argument("--out", default=None)
+    p.add_argument("--base", default=None,
+                   help="counterfactual of bssc_mix_delta, default the baseline")
+    p.add_argument("--second", default=None,
+                   help="paired scenario (bssc_mix_delta) or extra bar (gec_volume)")
+    p.add_argument("--labels", default=None,
+                   help="legend names of --scenario and --second, comma separated")
+    p.add_argument("--corridor", default=None,
+                   help="line_volume corridor key, e.g. Armenia|EastAna")
+    p.add_argument("--fwdlabel", default=None,
+                   help="line_volume label of the solid bars")
     a = p.parse_args()
 
     every = a.chart == "all"

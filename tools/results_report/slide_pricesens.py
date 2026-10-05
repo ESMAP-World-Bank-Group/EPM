@@ -200,7 +200,7 @@ def chart_exports(a):
         tidy(ax)
         ax.set_xticks([YEARS.index(y) for y in TICKS])
         ax.set_xticklabels(TICKS)
-        ax.set_title(label, fontsize=a.fs + .8, color=colour, loc="left", pad=4)
+        ax.set_title(label, fontsize=a.fs + .8, color=colour, loc="center", pad=4)
     axes[0].set_ylabel("TWh exported to the EU", fontsize=a.fs)
     axes[0].set_ylim(0, top * 1.12)
     handles = [Line2D([], [], color=r[1], linewidth=1.8, label=r[0],

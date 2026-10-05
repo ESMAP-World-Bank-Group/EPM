@@ -1,0 +1,76 @@
+id: entsoe_fleet_bg_2025
+name: "ENTSO-E Transparency Platform: Bulgarian installed capacity 2025 and 2026, hydro generation 2019-2025, with NEK and press sources on Chaira and batteries (RoBg family)"
+type: open_source
+category: public_database
+url: "https://transparency.entsoe.eu/"
+date: "2026"
+access_note: >
+  Basis for the recalibration of the Bulgarian renewable and storage fleet in the RoBg
+  family (LC_Baseline_RoBg), applied 2026-10-04. Used by no other scenario: Bulgaria is an
+  external zone everywhere else and no earlier scenario reads these rows.
+
+  INSTALLED CAPACITY. Dataset A68, Installed Capacity per Production Type, Bulgaria,
+  values for 2025 and 2026 (capacity at the start of each year), fetched with entsoe-py
+  (query_installed_generation_capacity) and cached in
+  Data/cache_entso_e/fleet/instcap_BG_<year>.csv.
+
+    type                     2025 MW   2026 MW   model before
+    Solar                      6,104     7,159        2,424
+    Wind Onshore                 715       715          608
+    Run-of-river                 547       547            0
+    Water reservoir            1,807     1,807        1,719
+    Pumped storage               864       864          864
+    Energy storage             1,382     5,406          728
+    Fossil gas                   730       742        1,357
+    Hard coal                    336       330          669
+    Nuclear                    2,000     2,000        2,080
+
+  GENERATION. Dataset A75, Actual Generation per Production Type, Bulgaria, 2019-2025,
+  aggregated to quarters and cached in Data/cache_entso_e/fleet/gen_BG_quarterly_2019_2025.csv.
+  Run-of-river mean capacity factor on 547 MW: Q1 0.2365, Q2 0.4564, Q3 0.1782, Q4 0.1739.
+  Mean annual energy: run-of-river about 1.25 TWh, reservoir about 2.04 TWh. Pumped
+  storage generation about 0.01 TWh a year in 2022-2024 and 0.21 TWh in 2025.
+
+  CHAIRA. NEK, project page of the Yadenitsa dam
+  (https://nek.bg/index.php/en/about-us/hydro-pumped-storage-in-bulgaria-yadenitsa): the
+  4.2 million m3 lower reservoir gives 8.5 h in turbine mode and 10.7 h in pumping mode;
+  four units of 216 MW generating and 197 MW pumping. Balkan Green Energy News,
+  16 April 2026, updated 3 June 2026
+  (https://balkangreenenergynews.com/bulgaria-finds-ten-sites-for-pumped-storage-hydropower-plants-repairs-another-chaira-unit/):
+  the plant broke down completely in 2022, unit 2 came back in late 2024, unit 3 repairs
+  were just completed, unit 1 is expected by 2028 and procurement for unit 4 is being
+  finalised. Hydropower and Dams International, 26 September 2024: NEK tendered the
+  replacement of units 1 and 4, 42 months from 17 September 2024.
+
+  BATTERIES. MR East, August 2026: ENTSO-E reported 3.32 GW and 8.6 GWh in May 2026
+  (about 2.6 h); Capital, June 2026, 4.84 GW and 14.72 GWh; about 200 MWh in service in
+  2024. The RESTORE support scheme requires a duration of at least 2 h.
+
+  COAL EXIT (step 5c, build_fleet_retirement_robg.py). The recovery and resilience plan
+  approved in April 2022 gives 2038 as the coal phase-out date (non-binding)
+  (Enerdata, https://www.enerdata.net/publications/daily-energy-news/bulgaria-targets-end-coal-fired-power-generation-2038-2040.html;
+  Beyond Fossil Fuels, https://beyondfossilfuels.org/europes-coal-exit/).
+coverage:
+  countries: [Bulgaria]
+  years: "2019-2025 observed generation; installed capacity at the start of 2025 and 2026"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "Bulgaria aggregates (PV, wind, run-of-river, reservoir), committed 2026 PV and battery rows, Chaira units, in supply/pGenDataInput.csv, _hub, _armnuke and cesi/unwired/pGenDataInput_cesi.csv"
+  - resource: pStorageDataInput
+    coverage: "Bulgaria battery and Chaira rows with CapacityMWh, in supply/pStorageDataInput.csv and cesi/unwired/pStorageDataInput_cesi.csv"
+  - resource: pAvailabilityCustom
+    coverage: "supply/pAvailabilityCustom.csv, rows Bulgaria_AGG_ROR_ENTSOE and Bulgaria_AGG_Reservoir_ENTSOE"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg/bg_fleet_entsoe.csv"
+    description: "ENTSO-E 2025 and 2026 capacity per type against the model's existing fleet, with the rows added"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_fleet_entsoe_bg.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_fleet_retirement_robg.py"
+quality:
+  confidence: medium
+  notes: >
+    The 2026 storage value is a forecast entered on the platform; observed figures in
+    mid-2026 range from 3.3 to 4.8 GW, so the committed 2026 battery row may be high by up
+    to 2 GW. The return date of Chaira unit 4 (2030) is an ASSUMPTION. Thermal types are
+    shown for reference only and not recalibrated.
+  used_in_studies: [data_blacksea]

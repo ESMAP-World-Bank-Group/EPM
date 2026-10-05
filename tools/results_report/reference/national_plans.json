@@ -1,5 +1,5 @@
 {
- "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run. The base-year (2025) column is the observed fleet as published by the national operator, not a plan projection, so that both bars start from the same system.",
+ "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run. A year is null when the plan document does not reach it, and a country is absent when it has no plan document at all: no bar is drawn in either case. The 2025 column is the observed fleet only for Georgia (GSE); for Turkiye and Armenia it is the plan document's own 2025 figure.",
  "years": [
   2025,
   2030,
@@ -7,10 +7,10 @@
   2040
  ],
  "source": {
-  "Turkiye": "NEP (MENR) — reference scenario",
-  "Georgia": "GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030-2040",
-  "Azerbaijan": "COP29 pledge — to 2030, extrapolated to 2035/40",
-  "Armenia": "USAID LCEDP / EPSO Base"
+  "Turkiye": "NEP (MENR) reference scenario, horizon 2035; 2040 not covered",
+  "Georgia": "GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered",
+  "Azerbaijan": "no plan document; the COP29 pledge is a single 7 GW renewable target for 2030, so no plan bar is drawn",
+  "Armenia": "USAID LCEDP (to 2036) and EPSO base forecast (to 2040)"
  },
  "capacity_gw": {
   "Turkiye": {
@@ -18,55 +18,55 @@
     2.166,
     4.813,
     7.46,
-    7.46
+    null
    ],
    "Biomass": [
     1.925,
     1.925,
     2.045,
-    2.045
+    null
    ],
    "Coal": [
     21.658,
     22.981,
     24.305,
-    24.305
+    null
    ],
    "Gas": [
     28.636,
     32.126,
     35.495,
-    35.495
+    null
    ],
    "Geothermal": [
     2.045,
     2.527,
     3.008,
-    3.008
+    null
    ],
    "Hydro": [
     32.607,
     33.81,
     35.134,
-    35.134
+    null
    ],
    "Nuclear": [
     2.045,
     4.693,
     7.219,
-    7.219
+    null
    ],
    "Solar": [
     20.695,
     36.818,
     52.941,
-    52.941
+    null
    ],
    "Wind": [
     16.003,
     22.861,
     29.599,
-    29.599
+    null
    ]
   },
   "Georgia": {
@@ -74,51 +74,25 @@
     1.19,
     1.457,
     1.617,
-    1.617
+    null
    ],
    "Hydro": [
     3.41,
     5.807,
     7.354,
-    7.354
+    null
    ],
    "Solar": [
     0.0,
     0.141,
     0.237,
-    0.237
+    null
    ],
    "Wind": [
     0.021,
     0.796,
     1.316,
-    1.316
-   ]
-  },
-  "Azerbaijan": {
-   "Gas": [
-    6.418,
-    5.927,
-    5.427,
-    4.936
-   ],
-   "Hydro": [
-    1.082,
-    1.082,
-    1.082,
-    1.082
-   ],
-   "Solar": [
-    0.391,
-    3.164,
-    3.455,
-    4.445
-   ],
-   "Wind": [
-    0.245,
-    3.755,
-    3.455,
-    4.445
+    null
    ]
   },
   "Armenia": {
