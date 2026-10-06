@@ -390,11 +390,12 @@ pRetirementsFuel(z, f, y) =
 * ---------------------------------------------------------
 
 pNewTransmissionCapacity(sTopology(z,z2),y) =
-  vBuildTransmissionLine.l(z,z2,y)
-  * symmax(pNewTransmission,z,z2,"CapacityPerLine")
+  sum(sTransStage(z,z2,ts),
+    vBuildTransmissionLine.l(z,z2,ts,y)
+    * symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))
   * fAllowTransferExpansion;
 
-pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransmissionLine.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
+pAdditionalTransmissionCapacity(sTopology(z,z2),y) = sum(sTransStage(z,z2,ts), vNewTransmissionLine.l(z,z2,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion;                                                                                                        
 pTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
 * ---------------------------------------------------------
@@ -539,15 +540,16 @@ pCapexInvestmentComponent(z, "Hydrogen", y)$fEnableH2Production =
 
 * Transmission CAPEX additions
 pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and sum(sTopology(z, z2), 1)) =
-  0.5 * sum(sTopology(z, z2),
-    vBuildTransmissionLine.l(z, z2, y)
-    * symmax(pNewTransmission, z, z2, "CostPerLine")
+  0.5 * sum(sTransStage(z, z2, ts),
+    vBuildTransmissionLine.l(z, z2, ts, y)
+    * symmaxS(pNewTransmission, z, z2, ts, "CostPerLine")
     * 1e6
   );
 
 pCapexInvestmentTransmission(sTopology(z, z2), y)$fAllowTransferExpansion =
-  0.5 * vBuildTransmissionLine.l(z, z2, y)
-  * symmax(pNewTransmission, z, z2, "CostPerLine")
+  0.5 * sum(sTransStage(z, z2, ts),
+    vBuildTransmissionLine.l(z, z2, ts, y)
+    * symmaxS(pNewTransmission, z, z2, ts, "CostPerLine"))
   * 1e6;
 
 * ---------------------------------------------------------
@@ -1057,9 +1059,7 @@ pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
   1e3 * pInterchange(z, z2, y)
   / sum((q, d, t),
     (pTransferLimit(z, z2, q, y)
-     + vNewTransmissionLine.l(z, z2, y)
-       * max(pNewTransmission(z, z2, "CapacityPerLine"),
-         pNewTransmission(z2, z, "CapacityPerLine"))
+     + sum(sTransStage(z, z2, ts), vNewTransmissionLine.l(z, z2, ts, y) * symmaxS(pNewTransmission, z, z2, ts, "CapacityPerLine"))
        * fAllowTransferExpansion)
     * pHours(q, d, t)
     );
@@ -1088,9 +1088,7 @@ isCongested(z, z2, q, d, t, y)$(
     vFlow.l(z, z2, q, d, t, y)
     - (
       pTransferLimit(z, z2, q, y)
-      + vNewTransmissionLine.l(z, z2, y)
-        * max(pNewTransmission(z, z2, "CapacityPerLine"),
-          pNewTransmission(z2, z, "CapacityPerLine"))
+      + sum(sTransStage(z, z2, ts), vNewTransmissionLine.l(z, z2, ts, y) * symmaxS(pNewTransmission, z, z2, ts, "CapacityPerLine"))
         * fAllowTransferExpansion
       )
     ) < 1e-5

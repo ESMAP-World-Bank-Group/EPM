@@ -151,6 +151,7 @@ Sets
    pStorageDataHeader                                        'Storage data headers'
    pCSPDataHeader       'CSP data headers'                 / 'Storage', 'Thermal Field' /
    pTransmissionHeader  'Transmission data headers'
+   ts                   'Transmission stages (one per row of pNewTransmission)'
    pH2Header            'Hydrogen data headers'
    pTechFuelHeader      'Technology-fuel data headers'  / 'HourlyVariation', 'RETechnology', 'FuelIndex' /
    pe                   'Peak/energy tags for demand'      / 'peak', 'energy' /
@@ -199,7 +200,7 @@ Parameter
    pMinGenByFuel(c,tech,f,y)                             'Min annual generation by zone-tech-fuel [GWh]'
 
 * Storage and transmission
-   pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
+   pNewTransmission(z,z2,ts<,pTransmissionHeader)       'New transmission line specifications by stage'
 
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
@@ -290,7 +291,8 @@ $load pPlanningReserveMargin
 
 * Load trade data
 $load zext, pTransmissionHeader
-$load pExtTransferLimit, pNewTransmission, pMinImport
+* pNewTransmissionStage keeps every row of pNewTransmission.csv as its own stage
+$load pExtTransferLimit, pNewTransmission=pNewTransmissionStage, pMinImport
 $load pTradePrice, pMaxAnnualExternalTradeShare, pMaxAnnualInternalTradeShare
 
 * Load Hydrogen model-related symbols
@@ -642,22 +644,25 @@ nREH2(g)= not REH2(g);
 *-------------------------------------------------------------------
 
 * Defining sTopology based on existing, committed and candidate transmission lines
-sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(pTransmissionHeader,pNewTransmission(z,z2,pTransmissionHeader)) + sum(pTransmissionHeader,pNewTransmission(z2,z,pTransmissionHeader));
+sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum((ts,pTransmissionHeader),pNewTransmission(z,z2,ts,pTransmissionHeader)) + sum((ts,pTransmissionHeader),pNewTransmission(z2,z,ts,pTransmissionHeader));
 
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not fEnableInternalExchange) = no;
+
+* Stages of each corridor, in both directions (a stage is defined in one direction in the input)
+sTransStage(sTopology(z,z2),ts) = sum(pTransmissionHeader, pNewTransmission(z,z2,ts,pTransmissionHeader) + pNewTransmission(z2,z,ts,pTransmissionHeader));
 
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$fRemoveInternalTransferLimit = inf;
 
 * Default life for transmission lines
-pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and fAllowTransferExpansion) = 30; 
+pNewTransmission(sTransStage(z,z2,ts),"Life")$(sum(pTransmissionHeader, pNewTransmission(z,z2,ts,pTransmissionHeader)) and pNewTransmission(z,z2,ts,"Life")=0 and fAllowTransferExpansion) = 30;
 
 * Map transmission status from input data
-tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
+tstatusmap(sTransStage(z,z2,ts),tstatus) = (pNewTransmission(z,z2,ts,'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z,ts,'status')=tstatIndex(tstatus));
 
-* Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
-commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
+* Identify committed transmission stages
+commtransmission(sTransStage(z,z2,ts))  = tstatusmap(z,z2,ts,'committed');
 
 *-------------------------------------------------------------------
 * CAPACITY CREDIT
@@ -745,22 +750,27 @@ vBuild.up(ng,y)$(not gstatusmap(ng,'committed')) = pGenData(ng,"BuildLimitperYea
 * Unlike candidates, committed generators are not optional - they must be built.
 * They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
 * Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
-vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
-vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
+* When StYr is not a model year, the build happens in the first model year on or after StYr
+* (previous model year < StYr <= y). pPrevModelYear is 0 for the first model year.
+Parameter pPrevModelYear(y) 'Previous model year (0 for the first year)';
+pPrevModelYear(y) = sum(y2$(ord(y2) = ord(y) - 1), y2.val);
+
+vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") <= y.val) and (pGenData(ng,"StYr") > pPrevModelYear(y))) = pGenData(ng,"Capacity");
+vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") <= y.val) and (pGenData(ng,"StYr") > pPrevModelYear(y))) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
-vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransmissionLine.up(sTransStage(z,z2,ts),y)$fAllowTransferExpansion = symmaxS(pNewTransmission,z,z2,ts,"MaximumNumOfLines");
 
-sAdditionalTransfer(sTopology(z,z2),y) = yes;
-sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
+sAdditionalTransfer(sTransStage(z,z2,ts),y) = yes;
+sAdditionalTransfer(sTransStage(z,z2,ts),y) $((y.val < pNewTransmission(z,z2,ts,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,ts,"EarliestEntry"))) = no;
 
-* Fix
-vNewTransmissionLine.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
-vNewTransmissionLine.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
+* Fix committed stages to their full number of lines from their entry year
+vNewTransmissionLine.fx(commtransmission(z,z2,ts),y)$((symmaxS(pNewTransmission,z,z2,ts,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmaxS(pNewTransmission,z,z2,ts,"MaximumNumOfLines");
+vNewTransmissionLine.fx(commtransmission(z,z2,ts),y)$(not sAdditionalTransfer(z,z2,ts,y) and fAllowTransferExpansion) = 0;
 
 * Compute bounds 
-vBuildTransmissionLine.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
-vBuildTransmissionLine.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
+vBuildTransmissionLine.lo(sTransStage(z,z2,ts),y) = max(0,vNewTransmissionLine.lo(z,z2,ts,y) - vNewTransmissionLine.up(z,z2,ts,y-1));
+vBuildTransmissionLine.up(sTransStage(z,z2,ts),y) = max(0,vNewTransmissionLine.up(z,z2,ts,y) - vNewTransmissionLine.lo(z,z2,ts,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;
@@ -768,9 +778,9 @@ vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) =
 *Fix the upper limit of storage assets
 vBuildStor.up(ng,y)$(not gstatusmap(ng, 'committed')) = pStorageData(ng, "BuildLimitperYear")*pWeightYear(y);
 
-*Force the committed storage (status=2) to be build at their start year
-vBuildStor.lo(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
-vBuildStor.up(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") = y.val)) = pStorageData(ng,"Capacity");
+*Force the committed storage (status=2) to be build in the first model year on or after their start year
+vBuildStor.lo(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") <= y.val) and (pStorageData(ng,"StYr") > pPrevModelYear(y))) = pStorageData(ng,"Capacity");
+vBuildStor.up(ng,y)$(stostatusmap(ng,'committed') and (pStorageData(ng,"StYr") <= y.val) and (pStorageData(ng,"StYr") > pPrevModelYear(y))) = pStorageData(ng,"Capacity");
 
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
 vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;
@@ -781,8 +791,8 @@ if (fEnableCapacityExpansion = 0,
    vBuiltCapVar.fx(g,y)      = 0;
    vBuildStor.fx(g,y)        = 0;
    vBuildTherm.fx(g,y)       = 0;
-   vBuildTransmissionLine.fx(z,z2,y) = 0;
-   vNewTransmissionLine.fx(z,z2,y)   = 0;
+   vBuildTransmissionLine.fx(z,z2,ts,y) = 0;
+   vNewTransmissionLine.fx(z,z2,ts,y)   = 0;
    vBuildH2.fx(hh,y)         = 0;
    vBuiltCapVarH2.fx(hh,y)   = 0;
 );
@@ -938,7 +948,7 @@ sFlow(z,z2,q,d,t,y)$(sTopology(z,z2)) = yes;
 sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) ) = yes;
 
 *To avoid bugs when there is no candidate transmission expansion line
-pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
+pNewTransmission(sTransStage(z,z2,ts),"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  

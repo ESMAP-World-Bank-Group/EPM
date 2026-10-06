@@ -1,0 +1,2 @@
+$log GMSPYTHONLIB: %sysenv.GMSPYTHONLIB%
+$log PYTHONPATH: %sysenv.PYTHONPATH%

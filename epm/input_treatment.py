@@ -533,9 +533,11 @@ def run_input_treatment(gams,
         param_name = "pNewTransmission"
         
         records = db[param_name].records
+        # One row per corridor, or per corridor stage when pNewTransmission has a stage index (ts)
+        keys = ["z", "z2"] + (["ts"] if "ts" in records.columns else [])
         wide = (
             records
-            .pivot_table(index=["z", "z2"],
+            .pivot_table(index=keys,
                          columns="pTransmissionHeader",
                          values="value",
                          aggfunc="first",
@@ -563,7 +565,8 @@ def run_input_treatment(gams,
         removed_rows = wide.loc[~valid_mask, ["Status"]].reset_index()
         for _, row in removed_rows.iterrows():
             status_label = "missing" if pd.isna(row["Status"]) else row["Status"]
-            gams.printLog(f"  - {row['z']} -> {row['z2']} (Status={status_label})")
+            stage_label = f" [{row['ts']}]" if "ts" in keys else ""
+            gams.printLog(f"  - {row['z']} -> {row['z2']}{stage_label} (Status={status_label})")
 
         stacked = (
             filtered
@@ -638,11 +641,12 @@ def run_input_treatment(gams,
             _log_columns(param_name, records, prefix="[input_treatment][tx_status] ")
             return
 
-        # Consolidate by corridor to decide which pairs are invalid before zeroing CapacityPerLine.
+        # Consolidate by corridor (or corridor stage) to decide which pairs are invalid before zeroing CapacityPerLine.
+        keys = ["z", "z2"] + (["ts"] if "ts" in records.columns else [])
         wide = (
             records
             .pivot_table(
-                index=["z", "z2"],
+                index=keys,
                 columns="pTransmissionHeader",
                 values="value",
                 aggfunc="first",
@@ -663,7 +667,7 @@ def run_input_treatment(gams,
 
         invalid_set = set(invalid_pairs)
         pair_flags = pd.Series(
-            ((z, z2) in invalid_set for z, z2 in zip(records["z"], records["z2"])),
+            (tuple(key) in invalid_set for key in records[keys].itertuples(index=False)),
             index=records.index,
         )
         mask = (records["pTransmissionHeader"] == "CapacityPerLine") & pair_flags

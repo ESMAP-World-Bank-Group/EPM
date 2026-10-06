@@ -109,6 +109,24 @@ $if not set pMinGenByFuel $set pMinGenByFuel %FOLDER_INPUT%/constraint/pMinGener
 $if not set pMaxShareGenerationByTech $set pMaxShareGenerationByTech %FOLDER_INPUT%/constraint/pMaxShareGenerationByTech.csv
 $if not set pCountryBuildLimitY $set pCountryBuildLimitY %FOLDER_INPUT%/constraint/pCountryBuildLimitYear.csv
 
+* OPTIONAL INPUTS: when the file is missing, read a header-only placeholder so the constraint is inactive
+$ifThen not exist "%pMaxAnnualInternalTradeShare%"
+$log pMaxAnnualInternalTradeShare not found (%pMaxAnnualInternalTradeShare%): constraint inactive
+$set pMaxAnnualInternalTradeShare %FOLDER_RESOURCES%/optional_empty/pMaxAnnualInternalTradeShare.csv
+$endIf
+$ifThen not exist "%pMaxShareGenerationByTech%"
+$log pMaxShareGenerationByTech not found (%pMaxShareGenerationByTech%): constraint inactive
+$set pMaxShareGenerationByTech %FOLDER_RESOURCES%/optional_empty/pMaxShareGenerationByTech.csv
+$endIf
+$ifThen not exist "%pMinGenByFuel%"
+$log pMinGenByFuel not found (%pMinGenByFuel%): constraint inactive
+$set pMinGenByFuel %FOLDER_RESOURCES%/optional_empty/pMinGenerationByFuel.csv
+$endIf
+$ifThen not exist "%pCountryBuildLimitY%"
+$log pCountryBuildLimitY not found (%pCountryBuildLimitY%): constraint inactive
+$set pCountryBuildLimitY %FOLDER_RESOURCES%/optional_empty/pCountryBuildLimitYear.csv
+$endIf
+
 * H2 RELATED
 $if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
 $if not set pAvailabilityH2 $set pAvailabilityH2 %FOLDER_INPUT%/h2/pAvailabilityH2.csv
@@ -551,15 +569,31 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+# Each row of pNewTransmission is a transmission stage, labelled by its row (r1, r2, ...),
+# so a corridor can be listed several times (e.g. one line in 2028, a second in 2030).
 - CSVReader:
     trace: %TRACE%
     file: %pNewTransmission%
-    name: pNewTransmission
+    name: pNewTransmissionRaw
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
-    header: [1]
+    valueColumns: "3:lastCol"
+    header: true
+    stack: true
+    autoRow: r
     type: par
+
+# Staged version (z,z2,stage,header), loaded by main_fxstor.gms
+- Projection:
+    name: pNewTransmissionRaw(r,z,z2,h)
+    newName: pNewTransmissionStage(z,z2,r,h)
+
+# Corridor-level version (z,z2,header) for entry files without stages: first row per corridor
+- Projection:
+    name: pNewTransmissionStage(z,z2,r,h)
+    newName: pNewTransmission(z,z2,h)
+    aggregationMethod: first
 
 - CSVReader:
     trace: %TRACE%

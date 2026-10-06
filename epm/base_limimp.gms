@@ -52,7 +52,7 @@ alias (AT,AT2);
 Sets
    eg(g)                  'Existing generator fleet'
    ng(g)                  'New-build candidates'
-   commtransmission(z,z2) 'Committed transmission corridors'
+   commtransmission(z,z2,ts) 'Committed transmission stages'
    cs(g)                  'Concentrated solar power units'
    so(g)                  'PV plants paired with storage'
    stp(g)                 'Dedicated storage blocks for PV plants'
@@ -75,6 +75,7 @@ Sets
    zfmap(z,f)             'Fuel availability by zone'
    gsmap(g2,g)            'Storage-to-generator linkage'
    sTopology(z,z2)        'Internal network adjacency'
+   sTransStage(z,z2,ts)   'Transmission stages of each corridor (both directions)'
    sMapConnectedZonesDiffCountries(z,z2) 'Cross-country connections subset (topology filter)'
 ;
 
@@ -98,7 +99,7 @@ Sets
    sPwrOut(g,f,q,d,t,y)        'Active generator-fuel-time combinations'
    sExportPrice(z,zext,q,d,t,y) 'Valid export price records (external zones)'
    sImportPrice(z,zext,q,d,t,y) 'Valid import price records (external zones)'
-   sAdditionalTransfer(z,z2,y)  'Transmission build decision domain'
+   sAdditionalTransfer(z,z2,ts,y)  'Transmission build decision domain (by stage)'
    sFlow(z,z2,q,d,t,y)         'Feasible flow pairs'
    sSpinningReserve(g,q,d,t,y) 'Generators able to provide spinning reserve'
    FD(q,d,t)                  'Feasible q,d,t tuples for dispatch mode'
@@ -142,7 +143,7 @@ Set
    gtechmap(g,tech)       'Generator-to-technology linkage'
    gstatusmap(g,gstatus)  'Generator status lookup (existing/candidate/committed)'
    stostatusmap(g,stostatus) 'Storage status lookup (existing/candidate/committed)'
-   tstatusmap(z,z2,tstatus) 'Transmission status lookup'
+   tstatusmap(z,z2,ts,tstatus) 'Transmission status lookup (by stage)'
    Zd(z)                  'Demand-serving zones'
    Zt(z)                  'Zone type classification (often redundant with Zd)'
    stg(g)                 'Storage generators (grid-scale)'
@@ -291,7 +292,7 @@ Positive Variables
    vYearlySysCO2backstop(y)  'System CO₂ backstop usage (t)'
 
 * Network expansion & curtailment
-   vNewTransmissionLine(z,z2,y) 'New transmission capacity (MW)'
+   vNewTransmissionLine(z,z2,ts,y) 'Cumulative new transmission lines by stage'
    vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
    vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
    vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
@@ -340,7 +341,7 @@ Free Variable
 * Integer decision variables
 * -------------------------------------------------------------
 Integer variable
-   vBuildTransmissionLine(z,z2,y) 'Integer builds for transmission'
+   vBuildTransmissionLine(z,z2,ts,y) 'Integer builds for transmission by stage'
    vBuiltCapVar(g,y)          'Integer build decision (unit commitment for discrete capacity)'
    vRetireCapVar(g,y)         'Integer retirement decision'
 ;
@@ -457,8 +458,8 @@ Equations
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
    eYearlySurplusCost(z,y)         'Penalty on surplus energy'
-   eCumulativeTransferExpansion(z,z2,y) 'Cumulative new transfer capacity'
-   eSymmetricTransferBuild(z,z2,y) 'Symmetric new build requirement'
+   eCumulativeTransferExpansion(z,z2,ts,y) 'Cumulative new transfer capacity by stage'
+   eSymmetricTransferBuild(z,z2,ts,y) 'Symmetric new build requirement by stage'
    eAnnualizedTransmissionCapex (z,y) 'Annualized transmission CAPEX'
    eExternalImportLimit(z,zext,q,d,t,y) 'Import limit from external zone (MW)'
    eExternalExportLimit(z,zext,q,d,t,y) 'Export limit to external zone (MW)'
@@ -704,17 +705,19 @@ eYearlyCarbonCost(z,y)..
 * Ensures that when accessing parameters like CostPerLine or Life for a connection between zones i and j, 
 * the model always uses the maximum of both directions, regardless of ordering.
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
+* Same for parameters indexed by transmission stage
+$macro symmaxS(s,i,j,k,h) max(s(i,j,k,h),s(j,i,k,h))
 
 * Computes annualized investment cost of new transmission lines connected to zone z
-* using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
+* using the annuity formula (each stage with its own life) and averaging (divided by 2) to avoid double-counting symmetric lines
 eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
    vAnnualizedTransmissionCapex(z,y) =e=
-       sum(sTopology(z,z2),
-           vNewTransmissionLine(z,z2,y)
-         * symmax(pNewTransmission,z,z2,"CostPerLine")
-         * 1e6)
-     / 2
-     * (pWACC / (1 - (1 / ((1 + pWACC) ** sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
+       sum(sTransStage(z,z2,ts),
+           vNewTransmissionLine(z,z2,ts,y)
+         * symmaxS(pNewTransmission,z,z2,ts,"CostPerLine")
+         * 1e6
+         * (pWACC / (1 - (1 / ((1 + pWACC) ** symmaxS(pNewTransmission,z,z2,ts,"Life"))))))
+     / 2;
 
 * ------------------------------
 * Demand and supply balance
@@ -940,7 +943,7 @@ eSpinningReserveReqSystem(q,d,t,y)$((fApplySystemSpinReserveConstraint) and FD(q
 ePlanningReserveReqCountry(c,y)$(fApplyPlanningReserveConstraint and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + sum(sTransStage(z2,z,ts), vNewTransmissionLine(z2,z,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion))$fCountIntercoForReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 * Planning reserve requirement at the system level
@@ -955,7 +958,7 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
 * ------------------------------
 * Limits flow between zones to existing + expandable transmission capacity
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + sum(sTransStage(z,z2,ts), vNewTransmissionLine(z,z2,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
@@ -967,12 +970,12 @@ eMaxAnnualInternalShareEnergy(c,y)$(fEnableInternalExchange and pMaxAnnualIntern
     =l= sum((z,q,d,t)$zcmap(z,c), pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)) * pMaxAnnualInternalTradeShare(y,c);
 
 * Cumulative build-out of new transfer capacity over time
-eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmissionLine(z,z2,y);
+eCumulativeTransferExpansion(sTransStage(z,z2,ts),y)$fAllowTransferExpansion..
+   vNewTransmissionLine(z,z2,ts,y) =e=  vNewTransmissionLine(z,z2,ts,y-1) + vBuildTransmissionLine(z,z2,ts,y);
 
 * Ensures symmetry in bidirectional transmission investment
-eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vBuildTransmissionLine(z,z2,y)  =e=  vBuildTransmissionLine(z2,z,y);
+eSymmetricTransferBuild(sTransStage(z,z2,ts),y)$fAllowTransferExpansion..
+   vBuildTransmissionLine(z,z2,ts,y)  =e=  vBuildTransmissionLine(z2,z,ts,y);
 
 * External trade
 
