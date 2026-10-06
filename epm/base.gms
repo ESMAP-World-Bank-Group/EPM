@@ -52,7 +52,7 @@ alias (AT,AT2);
 Sets
    eg(g)                  'Existing generator fleet'
    ng(g)                  'New-build candidates'
-   commtransmission(z,z2) 'Committed transmission corridors'
+   commtransmission(z,z2,ts) 'Committed transmission stages'
    cs(g)                  'Concentrated solar power units'
    so(g)                  'PV plants paired with storage'
    stp(g)                 'Dedicated storage blocks for PV plants'
@@ -75,6 +75,7 @@ Sets
    zfmap(z,f)             'Fuel availability by zone'
    gsmap(g2,g)            'Storage-to-generator linkage'
    sTopology(z,z2)        'Internal network adjacency'
+   sTransStage(z,z2,ts)   'Transmission stages of each corridor (both directions)'
    sMapConnectedZonesDiffCountries(z,z2) 'Cross-country connections subset (topology filter)'
 ;
 
@@ -85,6 +86,7 @@ Sets
 Sets
    gstatus  'Generator status lookup'           / Existing, Candidate, Committed /
    tstatus  'Transmission project status'      / Candidate, Committed /
+   stostatus 'Storage status lookup'        / Existing, Candidate, Committed /
    mipline  'modeltype option line identifiers'
    mipopt(mipline<) 'MIP modeltype option key-value pairs' / system.empty /
 ;
@@ -97,7 +99,7 @@ Sets
    sPwrOut(g,f,q,d,t,y)        'Active generator-fuel-time combinations'
    sExportPrice(z,zext,q,d,t,y) 'Valid export price records (external zones)'
    sImportPrice(z,zext,q,d,t,y) 'Valid import price records (external zones)'
-   sAdditionalTransfer(z,z2,y)  'Transmission build decision domain'
+   sAdditionalTransfer(z,z2,ts,y)  'Transmission build decision domain (by stage)'
    sFlow(z,z2,q,d,t,y)         'Feasible flow pairs'
    sSpinningReserve(g,q,d,t,y) 'Generators able to provide spinning reserve'
    FD(q,d,t)                  'Feasible q,d,t tuples for dispatch mode'
@@ -140,7 +142,8 @@ Set
    gprimf(g,f)            'Primary fuel used by each generator'
    gtechmap(g,tech)       'Generator-to-technology linkage'
    gstatusmap(g,gstatus)  'Generator status lookup (existing/candidate/committed)'
-   tstatusmap(z,z2,tstatus) 'Transmission status lookup'
+   stostatusmap(g,stostatus) 'Storage status lookup (existing/candidate/committed)'
+   tstatusmap(z,z2,ts,tstatus) 'Transmission status lookup (by stage)'
    Zd(z)                  'Demand-serving zones'
    Zt(z)                  'Zone type classification (often redundant with Zd)'
    stg(g)                 'Storage generators (grid-scale)'
@@ -218,6 +221,7 @@ Parameters
    fApplyPlanningReserveConstraint 'Enable planning reserve constraint'
    sIntercoReserveContributionPct 'Share of interconnection capacity counted toward reserves'
    fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
+   fApplyCapacityExpansionLimit   'VRE capacity limit constraint'
    sReserveMarginPct              'Planning reserve margin target'
    pHeatrate(g,f)                 'Generator heat rate'
 
@@ -288,7 +292,7 @@ Positive Variables
    vYearlySysCO2backstop(y)  'System CO₂ backstop usage (t)'
 
 * Network expansion & curtailment
-   vNewTransmissionLine(z,z2,y) 'New transmission capacity (MW)'
+   vNewTransmissionLine(z,z2,ts,y) 'Cumulative new transmission lines by stage'
    vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
    vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
    vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
@@ -337,11 +341,13 @@ Free Variable
 * Integer decision variables
 * -------------------------------------------------------------
 Integer variable
-   vBuildTransmissionLine(z,z2,y) 'Integer builds for transmission'
+   vBuildTransmissionLine(z,z2,ts,y) 'Integer builds for transmission by stage'
    vBuiltCapVar(g,y)          'Integer build decision (unit commitment for discrete capacity)'
    vRetireCapVar(g,y)         'Integer retirement decision'
 ;
 
+Positive Variable vCapSlack(c,y);
+Scalar capPenalty /1e9/;
 
 * -------------------------------------------------------------
 * Core equations (objective, balances, constraints)
@@ -419,7 +425,10 @@ Equations
 * ------------------------------
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
-   eMaxGenerationByFuel(z,tech,f,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
+   eMaxGenerationByFuel(z,tech,f,q,d,t,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
+   eCountryBuildLimit(c,y)         'Maximum VRE capacity per Year'
+   eMinGenerationByFuel(c,tech,f,y) 'Minimum annual generation by zone-tech-fuel [GWh]'
+   eMaxShareGenTech(z,tech,y) 'Maximum annual generation of technology as share of total demand '
 
 * ------------------------------
 * Ramp and reserve constraints
@@ -445,11 +454,12 @@ Equations
    eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
    eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
    eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
+   eMaxAnnualInternalShareEnergy(c,y) 'Maximum import flow per country'
    eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
    eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
    eYearlySurplusCost(z,y)         'Penalty on surplus energy'
-   eCumulativeTransferExpansion(z,z2,y) 'Cumulative new transfer capacity'
-   eSymmetricTransferBuild(z,z2,y) 'Symmetric new build requirement'
+   eCumulativeTransferExpansion(z,z2,ts,y) 'Cumulative new transfer capacity by stage'
+   eSymmetricTransferBuild(z,z2,ts,y) 'Symmetric new build requirement by stage'
    eAnnualizedTransmissionCapex (z,y) 'Annualized transmission CAPEX'
    eExternalImportLimit(z,zext,q,d,t,y) 'Import limit from external zone (MW)'
    eExternalExportLimit(z,zext,q,d,t,y) 'Export limit to external zone (MW)'
@@ -476,6 +486,7 @@ Equations
    eSOCSupportsReserve(g,q,d,t,y)  'Ensure SOC can cover reserve commitment'
    eChargeCapacityLimit(g,q,d,t,y) 'Charging limited by power capacity'
    eChargeLimitWithPVProfile(g,q,d,t,y) 'PV-coupled storage charging limit'
+   eChargeLimitLinkedPlant(g,q,d,t,y) 'Linked storage charges only from its plant output'
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
@@ -530,7 +541,7 @@ Equations
 * Adding system-level cost of reserves and CO2 backstop to the total cost
 eNPVCost..
    vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, 
-                                 vYearlyTotalCost(c,y)) + 
+                                 vYearlyTotalCost(c,y)+capPenalty*vCapSlack(c,y)) + 
                                  vYearlyUnmetPlanningReserveCostSystem(y) + 
                                  vYearlyUnmetSpinningReserveCostSystem(y) +
                                  vYearlyCO2BackstopCostSystem(y))
@@ -694,17 +705,19 @@ eYearlyCarbonCost(z,y)..
 * Ensures that when accessing parameters like CostPerLine or Life for a connection between zones i and j, 
 * the model always uses the maximum of both directions, regardless of ordering.
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
+* Same for parameters indexed by transmission stage
+$macro symmaxS(s,i,j,k,h) max(s(i,j,k,h),s(j,i,k,h))
 
 * Computes annualized investment cost of new transmission lines connected to zone z
-* using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
+* using the annuity formula (each stage with its own life) and averaging (divided by 2) to avoid double-counting symmetric lines
 eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
    vAnnualizedTransmissionCapex(z,y) =e=
-       sum(sTopology(z,z2),
-           vNewTransmissionLine(z,z2,y)
-         * symmax(pNewTransmission,z,z2,"CostPerLine")
-         * 1e6)
-     / 2
-     * (pWACC / (1 - (1 / ((1 + pWACC) ** sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
+       sum(sTransStage(z,z2,ts),
+           vNewTransmissionLine(z,z2,ts,y)
+         * symmaxS(pNewTransmission,z,z2,ts,"CostPerLine")
+         * 1e6
+         * (pWACC / (1 - (1 / ((1 + pWACC) ** symmaxS(pNewTransmission,z,z2,ts,"Life"))))))
+     / 2;
 
 * ------------------------------
 * Demand and supply balance
@@ -756,6 +769,10 @@ eBuiltCap(ng,y)$pGenData(ng,"DescreteCap")..
 eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")))..
    vRetire(eg,y) =e= pGenData(eg,"UnitSize")*vRetireCapVar(eg,y);
 
+* Limit annual sum of new builds in each country:
+eCountryBuildLimit(c,y)$(fApplyCapacityExpansionLimit and pCountryBuildLimitY(c,y))..
+    sum((VRE_noROR,z)$( gzmap(VRE_noROR,z) and zcmap(z,c) and ng(VRE_noROR) ),vBuild(VRE_noROR,y))
+    =l= pCountryBuildLimitY(c,y)*pWeightYear(y) + vCapSlack(c,y);
 * ------------------------------
 * Production equations
 * Constrains generator dispatch, ramping, and minimum output.
@@ -780,9 +797,18 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-* Phase-out constraint: limits annual generation by zone-technology-fuel combination
-eMaxGenerationByFuel(z,tech,f,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
-   sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))/1e3 =l= pMaxGenerationByFuel(z,tech,f,y);
+* Phase-out constraint: limits annual instantaneous power output by zone-technology-fuel combination
+eMaxGenerationByFuel(z,tech,f,q,d,t,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
+   sum((gzmap(eg,z),gtechmap(eg,tech),gfmap(eg,f)), vPwrOut(eg,f,q,d,t,y)) =l= pMaxGenerationByFuel(z,tech,f,y);
+   
+* Max generation for technology as share of the total demand (alternative import constraint)
+eMaxShareGenTech(z,tech,y)$(pMaxShareGenerationByTech(z,tech,y))..
+   sum((gzmap(g,z),gtechmap(g,tech),f,q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxShareGenerationByTech(z,tech,y);
+   
+*Applies minimum generation for specific technology and fuel
+eMinGenerationByFuel(c,tech,f,y)$(pMinGenByFuel(c,tech,f,y))..
+    sum((zcmap(z,c),gtechmap(g,tech),gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =g= pMinGenByFuel(c,tech,f,y);
 
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
@@ -917,7 +943,7 @@ eSpinningReserveReqSystem(q,d,t,y)$((fApplySystemSpinReserveConstraint) and FD(q
 ePlanningReserveReqCountry(c,y)$(fApplyPlanningReserveConstraint and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + sum(sTransStage(z2,z,ts), vNewTransmissionLine(z2,z,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion))$fCountIntercoForReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 * Planning reserve requirement at the system level
@@ -932,23 +958,24 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
 * ------------------------------
 * Limits flow between zones to existing + expandable transmission capacity
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + sum(sTransStage(z,z2,ts), vNewTransmissionLine(z,z2,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
-* The domain is sTopology(z2,z), matching the direction of the flow being constrained:
-* vFlow is restricted to sFlow, itself built from sTopology, so the equation must be
-* declared exactly where the variable exists. Indexing on sTopology(z,z2) instead would
-* silently drop the constraint whenever the reverse pair is absent from the topology.
-eMinImportRequirement(sTopology(z2,z),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
+eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
+   
+*Enforces maximum net imports in all zones when specified-old
+eMaxAnnualInternalShareEnergy(c,y)$(fEnableInternalExchange and pMaxAnnualInternalTradeShare(y,c))..
+  sum((z,z2,q,d,t)$(zcmap(z,c) and not zcmap(z2,c)),(vFlow(z2,z,q,d,t,y) - vFlow(z,z2,q,d,t,y)) * pHours(q,d,t))
+    =l= sum((z,q,d,t)$zcmap(z,c), pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)) * pMaxAnnualInternalTradeShare(y,c);
 
 * Cumulative build-out of new transfer capacity over time
-eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmissionLine(z,z2,y);
+eCumulativeTransferExpansion(sTransStage(z,z2,ts),y)$fAllowTransferExpansion..
+   vNewTransmissionLine(z,z2,ts,y) =e=  vNewTransmissionLine(z,z2,ts,y-1) + vBuildTransmissionLine(z,z2,ts,y);
 
 * Ensures symmetry in bidirectional transmission investment
-eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vBuildTransmissionLine(z,z2,y)  =e=  vBuildTransmissionLine(z2,z,y);
+eSymmetricTransferBuild(sTransStage(z,z2,ts),y)$fAllowTransferExpansion..
+   vBuildTransmissionLine(z,z2,ts,y)  =e=  vBuildTransmissionLine(z2,z,ts,y);
 
 * External trade
 
@@ -1001,6 +1028,10 @@ eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 * Charge cap from PV-following storage logic
 eChargeLimitWithPVProfile(stp,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
+
+* Charging of grid-scale storage linked to a plant ("Linked plant" column) ≤ that plant's generation
+eChargeLimitLinkedPlant(g2,q,d,t,y)$(fEnableStorage and FD(q,d,t) and sum(gsmap(g2,stg),1))..
+   sum(gsmap(g2,stg), vStorInj(stg,q,d,t,y)) =l= sum(gfmap(g2,f), vPwrOut(g2,f,q,d,t,y));
 
 * Max rate of charge decrease (ramp-down)
 eChargeRampDownLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApplyRampConstraint) and FD(q,d,t))..
@@ -1226,6 +1257,8 @@ Model PA /
    eVREProfile
    eFuelLimit
    eMaxGenerationByFuel
+   eMinGenerationByFuel
+   eMaxShareGenTech
    eCapitalConstraint
    eZonalEmissions
    eEmissionsCountry
@@ -1241,6 +1274,7 @@ Model PA /
    eAnnualizedTransmissionCapex
    eCumulativeTransferExpansion
    eSymmetricTransferBuild
+   eMaxAnnualInternalShareEnergy
    eMaxAnnualImportShareEnergy
    eMaxAnnualExportShareEnergy  
    eMaxHourlyImportShareEnergy
@@ -1254,6 +1288,7 @@ Model PA /
    eStorageFixedDuration
    eChargeCapacityLimit
    eChargeLimitWithPVProfile
+   eChargeLimitLinkedPlant
    eChargeRampDownLimit
    eChargeRampUpLimit
    eNetChargeBalance
@@ -1281,6 +1316,7 @@ Model PA /
    eCapStorAnnualUpdateNG
    eCapStorInitialNG
    eBuildStorNew
+   eCountryBuildLimit
    
    eCapacityThermLimit
    eCapThermBalance1

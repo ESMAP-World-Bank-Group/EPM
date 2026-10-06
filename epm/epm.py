@@ -66,16 +66,16 @@ from postprocessing.utils import (
 from postprocessing.postprocessing import postprocess_output
 
 PATH_GAMS = {
-    'path_main_file': 'main.gms',
-    'path_base_file': 'base.gms',
+    'path_main_file': 'main_fxstor.gms',
+    'path_base_file': 'base_limimp.gms',
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
     'path_demand_file': 'generate_demand.gms',
-    'path_hydrogen_file': 'hydrogen_module.gms'
+    'path_hydrogen_file': 'hydrogen_module.gms',
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-LOG_FILE_PATH = Path(BASE_DIR) / f"epm_{datetime.datetime.now().strftime("%H_%M_%S")}.log"
+LOG_FILE_PATH = Path(BASE_DIR) / f"epm{datetime.datetime.now().strftime('_%Y%m%d_%H%M%S')}.log"
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 _ENV_FLAG = "EPM_LOG_INITIALIZED"
 
@@ -332,7 +332,7 @@ def launch_epm_checkpoint(scenario,
     # Defining the GAMS workspace
     new_dir = os.path.abspath(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)), os.pardir))
     os.chdir(new_dir)
-    model_path, model_directory =  os.path.join(new_dir, 'main.gms'), new_dir # Get the paths
+    model_path, model_directory =  os.path.join(new_dir, 'main_fxstor.gms'), new_dir # Get the paths
     gams_model = read_gams_model(model_path) # Open model
     ws = initialize_workspace(model_directory) # Opening a gams workspace
     cp, job = create_checkpoint(ws, gams_model, options=options) # cp capture the current state of the model and job the work going on
@@ -419,7 +419,7 @@ def launch_epm(scenario,
                                                     "--READER_FILE {}".format(path_reader_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--HYDROGEN_FILE {}".format(path_hydrogen_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input)
+                                                    "--FOLDER_INPUT {}".format(folder_input),
                                                     ] + path_args
 
     if debug:
