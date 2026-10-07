@@ -128,6 +128,14 @@ $ifThen not exist "%pCountryBuildLimitY%"
 $log pCountryBuildLimitY not found (%pCountryBuildLimitY%): constraint inactive
 $set pCountryBuildLimitY %FOLDER_RESOURCES%/optional_empty/pCountryBuildLimitYear.csv
 $endIf
+$ifThen not exist "%pContractedTradeFlag%"
+$log pContractedTradeFlag not found (%pContractedTradeFlag%): constraint inactive
+$set pContractedTradeFlag %FOLDER_RESOURCES%/optional_empty/pContractedTradeFlag.csv
+$endIf
+$ifThen not exist "%pContractedTradeEnergy%"
+$log pContractedTradeEnergy not found (%pContractedTradeEnergy%): constraint inactive
+$set pContractedTradeEnergy %FOLDER_RESOURCES%/optional_empty/pContractedTradeEnergy.csv
+$endIf
 
 * H2 RELATED
 $if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
