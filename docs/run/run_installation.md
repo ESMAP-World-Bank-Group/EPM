@@ -1,206 +1,105 @@
-# EPM Installation Guide
+# Installation
 
-This guide walks you through installing and setting up the **EPM** model. It covers:
-
-- Cloning the repository (getting the code on your computer)
-- Creating your own branch (to work independently)
-- Launching the model (via GAMS or Python)
-
-> You don’t need to be familiar with Git—just follow the steps carefully.
+!!! question "Coming from an Excel `.xlsb` model?"
+    These instructions install **EPM 9**, which reads CSV inputs and is driven from Python.
+    If your model is a workbook, you are on **v8.5** — see
+    [Legacy version](run_legacy_v8_5.md), or
+    [port it to CSV](../input/input_from_excel_to_csv.md) and come back here.
 
 ---
 
-## Quick Install (Windows Beta)
+## Prerequisites
 
-If you are on **Windows** you can try the one-click installer first:
+EPM's optimization engine is **GAMS**, which must be installed on your machine before proceeding.
 
-1. [Download `setup_epm.bat`](dwld/setup_epm.bat) and place it in an empty folder.
-2. Double-click the file (or right-click → **Run as administrator**) to launch the guided setup.
-3. Wait for the script to finish—it checks for Git, Conda, and GAMS, pulls the latest EPM code, recreates the `epm_env` Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test.
-4. When the green success message appears, open the cloned `EPM` folder and continue with the rest of this guide.
+!!! info "Install GAMS"
+    [Download GAMS](https://www.gams.com/download/), version **48.2.0 to 53.x** required.
+    **GAMS 54.x is not yet supported.**
+    Contact your institution or the World Bank team for a license.
 
-> The installer writes a log file next to the script (`setup_log.txt`). If it stops with an error, or if you are on another operating system, follow the manual steps below instead.
+    Add GAMS to your system PATH so it can be called from the terminal:
 
-## Quick Install (macOS Beta)
+    - **Windows:** Search "Environment Variables" → System Variables → Path → add your GAMS folder (e.g. `C:\GAMS\48.2`)
+    - **macOS:** Add `export PATH="/Applications/GAMS48.2:$PATH"` to `~/.zshrc`, then run `source ~/.zshrc`
 
-If you are on **macOS** you can use the shell installer:
-
-1. [Download `setup_epm.sh`](dwld/setup_epm.sh) and place it in an empty folder (e.g., `~/EPM_Setup`).
-2. Open **Terminal**, change into that folder (`cd ~/EPM_Setup`), and make the script executable:
-   ```sh
-   chmod +x setup_epm.sh
-   ```
-3. Run the installer:
-   ```sh
-   ./setup_epm.sh
-   ```
-4. The script verifies Git, Conda, and GAMS, pulls the latest EPM repository, rebuilds the `epm_env` Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test. When it reports success, open the cloned `EPM` folder to continue with the manual steps below.
-
-> The macOS installer also writes `setup_log.txt` alongside the script. If the run fails or you prefer to configure things manually, proceed with the next section.
+    Verify: `gams` in a terminal should return the GAMS version.
 
 ---
 
-## 1. Clone the Repository
+## Installation
 
-To get the project on your computer:
+Two options are available. The **Windows Installer** automates the full setup (Git, Conda, Python environment, repository clone); only GAMS needs to be pre-installed. The **Manual Setup** is for users who want to control each step. 
 
-1. Open **Terminal** (macOS) or **Command Prompt** (Windows).
+=== "Windows Installer"
 
-   - On **macOS**: `Applications > Utilities > Terminal`
-   - On **Windows**: Search "Command Prompt" in the Start menu
+    [Download epm.exe](https://github.com/ESMAP-World-Bank-Group/EPM/raw/main/installer/epm.exe){ .md-button .md-button--primary }
 
-2. Navigate to the folder where you want to install the project.  
-   This tells your computer where to download the files.
+    <div style="font-size:0.78rem; margin-top:1.2rem;">
 
-   Example:
+    **Steps**
 
-   ```sh
-   cd path/to/your/Projects
-   ```
+    1. **Double-click** `epm.exe` — a terminal window opens
+    2. **Choose an install folder** when prompted, or press Enter for the default (`C:\Users\you\EPM`)
+    3. **Wait** a few minutes — the installer clones the repository and sets up the Python environment
+    4. You see **"Installation complete!"** — you're done
 
-   Or step-by-step:
+    **After installation**
 
-   ```sh
-   cd Documents
-   cd Projects
-   ```
+    - EPM is in the folder you chose
+    - A **"Launch EPM Dashboard"** shortcut is on your Desktop — double-click it to start *(Dashboard is under development — errors must be debugged via command line)*
 
-3. Clone the repository:
+    > **Note:** GAMS must be installed separately with a valid license. The installer will warn you if it is not detected.
 
-   ```sh
-   git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
-   ```
+    </div>
 
-4. Move into the project folder:
-   ```sh
-   cd EPM
-   ```
+=== "Manual Setup"
 
----
+    <div style="font-size:0.85rem;">
 
-## 2. Create and Activate a Branch
+    **1. Install prerequisites**
 
-A **branch** is your personal workspace, so you can make changes without affecting the main version of the code.
+    - **Git** — [Windows](https://git-scm.com/download/win) · [macOS](https://sourceforge.net/projects/git-osx-installer/)
+    - **Python & Conda** — [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (all platforms)
+    - **Code editor** *(optional)* — [VS Code](https://code.visualstudio.com/)
 
-1. Check your current branch:
+    **2. Clone the repository**
 
-   ```sh
-   git branch
-   ```
+    ```sh
+    git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
+    cd EPM
+    git checkout -b my_country_2025
+    git push -u origin my_country_2025
+    ```
 
-2. Create and switch to your new branch (e.g., `guinea_2025`):
-   ```sh
-   git checkout -b guinea_2025
-   ```
+    **3. Set up the Python environment**
 
-If you check your current branch again, you should now see the name of your new branch highlighted.
+    ```sh
+    conda create -n epm_env python=3.10 --override-channels -c conda-forge
+    conda activate epm_env
+    pip install -r requirements.txt
+    ```
 
-3. Push your new branch to GitHub:
-   ```sh
-   git push -u origin guinea_2025
-   ```
+    **4. Verify**
 
-You can check the branches on GitHub to confirm your new branch is there.
-This command sets the upstream branch for future pushes, so you can use `git push` without specifying the branch name next time.
+    ```sh
+    cd epm && python epm.py --simple
+    ```
 
-```sh
-git push
-```
+    Results are written to `output/`. If something fails, see [Debugging](run_debugging.md).
+
+    </div>
 
 ---
 
-## 3. Test the Installation
+## How do you want to run EPM?
 
-The project includes a test dataset (`data_test`) for Guinea to verify everything works.
+| Method | Best for | Go to |
+|---|---|---|
+| **Python CLI** | Scenarios, automation, Monte Carlo | [Run from Python](run_python.md) |
+| **GAMS Studio** | Model development, GAMS debugging | [Run from GAMS Studio](run_gams_studio.md) |
+| **Remote Server** | Heavy computations, parallel runs | [Run on Remote Server](run_remote_server.md) |
 
-### Option 1 – Using GAMS Studio (Recommended for First-Time Users)
-
-1. Open **GAMS Studio**
-2. Use the file browser to open the downloaded `EPM` folder
-3. Open `main.gms`
-4. Click **Run**
-
-### Option 2 – Using Python (For Advanced Users)
-
-The Python API enables advanced automation and custom analyses.
-
-See the next section: [Running EPM from Python](#) for more details.
-
----
-
-Next steps are described with high-level instructions, but you can find detailed steps in the documentation.
-
-## 4. Run EPM with Your Own Data
-
-Once the test case works, you can run EPM with your own input data.
-
-- Input files should be placed in a new folder inside the `input/` directory
-- A good starting point is to **duplicate an existing folder** (e.g., `data_test`) and modify its content
-- Detailed instructions are available in the **Input section** of the documentation
-
-EPM can be run with your data either via **GAMS Studio** or **Python** as previously described.
-
----
-
-## 5. Advanced Usage with Python
-
-The Python API supports advanced features such as:
-
-- Scenario generation
-- Sensitivity analysis
-- Monte Carlo simulations
-
-Refer to the **Run EPM from Python** section for usage examples and command-line options.
-
----
-
-## 6. Troubleshooting
-
-If you encounter issues:
-
-- Check the **Troubleshooting** section in the documentation
-- Use **AI tools or Google** to look up the error message
-- If you're still stuck, reach out to the EPM team
-
-To debug input issues, you can also use GAMS Studio’s trace mode. (See the debugging tips section.)
-
----
-
-## 7. Analyzing Results
-
-After running the model:
-
-- Results are automatically saved in the `output/` folder
-- Use the summary `.csv` files for key outputs
-- For more detailed analysis, you can connect the CSVs to **Tableau** or another visualization tool
-
----
-
-## 8. Run on the Remote Server
-
-Once your setup works correctly and has been tested on a small test case, you can run large-scale simulations on the **remote server**.
-
-This is especially useful for:
-
-- Running long or heavy simulations (e.g., full-year, multi-zone, Monte Carlo)
-- Avoiding performance limitations on your local machine
-
-Refer to the **Remote Server Usage** section of the documentation for:
-
-- Connection instructions
-- Best practices
-- How to launch the model using GAMS or Python on the server
-
-Make sure your local run works before using the server, to avoid unnecessary load and easier debugging.
-
----
-
-## 9. Contribute Improvements to the Main Branch
-
-If you've developed new features or made improvements that should be shared:
-
-- Follow the Git contribution workflow (e.g., pull request from your branch)
-- Make sure your code is tested and documented
-- If unsure, contact the EPM team for help with integration
-
-Our goal is to make the framework collaborative and maintainable. Contributions are welcome!
+!!! info "And to look at the results"
+    The [EPM Dashboard](run_dashboard.md) *(beta)* is a visual interface for inspecting input
+    data and exploring results. It **does not run the model** — pick one of the methods above
+    for that.

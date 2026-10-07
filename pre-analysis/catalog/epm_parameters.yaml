@@ -1,0 +1,78 @@
+# EPM parameter registry — used by generate_docs.py for the overview matrix.
+# id must match the CSV/EPM parameter name exactly.
+# One entry per unique EPM parameter (not per row in the data collection table).
+
+- id: pDemandForecast
+  category: Load
+  item: Annual demand forecast
+  description: "Historical and projected electricity demand (GWh and MW peak) by year"
+
+- id: pDemandProfile
+  category: Load
+  item: Hourly demand profile
+  description: "Typical hourly load curve (8760 h) for a representative year"
+
+- id: pGenDataInput
+  category: Supply
+  item: Generator database
+  description: "Existing, committed, and candidate plants: name, technology, capacity (MW), COD, CAPEX, O&M, operating constraints"
+
+- id: pFuelPrice
+  category: Supply
+  item: Fuel prices
+  description: "Gas, coal, diesel, HFO trajectory 2025–2050 ($/GJ)"
+
+- id: pAvailabilityCustom
+  category: Supply
+  item: Plant availability
+  description: "Seasonal capacity factors for thermal, hydro, and other dispatchable units"
+
+- id: pStorageDataInput
+  category: Supply
+  item: Storage assumptions
+  description: "For BESS and PSH: capacity, duration, efficiency, cost assumptions"
+
+- id: pVREProfile
+  category: Supply
+  item: VRE and hydro profiles
+  description: "Hourly capacity factor profiles for solar PV, wind, and run-of-river hydro (normalised 0–1)"
+
+- id: pMaxGenerationByFuel
+  category: Resources
+  item: Maximum installable capacity
+  description: "Maximum new capacity by technology (resource potential and spatial constraints)"
+
+- id: pSettings
+  category: Resources
+  item: VRE integration assumptions
+  description: "VRE curtailment, variability handling, and balancing cost assumptions"
+
+- id: pTransferLimit
+  category: Trade
+  item: Cross-border transmission
+  description: "Existing and planned cross-border interconnectors: capacity (MW), year, routing options"
+
+- id: pLossFactorInternal
+  category: Trade
+  item: Transmission losses
+  description: "Cross-border interconnector losses (% by corridor)"
+
+- id: pTradePrice
+  category: Trade
+  item: Trade prices
+  description: "Import/export prices with temporal variability ($/MWh) — external zones"
+
+- id: pPlanningReserveMargin
+  category: Reserves
+  item: Reserve margin
+  description: "Planning reserve margin (%) and operating reserve assumptions"
+
+- id: pCarbonPrice
+  category: Other
+  item: Carbon pricing
+  description: "Carbon price or emission constraint applied in planning (NDC, ETS membership)"
+
+- id: pMaxFuelLimit
+  category: Other
+  item: Fuel and import limits
+  description: "Caps or floors on fuel use or electricity imports (e.g. gas import quotas)"

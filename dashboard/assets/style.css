@@ -1,0 +1,40 @@
+/* EPM Dashboard — custom styles */
+
+/* Sidebar nav links */
+.nav-link {
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+}
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.18);
+    font-weight: 600;
+}
+
+/* AgGrid — make alternating rows subtle */
+.ag-theme-alpine .ag-row-even {
+    background-color: #fafafa;
+}
+.ag-theme-alpine .ag-cell-inline-editing {
+    border: 2px solid #0d6efd !important;
+}
+
+/* Card hover effect */
+.card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10) !important;
+    transition: box-shadow 0.2s ease;
+}
+
+/* Log window scroll-to-bottom behaviour */
+#log-output {
+    scroll-behavior: smooth;
+}
+
+/* Compact tab labels */
+.nav-tabs .nav-link {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+}

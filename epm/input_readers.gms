@@ -95,6 +95,8 @@ $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pL
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMaxAnnualInternalTradeShare $set pMaxAnnualInternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualInternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport_mozalout.csv
+$if not set pContractedTradeFlag $set pContractedTradeFlag %FOLDER_INPUT%/trade/pContractedTradeFlag.csv
+$if not set pContractedTradeEnergy $set pContractedTradeEnergy %FOLDER_INPUT%/trade/pContractedTradeEnergy.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
 $if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
@@ -622,6 +624,26 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pContractedTradeFlag%
+    name: pContractedTradeFlag
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3]
+    valueColumns: [4]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pContractedTradeEnergy%
+    name: pContractedTradeEnergy
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3]
     header: [1]
     type: par
 

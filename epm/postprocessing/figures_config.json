@@ -14,8 +14,8 @@
         "CapacityMixEvolutionZone": true,
         "CapacityMixZoneScenarios": true,
         "CapacityMixZoneScenariosRelative": true,
-        "NewCapacityZoneInstalledTimeline": true,
-        "NewCapacitySystemInstalledTimeline": true
+        "NewCapacityZoneInstalledTimeline": false,
+        "NewCapacitySystemInstalledTimeline": false
       }
     },
     "costs": {

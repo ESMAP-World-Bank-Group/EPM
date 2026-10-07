@@ -12,33 +12,19 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15591290.svg)](https://doi.org/10.5281/zenodo.15591290)
 
 
-Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/home.html).
+Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/).
 
 ## What is EPM?
 
-EPM (Electricity Planning Model) is a least-cost power system planning tool developed by the Power Systems Planning Group at the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is a key activity for energy ministries and utilities worldwide, EPM serves as an evolving and versatile decision-making tool for World Bank staff and clients.
+EPM (Electricity Planning Model) is a least-cost power system planning tool developed by the Power Systems Planning Group at the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is a key activity for energy ministries and utilities worldwide, EPM serves as a decision-making tool for World Bank staff and clients.
 
 ## Objectives
 
 EPM helps answer critical questions for power system planners:
 
-### Capacity Planning
-
-- **What generation capacity should be built?** - Optimal mix of technologies (solar, wind, hydro, gas, etc.)
-- **When should new capacity be built?** - Investment timeline over the planning horizon
-- **Where should it be located?** - Geographic distribution across zones/countries
-
-### System Operations
-
-- **How will generation be dispatched?** - Hourly operation of power plants
-- **What are the electricity costs?** - Generation costs by zone and technology
-- **How much will the system cost?** - Total NPV of capacity expansion and operations
-
-### Policy Analysis
-
-- **What is the impact of renewable targets?** - Achieving minimum RE shares
-- **What are the benefits of interconnections?** - Cross-border power trade
-- **What are the CO2 implications?** - Emissions under different scenarios
+- **Capacity Planning** — Optimal technology mix, investment timeline, and geographic distribution across zones
+- **System Operations** — Hourly dispatch, generation costs by zone and technology, total NPV of expansion and operations
+- **Policy Analysis** — Impact of renewable targets, cross-border interconnections, and CO₂ constraints under different scenarios
 
 ## How It Works
 
@@ -57,7 +43,7 @@ EPM minimizes the costs of expanding and operating a power system while meeting 
 
 > **Note**: These examples are for illustrative purposes only. Numbers should not be used quantitatively.
 
-EPM produces comprehensive outputs including:
+EPM produces the following outputs:
 
 | Output Type | Description |
 |-------------|-------------|
@@ -68,13 +54,23 @@ EPM produces comprehensive outputs including:
 | Interconnections | Cross-border power flows |
 | Interactive Maps | Geographic visualization of the power system |
 
-See the [Output Examples](https://esmap-world-bank-group.github.io/EPM/docs/output/examples.html) documentation for sample visualizations.
+See the [Output & Postprocessing](https://esmap-world-bank-group.github.io/EPM/output/output_overview.html) documentation for sample visualizations.
 
-## Deployment Process
+## Getting Started
 
-The practical deployment of EPM consists of a 7-step process, which is illustrated below.
+Install EPM and choose how you want to run it:
 
-<img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
+| Method | Best for |
+|--------|----------|
+| [Windows Installer](https://esmap-world-bank-group.github.io/EPM/run/run_installation/) | One-click setup on Windows — installs everything automatically |
+| [Python CLI](https://esmap-world-bank-group.github.io/EPM/run/run_python/) | Scenarios, automation, Monte Carlo |
+| [GAMS Studio](https://esmap-world-bank-group.github.io/EPM/run/run_gams_studio/) | Model development and GAMS debugging |
+
+To look at the data and the results, the [EPM Dashboard](https://esmap-world-bank-group.github.io/EPM/run/run_dashboard/) *(beta)* is a visual interface for inspecting inputs and exploring outputs. It **does not run the model** — use one of the methods above for that.
+
+Full installation instructions are available [here](https://esmap-world-bank-group.github.io/EPM/run/run_installation/).
+
+> **GAMS version:** EPM is tested on **GAMS 53.x** (CI pinned to 53.5.1). **GAMS 54.x is not yet supported** — it changes data types returned by `gams-transfer` and breaks input processing. Please use GAMS < 54 for now. Tracking: [#126](https://github.com/ESMAP-World-Bank-Group/EPM/issues/126).
 
 ---
 
@@ -111,6 +107,6 @@ Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Pla
 
 ## License
 
-Licensed under the Areative Commons Zero v1.0 Universal (the "License"); you
+Licensed under the Creative Commons Zero v1.0 Universal (the "License"); you
 may not use this file except in compliance with the License. You may
 obtain a copy of the License at <https://creativecommons.org/publicdomain/zero/1.0/>

@@ -15,16 +15,14 @@ jobs:
         with:
           python-version: "3.10"
           cache: "pip"
-      - name: Dependencies
-        run: |
-          if [ -f docs/requirements.txt ]; then pip install -r docs/requirements.txt; fi
-      - name: Build Jupyter Book
-        run: |
-          jupyter-book build . --config docs/_config.yml --toc docs/_toc.yml
+      - name: Install dependencies
+        run: pip install -r docs/requirements.txt
+      - name: Build MkDocs site
+        run: mkdocs build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main' && job.status == 'success'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_build/html
+          publish_dir: ./site
           enable_jekyll: false

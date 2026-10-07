@@ -32,7 +32,7 @@ def run_epm_simple(folder_input="data_test", cpu=1):
     # Build arguments list for main()
     test_args = [
         "--folder_input", folder_input,
-        "--cpu", str(cpu)
+        "--parallel", str(cpu)
     ]
     
     print(f"Running EPM with: {' '.join(test_args)}")
@@ -68,9 +68,9 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Simple EPM test runner")
     parser.add_argument("--folder_input", default="data_test", help="Input folder")
-    parser.add_argument("--cpu", type=int, default=1, help="Number of CPUs")
+    parser.add_argument("--parallel", type=int, default=1, help="Number of scenarios to run in parallel")
     
     args = parser.parse_args()
     
-    sys.exit(run_epm_simple(args.folder_input, args.cpu))
+    sys.exit(run_epm_simple(args.folder_input, args.parallel))
 

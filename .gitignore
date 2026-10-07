@@ -5,7 +5,11 @@
 **/~*
 *.dat
 *.sh
+!tools/sync.sh
 *~
+
+# Data publishing (DVC) — see docs/run/run_data_sync.md
+tools/.env
 
 # GAMS artifacts
 *.bk
@@ -44,6 +48,7 @@
 epm/output/*
 epm/postprocessing/*
 !epm/output/tableau/
+epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
@@ -107,6 +112,11 @@ epm/input/data_swz
 epm/input/data_moz
 epm/input/data_ang
 epm/input/data_sapp
+!epm/input/data_eapp/
+!epm/input/data_eapp/**
+!epm/input/data_pan_arab/
+!epm/input/data_pan_arab/**
+
 !epm/input/datapackage.json
 !epm/input/validate.py
 

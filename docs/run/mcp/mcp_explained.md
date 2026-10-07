@@ -6,7 +6,7 @@
 
 Instead of you having to:
 1. Open terminal
-2. Type: `python epm/epm.py --folder_input data_test --cpu 4`
+2. Type: `python epm/epm.py --folder_input data_test --parallel 4`
 3. Wait for results
 4. Copy/paste results back to Cursor
 
@@ -37,7 +37,7 @@ Cursor's AI
     ↓
 MCP Server (tools/mcp_server.py)
     ↓
-Executes: python epm/epm.py --folder_input data_test --cpu 4
+Executes: python epm/epm.py --folder_input data_test --parallel 4
     ↓
 Results come back to you in Cursor
 ```
@@ -146,7 +146,7 @@ The AI will have access to two "tools":
 
 **AI:** *Uses the tool to run:*
 ```bash
-python epm/epm.py --folder_input data_test --cpu 1
+python epm/epm.py --folder_input data_test --parallel 1
 ```
 
 ### Example 2: Complex Run
@@ -154,7 +154,7 @@ python epm/epm.py --folder_input data_test --cpu 1
 
 **AI:** *Uses the tool to run:*
 ```bash
-python epm/epm.py --folder_input data_test_region --sensitivity --cpu 4 --selected_scenarios baseline
+python epm/epm.py --folder_input data_test_region --sensitivity --parallel 4 --selected_scenarios baseline
 ```
 
 ## Testing if It Works

@@ -12,6 +12,69 @@ Input treatment ensures:
 5. Default value filling
 6. Availability expansion across years
 
+## Processing Pipeline
+
+The diagram below shows the complete input treatment pipeline:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        INPUT TREATMENT PIPELINE                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌──────────────┐                                                          │
+│   │ Raw Input    │                                                          │
+│   │ CSV Files    │                                                          │
+│   └──────┬───────┘                                                          │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  1. Zone Filtering          Filter to zones in zcmap.csv        │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  2. Generator Status        Set Capacity=0 for invalid Status   │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  3. Transmission Status     Validate transmission corridors     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  4. Time Series Interpolation   Fill all model years            │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  5-6. Hydro Checks          Availability & Capex monitoring     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  7-8. Default Filling       Fill NaN from defaults + StYr       │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  9-12. Availability         Expand, fill, evolve over years     │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │  13. Capex Trajectories     Fill from defaults                  │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│          │                                                                  │
+│          ▼                                                                  │
+│   ┌──────────────┐                                                          │
+│   │ Treated      │                                                          │
+│   │ Input GDX    │                                                          │
+│   └──────────────┘                                                          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
 ## Processing Steps
 
 The input treatment runs these steps in order:
@@ -35,6 +98,24 @@ The input treatment runs these steps in order:
 ## Step 1: Zone Filtering
 
 Removes rows from input parameters whose zones are not defined in `zcmap.csv`.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            ZONE FILTERING                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   zcmap.csv                         pGenDataInput.csv                       │
+│   ┌──────────────┐                  ┌────────────────────────────────┐      │
+│   │ zone,country │                  │ generator, zone, ...           │      │
+│   │ ZoneA, USA   │                  │ Gen1, ZoneA, ...    ✓ Keep     │      │
+│   │ ZoneB, USA   │      ───►        │ Gen2, ZoneB, ...    ✓ Keep     │      │
+│   │ ZoneC, MEX   │                  │ Gen3, ZoneX, ...    ✗ Remove   │      │
+│   └──────────────┘                  └────────────────────────────────┘      │
+│                                                                             │
+│   Result: Only data for zones defined in zcmap.csv is kept                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### Affected Parameters
 
@@ -111,6 +192,30 @@ Removing 2 transmission corridor(s) from pNewTransmission due to Status=0 or mis
 
 Linearly interpolates yearly parameters to match all model years in `y.csv`.
 
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       TIME SERIES INTERPOLATION                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Input: Sparse yearly data              Model years (y.csv):               │
+│   ┌────────────────────────┐             2025, 2030, 2035, 2040, 2050       │
+│   │ y=2025: 100            │                                                │
+│   │ y=2035: 150            │                                                │
+│   └────────────────────────┘                                                │
+│              │                                                              │
+│              ▼                                                              │
+│   Output: Interpolated & Extrapolated                                       │
+│   ┌────────────────────────────────────────────────────────┐                │
+│   │ y=2025: 100.0   (original)                             │                │
+│   │ y=2030: 125.0   (interpolated)                         │                │
+│   │ y=2035: 150.0   (original)                             │                │
+│   │ y=2040: 150.0   (extrapolated using last known value)  │                │
+│   │ y=2050: 150.0   (extrapolated using last known value)  │                │
+│   └────────────────────────────────────────────────────────┘                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
 ### Interpolated Parameters
 
 - `pDemandForecast`
@@ -136,7 +241,7 @@ ZoneA,2035,150
 
 And `y.csv` contains 2025, 2030, 2035:
 
-```
+```text
 Interpolated result:
 ZoneA,2025,100.0
 ZoneA,2030,125.0  # interpolated
@@ -145,13 +250,38 @@ ZoneA,2035,150.0
 
 ### Example Log Output
 
-```
+```text
 [input_treatment][interpolate] Linear interpolation performed on pDemandForecast to match model years 2025-2050.
 ```
 
 ## Step 5: Hydro Availability Monitoring
 
 Checks that hydro generators (ReservoirHydro, ROR) have availability data.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     HYDRO AVAILABILITY AUTO-FILL                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Missing ReservoirHydro availability for generator G:                      │
+│                                                                             │
+│   ┌─────────────────────────────────────────────────────────────────┐       │
+│   │ 1. Same zone ReservoirHydro generators exist with availability? │       │
+│   │    YES → Use mean of their availability                         │       │
+│   │    NO  ↓                                                        │       │
+│   ├─────────────────────────────────────────────────────────────────┤       │
+│   │ 2. Global ReservoirHydro availability exists?                   │       │
+│   │    YES → Use global mean                                        │       │
+│   │    NO  ↓                                                        │       │
+│   ├─────────────────────────────────────────────────────────────────┤       │
+│   │ 3. WARNING: No availability data found                          │       │
+│   │    Generator will have availability = 0 (won't dispatch)        │       │
+│   └─────────────────────────────────────────────────────────────────┘       │
+│                                                                             │
+│   Note: Auto-fill only runs when EPM_FILL_HYDRO_AVAILABILITY=1              │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### ReservoirHydro Check
 
@@ -164,31 +294,34 @@ Verifies each ROR (run-of-river) generator has hourly profiles in `pVREgenProfil
 ### Auto-Fill (Optional)
 
 When `EPM_FILL_HYDRO_AVAILABILITY=1` in pSettings:
+
 - Missing ReservoirHydro availability is filled from zone/tech averages
 - Missing ROR profiles can be derived from seasonal availability
 
 ### Enabling Auto-Fill
 
 1. **Via pSettings.csv**:
+
    ```csv
    Abbreviation,Value
    EPM_FILL_HYDRO_AVAILABILITY,1
    ```
 
 2. **Via environment variable**:
+
    ```bash
    export EPM_FILL_HYDRO_AVAILABILITY=1
    ```
 
 ### Example Log Output
 
-```
+```text
 Reservoir hydro availability check: all 15 generator(s) defined in pGenDataInput have entries in pAvailability.
 ```
 
 or
 
-```
+```text
 [input_treatment][hydro_avail] Reservoir hydro warning: 3 generator(s) lack entries in pAvailability.
   Missing reservoir capacity-factor rows by zone:
     zone ZoneA: ['Hydro1', 'Hydro2']
@@ -236,6 +369,33 @@ Hydro capex warning: 2 generator(s) in {'ROR', 'ReservoirHydro'} with status 2 o
 
 Fills missing values in `pGenDataInput` using `pGenDataInputDefault`.
 
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        DEFAULT VALUE FILLING                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   Priority: Custom Input  >  Zone Defaults  >  Generic Defaults             │
+│                                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInput          │ ◄─── Has value? Use it (highest priority)     │
+│   │ (Custom)               │                                                │
+│   └───────────┬────────────┘                                                │
+│               │ NaN?                                                        │
+│               ▼                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInputDefault   │ ◄─── Match by (zone, tech, fuel)              │
+│   │ (Zone-specific)        │                                                │
+│   └───────────┬────────────┘                                                │
+│               │ Still NaN?                                                  │
+│               ▼                                                             │
+│   ┌────────────────────────┐                                                │
+│   │ pGenDataInputGeneric   │ ◄─── Match by (tech, fuel) only               │
+│   │ (from resources/)      │                                                │
+│   └────────────────────────┘                                                │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
 ### How It Works
 
 1. Unstack both parameters by header (Capacity, Capex, vOM, etc.)
@@ -250,6 +410,7 @@ Fills missing values in `pGenDataInput` using `pGenDataInputDefault`.
 ### Example
 
 `pGenDataInputDefault.csv`:
+
 ```csv
 z,tech,f,pGenDataInputHeader,value
 ZoneA,CCGT,Gas,Capex,800
@@ -257,6 +418,7 @@ ZoneA,CCGT,Gas,vOM,3
 ```
 
 `pGenDataInput.csv`:
+
 ```csv
 g,z,tech,f,pGenDataInputHeader,value
 CCGT_ZoneA_1,ZoneA,CCGT,Gas,Capacity,500

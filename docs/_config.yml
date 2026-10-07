@@ -1,22 +1,22 @@
 # Book settings
 title: Energy Planning Model
 author: ESMAP
-logo: docs/images/esmap.png
+logo: images/esmap.png
 exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
 only_build_toc_files: true
 
 repository:
   url: https://github.com/ESMAP-World-Bank-Group/EPM
   branch: main
+  path_to_book: docs
 
 html:
   home_page_in_navbar: false
-  favicon: "docs/images/favicon.ico"
   extra_navbar: ""
   use_edit_page_button: true
   use_repository_button: true
   use_issues_button: true
-  baseurl: https://github.com/ESMAP-World-Bank-Group/EPM
+  baseurl: https://esmap-world-bank-group.github.io/EPM
   extra_footer: |
     <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
         <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
@@ -36,16 +36,23 @@ markdown_extensions:
   - attr_list
   - md_in_html
 
-plugins:
-  - search
-  - mkdocs-simple-hooks:
-      hooks:
-        on_page_markdown: "hooks:on_page_markdown"
-
 #######################################################################################
 # Sphinx settings
 sphinx:
+  extra_extensions:
+    - sphinxcontrib.mermaid
   config:
+    html_theme: furo
     mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
     html_last_updated_fmt: "%b %d, %Y"
     html_show_copyright: false
+    html_theme_options:
+      sidebar_hide_name: false
+      navigation_with_keys: true
+      light_css_variables:
+        color-brand-primary: "#1a56a0"
+        color-brand-content: "#1a56a0"
+        color-admonition-background: "#f0f4ff"
+      dark_css_variables:
+        color-brand-primary: "#4d9de0"
+        color-brand-content: "#4d9de0"

@@ -1475,10 +1475,11 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatch, pDispatchTechFuel,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMarginCountry,
+      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMargin, pReserveMarginCountry,
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
+      pExtTransferLimit, pTradePrice,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone,
 * 8. METRICS
@@ -1527,6 +1528,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
       pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
       pNetImport,
+      pExtTransferLimit, pTradePrice,
 * 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
       pEmissionMarginalCosts, pEmissionMarginalCostsCountry,

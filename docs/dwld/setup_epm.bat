@@ -41,7 +41,7 @@ echo [+] Conda found.
 :: ---------- Step 3: Check GAMS in PATH ----------
 where gams >nul 2>nul
 if %errorlevel% neq 0 (
-    echo [!] GAMS not found in PATH. Please install GAMS >= 48.2.0 and enable "Add to PATH" during installation.
+    echo [!] GAMS not found in PATH. Please install GAMS 48.2.0-53.x (54.x not supported) and enable "Add to PATH" during installation.
     pause
     exit /b
 )
@@ -73,7 +73,7 @@ echo [!] Removing old environment '%CONDA_ENV%' (if any)...
 call conda env remove -y -n %CONDA_ENV% >> "%LOG_FILE%" 2>&1
 
 echo [*] Creating new environment '%CONDA_ENV%' ...
-call conda create -y -n %CONDA_ENV% python=3.10 >> "%LOG_FILE%" 2>&1
+call conda create -y -n %CONDA_ENV% python=3.10 --override-channels -c conda-forge >> "%LOG_FILE%" 2>&1
 
 if errorlevel 1 (
     echo [!] Failed to create environment. See %LOG_FILE% for details.

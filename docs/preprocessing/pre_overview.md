@@ -1,70 +1,269 @@
-# Preanalysis Folder Overview
+# Data Preparation
 
-The `pre-analysis/` workspace separates exploratory data ingestion from model-ready processing. 
-- Use **`prepare-data/`** to turn those datasets into Electricity Planning Model (EPM) inputs such as `pAvailability`, `pVREgenProfile`, and demand profiles.
-- Use **`open-data/`** to download, QA, and harmonize external datasets. 
+Building an EPM model follows four phases — structural decisions, skeleton, country data, scenarios. The order matters: a wrong structural choice made late forces most of the data collection to be redone.
 
 ---
 
-## Objective
+## Overview
 
-Produce clean, versioned inputs for EPM by:
-- reshaping and validating those datasets against the current perimeter (prepare-data stage)
-- exporting consistent CSVs that match the structure in `epm/input/data_capp`
-- curating third-party climate, hydro, renewable, and generation data (open-data stage)
+<div style="display: flex; align-items: stretch; margin: 1.5rem 0; gap: 0.5rem;">
 
----
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 0</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Structural decisions</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Zones · Time slices<br>Horizon · Tech set</div>
+  </div>
 
-## Workspace Layout
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
 
-| Path | Role | Highlights |
-|------|------|------------|
-| `pre-analysis/open-data/` | Exploratory notebooks that ingest APIs, shapefiles, and atlas workbooks, plus QA tools (plots, Folium maps). | Renewable Ninja & IRENA harvesters, GRDC inflow prep, hydro basin QA, hydro atlas comparisons. |
-| `pre-analysis/prepare-data/` | Deterministic workflows that reshape curated datasets into EPM-ready CSVs and diagnostics. | Climatic overview, load profile builders, representative days, hydro availability, supply-demand balance checks. |
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 1</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Skeleton</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Dimension CSVs<br>First EPM run</div>
+  </div>
 
----
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
 
-## prepare-data workflows
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 2</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Country data</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Demand · Supply · VRE<br>Hydro · CAPEX</div>
+  </div>
 
-| Notebook / Module | Purpose | Key outputs |
-|-------------------|---------|-------------|
-| `climatic_overview.ipynb` | Profiles ERA5-Land temperature/precipitation to define seasons, wet/dry periods, and candidate representative years for each zone. | Climate diagnostics in `output/` plus summary CSVs used downstream. |
-| `load_profile.ipynb` | Builds hourly demand profiles by fusing monthly means with hourly shapes and sanity checks. | Hourly `load_profile.csv` saved under `output/` for direct use in EPM. |
-| `load_profile_treatment.ipynb` | Cleans historical load measurements (outlier removal, missing-data infill) before feeding the builder. | Treated historical series in `output/load_profile_treated.csv`. |
-| `load_plot.ipynb` | Generates forecast and QA plots for stakeholder review (peak vs average, growth trends). | PNG/HTML dashboards in `output/plots/`. |
-| `representative_days/representative_days.ipynb` | Clusters climate and load time series to produce reduced time slices. | `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv`. |
-| `supply_demand_balance.ipynb` | Checks that the supply fleet plus renewables meet the treated demand under each scenario; flags deficits before GAMS runs. | Balance tables/plots in `output/` plus optional CSV deltas. |
-| `hydro_availability.ipynb` | Converts monthly hydro shapes into reservoir `pAvailabilityCustom.csv` and ROR `pVREgenProfile.csv`, validating against `pHours`. | Final hydro CSVs under `output/`. |
-| `hydro_representative_years.ipynb` | Experimental picker for representative hydropower years; use to sample dry/baseline/wet seasons before exporting availability tables. | Candidate `pAvailability_*.csv` files (review manually). |
-| `utils_climatic.py` | Shared helpers for ERA5 extraction, aggregation, and plotting. | Imported across notebooks; no standalone output. |
-| `legacy_to_new_format/` | Migration scripts that convert historic SPLAT/EPM spreadsheets into the current column naming. | Intermediate CSVs stored locally before copying to `epm/input`. |
+  <div style="display: flex; align-items: center; padding: 0 0.3rem; color: #D97706; font-size: 1.4rem; font-weight: 300;">→</div>
 
-**Inputs & outputs**: Every subfolder follows the same rule—drop raw/intermediate assets into `input/`, and keep notebook-produced artifacts inside `output/` until you promote them into `epm/input`.
+  <div style="flex: 1; background: #FFFBF0; border: 2px solid #D97706; border-radius: 8px; padding: 1rem 0.8rem; text-align: center;">
+    <div style="font-size: 0.65rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">Phase 3</div>
+    <div style="font-size: 0.9rem; font-weight: 700; color: #1b3a5c; margin-bottom: 0.4rem;">Regional & scenarios</div>
+    <div style="font-size: 0.72rem; color: #555; line-height: 1.5;">Transmission · Trade<br>Scenario variants</div>
+  </div>
 
----
-
-## open-data notebooks
-
-| Notebook | Focus & what you get | Typical outputs |
-|----------|----------------------|-----------------|
-| `get_renewables_irena_data.ipynb` | Downloads IRENA wind/solar profiles using SPLAT naming, producing hourly capacity-factor tables per zone-season. | CSV grids plus QA plots under `output/`. |
-| `get_renewable_ninja_data.ipynb` | Calls the Renewable Ninja API using coordinates from the generation catalog; writes harmonized solar/wind profiles. | Hourly CF CSVs (`zone,season,day,hour,<year>`). |
-| `get_renewables_coordinate.ipynb` | Builds the coordinate list (lat/lon) from generation assets so Renewable Ninja pulls the right plants. | Coordinate CSV consumed by the Ninja notebook. |
-| `get_generation_maps.ipynb` | Visualizes generation databases on interactive maps to verify coverage and technology tagging. | HTML/PNG maps in `output/maps/`. |
-| `hydro_atlas_comparison.ipynb` | Compares utility capacity factors with the African Hydropower Atlas before adopting Atlas curves. | QA plots plus comparison tables (save manually as needed). |
-| `hydro_basins.ipynb` | Inspects GRDC catchments and HydroRIVERS shapefiles to link plants with upstream basins. | GeoDataFrames/maps stored under `output/`. |
-| `hydro_capacity_factors.ipynb` | (WIP) Merges African Hydropower Atlas profiles with Global Hydropower Tracker metadata for a consolidated catalog. | Draft merged tables in `output/`. |
-| `hydro_inflow.ipynb` | Processes GRDC NetCDF station data, intersects HydroRIVERS, and exports inflow/runoff diagnostics. | Cleaned CSVs/GeoPackages plus Folium maps. |
-
-Use these notebooks when you need to refresh the underlying open datasets. Once the exploratory outputs look correct, feed them into the deterministic routines inside `prepare-data/`.
+</div>
 
 ---
 
-## Shared input/output conventions
+## Phase 0 — Structural decisions
 
-- **`input/`**: raw downloads, API responses, shapefiles, and any intermediate CSVs that need to be versioned.
-- **`output/`**: notebook artifacts (plots, QA tables, temporary CSVs). Copy only the vetted deliverables into `epm/input/data_capp` or `epm/input/data_<region>` to keep git noise low.
+These four decisions must be locked in before any data collection. They shape the dimensions of almost every CSV.
 
-Maintaining this separation preserves reproducibility, makes it clear which datasets entered the model, and accelerates updates when new countries or data vintages are added.
+#### Zones
+
+How many zones, and which ones. Drives the `z` dimension of nearly every CSV.
+
+Method: define a floor (minimum to capture real physics) and a ceiling (computation + data constraints), test 3–4 levels on a simplified run, stop when total system cost varies less than ~2% between two consecutive levels.
+
+Drivers for more zones: official bidding zones, documented grid congestion, RE capacity factor spread > 25%, country size > 500 000 km², hydro far from load centres.
+
+| Tool | When to use |
+|---|---|
+| [gridflow (ESMAP)](https://github.com/ESMAP-World-Bank-Group/gridflow) | Partitions a region into N zones using population, load, and RE rasters |
+| [PyPSA-Eur clustering](https://github.com/PyPSA/PyPSA-Eur) | Partitions using OSM substations weighted by load — best for regions with good OSM/ENTSO-E coverage |
+
+#### Representative time-slices
+
+Number of representative days, hourly resolution, extreme days. Drives `pHours.csv` and every hourly profile shape.
+
+| | Guideline |
+|---|---|
+| Minimum | 4 days (seasons) · 8+ if RE penetration > 20% · 12+ if storage is significant |
+| Extreme days | Always add 2–3: winter peak, RE drought |
+| Maximum | Beyond 24–30 days, investment decisions rarely change |
+| Validation | NRMSE on load duration curve < 3% · NRMSE on RE curves < 5% |
+
+This is decided here but computed in Phase 1 once time series are available — the tool is integrated in the repo.
+
+#### Planning horizon
+
+Drives `y.csv`. Base year: most recent year with complete data (typically 1–2 years before study start). Planning years: every 5 years is standard (2030, 2035, 2040, 2045, 2050). End year: 2050 for carbon neutrality studies.
+
+#### Technology set
+
+Drives `tech.csv`, `fuel.csv`, `pTechFuel.csv`. Use the same set across all countries — country-specific availability is controlled via max capacity = 0, not a different tech list. Include candidate technologies (offshore wind, green hydrogen) even if not yet deployed. Avoid editing the list after Phase 1: it propagates through many CSVs.
 
 ---
+
+## Phase 1 — Skeleton
+
+Fill the CSVs that depend only on Phase 0 decisions, then run EPM with dummy data. The goal is not useful results — it is to verify the structure is sound before any real data collection.
+
+| # | CSV | Content | How |
+|---|---|---|---|
+| 1 | `zcmap.csv` | Zone → country mapping | Manual |
+| 2 | `y.csv` | Planning years | Manual |
+| 3 | `tech.csv`, `fuel.csv` | Technology and fuel lists | Manual |
+| 4 | `pTechFuel.csv` | Tech → fuel mapping | Manual |
+| 5 | `pSettings.csv` | VOLL, discount rate, features | Copy from `data_test` |
+| 6 | `pHours.csv` | Representative hours + weights | Snakemake pipeline ↓ |
+
+#### The Snakemake pipeline
+
+`pHours.csv` and the associated hourly profiles are generated by the pipeline in `pre-analysis/`. Configure it once, run it, and the EPM-ready files land in `output_workflow/epm_export/`.
+
+```mermaid
+flowchart LR
+    CFG(["open_data_config.yaml"])
+    CL["ERA5 climate\nclimate_pipeline.py"]
+    VR["VRE profiles\nvre_pipeline.py"]
+    LD["Load profiles\nload_pipeline.py"]
+    GM["Generation fleet\ngenerators_pipeline.py"]
+    RD["Representative days\nPoncelet MILP"]
+    OUT(["epm_export/\npHours · pVREProfile\npDemandProfile · pGenDataInput"])
+
+    CFG --> CL & VR & LD & GM
+    VR & LD --> RD
+    CL -.-> RD
+    RD & GM --> OUT
+
+    classDef default fill:#FFFBF0,stroke:#D97706,color:#333333
+    classDef out fill:#F0F4F8,stroke:#4A6FA5,color:#1a1a1a
+    class OUT out
+```
+
+**Setup:**
+
+```bash
+conda env create -f pre-analysis/open_data_env.yml -n epm-open-data
+conda activate epm-open-data
+
+# API keys — both free accounts. The file lives in config/ at the repo root
+# (git-ignored), not in pre-analysis/.
+cp config/api_tokens.example.ini config/api_tokens.ini
+# renewables.ninja token  →  renewables.ninja/profile
+# CDS API key             →  cds.climate.copernicus.eu
+```
+
+Configure `pre-analysis/config/open_data_config.yaml` (countries, years, number of representative days), then run:
+
+```bash
+cd pre-analysis
+snakemake --snakefile Snakefile --cores 4
+```
+
+**End-of-Phase-1 test** — fill all remaining CSVs with dummy zeros, then:
+
+```bash
+python epm.py --folder_input data_<region> --diagnostic
+```
+
+The model must complete without errors. Failures here are structural issues, not data quality problems.
+
+---
+
+## Phase 2 — Country data
+
+Fill CSVs in dependency order: demand first, then supply, VRE, hydro, CAPEX. Sizing generation before knowing the load leads to a fleet that doesn't match — everything has to be redone.
+
+Start with the country where data is most available. After each country, run `--diagnostic` with that country populated and the rest as stubs.
+
+```mermaid
+flowchart LR
+    D["1 · Demand"]
+    S["2 · Supply fleet"]
+    V["3 · VRE profiles"]
+    H["4 · Hydro & storage"]
+    C["5 · CAPEX"]
+    R["EPM run"]
+
+    D --> S --> V --> H --> C --> R
+
+    classDef default fill:#FFFBF0,stroke:#D97706,color:#333333
+    classDef run fill:#F0F4F8,stroke:#4A6FA5,color:#1a1a1a
+    class R run
+```
+
+#### 1. Demand
+
+| CSV | Content | Source |
+|---|---|---|
+| `pDemandForecast` | Annual peak + energy per zone/year | National utilities · [IEA WEO](https://www.iea.org/data-and-statistics/) · [IRENA Planning Dashboard](https://www.irena.org/Energy-Transition/Planning) — manual |
+| `pDemandProfile` | Hourly shape (normalized) | Snakemake `load_pipeline.py` → [Toktarova et al. 2019](https://doi.org/10.1016/j.ijepes.2019.105476) · [ENTSO-E](https://transparency.entsoe.eu/) for Europe |
+
+`pDemandForecast` is always manual — no open database provides consistent country-level forecasts at the required granularity.
+
+#### 2. Supply fleet
+
+| CSV | Content | Source |
+|---|---|---|
+| `pGenDataInput` | All existing + candidate plants | Snakemake `generators_pipeline.py` → [Global Energy Monitor](https://globalenergymonitor.org/projects/global-integrated-power-tracker/) exports a draft. Always review before use — GEM lags on recent retirements and sub-national locations. |
+| `pFuelPrice` | Fuel cost per zone/year | [IEA WEO](https://www.iea.org/data-and-statistics/) · [World Bank Commodity Forecasts](https://www.worldbank.org/en/research/commodity-markets) — manual |
+| `pAvailabilityCustom` | Plant-level availability overrides | Start from `pAvailabilityDefault.csv`; add rows only for plants that deviate |
+
+#### 3. VRE profiles
+
+| CSV | Content | Source |
+|---|---|---|
+| `pVREProfile` | Hourly capacity factors per zone/tech (representative days) | Snakemake `vre_pipeline.py` → Renewables.ninja API + IRENA MSR, fed through the representative days optimizer |
+
+The pipeline chains this automatically: raw VRE time series → Poncelet optimizer → `pVREProfile.csv`.
+
+#### 4. Hydro and storage
+
+Hydropower availability cannot be automated — it requires matching plant locations to river discharge observations. The hydro notebooks in `pre-analysis/notebooks/` must be run manually in order:
+
+1. `hydro_inflow.ipynb` — loads GRDC river discharge, links to HydroRIVERS + plant locations, exports cleaned inflow profiles
+2. `hydro_basins.ipynb` — visualizes catchment polygons to verify which GRDC stations link to which plants
+3. `hydro_atlas_comparison.ipynb` — QA: compares utility capacity factors against the African Hydropower Atlas
+4. `hydro_capacity_factors.ipynb` *(WIP)* — merges Atlas + Global Hydropower Tracker into a consolidated catalog
+
+Data to download before running (place in `pre-analysis/dataset/`):
+
+| Dataset | Source |
+|---|---|
+| GRDC monthly discharge | [grdc.bafg.de](https://grdc.bafg.de/) — manual request |
+| HydroRIVERS shapefiles | [hydrosheds.org](https://www.hydrosheds.org/products/hydrorivers) |
+| African Hydropower Atlas v2 | `dataset/African_Hydropower_Atlas_v2-0.xlsx` |
+| Global Hydropower Tracker | [globalenergymonitor.org](https://globalenergymonitor.org/projects/global-hydropower-tracker/) |
+
+Outputs: `pAvailabilityCustom.csv` (reservoir monthly factors) and `pVREgenProfile.csv` (run-of-river profiles).
+
+#### 5. CAPEX trajectories
+
+| CSV | Content | Source |
+|---|---|---|
+| `pCapexTrajectories` | Cost evolution per technology and year | [IRENA Renewable Power Generation Costs](https://www.irena.org/Publications/2024/Sep/Renewable-Power-Generation-Costs-in-2023) · [IEA WEO technology assumptions](https://www.iea.org/reports/world-energy-outlook-2024) — manual |
+
+CAPEX is typically regional rather than country-specific — one table can cover the entire study area.
+
+---
+
+## Phase 3 — Regional layer and scenarios
+
+#### Transmission and trade
+
+| CSV | Content | Source |
+|---|---|---|
+| `pTransferLimit` | Cross-zone capacity per year (existing + candidate) | Regional TSOs, national plans |
+| `pTradePrice` | Buy/sell prices on external borders | Energy ministries, IEA |
+| `pExtTransferLimit` | Capacities to/from external zones | Same |
+| `pLossesTransmission` | Line losses per link | Utility data, or ~2–3% as default |
+
+#### Scenarios
+
+Scenarios overlay variant CSVs on top of the reference deployment — keep the reference clean.
+
+```csv
+paramNames,HighDemand,LowFuel,NoNewTransmission
+pDemandForecast,demand/high_demand.csv,,
+pFuelPrice,,supply/fuel_low.csv,
+pTransferLimit,,,trade/no_expansion.csv
+```
+
+| Scenario type | CSVs to override |
+|---|---|
+| Demand growth | `pDemandForecast` |
+| Fuel price | `pFuelPrice` |
+| Carbon policy | `pCarbonPrice`, `pEmissionsLimit` |
+| Technology costs | `pCapexTrajectories` |
+| Transmission | `pTransferLimit` |
+
+See [Input Setup](../input/input_setup.md) for the full `scenarios.csv` syntax.
+
+---
+
+## Common pitfalls
+
+- **Supply before demand.** Sizing generation before knowing the load means a fleet that doesn't match — everything has to be redone.
+- **Skipping the Phase 1 dummy run.** Fill 15 CSVs, run EPM, get 40 tangled errors. Test the structure with dummy zeros first.
+- **Trusting GEM data as-is.** The pipeline's `pGenDataInput_gap.csv` is a draft — always cross-check against utility data.
+- **Scenarios during collection.** Keep the reference deployment clean. Scenarios are variants applied on top, last.
+- **Re-zoning mid-project.** Changing zonation mid-collection cascades through every CSV in the model.

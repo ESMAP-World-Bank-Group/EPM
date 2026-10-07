@@ -7,6 +7,8 @@ The postprocessing pipeline reads the GAMS run artifacts located under each scen
 
 Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate whether each symbol is produced by default when `REPORTSHORT = 0`.
 
+--8<-- "beta_schema.md"
+
 ## Tips
 
 - Large CSVs can be slimmed down using `reduce_definition_csv` in `postprocessing.py` (keeps first, middle, last year).

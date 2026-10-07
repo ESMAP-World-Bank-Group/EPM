@@ -5,7 +5,7 @@ First, navigate to the `epm` directory.
 Example: Specify the input folder, enable sensitivity analysis, and use 4 CPU cores for parallel execution.
 
 ```bash
-python epm.py --folder_input data_test_region --sensitivity --cpu 4
+python epm.py --folder_input data_test_region --sensitivity --parallel 4
 ```
 
 Other command-line options allow for further customization of the simulation run, such as specifying scenarios, enabling Monte Carlo analysis, and more.
@@ -25,7 +25,7 @@ Other command-line options allow for further customization of the simulation run
 | Argument   | Type      | Default              | Description                                                                                                    | Example Usage            |
 | ---------- | --------- | -------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `--simple` | list[str] | ['DiscreteCap', 'y'] | List of simplified parameters. `DiscreteCap` remove discrete constraint, `y`only runs for first and last year. | `--simple DiscreteCap y` |
-| `--cpu`    | integer   | 1                    | Number of CPU cores to use                                                                                     | `--cpu 4`                |
+| `--parallel` | integer | 1                    | Number of scenarios to run in parallel (`--cpu` deprecated)                                                    | `--parallel 4`                |
 
 ---
 

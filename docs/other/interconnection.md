@@ -1,15 +1,17 @@
-# Transmission Line Capacity and Cost Calculator – Explanatory Notes
+# Transmission Costing
+
+A simplified tool for estimating the **transfer capacity** (MW) and **investment cost** (M$) of a transmission line when detailed engineering data is not available.
+
+Designed for pre-feasibility and planning purposes. Even approximate order-of-magnitude estimates are useful for comparing corridor options or identifying bottlenecks before detailed engineering studies begin.
+
+---
 
 ## Objective
 
-In many developing-country projects, we do not have detailed engineering data about existing or planned transmission lines.  
-The idea is to build a **very simplified tool** that can still provide a reasonable **order of magnitude** for:
+In many developing-country projects, detailed engineering data on existing or planned transmission lines is not available. This tool provides reasonable estimates for:
 
-- the **transfer capacity** of a transmission line (MW), and  
-- the **investment cost** of constructing such a line (MUSD).
-
-This tool is meant for **pre-feasibility** or **planning** purposes when limited information is available.  
-Even approximate results are valuable to compare options or identify bottlenecks.
+- the **transfer capacity** of a transmission line (MW), and
+- the **investment cost** of constructing such a line (M$).
 
 ---
 

@@ -1,90 +1,114 @@
-# Threading and Parallelism in EPM
+# Performance & Threads
+
+EPM can run several scenarios in parallel with the `--parallel` flag. This page explains how to size that parameter correctly for your machine.
 
 ---
 
-## Understanding CPU, Core, Thread, and vCPU
+## Key concepts
 
-Efficient use of computing resources requires clarity on how modern processors are structured and virtualized:
+| Term | Meaning |
+|---|---|
+| **Core** | Physical compute unit of the processor |
+| **Thread** | Execution stream; with hyperthreading, one core handles 2 threads |
+| **vCPU** | In cloud/VM terms, 1 vCPU ≈ 1 thread |
+| **`--parallel`** | Number of EPM scenarios launched simultaneously |
+| **`threads`** | Number of threads allocated to each CPLEX solve, set in the solver options file |
 
-- **CPU (Central Processing Unit):** The physical processor. A system may have one or more CPUs.
-- **Core:** A processing unit within a CPU that executes instructions. Modern CPUs typically have multiple cores.
-- **Thread:** A stream of execution handled by a core. With hyperthreading, one core can manage multiple threads (usually 2).
-- **vCPU (Virtual CPU):** In virtualized/cloud environments, a vCPU typically maps to a single thread. It represents the smallest unit of compute allocated to a process.
-
-| Term      | Description                        | Relation to Others                 |
-|-----------|------------------------------------|------------------------------------|
-| **CPU**   | Physical chip                       | Contains multiple **cores**        |
-| **Core**  | Independent compute unit            | Can run 1–2 **threads**            |
-| **Thread**| Stream of execution                 | Mapped to a **vCPU**               |
-| **vCPU**  | Virtualized thread in the cloud     | ≈ 1 **thread** (part of a **core**) |
-
-**Note:** A vCPU does not represent a full physical core. When a cloud provider offers "4 vCPUs", this usually means access to 4 hardware threads — not 4 full cores — and therefore you can run 4 parallel tasks, assuming no other bottlenecks.
+> **Note** — the `--parallel` flag actually controls the number of **parallel jobs**, not CPUs directly. It will be renamed in a future version to avoid the confusion.
 
 ---
 
-## Framework to Define the Right Simulation Setup
+## The two ceilings to respect
 
-Performance is often limited more by **available memory** than by CPU speed. Follow this step-by-step method to size your simulations appropriately:
+Running `--parallel N` means N scenarios run at the same time. Each scenario consumes RAM **and** CPU threads. There are therefore **two independent ceilings**:
 
-### 1. Determine Available Memory
+```
+RAM ceiling  = total RAM / RAM per scenario
+CPU ceiling  = total vCPUs / threads per scenario
 
-Start with the total available RAM on your server or VM.
-
-> **Example**:  
-> For the World Bank Planning Team server:  
-> **Available RAM**: 128 GB
-
-### 2. Check CPU and Core Information
-
-Identify how many physical CPUs and cores you have.
-
-> **Example**:  
-> 1 physical CPU with **4 cores**, each supporting **2 threads**  
-> → Total: **8 threads**, **8 vCPUs**
-
-### 3. Estimate Memory Usage per Simulation
-
-Run one standard model and monitor its peak memory usage using **GAMS Studio**:
-
-- Open the `.lst` file or console output.
-- Look for the **`ProcTreeMemMonitor`** entry.
-- Use the **`VSS` (Virtual Set Size)** value — this is the total memory footprint.
-
-> **Example**:  
-> A typical simulation uses **32 GB RAM** (VSS value).
-
-### 4. Calculate Max Parallel Jobs Based on Memory
-
-Divide available RAM by the estimated memory per job:
-
-```math
-Max Parallel Simulations = Total RAM / Memory per Simulation
+--parallel = min(RAM ceiling, CPU ceiling)
 ```
 
-> **Example**:  
-> 128 GB / 32 GB = **4 parallel simulations**
+The lower ceiling is the binding one. Exceeding either causes resource contention and slows every job down.
 
-### 5. Set Number of Threads per Simulation
+---
 
-Each simulation can then use a subset of threads, depending on your compute layout:
+## How to work it out in practice
 
-- If your machine has 8 threads total and you run 4 simulations:
-- Each simulation can use up to **2 threads**
+**Step 1 — Know your machine**
 
-You control this in GAMS using the CPLEX thread option:
-```gams
-option threads = 2;
+Note the total RAM and the number of available vCPUs.  
+On Linux: `free -h` (RAM) and `nproc` (vCPUs).
+
+**Step 2 — Measure RAM per scenario**
+
+Run a single scenario on its own and look in the `.lst` file or the GAMS Studio console for:
+```
+ProcTreeMemMonitor → VSS
+```
+That is the peak memory footprint of that scenario. Use that value.
+
+**Step 3 — Know your `threads`**
+
+Look at your CPLEX options file (`cplex_baseline.opt`):
+```
+threads = 8
+```
+If the line is missing, CPLEX uses every available thread — to be avoided in a parallel context.  
+See [Solver options](options_solver.md) to change the value.
+
+**Step 4 — Compute `--parallel`**
+
+```
+RAM ceiling  = total RAM / RAM per scenario
+CPU ceiling  = total vCPUs / threads
+
+--parallel = min(RAM ceiling, CPU ceiling)
 ```
 
 ---
 
-### Example Setup Summary
+## Worked example
 
-| Parameter              | Value          |
-|------------------------|----------------|
-| Total RAM              | 128 GB         |
-| Per-job RAM usage      | 32 GB          |
-| Max parallel jobs      | 4              |
-| Total threads available| 8              |
-| Threads per simulation | 2              |
-| Cores used             | 4              |
+Machine: **256 GB RAM, 32 vCPUs**, scenario of ~32 GB, `threads = 8`
+
+```
+RAM ceiling  = 256 / 32  = 8 jobs
+CPU ceiling  = 32 / 8    = 4 jobs
+
+--parallel = min(8, 4) = 4
+```
+
+Here the CPU is binding. Run with `--parallel 4`, which leaves ~64 GB of RAM unused.
+
+```sh
+python epm.py --folder_input my_country --config config.csv --scenarios --parallel 4
+```
+
+---
+
+## Trade-off: threads vs. parallel scenarios
+
+The number of threads per solve is a parameter to tune to your usage.
+
+**Many scenarios to get through (long queue)**  
+→ Prefer **fewer threads, more parallel jobs**.  
+Parallelisation across scenarios is near-perfect (each job is independent), whereas adding threads within a single solve has diminishing returns — going from 4 to 8 threads speeds a given solve up only slightly. More solves in parallel finish a long queue faster.
+
+*Example: lowering to `threads = 5` → CPU ceiling = 32 / 5 = 6 jobs → `--parallel 6` instead of 4.*
+
+**Few heavy scenarios (MIP without `--simple`)**  
+→ Prefer **more threads, fewer parallel jobs**.  
+Concentrate the resources on each solve to finish it faster.
+
+> **Note** — you can overshoot the CPU ceiling slightly (e.g. `--parallel 6` with `threads = 8` on 32 vCPUs). The OS then time-shares the CPU between threads and the jobs run more slowly. Results stay correct, but overall throughput drops compared with a balanced allocation.
+
+---
+
+## Summary
+
+| Situation | Recommendation |
+|---|---|
+| Long queue of RMIP scenarios | Lower `threads`, raise `--parallel` |
+| A few heavy MIP scenarios | Keep `threads` high, `--parallel` lower |
+| Shared machine (2 modellers) | Halve `--parallel` |

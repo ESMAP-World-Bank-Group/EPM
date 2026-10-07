@@ -1,8 +1,9 @@
-# Open-Source Data (in progress)
+# Open-Source Data
 
-> This tables provides a list of open-source data sources that can be used in the Electricity Planning Model (EPM). The data is categorized by type and includes links to the sources.
+!!! warning
+    This page is a work in progress and may be incomplete. If you have suggestions for additional data sources, please [open an issue](https://github.com/ESMAP-World-Bank-Group/EPM/issues) on GitHub.
 
-**Note:** This table is a work in progress. If you have suggestions for additional data sources, please contact the EPM team.
+> A curated list of open-source data sources for use with EPM, categorized by type.
 
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">

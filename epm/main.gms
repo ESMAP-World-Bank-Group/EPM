@@ -67,7 +67,9 @@ $if not set MODELTYPE   $set MODELTYPE RMIP
 
 * Use the relevant cplex file
 $if not set CPLEXFILE   $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
-$ifi %MODELTYPE% == RMIP $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
+* Disabled: this line unconditionally forced cplex_baseline.opt for RMIP, ignoring the
+* CPLEXFILE passed from config.csv. Line 62 above already provides the default when unset.
+* $ifi %MODELTYPE% == RMIP $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_baseline.opt
 
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
@@ -224,6 +226,10 @@ Parameter
    pDays(q)                                              'Number of days represented by each period'
    pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                                    'Minimum import requirements'
+* Optional contracted transfer volumes, only used when fApplyContractedTrade is
+* switched on in pSettings (see base.gms). Empty files are the normal case.
+   pContractedTradeFlag(z,z2,q)                          'Corridor and season under a transfer contract'
+   pContractedTradeEnergy(z,z2,q,y)                      'Contracted seasonal transfer volume (GWh)'
    pLossFactorInternal(z,z2,y)                           'Transmission loss factors'
    
 * VRE and availability
@@ -293,6 +299,7 @@ $load pPlanningReserveMargin
 $load zext, pTransmissionHeader
 * pNewTransmissionStage keeps every row of pNewTransmission.csv as its own stage
 $load pExtTransferLimit, pNewTransmission=pNewTransmissionStage, pMinImport
+$load pContractedTradeFlag, pContractedTradeEnergy
 $load pTradePrice, pMaxAnnualExternalTradeShare, pMaxAnnualInternalTradeShare
 
 * Load Hydrogen model-related symbols
@@ -492,6 +499,10 @@ fApplyCapacityExpansionLimit     = pSettings("fApplyCapacityExpansionLimit");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
+* Optional contracted transfer volumes. Absent from pSettings.csv means 0, so
+* this stays off unless a study asks for it.
+fApplyContractedTrade              = pSettings("fApplyContractedTrade");
+sContractedTradeFirstYear          = pSettings("sContractedTradeFirstYear");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
 pMinRE                             = pSettings("sMinRenewableSharePct");
@@ -918,8 +929,10 @@ vCapH2.fx(eh,y)$((pSettings("fEnableEconomicRetirement") = 0 and pH2Data(eh,"StY
 
 sH2PwrIn(hh,q,d,t,y) = yes;
 
-vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
-vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
+if (fEnableH2Production,
+  vREPwr2H2.fx(nRE,f,q,d,t,y) = 0;
+  vREPwr2Grid.fx(nRE,f,q,d,t,y) = 0;
+);
 
 *******************************************************************************************************************
 

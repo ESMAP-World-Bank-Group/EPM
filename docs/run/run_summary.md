@@ -9,7 +9,7 @@ Use the following commands to install and run the EPM model for a new project.
 | Navigate to the `EPM_Country` directory | `cd EPM_Country` |
 | Check the current branch | `git branch` |
 | Create and switch to a new branch | `git checkout -b <branch-name>` |
-| Activate Python Conda environment (when installed) | `conda activate esmap_env` |
+| Activate Python Conda environment (when installed) | `conda activate epm_env` |
 | Navigate to the `epm` subdirectory | `cd epm` |
 | Test the model using Python and default data input | `python epm.py --simple` |
 | Fill with project-specific data input | Go to `input` and filled all `.csv` files |

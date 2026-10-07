@@ -10,7 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: gams/gams:latest
+      # Pinned: GAMS 54.x returns gams-transfer records with categorical dtypes,
+      # which broke input verification/treatment (phantom groupby groups, UNDF
+      # values). Last known-good is 53.5.1. Re-evaluate before moving to :latest.
+      image: gams/gams:53.5.1
 
     steps:
       - name: Check out repository

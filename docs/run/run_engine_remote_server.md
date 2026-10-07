@@ -9,8 +9,6 @@
   - `action`: Set to `CompileOnly` (`C`).
   - `xSave`: Creates a `.g00` save file.
 
-![](images/engine/engine_cmd.png)
-
 #### Run the model **locally** and confirm the `.g00` file was created
 
 ### Step 3: Create `Engine_Base.gms` File
@@ -43,11 +41,8 @@ where:
 - Go to the Engine's web interface: https://engine.gams.com/.
 - Upload the `.gms` and `.g00` files to the Engine.
 
-![](images/engine/submit_job_engine.png)
-
 ### Step 5: Download and Extract Output Files
 When the model is solved, download the compressed output file and extract it into the folder.
-![](images/engine/download_from_engine.png)
 
 ### Step 6: Process the Output Files (optional)
 - Post-process GDX data into Excel externally (Engine runs on Linux).

@@ -1,9 +1,9 @@
 # Utility Models Overview
 
 
-Utilities and system operators rely on a variety of advanced tools and methodologies to ensure the reliable, efficient, and sustainable operation of power systems. The table below highlights some of the most widely used tools and studies in the energy sector. These tools support critical functions such as capacity expansion planning, grid reliability assessments, and climate adaptation strategies.
+Utilities and system operators use a range of tools and methodologies for power system planning. The table below lists common tools and studies used in the energy sector, covering capacity expansion planning, grid reliability assessments, and climate adaptation.
 
-Among these tools, EPM (Energy Planning Model) stands out as a cornerstone for Capacity Expansion Planning, helping utilities identify the necessary infrastructure investments to meet long-term demand growth and decarbonization targets.
+Among these tools, EPM is used for Capacity Expansion Planning, helping utilities identify infrastructure investments to meet long-term demand growth and decarbonization targets.
 
 | Study                           | Detailed Purpose                                                                                      | Key Outcomes                            | Tools                                    | Time Horizon (Years) |
 |---------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------|------------------------------------------|-----------------------|
