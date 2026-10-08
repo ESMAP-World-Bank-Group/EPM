@@ -594,7 +594,7 @@ $onEmbeddedCode Connect:
     autoRow: r
     type: par
 
-# Staged version (z,z2,stage,header), loaded by main_fxstor.gms
+# Staged version (z,z2,stage,header)
 - Projection:
     name: pNewTransmissionRaw(r,z,z2,h)
     newName: pNewTransmissionStage(z,z2,r,h)

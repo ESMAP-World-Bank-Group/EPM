@@ -432,7 +432,7 @@ Equations
 * ------------------------------
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
-   eMaxGenerationByFuel(z,tech,f,q,d,t,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
+   eMaxGenerationByFuel(z,tech,f,q,d,t,y) 'Maximum annual generation by zone-tech-fuel [MW]'
    eCountryBuildLimit(c,y)         'Maximum VRE capacity per Year'
    eMinGenerationByFuel(c,tech,f,y) 'Minimum annual generation by zone-tech-fuel [GWh]'
    eMaxShareGenTech(z,tech,y) 'Maximum annual generation of technology as share of total demand '
@@ -806,7 +806,7 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-* Phase-out constraint: limits annual instantaneous power output by zone-technology-fuel combination
+* Availability constraint: limits annual instantaneous power output by zone-technology-fuel combination
 eMaxGenerationByFuel(z,tech,f,q,d,t,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
    sum((gzmap(eg,z),gtechmap(eg,tech),gfmap(eg,f)), vPwrOut(eg,f,q,d,t,y)) =l= pMaxGenerationByFuel(z,tech,f,y);
    
