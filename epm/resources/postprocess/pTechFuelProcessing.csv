@@ -64,3 +64,7 @@ PV,PV,PV,orange
 Wind,Wind,Onshore Wind,darkturquoise
 STO HY,Water,Reservoir,darkblue
 Biogas,Biogas,Biomass,green
+CCGT,GasCCS,Gas,lightcoral
+OCGT,GasCCS,Gas,lightcoral
+CCGT,Hydrogen,Gas,lightcoral
+OCGT,Hydrogen,Gas,lightcoral

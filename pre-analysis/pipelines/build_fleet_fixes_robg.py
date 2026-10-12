@@ -15,10 +15,12 @@ byte. Idempotent: a second run changes nothing.
    every other zone. The Trakia block (identical to the common CCDR block) is
    copied for both zones. Romania also gets GasCCS and Hydrogen rows for CCGT
    and OCGT, cloned from the Gas rows of the same technology.
-3. Romanian hydro plants retired one or more years before their rehabilitated
-   _ext row starts: RetrYr of the parent is set to the StYr of the _ext row, so
-   capacity is continuous. Only retirements inside the model horizon
-   (2025-2040) are touched.
+3. Romanian hydro plants and their rehabilitated _ext row: RetrYr of the parent
+   is set to the StYr of the _ext row minus one, so capacity is continuous with
+   no overlap. EPM keeps a unit in service during its RetrYr year (main.gms
+   fixes vCap at y = RetrYr), so RetrYr = _ext StYr ran both rows for one year
+   (fixed 2026-10-05). Only retirements inside the model horizon (2025-2040)
+   are touched.
 4. Bulgarian existing or committed rows with an empty RetrYr get 2060, the
    no-unplanned-retirement rule of 2026-09-05.
 
@@ -84,7 +86,7 @@ def fix_generators(path: Path) -> list[str]:
 
     for g in PRE_START_COMMITTED:
         if g not in rows:
-            _fail(f"{path.name}: no row '{g}'")
+            continue    # removed later by the gas fleet cleanup (step 5c)
         n, p = rows[g]
         if p[ix["Status"]] == "2" and int(float(p[ix["StYr"]])) < START_YEAR:
             p[ix["Status"]] = "1"
@@ -99,9 +101,10 @@ def fix_generators(path: Path) -> list[str]:
         pp = parent[1]
         ext_st = int(float(p[ix["StYr"]]))
         retr = int(float(pp[ix["RetrYr"]])) if pp[ix["RetrYr"]] else None
-        if retr is not None and START_YEAR <= retr <= END_YEAR and retr < ext_st:
-            log.append(f"RetrYr {pp[ix['RetrYr']]}->{ext_st} {pp[0]}")
-            pp[ix["RetrYr"]] = str(ext_st)
+        target = ext_st - 1
+        if retr is not None and START_YEAR <= retr <= END_YEAR and retr <= ext_st and retr != target:
+            log.append(f"RetrYr {pp[ix['RetrYr']]}->{target} {pp[0]}")
+            pp[ix["RetrYr"]] = str(target)
 
     for g, (n, p) in rows.items():
         if p[ix["z"]] == "Bulgaria" and p[ix["Status"]] in ("1", "2") and p[ix["RetrYr"]] == "":
