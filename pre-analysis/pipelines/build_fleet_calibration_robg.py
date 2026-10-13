@@ -42,6 +42,9 @@ of its megawatts.
   observed 2023-2024 capacity factor (ENTSO-E generation over mean installed
   capacity) against the zone profile. Candidates keep the atlas profile: new
   turbines are taller and sit on the best sites.
+* No wind candidate comes online before 2027 (Wind Park, Generic_Wind_Bulgaria and
+  the 2026 legacy rows started in 2025 or 2026): installed wind is flat into 2026 at
+  ENTSO-E, and the test run built 970 MW in the 2025 base year.
 
 Writes the comparison to pre-analysis/output_prices/robg/fleet_calibration.csv.
 
@@ -88,6 +91,7 @@ PV_TEMPLATE = "R-Solar"
 LEGACY_WIND = ["WindMed1_corrected_2026", "WindMed2_corrected_2026", "WindMed1_corrected_2027",
                "WindHigh2_corrected_2027", "WindMed1_corrected_2028", "WindHigh2_corrected_2028"]
 GENERIC_WIND = "Generic Onshore WindMed1"
+FIRST_WIND_BUILD = 2027
 CF_YEARS = (2023, 2024)
 
 
@@ -114,7 +118,8 @@ def _write(path: Path, bom: bytes, eol: str, lines: list[str]) -> bool:
 
 
 def _before(path: Path) -> Path:
-    """The file as it stood before the first run of this script, so the plan never feeds on its own output."""
+    """The file as it stood before the first run when the backup is still there (for the comparison table).
+    The plan gives the same result on the edited file."""
     baks = sorted(path.parent.glob(path.name + ".bak_robg13_*"))
     return baks[0] if baks else path
 
@@ -192,7 +197,8 @@ def plan() -> tuple[dict, list[dict], dict, pd.DataFrame]:
     shares = [1 - ESO_COAL[2030] / ESO_COAL[2025], (ESO_COAL[2030] - ESO_COAL[2034]) / ESO_COAL[2025],
               ESO_COAL[2034] / ESO_COAL[2025]]
     for row in BG_COAL:
-        cap = float(g.loc[row, "Capacity"])
+        # the aggregate plus any tranche of an earlier run, so the split never compounds
+        cap = float(g.loc[[r for r in [row] + [row + x for x, _ in BG_TRANCHE_RETIRE if x] if r in g.index], "Capacity"].sum())
         parts = [round(cap * s, 1) for s in shares]
         parts[-1] = round(cap - sum(parts[:-1]), 1)
         for (suffix, retr), mw in zip(BG_TRANCHE_RETIRE, parts):
@@ -204,7 +210,8 @@ def plan() -> tuple[dict, list[dict], dict, pd.DataFrame]:
                       "model_before": cap, "model_2030": parts[1] + parts[2], "model_2034": parts[2]})
 
     ro = g[g["z"] == "Romania"]
-    pv_live = float(ro[(ro["tech"] == "PV") & (ro["Status"] == 1)]["Capacity"].sum())
+    pv = ro[(ro["tech"] == "PV") & (ro["Status"] == 1) & ~ro.index.isin([RO_ROOFTOP[0], RO_PV_2026])]
+    pv_live = float(pv["Capacity"].sum())
     step26 = round(float(installed("RO", 2026)["Solar"]) - pv_live, 1)
     new.append({"parent": PV_TEMPLATE, "g": RO_ROOFTOP[0], "Capacity": float(RO_ROOFTOP[1]),
                 "Status": 1, "StYr": 2024, "RetrYr": NO_RETIREMENT_YEAR})
@@ -217,6 +224,14 @@ def plan() -> tuple[dict, list[dict], dict, pd.DataFrame]:
     for row in LEGACY_WIND:
         over[row] = {"Status": 3, "Capex": capex}
     table.append({"item": "RO legacy wind to candidates", "model_before": float(g.loc[LEGACY_WIND, "Capacity"].sum())})
+
+    # ENTSO-E wind is flat into 2026 in both countries: no wind candidate comes online before 2027
+    early = g[g["z"].isin(["Romania", "Bulgaria"]) & (g["tech"] == "OnshoreWind")
+              & ((g["Status"] == 3) | g.index.isin(LEGACY_WIND)) & (g["StYr"] < FIRST_WIND_BUILD)]
+    for row in early.index:
+        over.setdefault(row, {})["StYr"] = FIRST_WIND_BUILD
+    table.append({"item": f"Wind candidates moved to {FIRST_WIND_BUILD}", "model_before": float(early["Capacity"].clip(
+        upper=early["BuildLimitperYear"].fillna(early["Capacity"])).sum())})
 
     for zone, cc in (("Romania", "RO"), ("Bulgaria", "BG")):
         obs, prof = observed_cf(cc, "Wind Onshore"), profile_cf(zone, "OnshoreWind")

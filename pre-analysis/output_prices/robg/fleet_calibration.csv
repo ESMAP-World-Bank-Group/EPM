@@ -13,6 +13,7 @@ BG coal Bulgaria_Agg_Lignite,3966.0,3966.0,3966.0,2223.5,615.0
 BG coal Bulgaria_Agg_Coal,669.0,669.0,669.0,375.1,103.8
 RO utility PV,1588.0,2788.0,2238.5,,
 RO legacy wind to candidates,,,5139.58957318,,
+Wind candidates moved to 2027,,,3908.78957318,,
 Romania existing wind CF,0.2644,,0.3858,0.6853,
 Romania solar CF (check only),0.1499,,0.1397,,
 Bulgaria existing wind CF,0.2284,,0.3334,0.6851,
