@@ -1,0 +1,19 @@
+item,entsoe_2025,entsoe_2026,model_before,model_2030,model_2034
+RO coal TPP Paroseni,130.0,90.0,130.0,,
+RO coal TPP Govora,82.0,41.0,100.0,,
+RO coal TPP Oradea,61.0,61.0,50.0,,
+RO coal TPP Rovinari,882.0,847.0,990.0,,
+RO coal TPP Turceni,785.0,526.0,660.0,,
+RO coal TPP Craiova,240.0,130.0,300.0,,
+RO coal TPP Isalnita,292.0,0.0,315.0,,
+RO coal Iasi II,0.0,0.0,100.0,,
+RO coal Pitești Sud,0.0,0.0,136.0,,
+RO coal Arad,0.0,0.0,50.0,,
+BG coal Bulgaria_Agg_Lignite,3966.0,3966.0,3966.0,2223.5,615.0
+BG coal Bulgaria_Agg_Coal,669.0,669.0,669.0,375.1,103.8
+RO utility PV,1588.0,2788.0,2238.5,,
+RO legacy wind to candidates,,,5139.58957318,,
+Romania existing wind CF,0.2644,,0.3858,0.6853,
+Romania solar CF (check only),0.1499,,0.1397,,
+Bulgaria existing wind CF,0.2284,,0.3334,0.6851,
+Bulgaria solar CF (check only),0.0982,,0.1558,,
