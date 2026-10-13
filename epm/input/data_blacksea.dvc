@@ -1,6 +1,6 @@
 outs:
-- md5: 3b41b899d87708268e80c54fd5f2d315.dir
-  size: 57253488
-  nfiles: 232
+- md5: 2df9ae1628f9bc060effa25cfde9d2c0.dir
+  size: 57655711
+  nfiles: 239
   hash: md5
   path: data_blacksea
