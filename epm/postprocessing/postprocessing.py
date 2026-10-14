@@ -417,7 +417,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                         )
 
                     if zone_full_season_active and year == years_available[0]:
-                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season_{year}.pdf')
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
                         ]

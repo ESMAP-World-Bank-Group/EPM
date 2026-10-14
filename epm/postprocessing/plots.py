@@ -1339,11 +1339,9 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
         new_order = [col for col in reorder_dispatch if col in df_tot_area.columns] + [col for col in df_tot_area.columns if col not in reorder_dispatch]
         df_tot_area = df_tot_area[new_order]
 
-    if select_time is None:
-        temp = 'all'
-    temp = f'{year}_{temp}'
+    # Only the year is added: listing every season/day made names too long to open
     if filename is not None and isinstance(filename, str):  # Only modify filename if it's a string
-        filename = filename.split('.')[0] + f'_{temp}.pdf'
+        filename = os.path.splitext(filename)[0] + f'_{year}.pdf'
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom,
                   figsize=figsize, ylabel=ylabel, title=title)
@@ -1439,11 +1437,9 @@ def make_fuel_dispatch_diff_plot(dfs_area, dict_colors, zone, year, scenario,
     if df_tot_area is None or df_tot_area.empty:
         return
 
-    if select_time is None:
-        temp = 'all'
-    temp = f'{year}_{temp}'
+    # Only the year is added: listing every season/day made names too long to open
     if filename is not None and isinstance(filename, str):
-        filename = filename.split('.')[0] + f'_{temp}.pdf'
+        filename = os.path.splitext(filename)[0] + f'_{year}.pdf'
 
     dispatch_diff_plot(df_tot_area, filename, dict_colors=dict_colors, legend_loc=legend_loc,
                        figsize=figsize, ylabel=ylabel, title=title)
