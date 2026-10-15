@@ -1,6 +1,6 @@
 # Seychelles: firm capacity and frequency reserve (FCAS) in 2035
 
-*Draft for discussion – 15 October 2026*
+*Draft for discussion – 15 October 2026 (updated after model fixes to battery and unit-commitment constraints)*
 
 ## Key messages
 
@@ -43,7 +43,8 @@ spreadsheet check, which assumed all engines online and all batteries full.
 
 **Who can provide reserve.** Engines of 6 MW or more, only while running, up to 20% of their capacity and within the
 headroom left by their output; batteries up to 80% of inverter capacity (50% in a sensitivity), limited by the energy
-stored. Smaller engines, waste-to-energy and solar/wind provide no reserve.
+stored. Smaller engines, waste-to-energy and solar/wind provide no reserve. Battery charging and discharging share one inverter, and discharge
+plus reserve must be covered by the energy stored at the start of each hour.
 
 **Minimum new thermal.** Starting from the IRP fleet (six new 8 MW units plus 2.4 MW), we removed units to find where
 demand can no longer be met, and added units one by one until the reserve requirement is met in every hour.
@@ -66,7 +67,7 @@ demand can no longer be met, and added units one by one until the reserve requir
 
 ### 4.1 IRP fleet
 
-With 50 MW of new HFO, Mahé falls short of the reserve requirement **in every hour**, by up to 4.7 MW. At night the
+With 50 MW of new HFO, Mahé falls short of the reserve requirement **in every hour**, by up to 4.6 MW. At night the
 gap is about 1 MW (48 MW required, 47 MW available); in the middle of the day it grows to about 5 MW because 10% of
 solar output adds to the requirement. Demand is met in every hour.
 
@@ -77,7 +78,7 @@ solar output adds to the requirement. Demand is met in every hour.
 | 18 MW (2 units) | all hours, up to 11 MW | not run | **No** (3,000 MWh unserved, morning and evening peaks) |
 | 26 MW (3 units) | all hours, up to 9.5 MW | not run | Yes |
 | 42 MW (5 units) | all hours, up to 6.3 MW | not run | Yes |
-| **50 MW (IRP)** | **all hours, up to 4.7 MW** | all hours, up to 15 MW | Yes |
+| **50 MW (IRP)** | **all hours, up to 4.6 MW** | all hours, up to 15 MW | Yes |
 | 58 MW (7 units) | 2,800 daytime hours, up to 3.0 MW | all hours, up to 14 MW | Yes |
 | 66 MW (8 units) | 1,100 midday hours, up to 1.4 MW | all hours, up to 12 MW | Yes |
 | **74 MW (9 units)** | **none** | all hours, up to 10 MW | Yes |
@@ -96,17 +97,21 @@ Entries for more units than the threshold were not all run; adding units can onl
 
 The additional units are needed to hold reserve, not to produce energy. Mahé's thermal output changes little (about
 430 GWh/yr with 6 or 9 new units), and operating cost stays at about USD 73.5 m/yr. Each extra 8 MW unit adds only
-1.6 MW of reserve (20% of its capacity), so closing a 4.7 MW gap with engines takes three units.
+1.6 MW of reserve (20% of its capacity), so closing a 4.6 MW gap with engines takes three units.
 
 ### 4.4 Without the interconnector
 
-If the interconnector is out of service, the reserve requirement on Mahé falls to 16 MW plus the VRE share, which the
-IRP fleet meets in every hour. The binding issue is then energy: Mahé meets demand on its own with three or more new
-units, and Praslin–La Digue has to curtail about a quarter of its solar and wind output.
+If the interconnector is out of service, the reserve requirement on Mahé falls to its two largest units (16 MW) plus
+the VRE share. This is met at every level of new thermal, whether batteries count at 80% or 50%. The binding issue is
+then energy: Mahé meets demand on its own with three or more new units (two units leave about 3,000 MWh unserved in
+the morning and evening peaks), and Praslin–La Digue has to curtail about a fifth of its solar and wind output.
+
+This result is optimistic: the model assumes every engine is available at full capacity in every hour and tests the
+two-unit loss as fast reserve only, not as a sustained loss of capacity at the evening peak.
 
 ## 5. Comparison with the worst-hour spreadsheet
 
-The earlier spreadsheet found a Mahé shortfall of 4.1 MW with the IRP fleet; the dispatch finds up to 4.7 MW. The two
+The earlier spreadsheet found a Mahé shortfall of 4.1 MW with the IRP fleet; the dispatch finds up to 4.6 MW. The two
 are consistent. The small difference comes from the solar and wind share (taken at the hour of peak cable flow in the
 spreadsheet, at the hour of highest solar output here) and from accounting for the reserve held by the unit that
 trips. The dispatch adds the hourly picture: the shortfall occurs in every hour, is largest at midday, and is not
@@ -126,6 +131,8 @@ If batteries cannot reliably be counted at 80% of inverter capacity, the thermal
 
 ## 7. Caveats
 
+- Engines are assumed fully available in every hour (no forced outages or maintenance at peak), so the
+  islanded adequacy result (three units) is optimistic.
 - The 40 MW interconnector contingency is applied in every hour, including hours when the cable carries less power;
   this is conservative.
 - Engine operation is simplified (relaxed unit commitment); a full on/off check of the key cases is still to be done.

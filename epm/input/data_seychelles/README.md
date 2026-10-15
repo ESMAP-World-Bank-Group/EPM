@@ -40,7 +40,7 @@ Run time for the 2035 Baseline (relaxed, RMIP): about 2–3 minutes, of which CP
 | LoadTrend | 2035 | `load/pDemandData_LoadTrend.csv`, `load/pDemandForecast_LoadTrend.csv` (lower Mahé demand) |
 | Islanded | 2035 | `pSettings_Islanded.csv` (`fEnableInternalExchange = 0`) + `reserve/pSpinningReserveReqCountry_Islanded.csv` (two largest units) |
 | BESS50 | 2035 | `supply/pStorageDataInput_BESS50.csv` (BESS FCAS 50%) |
-| `<Base|BESS50|Islanded>_U<k>` | 2035 | new-thermal sweep: `supply/pGenDataInput_U<k>.csv` with k new 8 MW HFO units (k = 2–16; base case 6) |
+| `<Base|BESS50|Islanded|IslBESS50>_U<k>` | 2035 | new-thermal sweep: `supply/pGenDataInput_U<k>.csv` with k new 8 MW HFO units (k = 2–16; base case 6); IslBESS50 = islanded with BESS at 50% |
 | Baseline_MIP | 2035 | model type MIP with `cplex/cplex_mip_sc.opt` (full on/off commitment) |
 
 One year per run because, with expansion off, EPM cannot bring in a unit after the first model year. Each year has
@@ -185,6 +185,12 @@ Availability (monthly energy cap): thermal 0.9, waste-to-energy 0.8. No planned-
 2. **Faster unit-commitment equations** – `base.gms` / `main.gms`: lookups `mapAT`, `mapATprev`, `sWinUp`, `sWinDn`
    built once; commitment, min up/down, ramp and storage day-wrap equations use them instead of scanning all hours.
    Same results (validated: identical objective), model build about 100× faster; min up/down time now usable.
+
+4. **Battery and commitment fixes (15 Oct 2026)** – `base.gms`: `eStorInverterLimit` (charge + discharge ≤ MW),
+   `eStorEnergyHeadroom` (discharge + reserve ≤ energy stored at the start of the hour), `eStorageSOCInitDispatch` /
+   `eStorageSOCFinalDispatch` anchored only at the start/end of the year with the first-hour balance applied (before:
+   every month, no balance), `eJointResCapOnline` (output + reserve ≤ MW × on/off status). `generate_report.gms`:
+   battery "Charge" and "StateOfCharge" in `pDispatchPlant`.
 
 ## Known limitations
 
