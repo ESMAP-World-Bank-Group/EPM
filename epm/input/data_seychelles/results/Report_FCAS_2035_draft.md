@@ -74,18 +74,22 @@ solar output adds to the requirement. Demand is met in every hour.
 
 | New thermal on Mahé | Reserve shortfall (batteries at 80%) | Reserve shortfall (batteries at 50%) | Demand met without interconnector? |
 |---|---|---|---|
-| 18 MW (2 units) | all hours, up to 11 MW | – | **No** (3,000 MWh unserved, morning and evening peaks) |
-| 26 MW (3 units) | all hours, up to 9.5 MW | – | Yes |
-| 42 MW (5 units) | all hours, up to 6.3 MW | – | Yes |
+| 18 MW (2 units) | all hours, up to 11 MW | not run | **No** (3,000 MWh unserved, morning and evening peaks) |
+| 26 MW (3 units) | all hours, up to 9.5 MW | not run | Yes |
+| 42 MW (5 units) | all hours, up to 6.3 MW | not run | Yes |
 | **50 MW (IRP)** | **all hours, up to 4.7 MW** | all hours, up to 15 MW | Yes |
-| 58 MW (7 units) | 2,800 daytime hours, up to 3.0 MW | – | Yes |
+| 58 MW (7 units) | 2,800 daytime hours, up to 3.0 MW | all hours, up to 14 MW | Yes |
 | 66 MW (8 units) | 1,100 midday hours, up to 1.4 MW | all hours, up to 12 MW | Yes |
-| **74 MW (9 units)** | **none** | – | Yes |
-| 114 MW (14 units) | none | 1,400 midday hours, up to 2.2 MW | – |
-| **130 MW (16 units)** | none | **none** | – |
+| **74 MW (9 units)** | **none** | all hours, up to 10 MW | Yes |
+| 98 MW (12 units) | none | all hours, up to 5.4 MW | Yes |
+| 114 MW (14 units) | none | 1,400 midday hours, up to 2.2 MW | Yes |
+| 122 MW (15 units) | none | 245 midday hours, up to 0.6 MW | Yes |
+| **130 MW (16 units)** | none | **none** | Yes |
+
+Entries for more units than the threshold were not all run; adding units can only reduce the shortfall.
 
 - **Reserve, batteries at 80%: about 74 MW of new thermal**, 24 MW above the IRP.
-- **Reserve, batteries at 50%: about 130 MW**, 80 MW above the IRP.
+- **Reserve, batteries at 50%: about 130 MW**, 80 MW above the IRP (122 MW leaves only a 0.6 MW midday gap in 245 hours).
 - **Demand only: about 26 MW**, even if the interconnector is out of service.
 
 ### 4.3 What the additional thermal does

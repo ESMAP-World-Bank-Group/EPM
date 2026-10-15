@@ -49,20 +49,30 @@ Maximum Mahé capability with the IRP fleet, all engines online and batteries fu
 
 ## Results (Mahé, 2035)
 
-| New 8 MW units | New thermal (MW) | Batteries 80%: FCAS shortfall (MWh/yr; hours; max MW) | Batteries 50%: FCAS shortfall (MWh/yr) | Islanded: unserved energy (MWh/yr) |
+| New 8 MW units | New thermal (MW) | Batteries 80%: FCAS shortfall (MWh/yr; hours; max MW) | Batteries 50%: FCAS shortfall (MWh/yr; hours; max MW) | Islanded: unserved energy (MWh/yr) |
 |---|---|---|---|---|
-| 2 | 18.4 | 71,142; all hours; 11.1 | – | **2,996** |
-| 3 | 26.4 | 57,097; all hours; 9.5 | – | 0 |
-| 4 | 34.4 | 43,046; all hours; 7.9 | – | 0 |
-| 5 | 42.4 | 28,957; all hours; 6.3 | – | 0 |
-| **6 (IRP)** | **50.4** | **14,810; all hours; 4.7** | 106,825 | 0 |
-| 7 | 58.4 | 3,980; 2,811 h (daytime); 3.0 | – | 0 |
-| 8 | 66.4 | 632; 1,130 h (10:00–16:00); 1.4 | 78,252 | 0 |
-| **9** | **74.4** | **0** | – | 0 |
-| 10 / 12 / 14 | 82.4 / 98.4 / 114.4 | 0 | 49,433 / 20,732 / 1,488 | – |
-| **16** | **130.4** | 0 | **0** | – |
+| 2 | 18.4 | 71,142; all hours; 11.1 | n/r | **2,996** |
+| 3 | 26.4 | 57,097; all hours; 9.5 | n/r | 0 |
+| 4 | 34.4 | 43,046; all hours; 7.9 | n/r | 0 |
+| 5 | 42.4 | 28,957; all hours; 6.3 | n/r | 0 |
+| **6 (IRP)** | **50.4** | **14,810; all hours; 4.7** | 106,825; all hours; 15.2 | 0 |
+| 7 | 58.4 | 3,980; 2,811 h (daytime); 3.0 | 92,616; all hours; 13.6 | n/r |
+| 8 | 66.4 | 632; 1,130 h (10:00–16:00); 1.4 | 78,252; all hours; 11.9 | n/r |
+| **9** | **74.4** | **0** | 63,829; all hours; 10.2 | n/r |
+| 10 | 82.4 | n/r | 49,433; all hours; 8.7 | n/r |
+| 11 | 90.4 | n/r | 35,075; all hours; 7.1 | n/r |
+| 12 | 98.4 | n/r | 20,732; all hours; 5.4 | n/r |
+| 13 | 106.4 | n/r | 6,422; all hours; 3.8 | n/r |
+| 14 | 114.4 | n/r | 1,488; 1,441 h (midday); 2.2 | n/r |
+| 15 | 122.4 | n/r | 48; 245 h (midday); 0.6 | n/r |
+| **16** | **130.4** | n/r | **0** | n/r |
 
-- **Minimum new thermal to meet FCAS: 74.4 MW** (9 units) with batteries at 80%; **130.4 MW** (16 units) at 50%.
+n/r = not run. Shortfalls fall steadily with each added unit (about 14,000 MWh per unit while the gap applies in
+every hour, since each unit adds 1.6 MW of FCAS). Cases not run are not needed: adding units cannot increase the
+shortfall, so batteries-80% cases above 9 units and islanded cases above 6 units would also show zero.
+
+- **Minimum new thermal to meet FCAS: 74.4 MW** (9 units) with batteries at 80%; **130.4 MW** (16 units) at 50%
+  (15 units leave only 48 MWh of midday shortfall, which curtailing a little solar would remove).
 - **Minimum new thermal to meet demand** (islanded): **26.4 MW** (3 units). Between 3 and 8 units the system
   meets demand but not FCAS.
 - Islanded FCAS (16 MW + VRE) is met at every level.
