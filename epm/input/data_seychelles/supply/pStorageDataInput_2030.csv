@@ -1,0 +1,8 @@
+g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,StorageDuration,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+BESS_RomainvilleBESS,Mahe,Storage,Battery,,1,2021,2040,,5.0,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_RomainvillenorthBESS,Mahe,Storage,Battery,,1,2027,2046,,5.0,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_BESSMahe,Mahe,Storage,Battery,,1,2027,2046,,15.0,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_BESS_IRPgeneric,Mahe,Storage,Battery,,1,2027,2046,,10.0,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_LaDigueagrivoltaicBESS,PraslinLaDigue,Storage,Battery,,1,2027,2046,,2.0,2.25,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_PraslinhybridBESS,PraslinLaDigue,Storage,Battery,,1,2027,2046,,5.2,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,
+BESS_BESS_IRPgeneric_PLD,PraslinLaDigue,Storage,Battery,,1,2030,2049,,32.8,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,

@@ -1,0 +1,13 @@
+* Seychelles MIP: written by EPM_SC/epm_inputs/build_epm_inputs.py
+epgap 0.01
+tilim 3600
+mipemphasis 1
+rinsheur 50
+fpheur 1
+heurfreq 20
+threads 10
+lpmethod 4
+startalg 4
+predual -1
+scaind 1
+mipdisplay 4

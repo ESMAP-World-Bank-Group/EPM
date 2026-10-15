@@ -51,3 +51,4 @@ EPM_FILL_HYDRO_CAPEX
 EPM_FILL_ROR_FROM_AVAILABILITY
 sPeakLoadProximityThreshold
 fApplyMUDT
+fApplyIntercoContingency

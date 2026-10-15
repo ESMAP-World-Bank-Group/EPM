@@ -112,6 +112,11 @@ Singleton sets
 
 Set
    sFirstHourAT(AT)          'First chronological hour in the AT sequence (used for ramp gating)'
+   mapAT(AT,q,d,t)           'Reverse of mapTS: the (q,d,t) slot of each chronological hour'
+   mapATprev(AT,q,d,t)       'The (q,d,t) slot of the previous chronological hour AT-1'
+   sMUDTstep                 'Offsets used to build minimum up/down-time windows' /s1*s168/
+   sWinUp(g,AT2,AT)          'Hours AT inside the minimum up-time window starting at AT2'
+   sWinDn(g,AT2,AT)          'Hours AT inside the minimum down-time window starting at AT2'
 ;
 
 * Additional parameters for results and reporting
@@ -187,6 +192,7 @@ Parameters
 
 * Reserve and policy inputs
    pCapacityCredit(g,y)           'Capacity credit for planning reserves'
+   pLargestUnitCountry(c,y)       'Largest committed unit online per country (MW), for the interconnector-trip contingency'
    psVREForecastErrorPct          'Reserve add-on for VRE (note: duplicate naming with parameter above)'
    pCarbonPrice(y)                'Carbon price trajectory'
    pFuelCarbonContent(f)          'Fuel carbon intensity (tCO₂/MMBtu)'
@@ -234,6 +240,7 @@ Parameters
    fApplyMinGenCommitment        'Minimum generation constraint toggle'
    fApplyMUDT                    'Enable minimum up/down-time constraints (dispatch mode only)'
    fApplyStartupCost             'Include startup cost in the variable-cost stack'
+   fApplyIntercoContingency      'Interconnector trip contingency: 1 = largest unit + imports, 2 = N-2 + imports'
 ;
 
 Scalar
@@ -439,8 +446,10 @@ Equations
    eDispatchRampDownLimit(g,AT,y)  'Dispatch ramp-down limit across chronological slots'
    eSpinningReserveLim(g,q,d,t,y) 'Reserve capability vs capacity'
    eSpinningReserveLimVRE(g,f,q,d,t,y) 'Reserve limit adjusted for VRE profile'
+   eSpinningReserveLimOnline(g,q,d,t,y) 'Reserve only from committed units (unit commitment)'
    eJointResCap(g,q,d,t,y)        'Joint dispatch-reserve envelope'
    eSpinningReserveReqCountry(c,q,d,t,y) 'Country spinning reserve requirement'
+   eSpinningReserveReqIntercoTrip(c,q,d,t,y) 'Country reserve covers largest unit plus imports (interconnector trip)'
    eSpinningReserveReqSystem(q,d,t,y) 'System spinning reserve requirement'
    ePlanningReserveReqSystem(y)   'System planning reserve requirement'
    ePlanningReserveReqCountry(c,y) 'Country planning reserve requirement'
@@ -816,18 +825,18 @@ eDispatchMaxGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenCommitment and M
 
 * Keeps each hour’s on/off change consistent with the recorded startup/shutdown activity.
 eCommitmentConsistency(g,AT,y)$(ord(AT) > 1 and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
-   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
-      =e= sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))
-         - sum((q,d,t)$mapTS(q,d,t,AT-1), isOn(g,q,d,t,AT-1,y));
+   sum(mapAT(AT,q,d,t), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
+      =e= sum(mapAT(AT,q,d,t), isOn(g,q,d,t,AT,y))
+         - sum(mapATprev(AT,q,d,t), isOn(g,q,d,t,AT-1,y));
 
 * Applies the same accounting for the first chronological slot using the initial status.
 eCommitmentInitialization(g,AT,y)$(ord(AT) = 1 and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
-   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
-      =e= sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y)) - pInitialOnStart(g);
+   sum(mapAT(AT,q,d,t), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
+      =e= sum(mapAT(AT,q,d,t), isOn(g,q,d,t,AT,y)) - pInitialOnStart(g);
 
 * Prevents multiple start/shutdown actions within a single chronological slot.
 eCommitmentSingleTransition(g,AT,y)$(fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
-   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) + isShutdown(g,q,d,t,AT,y)) =l= 1;
+   sum(mapAT(AT,q,d,t), isStartup(g,q,d,t,AT,y) + isShutdown(g,q,d,t,AT,y)) =l= 1;
 
 * ------------------------------
 * Minimum up/down-time constraints
@@ -835,30 +844,28 @@ eCommitmentSingleTransition(g,AT,y)$(fDispatchMode and fApplyMinGenCommitment an
 * Initial minimum up-time: if HoursOn > 0, force the remaining required online hours.
 eMinUpInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn")
       and pGenData(g,"HoursOff") = 0 and pGenData(g,"minUT") > 0.999)..
-   sum(AT$(ord(AT) < (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)),
-       sum((q,d,t)$mapTS(q,d,t,AT), 1 - isOn(g,q,d,t,AT,y))) =e= 0;
+   sum(mapAT(AT,q,d,t)$(ord(AT) < (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)),
+       1 - isOn(g,q,d,t,AT,y)) =e= 0;
 
 * Rolling minimum up-time: every startup must be followed by minUT consecutive on hours.
 eMinUpRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minUT") > 0.999
       and ord(AT2) > (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)$pGenData(g,"HoursOn")
       and ord(AT2) < (card(AT2) - pGenData(g,"minUT") + 1))..
-   sum(AT$((ord(AT) >= ord(AT2)) and (ord(AT) < ord(AT2) + pGenData(g,"minUT"))),
-       sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y)))
-      =g= pGenData(g,"minUT") * sum((q,d,t)$mapTS(q,d,t,AT2), isStartup(g,q,d,t,AT2,y));
+   sum((AT,q,d,t)$(sWinUp(g,AT2,AT) and mapAT(AT,q,d,t)), isOn(g,q,d,t,AT,y))
+      =g= pGenData(g,"minUT") * sum(mapAT(AT2,q,d,t), isStartup(g,q,d,t,AT2,y));
 
 * Initial minimum down-time: if HoursOff > 0, force the remaining offline hours.
 eMinDownInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn") = 0
       and pGenData(g,"HoursOff") and pGenData(g,"minDT") > 0.999)..
-   sum(AT$(ord(AT) < (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)),
-       sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))) =e= 0;
+   sum(mapAT(AT,q,d,t)$(ord(AT) < (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)),
+       isOn(g,q,d,t,AT,y)) =e= 0;
 
 * Rolling minimum down-time: every shutdown must be followed by minDT consecutive off hours.
 eMinDownRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minDT") > 0.999
       and ord(AT2) > (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)$pGenData(g,"HoursOff")
       and ord(AT2) < (card(AT2) - pGenData(g,"minDT") + 1))..
-   sum(AT$((ord(AT) >= ord(AT2)) and (ord(AT) < ord(AT2) + pGenData(g,"minDT"))),
-       sum((q,d,t)$mapTS(q,d,t,AT), 1 - isOn(g,q,d,t,AT,y)))
-      =g= pGenData(g,"minDT") * sum((q,d,t)$mapTS(q,d,t,AT2), isShutdown(g,q,d,t,AT2,y));
+   sum((AT,q,d,t)$(sWinDn(g,AT2,AT) and mapAT(AT,q,d,t)), 1 - isOn(g,q,d,t,AT,y))
+      =g= pGenData(g,"minDT") * sum(mapAT(AT2,q,d,t), isShutdown(g,q,d,t,AT2,y));
 
 * ------------------------------
 * Startup-cost translation
@@ -884,16 +891,16 @@ eRampContinuity(g,q,d,t,AT,y)$((Ramprate(g) and fApplyRampConstraint and fDispat
 
 * Ensure ramp-up across consecutive AT slots respects the ramp rate plus any additional headroom from startups when min-gen constraints are active.
 eDispatchRampUpLimit(g,AT,y)$((not sFirstHourAT(AT) and Ramprate(g) and fApplyRampConstraint and fDispatchMode))..
-   sum((q,d,t)$mapTS(q,d,t,AT), vPwrOutDispatch(g,q,d,t,AT,y))
-   - sum((q,d,t)$mapTS(q,d,t,AT-1), vPwrOutDispatch(g,q,d,t,AT-1,y))
-          =l= sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
+   sum(mapAT(AT,q,d,t), vPwrOutDispatch(g,q,d,t,AT,y))
+   - sum(mapATprev(AT,q,d,t), vPwrOutDispatch(g,q,d,t,AT-1,y))
+          =l= sum(mapAT(AT,q,d,t), isStartup(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
           + vCap(g,y)*pGenData(g,"RampUpRate");
 
 * Ensure ramp-down across slots respects ramp-down rates while allowing shutdowns to absorb faster decreases.
 eDispatchRampDownLimit(g,AT,y)$((not sFirstHourAT(AT) and Ramprate(g) and fApplyRampConstraint and fDispatchMode))..
-   sum((q,d,t)$mapTS(q,d,t,AT-1), vPwrOutDispatch(g,q,d,t,AT-1,y))
-   - sum((q,d,t)$mapTS(q,d,t,AT), vPwrOutDispatch(g,q,d,t,AT,y))
-          =l= sum((q,d,t)$mapTS(q,d,t,AT), isShutdown(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
+   sum(mapATprev(AT,q,d,t), vPwrOutDispatch(g,q,d,t,AT-1,y))
+   - sum(mapAT(AT,q,d,t), vPwrOutDispatch(g,q,d,t,AT,y))
+          =l= sum(mapAT(AT,q,d,t), isShutdown(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
           + vCap(g,y)*pGenData(g,"RampDnRate");
 
 * ------------------------------
@@ -908,6 +915,13 @@ eSpinningReserveLim(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySys
 eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) and FD(q,d,t))..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
+* With unit commitment, only units that are online can hold spinning reserve: an offline unit cannot respond
+* within the reserve time frame (engine start takes 10-30 min). Applies to units with a minimum-generation commitment.
+eSpinningReserveLimOnline(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)
+      and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and FD(q,d,t))..
+   vSpinningReserve(g,q,d,t,y) =l= pGenData(g,"Capacity")*pGenData(g,"ResLimShare")
+                                    * sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
 eSpinningReserveReqCountry(c,q,d,t,y)$((fApplyCountrySpinReserveConstraint) and FD(q,d,t))..
@@ -918,6 +932,17 @@ eSpinningReserveReqCountry(c,q,d,t,y)$((fApplyCountrySpinReserveConstraint) and 
 *                                        - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
+* Interconnector trip as a contingency: losing the import cable removes the imported power at once.
+*   fApplyIntercoContingency = 1: reserve covers the largest unit + imports (cable counts as one of the N-2 elements)
+*   fApplyIntercoContingency = 2: reserve covers the N-2 requirement + imports (two largest units and the cable)
+* Applies in addition to the N-2 requirement above.
+eSpinningReserveReqIntercoTrip(c,q,d,t,y)$(fApplyIntercoContingency and fApplyCountrySpinReserveConstraint and FD(q,d,t))..
+   sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
+ + vUnmetSpinningReserveCountry(c,q,d,t,y)
+   =g= pLargestUnitCountry(c,y)$(fApplyIntercoContingency = 1) + pSpinningReserveReqCountry(c,y)$(fApplyIntercoContingency = 2)
+     + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), vFlow(z2,z,q,d,t,y))
+     + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
+
 * System spinning reserve requirement
 eSpinningReserveReqSystem(q,d,t,y)$((fApplySystemSpinReserveConstraint) and FD(q,d,t))..
    sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
@@ -1069,7 +1094,7 @@ eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and F
 
 * Dispatch mode: wrap the first hour of each day to the previous chronological hour (AT-1); no wrap in representative-day mode.
 eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour(t) and mapTS(q,d,t,AT) and ord(AT) > 1) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= sum((q2,d2,t2)$mapTS(q2,d2,t2,AT-1), vStorage(st,q2,d2,t2,y))
+   vStorage(st,q,d,t,y) =e= sum(mapATprev(AT,q2,d2,t2), vStorage(st,q2,d2,t2,y))
       + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
@@ -1252,8 +1277,10 @@ Model PA /
    
    eSpinningReserveLim
    eSpinningReserveLimVRE
+   eSpinningReserveLimOnline
    eJointResCap
    eSpinningReserveReqCountry
+   eSpinningReserveReqIntercoTrip
    eSpinningReserveReqSystem
    ePlanningReserveReqCountry
    ePlanningReserveReqSystem

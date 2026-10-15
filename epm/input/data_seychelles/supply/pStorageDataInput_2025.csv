@@ -1,0 +1,2 @@
+g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,StorageDuration,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+BESS_RomainvilleBESS,Mahe,Storage,Battery,,1,2021,2040,,5.0,2.0,,,,,0.84,,9200,0,,,,,,,1,1,,0.8,,,,,,,

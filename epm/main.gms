@@ -451,6 +451,7 @@ fApplyMinGenCommitment      = pSettings("fApplyMinGenCommitment");
 fApplyStartupCost                  = pSettings("fApplyStartupCost");
 fApplyRampConstraint               = pSettings("fApplyRampConstraint");
 fApplyMUDT                       = pSettings("fApplyMUDT");
+fApplyIntercoContingency         = pSettings("fApplyIntercoContingency");
 
 * --- Settings: Economic parameters and penalties
 pDR                          = pSettings("DR");
@@ -542,6 +543,24 @@ if (fDispatchMode,
 
 * Identify which generators carry minimum-generation commitments so that startup cost logic can focus on them.
 MinGenPoint(g) = yes$(pGenData(g,"MinGenCommitment") > 0);
+
+* Largest committed unit online in each country and year (interconnector-trip contingency)
+pLargestUnitCountry(c,y) = smax((zcmap(z,c),gzmap(g,z))$(MinGenPoint(g) and pGenData(g,"StYr") <= y.val
+                              and (pGenData(g,"RetrYr") >= y.val or pGenData(g,"RetrYr") = 0)), pGenData(g,"Capacity"));
+
+* Chronological lookups built once, so equations indexed by AT do not scan mapTS(q,d,t,AT) for every hour:
+* mapAT gives the (q,d,t) slot of hour AT, mapATprev the slot of hour AT-1, sWinUp/sWinDn the hours covered by
+* the minimum up/down-time window that starts at AT2.
+mapAT(AT,q,d,t) = mapTS(q,d,t,AT);
+loop(mapAT(AT,q,d,t), mapATprev(AT+1,q,d,t) = yes;);
+if (fDispatchMode and fApplyMUDT and fApplyMinGenCommitment,
+   abort$(smax(g$MinGenPoint(g), max(pGenData(g,"minUT"), pGenData(g,"minDT"))) > card(sMUDTstep))
+      'minUT/minDT longer than the sMUDTstep window set in base.gms';
+   loop(sMUDTstep,
+      sWinUp(g,AT2,AT2+(ord(sMUDTstep)-1))$(MinGenPoint(g) and ord(sMUDTstep) <= pGenData(g,"minUT")) = yes;
+      sWinDn(g,AT2,AT2+(ord(sMUDTstep)-1))$(MinGenPoint(g) and ord(sMUDTstep) <= pGenData(g,"minDT")) = yes;
+   );
+);
 
 * ------------------------------
 
