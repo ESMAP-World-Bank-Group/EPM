@@ -1,7 +1,7 @@
-c,fuel,2025,2030,2035
-SC_Mahe,HFO,18.18,18.18,18.18
-SC_Mahe,Diesel,27.53,27.53,27.53
-SC_Mahe,Waste,0,0,0
-SC_PLD,HFO,18.18,18.18,18.18
-SC_PLD,Diesel,27.53,27.53,27.53
-SC_PLD,Waste,0,0,0
+c,fuel,2035
+SC_Mahe,HFO,18.18
+SC_Mahe,Diesel,27.53
+SC_Mahe,Waste,0
+SC_PLD,HFO,18.18
+SC_PLD,Diesel,27.53
+SC_PLD,Waste,0
