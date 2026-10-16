@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Romanian demand forecast from the 2024 NECP update, WEM scenario.
+"""Romanian demand forecast from the Transelectrica TDP, rebased on actual 2024.
+
+The file name is kept for the provenance trail. Until 2026-10-16 this script
+used the 2024 NECP update, WEM, Figure 96. That figure is titled "Gross
+electricity generation by technologies (WEM)": it includes exports and
+plant own use, so it is not a demand series.
 
 Rewrites the two Romania rows (Peak, Energy) of
 
@@ -11,11 +16,13 @@ RoBg family (zcmap_robg.csv), so no earlier scenario reads these rows.
 
 Method
 ------
-* Energy: NECP 2024 update, Figure 96 (page 230), WEM, LEAP-RO. The plan's
-  text (page 229) reads the series as electricity consumption: "from 55.5 TWh
-  in 2022 to 98.8 TWh by 2050". Points 2022 55.5, 2025 58.0, 2030 73.1,
-  2035 83.6, 2040 88.6, 2045 93.9, 2050 98.8 TWh, linear in between;
-  2051-2053 continue the 2045-2050 slope.
+* Energy: Transelectrica TDP net internal consumption, 51.9 TWh in 2024
+  (Tab 5.2.3, p42), 57.4 TWh in 2028 and 62.4 TWh in 2033. The series is
+  scaled so that 2024 equals the actual 2024 sent-out demand, 54.3 TWh
+  (domestic net generation plus net imports). The factor (1.046) carries the
+  network losses that the TDP definition leaves out. Geometric between
+  anchors; after 2033 the 2028-2033 growth rate (1.69 percent per year)
+  is held constant.
 * Peak = Energy / (8760 x LF), LF = the pHours-weighted mean of the deployed
   Romanian profile. The profile is divided by the true 2023 annual peak, so
   its mean is the 2023 load factor (about 0.715). Forecast and profile then
@@ -38,7 +45,8 @@ PROFILE = DATA / "load" / "pDemandProfile.csv"
 HOURS = DATA / "pHours.csv"
 
 ZONE = "Romania"
-NECP_WEM_TWH = {2022: 55.5, 2025: 58.0, 2030: 73.1, 2035: 83.6, 2040: 88.6, 2045: 93.9, 2050: 98.8}
+TDP_NET_TWH = {2024: 51.9, 2028: 57.4, 2033: 62.4}
+ACTUAL_2024_TWH = 54.3
 
 
 def _fail(msg: str) -> None:
@@ -59,13 +67,16 @@ def profile_load_factor() -> float:
 
 
 def energy_gwh(years: list[int]) -> dict[int, float]:
-    xs = sorted(NECP_WEM_TWH)
-    ys = [NECP_WEM_TWH[x] for x in xs]
-    slope = (NECP_WEM_TWH[2050] - NECP_WEM_TWH[2045]) / 5
+    scale = ACTUAL_2024_TWH / TDP_NET_TWH[2024]
+    xs = sorted(TDP_NET_TWH)
+    logs = [np.log(TDP_NET_TWH[x] * scale) for x in xs]
+    rate = (logs[-1] - logs[-2]) / (xs[-1] - xs[-2])
     out = {}
     for y in years:
-        twh = np.interp(y, xs, ys) if y <= 2050 else NECP_WEM_TWH[2050] + slope * (y - 2050)
-        out[y] = float(twh) * 1000
+        if y < xs[0]:
+            _fail(f"year {y} is before the first anchor {xs[0]}")
+        lg = np.interp(y, xs, logs) if y <= xs[-1] else logs[-1] + rate * (y - xs[-1])
+        out[y] = float(np.exp(lg)) * 1000
     return out
 
 
@@ -92,7 +103,7 @@ def main() -> int:
         path.write_bytes((b"\xef\xbb\xbf" if bom else b"") + out)
         print(f"  wrote {path.relative_to(_EPM)}")
     print(f"  profile load factor {lf:.4f}")
-    for y in (2024, 2025, 2030, 2040, 2050, 2053):
+    for y in (2024, 2025, 2028, 2030, 2033, 2035, 2040, 2050, 2053):
         print(f"  {y}: Energy {energy[y]:9.1f} GWh  Peak {energy[y] / (8.76 * lf):8.1f} MW")
     return 0
 
