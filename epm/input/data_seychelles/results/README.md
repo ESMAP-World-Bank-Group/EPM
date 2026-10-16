@@ -132,6 +132,38 @@ between the islands nets out). FCAS penalties are shown separately.
 - Fuel is the dominant cost (HFO 18.2 USD/MMBtu); a cheaper fuel such as LNG would change the comparison – to be
   analysed separately.
 
+**Operating cost by amount of new thermal** (USD m/yr): operating cost (fuel in brackets) + FCAS / unserved-energy
+penalty where requirements are not met. n/r = not run.
+
+| New 8 MW units | New thermal (MW) | Cable, batteries 80% | Cable, batteries 50% | No cable, batteries 80% | No cable, batteries 50% |
+|---|---|---|---|---|---|
+| 2 | 18.4 | n/r | n/r | 83.2 (75.1) + 8.8 | 83.2 (75.1) + 9.0 |
+| 3 | 26.4 | 77.2 (69.8) + 29.7 | n/r | 83.6 (76.2) + 0.4 | 83.6 (76.2) + 0.5 |
+| **4** | 34.4 | 75.8 (68.6) + 21.4 | n/r | 82.9 (76.2) | 82.9 (76.2) |
+| 5 | 42.4 | 75.0 (67.9) + 14.3 | n/r | 82.3 (76.2) | 82.3 (76.2) |
+| **6 (IRP)** | 50.4 | 74.7 (67.8) + 7.2 | 74.7 (67.7) + 53.2 | 81.9 (76.2) | 81.9 (76.2) |
+| 7 | 58.4 | 74.7 (67.9) + 1.9 | n/r | 81.6 (76.2) | 81.6 (76.2) |
+| 8 | 66.4 | 74.5 (67.8) + 0.2 | n/r | n/r | n/r |
+| **9** | 74.4 | 74.3 (67.8) | n/r | n/r | n/r |
+| 10 | 82.4 | 74.0 (67.8) | 76.7 (69.8) + 24.7 | n/r | n/r |
+| 11 | 90.4 | 73.8 (67.8) | n/r | n/r | n/r |
+| 12 | 98.4 | 73.6 (67.8) | n/r | n/r | n/r |
+| 13 | 106.4 | 73.6 (67.7) | n/r | n/r | n/r |
+| 14 | 114.4 | n/r | 80.5 (73.3) + 0.7 | n/r | n/r |
+| 15 | 122.4 | n/r | 80.5 (73.4) | n/r | n/r |
+| **16** | 130.4 | n/r | 80.2 (73.4) | n/r | n/r |
+| 17 | 138.4 | n/r | 80.0 (73.4) | n/r | n/r |
+| 18 | 146.4 | n/r | 79.9 (73.4) | n/r | n/r |
+| 19 | 154.4 | n/r | 79.9 (73.4) | n/r | n/r |
+| 20 | 162.4 | n/r | 80.0 (73.4) | n/r | n/r |
+
+- **With the cable**, operating cost falls slightly as units are added (new engines have much lower variable O&M,
+  USD 1.4 vs 17 per MWh for Victoria C; same heat rate): USD 74.7 m at 6 units, 74.3 m at 9 units. The cost of the extra units is their capital cost.
+- **Batteries at 50%** raise operating cost to about USD 80 m/yr, because many more engines must run part-loaded to
+  hold reserve (fuel 73.4 vs 67.8).
+- **Without the cable**, operating cost is about USD 82–83 m/yr at any fleet size: fuel stays at about USD 76 m because
+  Mahé cannot import Praslin–La Digue's surplus wind and solar.
+
 ## FCAS price
 
 The FCAS price is the dual of the reserve requirement (USD per MW-h). Selected cases
