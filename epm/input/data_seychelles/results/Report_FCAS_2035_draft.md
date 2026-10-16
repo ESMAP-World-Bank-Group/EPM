@@ -15,9 +15,12 @@
    requirement.
 4. **The additional capacity is for reserve, not energy.** It barely changes operating costs (about USD 74–75 m/yr);
    its cost is the investment.
-5. **Reserve stays scarce even at the threshold**: with 74 MW of new thermal the FCAS price on Mahé averages
+5. **Without the interconnector, Mahé carries less reserve but burns more HFO**: fuel costs rise by about
+   USD 8.5 m/yr (operating cost by about USD 7 m/yr) – far more than the annualised cost of the 40 MW cable
+   (about USD 2.5 m/yr).
+6. **Reserve stays scarce even at the threshold**: with 74 MW of new thermal the FCAS price on Mahé averages
    USD 50 per MW-h and exceeds USD 100 in about 1,200 hours.
-6. **The gap could also be closed by other means**: about 6 MW of additional battery inverter on Mahé, or operating
+7. **The gap could also be closed by other means**: about 6 MW of additional battery inverter on Mahé, or operating
    the interconnector so that a trip never removes more than about 35 MW.
 
 ![Graphical abstract](figures/fig1_graphical_abstract.png)
@@ -113,7 +116,8 @@ The additional units are needed to hold reserve, not to produce energy. Mahé's 
 If the interconnector is out of service, the reserve requirement on Mahé falls to its two largest units (16 MW) plus
 the VRE share. The binding issue is then energy: Mahé meets demand on its own with four or more new units; with three
 units about 400 MWh is unserved and reserve falls short by up to 5 MW in about 30 hours. With four units the spare
-reserve just reaches zero in a few hours (below 2 MW in 15 hours with batteries at 80%, 470 hours at 50%).
+reserve just reaches zero in a few hours (below 2 MW in 15 hours with batteries at 80%, 470 hours at 50%), so four
+units is the bare minimum; with five units at least 9.6 MW of reserve is always spare.
 Praslin–La Digue has to curtail about a fifth of its solar and wind output.
 
 ![Islanded headroom](figures/fig3_Islanded_U4_fcas_margin.png)
@@ -127,6 +131,23 @@ The FCAS price (the model's marginal cost of the reserve requirement) shows how 
 | IRP fleet (50 MW new) | 500 (penalty, short every hour) | 500 | 8,760 |
 | 74 MW new (9 units) | 50 | 445 | about 1,200 |
 | Without interconnector, 34 MW new | 0 | 19 | 0 |
+
+### 4.6 System cost with and without the interconnector
+
+Annual operating cost in 2035 (USD m/yr; fuel, variable and fixed O&M, start-ups; capital cost not included):
+
+| Case | New thermal | Fuel | Operating total | Reserve held on Mahé |
+|---|---|---|---|---|
+| With interconnector, IRP fleet | 50 MW | 67.8 | 74.7 (+ FCAS shortfall) | 48 MW + VRE (not fully met) |
+| With interconnector, 9 units | 74 MW | 67.8 | 74.3 | 48 MW + VRE |
+| Without interconnector, 4 units | 34 MW | 76.2 | 82.9 | 16 MW + VRE |
+| Without interconnector, IRP fleet | 50 MW | 76.3 | 81.9 | 16 MW + VRE |
+
+Without a large interconnector, Mahé needs much less reserve (16 MW instead of 48 MW), and four new units are enough.
+But it loses access to Praslin–La Digue's surplus wind and solar: Mahé burns about USD 8.5 m/yr more HFO, and
+Praslin–La Digue curtails about a fifth of its renewable output. For scale, the interconnector (USD 37.5 m) costs about
+USD 2.5 m/yr annualised. Because fuel dominates, a cheaper fuel such as LNG would change this comparison; this can be
+analysed separately.
 
 ## 5. Comparison with the worst-hour spreadsheet
 

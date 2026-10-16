@@ -11,11 +11,14 @@ hour; FCAS shortfall penalty USD 500 per MW-h (below unserved energy, USD 1,000 
    and wind) is 48–52 MW; the most Mahé can hold is 47 MW.
 2. **About 74 MW of new thermal (nine 8 MW units) is needed** to hold FCAS in every hour with batteries counted at
    80% of inverter capacity, and **about 130 MW (16 units)** if batteries count at 50%.
-3. **Demand alone needs about 34 MW (four units)**, even without the cable. Between four and eight units Mahé meets
-   demand but not FCAS.
-4. **The extra units are for reserve, not energy**: operating cost barely changes (USD 74.7 m/yr at 6 units,
+3. **Demand alone needs about 34 MW (four units)**, even without the cable. Four units is the bare minimum (spare
+   reserve reaches zero in a few hours); five units leave at least 9.6 MW spare. Between four and eight units Mahé
+   meets demand but not FCAS with the cable in service.
+4. **Without the interconnector Mahé carries less reserve but burns more HFO: about USD 8.5 m/yr more fuel**
+   (USD 7 m/yr more operating cost) at the IRP fleet.
+5. **The extra units are for reserve, not energy**: operating cost barely changes (USD 74.7 m/yr at 6 units,
    74.3 m/yr at 9 units; capital cost not included).
-5. **FCAS stays scarce even at the threshold**: with 9 units the FCAS price on Mahé averages USD 50 per MW-h and
+6. **FCAS stays scarce even at the threshold**: with 9 units the FCAS price on Mahé averages USD 50 per MW-h and
    exceeds USD 100 in about 1,200 hours.
 
 ![Graphical abstract](figures/fig1_graphical_abstract.png)
@@ -108,6 +111,26 @@ n/r = not run (adding units can only reduce shortfall and unserved energy). Full
 - Islanded, the FCAS requirement (16 MW + VRE) is met once demand is met.
 - Islanded operation costs about USD 82–84 m/yr (vs about USD 74 m/yr with the cable), with about 20% of PLD solar and
   wind curtailed.
+
+## System cost
+
+Annual operating cost in 2035 (USD m/yr; fuel, variable and fixed O&M, start-ups; capital cost not included; trade
+between the islands nets out). FCAS penalties are shown separately.
+
+| Case | New thermal | Fuel | Other operating | **Operating total** | FCAS penalty | Notes |
+|---|---|---|---|---|---|---|
+| Cable, IRP fleet (6 units) | 50 MW | 67.8 | 6.9 | **74.7** | 7.2 | short of FCAS every hour |
+| Cable, 9 units | 74 MW | 67.8 | 6.5 | **74.3** | 0 | FCAS met (batteries 80%) |
+| Cable, 16 units, batteries 50% | 130 MW | 73.4 | 6.9 | **80.3** | 0 | FCAS met (batteries 50%) |
+| No cable, 4 units | 34 MW | 76.2 | 6.7 | **82.9** | 0 | demand and FCAS just met |
+| No cable, 6 units (IRP) | 50 MW | 76.3 | 5.7 | **81.9** | 0 | |
+
+- **Without the interconnector, Mahé carries less reserve (16 MW instead of 48 MW) but burns more HFO: fuel costs
+  rise by about USD 8.5 m/yr** (76.3 vs 67.8 at the IRP fleet) and total operating cost by about USD 7 m/yr, while
+  Praslin–La Digue curtails about a fifth of its solar and wind.
+- For scale, the 40 MW interconnector (USD 37.5 m, ECA) is about USD 2.5 m/yr annualised (6%, 40 years).
+- Fuel is the dominant cost (HFO 18.2 USD/MMBtu); a cheaper fuel such as LNG would change the comparison – to be
+  analysed separately.
 
 ## FCAS price
 
