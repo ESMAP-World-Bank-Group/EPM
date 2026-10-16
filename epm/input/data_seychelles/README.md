@@ -86,7 +86,7 @@ its own unit list containing only units online that year.
 | `fApplyMinGenCommitment` / `fApplyMUDT` / `fApplyStartupCost` | 1 / 1 / 1 | Unit commitment on |
 | `fApplyRampConstraint` | 0 | No ramp limits (engines reach full load within minutes) |
 | `fApplyPlanningReserveConstraint` | 0 | No planning-reserve margin (not relevant for dispatch) |
-| `VoLL` / `SpinReserveVoLL` | 1,000 / 1,000 | USD per MWh unserved / per MW-hour of reserve shortfall |
+| `VoLL` / `SpinReserveVoLL` | 1,000 / 500 | USD per MWh unserved / per MW-hour of reserve shortfall (reserve is shed before load) |
 | `fEnableInternalExchange` / `fAllowTransferExpansion` | 1 / 0 | Cable used, not expanded |
 | `fEnableExternalExchange` | 0 | No external trade |
 | `fEnableStorage`, `InitialSOCforBattery` | 1, 0.5 | Batteries on, start/end at 50% charge |
@@ -153,7 +153,7 @@ its own unit list containing only units online that year.
 | Waste-to-energy | 30% | 12 h / 12 h | USD 100/MW per start | 0 |
 | Solar, wind | – | – | – | 0 |
 
-Availability (monthly energy cap): thermal 0.9, waste-to-energy 0.8. No planned-maintenance schedule.
+Availability: thermal and waste-to-energy 90%, solar and wind 95% of capacity in every hour (capacity derate; FCAS share and minimum load scaled so an 8 MW engine still gives 1.6 MW of FCAS and has a 2.4 MW minimum load; contingency on rated MW). Batteries 100%.
 
 ### Costs
 

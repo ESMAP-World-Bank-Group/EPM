@@ -163,6 +163,7 @@ Parameters
   pCapexInvestment(z, y)                        'Annual CAPEX investment in USD by zone and year'
 
   pHourlyPrice(z, q, d, t, y)                   'Marginal cost [USD/MWh] by zone, time, and year'
+  pFCASPrice(c, q, d, t, y)                     'Marginal cost of the country spinning reserve (FCAS) requirement [USD/MW-h]'
   pImportCostsInternal(z, y)                    'Import costs with internal zones [USD] by zone and year'
   pExportRevenuesInternal(z, y)                 'Export revenues with internal zones [USD] by zone and year'
   pCongestionRevenues(z, z2, y)                 'Congestion rents [USD] from saturated lines z→z2 by year'
@@ -577,6 +578,9 @@ pCapexInvestment(z, y) =
 * --------------------------------------------------------
 
 pHourlyPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
+* FCAS price: duals of the N-2 and interconnector-trip reserve requirements (same scaling as pHourlyPrice)
+pFCASPrice(c,q,d,t,y)$(pHours(q,d,t) and pRR(y) and pWeightYear(y)) =
+   (eSpinningReserveReqCountry.m(c,q,d,t,y) + eSpinningReserveReqIntercoTrip.m(c,q,d,t,y))/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
 * ---------------------------------------------------------
 * Import and export costs with internal zones [$]
@@ -1475,7 +1479,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatch, pDispatchTechFuel,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMargin, pReserveMarginCountry,
+      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMargin, pReserveMarginCountry, pFCASPrice,
 * 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pCongestionShare,
       pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
@@ -1520,6 +1524,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatchFuel, pDispatchTechFuel, pDispatch,
 * 5. RESERVES
+      pFCASPrice,
       pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningTechFuelZone, pReserveSpinningPlantCountry, pReserveSpinningTechFuelCountry,
       pReserveMargin, pReserveMarginCountry,
 * 6. INTERCONNECTIONS

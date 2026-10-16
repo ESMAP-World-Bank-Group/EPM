@@ -8,7 +8,7 @@ PARAMETERS,,
 "Discount rate, %",DR,0.06
 "Cost of unserved energy per MWh, $",VoLL,1000
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
-"Spin Reserve vOLL per MWh, $",SpinReserveVoLL,1000
+"Spin Reserve vOLL per MWh, $",SpinReserveVoLL,500
 "Cost of surplus power per MWh, $",CostSurplus,0
 "Cost of curtailment per MWh, $",CostCurtail,0
 "Cost of CO2 backstop technology per MWh, $",CO2backstop,300
