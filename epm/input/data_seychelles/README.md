@@ -66,7 +66,7 @@ unit added).
 | Fuel | HFO 18.18, LFO 27.53 USD/MMBtu (2024 prices, flat); waste 0 | WB strategy note |
 | Heat rate, VOM | per unit, e.g. Victoria C 8.73 MMBtu/MWh and USD 17/MWh, new HFO 8.73 and USD 1.4/MWh | ECA Task 3 / 4 |
 | Solar profile | PVGIS-SARAH3, 2023; Romainville (Mahé), Baie Ste Anne (PLD) | PVGIS |
-| Wind profile | Renewables.ninja, 2023, rescaled to capacity factor 10.8% (Mahé) / 14.1% (PLD) | PUC measured / ECA |
+| Wind profile | Renewables.ninja (MERRA-2, Vestas V52, 55 m), weather year 2023; hourly shape rescaled to an annual capacity factor of **10.8% on Mahé** and **14.1% on PLD** (before the 95% availability) | Mahé: PUC Annual Report 2025 (Port Victoria wind farm, 5,698 MWh from 6 MW); PLD: assumed, close to ECA's generic onshore wind (14.3%) |
 | Cable | 40 MW each direction, 2% losses | ECA IRP; losses assumed |
 
 Modelling notes:
