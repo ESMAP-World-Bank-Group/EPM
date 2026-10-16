@@ -14,7 +14,10 @@ Bulgarian coal at 14.6 TWh in 2025 against 9.8 TWh observed.
 15 Romanian and Bulgarian onshore wind
 --------------------------------------
 * The six legacy "_corrected" rows of the 12_46 workbook and "Wind Park" (5,769 MW
-  in all, no project behind them) get BuildLimitperYear 0. The generic classes,
+  in all, no project behind them) get Status 0 and BuildLimitperYear 0. Status 0
+  removes a row (input_treatment sets its Capacity to 0 and main.gms treats it
+  as existing, so vCap is fixed at 0); BuildLimitperYear 0 alone on a Status 3
+  row trips the EPM_STRICT_BUILD_LIMITS guard. The generic classes,
   whose limit follows the build-limit v2 rule, are the only open-ended candidates.
 * Generic Romanian onshore candidates and Wind_INECP_3: capex 1.75 $m/MW and FOM
   45,000 $/MW/yr, the onshore values of the Cernavoda LTO economic analysis.
@@ -27,7 +30,7 @@ Bulgarian coal at 14.6 TWh in 2025 against 9.8 TWh observed.
 
 16 Romanian generic hydro
 -------------------------
-Generic ST Hydro and Generic ROR Hydro get BuildLimitperYear 0. The NECP holds
+Generic ST Hydro and Generic ROR Hydro get Status 0 and BuildLimitperYear 0. The NECP holds
 hydro flat; the named rehabilitation rows (_ext) stay.
 
 18 Bulgarian coal
@@ -110,6 +113,7 @@ def fix_generators(path: Path) -> list[str]:
         g = p[0]
         if g in LEGACY_WIND or g in GENERIC_HYDRO:
             put(p, "BuildLimitperYear", "0", n)
+            put(p, "Status", "0", n)
         is_generic_ro_wind = (p[ix["z"]] == "Romania" and p[ix["tech"]] == "OnshoreWind"
                               and p[ix["Status"]] == "3" and g.startswith("Generic Onshore"))
         if is_generic_ro_wind or g in WIND_COST_ROWS:
