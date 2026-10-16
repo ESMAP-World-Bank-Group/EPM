@@ -63,6 +63,26 @@ Maximum Mahé capability with the IRP fleet, all engines online and batteries fu
 | `Islanded_U<k>` | no cable; requirement two largest units + VRE; batteries at 80% |
 | `IslBESS50_U<k>` | no cable; batteries at 50% |
 
+## Figures
+
+![Graphical abstract](figures/fig1_graphical_abstract.png)
+
+**Figure 1.** Left: the requirement on Mahé (largest unit + 40 MW cable trip + 10% of solar and wind) against the
+reserve Mahé can hold from batteries and engines. Right: annual FCAS shortfall as new thermal is added; the IRP's
+50 MW falls short, 74 MW (batteries at 80%) or 130 MW (batteries at 50%) closes the gap.
+
+![When the shortfall occurs](figures/fig2_shortfall_heatmap.png)
+
+**Figure 2.** Average FCAS shortfall by month and hour: with the IRP fleet Mahé is short in every hour, worst at
+midday (10% of solar output adds to the requirement); with 8 new units only a small midday gap remains.
+
+![Islanded headroom](figures/fig3_islanded_U3_fcas_margin.png)
+
+**Figure 3.** Islanded Mahé with 3 new units, batteries at 80%: spare fast reserve in each hour (reserve that could
+be held given the dispatch, minus the requirement). It reaches 0 MW in a few June hours and is below 2 MW in 6 hours;
+red points are hours with all engines at full output. With batteries at 50%
+([figure](figures/fig3b_islanded_U3_BESS50_fcas_margin.png)) it is below 2 MW in 574 hours.
+
 ## Results (Mahé, 2035)
 
 | New 8 MW units | New thermal (MW) | Batteries 80%: FCAS shortfall (MWh/yr; hours; max MW) | Batteries 50%: FCAS shortfall (MWh/yr; hours; max MW) | Islanded, batteries 80%: unserved energy (MWh/yr) | Islanded, batteries 50%: unserved energy (MWh/yr) |
