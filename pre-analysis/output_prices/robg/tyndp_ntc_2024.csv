@@ -1,4 +1,4 @@
-zone,zext,direction,central_mw,tyndp_2030_mw,tyndp_2040_mw,used_2030_mw,used_2040_mw
+zone,zext,direction,current_mw,tyndp_2030_mw,tyndp_2040_mw,used_2030_mw,used_2040_mw
 Romania,Hungary,Export,1000.0,1435.0,2175.0,1435.0,2175.0
 Romania,Hungary,Import,1000.0,1617.0,3027.0,1617.0,3027.0
 Romania,Serbia,Export,800.0,1984.0,1984.0,1984.0,1984.0
@@ -9,3 +9,7 @@ Bulgaria,NorthMacedonia,Export,400.0,400.0,400.0,400.0,400.0
 Bulgaria,NorthMacedonia,Import,400.0,400.0,400.0,400.0,400.0
 Bulgaria,Greece,Export,650.0,1700.0,1700.0,1700.0,1700.0
 Bulgaria,Greece,Import,650.0,1400.0,1400.0,1400.0,1400.0
+Romania,Moldova,Export,1150.0,950.0,950.0,1150.0,1150.0
+Romania,Moldova,Import,1150.0,480.0,480.0,1150.0,1150.0
+Romania,Ukraine,Export,700.0,800.0,800.0,800.0,800.0
+Romania,Ukraine,Import,700.0,800.0,800.0,800.0,800.0

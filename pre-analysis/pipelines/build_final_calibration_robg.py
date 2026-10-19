@@ -46,6 +46,26 @@ the ENTSO-E mean capacity factor (0.146) instead of the Kinesys one (0.195).
 Bulgarian hydro energy goes from about 4.3 to about 3.6 TWh, against 3.3 TWh
 observed on average in 2019-2025. Run-of-river is already on ENTSO-E.
 
+Romanian and Bulgarian coal floor (2026-10-19)
+----------------------------------------------
+The RO and BG rows of pGenDataInputDefault.csv for ST on Coal, DomesticCoal,
+ImportedCoal and Lignite carried MinGenShareAllHours 0.25, copied from Trakia
+at step 5a. Every RO and BG coal unit has an empty cell, so all of them ran at
+25 % of their capacity in every hour: Bulgarian coal sat exactly on that floor
+in 2030 in robg7. Neither system has a must-run rule for coal, so the default
+goes to 0. Only the RoBg scenarios have Romanian or Bulgarian generators.
+
+Romanian hydro replacement rows (2026-10-19)
+--------------------------------------------
+Nine replacement or uprate rows (_ext) entering service after 2025 carried a
+lower availability than the plant they replace (0.162 against 0.212 for the
+reservoirs, 0.283 against 0.372 for R-Hydro). Romanian hydro fell from about
+14.4 TWh in 2025 to 12.5 TWh in 2040 at flat capacity, only because each
+replacement came in with the lower profile. A replacement on the same river
+keeps the same hydrology, so each row takes its parent's quarterly values.
+HPP Lotru_ext is left as it is: it has been in service since 2023, so it is
+part of the 2025 calibration.
+
 Usage (from EPM/):  python pre-analysis/pipelines/build_final_calibration_robg.py
 """
 from __future__ import annotations
@@ -56,7 +76,9 @@ from pathlib import Path
 _HERE = Path(__file__).resolve()
 sys.path.insert(0, str(_HERE.parent))
 
-from build_fleet_entsoe_bg import AVAIL_FILE, GEN_FILES, _EPM, _read, _write  # noqa: E402
+from build_fleet_entsoe_bg import AVAIL_FILE, DATA, GEN_FILES, _EPM, _read, _write  # noqa: E402
+
+DEFAULT_FILE = DATA / "supply" / "pGenDataInputDefault.csv"
 
 MINGEN_COL = "MinGenShareAllHours"
 CHP_FLOOR = "0.4"
@@ -75,6 +97,12 @@ RESERVOIR_ROWS = ["Bulgaria_Belmeken_Hydro", "Bulgaria_Devin_Hydro", "Bulgaria_I
                   "Bulgaria_Dospat_Hydro", "Bulgaria_AGG_Reservoir_ENTSOE"]
 KINESYS_Q = [0.2142, 0.2481, 0.1604, 0.1556]
 ENTSOE_MEAN = 0.146
+
+COAL_ZONES = ("Romania", "Bulgaria")
+COAL_FUELS = ("Coal", "DomesticCoal", "ImportedCoal", "Lignite")
+COAL_FLOOR_OLD, COAL_FLOOR_NEW = "0.25", "0"
+HYDRO_EXT = ["R-Hydro_ext", "Bicaz-Stejaru_ext", "Bradisor_ext", "Drăgan (Remeti)_ext",
+             "Mariselu_Hydro_ext", "Nehoiaşu_ext", "Oașa_ext", "HPP Raul Mare_ext", "Ruieni_ext"]
 
 
 def _fail(msg: str) -> None:
@@ -150,6 +178,48 @@ def fix_reservoir() -> list[str]:
     return log
 
 
+def fix_coal_floor() -> list[str]:
+    bom, eol, lines = _read(DEFAULT_FILE)
+    head = lines[0].split(",")
+    ix = {c: i for i, c in enumerate(head)}
+    log, seen = [], 0
+    for n, ln in enumerate(lines[1:], start=1):
+        p = ln.split(",")
+        if len(p) < len(head) or p[ix["z"]] not in COAL_ZONES or p[ix["tech"]] != "ST" \
+                or p[ix["f"]] not in COAL_FUELS:
+            continue
+        seen += 1
+        v = p[ix[MINGEN_COL]]
+        if v == COAL_FLOOR_NEW:
+            continue
+        if v != COAL_FLOOR_OLD:
+            _fail(f"{'/'.join(p[:3])}: {MINGEN_COL} is {v}, expected {COAL_FLOOR_OLD}")
+        p[ix[MINGEN_COL]] = COAL_FLOOR_NEW
+        lines[n] = ",".join(p)
+        log.append(f"{'/'.join(p[:3])}: {MINGEN_COL} {COAL_FLOOR_OLD} -> {COAL_FLOOR_NEW}")
+    if seen != len(COAL_ZONES) * len(COAL_FUELS):
+        _fail(f"{DEFAULT_FILE.name}: {seen} RO/BG coal rows, expected {len(COAL_ZONES) * len(COAL_FUELS)}")
+    _write(DEFAULT_FILE, bom, eol, lines)
+    return log
+
+
+def fix_hydro_ext() -> list[str]:
+    bom, eol, lines = _read(AVAIL_FILE)
+    where = {ln.split(",")[0]: n for n, ln in enumerate(lines) if ln}
+    log = []
+    for ext in HYDRO_EXT:
+        parent = ext[:-len("_ext")]
+        if ext not in where or parent not in where:
+            _fail(f"{ext} or {parent} missing from {AVAIL_FILE.name}")
+        vals = lines[where[parent]].split(",")[1:]
+        if lines[where[ext]].split(",")[1:] == vals:
+            continue
+        lines[where[ext]] = ",".join([ext] + vals)
+        log.append(f"{ext}: takes the availability of {parent}")
+    _write(AVAIL_FILE, bom, eol, lines)
+    return log
+
+
 def main() -> int:
     for path in GEN_FILES:
         log = fix_generators(path)
@@ -157,8 +227,12 @@ def main() -> int:
         if path == GEN_FILES[0]:
             for line in log:
                 print(f"    {line}")
-    log = fix_reservoir()
+    log = fix_reservoir() + fix_hydro_ext()
     print(f"  {AVAIL_FILE.relative_to(_EPM)}: {len(log)} change(s)")
+    for line in log:
+        print(f"    {line}")
+    log = fix_coal_floor()
+    print(f"  {DEFAULT_FILE.relative_to(_EPM)}: {len(log)} change(s)")
     for line in log:
         print(f"    {line}")
     return 0

@@ -25,9 +25,12 @@ Method
   border actually carries. The 2025 year-ahead values (RO-HU 350, RO-RS 300,
   BG-RS 150, BG-GR 400) all sit below the observed p99.
 
-* Ukraine and Moldova are left closed (option A, 2026-10-04). Caution: in
-  2025 Romania exported about 3.3 TWh to Moldova (p99 1,161 MW), about
-  5 percent of Romanian demand, which the RoBg perimeter does not carry.
+* Moldova and Ukraine are open since 2026-10-19 (they were closed from
+  2026-10-04, option A). In 2025 Romania exported about 3.3 TWh to Moldova,
+  about 5 percent of Romanian demand, which a closed border left out of the
+  Romanian balance. Same rule as the other borders: Romania-Moldova 1,150 MW
+  (Romanian exports dominate), Romania-Ukraine 700 MW (Ukrainian exports
+  dominate).
 * Trakia-Greece is kept at its LC_Baseline values.
 
 Flows are cached in Data/cache_entso_e/flows/ (outside git). A missing file is
@@ -69,9 +72,9 @@ BORDERS = [
     ("Bulgaria", "Serbia", "BG", "RS"),
     ("Bulgaria", "NorthMacedonia", "BG", "MK"),
     ("Bulgaria", "Greece", "BG", "GR"),
+    ("Romania", "Moldova", "RO", "MD"),
+    ("Romania", "Ukraine", "RO", "UA"),
 ]
-# Closed in RoBg, reported for the record only.
-CLOSED = [("Romania", "Ukraine", "RO", "UA"), ("Romania", "Moldova", "RO", "MD")]
 # Internal in RoBg, reported for step 2.
 INTERNAL = [("Romania", "Bulgaria", "RO", "BG")]
 
@@ -119,7 +122,7 @@ def _step_hours(s: pd.Series) -> float:
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     rows = []
-    for group, items in (("modelled", BORDERS), ("closed", CLOSED), ("internal", INTERNAL)):
+    for group, items in (("modelled", BORDERS), ("internal", INTERNAL)):
         for it in items:
             r = stats(*it)
             r["group"] = group
