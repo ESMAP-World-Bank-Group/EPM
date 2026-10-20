@@ -47,7 +47,7 @@ tools/.env
 /epm/cplex.opt
 !epm/output/*
 !epm/output/tableau/
-epm/output/simulations_run_*/
+!epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb

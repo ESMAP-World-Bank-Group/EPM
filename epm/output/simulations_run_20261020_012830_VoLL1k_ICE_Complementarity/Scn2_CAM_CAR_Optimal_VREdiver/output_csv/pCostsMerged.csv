@@ -1,0 +1,2121 @@
+c,z,attribute,y,uni,value
+CAR,CAR,Costs,2025.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2025.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2025.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2025.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2025.0,Fixed O&M: $m,2.28546969663
+CAR,CAR,Costs,2025.0,Fuel costs: $m,17.819219925414302
+CAR,CAR,Costs,2025.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2025.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2025.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2025.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2025.0,Spinning reserve costs: $m,0.0910615347695522
+CAR,CAR,Costs,2025.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2025.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2025.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2025.0,Unmet country planning reserve costs: $m,0.3192823585800002
+CAR,CAR,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0030749931747
+CAR,CAR,Costs,2025.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2025.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2025.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2025.0,Variable O&M: $m,0.5835363018120752
+CAR,CAR,Costs,2026.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2026.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2026.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2026.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2026.0,Fixed O&M: $m,2.28546969663
+CAR,CAR,Costs,2026.0,Fuel costs: $m,22.77503135879208
+CAR,CAR,Costs,2026.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2026.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2026.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2026.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2026.0,Spinning reserve costs: $m,0.0910615347695521
+CAR,CAR,Costs,2026.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2026.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2026.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2026.0,Unmet country planning reserve costs: $m,0.6169049814600002
+CAR,CAR,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0030749931747
+CAR,CAR,Costs,2026.0,Unmet demand costs: $m,0.7720882511339651
+CAR,CAR,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2026.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2026.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2026.0,Variable O&M: $m,0.720341957453051
+CAR,CAR,Costs,2027.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2027.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2027.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2027.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2027.0,Fixed O&M: $m,2.28546969663
+CAR,CAR,Costs,2027.0,Fuel costs: $m,27.839884112880352
+CAR,CAR,Costs,2027.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2027.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2027.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2027.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2027.0,Spinning reserve costs: $m,0.0910615347695521
+CAR,CAR,Costs,2027.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2027.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2027.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2027.0,Unmet country planning reserve costs: $m,0.934151073480001
+CAR,CAR,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0030749931747
+CAR,CAR,Costs,2027.0,Unmet demand costs: $m,2.9594978698246366
+CAR,CAR,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2027.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2027.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2027.0,Variable O&M: $m,0.8601577093360416
+CAR,CAR,Costs,2028.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2028.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2028.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2028.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2028.0,Fixed O&M: $m,2.74801004743
+CAR,CAR,Costs,2028.0,Fuel costs: $m,25.28008606500041
+CAR,CAR,Costs,2028.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2028.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2028.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2028.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2028.0,Spinning reserve costs: $m,0.0187091501641262
+CAR,CAR,Costs,2028.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2028.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2028.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2028.0,Unmet country planning reserve costs: $m,1.280014725240001
+CAR,CAR,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2028.0,Unmet demand costs: $m,9.993444831012146
+CAR,CAR,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2028.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2028.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2028.0,Variable O&M: $m,0.7853841666662444
+CAR,CAR,Costs,2029.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2029.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2029.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2029.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2029.0,Fixed O&M: $m,2.74801004743
+CAR,CAR,Costs,2029.0,Fuel costs: $m,28.59735839281916
+CAR,CAR,Costs,2029.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2029.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2029.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2029.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2029.0,Spinning reserve costs: $m,0.0187091501641262
+CAR,CAR,Costs,2029.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2029.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2029.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2029.0,Unmet country planning reserve costs: $m,1.6577665159200003
+CAR,CAR,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2029.0,Unmet demand costs: $m,23.186994283199336
+CAR,CAR,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2029.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2029.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2029.0,Variable O&M: $m,0.8794070650954872
+CAR,CAR,Costs,2030.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2030.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2030.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2030.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2030.0,Fixed O&M: $m,2.74801004743
+CAR,CAR,Costs,2030.0,Fuel costs: $m,34.25332151236995
+CAR,CAR,Costs,2030.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2030.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2030.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2030.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2030.0,Spinning reserve costs: $m,0.0187091501641262
+CAR,CAR,Costs,2030.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2030.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2030.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2030.0,Unmet country planning reserve costs: $m,2.5547226060600003
+CAR,CAR,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2030.0,Unmet demand costs: $m,79.52733933637299
+CAR,CAR,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2030.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2030.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2030.0,Variable O&M: $m,1.0372012712520953
+CAR,CAR,Costs,2031.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2031.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2031.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2031.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2031.0,Fixed O&M: $m,2.74801004743
+CAR,CAR,Costs,2031.0,Fuel costs: $m,36.437076307079664
+CAR,CAR,Costs,2031.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2031.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2031.0,Import costs with internal zones: $m,0.0
+CAR,CAR,Costs,2031.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2031.0,Spinning reserve costs: $m,0.0187091501641262
+CAR,CAR,Costs,2031.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2031.0,Trade shared benefits: $m,0.0
+CAR,CAR,Costs,2031.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2031.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2031.0,Unmet country planning reserve costs: $m,2.942249042940001
+CAR,CAR,Costs,2031.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2031.0,Unmet demand costs: $m,107.33537916668992
+CAR,CAR,Costs,2031.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2031.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2031.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2031.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2031.0,Variable O&M: $m,1.0974840343203751
+CAR,CAR,Costs,2032.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2032.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2032.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2032.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2032.0,Fixed O&M: $m,3.1111679421300003
+CAR,CAR,Costs,2032.0,Fuel costs: $m,0.5200821582266558
+CAR,CAR,Costs,2032.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2032.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2032.0,Import costs with internal zones: $m,14.147711044932691
+CAR,CAR,Costs,2032.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2032.0,Spinning reserve costs: $m,0.0161260542967687
+CAR,CAR,Costs,2032.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2032.0,Trade shared benefits: $m,-2.4105461970599964
+CAR,CAR,Costs,2032.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2032.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2032.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2032.0,Variable O&M: $m,0.1313158916856792
+CAR,CAR,Costs,2033.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2033.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2033.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2033.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2033.0,Fixed O&M: $m,3.1111679421300003
+CAR,CAR,Costs,2033.0,Fuel costs: $m,0.6712931037354934
+CAR,CAR,Costs,2033.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2033.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2033.0,Import costs with internal zones: $m,16.576402470081796
+CAR,CAR,Costs,2033.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2033.0,Spinning reserve costs: $m,0.0161260542967687
+CAR,CAR,Costs,2033.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2033.0,Trade shared benefits: $m,-2.6853478507910022
+CAR,CAR,Costs,2033.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2033.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2033.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2033.0,Variable O&M: $m,0.1354900845133362
+CAR,CAR,Costs,2034.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2034.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2034.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2034.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2034.0,Fixed O&M: $m,3.1111679421300003
+CAR,CAR,Costs,2034.0,Fuel costs: $m,0.9867546633582563
+CAR,CAR,Costs,2034.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2034.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2034.0,Import costs with internal zones: $m,23.32519661931349
+CAR,CAR,Costs,2034.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2034.0,Spinning reserve costs: $m,0.0161260542967687
+CAR,CAR,Costs,2034.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2034.0,Trade shared benefits: $m,-4.626006759843609
+CAR,CAR,Costs,2034.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2034.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2034.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2034.0,Variable O&M: $m,0.1441984314861554
+CAR,CAR,Costs,2035.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2035.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2035.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2035.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,Costs,2035.0,Fixed O&M: $m,3.15742197721
+CAR,CAR,Costs,2035.0,Fuel costs: $m,4.63819166030437
+CAR,CAR,Costs,2035.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2035.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2035.0,Import costs with internal zones: $m,37.42358827016604
+CAR,CAR,Costs,2035.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2035.0,Spinning reserve costs: $m,0.0139557320009999
+CAR,CAR,Costs,2035.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2035.0,Trade shared benefits: $m,-12.097686840023185
+CAR,CAR,Costs,2035.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet country planning reserve costs: $m,0.5793233838452031
+CAR,CAR,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2035.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2035.0,Variable O&M: $m,0.2449967042038178
+CAR,CAR,Costs,2040.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2040.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2040.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2040.0,Export revenues with internal zones: $m,-6.044998825268877
+CAR,CAR,Costs,2040.0,Fixed O&M: $m,10.822793404202828
+CAR,CAR,Costs,2040.0,Fuel costs: $m,0.0
+CAR,CAR,Costs,2040.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2040.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2040.0,Import costs with internal zones: $m,0.0167293662547681
+CAR,CAR,Costs,2040.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2040.0,Spinning reserve costs: $m,0.0039185157759175
+CAR,CAR,Costs,2040.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2040.0,Trade shared benefits: $m,-0.866959137887546
+CAR,CAR,Costs,2040.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2040.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2040.0,Variable O&M: $m,0.5385424352539507
+CAR,CAR,Costs,2045.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2045.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2045.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2045.0,Export revenues with internal zones: $m,-3.838570794743206
+CAR,CAR,Costs,2045.0,Fixed O&M: $m,11.17220794126
+CAR,CAR,Costs,2045.0,Fuel costs: $m,0.0
+CAR,CAR,Costs,2045.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2045.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2045.0,Import costs with internal zones: $m,5.469614608263976
+CAR,CAR,Costs,2045.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2045.0,Spinning reserve costs: $m,0.0014120278499999
+CAR,CAR,Costs,2045.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2045.0,Trade shared benefits: $m,-0.7160774690686471
+CAR,CAR,Costs,2045.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2045.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2045.0,Variable O&M: $m,0.5385424352539536
+CAR,CAR,Costs,2050.0,Carbon costs: $m,0.0
+CAR,CAR,Costs,2050.0,Excess generation: $m,0.0
+CAR,CAR,Costs,2050.0,Export revenues with external zones: $m,0.0
+CAR,CAR,Costs,2050.0,Export revenues with internal zones: $m,-1.0898599805150149
+CAR,CAR,Costs,2050.0,Fixed O&M: $m,11.87828663516375
+CAR,CAR,Costs,2050.0,Fuel costs: $m,0.0
+CAR,CAR,Costs,2050.0,Generation costs: $m,0.0
+CAR,CAR,Costs,2050.0,Import costs with external zones: $m,0.0
+CAR,CAR,Costs,2050.0,Import costs with internal zones: $m,26.1272453104264
+CAR,CAR,Costs,2050.0,NPV of system cost: $m,0.0
+CAR,CAR,Costs,2050.0,Spinning reserve costs: $m,0.0038965577249999
+CAR,CAR,Costs,2050.0,Startup costs: $m,0.0
+CAR,CAR,Costs,2050.0,Trade shared benefits: $m,-3.887371918039244
+CAR,CAR,Costs,2050.0,Transmission costs: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet country planning reserve costs: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet demand costs: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,Costs,2050.0,VRE curtailment: $m,0.0
+CAR,CAR,Costs,2050.0,Variable O&M: $m,0.5886342932415005
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,2.28546969663
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,17.819219925414302
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,0.0910615347695522
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,0.3192823585800002
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0030749931747
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,0.5835363018120752
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,4.505314101812664
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,39.9402858989524
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.1795083160957727
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,0.9184734454898684
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0060616905721311
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,0.7499184028185653
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,1.2831942611489815
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,6.599506936890649
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,65.45017820886305
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.2629486758374901
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,1.7744430030153278
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,3.461728252476214
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,2.071363150277006
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,8.97499937965006
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,87.30332006905331
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.2791216315611772
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,2.880940160575608
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,12.100471293246397
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,2.750281393069961
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,11.216029986026864
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,110.62476151711874
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.2943791369608819
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,4.232865894572762
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,31.009704870150674
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,3.467446947171956
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,13.330209803363468
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,136.97753307482137
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.3087730099794715
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,6.1983401393546895
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,92.1940138244367
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,4.265417098790518
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Fixed O&M: $m,15.324719065001776
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Fuel costs: $m,163.4236103842761
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Import costs with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Spinning reserve costs: $m,0.3223521354687068
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Trade shared benefits: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet country planning reserve costs: $m,8.333828316218701
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2031.0,Variable O&M: $m,5.061972436351715
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Fixed O&M: $m,17.454992398298014
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Fuel costs: $m,163.77972010686307
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Import costs with internal zones: $m,9.687195332042103
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Spinning reserve costs: $m,0.3333939384438861
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Trade shared benefits: $m,-1.650544868612882
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet country planning reserve costs: $m,8.333828316218701
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2032.0,Variable O&M: $m,5.151886818184956
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Fixed O&M: $m,19.46468422216239
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Fuel costs: $m,164.21334898421327
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Import costs with internal zones: $m,20.394897755332448
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Spinning reserve costs: $m,0.3438107337034892
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Trade shared benefits: $m,-3.3851737026550883
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet country planning reserve costs: $m,8.333828316218701
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2033.0,Variable O&M: $m,5.239408070693982
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Fixed O&M: $m,21.360619905053312
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Fuel costs: $m,164.81467408504955
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Import costs with internal zones: $m,34.6091971450101
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Spinning reserve costs: $m,0.3536378990427374
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Trade shared benefits: $m,-6.204247262302749
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet country planning reserve costs: $m,8.333828316218701
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2034.0,Variable O&M: $m,5.327282128525888
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,23.175830039289323
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,167.48118257428004
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,56.12411570128995
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.3616610857886793
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,-13.159238996485875
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,8.666882841380692
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,5.468131373110599
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,-14.58958401709636
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,49.29660495329773
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,167.48118257428004
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,56.16449196960393
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,0.3711184102295197
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,-15.251641914535606
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,8.666882841380692
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,6.7679017011155365
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,-21.51246582186373
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,69.44573837075252
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,167.48118257428004
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,66.02896952528586
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,0.3736650095846694
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,-16.543091244637342
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,8.666882841380692
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,7.739165701566026
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,-22.981252556466767
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,85.45391387169771
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,167.48118257428004
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,101.24023703649344
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,0.3789163376446193
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,-21.782039740559057
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,8.666882841380692
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0088793296263114
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,170.0981714346449
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+CAR,CAR,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,8.532458653782689
+CAR,CAR,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.527534516724311
+CAR,CAR,GenCostsPerMWh,2025.0,Variable Cost: $m,44.5080809423329
+CAR,CAR,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.140647409057289
+CAR,CAR,GenCostsPerMWh,2026.0,Variable Cost: $m,52.84753070280713
+CAR,CAR,GenCostsPerMWh,2027.0,Fixed O&M: $m,4.797471163699832
+CAR,CAR,GenCostsPerMWh,2027.0,Variable Cost: $m,60.2447817365889
+CAR,CAR,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.422749830551207
+CAR,CAR,GenCostsPerMWh,2028.0,Investment costs: $m,3.021937656090284
+CAR,CAR,GenCostsPerMWh,2028.0,Variable Cost: $m,51.4359561436824
+CAR,CAR,GenCostsPerMWh,2029.0,Fixed O&M: $m,5.1485066155104615
+CAR,CAR,GenCostsPerMWh,2029.0,Investment costs: $m,2.8691100456794505
+CAR,CAR,GenCostsPerMWh,2029.0,Variable Cost: $m,55.22589777495698
+CAR,CAR,GenCostsPerMWh,2030.0,Fixed O&M: $m,4.792126983105543
+CAR,CAR,GenCostsPerMWh,2030.0,Investment costs: $m,2.670510245821347
+CAR,CAR,GenCostsPerMWh,2030.0,Variable Cost: $m,61.54150223630286
+CAR,CAR,GenCostsPerMWh,2031.0,Fixed O&M: $m,4.680215312842003
+CAR,CAR,GenCostsPerMWh,2031.0,Investment costs: $m,2.6081451909888296
+CAR,CAR,GenCostsPerMWh,2031.0,Variable Cost: $m,63.92619424186711
+CAR,CAR,GenCostsPerMWh,2032.0,Fixed O&M: $m,7.314228680886108
+CAR,CAR,GenCostsPerMWh,2032.0,Investment costs: $m,10.390998625087924
+CAR,CAR,GenCostsPerMWh,2032.0,Variable Cost: $m,1.5314101932022917
+CAR,CAR,GenCostsPerMWh,2033.0,Fixed O&M: $m,7.297938564657349
+CAR,CAR,GenCostsPerMWh,2033.0,Investment costs: $m,10.367855983160702
+CAR,CAR,GenCostsPerMWh,2033.0,Variable Cost: $m,1.892489975583684
+CAR,CAR,GenCostsPerMWh,2034.0,Fixed O&M: $m,7.264186073995694
+CAR,CAR,GenCostsPerMWh,2034.0,Investment costs: $m,10.319905324333876
+CAR,CAR,GenCostsPerMWh,2034.0,Variable Cost: $m,2.6406333167236724
+CAR,CAR,GenCostsPerMWh,2035.0,Fixed O&M: $m,6.910616529747256
+CAR,CAR,GenCostsPerMWh,2035.0,Investment costs: $m,9.911521937619328
+CAR,CAR,GenCostsPerMWh,2035.0,Variable Cost: $m,10.68778341102784
+CAR,CAR,GenCostsPerMWh,2040.0,Fixed O&M: $m,7.036536490063611
+CAR,CAR,GenCostsPerMWh,2040.0,Investment costs: $m,16.76025962302195
+CAR,CAR,GenCostsPerMWh,2040.0,Variable Cost: $m,0.3501382088325344
+CAR,CAR,GenCostsPerMWh,2045.0,Fixed O&M: $m,7.066636248220114
+CAR,CAR,GenCostsPerMWh,2045.0,Investment costs: $m,16.739563367017464
+CAR,CAR,GenCostsPerMWh,2045.0,Variable Cost: $m,0.3406384408685736
+CAR,CAR,GenCostsPerMWh,2050.0,Fixed O&M: $m,7.136453489269262
+CAR,CAR,GenCostsPerMWh,2050.0,Investment costs: $m,19.737181150925363
+CAR,CAR,GenCostsPerMWh,2050.0,Variable Cost: $m,0.353650436711231
+CAR,CAR,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Excess generation: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Export revenues with internal zones: $m,-1.579850791775401
+CAR,CAR,NetPresentCostPerMWh,,Fixed O&M: $m,5.8745463572445376
+CAR,CAR,NetPresentCostPerMWh,,Fuel costs: $m,11.513527308719366
+CAR,CAR,NetPresentCostPerMWh,,Generation costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Import costs with internal zones: $m,6.95978029259446
+CAR,CAR,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0260486792255384
+CAR,CAR,NetPresentCostPerMWh,,Startup costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Trade shared benefits: $m,-1.4974106675017618
+CAR,CAR,NetPresentCostPerMWh,,Transmission costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,0.5958065899818408
+CAR,CAR,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0006104112865952
+CAR,CAR,NetPresentCostPerMWh,,Unmet demand costs: $m,11.69343273001684
+CAR,CAR,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+CAR,CAR,NetPresentCostPerMWh,,Variable O&M: $m,0.5865655723876665
+Cameroon,Cameroon,Costs,2025.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Fixed O&M: $m,58.78257053590999
+Cameroon,Cameroon,Costs,2025.0,Fuel costs: $m,34.96878774592726
+Cameroon,Cameroon,Costs,2025.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Spinning reserve costs: $m,1.2773437006649977
+Cameroon,Cameroon,Costs,2025.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2025.0,Variable O&M: $m,5.525111148211629
+Cameroon,Cameroon,Costs,2026.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Fixed O&M: $m,58.78257053590999
+Cameroon,Cameroon,Costs,2026.0,Fuel costs: $m,50.079423727114325
+Cameroon,Cameroon,Costs,2026.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Spinning reserve costs: $m,1.2773437006649973
+Cameroon,Cameroon,Costs,2026.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2026.0,Variable O&M: $m,6.396142178195302
+Cameroon,Cameroon,Costs,2027.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Fixed O&M: $m,59.11328688673199
+Cameroon,Cameroon,Costs,2027.0,Fuel costs: $m,88.5016013717763
+Cameroon,Cameroon,Costs,2027.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Spinning reserve costs: $m,0.9363459966323008
+Cameroon,Cameroon,Costs,2027.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet country planning reserve costs: $m,1.1049573840000084
+Cameroon,Cameroon,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2027.0,Variable O&M: $m,8.132372484802138
+Cameroon,Cameroon,Costs,2028.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Export revenues with internal zones: $m,-6.106624474851042
+Cameroon,Cameroon,Costs,2028.0,Fixed O&M: $m,59.11328688673199
+Cameroon,Cameroon,Costs,2028.0,Fuel costs: $m,72.34080180248579
+Cameroon,Cameroon,Costs,2028.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Import costs with internal zones: $m,55.56817120928695
+Cameroon,Cameroon,Costs,2028.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Spinning reserve costs: $m,0.9363459966323008
+Cameroon,Cameroon,Costs,2028.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Trade shared benefits: $m,-1.5499049243072018
+Cameroon,Cameroon,Costs,2028.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2028.0,Variable O&M: $m,7.699618994088259
+Cameroon,Cameroon,Costs,2029.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Export revenues with internal zones: $m,-6.173965774374572
+Cameroon,Cameroon,Costs,2029.0,Fixed O&M: $m,59.11328688673199
+Cameroon,Cameroon,Costs,2029.0,Fuel costs: $m,90.24172820330789
+Cameroon,Cameroon,Costs,2029.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Import costs with internal zones: $m,79.24144880715492
+Cameroon,Cameroon,Costs,2029.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Spinning reserve costs: $m,0.9363459966323008
+Cameroon,Cameroon,Costs,2029.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Trade shared benefits: $m,-2.14350900371505
+Cameroon,Cameroon,Costs,2029.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2029.0,Variable O&M: $m,8.544919040657064
+Cameroon,Cameroon,Costs,2030.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Export revenues with internal zones: $m,-6.2786451645373
+Cameroon,Cameroon,Costs,2030.0,Fixed O&M: $m,59.11328688673199
+Cameroon,Cameroon,Costs,2030.0,Fuel costs: $m,133.59443074517327
+Cameroon,Cameroon,Costs,2030.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Import costs with internal zones: $m,111.51602373038288
+Cameroon,Cameroon,Costs,2030.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Spinning reserve costs: $m,0.9363459966323004
+Cameroon,Cameroon,Costs,2030.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Trade shared benefits: $m,-2.953128097589504
+Cameroon,Cameroon,Costs,2030.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Unmet country planning reserve costs: $m,4.027640676000001
+Cameroon,Cameroon,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Unmet demand costs: $m,6.96322994623
+Cameroon,Cameroon,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2030.0,Variable O&M: $m,10.358472941706747
+Cameroon,Cameroon,Costs,2031.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Export revenues with internal zones: $m,-30.158139815648845
+Cameroon,Cameroon,Costs,2031.0,Fixed O&M: $m,68.49053601043198
+Cameroon,Cameroon,Costs,2031.0,Fuel costs: $m,132.30686685144948
+Cameroon,Cameroon,Costs,2031.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Import costs with internal zones: $m,23.67997028023266
+Cameroon,Cameroon,Costs,2031.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Spinning reserve costs: $m,0.2074386236758499
+Cameroon,Cameroon,Costs,2031.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Trade shared benefits: $m,-0.7023441596060819
+Cameroon,Cameroon,Costs,2031.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2031.0,Variable O&M: $m,10.064444649583637
+Cameroon,Cameroon,Costs,2032.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Export revenues with internal zones: $m,-30.31003735136625
+Cameroon,Cameroon,Costs,2032.0,Fixed O&M: $m,90.798730744882
+Cameroon,Cameroon,Costs,2032.0,Fuel costs: $m,35.476677752750874
+Cameroon,Cameroon,Costs,2032.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Import costs with internal zones: $m,9.940050673641109
+Cameroon,Cameroon,Costs,2032.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Spinning reserve costs: $m,0.05821092183
+Cameroon,Cameroon,Costs,2032.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Trade shared benefits: $m,-5.555635694290833
+Cameroon,Cameroon,Costs,2032.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2032.0,Variable O&M: $m,6.343033867877896
+Cameroon,Cameroon,Costs,2033.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Export revenues with internal zones: $m,-33.58767668976688
+Cameroon,Cameroon,Costs,2033.0,Fixed O&M: $m,92.372045417682
+Cameroon,Cameroon,Costs,2033.0,Fuel costs: $m,44.602343739369125
+Cameroon,Cameroon,Costs,2033.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Import costs with internal zones: $m,10.388039775010144
+Cameroon,Cameroon,Costs,2033.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Spinning reserve costs: $m,0.0190756923039
+Cameroon,Cameroon,Costs,2033.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Trade shared benefits: $m,-6.5958406029970975
+Cameroon,Cameroon,Costs,2033.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2033.0,Variable O&M: $m,6.807980310483932
+Cameroon,Cameroon,Costs,2034.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Export revenues with internal zones: $m,-37.37593427863597
+Cameroon,Cameroon,Costs,2034.0,Fixed O&M: $m,94.33784190858198
+Cameroon,Cameroon,Costs,2034.0,Fuel costs: $m,54.15934826139279
+Cameroon,Cameroon,Costs,2034.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Import costs with internal zones: $m,11.089380133743411
+Cameroon,Cameroon,Costs,2034.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Spinning reserve costs: $m,0.0051464730775999
+Cameroon,Cameroon,Costs,2034.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Trade shared benefits: $m,-9.97809078453464
+Cameroon,Cameroon,Costs,2034.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2034.0,Variable O&M: $m,7.31266665270431
+Cameroon,Cameroon,Costs,2035.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Export revenues with internal zones: $m,-35.31054360618607
+Cameroon,Cameroon,Costs,2035.0,Fixed O&M: $m,109.802745415682
+Cameroon,Cameroon,Costs,2035.0,Fuel costs: $m,26.74295757145952
+Cameroon,Cameroon,Costs,2035.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Import costs with internal zones: $m,11.50842444481024
+Cameroon,Cameroon,Costs,2035.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Trade shared benefits: $m,-20.33885473342259
+Cameroon,Cameroon,Costs,2035.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2035.0,Variable O&M: $m,6.332761107842138
+Cameroon,Cameroon,Costs,2040.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Export revenues with internal zones: $m,-18.90450086903715
+Cameroon,Cameroon,Costs,2040.0,Fixed O&M: $m,130.778387837482
+Cameroon,Cameroon,Costs,2040.0,Fuel costs: $m,34.506648616226386
+Cameroon,Cameroon,Costs,2040.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Import costs with internal zones: $m,8.11468627838283
+Cameroon,Cameroon,Costs,2040.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Trade shared benefits: $m,-10.595551451119706
+Cameroon,Cameroon,Costs,2040.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2040.0,Variable O&M: $m,6.8922964464089045
+Cameroon,Cameroon,Costs,2045.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Export revenues with internal zones: $m,-28.970455207022063
+Cameroon,Cameroon,Costs,2045.0,Fixed O&M: $m,159.88373437212414
+Cameroon,Cameroon,Costs,2045.0,Fuel costs: $m,58.87726797730341
+Cameroon,Cameroon,Costs,2045.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Import costs with internal zones: $m,4.434535357258492
+Cameroon,Cameroon,Costs,2045.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Trade shared benefits: $m,-8.542249167148173
+Cameroon,Cameroon,Costs,2045.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2045.0,Variable O&M: $m,8.619844364358228
+Cameroon,Cameroon,Costs,2050.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Excess generation: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Export revenues with internal zones: $m,-52.15361599788966
+Cameroon,Cameroon,Costs,2050.0,Fixed O&M: $m,189.5567561491601
+Cameroon,Cameroon,Costs,2050.0,Fuel costs: $m,96.3590720702413
+Cameroon,Cameroon,Costs,2050.0,Generation costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Import costs with internal zones: $m,1.222292308445934
+Cameroon,Cameroon,Costs,2050.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Startup costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Trade shared benefits: $m,-17.43239183517313
+Cameroon,Cameroon,Costs,2050.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,Costs,2050.0,Variable O&M: $m,11.89814501956114
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,58.78257053590999
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,34.96878774592726
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,1.2773437006649977
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,5.525111148211629
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,115.87725025045803
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,83.61022400707233
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,2.518009578492019
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,11.737593619519725
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,170.04319348682768
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,164.70489778856722
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,3.375990360382373
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,1.012480646779693
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,19.189346847738147
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,-5.278816321776138
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,221.143139936233
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,227.23924992664425
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,48.03540325082624
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,4.185406192354406
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,-1.3398013002647655
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,1.012480646779693
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,25.84521288057491
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,-10.313749245706328
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,269.3506365866154
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,300.8323123192231
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,112.65762405986362
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,4.949006033837456
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,-3.087855055330972
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,1.012480646779693
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,32.81368270732585
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,-15.14422098997711
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,314.82940701150443
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,403.6131043524126
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,198.4524074162411
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,5.669383242783729
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,-5.359842316721221
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,40.782967409274015
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Export revenues with internal zones: $m,-37.033038038644335
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Fixed O&M: $m,364.5399270058308
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Fuel costs: $m,499.6416001580796
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Import costs with internal zones: $m,215.63936060202525
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Spinning reserve costs: $m,5.819942465276355
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Trade shared benefits: $m,-5.869604619992999
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2031.0,Variable O&M: $m,48.08775440800205
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Export revenues with internal zones: $m,-57.78687245126778
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Fixed O&M: $m,426.7114710692933
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Fuel costs: $m,523.933127319705
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Import costs with internal zones: $m,222.44549427129093
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Spinning reserve costs: $m,5.859800543267523
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Trade shared benefits: $m,-9.67364952827072
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2032.0,Variable O&M: $m,52.43094518145936
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Export revenues with internal zones: $m,-79.48318730202169
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Fixed O&M: $m,486.3801703753327
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Fuel costs: $m,552.7444827995479
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Import costs with internal zones: $m,229.1557583875774
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Spinning reserve costs: $m,5.872122688381765
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Trade shared benefits: $m,-13.934302497804968
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2033.0,Variable O&M: $m,56.82863203781149
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Export revenues with internal zones: $m,-102.25996078334568
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Fixed O&M: $m,543.8693461602153
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Fuel costs: $m,585.7490144869602
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Import costs with internal zones: $m,235.9135907797149
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Spinning reserve costs: $m,5.875258932432344
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Trade shared benefits: $m,-20.01491875427506
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2034.0,Variable O&M: $m,61.28494744791971
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,-122.5600844481492
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,606.9952310384867
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,601.123610582618
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,242.5298140251641
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,5.875258932432344
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,-31.707779416341467
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,64.92566833465033
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,-168.18603272413105
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,922.6284233891056
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,684.4052891547332
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,262.11458164099224
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,5.875258932432344
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,-57.28010665276611
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,81.56020226628343
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,-220.43439492789187
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,1210.979545394942
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,790.5907391541656
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,270.11228854258303
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,5.875258932432344
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,-72.68609614552874
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,97.10613508890164
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,-290.7209828463531
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,1466.4421312903353
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,920.452307929769
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,271.7595521916293
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,5.875258932432344
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,-96.17944973009207
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,4.111143490697141
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,5.357156619409459
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+Cameroon,Cameroon,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,113.141073414517
+Cameroon,Cameroon,GenCostsPerMWh,2025.0,Fixed O&M: $m,6.181737071649487
+Cameroon,Cameroon,GenCostsPerMWh,2025.0,Variable Cost: $m,4.258449973986825
+Cameroon,Cameroon,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.952363985206825
+Cameroon,Cameroon,GenCostsPerMWh,2026.0,Variable Cost: $m,5.718755091419133
+Cameroon,Cameroon,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.615407921999659
+Cameroon,Cameroon,GenCostsPerMWh,2027.0,Investment costs: $m,0.113090393137812
+Cameroon,Cameroon,GenCostsPerMWh,2027.0,Variable Cost: $m,9.179648280568442
+Cameroon,Cameroon,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.613212460451558
+Cameroon,Cameroon,GenCostsPerMWh,2028.0,Investment costs: $m,0.1130461780757822
+Cameroon,Cameroon,GenCostsPerMWh,2028.0,Variable Cost: $m,7.600387510442358
+Cameroon,Cameroon,GenCostsPerMWh,2029.0,Fixed O&M: $m,5.490519300009861
+Cameroon,Cameroon,GenCostsPerMWh,2029.0,Investment costs: $m,0.1105752235267259
+Cameroon,Cameroon,GenCostsPerMWh,2029.0,Variable Cost: $m,9.175432831463718
+Cameroon,Cameroon,GenCostsPerMWh,2030.0,Fixed O&M: $m,5.268104313595184
+Cameroon,Cameroon,GenCostsPerMWh,2030.0,Investment costs: $m,0.1060959410591363
+Cameroon,Cameroon,GenCostsPerMWh,2030.0,Variable Cost: $m,12.828907895453534
+Cameroon,Cameroon,GenCostsPerMWh,2031.0,Fixed O&M: $m,5.438266506188075
+Cameroon,Cameroon,GenCostsPerMWh,2031.0,Investment costs: $m,2.1330347545559585
+Cameroon,Cameroon,GenCostsPerMWh,2031.0,Variable Cost: $m,11.304527309586408
+Cameroon,Cameroon,GenCostsPerMWh,2032.0,Fixed O&M: $m,6.662534205370113
+Cameroon,Cameroon,GenCostsPerMWh,2032.0,Investment costs: $m,12.346339721725574
+Cameroon,Cameroon,GenCostsPerMWh,2032.0,Variable Cost: $m,3.0686030173043783
+Cameroon,Cameroon,GenCostsPerMWh,2033.0,Fixed O&M: $m,6.488551420545114
+Cameroon,Cameroon,GenCostsPerMWh,2033.0,Investment costs: $m,12.16464956644371
+Cameroon,Cameroon,GenCostsPerMWh,2033.0,Variable Cost: $m,3.611249806540545
+Cameroon,Cameroon,GenCostsPerMWh,2034.0,Fixed O&M: $m,6.352384912425859
+Cameroon,Cameroon,GenCostsPerMWh,2034.0,Investment costs: $m,11.982234231983949
+Cameroon,Cameroon,GenCostsPerMWh,2034.0,Variable Cost: $m,4.139313473538387
+Cameroon,Cameroon,GenCostsPerMWh,2035.0,Fixed O&M: $m,7.072333664071279
+Cameroon,Cameroon,GenCostsPerMWh,2035.0,Investment costs: $m,16.71031186322652
+Cameroon,Cameroon,GenCostsPerMWh,2035.0,Variable Cost: $m,2.130388614541576
+Cameroon,Cameroon,GenCostsPerMWh,2040.0,Fixed O&M: $m,6.981216430483476
+Cameroon,Cameroon,GenCostsPerMWh,2040.0,Investment costs: $m,16.045767692530127
+Cameroon,Cameroon,GenCostsPerMWh,2040.0,Variable Cost: $m,2.2099599196398607
+Cameroon,Cameroon,GenCostsPerMWh,2045.0,Fixed O&M: $m,6.695887360288791
+Cameroon,Cameroon,GenCostsPerMWh,2045.0,Investment costs: $m,18.81067103787297
+Cameroon,Cameroon,GenCostsPerMWh,2045.0,Variable Cost: $m,2.826760728096445
+Cameroon,Cameroon,GenCostsPerMWh,2050.0,Fixed O&M: $m,6.23106642800383
+Cameroon,Cameroon,GenCostsPerMWh,2050.0,Investment costs: $m,21.048230321107063
+Cameroon,Cameroon,GenCostsPerMWh,2050.0,Variable Cost: $m,3.558606534006042
+Cameroon,Cameroon,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Excess generation: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Export revenues with internal zones: $m,-1.303638480927198
+Cameroon,Cameroon,NetPresentCostPerMWh,,Fixed O&M: $m,6.575756499190567
+Cameroon,Cameroon,NetPresentCostPerMWh,,Fuel costs: $m,4.1274525035217975
+Cameroon,Cameroon,NetPresentCostPerMWh,,Generation costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Import costs with internal zones: $m,1.2186124521455242
+Cameroon,Cameroon,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0263455824713483
+Cameroon,Cameroon,NetPresentCostPerMWh,,Startup costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Trade shared benefits: $m,-0.4312837364367899
+Cameroon,Cameroon,NetPresentCostPerMWh,,Transmission costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,0.0184350121639436
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet demand costs: $m,0.0240223304456389
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+Cameroon,Cameroon,NetPresentCostPerMWh,,Variable O&M: $m,0.5073423171334182
+Chad,Chad,Costs,2025.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2025.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2025.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2025.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,Costs,2025.0,Fixed O&M: $m,4.6565678081631
+Chad,Chad,Costs,2025.0,Fuel costs: $m,21.814410413616915
+Chad,Chad,Costs,2025.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2025.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2025.0,Import costs with internal zones: $m,0.0
+Chad,Chad,Costs,2025.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2025.0,Spinning reserve costs: $m,1.218282743130075
+Chad,Chad,Costs,2025.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2025.0,Trade shared benefits: $m,0.0
+Chad,Chad,Costs,2025.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0224910308999999
+Chad,Chad,Costs,2025.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2025.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2025.0,Variable O&M: $m,1.0912910657533257
+Chad,Chad,Costs,2026.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2026.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2026.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2026.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,Costs,2026.0,Fixed O&M: $m,5.1074768990431
+Chad,Chad,Costs,2026.0,Fuel costs: $m,24.51227550382763
+Chad,Chad,Costs,2026.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2026.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2026.0,Import costs with internal zones: $m,0.0
+Chad,Chad,Costs,2026.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2026.0,Spinning reserve costs: $m,1.2003085360886252
+Chad,Chad,Costs,2026.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2026.0,Trade shared benefits: $m,0.0
+Chad,Chad,Costs,2026.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0124274783999999
+Chad,Chad,Costs,2026.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2026.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2026.0,Variable O&M: $m,1.2262534481692544
+Chad,Chad,Costs,2027.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2027.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2027.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2027.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,Costs,2027.0,Fixed O&M: $m,5.512199705993099
+Chad,Chad,Costs,2027.0,Fuel costs: $m,24.64379710458816
+Chad,Chad,Costs,2027.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2027.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2027.0,Import costs with internal zones: $m,0.0
+Chad,Chad,Costs,2027.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2027.0,Spinning reserve costs: $m,0.7277513747038497
+Chad,Chad,Costs,2027.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2027.0,Trade shared benefits: $m,0.0
+Chad,Chad,Costs,2027.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet country spinning reserve costs: $m,0.00127225515
+Chad,Chad,Costs,2027.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2027.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2027.0,Variable O&M: $m,1.2326124927185975
+Chad,Chad,Costs,2028.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2028.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2028.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2028.0,Export revenues with internal zones: $m,-52.7897626488226
+Chad,Chad,Costs,2028.0,Fixed O&M: $m,6.8998207583931
+Chad,Chad,Costs,2028.0,Fuel costs: $m,49.402625780012926
+Chad,Chad,Costs,2028.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2028.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2028.0,Import costs with internal zones: $m,6.4280257630011
+Chad,Chad,Costs,2028.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2028.0,Spinning reserve costs: $m,0.2719914647112748
+Chad,Chad,Costs,2028.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2028.0,Trade shared benefits: $m,-1.5499049243072018
+Chad,Chad,Costs,2028.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2028.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2028.0,Variable O&M: $m,2.2076467169077216
+Chad,Chad,Costs,2029.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2029.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2029.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2029.0,Export revenues with internal zones: $m,-75.27937636679718
+Chad,Chad,Costs,2029.0,Fixed O&M: $m,6.9807653197831
+Chad,Chad,Costs,2029.0,Fuel costs: $m,72.99438068829696
+Chad,Chad,Costs,2029.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2029.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2029.0,Import costs with internal zones: $m,6.4989113414469175
+Chad,Chad,Costs,2029.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2029.0,Spinning reserve costs: $m,0.2574842297645247
+Chad,Chad,Costs,2029.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2029.0,Trade shared benefits: $m,-2.14350900371505
+Chad,Chad,Costs,2029.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2029.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2029.0,Variable O&M: $m,3.115242710393565
+Chad,Chad,Costs,2030.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2030.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2030.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2030.0,Export revenues with internal zones: $m,-105.94022254386378
+Chad,Chad,Costs,2030.0,Fixed O&M: $m,7.0617098811731
+Chad,Chad,Costs,2030.0,Fuel costs: $m,77.94125717576493
+Chad,Chad,Costs,2030.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2030.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2030.0,Import costs with internal zones: $m,6.60910017319716
+Chad,Chad,Costs,2030.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2030.0,Spinning reserve costs: $m,0.2431875657550498
+Chad,Chad,Costs,2030.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2030.0,Trade shared benefits: $m,-2.953128097589504
+Chad,Chad,Costs,2030.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2030.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2030.0,Variable O&M: $m,3.2850456905410925
+Chad,Chad,Costs,2031.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2031.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2031.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2031.0,Export revenues with internal zones: $m,-24.97361183360564
+Chad,Chad,Costs,2031.0,Fixed O&M: $m,7.142654442563099
+Chad,Chad,Costs,2031.0,Fuel costs: $m,12.94576938906608
+Chad,Chad,Costs,2031.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2031.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2031.0,Import costs with internal zones: $m,32.85646968823402
+Chad,Chad,Costs,2031.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2031.0,Spinning reserve costs: $m,0.2292489288647998
+Chad,Chad,Costs,2031.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2031.0,Trade shared benefits: $m,-0.7023441596060819
+Chad,Chad,Costs,2031.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2031.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2031.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2031.0,Variable O&M: $m,0.5796577318960376
+Chad,Chad,Costs,2032.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2032.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2032.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2032.0,Export revenues with internal zones: $m,-11.17938107254909
+Chad,Chad,Costs,2032.0,Fixed O&M: $m,7.223599003953099
+Chad,Chad,Costs,2032.0,Fuel costs: $m,2.596788112685155
+Chad,Chad,Costs,2032.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2032.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2032.0,Import costs with internal zones: $m,28.51292809392323
+Chad,Chad,Costs,2032.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2032.0,Spinning reserve costs: $m,0.2164348013959498
+Chad,Chad,Costs,2032.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2032.0,Trade shared benefits: $m,-3.145089497230836
+Chad,Chad,Costs,2032.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2032.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2032.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2032.0,Variable O&M: $m,0.1299073233379167
+Chad,Chad,Costs,2033.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2033.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2033.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2033.0,Export revenues with internal zones: $m,-11.604970718849671
+Chad,Chad,Costs,2033.0,Fixed O&M: $m,7.3045435653431
+Chad,Chad,Costs,2033.0,Fuel costs: $m,4.093701006788533
+Chad,Chad,Costs,2033.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2033.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2033.0,Import costs with internal zones: $m,31.419886369518835
+Chad,Chad,Costs,2033.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2033.0,Spinning reserve costs: $m,0.2056290102286499
+Chad,Chad,Costs,2033.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2033.0,Trade shared benefits: $m,-3.9104927522060953
+Chad,Chad,Costs,2033.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2033.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2033.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2033.0,Variable O&M: $m,0.2047921190565426
+Chad,Chad,Costs,2034.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2034.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2034.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2034.0,Export revenues with internal zones: $m,-12.271244059646284
+Chad,Chad,Costs,2034.0,Fixed O&M: $m,7.3854881267331
+Chad,Chad,Costs,2034.0,Fuel costs: $m,7.257305518827303
+Chad,Chad,Costs,2034.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2034.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2034.0,Import costs with internal zones: $m,35.18878315429468
+Chad,Chad,Costs,2034.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2034.0,Spinning reserve costs: $m,0.1949900974793998
+Chad,Chad,Costs,2034.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2034.0,Trade shared benefits: $m,-5.35208402469103
+Chad,Chad,Costs,2034.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2034.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2034.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2034.0,Variable O&M: $m,0.3507242199557264
+Chad,Chad,Costs,2035.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2035.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2035.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2035.0,Export revenues with internal zones: $m,-23.328138034387816
+Chad,Chad,Costs,2035.0,Fixed O&M: $m,7.5736714600431005
+Chad,Chad,Costs,2035.0,Fuel costs: $m,10.418451319185902
+Chad,Chad,Costs,2035.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2035.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2035.0,Import costs with internal zones: $m,50.38437839244296
+Chad,Chad,Costs,2035.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2035.0,Spinning reserve costs: $m,0.1797137930425499
+Chad,Chad,Costs,2035.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2035.0,Trade shared benefits: $m,-8.241167893399412
+Chad,Chad,Costs,2035.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2035.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2035.0,Variable O&M: $m,0.5211950553802942
+Chad,Chad,Costs,2040.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2040.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2040.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2040.0,Export revenues with internal zones: $m,-0.3197753633690199
+Chad,Chad,Costs,2040.0,Fixed O&M: $m,8.5145881265931
+Chad,Chad,Costs,2040.0,Fuel costs: $m,9.600066108555117
+Chad,Chad,Costs,2040.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2040.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2040.0,Import costs with internal zones: $m,38.32896231527692
+Chad,Chad,Costs,2040.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2040.0,Spinning reserve costs: $m,0.0779920946178499
+Chad,Chad,Costs,2040.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2040.0,Trade shared benefits: $m,-9.72859231323216
+Chad,Chad,Costs,2040.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2040.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2040.0,Variable O&M: $m,0.4783591577390753
+Chad,Chad,Costs,2045.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2045.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2045.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2045.0,Export revenues with internal zones: $m,-0.333813823312065
+Chad,Chad,Costs,2045.0,Fixed O&M: $m,9.4555047931431
+Chad,Chad,Costs,2045.0,Fuel costs: $m,22.10604905086968
+Chad,Chad,Costs,2045.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2045.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2045.0,Import costs with internal zones: $m,40.32318819385132
+Chad,Chad,Costs,2045.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2045.0,Spinning reserve costs: $m,0.0560075305593999
+Chad,Chad,Costs,2045.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2045.0,Trade shared benefits: $m,-7.826171698079525
+Chad,Chad,Costs,2045.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2045.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2045.0,Variable O&M: $m,1.0989605630794044
+Chad,Chad,Costs,2050.0,Carbon costs: $m,0.0
+Chad,Chad,Costs,2050.0,Excess generation: $m,0.0
+Chad,Chad,Costs,2050.0,Export revenues with external zones: $m,0.0
+Chad,Chad,Costs,2050.0,Export revenues with internal zones: $m,-0.0713177125086224
+Chad,Chad,Costs,2050.0,Fixed O&M: $m,9.9916986527431
+Chad,Chad,Costs,2050.0,Fuel costs: $m,38.92001582956252
+Chad,Chad,Costs,2050.0,Generation costs: $m,0.0
+Chad,Chad,Costs,2050.0,Import costs with external zones: $m,0.0
+Chad,Chad,Costs,2050.0,Import costs with internal zones: $m,60.83003974238723
+Chad,Chad,Costs,2050.0,NPV of system cost: $m,0.0
+Chad,Chad,Costs,2050.0,Spinning reserve costs: $m,0.0524252274374999
+Chad,Chad,Costs,2050.0,Startup costs: $m,0.0
+Chad,Chad,Costs,2050.0,Trade shared benefits: $m,-13.545019917133889
+Chad,Chad,Costs,2050.0,Transmission costs: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet demand costs: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,Costs,2050.0,VRE curtailment: $m,0.0
+Chad,Chad,Costs,2050.0,Variable O&M: $m,1.865228898039364
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,4.6565678081631
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,21.814410413616915
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,1.218282743130075
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0224910308999999
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,1.0912910657533257
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,9.617387912519984
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,45.62283706469098
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,2.3841254546997
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0345616649746701
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,2.2823337036269686
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,14.668257388860516
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,68.20413114250924
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,3.0509694373043352
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,3.4117856733840632
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,-45.63363308828493
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,20.63274506723929
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,110.9097843851695
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,5.556648759764359
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,3.28609000009884
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,-1.3398013002647655
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,5.320165920101667
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,-107.02474285687046
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,26.32563136225062
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,170.43745655251814
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,10.856578153375086
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,3.496071051696999
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,-3.087855055330972
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,7.860678560080303
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,-188.5297870454291
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,31.75855345823249
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,230.40151418504087
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,15.941285252607493
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,3.683167253847854
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,-5.359842316721221
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,10.388026414745482
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Export revenues with internal zones: $m,-206.6556669508792
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Fixed O&M: $m,36.94270132977953
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Fuel costs: $m,239.7975704220528
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Import costs with internal zones: $m,39.78855362748426
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Spinning reserve costs: $m,3.849556424174624
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Trade shared benefits: $m,-5.869604619992999
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2031.0,Variable O&M: $m,10.808742749435796
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Export revenues with internal zones: $m,-214.31039270808265
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Fixed O&M: $m,41.8888310838716
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Fuel costs: $m,241.5756385210981
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Import costs with internal zones: $m,59.31187461255881
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Spinning reserve costs: $m,3.9977532731995593
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Trade shared benefits: $m,-8.023104659657836
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2032.0,Variable O&M: $m,10.8976926588763
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Export revenues with internal zones: $m,-221.80674623308408
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Fixed O&M: $m,46.60727822442707
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Fuel costs: $m,244.22000796553763
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Import costs with internal zones: $m,79.60788238780583
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Spinning reserve costs: $m,4.1305815062916365
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Trade shared benefits: $m,-10.54912879514988
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2033.0,Variable O&M: $m,11.029980293268038
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Export revenues with internal zones: $m,-229.28480267969888
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Fixed O&M: $m,51.107970805314885
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Fuel costs: $m,248.64258647969064
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Import costs with internal zones: $m,101.05181304686973
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Spinning reserve costs: $m,4.249407841127317
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Trade shared benefits: $m,-13.810671491972313
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2034.0,Variable O&M: $m,11.243710498720366
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,-242.69621011225723
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,55.46209429177782
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,254.63218133084888
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,130.01792366663545
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,4.352725769724585
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,-18.54854041985559
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,11.543346896157493
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,-243.4679868595029
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,76.01202365233078
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,277.8019080932382
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,222.52474329566653
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,4.540959423689909
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,-42.0284647382305
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,12.697865089446184
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,-244.0700217748812
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,93.06507427653328
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,317.6702791440315
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,295.2478167478259
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,4.64196928777021
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,-56.14300490089138
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,14.679846012324608
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,-244.16613550687217
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,106.53072555254865
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,370.1221573513477
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,377.2274811417539
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,4.712621922049303
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,-74.39740998953303
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0357274418053363
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+Chad,Chad,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,17.193584943397063
+Chad,Chad,GenCostsPerMWh,2025.0,Fixed O&M: $m,9.190313560273264
+Chad,Chad,GenCostsPerMWh,2025.0,Variable Cost: $m,45.20724009309955
+Chad,Chad,GenCostsPerMWh,2026.0,Fixed O&M: $m,9.281805717539834
+Chad,Chad,GenCostsPerMWh,2026.0,Variable Cost: $m,46.774567934407656
+Chad,Chad,GenCostsPerMWh,2027.0,Fixed O&M: $m,8.986392018401418
+Chad,Chad,GenCostsPerMWh,2027.0,Investment costs: $m,2.375154906737297
+Chad,Chad,GenCostsPerMWh,2027.0,Variable Cost: $m,42.18561972950668
+Chad,Chad,GenCostsPerMWh,2028.0,Fixed O&M: $m,6.203403570818916
+Chad,Chad,GenCostsPerMWh,2028.0,Investment costs: $m,5.440310009424333
+Chad,Chad,GenCostsPerMWh,2028.0,Variable Cost: $m,46.401110972177925
+Chad,Chad,GenCostsPerMWh,2029.0,Fixed O&M: $m,5.011480034252093
+Chad,Chad,GenCostsPerMWh,2029.0,Investment costs: $m,4.519646091182642
+Chad,Chad,GenCostsPerMWh,2029.0,Variable Cost: $m,54.63897446832306
+Chad,Chad,GenCostsPerMWh,2030.0,Fixed O&M: $m,4.845695094606258
+Chad,Chad,GenCostsPerMWh,2030.0,Investment costs: $m,4.471834871771488
+Chad,Chad,GenCostsPerMWh,2030.0,Variable Cost: $m,55.73691131118472
+Chad,Chad,GenCostsPerMWh,2031.0,Fixed O&M: $m,11.123940955749678
+Chad,Chad,GenCostsPerMWh,2031.0,Investment costs: $m,10.484181242193005
+Chad,Chad,GenCostsPerMWh,2031.0,Variable Cost: $m,21.064445144974368
+Chad,Chad,GenCostsPerMWh,2032.0,Fixed O&M: $m,14.008936554108628
+Chad,Chad,GenCostsPerMWh,2032.0,Investment costs: $m,13.460166303361484
+Chad,Chad,GenCostsPerMWh,2032.0,Variable Cost: $m,5.287960107519942
+Chad,Chad,GenCostsPerMWh,2033.0,Fixed O&M: $m,13.231794805471171
+Chad,Chad,GenCostsPerMWh,2033.0,Investment costs: $m,12.939471484734833
+Chad,Chad,GenCostsPerMWh,2033.0,Variable Cost: $m,7.786493229195879
+Chad,Chad,GenCostsPerMWh,2034.0,Fixed O&M: $m,12.103394384411589
+Chad,Chad,GenCostsPerMWh,2034.0,Investment costs: $m,12.027996949717028
+Chad,Chad,GenCostsPerMWh,2034.0,Variable Cost: $m,12.468097278974971
+Chad,Chad,GenCostsPerMWh,2035.0,Fixed O&M: $m,10.860178754829644
+Chad,Chad,GenCostsPerMWh,2035.0,Investment costs: $m,11.07232938598937
+Chad,Chad,GenCostsPerMWh,2035.0,Variable Cost: $m,15.68677962454644
+Chad,Chad,GenCostsPerMWh,2040.0,Fixed O&M: $m,8.619358215961865
+Chad,Chad,GenCostsPerMWh,2040.0,Investment costs: $m,14.21572804083685
+Chad,Chad,GenCostsPerMWh,2040.0,Variable Cost: $m,10.202438019482823
+Chad,Chad,GenCostsPerMWh,2045.0,Fixed O&M: $m,7.070841070580514
+Chad,Chad,GenCostsPerMWh,2045.0,Investment costs: $m,11.770545091716478
+Chad,Chad,GenCostsPerMWh,2045.0,Variable Cost: $m,17.352741985865514
+Chad,Chad,GenCostsPerMWh,2050.0,Fixed O&M: $m,5.950522768375733
+Chad,Chad,GenCostsPerMWh,2050.0,Investment costs: $m,10.385627719750367
+Chad,Chad,GenCostsPerMWh,2050.0,Variable Cost: $m,24.28951630749416
+Chad,Chad,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Excess generation: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Export revenues with internal zones: $m,-15.109201581834265
+Chad,Chad,NetPresentCostPerMWh,,Fixed O&M: $m,6.592209045251555
+Chad,Chad,NetPresentCostPerMWh,,Fuel costs: $m,22.903463962009983
+Chad,Chad,NetPresentCostPerMWh,,Generation costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Import costs with internal zones: $m,23.343147250728897
+Chad,Chad,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.2916209262656331
+Chad,Chad,NetPresentCostPerMWh,,Startup costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Trade shared benefits: $m,-4.603773010391881
+Chad,Chad,NetPresentCostPerMWh,,Transmission costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0022108435271724
+Chad,Chad,NetPresentCostPerMWh,,Unmet demand costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+Chad,Chad,NetPresentCostPerMWh,,Variable O&M: $m,1.063953198443709
