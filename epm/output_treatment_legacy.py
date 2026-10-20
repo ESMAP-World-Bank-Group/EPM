@@ -898,6 +898,7 @@ Examples:
   python epm.py --postprocess output/Zimbabwe_SPD_converted --generate-figures
         """
     )
+    
     parser.add_argument("src", help="Results folder with <scenario>/epmresults.gdx in legacy format")
     parser.add_argument("--dest", default=None, help="Destination folder (default: <src>_converted)")
     parser.add_argument("--scenarios", nargs="+", default=None, help="Scenario folders to convert (default: all)")
