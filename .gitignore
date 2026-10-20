@@ -30,6 +30,7 @@ tools/.env
 *.idx
 *.grib
 *.zip
+*.rar
 
 # Claude working files
 .claude/work/
@@ -47,6 +48,7 @@ tools/.env
 /epm/cplex.opt
 !epm/output/*
 !epm/output/tableau/
+epm/output/Previous_Runs/*
 !epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
@@ -99,12 +101,12 @@ pre-analysis/**/output/*
 
 # Input data
 !epm/input/*
-!epm/input/data_test/
-!epm/input/data_test/**
-!epm/input/data_eapp/
-!epm/input/data_eapp/**
-!epm/input/data_pan_arab/
-!epm/input/data_pan_arab/**
+epm/input/data_test/
+epm/input/data_test/**
+epm/input/data_eapp/
+epm/input/data_eapp/**
+epm/input/data_pan_arab/
+epm/input/data_pan_arab/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
@@ -230,3 +232,10 @@ celerybeat.pid
 dmypy.json
 .pyre/
 .claude/
+
+# Other File Types not covered by above criteria
+*.xlsx
+*.xlab
+*.xlsm
+*.xls
+
