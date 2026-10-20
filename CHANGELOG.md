@@ -22,8 +22,22 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
   string concatenation but mapped `EPS` to `NaN` — and `load_yearly_zone` drops
   `NaN` rows, so stored zeros disappeared from the charts instead of showing as
   zero.
+- Storage, dispatch mode: the state of charge was anchored to `InitialSOCforBattery`
+  at the first and last hour of every season (every month with 12 seasons), not
+  only at the start and end of the year, so batteries could not carry energy from
+  one season to the next. `eStorageSOCInitDispatch` also carried a stray `g`
+  index (one copy per generator) and ignored the first hour's charge and
+  discharge. The anchor now applies to the first hour of the year (with its
+  charge and discharge) and the last hour of the year only.
+- Storage: charging and discharging could each use the full inverter capacity in
+  the same hour. New `eStorInverterLimit`: charge + discharge ≤ power capacity.
+- Storage: discharge plus spinning reserve is now limited by the energy stored at
+  the start of the hour (`eStorEnergyHeadroom`), so a battery cannot count the
+  same energy twice or count energy charged in that hour. `eSOCSupportsReserve`
+  only compared reserve with the end-of-hour level.
 
 ### Added
+- `pDispatchPlant` reports `Charge` and `StateOfCharge` for storage units.
 - `epm/gams_values.py`: single definition of GAMS special-value handling
   (`GAMS_SPECIAL_VALUES`, `coerce_value_column`, `read_output_csv`), shared by
   `epm/output_treatment.py` and `dashboard/data_loader.py`. Duplicating this
