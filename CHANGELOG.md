@@ -23,6 +23,16 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
   `NaN` rows, so stored zeros disappeared from the charts instead of showing as
   zero.
 
+### Changed
+- Dispatch mode: model generation is much faster (8,760-hour case with unit
+  commitment: 864 s → 12 s) with identical results. Equations indexed by the
+  chronological hour `AT` (commitment, minimum up/down time, dispatch ramps,
+  storage day wrap) used to scan `mapTS(q,d,t,AT)` for every hour; they now use
+  lookups built once in `main.gms`: `mapAT` (slot of hour AT), `mapATprev` (slot
+  of hour AT-1) and `sWinUp`/`sWinDn` (hours in each minimum up/down-time
+  window). Minimum up/down times are limited to 168 h (`sMUDTstep`); longer
+  values stop the run with an explicit message.
+
 ### Added
 - `epm/gams_values.py`: single definition of GAMS special-value handling
   (`GAMS_SPECIAL_VALUES`, `coerce_value_column`, `read_output_csv`), shared by
