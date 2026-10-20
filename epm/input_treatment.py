@@ -539,9 +539,11 @@ def run_input_treatment(gams,
         param_name = "pNewTransmission"
         
         records = db[param_name].records
+        # One row per corridor, or per corridor stage when pNewTransmission has a stage index (ts)
+        keys = ["z", "z2"] + (["ts"] if "ts" in records.columns else [])
         wide = (
             records
-            .pivot_table(index=["z", "z2"],
+            .pivot_table(index=keys,
                          columns="pTransmissionHeader",
                          values="value",
                          aggfunc="first",
@@ -569,7 +571,8 @@ def run_input_treatment(gams,
         removed_rows = wide.loc[~valid_mask, ["Status"]].reset_index()
         for _, row in removed_rows.iterrows():
             status_label = "missing" if pd.isna(row["Status"]) else row["Status"]
-            gams.printLog(f"  - {row['z']} -> {row['z2']} (Status={status_label})")
+            stage_label = f" [{row['ts']}]" if "ts" in keys else ""
+            gams.printLog(f"  - {row['z']} -> {row['z2']}{stage_label} (Status={status_label})")
 
         stacked = (
             filtered
@@ -644,11 +647,12 @@ def run_input_treatment(gams,
             _log_columns(param_name, records, prefix="[input_treatment][tx_status] ")
             return
 
-        # Consolidate by corridor to decide which pairs are invalid before zeroing CapacityPerLine.
+        # Consolidate by corridor (or corridor stage) to decide which pairs are invalid before zeroing CapacityPerLine.
+        keys = ["z", "z2"] + (["ts"] if "ts" in records.columns else [])
         wide = (
             records
             .pivot_table(
-                index=["z", "z2"],
+                index=keys,
                 columns="pTransmissionHeader",
                 values="value",
                 aggfunc="first",
@@ -669,7 +673,7 @@ def run_input_treatment(gams,
 
         invalid_set = set(invalid_pairs)
         pair_flags = pd.Series(
-            ((z, z2) in invalid_set for z, z2 in zip(records["z"], records["z2"])),
+            (tuple(key) in invalid_set for key in records[keys].itertuples(index=False)),
             index=records.index,
         )
         mask = (records["pTransmissionHeader"] == "CapacityPerLine") & pair_flags
@@ -1422,7 +1426,7 @@ def run_input_treatment(gams,
         
         # Keep only the generator column and common columns in ref_df
         ref_df = ref_df.loc[:, [column_generator] + columns]
-            
+    
         # Remove duplicate rows in the reference DataFrame
         ref_df = ref_df.drop_duplicates()
 
@@ -1437,7 +1441,7 @@ def run_input_treatment(gams,
 
         # Select only the necessary columns for the final output
         param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]    
-        
+    
         return param_df
 
 
@@ -2017,12 +2021,22 @@ def run_input_treatment(gams,
                 grouped = [(None, data)]
 
             result_frames = []
+            held_constant = []
             for key, group in grouped:
                 group = group.sort_values(year_column)
                 years = group[year_column].to_numpy()
                 values = group["value"].to_numpy()
-                if years.size < 2:
+                if years.size == 0:
                     continue
+                if years.size == 1:
+                    # One year is not enough to interpolate, but skipping the group drops it
+                    # from the interpolated result, so the entry keeps its lone year and
+                    # reads as zero on every other planning year -- a transfer limit or a
+                    # fuel price silently zeroed on years the user never meant to empty, with
+                    # nothing in the log to say so. Hold the value constant instead, which is
+                    # what np.interp already does beyond the first and last points of any
+                    # other group, and what _apply_generic_capex_interpolated does here too.
+                    held_constant.append(key)
 
                 interpolated = np.interp(target_years, years, values)
                 if param_name in NO_BACKFILL_PARAMS:
@@ -2050,6 +2064,17 @@ def run_input_treatment(gams,
             gams.printLog(
                 f"[input_treatment][interpolate] Linear interpolation performed on {param_name} to match model years {target_range}."
             )
+            if held_constant:
+                shown = ", ".join(
+                    "/".join(str(k) for k in (key if isinstance(key, tuple) else (key,)))
+                    for key in held_constant[:5]
+                )
+                more = f" (+{len(held_constant) - 5} more)" if len(held_constant) > 5 else ""
+                gams.printLog(
+                    f"[input_treatment][interpolate] {param_name}: {len(held_constant)} entry/entries "
+                    f"were given for a single year and have been held constant over {target_range}: "
+                    f"{shown}{more}."
+                )
             _write_back(db, param_name)
 
     def _apply_generic_capex_interpolated(db: gt.Container):
@@ -2438,8 +2463,6 @@ def run_input_treatment(gams,
 
 if __name__ == "__main__":
 
-    DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
-    output_gdx = os.path.join("epm", "test", "input_treated.gdx")
     DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
     output_gdx = os.path.join("epm", "test", "input_treated.gdx")
 

@@ -356,7 +356,8 @@ def launch_epm(scenario,
                dict_montecarlo=None,
                prefix='',  # 'simulation_'
                debug=False,
-               trace=False
+               trace=False,
+               REPORTSHORT=2
                ):
     """
     Launch the EPM model with the given scenario
@@ -847,13 +848,6 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--generate_figures",
-        action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Generate figures during postprocessing (default: False). Use --generate-figures to enable."
-    )
-
-    parser.add_argument(
         "--reduce_definition_csv",
         action="store_true",
         help="Enable reduced yearly definition for csv files used in Tableau visualization (default: False)"
@@ -869,18 +863,10 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--parallel",
-        type=int,
-        default=1,
-        dest="parallel",
-        help="Number of scenarios to run in parallel (default: 1)"
-    )
-    parser.add_argument(
         "--cpu",
         type=int,
-        default=None,
-        dest="parallel",
-        help="Deprecated: use --parallel instead"
+        default=1,
+        help="Number of CPUs (default: 1)"
     )
 
     parser.add_argument(
@@ -1049,7 +1035,7 @@ def main(test_args=None):
                                                         montecarlo_nb_samples=args.montecarlo_samples,
                                                         uncertainties=args.uncertainties,
                                                         selected_scenarios=args.selected_scenarios,
-                                                        cpu=args.parallel,
+                                                        cpu=args.cpu,
                                                         project_assessment=args.project_assessment,
                                                         generator_assessment=args.generator_assessment,
                                                         interco_assessment=args.interco_assessment,
@@ -1089,8 +1075,7 @@ def main(test_args=None):
                            selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                            graphs_folder=args.graphs_folder, montecarlo=args.montecarlo,
                            reduce_definition_csv=args.reduce_definition_csv, logger=logger,
-                           focus_country=args.focus_country, folder_input=folder_input,
-                           generate_figures=args.generate_figures)
+                           focus_country=args.focus_country, folder_input=folder_input)
         logger.info("Postprocessing completed for folder: %s", folder)
 
         # Zip the folder if it exists

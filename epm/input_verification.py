@@ -634,6 +634,50 @@ def _check_fuel_price_presence(gams, db):
         raise
 
 
+def _check_transfer_limit_year_coverage(gams, db, records):
+    """Reject a line whose two directions do not both reach the planning horizon.
+
+    The symmetry check above reads this file, which still holds every year the user
+    supplied. GAMS then loads pTransferLimit into a parameter declared over 'y', and
+    drops on the spot every record whose year is not a planning year. A direction
+    documented only outside the horizon therefore vanishes between this check and the
+    model, leaving a one-way line: the topology is no longer an undirected adjacency,
+    and every equation declared over it silently loses the missing direction.
+
+    A pair that leaves the horizon in both directions is a line that is simply not
+    modelled, which is legitimate. Only a disagreement between the two directions is
+    an error, and it cannot be intentional.
+    """
+    if "y" not in db or db["y"].records is None or db["y"].records.empty:
+        return
+    planning_years = set(db["y"].records.iloc[:, 0].astype(str))
+
+    in_horizon = records[records["y"].astype(str).isin(planning_years)]
+    surviving = set(map(tuple, in_horizon[["z", "z2"]].drop_duplicates().astype(str).to_numpy()))
+    declared = set(map(tuple, records[["z", "z2"]].drop_duplicates().astype(str).to_numpy()))
+
+    one_way = sorted(
+        (z, z2) for z, z2 in declared - surviving if (z2, z) in surviving
+    )
+    if one_way:
+        horizon = ", ".join(sorted(planning_years))
+        detail = "\n".join(
+            f"({z}, {z2}): no year within the planning horizon, while ({z2}, {z}) has one"
+            for z, z2 in one_way
+        )
+        msg = (
+            "Error: The following directions of 'pTransferLimit' would be dropped when GAMS "
+            f"restricts the parameter to the planning years ({horizon}), leaving a one-way "
+            f"line and an asymmetric topology:\n{detail}\n"
+            "Give these directions the same years as their counterpart."
+        )
+        gams.printLog(msg)
+        raise ValueError(msg)
+    gams.printLog(
+        "Success: Both directions of every line in 'pTransferLimit' reach the planning horizon."
+    )
+
+
 def _check_transfer_limits(gams, db):
     """Validate symmetry and seasonal coverage in pTransferLimit."""
     try:
@@ -653,6 +697,8 @@ def _check_transfer_limits(gams, db):
             raise ValueError(msg)
         gams.printLog("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
 
+        _check_transfer_limit_year_coverage(gams, db, records)
+
         p_hours_records = db["pHours"].records
         if p_hours_records is None or p_hours_records.empty:
             return
@@ -666,6 +712,7 @@ def _check_transfer_limits(gams, db):
                 season_issues.append((z, z2, missing_seasons))
 
         if season_issues:
+
             season_issues_str = "\n".join(
                 [f"({z}, {z2}): missing seasons {missing}" for z, z2, missing in season_issues]
             )
@@ -1060,6 +1107,26 @@ def _check_storage_data(gams, db):
         gams.printLog('Unexpected error when checking storage data')
         raise
 
+    """Verify that storage generators do not have both "StorageDuration" and "CapacityMWh" defined."""
+    try:
+        if stor_records is None or stor_records.empty:
+            return
+        else:
+            stor_records = stor_records.pivot_table(index = ['g','z','tech','f'], columns = 'uni', values = 'value').reset_index()
+            if "StorageDuration" in stor_records.columns and "CapacityMWh" in stor_records.columns:
+                both_defined = stor_records.dropna(subset=["StorageDuration", "CapacityMWh"])
+                if not both_defined.empty:
+                    msg = (
+                        "Error: The following storage generators have both 'StorageDuration' and 'CapacityMWh' defined in pStorageDataInput, which is not allowed:\n"
+                        f"{both_defined[['g', 'StorageDuration', 'CapacityMWh']]}"
+                    )
+                    gams.printLog(msg)
+                    raise ValueError(msg)
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog('Unexpected error when checking storage data for StorageDuration and CapacityMWh')
+        raise
 
 def _check_storage_duration(gams, db):
     """Validate StorageDuration: must be >= 1h and mutually exclusive with CapacityMWh.

@@ -1,0 +1,36 @@
+# Processing and Color for tech-fuel combinations. Processing sets display name and stack order for figures.,,,,,
+tech,fuel,Processing,Color,,Processing
+Nuclear,Uranium,Nuclear,pink,,Nuclear-Uranium
+CCGT,Gas,CCGT-Gas,lightcoral,,CCGT-Gas
+CCGT,LNG,CCGT-LNG,indianred,,CCGT-LNG
+ST,Coal,ST-Coal,dimgray,,ST-Coal
+ST,DomesticCoal,ST-DomesticCoal,dimgray,,ST-DomesticCoal
+ST,ImportedCoal,ST-ImportedCoal,silver,,ST-ImportedCoal
+ST,Geothermal,ST-Geothermal,mediumturquoise,,ST-Geothermal
+ST,Lignite,ST-Lignite,lightgray,,ST-Lignite
+OCGT,Diesel,GT-Diesel,darksalmon,,GT-Diesel
+OCGT,Gas,GT-Gas,firebrick,,GT-Gas
+OCGT,LNG,GT-LNG,darkgoldenrod,,GT-LNG
+OCGT,HFO,GT-HFO,saddlebrown,,GT-HFO
+ICE,Diesel,ICE-Diesel,lightsalmon,,ICE-Diesel
+ICE,HFO,ICE-HFO,sandybrown,,ICE-HFO
+ICE,Gas,ICE-Gas,navajowhite,,ICE-Gas
+BiomassPlant,Biomass,Biomass,green,,Biomass-Bio
+ST,Biomass,ST-Biomass,forestgreen,,ST-Biomass
+ReservoirHydro,Water,Reservoir,darkblue,,Reservoir-Hydro
+ROR,Water,ROR,lightskyblue,,ROR-Hydro
+CSPPlant,CSP,CSP,darkorange,,CSP-Solar
+OffshoreWind,Wind,Offshore Wind,paleturquoise,,Offshore Wind-Wind
+OnshoreWind,Wind,Onshore Wind,darkturquoise,,Onshore Wind-Wind
+PV,Solar,PV,orange,,PV-Solar
+pvwsto,Solar,PV+Storage,orange,,PV+Storage-Solar
+STOPV,Solar,Solar Thermal,darkkhaki,,Solar Thermal-Solar
+Storage,Battery,Battery,darkkhaki,,Battery-Storage
+Storage,Water,PSH,blue,,PSH-Hydro
+ImportTransmission,Imports,Imports,tan,,Imports-Int
+EnergyBalance,Imports,Imports,tan,,Imports-Int
+EnergyBalance,Imports External,ImportsExternal,bisque,,ImportsExternal-Int
+EnergyBalance,Exports,Exports,pink,,Exports-Int
+EnergyBalance,Exports External,ExportsExternal,purple,,ExportsExternal-Int
+EnergyBalance,UnmetDemand,UnmetDemand,red,,UnmetDemand--Load
+EnergyBalance,Surplus,Surplus,brown,,Surplus-Energy

@@ -258,8 +258,12 @@ NAME_COLUMNS = {
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
     'pCosts': 'attribute',
+    'pCapexInvestmentComponent': 'attribute',
+    'pCapexInvestmentTransmission': 'resolution',
     'pCapacityTechFuel': 'fuel',
     'pEnergyTechFuel': 'fuel',
+    'pCapacityMixTechFuel': 'fuel',
+    'pEnergyMixTechFuel': 'fuel',
     'pDispatchReserve':'attribute',
     'pNetExchange':'attribute'
 }
@@ -366,12 +370,6 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
-# Reference polygons and the loader that assembles them. Defined in
-# epm/geodata/zone_geometry.py so that the layer builder can use them without
-# importing this module, and re-exported here for existing callers.
-from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
-
-
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
@@ -412,7 +410,13 @@ def read_plot_specs():
     # Merge colors: techfuel colors take precedence, then base colors
     all_colors = {**base_colors, **techfuel_colors}
 
-    zones = load_zone_map()
+    zones = gpd.read_file(GEOJSON)
+
+    # Auto-merge custom zones if zones_custom.geojson exists
+    zones_custom_path = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones_custom.geojson')
+    if os.path.exists(zones_custom_path):
+        zones_custom = gpd.read_file(zones_custom_path)
+        zones = pd.concat([zones, zones_custom], ignore_index=True)
 
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
@@ -548,7 +552,7 @@ def gdx_to_csv(gdx_file, output_csv_folder):
 
     for param in parameters:
         try:
-            df = container.data[param].records  # Retrieve the data
+            df = container.data[param].records  # Récupérer les données
             if df is not None:
                 output_csv = os.path.join(output_csv_folder, f"{param}.csv")
                 df.to_csv(output_csv, index=False)  # Sauvegarder en CSV
@@ -813,7 +817,9 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         'pNewCapacityTechFuel',
         'pUtilizationTechFuel',
         'pDispatchTechFuel',
-        'pGeneratorTechFuel'
+        'pGeneratorTechFuel',
+        'pCapacityMixTechFuel',
+        'pEnergyMixTechFuel'
     ]
     # Transform tech-fuel in one column
     for key in tech_fuel_outputs:
@@ -944,6 +950,39 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pCosts in epm_results')
 
+    #pCapexInvestment
+    if 'pCapexInvestment' in epm_results.keys():
+        t = epm_results['pCapexInvestment'].copy()
+        t['attribute'] = 'CAPEX Generation costs: $m'
+        t = t[t['value'] > 1e-2]
+        t = ensure_columns(t)
+        summary.update({'pCapexInvestment': t})
+    else:
+        log_warning('No pCapexInvestment in epm_results')
+        
+    #pCapexInvestmentComponent
+    if 'pCapexInvestmentComponent' in epm_results.keys():
+        t = epm_results['pCapexInvestmentComponent'].copy()
+        t = t[t['value'] > 1e-2]
+        t.rename(columns={'*': 'attribute'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pCapexInvestmentComponent': t})
+    else:
+        log_warning('No pCapexInvestmentComponent in epm_results')
+        
+    #pCapexInvestmentTransmission
+    if 'pCapexInvestmentTransmission' in epm_results.keys():
+        t = epm_results['pCapexInvestmentTransmission'].copy()
+        t['attribute'] = 'CAPEX Transmission costs: $m'
+        t = ensure_columns(t)
+        t = t[t['value'] > 1e-2]
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t['attribute'] = 'CAPEX Transmission costs: $m'
+        summary.update({'pCapexInvestmentTransmission': t})
+    else:
+        log_warning('No pCapexInvestmentTransmission in epm_results')
+
+
     # 2. Capacity
 
     if 'pCapacityTechFuel' in epm_results.keys():
@@ -985,6 +1024,28 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pNewTransmissionCapacity in epm_results')
 
+    # New Parameters jinon
+    if 'pCapacityMixTechFuel' in epm_results.keys():
+        t = epm_results['pCapacityMixTechFuel'].copy()
+        t['attribute'] = 'Capacity Mix: %'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-4]
+        t = ensure_columns(t)
+        summary.update({'pCapacityMixTechFuel': t})
+    else:
+        log_warning('No pCapacityMixTechFuel in epm_results')
+
+    if 'pCapacityMixTechFuelCountry' in epm_results.keys():
+        t = epm_results['pCapacityMixTechFuelCountry'].copy()
+        t['attribute'] = 'Capacity Mix Country: %'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-4]
+        t = ensure_columns(t)
+        summary.update({'pCapacityMixTechFuelCountry': t})
+    else:
+        log_warning('No pCapacityMixTechFuelCountry in epm_results')
+
+
     # 3. Energy balance
 
     if 'pEnergyBalance' in epm_results.keys():
@@ -1005,6 +1066,28 @@ def generate_summary(epm_results, folder):
         summary.update({'pEnergyTechFuel': t})
     else:
         log_warning('No pEnergyTechFuel in epm_results')
+
+    # New Parameters jinon
+    if 'pEnergyMixTechFuel' in epm_results.keys():
+        t = epm_results['pEnergyMixTechFuel'].copy()
+        t['attribute'] = 'Energy Mix: %'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-4]
+        t = ensure_columns(t)
+        summary.update({'pEnergyMixTechFuel': t})
+    else:
+        log_warning('No pEnergyMixTechFuel in epm_results')
+
+    if 'pEnergyMixTechFuelCountry' in epm_results.keys():
+        t = epm_results['pEnergyMixTechFuelCountry'].copy()
+        t['attribute'] = 'Energy Mix Country: %'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-4]
+        t = ensure_columns(t)
+        summary.update({'pEnergyMixTechFuelCountry': t})
+    else:
+        log_warning('No pEnergyMixTechFuelCountry in epm_results')
+
 
     # 5. Reserves
 
@@ -1054,6 +1137,39 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pInterchangeExternalImports in epm_results')
 
+    # New Parameters jinon
+        pInterconUtilization
+        pInterconUtilizationExternalExports
+        pInterconUtilizationExternalExports
+
+    if 'pInterconUtilization' in epm_results.keys():
+        t = epm_results['pInterconUtilization'].copy()
+        t['attribute'] = 'Annual Internal Transmisison Utilization Rate: %'
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pInterconUtilization': t})
+    else:
+        log_warning('No pInterconUtilization in epm_results')
+
+    if 'pInterconUtilizationExternalExports' in epm_results.keys():
+        t = epm_results['pInterconUtilizationExternalExports'].copy()
+        t['attribute'] = 'Annual External Imports Transmisison Utilization Rate: %'
+        t.rename(columns={'zext': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pInterconUtilizationExternalExports': t})
+    else:
+        log_warning('No pInterconUtilizationExternalExports in epm_results')
+
+    if 'pInterconUtilizationExternalExports' in epm_results.keys():
+        t = epm_results['pInterconUtilizationExternalExports'].copy()
+        t['attribute'] = 'Annual External Exports Transmisison Utilization Rate: %'
+        t.rename(columns={'zext': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pInterconUtilizationExternalExports': t})
+    else:
+        log_warning('No pInterconUtilizationExternalExports in epm_results')
+
+
     # 7. Emissions
 
     if 'pEmissionsZone' in epm_results.keys():
@@ -1083,6 +1199,50 @@ def generate_summary(epm_results, folder):
         log_warning('No pPrice in epm_results')
 
 
+    # Extra parameters 
+        #pCongestionShare                   'Congestion Internal Rate: %'
+        #pExtTransferLimit                  'Transmission Line External Transfer Limit: MW'
+        #pNetImport
+        #pNewTransmissionCapacity           'Transmission Line Internal New Capacity: MW'
+        #pTransmissionCapacity              'Transmission Line Internal Total Capacity: MW'
+
+    if 'pCongestionShare' in epm_results.keys():
+        t = epm_results['pCongestionShare'].copy()
+        t['attribute'] = 'Congestion Internal Rate: %'
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pCongestionShare': t})
+    else:
+        log_warning('No pCongestionShare in epm_results')
+
+    if 'pNewTransmissionCapacity' in epm_results.keys():
+        t = epm_results['pNewTransmissionCapacity'].copy()
+        t['attribute'] = 'Transmission Line Internal New Capacity: MW'
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pNewTransmissionCapacity': t})
+    else:
+        log_warning('No pNewTransmissionCapacity in epm_results')
+
+    if 'pTransmissionCapacity' in epm_results.keys():
+        t = epm_results['pTransmissionCapacity'].copy()
+        t['attribute'] = 'Transmission Line Internal Total Capacity: MW'
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        t = ensure_columns(t)
+        summary.update({'pTransmissionCapacity': t})
+    else:
+        log_warning('No pTransmissionCapacity in epm_results')
+
+    if 'pLCOEAnnualTechFuel' in epm_results.keys():
+        temp = epm_results['pLCOEAnnualTechFuel'].copy()
+        t['attribute'] = 'LCOE per tech-fuel: USD/MWh'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        summary.update({'pLCOEAnnualTechFuel': t})
+        #print(epm_results['pLCOEAnnualTechFuel'].head())
+    else:
+        log_warning('No pLCOEAnnualTechFuel in epm_results')
+
+
     # Concatenate all dataframes in the summary dictionary
 
     summary = pd.concat(summary)
@@ -1090,11 +1250,13 @@ def generate_summary(epm_results, folder):
     # Define the order that will appear in the summary.csv file
     if False:
         order = ['NPV of system cost: $m',
-                "Investment costs: $m",
                 "Fixed O&M: $m",
                 "Variable O&M: $m",
                 "Fuel costs: $m",
-                "Transmission costs: $m",
+                "CAPEX Generation costs: $m",
+                "CAPEX Annualized Generation costs: $m",
+                "CAPEX Transmission costs: $m",
+                "CAPEX Annualized Transmission costs: $m",
                 "Spinning reserve costs: $m",
                 "Unmet demand costs: $m",
                 "Unmet country spinning reserve costs: $m",
@@ -1120,14 +1282,29 @@ def generate_summary(epm_results, folder):
                 'Planning Reserve: MW',
                 'Spinning Reserve: GWh',
                 'Average Cost: $/MWh',
-                'Capex: $m'
+                'Capex: $m',
+                'Annual Internal Transmisison Utilization Rate: %',
+                'Annual External Imports Transmisison Utilization Rate: %',
+                'Annual External Exports Transmisison Utilization Rate: %',
+                'Capacity Mix: %',
+                'Capacity Mix Country: %',
+                'Generation Mix: %',
+                'Generation Mix Country: %',
+                'Congestion Internal Rate: %',
+                'Transmission Line External Transfer Limit: MW',
+                'Transmission Line Internal New Capacity: MW',
+                'Transmission Line Internal Total Capacity: MW',
+                'LCOE per tech-fuel: USD/MWh'
                 ]
         order = [i for i in order if i in summary['attribute'].unique()]
         order = order + [i for i in summary['attribute'].unique() if i not in order]
 
     summary.reset_index(drop=True, inplace=True)
-    summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
+    summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year'])
+    #attempting true long format output
+    #summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
     summary.reset_index(inplace=True)
+
 
     if False:
         # Create a mapping of attributes to their position in the list
@@ -1168,14 +1345,17 @@ def generate_summary(epm_results, folder):
     
     summary = drop_redundant_country_rows(summary)
     
-    summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
+    #summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)  Long Format transformation:
+    summary['value'] = summary['value'].round(1)
+    summary.to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
 def generate_plants_summary(epm_results, folder):
     summary_detailed = {}
     if 'pCapacityPlant' in epm_results.keys():
         temp = epm_results['pCapacityPlant'].copy()
-        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year'])
+        #temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Capacity: MW': temp.copy()})
     else:
@@ -1183,7 +1363,8 @@ def generate_plants_summary(epm_results, folder):
 
     if 'pUtilizationPlant' in epm_results.keys():
         temp = epm_results['pUtilizationPlant'].copy()
-        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year'])
+        #temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Utilization: percent': temp.copy()})
     else:
@@ -1191,7 +1372,8 @@ def generate_plants_summary(epm_results, folder):
 
     if 'pEnergyPlant' in epm_results.keys():
         temp = epm_results['pEnergyPlant'].copy()
-        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year'])
+        #temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Energy: GWh': temp.copy()})
     else:
@@ -1199,7 +1381,8 @@ def generate_plants_summary(epm_results, folder):
 
     if 'pReserveSpinningPlantZone' in epm_results.keys():
         temp = epm_results['pReserveSpinningPlantZone'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
     else:
@@ -1207,27 +1390,166 @@ def generate_plants_summary(epm_results, folder):
 
     if 'pCostsPlant' in epm_results.keys():
         temp = epm_results['pCostsPlant'].copy()
-        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack(
-            'scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year', 'attribute'])
+        ##temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         temp = temp.sort_index()
         grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
         summary_detailed.update(grouped_dfs)
+        #temp = epm_results['pCostsPlant'].copy()
+        #summary_detailed.update({'pCostsPlant': temp.copy()})
     else:
         log_warning('No pCostsPlant in epm_results')
 
     if 'pPlantAnnualLCOE' in epm_results.keys():
         temp = epm_results['pPlantAnnualLCOE'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'LCOE: $/MWH': temp.copy()})
+        #print(epm_results['pPlantAnnualLCOE'].columns)
+        #print(epm_results['pPlantAnnualLCOE'].head())
     else:
         log_warning('No pPlantAnnualLCOE in epm_results')
+
+
+    """
+    CongestionShare
+    Interchange
+    InterconUtilization
+    NetImport
+    NewTransmissionCapacity
+    TransmissionCapacity
+    """
+    #'pCongestionShare' 
+    if 'pCongestionShare'  in epm_results.keys():
+        temp = epm_results['pCongestionShare'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year']) 
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Transmission Congestion Share: []': temp.copy()})
+    else:
+        log_warning('No pCongestionShare in epm_results')
+
+    #'pTransmissionCapacity' 
+    if 'pTransmissionCapacity'  in epm_results.keys():
+        temp = epm_results['pTransmissionCapacity'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Transmission Capacity: MW': temp.copy()})
+    else:
+        log_warning('No pTransmissionCapacity in epm_results')
+
+    #'pNewTransmissionCapacity'
+    if 'pNewTransmissionCapacity' in epm_results.keys():
+        temp = epm_results['pNewTransmissionCapacity'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'New Transmission Capacity: MW': temp.copy()})
+    else:
+        log_warning('No pNewTransmissionCapacity in epm_results')
+
+    #'pCongestionShare'
+    if 'pCongestionShare' in epm_results.keys():
+        temp = epm_results['pCongestionShare'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Congestion Share: []': temp.copy()})
+    else:
+        log_warning('No pCongestionShare in epm_results')
+
+    #'pInterchange'
+    if 'pInterchange' in epm_results.keys():
+        temp = epm_results['pInterchange'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Interchange: MW': temp.copy()})
+    else:
+        log_warning('No pInterchange in epm_results')
+
+    #'pInterconUtilization'
+    if 'pInterconUtilization' in epm_results.keys():
+        temp = epm_results['pInterconUtilization'].copy()
+        temp.rename(columns={'z2': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'pInterconUtilization: []': temp.copy()})
+    else:
+        log_warning('No pInterconUtilization in epm_results')
+
+    #'pNetImport'
+    if 'pNetImport' in epm_results.keys():
+        temp = epm_results['pNetImport'].copy()
+        temp.rename(columns={'isExternal': 'resolution','attribute': 'generator'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'year', 'resolution'])   
+
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'NetImport: GWh': temp.copy()})
+    else:
+        log_warning('No pNetImport in epm_results')
+
+    #'pInterchangeExternalExports'
+    if 'pInterchangeExternalExports' in epm_results.keys():
+        temp = epm_results['pInterchangeExternalExports'].copy()
+        temp.rename(columns={'zext': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'InterchangeExternalExports: GWh': temp.copy()})
+    else:
+        log_warning('No pInterchangeExternalExports in epm_results')
+
+    #'pInterchangeExternalImports'
+    if 'pInterchangeExternalImports' in epm_results.keys():
+        temp = epm_results['pInterchangeExternalImports'].copy()
+        temp.rename(columns={'zext': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'InterchangeExternalImports: GWh': temp.copy()})
+    else:
+        log_warning('No pInterchangeExternalImports in epm_results')
+
+    #'pExtTransferLimit'
+    if 'pExtTransferLimit' in epm_results.keys():
+        temp = epm_results['pExtTransferLimit'].copy()
+        temp.rename(columns={'zext': 'resolution'}, inplace=True)
+        temp = temp.set_index(['scenario', 'zone', 'resolution', 'season', 'year']) 
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'ExtTransferLimit: MW': temp.copy()})
+    else:
+        log_warning('No pExtTransferLimit in epm_results')
+
+    """
+    #'pTradePrice'
+    if 'pTradePrice' in epm_results.keys():
+        temp = epm_results['pTradePrice'].copy()
+        temp = temp.set_index(['scenario', 'zext', 'season', 'day', 'year', 't' ])
+        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Trade Price: $/MWH': temp.copy()})
+    else:
+        log_warning('No pTradePrice in epm_results')
+    """
 
     summary_detailed = pd.concat(summary_detailed).round(2)
     summary_detailed.index.names = ['Variable', '']
     summary_detailed = summary_detailed.droplevel('', axis=0)
     summary_detailed.to_csv(os.path.join(folder, 'summary_generators.csv'), index=True)
+
+
 
 
 def calculate_npv(data, discount_rate, start_year=None, end_year=None):

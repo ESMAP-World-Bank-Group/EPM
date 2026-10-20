@@ -38,7 +38,7 @@ Contact:
 **********************************************************************
 """
 import math
-import numbers
+import numpy as np
 import pandas as pd
 import os
 from pathlib import Path
@@ -471,12 +471,25 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
     return s, scenarios_montecarlo
 
 def perform_sensitivity(sensitivity, s):
+
+            
+    param = 'interco'
+    
+    if sensitivity.get(param) and not np.isnan(float(sensitivity[param])):  # testing implications of interconnection mode
+        
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        
+
     # Work on the initial scenario set (including project assessments), avoid cascading combinations
     base_scenarios = list(s.keys())
     
     param = 'interco'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of interconnection mode
 
+        
         df = pd.read_csv(s['baseline']['pSettings'])
         # Modifying the value if it's 1 put 0 and vice versa
         name = 'NoInterconnection'
@@ -579,13 +592,13 @@ def perform_sensitivity(sensitivity, s):
         s.update(new_scenarios)
 
     param = 'pSettings'
-    if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
-        settings_sensi = {'VoLL': [250],
-                            'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
-                            'zonal_spinning_reserve_constraints': [0],
-                            'CostSurplus': [1, 5], 'CostCurtail': [1, 5], "fEnableInternalExchange": [0,1],
-                            'fCountIntercoForReserves': [0,1], 'sIntercoReserveContributionPct': [0, 0.5]}
-
+    if sensitivity.get(param) and not math.isnan(float(sensitivity[param])):  # testing implications of some setting parameters
+        settings_sensi = {'CO2backstop': [500]}
+        """ 'VoLL': [250],
+                          'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
+                          'zonal_spinning_reserve_constraints': [0],
+                          'CostSurplus': [1, 5], 'CostCurtail': [1, 5], "fEnableInternalExchange": [0,1],
+                          'fCountIntercoForReserves': [0,1], 'sIntercoReserveContributionPct': [0, 0.5]} """
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
             # Iterate over the values
@@ -827,8 +840,46 @@ def perform_sensitivity(sensitivity, s):
         # Put in the scenario dir
         s[scenario_name] = s['baseline'].copy()
         s[scenario_name]['pGenDataInput'] = path_file
+
+    param = 'delayedHydro_alt'
+    if sensitivity.get(param) and not math.isnan(float(sensitivity[param])):  # testing implications of delayed hydro projects
+        df = pd.read_csv(s['baseline']['pGenDataInput'])
+        # Add 3 years delay to all fuel Water projects more than 400 MW Capacity if status is 2 or 3
+        df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 400) & (df['Status'].isin([2, 3])), 'StYr'] += 3
+        
+        scenario_name = f'{param}'
+        path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_3years')
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name]['pGenDataInput'] = path_file
+
+
+    param = 'delayedTransmission'
+    if sensitivity.get(param) and not math.isnan(float(sensitivity[param])):  # testing implications of delayed transmission projects
+        df = pd.read_csv(s['baseline']['pNewTransmission'])
+
+        # Add 2 years delay to all transmission projects starting in 2030
+        df.loc[(df['EarliestEntry'] > 2026), 'EarliestEntry'] += 2
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pNewTransmission']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        scenario_name = f'{param}'
+        path_file = os.path.basename(s['baseline']['pNewTransmission']).replace('pNewTransmission', scenario_name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name]['pNewTransmission'] = path_file
+
     
     param = 'pVREProfile'  # testing implications of a change in VRE production
+
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         capacity_factor_sensi = [-0.2, 0.2]
 
@@ -1065,13 +1116,13 @@ def perform_interco_assessment(interco_assessment, s, delay=5):
 
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pNewTransmission'])
-
+            print(df.head())
             # Create a helper column with standardized "From-To" or "To-From" format
             df['interco_key'] = df.apply(lambda row: f"{row['From']}-{row['To']}", axis=1)
-
+            print(df.head())
             # Remove project(s) in interco_assessment
             df_filtered = df[~df['interco_key'].isin(interco_assessment)].drop(columns='interco_key')
-
+            print(df_filtered.head())
             # Write the modified file
             name = '-'.join(interco_assessment).replace(' ', '')
             path_file = _generate_assessment_filepath(s[scenario]['pNewTransmission'], name)
