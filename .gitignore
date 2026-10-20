@@ -45,7 +45,7 @@ tools/.env
 
 # Project-specific outputs
 /epm/cplex.opt
-epm/output/*
+!epm/output/*
 !epm/output/tableau/
 epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
@@ -98,7 +98,7 @@ pre-analysis/**/output/*
 
 
 # Input data
-epm/input/*
+!epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 !epm/input/data_eapp/

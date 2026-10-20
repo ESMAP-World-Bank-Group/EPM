@@ -1,0 +1,3 @@
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
+Cameroon,Chad,2028,2,100,23.1,50,2
+Cameroon,CAR,2032,1,300,350.1,50,2
