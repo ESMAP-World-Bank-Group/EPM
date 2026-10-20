@@ -6,7 +6,8 @@ Writes, next to the reference file and without touching it:
     epm/input/data_blacksea/trade/pExtTransferLimit_robg.csv
     epm/input/data_blacksea/trade/zext_robg.csv
 
-and the border statistics to pre-analysis/output_prices/robg/border_flows_2025.csv.
+and the border statistics to pre-analysis/output_prices/robg/border_flows_2025.csv
+and market_limits_md_ua.csv.
 
 Method
 ------
@@ -28,9 +29,21 @@ Method
 * Moldova and Ukraine are open since 2026-10-19 (they were closed from
   2026-10-04, option A). In 2025 Romania exported about 3.3 TWh to Moldova,
   about 5 percent of Romanian demand, which a closed border left out of the
-  Romanian balance. Same rule as the other borders: Romania-Moldova 1,150 MW
-  (Romanian exports dominate), Romania-Ukraine 700 MW (Ukrainian exports
-  dominate).
+  Romanian balance.
+  Market rule since 2026-10-20: on these two borders the neighbouring market,
+  not the line, limits the trade. An external zone in EPM buys and sells any
+  volume at its price, so a line limit (1,150 MW to Moldova) let the model
+  export about 9 TWh a year to a country that consumes about 4 to 5 TWh, and
+  import 3.5 TWh from Moldova in 2025 against 0.09 TWh measured. The limit per
+  direction is therefore the mean flow of a reference year (annual volume /
+  hours), so the model cannot carry more than the reference volume:
+    - 2025: ENTSO-E 2025 physical flows (same cache as above);
+    - 2030 and 2040: TYNDP 2024 National Trends flows (NT2030, NT2040), the
+      market simulation that models Moldova and Ukraine with their own demand;
+    - linear between 2025, 2030 and 2040, flat after 2040, same for all seasons.
+  The TYNDP-limits family copies these rows (build_ext_limits_robg_tyndp.py).
+  Caveat: the flow becomes a flat band; the volume is reproduced, the hourly
+  shape is not.
 * Trakia-Greece is kept at its LC_Baseline values.
 
 Flows are cached in Data/cache_entso_e/flows/ (outside git). A missing file is
@@ -44,6 +57,7 @@ import math
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 _HERE = Path(__file__).resolve()
@@ -77,6 +91,9 @@ BORDERS = [
 ]
 # Internal in RoBg, reported for step 2.
 INTERNAL = [("Romania", "Bulgaria", "RO", "BG")]
+# Market rule (see Method): external zone -> (TYNDP node inside, TYNDP node outside).
+MARKET = {"Moldova": ("RO00", "MD00"), "Ukraine": ("RO00", "UA00")}
+MARKET_YEARS = (2030, 2040)
 
 
 def _fail(msg: str) -> None:
@@ -119,6 +136,33 @@ def _step_hours(s: pd.Series) -> float:
     return 8760.0 / len(s) if len(s) > 9000 else 1.0
 
 
+def market_limits(years: list[int]) -> tuple[dict, pd.DataFrame]:
+    """Market rule: {(zone, zext, direction): MW per model year} and the trace table."""
+    from build_ext_limits_robg_tyndp import tyndp_exchanges
+
+    items = [it for it in BORDERS if it[1] in MARKET]
+    ref = {}
+    for z, x, a, b in items:
+        ref[(z, x, "Export", YEAR)] = float(flow(a, b).mean())
+        ref[(z, x, "Import", YEAR)] = float(flow(b, a).mean())
+    for y in MARKET_YEARS:
+        for (z, x), s in tyndp_exchanges(y, [(z, x) + MARKET[x] for z, x, _, _ in items]).items():
+            ref[(z, x, "Export", y)] = float(s.clip(lower=0).mean())
+            ref[(z, x, "Import", y)] = float((-s).clip(lower=0).mean())
+
+    anchors = (YEAR,) + MARKET_YEARS
+    path, trace = {}, []
+    for z, x, _, _ in items:
+        for d in ("Export", "Import"):
+            pts = [ref[(z, x, d, y)] for y in anchors]
+            path[(z, x, d)] = np.round(np.interp(years, anchors, pts)).astype(int)
+            row = {"zone": z, "zext": x, "direction": d}
+            row.update({f"mw_{y}": round(v, 1) for y, v in zip(anchors, pts)})
+            row.update({f"twh_{y}": round(v * 8.76 / 1e3, 2) for y, v in zip(anchors, pts)})
+            trace.append(row)
+    return path, pd.DataFrame(trace)
+
+
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     rows = []
@@ -130,18 +174,31 @@ def main() -> int:
     # out = from the first ISO code (inside) to the second; in = the reverse.
     table = pd.DataFrame(rows)[["group", "zone", "zext", "border", "p99_out_mw", "p99_in_mw",
                                 "export_twh", "import_twh", "capacity_mw"]]
-    table.to_csv(OUT_DIR / "border_flows_2025.csv", index=False)
 
     # pExtTransferLimit_robg: reference rows minus the Romania and Bulgaria zext, plus the borders.
     raw = REF_LIMIT.read_text(encoding="utf-8").splitlines()
     header = raw[0].split(",")
     years = header[4:]
     kept = [ln for ln in raw[1:] if ln and ln.split(",")[1] not in DROPPED]
+    market, mtable = market_limits([int(y) for y in years])
     new = []
     for r in table[table["group"] == "modelled"].itertuples():
         for q in SEASONS:
             for d in ("Import", "Export"):
-                new.append(",".join([r.zone, r.zext, q, d] + [str(r.capacity_mw)] * len(years)))
+                if r.zext in MARKET:
+                    vals = market[(r.zone, r.zext, d)]
+                    if vals.min() < 0 or vals.max() > r.capacity_mw:
+                        _fail(f"{r.zext} {d}: market limit {vals.min()}..{vals.max()} MW outside "
+                              f"0..{r.capacity_mw} (it may only tighten the line rule)")
+                else:
+                    vals = [r.capacity_mw] * len(years)
+                new.append(",".join([r.zone, r.zext, q, d] + [str(v) for v in vals]))
+
+    # capacity_mw is the line rule; the market borders read market_limits_md_ua.csv instead.
+    table["rule"] = np.where((table["group"] == "modelled") & table["zext"].isin(list(MARKET)), "market", "line")
+    table["capacity_mw"] = table["capacity_mw"].astype("Int64").mask(table["rule"] == "market")
+    table.to_csv(OUT_DIR / "border_flows_2025.csv", index=False)
+    mtable.to_csv(OUT_DIR / "market_limits_md_ua.csv", index=False)
     # Same LF convention as the reference file (write_bytes: no newline translation on Windows).
     OUT_LIMIT.write_bytes(("\n".join([raw[0]] + kept + new) + "\n").encode("utf-8"))
 
@@ -153,7 +210,9 @@ def main() -> int:
     OUT_ZEXT.write_bytes(("\r\n".join(["zext"] + zext) + "\r\n").encode("utf-8"))
 
     with pd.option_context("display.width", 200, "display.max_columns", 20):
-        print(table.fillna("").to_string(index=False))
+        print(table.astype(object).where(table.notna(), "").to_string(index=False))
+        print("\n  market rule (mean flow of the reference year, MW; TWh = MW x 8760 / 1e6):")
+        print(mtable.to_string(index=False))
     print(f"\n  wrote {OUT_LIMIT.name}: {len(kept) + len(new)} rows; {OUT_ZEXT.name}: {zext}")
     return 0
 

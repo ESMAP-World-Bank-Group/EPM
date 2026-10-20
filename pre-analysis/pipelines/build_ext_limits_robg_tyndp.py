@@ -10,8 +10,8 @@ and the extracted TYNDP capacities to pre-analysis/output_prices/robg/tyndp_ntc_
 Method
 ------
 * Start from trade/pExtTransferLimit_robg.csv (current limits, written by
-  build_ext_limits_robg.py). Every row except the seven RO/BG borders is copied
-  unchanged.
+  build_ext_limits_robg.py). Every row except the five RO/BG borders with EU
+  neighbours is copied unchanged.
 * TYNDP 2024 capacity per border and direction = maximum hourly cross-border
   exchange in the National Trends market simulation (MMStandardOutputFile
   NT2030 and NT2040, Plexos, climate year 2009, sheet "Crossborder exchanges").
@@ -24,8 +24,10 @@ Method
     - linear between 2025, 2030 and 2040, flat after 2040, same for all seasons.
   The max() keeps the TYNDP family a pure relaxation: Bulgaria-Serbia carried
   744 MW in 2025 while the NT2030 value is 380 MW.
-* Moldova and Ukraine (open since 2026-10-19): TYNDP NT2030 and NT2040 give
-  RO->MD 950, MD->RO 480, RO->UA 800, UA->RO 800 MW.
+* Moldova and Ukraine are copied from the current-limits file. There the
+  neighbouring market, not the line, sets the limit (annual volume / 8760 h,
+  TYNDP NT flows from 2030, see build_ext_limits_robg.py), so both families
+  carry the same values and differ only on the five EU borders.
 * Trakia-Bulgaria and Trakia-Greece are not touched (kept consistent with the
   external family).
 
@@ -66,8 +68,6 @@ BORDERS = [
     ("Bulgaria", "Serbia", "BG00", "RS00"),
     ("Bulgaria", "NorthMacedonia", "BG00", "MK00"),
     ("Bulgaria", "Greece", "BG00", "GR00"),
-    ("Romania", "Moldova", "RO00", "MD00"),
-    ("Romania", "Ukraine", "RO00", "UA00"),
 ]
 
 
@@ -75,8 +75,8 @@ def _fail(msg: str) -> None:
     raise SystemExit(f"[build_ext_limits_robg_tyndp] FAIL: {msg}")
 
 
-def tyndp_capacity(year: int) -> dict:
-    """{(zone, zext): (export_mw, import_mw)} from the hourly maxima of one TYNDP file."""
+def tyndp_exchanges(year: int, borders: list) -> dict:
+    """{(zone, zext): hourly exchange in MW, positive from the inside node} from one TYNDP file."""
     from openpyxl import load_workbook
 
     path = TYNDP_DIR / TYNDP_FILES[year]
@@ -87,7 +87,7 @@ def tyndp_capacity(year: int) -> dict:
     head = list(next(rows))
     data = [r for r in rows if r[0] is not None]
     out = {}
-    for z, x, inside, outside in BORDERS:
+    for z, x, inside, outside in borders:
         if f"{inside}->{outside}" in head:
             col, sign = head.index(f"{inside}->{outside}"), 1.0
         elif f"{outside}->{inside}" in head:
@@ -97,8 +97,13 @@ def tyndp_capacity(year: int) -> dict:
         s = sign * pd.to_numeric(pd.Series([r[col] for r in data]), errors="coerce").fillna(0.0)
         if len(s) < 8700:
             _fail(f"{inside}-{outside}: {len(s)} hours in {path.name}")
-        out[(z, x)] = (float(s.max()), float(-s.min()))
+        out[(z, x)] = s
     return out
+
+
+def tyndp_capacity(year: int) -> dict:
+    """{(zone, zext): (export_mw, import_mw)} from the hourly maxima of one TYNDP file."""
+    return {k: (float(s.max()), float(-s.min())) for k, s in tyndp_exchanges(year, BORDERS).items()}
 
 
 def main() -> int:

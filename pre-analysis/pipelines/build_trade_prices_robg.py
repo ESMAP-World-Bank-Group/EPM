@@ -19,16 +19,20 @@ What changes against pTradePrice_eu_central.csv
     L_HU  eu_price_level.py, observed 2024 joined to TYNDP 2024 National Trends
           (HU00), CENTRAL trajectory. The level of every zone hangs on it.
     r     level of the zone relative to Hungary. Model year 2025: observed 2024
-          day-ahead mean GR / HU for Greece, 1 for the zones without a cached
-          day-ahead series (Serbia, North Macedonia, Moldova, Ukraine).
+          day-ahead mean GR / HU for Greece, RO / HU for Moldova, 1 for the
+          zones without a cached day-ahead series (Serbia, North Macedonia,
+          Ukraine).
           2030 and 2040: TYNDP NT annual mean marginal cost of the node over
           HU00. Linear in between, flat after 2040.
     S     eu_price.py: 2023 day-ahead prices (ENTSO-E) sampled by calendar date
           on the representative days, weighted mean 1. Greek series for
-          Greece, Hungarian series for the five others.
+          Greece, Hungarian series for the five others (Moldova included: the
+          2023 Romanian days miss gate G2bis, P10 19.2 % of the mean against
+          15 %, as in the reference chain).
     D     pHours-weighted mean of S within each (quarter, hour).
     T     target quarter x hour profile, weighted mean 1. Model year 2025: the
-          observed 2024 day-ahead profile (GR for Greece, HU otherwise).
+          observed 2024 day-ahead profile (GR for Greece, RO for Moldova, HU
+          otherwise).
           2030 and 2040: the TYNDP NT hourly marginal cost of the node. Linear
           in between, flat after 2040.
 
@@ -38,6 +42,12 @@ What changes against pTradePrice_eu_central.csv
   Why the profile moves: 2023 prices carry the 2023 fleet. By 2040 the TYNDP
   fleet has much more solar in the region, so the midday hours fall well
   below the evening ones. A 2023 shape held to 2050 understates that dip.
+  Why Romania stands in for Moldova (since 2026-10-20): Moldova imports most
+  of its electricity from Romania and has no ENTSO-E day-ahead series, so its
+  2025 price is the Romanian one. The 2024 Romanian mean sits 2.7 percent
+  above the Hungarian one, with an hourly correlation of 0.94. Level r and
+  profile T are Romanian; only the day-to-day spread S stays Hungarian.
+  Ukraine keeps the Hungarian stand-in: no Ukrainian series is cached (caveat).
 * Netback, the same on every border: the seller bears an AC line loss of
   2.5 % (bareme of 2026-08-19, `lambda` in config/eu_price_netback.csv).
   W = 0: the ITC perimeter fee falls on non-ITC parties. Romania, Bulgaria,
@@ -97,9 +107,11 @@ PRICED = {
     "Serbia": ("RS00", "HU"),
     "NorthMacedonia": ("MK00", "HU"),
     "Greece": ("GR00", "GR"),
-    "Moldova": ("MD00", "HU"),
+    "Moldova": ("MD00", "RO"),
     "Ukraine": ("UA00", "HU"),
 }
+# Day-ahead series whose 2023 days fail gate G2bis: S is taken from the stand-in.
+SHAPE_STAND_IN = {"RO": "HU"}
 SHAPE_YEAR = 2023         # observed days behind S
 OBS_YEAR = 2024           # observed profile and level ratio, anchored on model year 2025
 ANCHOR_YEAR = 2025
@@ -118,7 +130,7 @@ def _fail(msg: str) -> None:
 
 # ── Reference pipelines: S for HU and GR, L for HU ─────────────────────────
 def build_shape_level() -> tuple[pd.DataFrame, pd.DataFrame]:
-    codes = sorted({c for _, c in PRICED.values()})
+    codes = sorted({SHAPE_STAND_IN.get(c, c) for _, c in PRICED.values()})
     names = {"HU": "Hungary", "GR": "Greece"}
     eu_price.ZONES = {c: names[c] for c in codes}
     eu_price_level.ZONES = {"HU": LEVEL_ZONE}
@@ -253,7 +265,7 @@ def price_zone(zone: str, shape: pd.DataFrame, level: pd.DataFrame,
                tyndp: pd.DataFrame, obs: dict, w: pd.DataFrame,
                wqt: pd.DataFrame, rate: float) -> tuple[pd.DataFrame, list, pd.DataFrame]:
     node, code = PRICED[zone]
-    s_zone = {"HU": "Hungary", "GR": "Greece"}[code]
+    s_zone = {"HU": "Hungary", "GR": "Greece"}[SHAPE_STAND_IN.get(code, code)]
     s = (shape[shape["zone"] == s_zone]
          .melt(id_vars=["q", "d"], value_vars=HOURS, var_name="t", value_name="s")
          .merge(w, on=["q", "d", "t"]))

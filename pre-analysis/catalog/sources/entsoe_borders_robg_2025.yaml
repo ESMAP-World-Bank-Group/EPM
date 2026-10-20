@@ -51,16 +51,33 @@ access_note: >
 
   Weighted mean Hungary price, USD/MWh: import 109.1 (2024), 95.8 (2030), 100.2 (2040);
   export 106.4, 93.4, 97.7.
+
+  MOLDOVA AND UKRAINE (opened 2026-10-19, market rule 2026-10-20). On these two borders the
+  neighbouring market, not the line, limits the trade: an external zone buys and sells any
+  volume at its price. Limit per direction = mean flow of a reference year (annual volume /
+  8760 h): the 2025 physical flows above in 2025, TYNDP 2024 National Trends flows (NT2030,
+  NT2040) in 2030 and 2040, linear in between, flat after 2040. Same values in the
+  TYNDP-limits family. Trace: pre-analysis/output_prices/robg/market_limits_md_ua.csv.
+
+    direction        MW 2025   MW 2030   MW 2040
+    Romania to MD       373       436       547
+    MD to Romania        11        35        37
+    Romania to UA        18       347       455
+    UA to Romania       296       234       223
+
+  Moldova is priced on the observed 2024 Romanian day-ahead level and profile in 2025
+  (RO / HU = 1.027), on its TYNDP node MD00 from 2030. Ukraine keeps the Hungarian price in
+  2025 (no Ukrainian series cached), UA00 from 2030.
 coverage:
   countries: [Romania, Bulgaria]
-  years: "2025 observed; held flat 2024-2053"
+  years: "2025 observed; held flat 2024-2053 on the line borders"
   notes: >
     Neighbours modelled as external zones in the RoBg family: Hungary, Serbia,
-    North Macedonia (zone NorthMacedonia), plus Greece already present. Ukraine and Moldova
-    are closed (option A, decided 2026-10-04).
+    North Macedonia (zone NorthMacedonia), Greece, Moldova and Ukraine. Moldova and Ukraine
+    were closed from 2026-10-04 (option A) to 2026-10-19.
 fills_epm_resources:
   - resource: pExtTransferLimit
-    coverage: "trade/pExtTransferLimit_robg.csv, rows Romania-Hungary, Romania-Serbia, Bulgaria-Serbia, Bulgaria-NorthMacedonia, Bulgaria-Greece"
+    coverage: "trade/pExtTransferLimit_robg.csv, rows Romania-Hungary, Romania-Serbia, Bulgaria-Serbia, Bulgaria-NorthMacedonia, Bulgaria-Greece, Romania-Moldova, Romania-Ukraine"
   - resource: zext
     coverage: "trade/zext_robg.csv"
   - resource: pTransferLimit
@@ -68,12 +85,14 @@ fills_epm_resources:
   - resource: pLossFactorInternal
     coverage: "trade/pLossFactorInternal_robg.csv, same four rows"
   - resource: pTradePrice
-    coverage: "trade/pTradePrice_robg.csv, rows Hungary, Serbia, NorthMacedonia"
+    coverage: "trade/pTradePrice_robg.csv, rows Hungary, Serbia, NorthMacedonia, Greece, Moldova, Ukraine"
   - resource: pTradePriceExport
-    coverage: "trade/pTradePriceExport_robg.csv, rows Hungary, Serbia, NorthMacedonia"
+    coverage: "trade/pTradePriceExport_robg.csv, rows Hungary, Serbia, NorthMacedonia, Greece, Moldova, Ukraine"
 derived_files:
   - path: "EPM/pre-analysis/output_prices/robg/border_flows_2025.csv"
-    description: "p99 per direction, annual energy per direction, retained capacity"
+    description: "p99 per direction, annual energy per direction, retained capacity (line rule; empty on the market borders)"
+  - path: "EPM/pre-analysis/output_prices/robg/market_limits_md_ua.csv"
+    description: "Moldova and Ukraine: mean flow per direction in 2025, 2030 and 2040, MW and TWh"
   - path: "EPM/pre-analysis/output_prices/robg/level_L.csv"
     description: "Hungarian price level by year and trajectory; QC in qc_level_L.json"
   - path: "EPM/pre-analysis/output_prices/robg/shape_S.csv"
@@ -95,6 +114,6 @@ quality:
     EU zones carry the same class of diagnostic (Bulgaria and Greece G3, Romania G3ter) in
     the promoted files, so the status is the same, not worse. Serbia and North Macedonia as
     a Hungarian proxy is an ASSUMPTION.
-    Caution: closing Moldova removes a Romanian export of 3.26 TWh in 2025 (p99 1,161 MW),
-    about 5 percent of Romanian demand. Closing Ukraine removes a 2.60 TWh import.
+    Moldova and Ukraine: the market rule reproduces the annual volume of the reference year,
+    not its hourly shape (flat band).
   used_in_studies: [data_blacksea]
