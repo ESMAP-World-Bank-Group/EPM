@@ -45,13 +45,13 @@ tools/.env
 **/_untracked/
 
 # Project-specific outputs
-/epm/cplex.opt
+!/epm/cplex.opt
 !epm/output/*
 !epm/output/tableau/
 epm/output/Previous_Runs/*
 !epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
-!epm/output/tableau/scenarios/.gitkeep
+epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
 epm/postprocessing/*.xlsx
 epm/postprocessing/EPM_Results
@@ -96,8 +96,6 @@ pre-analysis/**/output/*
 **/sensitivity/
 **/assessment/
 **/montecarlo/
-
-
 
 # Input data
 !epm/input/*

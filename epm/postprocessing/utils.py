@@ -1137,38 +1137,6 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pInterchangeExternalImports in epm_results')
 
-    # New Parameters jinon
-        pInterconUtilization
-        pInterconUtilizationExternalExports
-        pInterconUtilizationExternalExports
-
-    if 'pInterconUtilization' in epm_results.keys():
-        t = epm_results['pInterconUtilization'].copy()
-        t['attribute'] = 'Annual Internal Transmisison Utilization Rate: %'
-        t.rename(columns={'z2': 'resolution'}, inplace=True)
-        t = ensure_columns(t)
-        summary.update({'pInterconUtilization': t})
-    else:
-        log_warning('No pInterconUtilization in epm_results')
-
-    if 'pInterconUtilizationExternalExports' in epm_results.keys():
-        t = epm_results['pInterconUtilizationExternalExports'].copy()
-        t['attribute'] = 'Annual External Imports Transmisison Utilization Rate: %'
-        t.rename(columns={'zext': 'resolution'}, inplace=True)
-        t = ensure_columns(t)
-        summary.update({'pInterconUtilizationExternalExports': t})
-    else:
-        log_warning('No pInterconUtilizationExternalExports in epm_results')
-
-    if 'pInterconUtilizationExternalExports' in epm_results.keys():
-        t = epm_results['pInterconUtilizationExternalExports'].copy()
-        t['attribute'] = 'Annual External Exports Transmisison Utilization Rate: %'
-        t.rename(columns={'zext': 'resolution'}, inplace=True)
-        t = ensure_columns(t)
-        summary.update({'pInterconUtilizationExternalExports': t})
-    else:
-        log_warning('No pInterconUtilizationExternalExports in epm_results')
-
 
     # 7. Emissions
 
@@ -1276,7 +1244,7 @@ def generate_summary(epm_results, folder):
                 'Demand: GWh', 
                 'Generation: GWh', 
                 'Unmet demand: GWh',
-                'Surplus generation: GWh',
+                'Excess generation: GWh',
                 'Peak demand: MW', 
                 'Firm Capacity: MW', 
                 'Planning Reserve: MW',
@@ -1476,16 +1444,6 @@ def generate_plants_summary(epm_results, folder):
     else:
         log_warning('No pInterchange in epm_results')
 
-    #'pInterconUtilization'
-    if 'pInterconUtilization' in epm_results.keys():
-        temp = epm_results['pInterconUtilization'].copy()
-        temp.rename(columns={'z2': 'resolution'}, inplace=True)
-        temp = temp.set_index(['scenario', 'zone', 'resolution', 'year'])
-        #temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-        temp.reset_index(inplace=True)
-        summary_detailed.update({'pInterconUtilization: []': temp.copy()})
-    else:
-        log_warning('No pInterconUtilization in epm_results')
 
     #'pNetImport'
     if 'pNetImport' in epm_results.keys():
