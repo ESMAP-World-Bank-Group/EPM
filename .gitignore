@@ -47,7 +47,7 @@ tools/.env
 # Project-specific outputs
 !/epm/cplex.opt
 !epm/output/*
-!epm/output/tableau/
+epm/output/tableau/
 epm/output/Previous_Runs/*
 !epm/output/simulations_run_*/
 epm/output/tableau/scenarios/*
@@ -233,7 +233,8 @@ dmypy.json
 
 # Other File Types not covered by above criteria
 *.xlsx
-*.xlab
-*.xlsm
-*.xls
+**/*.xlsx
+**/*.xlab
+**/*.xlsm
+**/*ls
 
