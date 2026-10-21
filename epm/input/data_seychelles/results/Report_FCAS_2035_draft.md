@@ -1,6 +1,6 @@
 # Seychelles: firm capacity and frequency reserve (FCAS) in 2035
 
-*Draft for discussion – 16 October 2026*
+*Draft for discussion – 16 October 2026, updated 21 October 2026*
 
 ## Key messages
 
@@ -20,8 +20,6 @@
    (about USD 2.5 m/yr).
 6. **Reserve stays scarce even at the threshold**: with 74 MW of new thermal the FCAS price on Mahé averages
    USD 50 per MW-h and exceeds USD 100 in about 1,200 hours.
-7. **The gap could also be closed by other means**: about 6 MW of additional battery inverter on Mahé, or operating
-   the interconnector so that a trip never removes more than about 35 MW.
 
 ![Graphical abstract](figures/fig1_graphical_abstract.png)
 
@@ -158,15 +156,23 @@ and is not removed by realistic operation of engines and batteries.
 
 ## 6. Options to close the reserve gap (IRP fleet, batteries at 80%)
 
+**Analysed in the model:**
+
 | Option | Size | Comment |
 |---|---|---|
 | More thermal units on Mahé | +3 × 8 MW (74 MW new in total) | Robust; additional investment and fixed O&M |
-| More battery inverter on Mahé | about +6 MW | Cheaper capacity, but relies on batteries held charged for reserve |
-| Limit the interconnector contingency | about 35 MW | Operate the cable so a trip never removes more than about 35 MW; some Praslin wind curtailed |
-| Accept daytime curtailment of solar | – | Lowers the VRE share of the requirement; helps only with the last 1–3 MW |
 
 If batteries cannot reliably be counted at 80% of inverter capacity, the thermal requirement rises steeply (130 MW at
 50%), so the treatment of batteries in the reserve calculation is a key decision.
+
+**Not yet analysed.** The following alternatives may also close the gap but have not been modelled; no size or cost is
+concluded for them here. They are proposed for testing (section 8):
+
+| Option | What would need to be tested |
+|---|---|
+| More battery inverter on Mahé | Additional inverter (and energy) needed to cover the gap in every hour, given that batteries must be held charged for reserve |
+| Limit the interconnector contingency | Cable flow limit at which Mahé meets the requirement, and the resulting curtailment of Praslin–La Digue wind and fuel cost |
+| Accept daytime curtailment of solar | How much the lower VRE share of the requirement reduces the midday shortfall |
 
 ## 7. Caveats
 
@@ -183,7 +189,8 @@ If batteries cannot reliably be counted at 80% of inverter capacity, the thermal
 
 1. Confirm with PUC: new plant unit size, Victoria B/C units kept in 2035, battery role in reserve.
 2. Full on/off check of the key cases (9 units; 16 units with batteries at 50%).
-3. Test the options in section 6 in the model (additional battery, interconnector contingency limit).
+3. Model the options not yet analysed in section 6 (additional battery inverter, interconnector contingency limit,
+   solar curtailment).
 
 ---
 
