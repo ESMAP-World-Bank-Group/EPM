@@ -1,0 +1,7 @@
+scenario,Objective (Billion USD),Time,Peak Memory (Mb)
+baseline,7.69,1.99 min,5211.0
+Scn1_CAM_CAR_NoAltT_VREdiver,6.79,1.95 min,5214.0
+Scn2_CAM_CAR_Optimal_VREdiver,7.18,2.05 min,5214.0
+Scn3_noCAM_CAR_NoAltT_BigHydro,8.26,1.94 min,5211.0
+Scn4_CAM_CAR_NoAltT_BigHydro,6.78,1.96 min,5214.0
+Scn5_CAM_CAR_Optimal_BigHydro,7.19,2.07 min,5214.0
