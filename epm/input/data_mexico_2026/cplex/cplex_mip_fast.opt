@@ -1,0 +1,27 @@
+* ------------------------------------------------------------
+* CPLEX MIP Fast Configuration
+* Purpose: prioritize speed over precision (exploratory runs)
+* ------------------------------------------------------------
+
+* --- Key parameters (adjust first) ---
+optcr=0.05
+mipemphasis=1
+lpmethod=4
+threads=8
+baralg=1
+barcrossalg=1
+barcolnz=0
+barepcomp=1e-4
+solutiontype=1
+parallelmode=0
+startalg=4
+memoryemphasis=1
+predual=-1
+scaind=1
+
+* --- Supporting parameters ---
+cuts=1
+mipdisplay=5
+bardisplay=2
+names=no
+

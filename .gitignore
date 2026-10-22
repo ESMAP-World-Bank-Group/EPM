@@ -105,6 +105,8 @@ epm/input/*
 !epm/input/data_eapp/**
 !epm/input/data_pan_arab/
 !epm/input/data_pan_arab/**
+!epm/input/data_mexico_2026/
+!epm/input/data_mexico_2026/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
@@ -230,3 +232,6 @@ celerybeat.pid
 dmypy.json
 .pyre/
 .claude/
+
+# Jeton API personnel, ne jamais versionner
+pre-analysis/config/api_tokens.ini
