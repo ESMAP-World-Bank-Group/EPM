@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"name": "linestring_countries",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "z_other": "Cameroon", "z": "CAR", "country_ini_lat": 6.5663218601591504, "country_ini_lon": 20.464809197122076, "lat_linestring": 6.1296900329722375, "lon_linestring": 16.600896681093843, "c": "CAR", "c2": "Cameroon" }, "geometry": { "type": "LineString", "coordinates": [ [ 20.464809197122076, 6.56632186015915 ], [ 12.736984165065614, 5.693058205785325 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "Chad", "z": "CAR", "country_ini_lat": 6.5663218601591504, "country_ini_lon": 20.464809197122076, "lat_linestring": 10.949699982610509, "lon_linestring": 19.555530155562117, "c": "CAR", "c2": "Chad" }, "geometry": { "type": "LineString", "coordinates": [ [ 20.464809197122076, 6.56632186015915 ], [ 18.646251114002158, 15.333078105061867 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "CAR", "z": "Cameroon", "country_ini_lat": 5.6930582057853245, "country_ini_lon": 12.736984165065614, "lat_linestring": 6.1296900329722375, "lon_linestring": 16.600896681093843, "c": "Cameroon", "c2": "CAR" }, "geometry": { "type": "LineString", "coordinates": [ [ 12.736984165065614, 5.693058205785325 ], [ 20.464809197122076, 6.56632186015915 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "Chad", "z": "Cameroon", "country_ini_lat": 5.6930582057853245, "country_ini_lon": 12.736984165065614, "lat_linestring": 10.513068155423596, "lon_linestring": 15.691617639533886, "c": "Cameroon", "c2": "Chad" }, "geometry": { "type": "LineString", "coordinates": [ [ 12.736984165065614, 5.693058205785325 ], [ 18.646251114002158, 15.333078105061867 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "CAR", "z": "Chad", "country_ini_lat": 15.333078105061867, "country_ini_lon": 18.646251114002158, "lat_linestring": 10.949699982610509, "lon_linestring": 19.555530155562117, "c": "Chad", "c2": "CAR" }, "geometry": { "type": "LineString", "coordinates": [ [ 18.646251114002158, 15.333078105061867 ], [ 20.464809197122076, 6.56632186015915 ] ] } },
+{ "type": "Feature", "properties": { "z_other": "Cameroon", "z": "Chad", "country_ini_lat": 15.333078105061867, "country_ini_lon": 18.646251114002158, "lat_linestring": 10.513068155423596, "lon_linestring": 15.691617639533886, "c": "Chad", "c2": "Cameroon" }, "geometry": { "type": "LineString", "coordinates": [ [ 18.646251114002158, 15.333078105061867 ], [ 12.736984165065614, 5.693058205785325 ] ] } }
+]
+}
