@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-10-22*
+*Generated 2026-10-23*
 
 ---
 
@@ -43,7 +43,7 @@
 - [Nakhchivan](#nakhchivan) — [`pStorageDataInput`](#nakhchivan-pstoragedatainput) · [`pGenDataInput`](#nakhchivan-pgendatainput) · [`pDemandForecast`](#nakhchivan-pdemandforecast) · [`pDemandProfile`](#nakhchivan-pdemandprofile) · [`pAvailabilityCustom`](#nakhchivan-pavailabilitycustom) · [`pTransferLimit`](#nakhchivan-ptransferlimit)
 - [Romania](#romania) — [`pGenDataInput`](#romania-pgendatainput) · [`pDemandForecast`](#romania-pdemandforecast) · [`pDemandProfile`](#romania-pdemandprofile) · [`pVREProfile`](#romania-pvreprofile) · [`pFuelPrice`](#romania-pfuelprice) · [`pAvailabilityCustom`](#romania-pavailabilitycustom) · [`pStorageDataInput`](#romania-pstoragedatainput) · [`pExtTransferLimit`](#romania-pexttransferlimit) · [`pTransferLimit`](#romania-ptransferlimit) · [`pTradePrice`](#romania-ptradeprice)
 - [Bulgaria](#bulgaria) — [`pDemandForecast`](#bulgaria-pdemandforecast) · [`pDemandProfile`](#bulgaria-pdemandprofile) · [`pVREProfile`](#bulgaria-pvreprofile) · [`pGenDataInput`](#bulgaria-pgendatainput) · [`pStorageDataInput`](#bulgaria-pstoragedatainput) · [`pFuelPrice`](#bulgaria-pfuelprice) · [`pAvailabilityCustom`](#bulgaria-pavailabilitycustom) · [`pExtTransferLimit`](#bulgaria-pexttransferlimit) · [`pTransferLimit`](#bulgaria-ptransferlimit) · [`pLossFactorInternal`](#bulgaria-plossfactorinternal) · [`pTradePrice`](#bulgaria-ptradeprice)
-- [Model-wide](#global) — [`pSettings`](#global-psettings) · [`pPlanningReserveMargin`](#global-pplanningreservemargin) · [`pTechFuel`](#global-ptechfuel) · [`pCarbonPrice`](#global-pcarbonprice)
+- [Model-wide](#global) — [`pSettings`](#global-psettings) · [`pPlanningReserveMargin`](#global-pplanningreservemargin) · [`pTechFuel`](#global-ptechfuel) · [`pCarbonPrice`](#global-pcarbonprice) · [`pNewTransmissionExt`](#global-pnewtransmissionext)
 
 ---
 
@@ -370,8 +370,9 @@
 | Period | Method | Notes |
 |--------|--------|-------|
 | 2030 to 2053 | `ASSUMPTION` | ADDED 2026-09-14, written directly in the trade/pNewTransmission_*.csv files (the reference_lines.csv pipeline was not rerun). The line database only holds the idle Kars-Gyumri 154/220 kV link (0 MW, closed border, 300 MW maximum capacity per the TEIAS EK-1 sheet). The candidate is therefore 1 line of 300 MW, earliest entry 2030, life 30 years, 730 MUSD per line: the BSTN back-to-back unit cost (850 MUSD for 350 MW) scaled to 300 MW, no project-specific estimate exists. Forced (status 2) in pNewTransmission_artur.csv and _allprojects.csv, free with up to 4 lines in the two free-expansion files, 0 lines elsewhere so every file carries the same candidate set. Loss factor: the 0.025 Armenia-EastAna rows already in pLossFactorInternal.csv. |
+| Free expansion family, applied 2026-10-23 | `CHANGED` | CHANGED 2026-10-23. trade/pNewTransmission_robg_freeexp.csv, read by LC_FreeExp_RoBg and S5_FreeExp only: the 22 rows of trade/pNewTransmission_freeexp_all.csv (the Caucasus candidates, the committed AzerbaijanMain to Nakhchivan line and the 16 Turkish corridors, values unchanged) plus the three corridor candidates documented under pExtTransmissionCost (Georgia). EarliestEntry stays on the calendar year; on the S5 grid a line with entry 2031 is first available in the 2032 block and one with entry 2033 to 2035 in the 2036 block. |
 
-*Confidence: [LOW] · Last updated: 2026-09-14*
+*Confidence: [LOW] · Last updated: 2026-10-23*
 
 
 ---
@@ -640,8 +641,9 @@
 | 2024 to 2053 | `DIRECT` | Georgia to Armenia, AzerbaijanMain and EastAna (Turkiye): from blacksea_crossborder_lines_v6, unchanged. Cross-border step 2026-09-13: the CESI study publishes no capacity for these existing links (it records only that the TSOs asked for adjustments of the Azerbaijan to Georgia capacity and of the Georgia to Turkiye and Armenia exchange assumptions), so our values are kept in every scenario, the CESI aligned family included. The BSSC to Romania stays in service in every run, as the study keeps it in every case separately from the GEC. Register k19. |
 | 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC layer, read only by the five GECO scenarios through zcmap_geco.csv. GEC_AZ to GEC_GE leg and GEC_GE to Georgia tap, both directions, all quarters, one step per GEC link at the CESI commissioning dates. GEC_GE to Romania link, one step per GEC link, in trade/pExtTransferLimit_geco.csv and trade/pExtTransferLimit_allprojects.csv, where Georgia to Romania now carries the BSSC alone. Every GEC capacity is derated for the CESI planned and forced unavailability. Values in cesi/cesi_register.yaml (k01, k02, k03, k18). Source CESI GEC T6 p18, p33 and p34 Fig 5-11, T5 p78 and p79. The other scenarios drop the GEC rows through the zone filter and never read the two GECO link files. |
 | 2024 to 2053, LC_Baseline_NoArGe and its CTN and ArTur variants | `CHANGED` | CHANGED 2026-09-15. Sensitivity without the existing Georgia to Armenia line, read by LC_Baseline_NoArGe, LC_CTN_NoArGe and LC_ArTur_NoArGe (the last two force the CTN or ArTur line on top) through trade/pTransferLimit_noarge.csv. That file is trade/pTransferLimit.csv with the eight Armenia to Georgia and Georgia to Armenia rows (Q1 to Q4, both directions) set from 150 MW to 0 MW in every year; every other row is identical. The pair stays in sTopology and the Georgia to Armenia row of pNewTransmission_none.csv keeps MaximumNumOfLines 0, so nothing can be built on it. LC_Baseline and every other scenario keep the line at 150 MW both ways. |
+| Free expansion family, applied 2026-10-23 | `CHANGED` | CHANGED 2026-10-23. trade/pTransferLimit_robg_freeexp.csv, read by LC_FreeExp_RoBg and S5_FreeExp only (pre-analysis/pipelines/build_freeexp_robg.py). It is trade/pTransferLimit_robg_geco.csv with the sixteen Georgia to Romania and GEC_GE to Romania rows (both directions, Q1 to Q4) set to 0 in every year: in these two scenarios the BSSC cable and the GEC links are candidates of trade/pNewTransmission_robg_freeexp.csv, built by the model or not. The GEC layer rows (leg and tap) and every other row are identical to the GECO file. No other scenario reads it. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-09-15*
+*Confidence: [MEDIUM] · Last updated: 2026-10-23*
 
 
 <a id="georgia-plossfactorinternal"></a>
@@ -686,8 +688,9 @@
 |--------|--------|-------|
 | BSSC phase | `ASSUMPTION` | Georgia to Romania BSSC phase: pro rata share of the full corridor cost. Not in the v8 EPM Entry sheet. Unchanged. |
 | GEC links, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC_GE to Romania, one row per GEC link. Capex of the AZ-GE and GE-RO sections, converted to USD. The RO-HU section is excluded because Hungary is not modelled. Capacity derated for availability as in the GECO link files. Asset life kept as for the other corridors and opex not carried, both decided in P4. The former GECO row, which carried the full corridor on Georgia to Romania, is removed. Values in cesi/cesi_register.yaml (k09). Source CESI GEC T5 p79, p81 and p83. |
+| Free expansion family, applied 2026-10-23 | `CHANGED` | CHANGED 2026-10-23. The catalogue now also feeds the model, for the two free expansion scenarios only. trade/pNewTransmission_robg_freeexp.csv holds Georgia to Romania (BSSC phase, 1 line of 1300 MW, 3500 MUSD, earliest entry 2031), GEC_GE to Romania (up to 3 lines of 1261 MW at 2783 MUSD each, the mean of the three GEC links, earliest entry 2032) and Trakia to Bulgaria (EWTC, 1 line of 775 MW, 250 MUSD, earliest entry 2033) as candidates (Status 3, life 30 years), and trade/pNewTransmissionExt_robg_freeexp.csv holds the two candidates to external zones, AzerbaijanMain to Kazakhstan (Trans-Caspian, 1 line of 1000 MW, 2000 MUSD, 2035) and Trakia to Greece (EWTC, 1 line of 775 MW, 250 MUSD, 2034). The Syria EEP link, the Reinforce60 rows and the EU borders of Romania and Bulgaria are not candidates. tools/ext_transmission_cost.py keeps reading the catalogue ex post for the other scenarios. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-09-11*
+*Confidence: [MEDIUM] · Last updated: 2026-10-23*
 
 
 <a id="georgia-zcmap"></a>
@@ -2099,6 +2102,32 @@ BOTH FIXED on 2026-09-24 by the realignment on 12_46: the 2024 gas price is now 
 | 2024-2053, reviewed 2026-09-13 | `ASSUMPTION` | constraint/pCarbonPrice.csv (58 USD/t in 2028 rising to 75.85 in 2043) and constraint/pEmissionsTotal.csv (160 Mt in 2024, 190.8 in 2035, 40 in 2050) are placeholders kept from the template: both flags are 0 in pSettings and in cesi/pSettings_cesi.csv, so no run prices carbon or caps emissions, and the country cap file and the renewable share setting are empty. The two operational flags that do bind are fApplyFuelConstraint 1 (Georgia gas cap, see the Georgia pMaxFuelLimit block, our own assumption) and the ramp and minimum generation flags. The CESI study imposes no policy target on Azerbaijan or Georgia: its fleet follows the national plans plus the Task 6 long term VRE addition, the ETS applies to the EU zones only and the non participating countries run on TYNDP 2024 NT+ (register c09), so nothing changes in either family. The societal CO2 value of the study CBA is a benefit convention, not a model input (register c05). |
 
 *Confidence: [MEDIUM] · Last updated: 2026-09-13*
+
+
+<a id="global-pnewtransmissionext"></a>
+
+### `pNewTransmissionExt`
+
+[&#8593; Model-wide](#global)
+
+**Source**: Black Sea Cross-Border Lines Database v6 (`blacksea_crossborder_lines_v6`)
+
+**Data / file**: Internal database of cross-border transmission infrastructure for the Black Sea region. Compiled from ENTSO-E, national TSO publications, project documentation, and expert knowledge. Local file: Data/…
+
+**Also uses**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
+
+**Also uses**: Modeller expert judgment — Black Sea 2026 assumptions (`epm_expert_judgment`)
+
+> ⚠ **Needs review**: Entry years and capex per line come from the v8 EPM Entry sheet through the corridor catalogue; replace them with project estimates when available.
+
+
+**Method**: Candidate interconnectors to external zones, a GAMS feature added 2026-10-23 (pNewTransmissionExt): the line count is an integer variable on the internal zone, the full capex is annualised on that zone and the capacity built adds to pExtTransferLimit in both directions
+
+| Period | Method | Notes |
+|--------|--------|-------|
+| Free expansion family, applied 2026-10-23 | `ASSUMPTION` | trade/pNewTransmissionExt_robg_freeexp.csv, read by LC_FreeExp_RoBg and S5_FreeExp only (pre-analysis/pipelines/build_freeexp_robg.py). Two candidates (Status 3, life 30 years) with the capacity and capex per line of trade/pExtTransmissionCost.csv: AzerbaijanMain to Kazakhstan (Trans-Caspian, 1 line of 1000 MW, 2000 MUSD, earliest entry 2035) and Trakia to Greece (EWTC, 1 line of 775 MW, 250 MUSD, earliest entry 2034), on top of the exogenous NTC of trade/pExtTransferLimit_robg.csv (0 MW to Kazakhstan, 166 MW import and 100 MW export to Greece). The flow on a built line is priced like any external exchange (pTradePrice_robg.csv) and counts in pMaxAnnualExternalTradeShare; the new capacity is not credited to the planning reserve, like every external limit. Every other scenario reads the header-only default epm/resources/pNewTransmissionExt.csv and is unchanged. |
+
+*Confidence: [LOW] · Last updated: 2026-10-23*
 
 
 ---
