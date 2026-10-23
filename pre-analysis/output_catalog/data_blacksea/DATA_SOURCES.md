@@ -1505,8 +1505,9 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 | Period | Method | Notes |
 |--------|--------|-------|
 | 2024–2053 | `DIRECT` | Three connections for Nakhchivan: (1) Nakhchivan ↔ EastAna (Türkiye): 50 MW flat all years.<br>    Source: Sederek/Babek → Iğdır, 154 kV line (~50 MW).<br>    blacksea_crossborder_lines_v6.xlsx.<br>(2) Nakhchivan ↔ Inter_Nakhchivan_Iran (external): 50 MW Import+Export.<br>    Source: Babek/Julfa → Khoy/Marand, 132/220 kV (~50 MW, 2005 swap).<br>    Historical: ~33 GWh each direction/year (near capacity at 50 MW peak).<br>    Modeled as external zone (pExtTransferLimit) — Iran not in model.<br>(3) AzerbaijanMain ↔ Nakhchivan (Zangezur corridor):<br>    0 MW 2024–2027; 1000 MW from 2028 (all quarters).<br>    Source: 330 kV double-circuit line, construction launched Jan 2026,<br>    COD 2027–2028 per official statements. Committed project (Status=2).<br>    Capacity: 1000 MW rated (2×330 kV circuits, each ~500 MW). |
+| Onland2R v3, applied 2026-10-23 | `ASSUMPTION` | trade/pTransferLimit_robg_onland2r_hvdc.csv, read by the scenarios.csv column S5_Onland2R_v3 only (pre-analysis/pipelines/build_onland2r_v3.py): the forced onland corridor file of S5_Onland_v3 (Georgia to EastAna 2,700 MW from 2031, the EastAna to NorthWest and NorthWest to Bulgaria segments at 2,000 MW, the committed CenterAna to Trakia HVDC) plus Nakhchivan to EastAna at 1,000 MW in both directions from 2031, the column where the Georgian route switches on. One line of the TRIPP candidate of trade/pNewTransmission.csv (1,000 MW, 1,450 MUSD, life 30 years) forced instead of chosen: its capex is outside the objective and enters the net benefit ex post, onland capex plus 1,450 MUSD. The onland file carries 0 MW for this pair before the change. AzerbaijanMain to Nakhchivan stays the committed 800 MW of trade/pNewTransmission_none.csv. Losses 0.025 both ways, already in trade/pLossFactorInternal_robg_onland_hvdc.csv, reused. The S5_Onland2R_v3 column is S5_Onland_v3 with this file only. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-06-10*
+*Confidence: [MEDIUM] · Last updated: 2026-10-23*
 
 
 ---
