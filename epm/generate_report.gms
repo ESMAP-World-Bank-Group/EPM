@@ -143,6 +143,8 @@ Parameters
   pAdditionalTransmissionCapacity(z, z2, y)
   pTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
   pNewTransmissionCapacity(z,z2,y)           'New transmission capacity built [MW] between internal zones'
+  pAdditionalTransmissionCapacityExt(z,zext,y) 'Cumulative new interconnector capacity [MW] from zone z to external zone zext'
+  pNewTransmissionCapacityExt(z,zext,y)      'New interconnector capacity built [MW] from zone z to external zone zext'
 
   pCapacitySummary(z,*,y)                    'Summary of capacity indicators [MW] by zone and year'
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
@@ -159,6 +161,7 @@ Parameters
   
   pCapexInvestmentPlant(z, g, *, y) 'CAPEX investment [USD] by plant and component'
   pCapexInvestmentTransmission(z, z2, y) 'Transmission CAPEX [USD] by line and year'
+  pCapexInvestmentTransmissionExt(z, zext, y) 'Interconnector CAPEX [USD] to external zones by line and year'
   pCapexInvestmentComponent(z, *, y) 'Annual CAPEX investment [USD] by component and zone'                                          
   pCapexInvestment(z, y)                        'Annual CAPEX investment in USD by zone and year'
 
@@ -393,6 +396,17 @@ pNewTransmissionCapacity(sTopology(z,z2),y) =
   * symmax(pNewTransmission,z,z2,"CapacityPerLine")
   * fAllowTransferExpansion;
 
+* Interconnectors to external zones (pNewTransmissionExt)
+pNewTransmissionCapacityExt(sTopologyExt(z,zext),y) =
+  vBuildTransmissionLineExt.l(z,zext,y)
+  * pNewTransmissionExt(z,zext,"CapacityPerLine")
+  * fAllowTransferExpansion;
+
+pAdditionalTransmissionCapacityExt(sTopologyExt(z,zext),y) =
+  vNewTransmissionLineExt.l(z,zext,y)
+  * pNewTransmissionExt(z,zext,"CapacityPerLine")
+  * fAllowTransferExpansion;
+
 pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransmissionLine.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
 pTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
@@ -536,17 +550,27 @@ pCapexInvestmentComponent(z, "Hydrogen", y)$fEnableH2Production =
     vBuildH2.l(hh, y) * pH2Data(hh, "Capex") * pCapexTrajectoriesH2(hh, y)
   );
 
-* Transmission CAPEX additions
-pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and sum(sTopology(z, z2), 1)) =
+* Transmission CAPEX additions: half of each internal line on each end zone, full cost of external interconnectors on zone z
+pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and (sum(sTopology(z, z2), 1) + sum(sTopologyExt(z, zext), 1))) =
   0.5 * sum(sTopology(z, z2),
     vBuildTransmissionLine.l(z, z2, y)
     * symmax(pNewTransmission, z, z2, "CostPerLine")
+    * 1e6
+  )
+  + sum(sTopologyExt(z, zext),
+    vBuildTransmissionLineExt.l(z, zext, y)
+    * pNewTransmissionExt(z, zext, "CostPerLine")
     * 1e6
   );
 
 pCapexInvestmentTransmission(sTopology(z, z2), y)$fAllowTransferExpansion =
   0.5 * vBuildTransmissionLine.l(z, z2, y)
   * symmax(pNewTransmission, z, z2, "CostPerLine")
+  * 1e6;
+
+pCapexInvestmentTransmissionExt(sTopologyExt(z, zext), y)$fAllowTransferExpansion =
+  vBuildTransmissionLineExt.l(z, zext, y)
+  * pNewTransmissionExt(z, zext, "CostPerLine")
   * 1e6;
 
 * ---------------------------------------------------------
@@ -1141,11 +1165,11 @@ pInterchangeExternalImports(zext, z, y) =
 * Utilization of external interconnections [%]
 pInterconUtilizationExternalExports(z, zext, y)$pInterchangeExternalExports(z, zext, y) =
   1e3 * pInterchangeExternalExports(z, zext, y)
-  / sum((q, d, t), pExtTransferLimitOut(z, zext, q, y) * pHours(q, d, t));
+  / sum((q, d, t), (pExtTransferLimitOut(z, zext, q, y) + pAdditionalTransmissionCapacityExt(z, zext, y)) * pHours(q, d, t));
 
 pInterconUtilizationExternalImports(zext, z, y)$pInterchangeExternalImports(zext, z, y) =
   1e3 * pInterchangeExternalImports(zext, z, y)
-  / sum((q, d, t), pExtTransferLimitIn(z, zext, q, y) * pHours(q, d, t));
+  / sum((q, d, t), (pExtTransferLimitIn(z, zext, q, y) + pAdditionalTransmissionCapacityExt(z, zext, y)) * pHours(q, d, t));
 
 * Country-level hourly and annual interchange with external zones
 pHourlyInterchangeExternalCountry(c, y, q, d, thrd, t) =
@@ -1475,7 +1499,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 1. CAPACITY
       pCapacityPlant, pCapacityTechFuel,
       pNewCapacityTechFuel,
-      pTransmissionCapacity, pNewTransmissionCapacity,
+      pTransmissionCapacity, pNewTransmissionCapacity, pNewTransmissionCapacityExt, pAdditionalTransmissionCapacityExt,
       pStorageComponents,
 * 2. COSTS
       pCostsPlant, pCapexInvestmentComponent, pCapexInvestmentPlant,
@@ -1521,11 +1545,11 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
       pNewCapacityFuel, pNewCapacityTech, pNewCapacityTechFuel, pNewCapacityFuelCountry, pNewCapacityTechCountry, pNewCapacityTechFuelCountry,
-      pTransmissionCapacity, pNewTransmissionCapacity,
+      pTransmissionCapacity, pNewTransmissionCapacity, pNewTransmissionCapacityExt, pAdditionalTransmissionCapacityExt,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant,
-      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
+      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentTransmissionExt, pCapexInvestmentComponent,
       pHourlyPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
       pCosts, pDiscountedWeightedCosts, pCostsCountry, pNetPresentCost, pNetPresentCostSystem, pNetPresentCostSystemPerMWh, pCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,

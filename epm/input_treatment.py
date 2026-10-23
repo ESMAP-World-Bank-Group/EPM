@@ -71,6 +71,7 @@ ZONE_RESTRICTED_PARAMS = {
     "pCapexTrajectoriesDefault": ("z",),
     "pDemandForecast": ("z",),
     "pNewTransmission": ("z", "z2"),
+    "pNewTransmissionExt": ("z",),
     "pLossFactorInternal": ("z", "z2"),
     "pTransferLimit": ("z", "z2"),
 }
@@ -88,6 +89,7 @@ COLUMN_RENAME_MAP = {
     "pCapexTrajectoriesGeneric": {"uni": "y", 'fuel': 'f'},
     "pDemandForecast": {"uni": "y"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
+    "pNewTransmissionExt": {"From": "z", "To": "zext", "uni": "pTransmissionHeader"},
     "pSettings": {"Abbreviation": "pSettingsHeader"},
     "pDemandForecast": {'type': 'pe', 'uni': 'y'},
     "pTransferLimit": {"From": "z", "To": "z2", "uni": "y"},

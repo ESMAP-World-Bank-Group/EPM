@@ -612,7 +612,13 @@ def launch_epm_multi_scenarios(config='config.csv',
         s.update({k: config.copy() for k in scenarios})
         for k in s.keys():
             if k != 'baseline':
-                s[k].update(scenarios[k].dropna())
+                cells = scenarios[k].dropna()
+                s[k].update(cells)
+                # Series.update ignores labels absent from the baseline: keep the optional
+                # parameters that scenarios.csv defines and config.csv does not
+                extra = cells[~cells.index.isin(s[k].index)]
+                if not extra.empty:
+                    s[k] = pd.concat([s[k], extra])
 
     # Select useful scenarios if selected_scenarios is defined
     if selected_scenarios is not None:

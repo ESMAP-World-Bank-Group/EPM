@@ -192,6 +192,7 @@ Parameter
 
 * Storage and transmission
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
+   pNewTransmissionExt(z,zext,pTransmissionHeader)      'Candidate or committed interconnectors to external zones'
 
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices (paid on imports)'
@@ -278,7 +279,7 @@ $load pPlanningReserveMargin
 
 * Load trade data
 $load zext, pTransmissionHeader
-$load pExtTransferLimit, pNewTransmission, pMinImport
+$load pExtTransferLimit, pNewTransmission, pNewTransmissionExt, pMinImport
 $load pTradePrice, pTradePriceExport, pMaxAnnualExternalTradeShare
 
 * Load Hydrogen model-related symbols
@@ -639,6 +640,18 @@ tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatInd
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
 
+* External interconnectors (pNewTransmissionExt): one record per (z,zext), no symmetric counterpart.
+* Only committed (2) and candidate (3) records enter the topology; exogenous capacity stays in pExtTransferLimit.
+sTopologyExt(z,zext) = sum(pTransmissionHeader, pNewTransmissionExt(z,zext,pTransmissionHeader));
+sTopologyExt(z,zext)$(not fEnableExternalExchange) = no;
+sTopologyExt(z,zext)$((pNewTransmissionExt(z,zext,'status') <> tstatIndex('committed')) and (pNewTransmissionExt(z,zext,'status') <> tstatIndex('candidate'))) = no;
+
+* Default life for external interconnectors
+pNewTransmissionExt(sTopologyExt,"Life")$(pNewTransmissionExt(sTopologyExt,"Life")=0 and fAllowTransferExpansion) = 30;
+
+* Committed external interconnectors
+commtransmissionext(sTopologyExt(z,zext)) = (pNewTransmissionExt(z,zext,'status') = tstatIndex('committed'));
+
 *-------------------------------------------------------------------
 * CAPACITY CREDIT
 *-------------------------------------------------------------------
@@ -742,6 +755,18 @@ vNewTransmissionLine.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,
 vBuildTransmissionLine.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
 vBuildTransmissionLine.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
 
+* External interconnectors: same bounds as internal lines, one record per (z,zext), the line count sits on the internal zone
+vNewTransmissionLineExt.up(sTopologyExt(z,zext),y)$fAllowTransferExpansion = pNewTransmissionExt(z,zext,"MaximumNumOfLines");
+
+sAdditionalTransferExt(sTopologyExt(z,zext),y) = yes;
+sAdditionalTransferExt(sTopologyExt(z,zext),y)$(y.val < pNewTransmissionExt(z,zext,"EarliestEntry")) = no;
+
+vNewTransmissionLineExt.fx(commtransmissionext(z,zext),y)$((pNewTransmissionExt(z,zext,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = pNewTransmissionExt(z,zext,"MaximumNumOfLines");
+vNewTransmissionLineExt.fx(commtransmissionext(z,zext),y)$(not sAdditionalTransferExt(z,zext,y) and fAllowTransferExpansion) = 0;
+
+vBuildTransmissionLineExt.lo(sTopologyExt(z,zext),y) = max(0,vNewTransmissionLineExt.lo(z,zext,y) - vNewTransmissionLineExt.up(z,zext,y-1));
+vBuildTransmissionLineExt.up(sTopologyExt(z,zext),y) = max(0,vNewTransmissionLineExt.up(z,zext,y) - vNewTransmissionLineExt.lo(z,zext,y-1));
+
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;
 
@@ -756,6 +781,8 @@ if (fEnableCapacityExpansion = 0,
    vBuildTherm.fx(g,y)       = 0;
    vBuildTransmissionLine.fx(z,z2,y) = 0;
    vNewTransmissionLine.fx(z,z2,y)   = 0;
+   vBuildTransmissionLineExt.fx(z,zext,y) = 0;
+   vNewTransmissionLineExt.fx(z,zext,y)   = 0;
    vBuildH2.fx(hh,y)         = 0;
    vBuiltCapVarH2.fx(hh,y)   = 0;
 );
@@ -888,8 +915,10 @@ sExportPrice(z,zext,q,d,t,y)$(not fEnableExternalExchange) = no;
 sImportPrice(z,zext,q,d,t,y)$(fEnableExternalExchange) = yes;
 sImportPrice(z,zext,q,d,t,y)$(not fEnableExternalExchange) = no;
 
-vYearlyImportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitIn(z,zext,q,y);
-vYearlyExportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitOut(z,zext,q,y);
+* Hard bound: exogenous limit plus the full capacity of the candidate interconnectors to that external zone;
+* eExternalImportLimit and eExternalExportLimit tie the hourly flow to the lines actually built.
+vYearlyImportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitIn(z,zext,q,y) + (pNewTransmissionExt(z,zext,"MaximumNumOfLines")*pNewTransmissionExt(z,zext,"CapacityPerLine")*fAllowTransferExpansion)$sTopologyExt(z,zext);
+vYearlyExportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitOut(z,zext,q,y) + (pNewTransmissionExt(z,zext,"MaximumNumOfLines")*pNewTransmissionExt(z,zext,"CapacityPerLine")*fAllowTransferExpansion)$sTopologyExt(z,zext);
 
 * Wherever no separate export price is supplied, exports are valued at the import
 * price - the historical behaviour. A dedicated pTradePriceExport.csv overrides it
@@ -908,6 +937,7 @@ sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystem
 
 *To avoid bugs when there is no candidate transmission expansion line
 pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
+pNewTransmissionExt(z,zext,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  

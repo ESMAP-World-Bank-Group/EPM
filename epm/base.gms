@@ -53,6 +53,7 @@ Sets
    eg(g)                  'Existing generator fleet'
    ng(g)                  'New-build candidates'
    commtransmission(z,z2) 'Committed transmission corridors'
+   commtransmissionext(z,zext) 'Committed interconnectors to external zones'
    cs(g)                  'Concentrated solar power units'
    so(g)                  'PV plants paired with storage'
    stp(g)                 'Dedicated storage blocks for PV plants'
@@ -75,6 +76,7 @@ Sets
    zfmap(z,f)             'Fuel availability by zone'
    gsmap(g2,g)            'Storage-to-generator linkage'
    sTopology(z,z2)        'Internal network adjacency'
+   sTopologyExt(z,zext)   'Candidate or committed interconnectors to external zones (pNewTransmissionExt)'
    sMapConnectedZonesDiffCountries(z,z2) 'Cross-country connections subset (topology filter)'
 ;
 
@@ -98,6 +100,7 @@ Sets
    sExportPrice(z,zext,q,d,t,y) 'Valid export price records (external zones)'
    sImportPrice(z,zext,q,d,t,y) 'Valid import price records (external zones)'
    sAdditionalTransfer(z,z2,y)  'Transmission build decision domain'
+   sAdditionalTransferExt(z,zext,y) 'External interconnector build decision domain'
    sFlow(z,z2,q,d,t,y)         'Feasible flow pairs'
    sSpinningReserve(g,q,d,t,y) 'Generators able to provide spinning reserve'
    FD(q,d,t)                  'Feasible q,d,t tuples for dispatch mode'
@@ -290,6 +293,7 @@ Positive Variables
 
 * Network expansion & curtailment
    vNewTransmissionLine(z,z2,y) 'New transmission capacity (MW)'
+   vNewTransmissionLineExt(z,zext,y) 'New interconnector lines to external zones (cumulative count)'
    vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
    vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
    vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
@@ -339,6 +343,7 @@ Free Variable
 * -------------------------------------------------------------
 Integer variable
    vBuildTransmissionLine(z,z2,y) 'Integer builds for transmission'
+   vBuildTransmissionLineExt(z,zext,y) 'Integer builds for interconnectors to external zones'
    vBuiltCapVar(g,y)          'Integer build decision (unit commitment for discrete capacity)'
    vRetireCapVar(g,y)         'Integer retirement decision'
 ;
@@ -451,6 +456,7 @@ Equations
    eYearlySurplusCost(z,y)         'Penalty on surplus energy'
    eCumulativeTransferExpansion(z,z2,y) 'Cumulative new transfer capacity'
    eSymmetricTransferBuild(z,z2,y) 'Symmetric new build requirement'
+   eCumulativeTransferExpansionExt(z,zext,y) 'Cumulative new interconnector lines to external zones'
    eAnnualizedTransmissionCapex (z,y) 'Annualized transmission CAPEX'
    eExternalImportLimit(z,zext,q,d,t,y) 'Import limit from external zone (MW)'
    eExternalExportLimit(z,zext,q,d,t,y) 'Export limit to external zone (MW)'
@@ -696,16 +702,21 @@ eYearlyCarbonCost(z,y)..
 * the model always uses the maximum of both directions, regardless of ordering.
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
-* Computes annualized investment cost of new transmission lines connected to zone z
-* using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
-eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
+* Computes annualized investment cost of new transmission lines connected to zone z.
+* Internal lines: half of the cost on each end zone (symmetric records), annuity on each line's own Life.
+* External interconnectors (pNewTransmissionExt): full cost on the internal zone z.
+eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and (sum(sTopology(z,z2),1) + sum(sTopologyExt(z,zext),1)))..
    vAnnualizedTransmissionCapex(z,y) =e=
-       sum(sTopology(z,z2),
+       sum(sTopology(z,z2)$symmax(pNewTransmission,z,z2,"Life"),
            vNewTransmissionLine(z,z2,y)
          * symmax(pNewTransmission,z,z2,"CostPerLine")
-         * 1e6)
-     / 2
-     * (pWACC / (1 - (1 / ((1 + pWACC) ** sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
+         * 1e6 / 2
+         * (pWACC / (1 - (1 / ((1 + pWACC) ** symmax(pNewTransmission,z,z2,"Life"))))))
+     + sum(sTopologyExt(z,zext)$pNewTransmissionExt(z,zext,"Life"),
+           vNewTransmissionLineExt(z,zext,y)
+         * pNewTransmissionExt(z,zext,"CostPerLine")
+         * 1e6
+         * (pWACC / (1 - (1 / ((1 + pWACC) ** pNewTransmissionExt(z,zext,"Life"))))));
 
 * ------------------------------
 * Demand and supply balance
@@ -947,6 +958,10 @@ eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
 eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
    vBuildTransmissionLine(z,z2,y)  =e=  vBuildTransmissionLine(z2,z,y);
 
+* Cumulative build-out of new interconnector lines to external zones (one record per (z,zext), no symmetric counterpart)
+eCumulativeTransferExpansionExt(sTopologyExt(z,zext),y)$fAllowTransferExpansion..
+   vNewTransmissionLineExt(z,zext,y) =e=  vNewTransmissionLineExt(z,zext,y-1) + vBuildTransmissionLineExt(z,zext,y);
+
 * External trade
 
 * Caps total import energy based on annual demand and max external trade share
@@ -967,13 +982,15 @@ eMaxHourlyImportShareEnergy(c,q,d,t,y)$((sMaxHourlyImportExternalShare<1 and fEn
 eMaxHourlyExportShareEnergy(c,q,d,t,y)$((sMaxHourlyExportExternalShare<1 and fEnableExternalExchange) and FD(q,d,t))..
    sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxHourlyExportExternalShare * pEnergyEfficiencyFactor(z,y));
 
-* Caps import volume from an external zone to internal zone
+* Caps import volume from an external zone to internal zone: exogenous limit plus the interconnector lines built
 eExternalImportLimit(z,zext,q,d,t,y)$((fEnableExternalExchange) and FD(q,d,t))..
-   vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
+   vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y)
+     + (vNewTransmissionLineExt(z,zext,y)*pNewTransmissionExt(z,zext,"CapacityPerLine")*fAllowTransferExpansion)$sTopologyExt(z,zext);
 
-* Caps export volume from internal zone to an external zone
+* Caps export volume from internal zone to an external zone: exogenous limit plus the interconnector lines built
 eExternalExportLimit(z,zext,q,d,t,y)$((fEnableExternalExchange) and FD(q,d,t))..
-   vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
+   vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y)
+     + (vNewTransmissionLineExt(z,zext,y)*pNewTransmissionExt(z,zext,"CapacityPerLine")*fAllowTransferExpansion)$sTopologyExt(z,zext);
 
 * ------------------------------
 * Storage operations
@@ -1238,6 +1255,7 @@ Model PA /
    eAnnualizedTransmissionCapex
    eCumulativeTransferExpansion
    eSymmetricTransferBuild
+   eCumulativeTransferExpansionExt
    eMaxAnnualImportShareEnergy
    eMaxAnnualExportShareEnergy  
    eMaxHourlyImportShareEnergy
@@ -1290,6 +1308,7 @@ Model PA /
    vYearlyExportExternal(sExportPrice)
    vYearlyImportExternal(sImportPrice)
    vNewTransmissionLine(sAdditionalTransfer)
+   vNewTransmissionLineExt(sAdditionalTransferExt)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
    

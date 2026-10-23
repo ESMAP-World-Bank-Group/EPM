@@ -95,6 +95,9 @@ $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pL
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
+* Optional. Candidate or committed interconnectors to external zones, one record per (z, zext).
+* The default is a header-only file in resources, so an input folder without it is unaffected.
+$if not set pNewTransmissionExt $set pNewTransmissionExt %FOLDER_RESOURCES%/pNewTransmissionExt.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
 * Optional. Falls back to the import price file, which reproduces the historical
 * behaviour exactly: an input folder that supplies no export price is unaffected.
@@ -544,6 +547,16 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pNewTransmission%
     name: pNewTransmission
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pNewTransmissionExt%
+    name: pNewTransmissionExt
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]

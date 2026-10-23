@@ -146,6 +146,9 @@ def run_input_verification(gams):
     _step("New transmission zones")
     _check_new_transmission_zones(gams, db)
     gams.printLog("[input_verification] New transmission zones completed.")
+    _step("New external interconnectors")
+    _check_new_transmission_ext_zones(gams, db)
+    gams.printLog("[input_verification] New external interconnectors completed.")
     _step("Interconnected mode")
     _check_interconnected_mode(gams, db)
     gams.printLog("[input_verification] Interconnected mode completed.")
@@ -983,6 +986,33 @@ def _check_new_transmission(gams, db):
         raise
     except Exception:
         gams.printLog('Unexpected error when checking NewTransmission')
+        raise
+
+
+def _check_new_transmission_ext_zones(gams, db):
+    """Warn when interconnectors to external zones reference zones missing from zcmap or zext."""
+    try:
+        if "pNewTransmissionExt" not in db:
+            return
+        records = db["pNewTransmissionExt"].records
+        if records is None or records.empty:
+            return
+        zcmap_records = db["zcmap"].records
+        zones_defined = set(zcmap_records['z'].unique()) if zcmap_records is not None else set()
+        zext_records = db["zext"].records if "zext" in db else None
+        zext_defined = set(zext_records.iloc[:, 0].unique()) if zext_records is not None else set()
+        missing_z = sorted(set(records['z'].unique()) - zones_defined)
+        missing_zext = sorted(set(records['zext'].unique()) - zext_defined)
+        if missing_z or missing_zext:
+            gams.printLog(
+                "Warning: 'pNewTransmissionExt' references zones that are not defined "
+                f"(internal zones not in zcmap: {missing_z}; external zones not in zext: {missing_zext}). "
+                "The interconnectors involved are dropped by the model."
+            )
+            return
+        gams.printLog("Success: Zones in pNewTransmissionExt match the zones defined in zcmap and zext.")
+    except Exception:
+        gams.printLog('Unexpected error when checking zones in pNewTransmissionExt')
         raise
 
 
