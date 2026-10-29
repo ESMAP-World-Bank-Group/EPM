@@ -15,17 +15,17 @@ It answers questions like:
 - How much new capacity is needed, and which technologies?
 - What generation mix minimizes costs while meeting renewable targets?
 - What is the economic value of regional interconnection?
-- How should a carbon price or emissions cap shape the investment plan?
+- How much storage and flexibility does a high-renewables system need?
 
 Concretely, EPM handles:
 
 | Capability | Description |
 |---|---|
-| **Capacity expansion** | Least-cost investment plans across multiple years and zones |
-| **Dispatch optimization** | Co-optimizes generation, spinning reserves, and cross-border trade |
-| **Policy testing** | Emissions caps, carbon prices, renewable targets, fuel and import limits |
-| **Scenario analysis** | Run hundreds of scenarios in parallel, with built-in uncertainty quantification |
-| **Multi-zone modeling** | Supports interconnected regions with transmission constraints |
+| **Capacity expansion** | Least-cost generation investment plans across years and zones |
+| **Dispatch optimization** | Co-optimizes generation, storage, reserves and cross-border trade, on representative days or a full hourly year |
+| **Custom zone modeling** | User-defined zones, from sub-national regions to multi-country representations |
+| **Policy testing** | Renewable targets, fuel and import limits, emissions caps and carbon prices |
+| **Scenario analysis** | Runs batches of scenarios and sensitivities on uncertain inputs |
 
 ---
 
