@@ -118,12 +118,11 @@ KEYS_RESULTS = {
     'pDispatchPlant', 'pDispatch', 'pDispatchTechFuel',
     # 5. Reserves
     'pReserveSpinningPlantZone',
-    'pReserveMargin',
+    'pReserveMargin', 'pReserveMarginCountry',
     # 6. Interconnections
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
     'pNetImport',
-    'pExtTransferLimit', 'pTradePrice',
     # 7. Emissions
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics
@@ -417,7 +416,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                         )
 
                     if zone_full_season_active and year == years_available[0]:
-                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_peak_season.pdf')
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
                         ]
@@ -516,6 +515,105 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                     bottom=None,
                     legend_loc='bottom'
                 )
+
+
+def make_automatic_reserve_dispatch(epm_results, dict_specs, folder, selected_scenarios):
+    """
+    Generate stacked area plots of hourly spinning reserve provision by fuel.
+
+    Built like ``DispatchZoneFullSeason`` (all seasons, first days of each season,
+    every other year plus milestone years) but using the ``Reserve`` attribute of
+    ``pDispatchPlant``, aggregated per country (``ReserveCountryAllSeasons``) and
+    for the whole system (``ReserveSystemAllSeasons``).
+
+    Parameters
+    ----------
+    epm_results : dict[str, pandas.DataFrame]
+        Model result tables keyed by result name; must include ``'pDispatchPlant'``.
+    dict_specs : dict
+        Plotting specifications, including a ``'colors'`` mapping per fuel.
+    folder : str
+        Destination directory for the generated figures.
+    selected_scenarios : list[str]
+        Scenarios for which the reserve plots should be produced.
+    """
+    country_active = is_figure_active('ReserveCountryAllSeasons')
+    system_active = is_figure_active('ReserveSystemAllSeasons')
+    if not (country_active or system_active):
+        return
+
+    dispatch_plant = epm_results.get('pDispatchPlant')
+    if dispatch_plant is None or dispatch_plant.empty:
+        return
+
+    reserve = filter_dataframe(dispatch_plant, {'attribute': ['Reserve']})
+    if reserve.empty:
+        return
+
+    time_cols = ['scenario', 'year', 'season', 'day', 't', 'fuel']
+
+    def aggregate(df, group_col=None, label=None):
+        # Sum plant-level reserve by fuel; the aggregation level is exposed as 'zone' for make_fuel_dispatchplot
+        cols = time_cols + ([group_col] if group_col else [])
+        df_agg = df.groupby(cols, as_index=False, observed=False)['value'].sum()
+        if group_col:
+            df_agg = df_agg.rename(columns={group_col: 'zone'})
+        else:
+            df_agg.insert(0, 'zone', label)
+        return df_agg
+
+    targets = []
+    if country_active:
+        if 'country' in reserve.columns and reserve['country'].notna().any():
+            targets.append(('country', aggregate(reserve.dropna(subset=['country']), group_col='country')))
+        else:
+            log_warning('ReserveCountryAllSeasons skipped: no zone-to-country mapping in pDispatchPlant')
+    if system_active:
+        targets.append(('system', aggregate(reserve, label='System')))
+
+    for level, df_reserve in targets:
+        for selected_scenario in selected_scenarios:
+            scenario_reserve = df_reserve[df_reserve['scenario'] == selected_scenario]
+            if scenario_reserve.empty:
+                continue
+
+            # Same year selection as DispatchZoneFullSeason: every other year plus milestones
+            years_available = sorted(scenario_reserve['year'].unique())
+            years_to_plot = set(years_available[::2])
+            for milestone_year in [2030, 2035, 2040]:
+                if milestone_year in years_available:
+                    years_to_plot.add(milestone_year)
+            years_to_plot = sorted(years_to_plot)
+
+            for area in scenario_reserve['zone'].unique():
+                area_reserve = scenario_reserve[scenario_reserve['zone'] == area]
+                for year in years_to_plot:
+                    area_reserve_year = area_reserve[area_reserve['year'] == year]
+                    if area_reserve_year['value'].abs().sum() <= 1e-6:
+                        continue
+
+                    unique_days = pd.Index(area_reserve_year['day']).dropna().unique()
+                    sorted_days = sorted(unique_days, key=_day_sort_key)
+                    select_time = {'season': area_reserve_year['season'].unique().tolist()}
+                    if len(sorted_days) > 0:
+                        select_time['day'] = sorted_days[:MAX_FULL_SEASON_DAYS]
+
+                    name = 'system' if level == 'system' else area
+                    filename = os.path.join(folder, f'Reserve_{selected_scenario}_{name}_all_seasons.pdf')
+                    make_fuel_dispatchplot(
+                        {'pDispatchPlant': df_reserve},
+                        {},
+                        dict_specs['colors'],
+                        zone=area,
+                        year=year,
+                        scenario=selected_scenario,
+                        fuel_grouping=None,
+                        select_time=select_time,
+                        filename=filename,
+                        bottom=None,
+                        legend_loc='bottom',
+                        ylabel='Spinning reserve (MW)'
+                    )
 
 
 def _get_scenario_plot_params(num_scenarios, default_rotation=45, default_fonttick=12):
@@ -808,6 +906,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 reduce_year_definition(folder_csv=folder_csv)
 
     keys_results = KEYS_RESULTS
+    if focus_country and folder_input:
+        # Only the single-country input generation reads the external border data
+        keys_results = KEYS_RESULTS | {'pExtTransferLimit', 'pTradePrice'}
     if montecarlo:
         keys_results = {'pNetPresentCostSystem', 'pCosts', 'pCostsFull', 'pEnergyBalance'}
 
@@ -2024,6 +2125,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         )
                     except Exception as err:
                         log_warning(f'Failed to generate dispatch figures: {err}', logger=active_logger)
+                    try:
+                        make_automatic_reserve_dispatch(
+                            epm_results,
+                            dict_specs,
+                            subfolders['5_dispatch'],
+                            selected_scenarios
+                        )
+                    except Exception as err:
+                        log_warning(f'Failed to generate reserve dispatch figures: {err}', logger=active_logger)
                     # Generate stacked bar plot: 3 subplots (2025, 2030, 2035), countries stacked, x-axis by season|day|time
 
 

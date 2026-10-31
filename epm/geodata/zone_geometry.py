@@ -24,8 +24,9 @@ import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Polygon
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-RESOURCES_DIR = REPO_ROOT / 'epm' / 'resources' / 'postprocess'
+EPM_DIR = Path(__file__).resolve().parents[1]
+REPO_ROOT = EPM_DIR.parent
+RESOURCES_DIR = EPM_DIR / 'resources' / 'postprocess'
 
 #: admin-0 polygons every zone that is a whole country is cut from
 ZONE_MAP = str(RESOURCES_DIR / 'zones.geojson')

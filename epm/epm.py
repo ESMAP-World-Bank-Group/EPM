@@ -775,6 +775,23 @@ def launch_epm_multi_scenarios(config='config.csv',
     return folder, metrics_results
 
 
+def find_run_folder_input(results_folder):
+    """Return the local input folder a finished run was solved with, or None.
+
+    Each scenario's GAMS log records the ``--FOLDER_INPUT`` path. The run may come
+    from another machine, so only the folder name is kept and looked up under
+    the local ``input`` directory.
+    """
+    for log_path in sorted(Path(results_folder).glob('*/*_main.log')):
+        with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
+            match = re.search(r"--FOLDER_INPUT\s+([^'\"\r\n]+)", f.read())
+        if match:
+            name = match.group(1).strip().replace('\\', '/').rstrip('/').split('/')[-1]
+            candidate = os.path.join('input', name)
+            return candidate if os.path.isdir(candidate) else None
+    return None
+
+
 def main(test_args=None):
     """Parse command-line arguments and orchestrate an EPM simulation run.
 
@@ -794,8 +811,8 @@ def main(test_args=None):
     parser.add_argument(
         "--folder_input",
         type=str,
-        default="data_test",
-        help="Input folder name (default: data_test)"
+        default=None,
+        help="Input folder name (default: data_test; with --postprocess, the run's own input folder)"
     )
     
     parser.add_argument(
@@ -849,8 +866,9 @@ def main(test_args=None):
     parser.add_argument(
         "--generate_figures",
         action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Generate figures during postprocessing (default: False). Use --generate-figures to enable."
+        default=None,
+        help="Generate figures during postprocessing (default: on with --postprocess, off otherwise). "
+             "Use --generate_figures / --no-generate_figures to force."
     )
 
     parser.add_argument(
@@ -1003,7 +1021,17 @@ def main(test_args=None):
         args.simple = ['DiscreteCap', 'y']
         
 
-    folder_input = os.path.join("input", args.folder_input)
+    if args.generate_figures is None:
+        # Postprocessing an existing run is done to get the figures; a model run skips them unless asked
+        args.generate_figures = args.postprocess is not None
+
+    if args.folder_input is None and args.postprocess is not None:
+        # Postprocessing an existing run: use the input folder it was solved with, not data_test
+        folder_input = find_run_folder_input(args.postprocess)
+        args.folder_input = os.path.basename(folder_input) if folder_input else None
+    else:
+        args.folder_input = args.folder_input or "data_test"
+        folder_input = os.path.join("input", args.folder_input)
     folder = None
     results_folder = None
 

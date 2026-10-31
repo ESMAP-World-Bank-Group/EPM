@@ -752,9 +752,10 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     
     #-----------------------------
     
-    # Check if all keys are in epm_results
+    # Check if all keys are in epm_results (a key whose fallback is present is not reported)
+    fallback_keys = {'pReserveMargin': 'pReserveMarginCountry'}
     for k in keys:
-        if k not in epm_results.keys():
+        if k not in epm_results.keys() and fallback_keys.get(k) not in epm_results.keys():
             log_warning(f'{k} not in epm_results.keys().')
         
     # Rename columns
@@ -1017,13 +1018,15 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pReserveSpinningPlantZone in epm_results')
 
-    if 'pReserveMargin' in epm_results.keys():
-        t = epm_results['pReserveMargin'].copy()
+    # Zone-level margin when reported, else the country-level one (older reports only export pReserveMarginCountry)
+    reserve_margin_key = next((k for k in ['pReserveMargin', 'pReserveMarginCountry'] if k in epm_results.keys()), None)
+    if reserve_margin_key is not None:
+        t = epm_results[reserve_margin_key].copy()
         t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
         t = ensure_columns(t)
-        summary.update({'pReserveMargin': t})
+        summary.update({reserve_margin_key: t})
     else:
-        log_warning('No pReserveMargin in epm_results')
+        log_warning('No pReserveMargin or pReserveMarginCountry in epm_results')
 
     # 6. Interconnections
 

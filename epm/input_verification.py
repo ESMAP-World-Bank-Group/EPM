@@ -577,7 +577,12 @@ def _warn_dispatch_chronology_consistency(gams, db):
 
 
 def _check_demand_forecast(gams, db):
-    """Inspect pDemandForecast energy-to-peak ratios for unusual values."""
+    """Check pDemandForecast covers every planning year and inspect energy-to-peak ratios.
+
+    Every zone with a demand forecast must define both energy and peak for every year
+    in the planning horizon. GAMS does not interpolate missing years, so a gap would
+    silently set demand to zero for that zone and year.
+    """
     try:
         if "pDemandForecast" not in db:
             return
@@ -587,6 +592,32 @@ def _check_demand_forecast(gams, db):
             return
         if records.empty:
             return
+
+        if "y" in db and db["y"].records is not None and not db["y"].records.empty:
+            planning_years = sorted(db["y"].records.iloc[:, 0].astype(str))
+            defined = set(map(tuple, records[["z", "pe", "y"]].astype(str).to_numpy()))
+            zones = sorted(records["z"].astype(str).unique())
+            types = sorted(records["pe"].astype(str).unique())
+            missing = [
+                (z, pe, y)
+                for z in zones
+                for pe in types
+                for y in planning_years
+                if (z, pe, y) not in defined
+            ]
+            if missing:
+                detail = "\n".join(
+                    f"Zone {z}, {pe}: missing years {', '.join(y for zz, p, y in missing if zz == z and p == pe)}"
+                    for z, pe in dict.fromkeys((z, pe) for z, pe, _ in missing)
+                )
+                msg = (
+                    "Error: pDemandForecast is not defined for all years in the planning horizon "
+                    f"({planning_years[0]}-{planning_years[-1]}):\n{detail}\n"
+                    "Add values for these years (zero values are treated as missing)."
+                )
+                gams.printLog(msg)
+                raise ValueError(msg)
+            gams.printLog("Success: pDemandForecast is defined for all years in the planning horizon.")
 
         df_pivot = records.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
         df_pivot.columns.name = None
@@ -618,6 +649,8 @@ def _check_demand_forecast(gams, db):
                 f"Warning: pDemandForecast is missing required columns 'energy'/'peak' after pivot. "
                 f"Got columns: {list(df_pivot.columns)}"
             )
+    except ValueError:
+        raise
     except Exception:
         gams.printLog('Unexpected error when checking pDemandForecast')
         raise

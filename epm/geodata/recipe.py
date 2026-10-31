@@ -43,12 +43,15 @@ import pandas as pd
 
 # Repo layout. Mirrors the constants in epm/geodata/zone_geometry.py, restated
 # here so that importing this module does not drag in geopandas.
-REPO_ROOT = Path(__file__).resolve().parents[2]
-RESOURCES_DIR = REPO_ROOT / 'epm' / 'resources' / 'postprocess'
+# Anchored on this package's own folder, not its name: the code also runs from
+# copies whose folder is not called `epm`.
+EPM_DIR = Path(__file__).resolve().parents[1]
+REPO_ROOT = EPM_DIR.parent
+RESOURCES_DIR = EPM_DIR / 'resources' / 'postprocess'
 SHARED_GEOJSON_TO_EPM = RESOURCES_DIR / 'geojson_to_epm.csv'
 SHARED_ZONE_MAP = RESOURCES_DIR / 'zones.geojson'
 SHARED_ZONES_CUSTOM = RESOURCES_DIR / 'zones_custom.geojson'
-INPUT_DIR = REPO_ROOT / 'epm' / 'input'
+INPUT_DIR = EPM_DIR / 'input'
 
 STAMP_KEY = 'epm_source'
 GENERATOR = 'epm/geodata/zone_layers.py'

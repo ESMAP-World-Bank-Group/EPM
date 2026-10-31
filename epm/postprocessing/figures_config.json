@@ -60,7 +60,9 @@
         "DispatchZoneMaxLoadSeason": false,
         "DispatchZoneFullSeason": true,
         "DispatchSystemMaxLoadDay": false,
-        "DispatchSystemMaxLoadSeason": false
+        "DispatchSystemMaxLoadSeason": false,
+        "ReserveCountryAllSeasons": true,
+        "ReserveSystemAllSeasons": true
       }
     },
     "interconnection": {
