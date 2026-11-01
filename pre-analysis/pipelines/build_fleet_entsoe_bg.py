@@ -30,7 +30,7 @@ as a committed row, Status 2, StYr 2026.
   Storage 8.5 h at full turbine output (NEK, Yadenitsa project page).
 
 Writes the comparison to pre-analysis/output_prices/robg/bg_fleet_entsoe.csv.
-ENTSO-E data are cached in Data/cache_entso_e/fleet/ (outside git); a missing
+ENTSO-E data are cached in Data/EU/cache_entso_e/fleet/ (outside git); a missing
 file is fetched with entsoe-py, the token read from config/api_tokens.ini.
 
 Usage (from EPM/):  python pre-analysis/pipelines/build_fleet_entsoe_bg.py
@@ -57,7 +57,7 @@ GEN_FILES = [
 STORAGE_FILES = [DATA / "supply" / "pStorageDataInput.csv",
                  DATA / "cesi" / "unwired" / "pStorageDataInput_cesi.csv"]
 AVAIL_FILE = DATA / "supply" / "pAvailabilityCustom.csv"
-CACHE = _PRE_ANALYSIS.parents[1] / "Data" / "cache_entso_e" / "fleet"
+CACHE = _PRE_ANALYSIS.parents[1] / "Data" / "EU" / "cache_entso_e" / "fleet"
 OUT_CSV = _PRE_ANALYSIS / "output_prices" / "robg" / "bg_fleet_entsoe.csv"
 
 ZONE = "Bulgaria"

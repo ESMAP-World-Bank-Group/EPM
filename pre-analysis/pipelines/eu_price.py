@@ -511,7 +511,7 @@ def plot_qc(cache_dir: Path, repdays_dir: Path, out_dir: Path, year: int,
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--cache-dir", type=Path,
-                    default=_PRE_ANALYSIS.parents[1] / "Data" / "cache_entso_e",
+                    default=_PRE_ANALYSIS.parents[1] / "Data" / "EU" / "cache_entso_e",
                     help="folder holding da_<code>_<from>_<to>.parquet")
     ap.add_argument("--repdays-dir", type=Path,
                     default=_PRE_ANALYSIS / "representative_days" / "output" / "blacksea",

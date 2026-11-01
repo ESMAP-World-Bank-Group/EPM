@@ -16,7 +16,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parents[1]
 PRICES = HERE / "output_prices"
-OUT = HERE.parents[1] / "EU_border_prices.xlsx"     # next to the deck
+OUT = HERE.parents[1] / "Data" / "EU" / "price_analysis" / "EU_border_prices.xlsx"
 
 ZONES = ["Romania", "Bulgaria", "Greece"]
 YEARS = range(2024, 2041)

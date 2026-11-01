@@ -46,7 +46,7 @@ Method
   shape is not.
 * Trakia-Greece is kept at its LC_Baseline values.
 
-Flows are cached in Data/cache_entso_e/flows/ (outside git). A missing file is
+Flows are cached in Data/EU/cache_entso_e/flows/ (outside git). A missing file is
 fetched with entsoe-py; the token is read from config/api_tokens.ini.
 
 Usage (from EPM/):  python pre-analysis/pipelines/build_ext_limits_robg.py
@@ -71,7 +71,7 @@ REF_ZEXT = TRADE_DIR / "zext.csv"
 OUT_LIMIT = TRADE_DIR / "pExtTransferLimit_robg.csv"
 OUT_ZEXT = TRADE_DIR / "zext_robg.csv"
 OUT_DIR = _PRE_ANALYSIS / "output_prices" / "robg"
-FLOW_DIR = _PRE_ANALYSIS.parents[1] / "Data" / "cache_entso_e" / "flows"
+FLOW_DIR = _PRE_ANALYSIS.parents[1] / "Data" / "EU" / "cache_entso_e" / "flows"
 
 YEAR = 2025
 QUANTILE = 0.99

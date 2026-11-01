@@ -52,7 +52,7 @@ TRADE_DIR = _EPM / "epm" / "input" / "data_blacksea" / "trade"
 CURRENT = TRADE_DIR / "pExtTransferLimit_robg.csv"
 OUT_LIMIT = TRADE_DIR / "pExtTransferLimit_robg_tyndp.csv"
 OUT_DIR = _PRE_ANALYSIS / "output_prices" / "robg"
-TYNDP_DIR = _PRE_ANALYSIS.parents[1] / "Data" / "TYNDP" / "2024"
+TYNDP_DIR = _PRE_ANALYSIS.parents[1] / "Data" / "EU" / "TYNDP" / "2024"
 TYNDP_FILES = {
     2030: "MMStandardOutputFile_NT2030_Plexos_CY2009_2.5_v40.xlsx",
     2040: "MMStandardOutputFile_NT2040_Plexos_CY2009_2.5_v40.xlsx",

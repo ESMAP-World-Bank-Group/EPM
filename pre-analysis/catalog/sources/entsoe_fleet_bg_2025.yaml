@@ -12,7 +12,7 @@ access_note: >
   INSTALLED CAPACITY. Dataset A68, Installed Capacity per Production Type, Bulgaria,
   values for 2025 and 2026 (capacity at the start of each year), fetched with entsoe-py
   (query_installed_generation_capacity) and cached in
-  Data/cache_entso_e/fleet/instcap_BG_<year>.csv.
+  Data/EU/cache_entso_e/fleet/instcap_BG_<year>.csv.
 
     type                     2025 MW   2026 MW   model before
     Solar                      6,104     7,159        2,424
@@ -26,7 +26,7 @@ access_note: >
     Nuclear                    2,000     2,000        2,080
 
   GENERATION. Dataset A75, Actual Generation per Production Type, Bulgaria, 2019-2025,
-  aggregated to quarters and cached in Data/cache_entso_e/fleet/gen_BG_quarterly_2019_2025.csv.
+  aggregated to quarters and cached in Data/EU/cache_entso_e/fleet/gen_BG_quarterly_2019_2025.csv.
   Run-of-river mean capacity factor on 547 MW: Q1 0.2365, Q2 0.4564, Q3 0.1782, Q4 0.1739.
   Mean annual energy: run-of-river about 1.25 TWh, reservoir about 2.04 TWh. Pumped
   storage generation about 0.01 TWh a year in 2022-2024 and 0.21 TWh in 2025.

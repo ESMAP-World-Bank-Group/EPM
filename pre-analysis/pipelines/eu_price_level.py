@@ -647,9 +647,9 @@ def plot_qc(out_dir: Path, log=print) -> None:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Build L(zext,y), the EU price level.")
     ap.add_argument("--cache-dir", type=Path,
-                    default=_PRE_ANALYSIS.parents[1] / "Data" / "cache_entso_e")
+                    default=_PRE_ANALYSIS.parents[1] / "Data" / "EU" / "cache_entso_e")
     ap.add_argument("--tyndp-dir", type=Path,
-                    default=_PRE_ANALYSIS.parents[1] / "Data" / "TYNDP" / "2024")
+                    default=_PRE_ANALYSIS.parents[1] / "Data" / "EU" / "TYNDP" / "2024")
     ap.add_argument("--config", type=Path,
                     default=_PRE_ANALYSIS / "config" / "price_deflators.csv")
     ap.add_argument("--out-dir", type=Path, default=_PRE_ANALYSIS / "output_prices")

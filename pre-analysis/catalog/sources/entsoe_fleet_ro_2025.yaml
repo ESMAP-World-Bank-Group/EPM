@@ -12,7 +12,7 @@ access_note: >
   INSTALLED CAPACITY. Dataset A68, Installed Capacity per Production Type, Romania, values
   for 2025 and 2026 (capacity at the start of each year), fetched with entsoe-py
   (query_installed_generation_capacity) and cached in
-  Data/cache_entso_e/fleet/instcap_RO_<year>.csv.
+  Data/EU/cache_entso_e/fleet/instcap_RO_<year>.csv.
 
     type                     2025 MW   2026 MW   model 2025 before   model 2025 after
     Fossil gas                 2,179     2,275        4,528               2,379

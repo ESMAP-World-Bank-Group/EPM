@@ -12,7 +12,7 @@ access_note: >
 
   CAPACITIES. Dataset A11, Cross-Border Physical Flow, calendar year 2025, both directions,
   fetched with entsoe-py (query_crossborder_flows) and cached in
-  Data/cache_entso_e/flows/flow_<from>_<to>_2025.csv. Capacity per border = 99th percentile
+  Data/EU/cache_entso_e/flows/flow_<from>_<to>_2025.csv. Capacity per border = 99th percentile
   of the flow in the dominant direction, rounded to 50 MW, symmetric, flat over all years
   and seasons. Reproduced by pre-analysis/pipelines/build_ext_limits_robg.py, which also
   writes the statistics to pre-analysis/output_prices/robg/border_flows_2025.csv.
@@ -40,7 +40,7 @@ access_note: >
 
   PRICES. Hungary is priced with the same chain as the existing EU zones (P = L x S,
   pre-analysis/pipelines/eu_price.py and eu_price_level.py): shape S from the 2023 HU
-  day-ahead price (dataset A44, cached in Data/cache_entso_e), level L anchored on observed
+  day-ahead price (dataset A44, cached in Data/EU/cache_entso_e), level L anchored on observed
   2024 and joined to TYNDP 2024 National Trends, node HU00, CENTRAL trajectory, EUR 2024,
   converted at 1.0824 USD/EUR. Serbia and North Macedonia take the Hungarian price: their
   TYNDP 2024 NT 2030 marginal costs (RS00 81.8, MK00 83.1 EUR2022/MWh) are within 1.5 percent
