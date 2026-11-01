@@ -111,10 +111,10 @@ derived_files:
       Staged sell side, derived from the buy side by NON_EU_SELLER_LOSS["Kazakhstan"].
     source_file: "pHourlyPrice.csv"
 used_in:
-  - script: "blacksea_2026/apply_kz_price.py"
+  - script: "blacksea_2026/_archive/method_slides/apply_kz_price.py"
   - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_trade_prices.py"
   - script: "blacksea_2026/EPM/pre-analysis/promote_trade_prices.py"
-  - script: "blacksea_2026/Kazakhstan_price_method_slide.py"
+  - script: "blacksea_2026/_archive/method_slides/Kazakhstan_price_method_slide.py"
 quality:
   confidence: medium
   notes: >
@@ -130,7 +130,7 @@ quality:
     comparable dual exists for them in any deployment at hand, so correcting them would
     mean inventing a cost rather than reading one. That is an open item, not an oversight.
 
-    Method slide: blacksea_2026/Kazakhstan_price_method.pptx, built by
+    Method slide: blacksea_2026/_archive/method_slides/Kazakhstan_price_method.pptx, built by
     Kazakhstan_price_method_slide.py. apply_kz_price.py imports compute() from that same
     module to write the CSV, so the slide and the data are produced by one piece of code
     and cannot diverge.
