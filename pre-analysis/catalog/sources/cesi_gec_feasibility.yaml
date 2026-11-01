@@ -5,7 +5,7 @@ category: study_document
 date: "2026-08"
 file: "Green Energy Corridor Task 2 to Task 8 reports (PDF)"
 access_note: >
-  Project data folder Data/GECO/. Client confidential: no figure from this study may
+  Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may
   appear in a git tracked file. The values used by EPM are recorded in
   epm/input/data_blacksea/cesi/cesi_register.yaml, which is stored in DVC only.
   Issue dates: T2 and T3 2024-09-19, T5 2025-11-17, T6 2026-06-05, T8 2026-07-03,

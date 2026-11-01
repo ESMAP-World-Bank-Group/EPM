@@ -685,7 +685,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 > ⚠ **Needs review**: The losses of the existing internal lines have no source in the catalog. Document them or replace them with a sourced value.
 
@@ -708,7 +708,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 > ⚠ **Needs review**: The BSSC phase cost is an assumption. Replace it with a phase level estimate.
 
@@ -732,7 +732,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 **Method**: Zone to country map. zcmap.csv serves every scenario, zcmap_geco.csv adds the GEC zones for the five GECO scenarios
 
@@ -825,7 +825,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 **Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
 
@@ -1018,7 +1018,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 > ⚠ **Needs review**: The losses of the existing internal lines have no source in the catalog. Document them or replace them with a sourced value.
 
@@ -1041,7 +1041,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 **Method**: Zone to country map. zcmap.csv serves every scenario, zcmap_geco.csv adds the GEC zones for the five GECO scenarios
 
@@ -1216,7 +1216,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/GECO/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
 
 **Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
 
