@@ -51,8 +51,8 @@ grids:
     y: y_2y.csv
     cplexfile: null
 
-# Scopes. Ext is derived from Int by script (step 2a): Romania and Bulgaria leave the zone map
-# and come back as price zones at the EU central price. The 14 zone indexed inputs get an _ext
+# Scopes. Ext is derived from Int by tools/build_ext_inputs.py: Romania and Bulgaria leave the zone
+# map and come back as price zones at the EU central price. The 13 zone indexed inputs get an _ext
 # twin; everything else is shared with Int so that the two scopes differ by nothing else.
 scopes:
   Int:
@@ -76,7 +76,6 @@ scopes:
       pTradePrice: trade/pTradePrice_ext.csv
       pTradePriceExport: trade/pTradePriceExport_ext.csv
       pTransferLimit: trade/pTransferLimit_ext.csv
-      pTechFuel: supply/pTechFuel_ext.csv
 
 # Cases. In Int a forced link is an internal line (pTransferLimit); in Ext the same link lands
 # on a price zone, so it is an external line (pExtTransferLimit), as in the v3 Ext columns.
