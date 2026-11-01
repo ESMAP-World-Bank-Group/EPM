@@ -1,0 +1,161 @@
+# Black Sea RoBg scenario grid, architecture v4 (agreed 2026-11-01).
+#
+# tools/scenarios_build.py turns this file into epm/input/data_blacksea/scenarios.csv.
+# Scenario name = Scope_Case[_Sensitivity]_Grid, for example Int_Base_5y, Ext_BSSC_EUCBAM_5y,
+# Int_GECO_GasHi_2y. Results are compared within one grid only.
+#
+# Each column is built in layers: reference, then grid, then scope, then case, then sensitivity.
+# A value is a file path relative to the data folder. null means the config.csv default (blank
+# cell). The token {g} in a file name is the grid token (s5 or 2y): the plant files are the
+# only inputs that depend on the grid, their start years are rounded up to the next model year.
+#
+# The pre-redesign scenarios.csv (211 columns) is kept as scenarios_archive.csv for provenance.
+
+data_folder: epm/input/data_blacksea
+archive: scenarios_archive.csv
+input_version: v4   # the input set every scenario runs on; bump it when the reference changes
+
+# Int_Base on the five-year grid. Taken row by row from the S5_Base_v4 column of the archive
+# (run of 30 Oct 2026), with the grid dependent rows (y, cplexfile) moved to the grids block and
+# the plant files written with the {g} token. Parameters not listed are left to config.csv.
+reference:
+  zcmap: zcmap_robg.csv
+  pDemandForecast: load/pDemandForecast_v2.csv
+  pGenDataInput: supply/pGenDataInput_v4_{g}.csv
+  pCapexTrajectories: supply/pCapexTrajectoriesCustom_v2.csv
+  pFuelPrice: supply/pFuelPrice_robg.csv
+  pStorageDataInput: supply/pStorageDataInput_{g}.csv
+  pPlanningReserveMargin: reserve/pPlanningReserveMargin_robg.csv
+  pMaxFuellimit: constraint/pMaxFuellimit_robg.csv
+  zext: trade/zext_robg.csv
+  pExtTransferLimit: trade/pExtTransferLimit_robg.csv
+  pLossFactorInternal: trade/pLossFactorInternal_robg_hvdc.csv
+  pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_robg_cap20.csv
+  pTradePrice: trade/pTradePrice_robg.csv
+  pTradePriceExport: trade/pTradePriceExport_robg.csv
+  pTransferLimit: trade/pTransferLimit_robg_hvdc.csv
+  pTechFuel: supply/pTechFuel_robg.csv
+
+# Grids. The order here is the column order of scenarios.csv (all 5y columns, then all 2y).
+# The cplex options follow the archive: the S5 file on the five-year grid, the config default
+# (cplex_multithread.opt) on the two-year grid as in LC_FreeExp_RoBg_2y_v3.
+grids:
+  5y:
+    token: s5
+    label: "2025, 2030, 2032, 2036, 2040 (fast lane)"
+    y: y_s5.csv
+    cplexfile: cplex/cplex_s5.opt
+  2y:
+    token: 2y
+    label: "2025, then every second year to 2040 (when there is time)"
+    y: y_2y.csv
+    cplexfile: null
+
+# Scopes. Ext is derived from Int by script (step 2a): Romania and Bulgaria leave the zone map
+# and come back as price zones at the EU central price. The 14 zone indexed inputs get an _ext
+# twin; everything else is shared with Int so that the two scopes differ by nothing else.
+scopes:
+  Int:
+    label: "Romania and Bulgaria modelled"
+    cases: [Base, BSSC, GECO, Onland, FreeExp]
+    overrides: {}
+  Ext:
+    label: "Romania and Bulgaria as price zones"
+    cases: [Base, BSSC, GECO]
+    overrides:
+      zcmap: zcmap_ext.csv
+      pGenDataInput: supply/pGenDataInput_v4_{g}_ext.csv
+      pStorageDataInput: supply/pStorageDataInput_{g}_ext.csv
+      pFuelPrice: supply/pFuelPrice_ext.csv
+      pPlanningReserveMargin: reserve/pPlanningReserveMargin_ext.csv
+      pMaxFuellimit: constraint/pMaxFuellimit_ext.csv
+      zext: trade/zext_ext.csv
+      pExtTransferLimit: trade/pExtTransferLimit_ext.csv
+      pLossFactorInternal: trade/pLossFactorInternal_ext.csv
+      pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_ext.csv
+      pTradePrice: trade/pTradePrice_ext.csv
+      pTradePriceExport: trade/pTradePriceExport_ext.csv
+      pTransferLimit: trade/pTransferLimit_ext.csv
+      pTechFuel: supply/pTechFuel_ext.csv
+
+# Cases. In Int a forced link is an internal line (pTransferLimit); in Ext the same link lands
+# on a price zone, so it is an external line (pExtTransferLimit), as in the v3 Ext columns.
+cases:
+  Base:
+    label: "existing and committed lines"
+    Int: {}
+    Ext: {}
+  BSSC:
+    label: "Black Sea cable forced"
+    Int:
+      pLossFactorInternal: trade/pLossFactorInternal_robg_bssc_hvdc.csv
+      pTransferLimit: trade/pTransferLimit_robg_bssc_hvdc.csv
+    Ext:
+      pExtTransferLimit: trade/pExtTransferLimit_ext_bssc.csv
+  GECO:
+    label: "GEC links forced"
+    Int:
+      zcmap: zcmap_robg_geco.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_hvdc.csv
+      pTransferLimit: trade/pTransferLimit_robg_geco_hvdc.csv
+    Ext:
+      zcmap: zcmap_ext_geco.csv
+      pExtTransferLimit: trade/pExtTransferLimit_ext_geco.csv
+  Onland:
+    label: "Türkiye on land corridor forced"
+    Int:
+      pLossFactorInternal: trade/pLossFactorInternal_robg_onland_hvdc.csv
+      pTransferLimit: trade/pTransferLimit_robg_onland_hvdc.csv
+  FreeExp:
+    label: "capacities optimised (RMIP; the MIP variant adds cplex/cplex_mip_s5.opt)"
+    Int:
+      zcmap: zcmap_robg_geco.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_onland_hvdc.csv
+      pNewTransmission: trade/pNewTransmission_robg_freeexp_v3.csv
+      pNewTransmissionExt: trade/pNewTransmissionExt_robg_freeexp.csv
+      pTransferLimit: trade/pTransferLimit_robg_freeexp_hvdc.csv
+
+# Sensitivities, one at a time, on the three core cases of each scope.
+sensitivities:
+  cases: [Base, BSSC, GECO]
+  Int:
+    ETSLo:
+      label: "low ETS price"
+      pFuelPrice: supply/pFuelPrice_s5_etslo.csv
+    ETSHi:
+      label: "high ETS price"
+      pFuelPrice: supply/pFuelPrice_s5_etshi.csv
+    GasLo:
+      label: "low gas price"
+      pFuelPrice: supply/pFuelPrice_s5_gaslo.csv
+    GasHi:
+      label: "high gas price"
+      pFuelPrice: supply/pFuelPrice_s5_gashi.csv
+    DemLo:
+      label: "low demand"
+      pDemandForecast: load/pDemandForecast_v2_s5_demlo.csv
+    DemHi:
+      label: "high demand"
+      pDemandForecast: load/pDemandForecast_v2_s5_demhi.csv
+    AzGas10:
+      label: "Azerbaijan gas at 10 USD per MMBtu"
+      pFuelPrice: supply/pFuelPrice_s5_azgas10.csv
+    ResHi:
+      label: "high renewable build limits"
+      pGenDataInput: supply/pGenDataInput_v4_{g}_reshi.csv
+  Ext:
+    EUVeryLow:
+      label: "EU very low price"
+      pTradePrice: trade/pTradePrice_ext_eu_very_low.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_very_low.csv
+    EUCrisis:
+      label: "EU crisis price"
+      pTradePrice: trade/pTradePrice_ext_eu_crisis.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_crisis.csv
+    EUCBAM:
+      label: "EU central price, CBAM on exports"
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_central_cbam.csv
+
+# Columns that must equal an archive column row by row. Checked at every build.
+identical_to_archive:
+  Int_Base_5y: S5_Base_v4
