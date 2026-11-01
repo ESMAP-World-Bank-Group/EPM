@@ -76,17 +76,25 @@ def solid(c):
                 linewidth=.2)
 
 
-def model_capacity(d, scope, scenario, pyears):
-    """Cache capacity, merged into the plan's technology vocabulary."""
+def model_years(d, pyears):
+    """Model year read for each plan year: the same year when the run has it,
+    else the nearest one (a five-year grid has 2036, not 2035)."""
+    have = [int(y) for y in d["years"]]
+    return [y if y in d["years"] else
+            str(min(have, key=lambda h: (abs(h - int(y)), h)))
+            for y in pyears]
+
+
+def model_capacity(d, scope, scenario, myears):
+    """Cache capacity on the given model years, merged into the plan's
+    technology vocabulary."""
     cap = d["annual"][scope][scenario]["cap"]
     out = {}
     for tech, series in cap.items():
         k = MERGE.get(tech, tech)
-        row = out.setdefault(k, [0.0] * len(pyears))
-        for j, y in enumerate(pyears):
-            i = d["years"].index(y) if y in d["years"] else -1
-            if i >= 0:
-                row[j] += series[i] or 0.0
+        row = out.setdefault(k, [0.0] * len(myears))
+        for j, y in enumerate(myears):
+            row[j] += series[d["years"].index(y)] or 0.0
     return out
 
 
@@ -161,7 +169,8 @@ def main():
     plans = json.loads(PLANS.read_text(encoding="utf-8"))
     plan = plans["capacity_gw"].get(a.scope) or {}
     pyears = [str(y) for y in plans["years"]]
-    model = model_capacity(d, a.scope, a.scenario, pyears)
+    myears = model_years(d, pyears)
+    model = model_capacity(d, a.scope, a.scenario, myears)
     study = study_capacity(a.study, a.scope)
     peak = peak_demand(a.peak, a.scope, pyears)
 
@@ -175,7 +184,8 @@ def main():
         g = []
         if any(v[j] is not None for v in plan.values()):
             g.append(("Plan", {k: v[j] or 0.0 for k, v in plan.items()}))
-        g.append(("Model", {k: v[j] for k, v in model.items()}))
+        g.append(("Model" if myears[j] == pyears[j] else "Model\n%s" % myears[j],
+                  {k: v[j] for k, v in model.items()}))
         groups.append(g)
     for i, sy in enumerate(STUDY_YEARS):
         if not study:

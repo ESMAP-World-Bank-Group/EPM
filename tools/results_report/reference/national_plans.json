@@ -1,5 +1,5 @@
 {
- "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run. A year is null when the plan document does not reach it, and a country is absent when it has no plan document at all: no bar is drawn in either case. The 2025 column is the observed fleet only for Georgia (GSE); for Turkiye and Armenia it is the plan document's own 2025 figure.",
+ "_note": "Published national plans, the only hand-entered numbers in the report. Model figures are always recomputed from the run. A year is null when the plan document does not reach it, and a country is absent when it has no plan document at all: no bar is drawn in either case. The 2025 column is the observed fleet only for Georgia (GSE); for Turkiye, Armenia, Romania and Bulgaria it is the plan document's own 2025 figure.",
  "years": [
   2025,
   2030,
@@ -10,7 +10,9 @@
   "Turkiye": "NEP (MENR) reference scenario, horizon 2035; 2040 not covered",
   "Georgia": "GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered",
   "Azerbaijan": "no plan document; the COP29 pledge is a single 7 GW renewable target for 2030, so no plan bar is drawn",
-  "Armenia": "USAID LCEDP (to 2036) and EPSO base forecast (to 2040)"
+  "Armenia": "USAID LCEDP (to 2036) and EPSO base forecast (to 2040)",
+  "Romania": "NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro",
+  "Bulgaria": "NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
  },
  "capacity_gw": {
   "Turkiye": {
@@ -119,6 +121,100 @@
     0.824,
     0.824,
     0.824
+   ]
+  },
+  "Romania": {
+   "Battery": [
+    0.2,
+    1.2,
+    2.0,
+    2.0
+   ],
+   "Biomass": [
+    0.5,
+    0.1,
+    null,
+    null
+   ],
+   "Coal": [
+    2.6,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "Gas": [
+    3.6,
+    5.8,
+    5.8,
+    5.4
+   ],
+   "Hydro": [
+    6.6,
+    7.7,
+    7.7,
+    7.7
+   ],
+   "Nuclear": [
+    1.4,
+    1.8,
+    3.2,
+    3.2
+   ],
+   "Solar": [
+    4.2,
+    8.2,
+    14.8,
+    21.4
+   ],
+   "Wind": [
+    3.7,
+    7.3,
+    9.1,
+    12.8
+   ]
+  },
+  "Bulgaria": {
+   "Biomass": [
+    0.4,
+    0.4,
+    0.2,
+    0.2
+   ],
+   "Coal": [
+    3.6,
+    2.0,
+    1.0,
+    0.1
+   ],
+   "Gas": [
+    1.1,
+    1.9,
+    2.2,
+    2.7
+   ],
+   "Hydro": [
+    2.5,
+    2.6,
+    2.6,
+    4.1
+   ],
+   "Nuclear": [
+    2.0,
+    2.0,
+    3.3,
+    4.5
+   ],
+   "Solar": [
+    3.8,
+    7.0,
+    10.1,
+    12.6
+   ],
+   "Wind": [
+    0.7,
+    2.4,
+    4.4,
+    5.9
    ]
   }
  },
