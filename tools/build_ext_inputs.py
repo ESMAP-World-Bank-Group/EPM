@@ -25,7 +25,7 @@ Ext scope: Romania and Bulgaria (RB below) leave the zone map and come back as p
                                         The Romania to Bulgaria line joins two price zones and disappears.
   trade/pLossFactorInternal_ext         pLossFactorInternal_robg_hvdc without the rows touching RB (the BSSC and GECO
   trade/pTransferLimit_ext              variants give the same file once their RB rows are dropped, checked here)
-  trade/pMaxAnnualExternalTradeShare_ext   the cap20 file without the Romania and Bulgaria columns
+  trade/pMaxAnnualExternalTradeShare_ext   the _robg share file without the Romania and Bulgaria columns
   trade/pTradePrice[Export]_ext         the robg price rows of the zext kept, plus the Romania and Bulgaria rows of
                                         the eu_central file
   trade/pTradePrice[Export]_ext_<eu case>  the robg rows of the non EU zext, plus the Greece, Romania and Bulgaria
@@ -268,7 +268,7 @@ def build_small(log, out):
     j = t.col("z")
     out["constraint/pMaxFuellimit_ext.csv"] = t.keep(lambda r: r[j] not in RB)
     log.append(f"  pMaxFuellimit_ext: {[(r[0], r[1]) for r in out['constraint/pMaxFuellimit_ext.csv'].rows]}")
-    t = Table.read("trade/pMaxAnnualExternalTradeShare_robg_cap20.csv")
+    t = Table.read("trade/pMaxAnnualExternalTradeShare_robg.csv")
     ext = t.drop_columns(list(RB))
     ref = Table.read("trade/pMaxAnnualExternalTradeShare.csv")
     same = ext.header == ref.header and all(all(num_equal(a, b) for a, b in zip(r, s)) for r, s in zip(ext.rows, ref.rows)) and len(ext.rows) == len(ref.rows)
@@ -434,7 +434,7 @@ def main(argv=None):
     sources = ["supply/pGenDataInput_v2_s5.csv", "supply/pGenDataInput_v2_2y.csv", "supply/pGenDataInput_v4_s5.csv",
                "supply/pGenDataInput_v2_s5_reshi.csv", "supply/pStorageDataInput.csv", "supply/pStorageDataInput_s5.csv",
                "zcmap_robg.csv", "zcmap_robg_geco.csv", "supply/pFuelPrice_robg.csv", "reserve/pPlanningReserveMargin_robg.csv",
-               "constraint/pMaxFuellimit_robg.csv", "trade/pMaxAnnualExternalTradeShare_robg_cap20.csv", "trade/zext_robg.csv",
+               "constraint/pMaxFuellimit_robg.csv", "trade/pMaxAnnualExternalTradeShare_robg.csv", "trade/zext_robg.csv",
                "trade/pExtTransferLimit_robg.csv", "trade/pTradePrice_robg.csv", "trade/pTradePriceExport_robg.csv"] + \
               [f"trade/{p}_{c}_hvdc.csv" for c in CASES.values() for p in ("pTransferLimit", "pLossFactorInternal")] + \
               [f"trade/{p}_{c}.csv" for c in ["eu_central"] + list(EU_CASES) for p in ("pTradePrice", "pTradePriceExport")

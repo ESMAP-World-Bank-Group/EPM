@@ -13,24 +13,27 @@
 
 data_folder: epm/input/data_blacksea
 archive: scenarios_archive.csv
-input_version: v4   # the input set every scenario runs on; bump it when the reference changes
+input_version: v5   # the input set every scenario runs on; bump it when the reference changes
 
 # Int_Base on the five-year grid. Taken row by row from the S5_Base_v4 column of the archive
 # (run of 30 Oct 2026), with the grid dependent rows (y, cplexfile) moved to the grids block and
 # the plant files written with the {g} token. Parameters not listed are left to config.csv.
+# v5 (2026-11-02, pre-analysis/pipelines/build_robg_v5.py) differs from v4 on two rows: no cap
+# on external trade (the _robg share file of v3, 3 everywhere) and the Bulgarian batteries at
+# 4.5 GW and 14 GWh (pStorageDataInput_v5). Border capacities are the v3 and v4 _robg file.
 reference:
   zcmap: zcmap_robg.csv
   pDemandForecast: load/pDemandForecast_v2.csv
   pGenDataInput: supply/pGenDataInput_v4_{g}.csv
   pCapexTrajectories: supply/pCapexTrajectoriesCustom_v2.csv
   pFuelPrice: supply/pFuelPrice_robg.csv
-  pStorageDataInput: supply/pStorageDataInput_{g}.csv
+  pStorageDataInput: supply/pStorageDataInput_v5_{g}.csv
   pPlanningReserveMargin: reserve/pPlanningReserveMargin_robg.csv
   pMaxFuellimit: constraint/pMaxFuellimit_robg.csv
   zext: trade/zext_robg.csv
   pExtTransferLimit: trade/pExtTransferLimit_robg.csv
   pLossFactorInternal: trade/pLossFactorInternal_robg_hvdc.csv
-  pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_robg_cap20.csv
+  pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_robg.csv
   pTradePrice: trade/pTradePrice_robg.csv
   pTradePriceExport: trade/pTradePriceExport_robg.csv
   pTransferLimit: trade/pTransferLimit_robg_hvdc.csv
@@ -155,6 +158,6 @@ sensitivities:
       label: "EU central price, CBAM on exports"
       pTradePriceExport: trade/pTradePriceExport_ext_eu_central_cbam.csv
 
-# Columns that must equal an archive column row by row. Checked at every build.
-identical_to_archive:
-  Int_Base_5y: S5_Base_v4
+# Columns that must equal an archive column row by row. Checked at every build. Empty since v5:
+# Int_Base_5y equalled S5_Base_v4 up to v4; no archive column carries the v5 inputs.
+identical_to_archive: {}

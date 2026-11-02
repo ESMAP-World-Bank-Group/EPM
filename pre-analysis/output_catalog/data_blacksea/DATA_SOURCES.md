@@ -1,6 +1,6 @@
 # Data Sources — EPM — Black Sea 2026
 
-*Generated 2026-10-29*
+*Generated 2026-11-02*
 
 ---
 
@@ -685,7 +685,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 > ⚠ **Needs review**: The losses of the existing internal lines have no source in the catalog. Document them or replace them with a sourced value.
 
@@ -708,7 +708,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 > ⚠ **Needs review**: The BSSC phase cost is an assumption. Replace it with a phase level estimate.
 
@@ -732,7 +732,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 **Method**: Zone to country map. zcmap.csv serves every scenario, zcmap_geco.csv adds the GEC zones for the five GECO scenarios
 
@@ -741,8 +741,9 @@
 | 2032 to 2053, GECO scenarios | `CHANGED` | CHANGED 2026-09-11. GEC_GE, the Georgian node of the CESI corridor, is a zone of its own mapped to Georgia in zcmap_geco.csv, read only by the five GECO scenarios. It receives the GEC links from the Azerbaijan hub and to Romania, and reaches the Georgia grid through a tap only, as in the CESI topology. Since 2026-09-12 it also holds the Georgia RES hub candidates (pGenDataInput entry of the same date). The tap and link capacities are documented under pTransferLimit. Values in cesi/cesi_register.yaml (k17). Source CESI GEC T6 p34 Fig 5-11. The other scenarios read zcmap.csv and never see this zone. |
 | 2025 to 2040, RoBg family, applied 2026-10-04 | `CHANGED` | zcmap_robg.csv, read only by LC_Baseline_RoBg, is zcmap.csv with Romania and Bulgaria added as zones of their own countries. The file carried since 2026-07-02 predated Nakhchivan and iran_swap, which the internal transfer and loss files reference; it is rebuilt from the current zcmap.csv (backup .bak_robg7_20261004). The scenario column also points zext, pExtTransferLimit, pTransferLimit, pLossFactorInternal, pTradePrice, pTradePriceExport and pPlanningReserveMargin to their _robg files, and pMaxAnnualExternalTradeShare to trade/pMaxAnnualExternalTradeShare_robg.csv: the base file has no Romania or Bulgaria column, and base.gms (eMaxAnnualImportShareEnergy and eMaxAnnualExportShareEnergy) multiplies demand by this share, so a missing column reads as 0 and would forbid any external trade of the two countries. Both get 3, the value of every other country, which caps nothing. |
 | 2025 to 2040, RoBg baseline v4, applied 2026-10-29 | `ASSUMPTION` | trade/pMaxAnnualExternalTradeShare_robg_cap20.csv, read only by S5_Base_v4 (pre-analysis/pipelines/build_robg_v4.py), is the _robg file with Romania and Bulgaria at 0.2 in every year. The constraint caps gross external exports and gross external imports, each as a share of demand. 0.2 is the 2025 level of S5_Base_v3 (Bulgaria exports 0.18 and imports 0.19, Romania imports 0.16), so the base year is untouched and the cap binds on the export growth of 2030 to 2040 (S5_Base_v3 2040: Romania 0.28, Bulgaria 0.36). Reason: the neighbour prices are exogenous and do not respond to volume, so uncapped exports run well above the national plans (Romania NECP net imports below 5 percent of demand to 2030; Bulgaria ESO plan net imports of 4.5 TWh in 2030). |
+| 2025 to 2040, RoBg reference v5, applied 2026-11-02 | `ASSUMPTION` | The v5 reference (internal_analysis/scenarios/scenario_grid.yaml, every Int column of scenarios.csv) reads trade/pMaxAnnualExternalTradeShare_robg.csv again, as v3 did: 3 for every country, so external trade is limited by the border capacities only. The cap20 file is kept for the archive columns and as a possible sensitivity. The Ext scope keeps trade/pMaxAnnualExternalTradeShare_ext.csv, unchanged. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-10-29*
+*Confidence: [MEDIUM] · Last updated: 2026-11-02*
 
 
 ---
@@ -825,7 +826,7 @@
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 **Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
 
@@ -1018,7 +1019,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 > ⚠ **Needs review**: The losses of the existing internal lines have no source in the catalog. Document them or replace them with a sourced value.
 
@@ -1041,7 +1042,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 **Method**: Zone to country map. zcmap.csv serves every scenario, zcmap_geco.csv adds the GEC zones for the five GECO scenarios
 
@@ -1216,7 +1217,7 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 
 **Source**: CESI, Green Energy Corridor (Azerbaijan, Georgia, Romania, Hungary) feasibility study, Tasks 2 to 8 (`cesi_gec_feasibility`)
 
-**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_register.yaml,…
+**Data / file**: Project data folder Data/Corridors/GEC/. Client confidential: no figure from this study may appear in a git tracked file. The values used by EPM are recorded in epm/input/data_blacksea/cesi/cesi_regis…
 
 **Also uses**: [Our World in Data (OWID) — Energy Dataset (IEA source)](https://ourworldindata.org/energy)
 
@@ -1565,7 +1566,6 @@ The IEA has urged Azerbaijan to abolish the domestic subsidy, so the economic an
 | Reference v2, applied 2026-10-23 | `CONSTRUCTED` | supply/pGenDataInput_v2.csv, read by the 39 scenarios.csv columns with the suffix _v2 only (pre-analysis/pipelines/build_reference_v2_robg.py); the base file is unchanged. HARMONISATION of the Romanian generic onshore wind with the Caucasus and Bulgaria, which read the CCDR default of 1.3 $m/MW and the default trajectory of their zone: the nine Generic Onshore Wind classes and Wind_INECP_3 move from 1.75 $m/MW and 45,000 $/MW/yr to 1.3 and 40,000, the Romania defaults of pGenDataInputDefault.csv. Their custom trajectory rows (0.942 in 2030, 0.886 floor, so 1.65 $m/MW in 2030 against 1.0 elsewhere) and the rows of Generic Solar Fixed and Generic Offshore Wind Fixed are dropped from supply/pCapexTrajectoriesCustom_v2.csv, so input_treatment.py fills them from pCapexTrajectoriesDefault.csv (Romania OnshoreWind 0.77, PV 0.80, OffshoreWind 0.714 in 2030). Named wind farms, the Wind*_corrected_* blocks, floating offshore, battery, biomass, CCS and geothermal keep their values and rows. The S5 grid, ResHi, Hub50 and Hub100 variants and the two-year grid are re-derived from the v2 file (_v2_s5, _v2_s5_reshi, _v2_s5_hub50, _v2_s5_hub100, _v2_2y) by the same rules as their originals, which the builder re-derives byte for byte from the base file as a check. Reason: the robg9 and S5 results showed the GEC increment displacing Romanian wind priced 65 percent above the neighbouring zones from two unharmonised sources. |
 | Dobrogea 2z, applied 2026-10-23 | `CONSTRUCTED` | supply/pGenDataInput_v2_s5_2z.csv, read by the six scenarios.csv columns S5_Base_2z47_v3, S5_BSSC_2z47_v3, S5_GECO_2z47_v3, S5_Base_2z32_v3, S5_BSSC_2z32_v3 and S5_GECO_2z32_v3 only (pre-analysis/pipelines/build_dobrogea_2z.py), the Dobrogea sensitivity of the S5 v3 trio: Romania split into two zones of the same country, Dobrogea and the rest of Romania (zcmap_robg_2z.csv, zcmap_robg_geco_2z.csv). Dobrogea = the Transelectrica section S6 (Constanta, Tulcea, Galati, Braila, Calarasi and Ialomita counties): the five Cernavoda rows, the 22 named wind farms located in those counties (3,163 MW) and the two generic offshore candidates move to Dobrogea; every other Romanian row (Doicesti, the unlocated and generic onshore wind classes, PV, thermal, hydro, storage) stays in the rest of Romania, so new onshore wind is sited outside the section unless named there (a low case for local wind). The technology defaults, availability, capex trajectories, demand profile and VRE profiles of Romania are copied as Dobrogea rows (_2z twins of the config.csv default files, same values). |
 | RoBg baseline v4, applied 2026-10-29 | `ASSUMPTION` | supply/pGenDataInput_v4_s5.csv, read only by S5_Base_v4 (pre-analysis/pipelines/build_robg_v4.py), is supply/pGenDataInput_v2_s5.csv with ten rows edited. Romania gas: the six CHP extensions (TPP Progresu_Ext, Grozavesti_Ext, CET Govora_Ext, TPP Bucuresti Vest_Ext, TPP Bucuresti Sud_Ext, TPP Midia_Navodari_Ext, 932.5 MW) and Mintia CCGT phase 2 (600 MW) move from committed to candidate; they are life extensions and a second phase without a firm date, and committed they put the gas fleet above the NECP. Mintia phase 1, Iernut, Isalnita, Craiova and Turceni stay committed. Doicesti SMR: earliest entry 2030 -> 2033 (first module in the SNN investment strategy, so 2036 on the five-year grid) and heat rate 3.82 -> 11.3 MMBtu/MWh, the Kozloduy new build value, 3.82 being an input error of the source workbook. Bulgaria, Kozloduy 7 and 8: 1,000 -> 1,200 MW each (capacity and unit size) and unit 8 2040 -> 2036, after the Bulgarian review of the inception deck (operation 2035 to 2037, 1.2 GW per unit); 2037 is not a year of the five-year grid and a committed plant is only built at y = StYr. |
-| RoBg baseline v4, storage, applied 2026-10-30 | `CONSTRUCTED` | supply/pStorageDataInput_s5.csv, read only by S5_Base_v4 (pre-analysis/pipelines/build_robg_v4.py), is supply/pStorageDataInput.csv with the StYr of Bulgaria_Battery_2026 (4,024 MW), Bulgaria_Chaira_U3, Bulgaria_Chaira_U1 and Romania_Battery_2026 (356 MW) moved from 2026 / 2028 to 2030; every other value is unchanged. main.gms builds a committed plant only in the modelled year equal to StYr, 2026 and 2028 are not years of the five-year grid (y_s5.csv), and input_treatment.merge_storage_into_gendata keeps the StYr of the storage file over that of the generator file, so with the default storage file these four units were never built in any S5 run, S5_Base_v3 included (audit of 2026-10-30). The generator file already carries 2030 for the same rows. |
 
 *Confidence: [MEDIUM] · Last updated: 2026-10-23*
 
@@ -1921,8 +1921,9 @@ BOTH FIXED on 2026-09-24 by the realignment on 12_46: the 2024 gas price is now 
 | Period | Method | Notes |
 |--------|--------|-------|
 | 2024-2053 | `CALIBRATED` | Added 2026-10-04 by pre-analysis/pipelines/build_fleet_entsoe_bg.py to supply/pStorageDataInput.csv and cesi/unwired/pStorageDataInput_cesi.csv, for the RoBg family. Before, the Bulgarian storage rows lived in pGenDataInput only; CapacityMWh exists only in pStorageDataInput and the Default StorageDuration is empty, so they had no energy and stored nothing. One row per storage unit of pGenDataInput, same power, with CapacityMWh: batteries (Bulgaria_Battery 1,382 MW, Bulgaria_Battery_2026 4,024 MW) at 2.6 h, the ratio of the ENTSO-E May 2026 figures, 8.6 GWh over 3.32 GW (MR East, August 2026); the RESTORE support scheme requires at least 2 h. Chaira units (4 x 216 MW) at 8.5 h, the turbine-mode duration of the lower reservoir given by NEK (10.7 h in pumping mode). Efficiency, FOM and VOM read the Bulgaria block of pStorageDataInputDefault.csv (CCDR values). |
+| RoBg reference v5, applied 2026-11-02 | `ASSUMPTION` | supply/pStorageDataInput_v5_s5.csv and _v5_2y.csv (pre-analysis/pipelines/build_robg_v5.py), read by every Int column of the v5 grid, are the _s5 and _2y files with Bulgaria_Battery_2026 at 3,118 MW instead of 4,024, CapacityMWh unchanged at 10,462.4. The battery fleet is then 4,500 MW and 14,056 MWh, the 4.5 GW and 14 GWh connected by June 2026 given in the Bulgaria inception review; the ENTSO-E A68 start of 2026 figure (5,406 MW) sits above the 3.3 to 4.8 GW observed in mid 2026. The generator files keep 4,024 on the same row; the storage file sets the capacity (merge_storage_into_gendata in epm/input_treatment.py). The v4 files pStorageDataInput_s5.csv and _2y.csv carry the StYr 2030 fix of 2026-10-30 for Bulgaria_Battery_2026, Chaira U1 and U3 and Romania_Battery_2026 on the five-year grid. |
 
-*Confidence: [MEDIUM] · Last updated: 2026-10-04*
+*Confidence: [MEDIUM] · Last updated: 2026-11-02*
 
 
 <a id="bulgaria-pfuelprice"></a>

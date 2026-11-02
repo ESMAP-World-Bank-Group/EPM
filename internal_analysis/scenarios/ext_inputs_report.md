@@ -78,31 +78,31 @@ Trade prices
   pTradePriceExport_ext_eu_crisis: 6720 rows; Greece, Romania and Bulgaria from pTradePriceExport_eu_crisis; non EU rows of that file equal to robg: True
   pTradePriceExport_ext_eu_central_cbam: 6720 rows; Greece, Romania and Bulgaria from pTradePriceExport_eu_central_cbam; non EU rows of that file equal to robg: True
 Files
-  supply/pGenDataInput_v4_2y.csv: 1003 rows, rewritten
-  supply/pGenDataInput_v4_s5_reshi.csv: 1003 rows, rewritten
-  supply/pGenDataInput_v4_2y_reshi.csv: 1003 rows, rewritten
-  supply/pGenDataInput_v4_s5_ext.csv: 695 rows, rewritten
-  supply/pGenDataInput_v4_2y_ext.csv: 695 rows, rewritten
+  supply/pGenDataInput_v4_2y.csv: 1003 rows, unchanged
+  supply/pGenDataInput_v4_s5_reshi.csv: 1003 rows, unchanged
+  supply/pGenDataInput_v4_2y_reshi.csv: 1003 rows, unchanged
+  supply/pGenDataInput_v4_s5_ext.csv: 695 rows, unchanged
+  supply/pGenDataInput_v4_2y_ext.csv: 695 rows, unchanged
   supply/pStorageDataInput_2y.csv: 64 rows, unchanged
   supply/pStorageDataInput_s5_ext.csv: 54 rows, unchanged
   supply/pStorageDataInput_2y_ext.csv: 54 rows, unchanged
-  zcmap_ext.csv: 14 rows, rewritten
-  zcmap_ext_geco.csv: 16 rows, rewritten
-  supply/pFuelPrice_ext.csv: 13 rows, rewritten
+  zcmap_ext.csv: 14 rows, unchanged
+  zcmap_ext_geco.csv: 16 rows, unchanged
+  supply/pFuelPrice_ext.csv: 13 rows, unchanged
   reserve/pPlanningReserveMargin_ext.csv: 4 rows, unchanged
   constraint/pMaxFuellimit_ext.csv: 1 rows, unchanged
   trade/pMaxAnnualExternalTradeShare_ext.csv: 30 rows, unchanged
-  trade/zext_ext.csv: 8 rows, rewritten
+  trade/zext_ext.csv: 8 rows, unchanged
   trade/pExtTransferLimit_ext.csv: 96 rows, unchanged
   trade/pExtTransferLimit_ext_bssc.csv: 104 rows, unchanged
   trade/pExtTransferLimit_ext_geco.csv: 112 rows, unchanged
   trade/pTransferLimit_ext.csv: 208 rows, unchanged
   trade/pLossFactorInternal_ext.csv: 40 rows, unchanged
-  trade/pTradePrice_ext.csv: 6720 rows, rewritten
-  trade/pTradePrice_ext_eu_very_low.csv: 6720 rows, rewritten
-  trade/pTradePrice_ext_eu_crisis.csv: 6720 rows, rewritten
-  trade/pTradePriceExport_ext.csv: 6720 rows, rewritten
-  trade/pTradePriceExport_ext_eu_very_low.csv: 6720 rows, rewritten
-  trade/pTradePriceExport_ext_eu_crisis.csv: 6720 rows, rewritten
-  trade/pTradePriceExport_ext_eu_central_cbam.csv: 6720 rows, rewritten
+  trade/pTradePrice_ext.csv: 6720 rows, unchanged
+  trade/pTradePrice_ext_eu_very_low.csv: 6720 rows, unchanged
+  trade/pTradePrice_ext_eu_crisis.csv: 6720 rows, unchanged
+  trade/pTradePriceExport_ext.csv: 6720 rows, unchanged
+  trade/pTradePriceExport_ext_eu_very_low.csv: 6720 rows, unchanged
+  trade/pTradePriceExport_ext_eu_crisis.csv: 6720 rows, unchanged
+  trade/pTradePriceExport_ext_eu_central_cbam.csv: 6720 rows, unchanged
   27 derived files, 0 problem(s)
