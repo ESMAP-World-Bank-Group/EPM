@@ -1,0 +1,14 @@
+﻿z,tech,f,Life,UnitSize,BuildLimitperYear,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+South_Africa,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Lesotho,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Eswatini,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Mozambique,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Zimbabwe,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Botswana,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Namibia,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Zambia,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Angola,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Tanzania,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+DRC,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+Malawi,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0
+DRC_South,Storage,Battery,20,,,,0.9,0.3,40000,0,0,290,0,0,,,1,1,,0.5,,,,,,,0

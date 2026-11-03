@@ -1,0 +1,13 @@
+﻿parameter,sensitivity
+pSettings,
+y,
+pDemandForecast,
+pDemandProfile,
+pAvailabilityDefault,
+pCapexTrajectoriesDefault,
+pFuelPrice,
+ResLimShare,
+BuildLimitperYear,
+pVREProfile,
+delayedHydro_alt,1
+delayedTransmission,1
