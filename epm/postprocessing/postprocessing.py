@@ -1670,11 +1670,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                         title=f'Annual Cost Breakdown by Zone – {scenario} (million USD)'
                                                         )                     
                         
-                            figure_name = f'{figure_name}Percentage-{scenario}'
-                            if is_figure_active(figure_name):
-                                filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+                            figure_name_percentage = f'{figure_name}Percentage'
+                            if is_figure_active(figure_name_percentage):
+                                filename = os.path.join(subfolders['2_cost'], f'{figure_name_percentage}-{scenario}.pdf')
 
-                                df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
+                                df_percentage = df.set_index(['zone', 'year', 'attribute']).squeeze()
                                 df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
                                 df_percentage = df_percentage.reset_index()
                             

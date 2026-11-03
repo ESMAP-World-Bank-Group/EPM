@@ -105,17 +105,17 @@ pre-analysis/**/output/*
 
 
 # Input data
-!epm/input/*
+epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 epm/input/data_swz
 epm/input/data_moz
 epm/input/data_ang
 epm/input/data_sapp
-!epm/input/data_eapp/
-!epm/input/data_eapp/**
-!epm/input/data_pan_arab/
-!epm/input/data_pan_arab/**
+epm/input/data_eapp/
+epm/input/data_eapp/**
+epm/input/data_pan_arab/
+epm/input/data_pan_arab/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py

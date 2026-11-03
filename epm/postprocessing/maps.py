@@ -1360,9 +1360,14 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
         for (z, z2) in final_topology:
             row1 = transmission_data.loc[(z, z2)]
-            row2 = transmission_data.loc[(z2, z)]
             zone1, zone2 = row1.name[0], row1.name[1]
-            capacity, utilization_1to2, utilization_2to1 = max(row1.fillna(0)['capacity'], row2.fillna(0)['capacity']), row1['utilization'], row2['utilization']
+            # Reverse direction may be absent (near-zero values are dropped upstream); treat it as unused
+            if (z2, z) in transmission_data.index:
+                row2 = transmission_data.loc[(z2, z)].fillna(0)
+            else:
+                row2 = pd.Series({'capacity': 0, 'utilization': 0})
+            row1 = row1.fillna(0)
+            capacity, utilization_1to2, utilization_2to1 = max(row1['capacity'], row2['capacity']), row1['utilization'], row2['utilization']
 
             if zone1 in centers and zone2 in centers:
                 coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
