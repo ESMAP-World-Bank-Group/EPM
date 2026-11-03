@@ -104,8 +104,9 @@ pre-analysis/**/output/*
 
 
 
-# Input data
-epm/input/**
+# Input data: only data_test is versioned
+epm/input/*
+!epm/input/data_test/
 !epm/input/datapackage.json
 !epm/input/validate.py
 
