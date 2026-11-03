@@ -105,7 +105,6 @@ pre-analysis/**/output/*
 
 
 # Input data
-epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 epm/input/data_swz
