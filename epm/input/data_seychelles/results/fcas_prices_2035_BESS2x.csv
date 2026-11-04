@@ -1,0 +1,13 @@
+Scenario,Island,Mean USD/MW-h,Max,Hours > 0,Hours >= 100,Hours at penalty (500)
+Base2x_U3,Mahe,0.0,36.0,40,0,0
+Base2x_U3,PLD,0.1,26.9,52,0,0
+Base2x_U4,Mahe,0.0,18.5,29,0,0
+Base2x_U4,PLD,0.0,26.6,38,0,0
+Base2x_U6,Mahe,0.0,21.1,8,0,0
+Base2x_U6,PLD,0.0,20.7,18,0,0
+BESS50_2x_U5,Mahe,27.7,334.1,7480,234,0
+BESS50_2x_U5,PLD,0.1,132.2,59,2,0
+Isl2x_U4,Mahe,0.0,18.5,1,0,0
+Isl2x_U4,PLD,0.6,213.6,80,24,0
+IslBESS50_2x_U4,Mahe,0.0,18.5,1,0,0
+IslBESS50_2x_U4,PLD,0.6,213.6,80,24,0

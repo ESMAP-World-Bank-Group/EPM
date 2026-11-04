@@ -1,0 +1,17 @@
+﻿case,bess,scenario,k,req,res_bess,res_thermal,operating,engines,battery,cable,total
+"With interconnector
+BESS counted at 80%",current,Base_U9,9,48.7,28.0,20.8,74.29,9.13,0.0,2.49,85.91
+"With interconnector
+BESS counted at 80%",doubled,Base2x_U3,3,48.8,55.6,1.5,73.82,3.04,2.62,2.49,81.98
+"With interconnector
+BESS counted at 50%",current,BESS50_U16,16,48.5,17.5,31.0,80.25,16.23,0.0,2.49,98.97
+"With interconnector
+BESS counted at 50%",doubled,BESS50_2x_U5,5,48.8,35.0,13.9,73.94,5.07,2.62,2.49,84.13
+"Without interconnector
+BESS counted at 80%",current,Islanded_U4,4,16.8,26.7,0.4,82.9,4.06,0.0,0.0,86.96
+"Without interconnector
+BESS counted at 80%",doubled,Isl2x_U4,4,16.8,17.3,0.0,83.22,4.06,2.62,0.0,89.9
+"Without interconnector
+BESS counted at 50%",current,IslBESS50_U4,4,16.8,17.5,2.7,82.9,4.06,0.0,0.0,86.96
+"Without interconnector
+BESS counted at 50%",doubled,IslBESS50_2x_U4,4,16.8,34.8,0.0,83.22,4.06,2.62,0.0,89.9
