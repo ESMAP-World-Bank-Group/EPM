@@ -1,25 +1,25 @@
 # Processing and Color for tech-fuel combinations. Processing sets display name and stack order for figures.,,,
 tech,fuel,Processing,Color
 Nuclear,Uranium,Nuclear,pink
-ST,Uranium,ST-Nuclear,olive
+ST,Uranium,ST-Nuclear,palevioletred
 CCGT,Gas,CCGT-Gas,lightcoral
 CCGT,LNG,CCGT-LNG,indianred
 ST,Coal,ST-Coal,dimgray
-ST,DomesticCoal,ST-DomesticCoal,dimgray
+ST,DomesticCoal,ST-DomesticCoal,gray
 ST,ImportedCoal,ST-ImportedCoal,silver
-ST,Geothermal,ST-Geothermal,mediumturquoise
+ST,Geothermal,ST-Geothermal,sienna
 ST,Lignite,ST-Lignite,lightgray
 ST,Bagasse,ST-Bagasse,lightgreen
 ST,Woodchip,ST-Woodchip,darkgreen
 ST,HFO,ST-HFO,brown
-ST,Biogas,ST-Biogas,firebrick
+ST,Biogas,ST-Biogas,olivedrab
 OCGT,Diesel,GT-Diesel,darksalmon
 OCGT,Gas,GT-Gas,firebrick
-OCGT,LNG,GT-LNG,darkgoldenrod
+OCGT,LNG,GT-LNG,darkred
 OCGT,HFO,GT-HFO,saddlebrown
 ICE,Diesel,ICE-Diesel,lightsalmon
 ICE,HFO,ICE-HFO,sandybrown
-ICE,Gas,ICE-Gas,navajowhite
+ICE,Gas,ICE-Gas,rosybrown
 BiomassPlant,Biomass,Biomass,green
 ST,Biomass,ST-Biomass,forestgreen
 ReservoirHydro,Water,Reservoir,darkblue
@@ -28,18 +28,18 @@ CSPPlant,CSP,CSP,darkorange
 OffshoreWind,Wind,Offshore Wind,paleturquoise
 OnshoreWind,Wind,Onshore Wind,darkturquoise
 PV,Solar,PV,orange
-PVwSTO,Solar,PV+Storage,bisque
+PVwSTO,Solar,PV+Storage,gold
 OCE,Ocean,OCE,royalblue
-STOPV,Battery,Solar Thermal,darkkhaki
+STOPV,Battery,Solar Thermal,goldenrod
 Storage,Battery,Battery,darkkhaki
 Storage,Water,PSH,blue
 ImportTransmission,Imports,Imports,tan
 EnergyBalance,Imports,Imports,tan
-EnergyBalance,Imports External,ImportsExternal,bisque
-EnergyBalance,Exports,Exports,lightgreen
-EnergyBalance,Exports External,ExportsExternal,purple
+EnergyBalance,Imports External,ImportsExternal,peru
+EnergyBalance,Exports,Exports,mediumseagreen
+EnergyBalance,Exports External,ExportsExternal,seagreen
 EnergyBalance,UnmetDemand,UnmetDemand,red
-EnergyBalance,Surplus,Surplus,brown
+EnergyBalance,Surplus,Surplus,yellow
 INT,Import,Imports,tan
 INT,Import_SAR,Imports,tan
 INT,Import_MOZ_EDM,Imports,tan
@@ -47,12 +47,13 @@ INT,Import_MOZ_HCB,Imports,tan
 INT,Import_ZAM,Imports,tan
 INT,Import_SAPP,Imports,tan
 INT,Import_BWA,Imports,tan
-INT,DSM-PB,DSM,darkorange
-INT,DSM-HH,DSM,darkorange
-EXP,Export,Exports,darkgreen
+INT,DSM-PB,DSM,violet
+INT,DSM-HH,DSM,violet
+EXP,Export,Exports,mediumseagreen
 CCGT,Gas_Moz,CCGT-Gas_Moz,coral
-ST,Coal_Bula,ST-Coal_Bula,dimgray
-ST,Coal_Hara,ST-Coal_Hara,dimgray
-ST,Coal_Hwan,ST-Coal_Hwan,dimgray
-ST,Coal_Munya,ST-Coal_Munya,dimgray
-ST,Coal_Zhon,ST-Coal_Zhon,dimgray
+OCGT,Gas_Moz,GT-Gas_Moz,tomato
+ST,Coal_Bula,ST-Coal_Bula,darkslategray
+ST,Coal_Hara,ST-Coal_Hara,slategray
+ST,Coal_Hwan,ST-Coal_Hwan,lightslategray
+ST,Coal_Munya,ST-Coal_Munya,darkgray
+ST,Coal_Zhon,ST-Coal_Zhon,black
