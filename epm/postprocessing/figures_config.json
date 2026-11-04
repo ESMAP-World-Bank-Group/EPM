@@ -49,6 +49,7 @@
         "EnergyMixSystemEvolutionScenariosRelative": true,
         "EnergyMixZoneEvolution": true,
         "EnergyMixZoneScenarios": true,
+        "EnergyMixAreaEvolution": true,
         "EnergyPlants": false,
         "EnergyPlantZoneTop10": false
       }

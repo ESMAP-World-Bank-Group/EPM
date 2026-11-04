@@ -2049,6 +2049,58 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                         annotate=False,
                                                         title=f'Energy Mix by Fuel - {year} (GWh)')
 
+                # 3.3b Stacked area of energy mix per country and for the system (transmission flows excluded)
+                figure_name = 'EnergyMixAreaEvolution'
+                if is_figure_active(figure_name):
+                    df_area = df_energyfuelfull[df_energyfuelfull['scenario'].isin(selected_scenarios)].copy()
+                    is_trade = df_area['fuel'].astype(str).str.contains('Import|Export', case=False)
+                    df_area = df_area[~is_trade]
+                    zone_country = epm_results['pZoneCountry'][['scenario', 'zone', 'country']].drop_duplicates()
+                    df_area = df_area.merge(zone_country, on=['scenario', 'zone'], how='left')
+                    df_area['country'] = df_area['country'].fillna(df_area['zone'])
+
+                    for scenario in selected_scenarios:
+                        df_scenario = df_area[df_area['scenario'] == scenario]
+                        if df_scenario.empty:
+                            continue
+
+                        df_system = (df_scenario
+                                     .groupby(['year', 'fuel'], observed=False)['value']
+                                     .sum()
+                                     .reset_index())
+                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}System-{scenario}.pdf')
+                        make_stacked_areaplot(
+                            df_system,
+                            filename,
+                            colors=dict_specs['colors'],
+                            column_xaxis='year',
+                            column_value='value',
+                            column_stacked='fuel',
+                            format_y=make_auto_yaxis_formatter("GWh"),
+                            title=f'Energy Generation Mix - System - {scenario} (GWh)'
+                        )
+
+                        if nbr_zones > 1:
+                            for country, df_country in df_scenario.groupby('country'):
+                                df_country = (df_country
+                                              .groupby(['year', 'fuel'], observed=False)['value']
+                                              .sum()
+                                              .reset_index())
+                                if df_country.empty:
+                                    continue
+                                country_slug = str(country).replace(' ', '_')
+                                filename = os.path.join(subfolders['3_energy'], f'{figure_name}Country-{country_slug}-{scenario}.pdf')
+                                make_stacked_areaplot(
+                                    df_country,
+                                    filename,
+                                    colors=dict_specs['colors'],
+                                    column_xaxis='year',
+                                    column_value='value',
+                                    column_stacked='fuel',
+                                    format_y=make_auto_yaxis_formatter("GWh"),
+                                    title=f'Energy Generation Mix - {country} - {scenario} (GWh)'
+                                )
+
                 # 3.4 Energy generation by plant (Top generators by country)
                 figure_name = 'EnergyPlantZoneTop10'
                 if is_figure_active(figure_name):

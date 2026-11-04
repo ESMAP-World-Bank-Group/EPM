@@ -3,6 +3,8 @@ South_Africa,ST,Coal,0.59,0.59,0.59,0.59
 South_Africa,ST,Biogas,0.1,0.1,0.1,0.1
 South_Africa,OCGT,Gas,0.85,0.85,0.85,0.85
 South_Africa,CCGT,Gas,0.85,0.85,0.85,0.85
+South_Africa,OCGT,Gas_Moz,0.85,0.85,0.85,0.85
+South_Africa,CCGT,Gas_Moz,0.85,0.85,0.85,0.85
 South_Africa,ICE,Diesel,0.85,0.85,0.85,0.85
 South_Africa,ICE,HFO,0.85,0.85,0.85,0.85
 South_Africa,OCGT,HFO,0.85,0.85,0.85,0.85
@@ -297,6 +299,8 @@ Tanzania,ReservoirHydro,Water,0.85,0.85,0.85,0.85
 Zambia,ST,Coal,0.65,0.65,0.65,0.65
 Zambia,OCGT,Gas,0.85,0.85,0.85,0.85
 Zambia,CCGT,Gas,0.85,0.85,0.85,0.85
+Zambia,OCGT,Gas_Moz,0.85,0.85,0.85,0.85
+Zambia,CCGT,Gas_Moz,0.85,0.85,0.85,0.85
 Zambia,ICE,Diesel,0.85,0.85,0.85,0.85
 Zambia,ICE,HFO,0.85,0.85,0.85,0.85
 Zambia,OCGT,HFO,0.85,0.85,0.85,0.85
@@ -327,6 +331,8 @@ Eswatini,ST,Bagasse,0.85,0.85,0.85,0.85
 Zimbabwe_East,ST,Coal,0.65,0.65,0.65,0.65
 Zimbabwe_East,OCGT,Gas,0.85,0.85,0.85,0.85
 Zimbabwe_East,CCGT,Gas,0.85,0.85,0.85,0.85
+Zimbabwe_East,OCGT,Gas_Moz,0.85,0.85,0.85,0.85
+Zimbabwe_East,CCGT,Gas_Moz,0.85,0.85,0.85,0.85
 Zimbabwe_East,CCGT,Gas_Moz,0.85,0.85,0.85,0.85
 Zimbabwe_East,ICE,Diesel,0.85,0.85,0.85,0.85
 Zimbabwe_East,ICE,HFO,0.85,0.85,0.85,0.85
@@ -349,6 +355,7 @@ Zimbabwe_West,ST,Coal_Zhon,0.65,0.65,0.65,0.65
 Zimbabwe_West,ST,Coal_Munya,0.65,0.65,0.65,0.65
 Zimbabwe_West,OCGT,Gas,0.85,0.85,0.85,0.85
 Zimbabwe_West,CCGT,Gas,0.85,0.85,0.85,0.85
+Zimbabwe_West,OCGT,Gas_Moz,0.85,0.85,0.85,0.85
 Zimbabwe_West,CCGT,Gas_Moz,0.85,0.85,0.85,0.85
 Zimbabwe_West,ICE,Diesel,0.85,0.85,0.85,0.85
 Zimbabwe_West,ICE,HFO,0.85,0.85,0.85,0.85
