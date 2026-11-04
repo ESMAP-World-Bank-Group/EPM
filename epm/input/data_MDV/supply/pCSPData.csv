@@ -1,5 +1,1 @@
-﻿g,tech,Capacity,Capex,FixedOM,VOM,Availability,Efficiency
-BotswanaSolarCSP_REN_BWA,Thermal Field,50000,1.2,800,0,0.9,0.9
-BotswanaSolarCSP_REN_BWA,Storage,5000000,70,200,0,1,0.9
-New_CSP_ZAF_2024,Thermal Field,100,0.9,800,0,0.9,0.9
-New_CSP_ZAF_2024,Storage,400,60,200,0,1,0.9
+﻿gen,attribute,Capacity,Capex,FixedOM,VOM,Availability,Efficiency

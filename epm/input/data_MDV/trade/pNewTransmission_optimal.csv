@@ -1,0 +1,4 @@
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
+Male,Villingili,2030,3,100,15.4,50,3
+Villingili,Gulhifalhu,2030,3,100,116.7,50,3
+Gulhifalhu,Thilafushi,2030,3,100,350,50,3
