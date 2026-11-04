@@ -4,6 +4,13 @@
 hour; FCAS shortfall penalty USD 500 per MW-h (below unserved energy, USD 1,000 per MWh). Relaxed unit commitment
 (LP).*
 
+> **Update, 4 November 2026:** [Report_2035_FCAS_BESS_summary_draft.md](Report_2035_FCAS_BESS_summary_draft.md)
+> compares doubling Mahé's BESS (to 70 MW / 140 MWh) with adding HFO units for N-2 security, in the same four cases.
+> With the interconnector, the doubled BESS needs 3 new units instead of 9 (BESS at 80%) or 5 instead of 16 (at 50%),
+> and is USD 3.9–14.8 m/yr cheaper. Tables: `scenario_summary_2035_BESS2x.csv`, `scenario_summary_2035_Isl2x.csv`,
+> `cheapest_secure_2035.csv`, `fcas_prices_2035_BESS2x.csv`. The results below are the October runs with the current
+> BESS.
+
 ## Main story
 
 1. **With the IRP fleet (50 MW of new HFO), Mahé cannot hold enough fast reserve (FCAS) to cover a cable trip** – it
