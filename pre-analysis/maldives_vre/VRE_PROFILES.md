@@ -1,7 +1,7 @@
 # Greater Malé VRE profiles: method and sources
 
-**Status:** 4 Nov 2026, version 2, calibrated to the ESMAP measurements. Not yet in `data_MDV`. Assumptions, issues and open questions are tracked in [VRE_LOG.md](VRE_LOG.md).
-**Where things are:** the profiles EPM needs are in the repo in [`data/`](data/): `vre_hourly_2020.csv`, `repdays_input/{tech}_2020.csv` and `summary_cf.csv`. The scripts, raw downloads and the other outputs in §2 are kept in the project working folder (`EPM_MDV/vre/`), and are available on request.
+**Status:** 4 Nov 2026, version 2, calibrated to the ESMAP measurements. Not yet in `data_MDV`. Draft: assumptions and decisions are recorded in [VRE_LOG.md](VRE_LOG.md).
+**Where things are:** the profiles EPM needs are in [`data/`](data/) (`vre_hourly_2020.csv`, `repdays_input/{tech}_2020.csv`, `summary_cf.csv`) and the code is in [`scripts/`](scripts/). The raw downloads and the other outputs in §2 are not in the repo; the scripts recreate them.
 
 **Request (3 Nov 2026):** hourly profiles for each of the 5 islands, centred on the ESMAP 2015 candidate sites where possible:
 - PV fixed at optimal tilt;
@@ -50,7 +50,7 @@ Spread across the years 2015–2023, averaged over the five zones:
 - **Wind is moderate and very seasonal.** The measured level at 100 m is 5.6–5.7 m/s long-term at the islands. CF is high in the monsoon months (May–October and December–February) and low in the inter-monsoon months (March–April and November).
 - **Wind CF depends heavily on the turbine** (§3.2). The 35% applies to a large-rotor, low-wind turbine. With a small-rotor 3 MW turbine the same wind gives about 19%.
 
-## 2. Files delivered (`EPM_MDV/vre/out/`)
+## 2. Files produced (`scripts/out/`)
 
 The files marked **repo** are also in [`data/`](data/) next to this document.
 
@@ -261,17 +261,17 @@ The Suntrace Tier 2 station for ESMAP is at Velana airport, Hulhulé (4.19274 N,
 
 ## 9. Reproduce
 
-Run with the EPM `.venv` Python, which has rasterio (needed for the GWA tifs). Put the ESMAP files in `raw/esmap/`, and unzip the Malé satellite CSV into `raw/esmap/satellite/`.
+Run from `scripts/` with a Python that has pandas, numpy and rasterio (rasterio is needed for the Global Wind Atlas tifs). The ESMAP measurement files must be downloaded by hand from energydata.info (VRE_LOG D8) into `scripts/raw/esmap/`, with the Malé satellite CSV unzipped into `scripts/raw/esmap/satellite/`. The Renewables.ninja token is read from `EPM/pre-analysis/config/api_tokens.ini` (section `[api_tokens]`, key `renewables_ninja`), or from the file named by the `NINJA_TOKEN_INI` environment variable.
 
 ```
-cd EPM_MDV/vre
+cd pre-analysis/maldives_vre/scripts
 python fetch_pvgis.py        # ~260 requests, ~30 min; one year per request (longer requests get dropped)
 python fetch_atlas.py        # GSA API + GWA country tifs
 python fetch_era5_wind.py    # Open-Meteo ERA5, 6 points
-python fetch_ninja.py        # 17 requests; token in EPM/pre-analysis/config/api_tokens.ini
+python fetch_ninja.py        # 17 requests
 python fetch_validation.py   # model data at the two ESMAP sites
 python validate_esmap.py     # comparison tables + out/validation/calibration.json
 python build_profiles.py     # writes out/ (needs calibration.json)
 ```
 
-Raw downloads are kept in `raw/` and are not fetched again if present.
+Raw downloads are kept in `scripts/raw/` and are not fetched again if present. `raw/` and `out/` are not committed; the published profiles are copied from `out/` to `data/`.

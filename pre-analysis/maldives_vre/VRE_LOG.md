@@ -1,12 +1,16 @@
-# Greater Malé VRE preparation: assumptions, issues and questions log
+# Greater Malé VRE profiles: assumptions and decisions log
 
-**Scope:** hourly VRE profiles for the five Greater Malé zones of `epm/input/data_MDV`: Male, Hulhumale', Villingili, Gulhifalhu, Thilafushi.
-**Techs:** PV fixed at optimal tilt, PV 1-axis tracking, PV 2-axis tracking, onshore wind, offshore wind. One profile per tech per zone, 25 in total.
-**Method and sources:** [VRE_PROFILES.md](VRE_PROFILES.md).
-**Profiles:** [`data/`](data/). Main file `vre_hourly_2020.csv`; pipeline input in `data/repdays_input/`.
-**Status (4 Nov 2026):**
-- Profiles built and validated against ESMAP measurements.
-- Not yet in `data_MDV`. The questions in §4 are open.
+**What this file is:** the record of assumptions, data issues and decisions behind the VRE profiles, and only the VRE profiles. It is not a control file for the model or the project, and nobody needs to edit it. Open questions are sent by email, and the answers are recorded here.
+
+**Scope:** hourly capacity-factor profiles for the five Greater Malé zones (Male, Hulhumale', Villingili, Gulhifalhu, Thilafushi) and five techs: PV fixed at optimal tilt, PV 1-axis tracking, PV 2-axis tracking, onshore wind, offshore wind. 25 profiles in total.
+
+| Where | What |
+|---|---|
+| [`data/`](data/) | The profiles. Main file `vre_hourly_2020.csv`; pipeline input in `data/repdays_input/` |
+| [`scripts/`](scripts/) | The code that downloads the data and builds the profiles |
+| [VRE_PROFILES.md](VRE_PROFILES.md) | Method, sources and validation |
+
+**Status (5 Nov 2026): draft.** The profiles use the proposed defaults in §4. Some answers will change the numbers (turbine, wind losses, weather year), so the files in `data/` will be rebuilt and replaced once §4 is settled. Don't load them into `data_MDV` yet.
 
 Status codes:
 - **PROPOSED:** an assumption we used that still needs agreement.
@@ -82,22 +86,11 @@ Capacity factor, weather year 2020:
 | D7 | The ESMAP 2015 site table gives relative 0–10 scores (#24 7.4, #25 7.1, #26 6.9), not m/s | An earlier 6.5–7 m/s figure, read from the map colours, is superseded by the lidar | DONE |
 | D8 | The ESMAP measurement files on energydata.info can only be downloaded in a browser, not by script. Wind dataset ID: `d2fbd01c-31f5-4180-9796-ad5828c9d742` (the short dataset URL returns 404) | Download them manually | NOTE |
 
-## 6. Observations on the `data_MDV` files (branch state 3 Nov 2026)
-
-These are not VRE issues, but they affect whether the model can answer the study question.
-
-| # | Observation | Status |
-|---|---|---|
-| M1 | `trade/pTransferLimit.csv` and `pNewTransmission.csv` are empty. The existing Malé–Hulhumalé link and the planned link to Villingili, Gulhifalhu and Thilafushi are needed | OPEN |
-| M2 | `trade/pLossFactorInternal.csv` pairs Hulhumale' with Villingili; the planned route runs from Malé to Villingili | OPEN |
-| M3 | `config.csv` points to 3 files that are not in the folder: `y_alt.csv`, `load/pDemandForecast_sapp_adapted.csv`, `trade/pMaxAnnualInternalTradeShare.csv` | OPEN |
-| M4 | In `zcmap.csv`, two zone names end with a space (`"Hulhumale' "`, `"Villingili "`). Fixing the zone IDs before more files use them would avoid mismatches | OPEN |
-| M5 | `supply/pVREProfile.csv` has empty rows for Male only, including `CSPPlant`, which does not apply here | OPEN |
-
-## 7. Change history
+## 6. Change history
 
 | Date | Change |
 |---|---|
 | 2026-11-04 | First profiles, using Global Wind Atlas for the wind level |
 | 2026-11-04 | Version 2: wind level from the Thulusdhoo lidar (+20% speed), tracker gains corrected with the Velana station, weather year 2020 |
 | 2026-11-05 | Weather-year profiles, pipeline CSVs and CF summary added to the repo in `data/` |
+| 2026-11-05 | Log limited to VRE: the notes on the `data_MDV` files were moved out and sent by email. Scripts added in `scripts/`. Open questions now sent by email |
