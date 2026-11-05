@@ -4,8 +4,8 @@ Enable capacity expansion decisions,fEnableCapacityExpansion,1
 Activate 8760-hour dispatch chronology,fDispatchMode,0
 ,,
 PARAMETERS,,
-"Weighted Average Cost of Capital (WACC), %",WACC,0.06
-"Discount rate, %",DR,0.1
+"Weighted Average Cost of Capital (WACC), %",WACC,0.12
+"Discount rate, %",DR,0.12
 "Cost of unserved energy per MWh, $",VoLL,2500
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60
