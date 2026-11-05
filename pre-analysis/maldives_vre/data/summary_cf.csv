@@ -1,0 +1,26 @@
+zone,tech,cf_2020,cf_mean_2015_2023,cf_min_year,cf_max_year,full_load_hours,raw_cf,scale,ref
+Male,PV,0.1799,0.1776,0.1733,0.1828,1576.0499,0.1804,0.9843,"beam x0.812, diffuse x1.398 (GSA GHI 2040, DIF 851), tracker x1.000; GSA PVOUT fixed 1629 kWh/kWp"
+Male,PV1AX,0.2285,0.2252,0.2187,0.2333,2001.2485,0.2412,0.9335,"beam x0.812, diffuse x1.398 (GSA GHI 2040, DIF 851), tracker x0.973; GSA PVOUT fixed 1629 kWh/kWp"
+Male,PV2AX,0.2359,0.2324,0.2254,0.2408,2066.3077,0.25,0.9294,"beam x0.812, diffuse x1.398 (GSA GHI 2040, DIF 851), tracker x0.971; GSA PVOUT fixed 1629 kWh/kWp"
+Male,OnshoreWind,0.3514,0.3595,0.2991,0.4306,3078.5988,0.3093,1.0838,long-term 100 m mean 5.70 m/s (ERA5 5.26 x 1.084); GWA 4.79
+Male,OffshoreWind,0.3102,0.317,0.2592,0.3836,2717.0785,0.2691,1.0838,long-term 100 m mean 5.70 m/s (ERA5 5.26 x 1.084); GWA 4.79
+Hulhumale,PV,0.1804,0.1781,0.1738,0.1833,1580.4192,0.1804,0.9869,"beam x0.817, diffuse x1.395 (GSA GHI 2046, DIF 849), tracker x1.000; GSA PVOUT fixed 1632 kWh/kWp"
+Hulhumale,PV1AX,0.2292,0.2259,0.2193,0.234,2007.4162,0.2412,0.9363,"beam x0.817, diffuse x1.395 (GSA GHI 2046, DIF 849), tracker x0.973; GSA PVOUT fixed 1632 kWh/kWp"
+Hulhumale,PV2AX,0.2366,0.2331,0.2261,0.2416,2072.833,0.25,0.9323,"beam x0.817, diffuse x1.395 (GSA GHI 2046, DIF 849), tracker x0.971; GSA PVOUT fixed 1632 kWh/kWp"
+Hulhumale,OnshoreWind,0.3481,0.3561,0.2958,0.4268,3049.058,0.3093,1.0779,long-term 100 m mean 5.67 m/s (ERA5 5.26 x 1.078); GWA 4.76
+Hulhumale,OffshoreWind,0.3069,0.3137,0.2561,0.3799,2688.7947,0.2691,1.0779,long-term 100 m mean 5.67 m/s (ERA5 5.26 x 1.078); GWA 4.76
+Villingili,PV,0.1794,0.1774,0.1734,0.1826,1571.7834,0.1807,0.9818,"beam x0.809, diffuse x1.397 (GSA GHI 2037, DIF 850), tracker x1.000; GSA PVOUT fixed 1625 kWh/kWp"
+Villingili,PV1AX,0.2277,0.2249,0.219,0.233,1994.4672,0.2416,0.931,"beam x0.809, diffuse x1.397 (GSA GHI 2037, DIF 850), tracker x0.973; GSA PVOUT fixed 1625 kWh/kWp"
+Villingili,PV2AX,0.2351,0.2321,0.2258,0.2406,2059.2696,0.2504,0.927,"beam x0.809, diffuse x1.397 (GSA GHI 2037, DIF 850), tracker x0.971; GSA PVOUT fixed 1625 kWh/kWp"
+Villingili,OnshoreWind,0.3536,0.3618,0.3013,0.433,3097.8711,0.3093,1.0877,long-term 100 m mean 5.72 m/s (ERA5 5.26 x 1.088); GWA 4.80
+Villingili,OffshoreWind,0.3123,0.3192,0.2612,0.3861,2735.5538,0.2691,1.0877,long-term 100 m mean 5.72 m/s (ERA5 5.26 x 1.088); GWA 4.80
+Gulhifalhu,PV,0.1797,0.1777,0.1737,0.1829,1574.4541,0.1807,0.9835,"beam x0.813, diffuse x1.393 (GSA GHI 2040, DIF 848), tracker x1.000; GSA PVOUT fixed 1628 kWh/kWp"
+Gulhifalhu,PV1AX,0.2281,0.2254,0.2194,0.2335,1998.1459,0.2416,0.933,"beam x0.813, diffuse x1.393 (GSA GHI 2040, DIF 848), tracker x0.973; GSA PVOUT fixed 1628 kWh/kWp"
+Gulhifalhu,PV2AX,0.2355,0.2326,0.2263,0.2411,2063.1662,0.2504,0.929,"beam x0.813, diffuse x1.393 (GSA GHI 2040, DIF 848), tracker x0.971; GSA PVOUT fixed 1628 kWh/kWp"
+Gulhifalhu,OnshoreWind,0.3436,0.3515,0.2915,0.4218,3010.3252,0.3093,1.0702,long-term 100 m mean 5.63 m/s (ERA5 5.26 x 1.070); GWA 4.72
+Gulhifalhu,OffshoreWind,0.3027,0.3093,0.252,0.375,2651.7824,0.2691,1.0702,long-term 100 m mean 5.63 m/s (ERA5 5.26 x 1.070); GWA 4.72
+Thilafushi,PV,0.1802,0.1781,0.1742,0.1833,1578.2565,0.1807,0.9858,"beam x0.820, diffuse x1.386 (GSA GHI 2045, DIF 843), tracker x1.000; GSA PVOUT fixed 1631 kWh/kWp"
+Thilafushi,PV1AX,0.2288,0.2261,0.2201,0.2342,2004.3647,0.2416,0.9359,"beam x0.820, diffuse x1.386 (GSA GHI 2045, DIF 843), tracker x0.973; GSA PVOUT fixed 1631 kWh/kWp"
+Thilafushi,PV2AX,0.2363,0.2333,0.227,0.2419,2069.7449,0.2504,0.9319,"beam x0.820, diffuse x1.386 (GSA GHI 2045, DIF 843), tracker x0.971; GSA PVOUT fixed 1631 kWh/kWp"
+Thilafushi,OnshoreWind,0.3429,0.3507,0.2907,0.4209,3003.4794,0.3093,1.0689,long-term 100 m mean 5.62 m/s (ERA5 5.26 x 1.069); GWA 4.72
+Thilafushi,OffshoreWind,0.302,0.3085,0.2513,0.3741,2645.2497,0.2691,1.0689,long-term 100 m mean 5.62 m/s (ERA5 5.26 x 1.069); GWA 4.72

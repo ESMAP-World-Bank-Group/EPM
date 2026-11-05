@@ -3,6 +3,7 @@
 **Scope:** hourly VRE profiles for the five Greater Malé zones of `epm/input/data_MDV`: Male, Hulhumale', Villingili, Gulhifalhu, Thilafushi.
 **Techs:** PV fixed at optimal tilt, PV 1-axis tracking, PV 2-axis tracking, onshore wind, offshore wind. One profile per tech per zone, 25 in total.
 **Method and sources:** [VRE_PROFILES.md](VRE_PROFILES.md).
+**Profiles:** [`data/`](data/). Main file `vre_hourly_2020.csv`; pipeline input in `data/repdays_input/`.
 **Status (4 Nov 2026):**
 - Profiles built and validated against ESMAP measurements.
 - Not yet in `data_MDV`. The questions in §4 are open.
@@ -99,3 +100,4 @@ These are not VRE issues, but they affect whether the model can answer the study
 |---|---|
 | 2026-11-04 | First profiles, using Global Wind Atlas for the wind level |
 | 2026-11-04 | Version 2: wind level from the Thulusdhoo lidar (+20% speed), tracker gains corrected with the Velana station, weather year 2020 |
+| 2026-11-05 | Weather-year profiles, pipeline CSVs and CF summary added to the repo in `data/` |

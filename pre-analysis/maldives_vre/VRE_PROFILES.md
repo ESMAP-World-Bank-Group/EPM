@@ -1,7 +1,7 @@
 # Greater Malé VRE profiles: method and sources
 
 **Status:** 4 Nov 2026, version 2, calibrated to the ESMAP measurements. Not yet in `data_MDV`. Assumptions, issues and open questions are tracked in [VRE_LOG.md](VRE_LOG.md).
-**Where things are:** the scripts, raw downloads and output CSVs are kept in the project working folder (`EPM_MDV/vre/`), not in this repo. Only this document and the log are in the repo.
+**Where things are:** the profiles EPM needs are in the repo in [`data/`](data/): `vre_hourly_2020.csv`, `repdays_input/{tech}_2020.csv` and `summary_cf.csv`. The scripts, raw downloads and the other outputs in §2 are kept in the project working folder (`EPM_MDV/vre/`), and are available on request.
 
 **Request (3 Nov 2026):** hourly profiles for each of the 5 islands, centred on the ESMAP 2015 candidate sites where possible:
 - PV fixed at optimal tilt;
@@ -52,13 +52,15 @@ Spread across the years 2015–2023, averaged over the five zones:
 
 ## 2. Files delivered (`EPM_MDV/vre/out/`)
 
+The files marked **repo** are also in [`data/`](data/) next to this document.
+
 | File | Content |
 |---|---|
-| `vre_hourly_2020.csv` | **Main deliverable.** 8,760 hours of the weather year (29 Feb dropped), with one column per zone and tech, e.g. `Male_PV1AX` |
-| `repdays_input/{tech}_2020.csv` | The same data in the format of the repo's representative-days pipeline: `zone, month, day, hour (0–23), value`, one file per tech |
+| `vre_hourly_2020.csv` (**repo**) | **Main deliverable.** 8,760 hours of the weather year (29 Feb dropped), with one column per zone and tech, e.g. `Male_PV1AX` |
+| `repdays_input/{tech}_2020.csv` (**repo**) | The same data in the format of the repo's representative-days pipeline: `zone, month, day, hour (0–23), value`, one file per tech |
 | `vre_hourly_2015_2023.csv` | All complete years (78,888 h), for choosing another weather year or testing robustness |
 | `wind_hourly_2024_2025.csv` | Wind for 2024–2025, the years with STELCO hourly load. PVGIS has no solar data after 2023 |
-| `summary_cf.csv` | Annual CF by zone and tech, with the calibration factors and the long-term wind speed |
+| `summary_cf.csv` (**repo**) | Annual CF by zone and tech, with the calibration factors and the long-term wind speed |
 | `power_curves_ninja.csv` | The two turbine power curves used |
 | `validation/` | Comparison with the ESMAP measurements: summary, monthly and daily-cycle tables, and `calibration.json` |
 | `build_log.txt`, `validation_log.txt` | Console output of the last runs |
