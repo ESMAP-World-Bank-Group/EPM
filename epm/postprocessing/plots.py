@@ -1320,9 +1320,13 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
         df, temp = prepare_hourly_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=fuel_grouping, select_time=select_time)
         tmp_concat_line.append(df)
 
+    # Skip empty frames (e.g. a zone with no dispatch for this year/scenario): they carry
+    # single-level columns and would break the droplevel below
+    tmp_concat_area = [df for df in tmp_concat_area if not df.empty]
     if len(tmp_concat_area) > 0:
         df_tot_area = pd.concat(tmp_concat_area, axis=1)
-        df_tot_area = df_tot_area.droplevel(0, axis=1)
+        if df_tot_area.columns.nlevels > 1:
+            df_tot_area = df_tot_area.droplevel(0, axis=1)
         df_tot_area = remove_na_values(df_tot_area)
     else:
         df_tot_area = None
@@ -1335,7 +1339,7 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
     else:
         df_tot_line = None
 
-    if reorder_dispatch is not None:
+    if reorder_dispatch is not None and df_tot_area is not None:
         new_order = [col for col in reorder_dispatch if col in df_tot_area.columns] + [col for col in df_tot_area.columns if col not in reorder_dispatch]
         df_tot_area = df_tot_area[new_order]
 
