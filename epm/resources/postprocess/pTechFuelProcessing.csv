@@ -64,3 +64,10 @@ PV,PV,PV,orange
 Wind,Wind,Onshore Wind,darkturquoise
 STO HY,Water,Reservoir,darkblue
 Biogas,Biogas,Biomass,green
+CCGT,Hydrogen,Hydrogen,mediumpurple
+GT,Hydrogen,Hydrogen,mediumpurple
+GT,LicorNegro,Biomass,green
+ICE,Biogas,Biomass,green
+ST,Coke,Coal,dimgray
+ST,ChemReaction,Other,grey
+ST,Steam,Other,grey
