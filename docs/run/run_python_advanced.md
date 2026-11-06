@@ -197,14 +197,32 @@ Common columns:
 - `feature`: the uncertain input (see below)
 - `zones` (optional): model zones (or countries) concerned, separated by `;`. Names are checked against `zcmap`. Empty means all zones of the model.
 
-**Continuous features** draw one value per sample from a [`chaospy`](https://pypi.org/project/chaospy/) distribution. `type` is the distribution (`Uniform`, `Normal`, ...) and `lowerbound`/`upperbound` are its two arguments, as relative changes (`-0.3` = −30%).
+**Continuous features** draw one value per sample from a [`chaospy`](https://pypi.org/project/chaospy/) distribution, using a Halton sequence. `lowerbound` and `upperbound` are passed to the distribution as its first two arguments. Use `Uniform`, the only distribution whose two arguments are the bounds. Other chaospy names are accepted but read the two columns differently, or fall back on chaospy defaults: for example, `Triangle` silently samples up to +1 and `Beta` returns NaN.
 
-| Feature | Effect |
-|---|---|
-| `fossilfuel` | Scales the `pFuelPrice` of fossil fuels: Coal, Lignite, Gas, LNG, HFO, LFO, Diesel, Oil and their variants (`Gas_Moz`, `Coal_Hwan`, ...). Optional `fuels` column to choose the fuels. Zones are mapped to their country through `zcmap`. |
-| `fuel` | Same for every fuel of `pFuelPrice` |
-| `demand` | Scales the demand forecast (peak and energy) |
-| `hydro` | Scales the availability of ROR and ReservoirHydro plants (`pAvailabilityDefault`, `pAvailability`), capped at 1 |
+The value drawn is a **relative change**: every selected input value is multiplied by **(1 + sample)**. Bounds `-0.3,0` mean "between 30% lower and unchanged".
+
+| Feature | File changed | What is multiplied by (1 + sample) | Filters |
+|---|---|---|---|
+| `fossilfuel` | `pFuelPrice` | The price in every year of each fossil fuel: coal, lignite, gas, LNG, HFO, LFO, diesel, oil, crude, naphtha, kerosene and jet. Variants (`Gas_Moz`, `Coal_Hwan`, ...) are included, matched on the part before `_`. | `zones`: mapped to their country through `zcmap`. `fuels`: replaces the fossil list with the fuels named. |
+| `fuel` | `pFuelPrice` | Same as `fossilfuel`, but for every fuel, including biomass and uranium | Same as `fossilfuel` |
+| `demand` | `pDemandForecast` | Every row of the selected zones, in every year: both energy (GWh) and peak (MW) | `zones` |
+| `hydro` | `pAvailabilityDefault`, and `pAvailability` if a custom file exists | The seasonal availability factor of `ROR` and `ReservoirHydro` plants, capped at 1 | `zones` |
+
+Worked example, using the file above:
+
+| Feature | Bounds | Sample drawn | Effect |
+|---|---|---|---|
+| `fossilfuel` | 0 to 0.3 | 0.18 | Gas at 8 $/MMBtu becomes 8 × 1.18 = 9.44 $/MMBtu, in every year and every country |
+| `demand` | −0.1 to 0.1, Gabon | −0.05 | Gabon's energy and peak are 5% lower in every year. Other zones are unchanged. |
+| `hydro` | −0.3 to 0, Congo and DRC_South | −0.2 | A plant with Q1 availability 0.60 drops to 0.48, and 0.95 drops to 0.76. A sample of +0.2 would turn 0.95 into 1.14, which is capped at 1.0. |
+
+What this implies:
+
+- **One number per sample.** The same multiplier is applied in every model year and to every selected zone or fuel. For example, all fossil prices rise together, and all selected zones get the same demand change. There is no year-to-year noise, and no independent variation between zones. For independent zones, use a separate run for each zone.
+- **The features are independent.** Fuel price, demand and hydro are separate dimensions of the Halton sequence. There is no correlation between them (for example, a dry year does not come with high prices).
+- **Profile shapes are kept.** Scaling demand moves energy and peak together without changing the hourly profile. Scaling hydro keeps the ratio between seasons, except where the cap at 1 clips it.
+- **Hydro scales availability only.** Hourly ROR profiles in `pVREgenProfile` are not scaled by `hydro`. `climate_year` scales only PV, CSP and wind.
+- **The investment plan does not react.** The parent's build and retirement decisions are fixed (see "What is fixed in the Monte Carlo runs" above), so a higher fuel price changes dispatch, costs and unserved energy, but not the plan.
 
 **Random outages** are drawn independently for each sample. `lowerbound`/`upperbound` give the range of the share of capacity lost during an outage (0–1).
 
