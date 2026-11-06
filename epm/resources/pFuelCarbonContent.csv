@@ -2,11 +2,9 @@ Fuel,value
 Coal,0.1031
 Coal_Hwan,0.1031
 Coal_Zhon,0.1031
-Coal_Hara,0.1031
 Coal_Munya,0.1031
-DomesticCoal,0.1031
-ImportedCoal,0.1031
 Gas,0.0592
+Gas_Moz,0.0592
 Water,0
 Solar,0
 Wind,0
@@ -20,7 +18,3 @@ Diesel,0.0784
 Biomass,0
 Geothermal,0
 LNG,0.0592
-Shale,0.075
-Biogas,0
-PV,0
-ALC,0.064

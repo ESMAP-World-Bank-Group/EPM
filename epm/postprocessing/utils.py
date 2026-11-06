@@ -372,6 +372,54 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
 from epm.geodata.zone_geometry import ZONES_CUSTOM, load_zone_map  # noqa: E402,F401
 
 
+# Fuel-level grouping of the tech-fuel display names, for figures where the
+# tech detail makes the legend unreadable (e.g. EnergyMixAreaEvolution).
+# An optional 'FuelGroup' column in pTechFuelProcessing.csv overrides these rules.
+FUEL_GROUP_BY_FUEL = {
+    'Uranium': 'Nuclear',
+    'Coal': 'Coal', 'DomesticCoal': 'Coal', 'ImportedCoal': 'Coal', 'Lignite': 'Coal',
+    'Gas': 'Gas', 'Gas_Moz': 'Gas',
+    'LNG': 'LNG',
+    'HFO': 'HFO', 'Diesel': 'Diesel',
+    'Biomass': 'Biomass', 'Bagasse': 'Biomass', 'Woodchip': 'Biomass', 'Biogas': 'Biomass',
+    'Geothermal': 'Geothermal',
+    'Water': 'Hydro',
+    'Solar': 'Solar', 'CSP': 'Solar',
+    'Wind': 'Wind',
+    'Ocean': 'Ocean',
+    'Battery': 'Storage',
+}
+# Stacking order (bottom to top) and colors of the fuel groups
+FUEL_GROUP_COLORS = {
+    'Nuclear': 'purple',
+    'Coal': 'dimgray',
+    'Gas': 'firebrick',
+    'LNG': 'lightcoral',
+    'HFO': 'saddlebrown',
+    'Diesel': 'darksalmon',
+    'Biomass': 'green',
+    'Geothermal': 'sienna',
+    'Hydro': 'darkblue',
+    'Wind': 'darkturquoise',
+    'Solar': 'orange',
+    'Ocean': 'royalblue',
+    'Storage': 'darkkhaki',
+}
+
+
+def _fuel_group(tech, fuel, processing):
+    """Fuel group of one pTechFuelProcessing row (storage kept apart from its 'fuel')."""
+    if tech == 'Storage':
+        return 'Storage'        # batteries and pumped hydro
+    if tech == 'STOPV':
+        return 'Solar'          # solar thermal storage paired with PV
+    if fuel in FUEL_GROUP_BY_FUEL:
+        return FUEL_GROUP_BY_FUEL[fuel]
+    if fuel.startswith('Coal'):
+        return 'Coal'           # site-specific coal (Coal_Hwan, Coal_Zhon, ...)
+    return processing           # trade, unmet demand, DSM...: keep display name
+
+
 def read_plot_specs():
     """
     Read the specifications for the plots from the resources files.
@@ -412,6 +460,20 @@ def read_plot_specs():
     # Merge colors: techfuel colors take precedence, then base colors
     all_colors = {**base_colors, **techfuel_colors}
 
+    # Fuel-level grouping of the display names (Processing -> fuel group)
+    if 'FuelGroup' in techfuel_df.columns:
+        groups = techfuel_df['FuelGroup'].where(techfuel_df['FuelGroup'].notna() & (techfuel_df['FuelGroup'].astype(str).str.strip() != ''))
+    else:
+        groups = pd.Series(index=techfuel_df.index, dtype=object)
+    default_groups = [_fuel_group(t, f, p) for t, f, p in
+                      zip(techfuel_df['tech'], techfuel_df['fuel'], techfuel_df['Processing'])]
+    techfuel_df['FuelGroup'] = groups.fillna(pd.Series(default_groups, index=techfuel_df.index)).astype(str).str.strip()
+    fuelgroup_mapping = techfuel_df.drop_duplicates('Processing').set_index('Processing')['FuelGroup'].to_dict()
+    fuelgroup_order = [g for g in FUEL_GROUP_COLORS if g in set(fuelgroup_mapping.values())]
+    fuelgroup_order += [g for g in dict.fromkeys(fuelgroup_mapping.values()) if g not in fuelgroup_order]
+    # Group colors only for groups; pass-through names (UnmetDemand, DSM...) keep their color
+    fuelgroup_colors = {**all_colors, **FUEL_GROUP_COLORS}
+
     zones = load_zone_map()
 
     geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
@@ -421,6 +483,9 @@ def read_plot_specs():
         'techfuel_mapping': techfuel_mapping,
         'techfuel_order': techfuel_order,
         'techfuel_df': techfuel_df,
+        'fuelgroup_mapping': fuelgroup_mapping,
+        'fuelgroup_order': fuelgroup_order,
+        'fuelgroup_colors': fuelgroup_colors,
         'map_zones': zones,
         'geojson_to_epm': geojson_to_epm
     }

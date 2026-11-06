@@ -356,7 +356,8 @@ def launch_epm(scenario,
                dict_montecarlo=None,
                prefix='',  # 'simulation_'
                debug=False,
-               trace=False
+               trace=False,
+               gams_options=None
                ):
     """
     Launch the EPM model with the given scenario
@@ -376,6 +377,9 @@ def launch_epm(scenario,
     folder_input: str, optional, default None
     dict_montecarlo: dict, optional, default None
         Correspondence for solution when running montecarlo scenarios
+    gams_options: list of str, optional, default None
+        Extra GAMS command-line options, e.g. ``["action=c"]`` to only compile
+        (reads, verifies and treats inputs, writes input_treated.gdx, no solve).
 
     Returns
     -------
@@ -414,7 +418,10 @@ def launch_epm(scenario,
         loadsolpath = os.path.join(os.path.abspath(os.path.join(cwd, os.pardir)), dict_montecarlo[scenario_name])
         options.extend(["--LOADSOLPATH {}".format(loadsolpath)])
 
-    command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
+    if gams_options:
+        options.extend(gams_options)
+
+    command =["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
                                                     "--REPORT_FILE {}".format(path_report_file),
                                                     "--READER_FILE {}".format(path_reader_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
@@ -472,9 +479,10 @@ def launch_epm(scenario,
 
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
-                            modeltype='MIP', dict_montecarlo=None, debug=False, trace=False):
+                            modeltype='MIP', dict_montecarlo=None, debug=False, trace=False, gams_options=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      dict_montecarlo=dict_montecarlo, debug=debug, trace=trace, **path_gams, modeltype=modeltype)
+                      dict_montecarlo=dict_montecarlo, debug=debug, trace=trace, **path_gams, modeltype=modeltype,
+                      gams_options=gams_options)
 
 
 def launch_epm_multi_scenarios(config='config.csv',
@@ -494,7 +502,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                modeltype='MIP',
                                debug=False,
                                trace=False,
-                               country=None):
+                               country=None,
+                               gams_options=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -516,6 +525,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         When True, passes ``--TRACE 1`` to the GAMS command line.
     simulation_label: str, optional, default None
         Custom name for the simulation output folder that overrides the timestamp-based name.
+    gams_options: list of str, optional, default None
+        Extra GAMS command-line options passed to every scenario (see ``launch_epm``).
 
     Returns
     -------
@@ -741,7 +752,7 @@ def launch_epm_multi_scenarios(config='config.csv',
             metrics_results.extend(
                  pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace, gams_options) for k in s.keys()],
                 )
             )
     else:
