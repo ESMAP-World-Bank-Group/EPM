@@ -37,21 +37,36 @@ Contact:
     Claire Nicolas — cnicolas@worldbank.org
 **********************************************************************
 """
+import importlib
+import logging
 import math
+import subprocess
+import sys
 import numpy as np
 import pandas as pd
 import os
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 try:
     import chaospy  # optional dependency for Monte Carlo analysis
 except ImportError:  # pragma: no cover - handled at runtime when Monte Carlo is requested
     chaospy = None
 
+# Version pinned in requirements.txt (commented there because chaospy is optional).
+CHAOSPY_VERSION = "4.3.18"
+
 
 def _ensure_chaospy():
     """
-    Lazily import chaospy only when Monte Carlo features are requested.
+    Return the chaospy module, installing it with pip if it is missing.
+
+    chaospy is only needed for Monte Carlo analysis, so it is not a hard
+    dependency. Every Monte Carlo call goes through this function: if the
+    package is absent it is installed into the running interpreter
+    (``sys.executable -m pip install chaospy==CHAOSPY_VERSION``), falling back
+    to the latest release if the pinned version cannot be installed.
 
     Returns
     -------
@@ -61,14 +76,36 @@ def _ensure_chaospy():
     Raises
     ------
     ImportError
-        If chaospy is not installed and Monte Carlo is requested.
+        If chaospy is missing and the automatic installation fails.
     """
-    if chaospy is None:
-        raise ImportError(
-            "Monte Carlo analysis requires the optional dependency 'chaospy'. "
-            "Install it with `pip install chaospy` and rerun the command."
-        )
-    return chaospy
+    global chaospy
+    if chaospy is not None:
+        return chaospy
+
+    logger.warning("chaospy is not installed; installing it for the Monte Carlo analysis...")
+    errors = []
+    # numpoly (a chaospy dependency) must come as a prebuilt wheel: building it from
+    # source needs a C compiler (Microsoft C++ Build Tools on Windows).
+    attempts = (
+        ["--only-binary=numpoly", "chaospy"],
+        ["--only-binary=numpoly", f"chaospy=={CHAOSPY_VERSION}"],
+        ["chaospy"],
+    )
+    for args in attempts:
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", *args])
+            importlib.invalidate_caches()
+            chaospy = importlib.import_module("chaospy")
+            logger.info("Installed chaospy %s.", getattr(chaospy, "__version__", ""))
+            return chaospy
+        except (subprocess.CalledProcessError, ImportError, OSError) as err:
+            errors.append(f"pip install {' '.join(args)}: {err}")
+
+    raise ImportError(
+        "Monte Carlo analysis requires 'chaospy' and the automatic installation failed "
+        f"({'; '.join(errors)}). Install it manually with "
+        f"`pip install chaospy=={CHAOSPY_VERSION}` and rerun the command."
+    )
 
 
 class NamedJ:
@@ -104,6 +141,38 @@ class NamedJ:
             Name of the variable (as defined in the input dictionary).
         """
         return self.J[self.mapping[attr]]
+
+    def J_from_dict(self, values):
+        cp = _ensure_chaospy()
+        DD = []
+        for v in values:
+            D = getattr(cp, v["type"])
+            DD.append(D(*v["args"]))
+        return cp.J(*DD)
+
+    def sample(self, size=100, rule="halton", fmt=3):
+        """
+        Sample from the joint distribution.
+
+        Parameters
+        ----------
+        size : int
+            Number of samples to generate.
+        rule : str
+            Sampling method used by chaospy (e.g., 'halton', 'random', 'sobol').
+        fmt : int
+            Number of decimal places to round the samples to.
+
+        Returns
+        -------
+        pd.DataFrame
+            Samples as a DataFrame with variable names as index and columns as samples.
+        """
+        samples = self.J.sample(size=size, rule=rule).round(fmt)
+        if len(samples.shape) == 1:  # single feature when doing samples
+            samples = samples.reshape(-1, samples.shape[0])
+        index = [f"{n}" for n in self.names]
+        return pd.DataFrame(samples, index=index)
 
 
 def _with_assessment_suffix(scenario_name, suffix):
@@ -226,9 +295,12 @@ def _get_montecarlo_folder(base_path):
     return folder_mc
 
 
-def _generate_montecarlo_filepath(base_path, param, val):
+def _generate_montecarlo_filepath(base_path, param, scenario_name):
     """
     Generate a montecarlo file path with proper cross-platform handling.
+
+    The Monte Carlo scenario name is part of the file name so that two parent
+    scenarios drawing the same sample value never overwrite each other's file.
 
     Parameters
     ----------
@@ -236,8 +308,8 @@ def _generate_montecarlo_filepath(base_path, param, val):
         Path to the original file
     param : str
         Parameter name (e.g., 'pFuelPrice')
-    val : float
-        Value used for this Monte Carlo sample
+    scenario_name : str
+        Name of the Monte Carlo scenario the file belongs to
 
     Returns
     -------
@@ -246,43 +318,9 @@ def _generate_montecarlo_filepath(base_path, param, val):
     """
     base_path = Path(base_path)
     folder_mc = _get_montecarlo_folder(base_path)
-    # Create new filename with value (replace . with p for valid filename)
-    val_str = str(val).replace('.', 'p')
-    new_filename = f"{param}_{val_str}.csv"
+    new_filename = f"{param}_{scenario_name}.csv"
     return str(folder_mc / new_filename)
 
-
-    def J_from_dict(self, values):
-        cp = _ensure_chaospy()
-        DD = []
-        for v in values:
-            D = getattr(cp, v["type"])
-            DD.append(D(*v["args"]))
-        return cp.J(*DD)
-
-    def sample(self, size=100, rule="halton", fmt=3):
-        """
-        Sample from the joint distribution.
-
-        Parameters
-        ----------
-        size : int
-            Number of samples to generate.
-        rule : str
-            Sampling method used by chaospy (e.g., 'halton', 'random', 'sobol').
-        fmt : int
-            Number of decimal places to round the samples to.
-
-        Returns
-        -------
-        pd.DataFrame
-            Samples as a DataFrame with variable names as index and columns as samples.
-        """
-        samples = self.J.sample(size=size, rule=rule).round(fmt)
-        if len(samples.shape) == 1:  # single feature when doing samples
-            samples = samples.reshape(-1, samples.shape[0])
-        index = [f"{n}" for n in self.names]
-        return pd.DataFrame(samples, index=index)
 
 def multiindex2array(multiindex):
     """
@@ -296,6 +334,52 @@ def multiindex2df(multiindex):
     """
     return pd.DataFrame(multiindex2array(multiindex), index=multiindex.names)
 
+
+# Continuous features: one value per sample drawn from the joint chaospy distribution.
+CONTINUOUS_FEATURES = {'fossilfuel', 'fuel', 'demand', 'hydro'}
+# Event features: random draws per sample - outages (which plants/lines, which seasons,
+# how deep) and the weather year ('climate_year').
+EVENT_FEATURES = {'thermal_outage', 'interco_outage', 'climate_year'}
+# Features that can be sampled in the Monte Carlo uncertainty file.
+MONTECARLO_FEATURES = CONTINUOUS_FEATURES | EVENT_FEATURES
+
+# Technologies hit by 'thermal_outage' unless the 'techs' column says otherwise (case-insensitive).
+THERMAL_TECHS = {'st', 'ccgt', 'ocgt', 'ice', 'nuclear'}
+
+# Default settings of the event features (columns of the uncertainty file).
+EVENT_DEFAULTS = {
+    'thermal_outage': {'probability': 0.1, 'seasons': 1},
+    'interco_outage': {'count': 1, 'seasons': 1},
+}
+
+# 'climate_year': model technology -> resource series of the climate-year dataset
+# (pre-analysis/climate_years/fetch_climate_years.py, columns zone, tech, year, month, cf).
+CLIMATE_TECH_MAP = {'pv': 'PV', 'cspplant': 'PV', 'csp': 'PV', 'solar': 'PV',
+                    'onshorewind': 'Wind', 'offshorewind': 'Wind', 'wind': 'Wind'}
+
+# Seed of the outage draws. Each sample uses its own stream, so a sample has the
+# same outages in every parent scenario and adding samples does not change earlier ones.
+MONTECARLO_SEED = 2026
+
+# Base fossil fuel names. A fuel in pFuelPrice counts as fossil when its name, or
+# the part before the first '_', is one of these (case-insensitive), so variants
+# such as 'Gas_Moz' or 'Coal_Hwan' follow their base fuel.
+FOSSIL_FUELS = {'coal', 'lignite', 'gas', 'lng', 'hfo', 'lfo', 'diesel', 'oil', 'crude', 'naphtha', 'kerosene', 'jet'}
+
+# Hydro technologies scaled by the 'hydro' feature (case-insensitive, e.g. 'RoR').
+HYDRO_TECHS = {'ror', 'reservoirhydro'}
+
+
+def _parse_list(value):
+    """Split a ';'-separated cell into a list; empty/NaN/'ALL' -> ['ALL']."""
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return ['ALL']
+    items = [v.strip() for v in str(value).split(';') if v.strip()]
+    if not items or any(v.upper() == 'ALL' for v in items):
+        return ['ALL']
+    return items
+
+
 def define_samples(df_uncertainties, nb_samples):
     """
     Generate a joint distribution and samples from a DataFrame defining uncertainty bounds.
@@ -304,171 +388,658 @@ def define_samples(df_uncertainties, nb_samples):
     ----------
     df_uncertainties : pd.DataFrame
         Must contain columns: 'feature', 'type', 'lowerbound', 'upperbound'.
+        Optional columns:
+        - 'zones': ';'-separated model zones (or countries) the feature applies to; empty = all.
+        - 'fuels': ';'-separated fuels the feature applies to (fuel features only); empty = default set.
+        Event features ('thermal_outage', 'interco_outage') use 'lowerbound'/'upperbound' as the
+        range of the share of capacity lost during an outage (0-1) and these optional columns:
+        - 'techs': ';'-separated technologies hit by 'thermal_outage' (default: THERMAL_TECHS).
+        - 'probability': chance that each plant has an outage in a sample ('thermal_outage').
+        - 'lines': ';'-separated corridors 'ZoneA-ZoneB' that can fail ('interco_outage'; default all).
+        - 'count': number of corridors hit per sample ('interco_outage').
+        - 'seasons': number of seasons affected by each outage.
     nb_samples : int
         Number of samples to draw.
 
     Returns
     -------
     tuple
-        (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
+        (NamedJ distribution or None, dict of samples, dict feature -> zones, dict feature -> fuels,
+        dict event feature -> settings). Samples are keyed 'sample_001', 'sample_002', ... and map
+        each continuous feature to its value.
     """
-    cp = _ensure_chaospy()
+    required = {'feature', 'type', 'lowerbound', 'upperbound'}
+    missing = required - set(df_uncertainties.columns)
+    if missing:
+        raise ValueError(f"Uncertainty file is missing column(s) {sorted(missing)}.")
+
+    def _number(row, column, default):
+        value = row.get(column)
+        if value is None or (isinstance(value, float) and pd.isna(value)) or str(value).strip() == '':
+            return default
+        return float(value)
+
     uncertainties = {}
     zone_mapping = {}
-    chaospy_distributions = [
-        name for name in dir(cp)
-        if callable(getattr(cp, name)) and hasattr(getattr(cp, name), '__module__')
-           and 'chaospy' in getattr(cp, name).__module__.lower()
-    ]
+    fuel_mapping = {}
+    event_config = {}
     for _, row in df_uncertainties.iterrows():
-        feature, type, lowerbound, upperbound = row['feature'], row['type'], row['lowerbound'], row['upperbound']
-        assert type in chaospy_distributions, f'Distribution types is not allowed by the chaopsy package. Distribution type should belong to {chaospy_distributions}'
-        uncertainties[feature] = {
-            'type': type,
-            'args': (lowerbound, upperbound)
-        }
-        # Getting zones concerned by the uncertainty
-        zones = row['zones'] if pd.notna(row.get('zones', None)) else 'ALL'
-        if isinstance(zones, str):
-            zone_list = [z.strip() for z in zones.split(';')]
-        else:
-            zone_list = ['ALL']
-        zone_mapping[feature] = zone_list
-    distribution = NamedJ(uncertainties)
+        feature = str(row['feature']).strip()
+        dist_type = str(row['type']).strip()
+        if feature not in MONTECARLO_FEATURES:
+            raise ValueError(
+                f"Unknown Monte Carlo feature '{feature}'. Supported features: {sorted(MONTECARLO_FEATURES)}."
+            )
+        if feature in uncertainties or feature in event_config:
+            raise ValueError(f"Monte Carlo feature '{feature}' is defined more than once.")
+        lower, upper = float(row['lowerbound']), float(row['upperbound'])
+        zone_mapping[feature] = _parse_list(row.get('zones'))
+        fuel_mapping[feature] = _parse_list(row.get('fuels'))
 
-    samples = distribution.sample(size=nb_samples, rule='halton')
-    samples = {
-        f'{"_".join([f"{idx}{samples.loc[idx, col]:.3f}" for idx in samples.index])}': {
-            idx: round(samples.loc[idx, col], 3) for idx in samples.index
-        }
-        for col in samples.columns
-    }
-    return distribution, samples, zone_mapping
+        if feature == 'climate_year':
+            path = row.get('file')
+            if path is None or (isinstance(path, float) and pd.isna(path)):
+                raise ValueError("'climate_year': give the climate-year dataset (vre_monthly_cf.csv) in the 'file' column.")
+            season_months = row.get('season_months')
+            event_config[feature] = {
+                'file': str(path).strip(),
+                # lowerbound/upperbound = first/last weather year to draw from (0 = no limit)
+                'first_year': int(lower) if lower else None,
+                'last_year': int(upper) if upper else None,
+                'season_months': None if season_months is None or (isinstance(season_months, float)
+                                                                   and pd.isna(season_months)) else str(season_months),
+                'zones': zone_mapping[feature],
+            }
+            continue
 
-def create_scenarios_montecarlo(samples, s, zone_mapping):
+        if feature in EVENT_FEATURES:
+            if not (0 <= lower <= upper <= 1):
+                raise ValueError(f"'{feature}': lowerbound/upperbound are shares of capacity lost, "
+                                 f"0 <= lowerbound <= upperbound <= 1 (got {lower}, {upper}).")
+            defaults = EVENT_DEFAULTS[feature]
+            cfg = {'lower': lower, 'upper': upper,
+                   'seasons': int(_number(row, 'seasons', defaults['seasons'])),
+                   'zones': zone_mapping[feature]}
+            if feature == 'thermal_outage':
+                cfg['probability'] = _number(row, 'probability', defaults['probability'])
+                techs = _parse_list(row.get('techs'))
+                cfg['techs'] = THERMAL_TECHS if 'ALL' in techs else {t.lower() for t in techs}
+                if not 0 <= cfg['probability'] <= 1:
+                    raise ValueError(f"'thermal_outage': probability must be in [0, 1] (got {cfg['probability']}).")
+            else:
+                cfg['count'] = int(_number(row, 'count', defaults['count']))
+                cfg['lines'] = _parse_list(row.get('lines'))
+            if cfg['seasons'] < 1:
+                raise ValueError(f"'{feature}': seasons must be >= 1.")
+            event_config[feature] = cfg
+            continue
+
+        cp = _ensure_chaospy()
+        dist = getattr(cp, dist_type, None)
+        if not (isinstance(dist, type) and issubclass(dist, cp.Distribution)):
+            raise ValueError(f"'{dist_type}' is not a chaospy distribution (e.g. Uniform, Normal, Triangle).")
+        uncertainties[feature] = {'type': dist_type, 'args': (lower, upper)}
+
+    if not uncertainties and not event_config:
+        raise ValueError("Uncertainty file defines no feature.")
+
+    width = max(3, len(str(nb_samples)))
+    names = [f'sample_{i + 1:0{width}d}' for i in range(nb_samples)]
+    distribution = None
+    if uncertainties:
+        distribution = NamedJ(uncertainties)
+        samples_df = distribution.sample(size=nb_samples, rule='halton')
+        samples = {
+            name: {idx: round(float(samples_df.loc[idx, col]), 3) for idx in samples_df.index}
+            for name, col in zip(names, samples_df.columns)
+        }
+    else:
+        samples = {name: {} for name in names}
+    return distribution, samples, zone_mapping, fuel_mapping, event_config
+
+
+def _read_csv_list(path, column):
+    """
+    Unique values of a column of a CSV file, as strings (empty list if the file is missing).
+    Falls back to the first column when ``column`` is absent: the reduced year file written
+    by ``--simple`` has a '0' header instead of 'y'.
+    """
+    if path is None or not os.path.exists(str(path)):
+        return []
+    df = pd.read_csv(path)
+    if df.empty:
+        return []
+    values = df[column] if column in df.columns else df.iloc[:, 0]
+    return [str(v) for v in values.dropna().unique()]
+
+
+def _plant_base_availability(scenario, gen):
+    """
+    Seasonal availability of each plant as the model builds it: custom value
+    (pAvailability), else zone/tech/fuel default (pAvailabilityDefault), else
+    generic tech/fuel value (resources/pAvailabilityGeneric.csv), else 1.
+
+    Returns a DataFrame indexed by generator with one column per season.
+    """
+    seasons = _read_csv_list(scenario.get('pHours'), 'q')
+    g_col = 'g' if 'g' in gen.columns else gen.columns[0]
+    z_col = 'z' if 'z' in gen.columns else gen.columns[1]
+    f_col = 'fuel' if 'fuel' in gen.columns else ('f' if 'f' in gen.columns else gen.columns[3])
+    keys = gen[[g_col, z_col, 'tech', f_col]].astype(str).drop_duplicates(subset=[g_col])
+    keys.columns = ['g', 'z', 'tech', 'fuel']
+    base = pd.DataFrame(np.nan, index=keys['g'], columns=seasons)
+
+    default_path = scenario.get('pAvailabilityDefault')
+    if default_path is not None and os.path.exists(str(default_path)):
+        default = pd.read_csv(default_path)
+        default.columns = ['z', 'tech', 'fuel'] + list(default.columns[3:])
+        default[['z', 'tech', 'fuel']] = default[['z', 'tech', 'fuel']].astype(str)
+        merged = keys.merge(default, on=['z', 'tech', 'fuel'], how='left').set_index('g')
+        for q in seasons:
+            if q in merged.columns:
+                base[q] = merged[q]
+
+    generic_path = Path(__file__).parent / 'resources' / 'pAvailabilityGeneric.csv'
+    if generic_path.exists():
+        generic = pd.read_csv(generic_path).astype({'tech': str, 'fuel': str})
+        value = keys.merge(generic, on=['tech', 'fuel'], how='left').set_index('g')['value']
+        for q in seasons:
+            base[q] = base[q].fillna(value)
+
+    custom_path = scenario.get('pAvailability')
+    if custom_path is not None and os.path.exists(str(custom_path)):
+        custom = pd.read_csv(custom_path)
+        custom = custom.set_index(custom.columns[0])
+        custom.index = custom.index.astype(str)
+        for q in seasons:
+            if q in custom.columns:
+                values = custom[q].reindex(base.index)
+                base[q] = values.where(values.notna(), base[q])
+    return base.fillna(1.0)
+
+
+def _draw_thermal_outages(scenario, cfg, rng, zones):
+    """
+    Random thermal outages for one sample, re-centred on the input availability.
+
+    The input availability already includes average outages. Every plant in scope is
+    first scaled by 1 / (1 - expected loss), with expected loss = probability x
+    (seasons / number of seasons) x mean depth, so that the availability averaged over
+    many samples equals the input. Plants hit in the sample then lose a share drawn
+    in [lower, upper] of their availability in randomly selected season(s).
+
+    Returns (availability DataFrame g x seasons for the plants in scope, events list).
+    """
+    gen = pd.read_csv(scenario['pGenDataInput'])
+    g_col = 'g' if 'g' in gen.columns else gen.columns[0]
+    z_col = 'z' if 'z' in gen.columns else gen.columns[1]
+    mask = gen['tech'].astype(str).str.lower().isin(cfg['techs'])
+    if zones is not None:
+        mask &= gen[z_col].astype(str).isin(zones)
+    scope = gen.loc[mask].drop_duplicates(subset=[g_col])
+    if scope.empty:
+        return pd.DataFrame(), []
+
+    base = _plant_base_availability(scenario, gen).loc[scope[g_col].astype(str)]
+    seasons = list(base.columns)
+    n_hit_seasons = min(cfg['seasons'], len(seasons))
+    expected_loss = cfg['probability'] * n_hit_seasons / len(seasons) * (cfg['lower'] + cfg['upper']) / 2
+    availability = (base / (1 - expected_loss)).clip(upper=1) if expected_loss < 1 else base.copy()
+
+    events = []
+    zone_of = scope.set_index(scope[g_col].astype(str))[z_col].astype(str)
+    for g in availability.index:
+        if rng.random() >= cfg['probability']:
+            continue
+        hit = rng.choice(seasons, size=n_hit_seasons, replace=False)
+        depth = float(rng.uniform(cfg['lower'], cfg['upper']))
+        availability.loc[g, hit] = availability.loc[g, hit] * (1 - depth)
+        for q in hit:
+            events.append({'type': 'thermal_outage', 'element': g, 'zone': zone_of[g],
+                           'season': q, 'depth': round(depth, 3)})
+    return availability.round(4), events
+
+
+def _draw_interco_outages(scenario, cfg, rng, zones):
+    """
+    Random interconnection outages for one sample: ``count`` corridors (existing or
+    candidate, both directions) lose a share drawn in [lower, upper] of their transfer
+    capacity in randomly selected season(s), in every model year.
+
+    Returns (pTransferOutage DataFrame in CSV layout, events list).
+    """
+    corridors = set()
+    for key in ('pTransferLimit', 'pNewTransmission'):
+        path = scenario.get(key)
+        if path is None or not os.path.exists(str(path)):
+            continue
+        df = pd.read_csv(path)
+        if key == 'pTransferLimit':
+            values = df.iloc[:, 3:].apply(pd.to_numeric, errors='coerce').fillna(0)
+            df = df.loc[values.sum(axis=1) > 0]
+        for a, b in zip(df.iloc[:, 0].astype(str), df.iloc[:, 1].astype(str)):
+            if a != b:
+                corridors.add(tuple(sorted((a, b))))
+    if zones is not None:
+        corridors = {c for c in corridors if c[0] in zones and c[1] in zones}
+    if 'ALL' not in cfg['lines']:
+        wanted = set(cfg['lines'])
+        corridors = {c for c in corridors if f'{c[0]}-{c[1]}' in wanted or f'{c[1]}-{c[0]}' in wanted}
+    corridors = sorted(corridors)
+
+    seasons = _read_csv_list(scenario.get('pHours'), 'q')
+    years = _read_csv_list(scenario.get('y'), 'y')
+    columns = ['From', 'To', 'q'] + years
+    if not corridors or not seasons or not years:
+        return pd.DataFrame(columns=columns), []
+
+    n_lines = min(cfg['count'], len(corridors))
+    n_hit_seasons = min(cfg['seasons'], len(seasons))
+    rows, events = [], []
+    for idx in rng.choice(len(corridors), size=n_lines, replace=False):
+        a, b = corridors[idx]
+        depth = float(rng.uniform(cfg['lower'], cfg['upper']))
+        for q in rng.choice(seasons, size=n_hit_seasons, replace=False):
+            for z1, z2 in ((a, b), (b, a)):
+                rows.append([z1, z2, q] + [round(depth, 4)] * len(years))
+            events.append({'type': 'interco_outage', 'element': f'{a}-{b}', 'zone': f'{a};{b}',
+                           'season': q, 'depth': round(depth, 3)})
+    return pd.DataFrame(rows, columns=columns), events
+
+
+def _season_months(seasons, spec=None):
+    """
+    Months of each model season. ``spec`` like 'Q1:1-3;Q2:4-6;Q3:7-9;Q4:10-12' (months may
+    also be listed, e.g. 'Q1:12,1,2'). Without a spec the 12 months are split evenly, in
+    calendar order, over the seasons (Q1..Q4 -> quarters), with a warning.
+    """
+    if spec:
+        mapping = {}
+        for part in spec.split(';'):
+            if not part.strip():
+                continue
+            name, months = part.split(':')
+            values = []
+            for item in months.split(','):
+                if '-' in item:
+                    a, b = (int(x) for x in item.split('-'))
+                    values += list(range(a, b + 1))
+                else:
+                    values.append(int(item))
+            mapping[name.strip()] = values
+        missing = [q for q in seasons if q not in mapping]
+        if missing:
+            raise ValueError(f"'climate_year': season_months does not define season(s) {missing}.")
+        return mapping
+    if not seasons or 12 % len(seasons):
+        raise ValueError(f"'climate_year': give 'season_months' (seasons {seasons} cannot split the year evenly).")
+    size = 12 // len(seasons)
+    logger.warning("'climate_year': no season_months given; assuming %s.",
+                   '; '.join(f'{q}: months {i * size + 1}-{(i + 1) * size}' for i, q in enumerate(seasons)))
+    return {q: list(range(i * size + 1, (i + 1) * size + 1)) for i, q in enumerate(seasons)}
+
+
+def _climate_factors(cfg, seasons):
+    """
+    Seasonal factors of every weather year: mean capacity factor of the season's months in
+    that year divided by its mean over all years of the range (the climatology).
+
+    Returns (DataFrame indexed by (zone, tech, year) with one column per season, list of years).
+    """
+    data = pd.read_csv(cfg['file'])
+    data[['zone', 'tech']] = data[['zone', 'tech']].astype(str)
+    if cfg['first_year']:
+        data = data.loc[data['year'] >= cfg['first_year']]
+    if cfg['last_year']:
+        data = data.loc[data['year'] <= cfg['last_year']]
+    if data.empty:
+        raise ValueError(f"'climate_year': no data in {cfg['file']} for the selected years.")
+    months = _season_months(seasons, cfg['season_months'])
+    season_of = {m: q for q, ms in months.items() for m in ms}
+    data['season'] = data['month'].map(season_of)
+    seasonal = data.dropna(subset=['season']).groupby(['zone', 'tech', 'year', 'season'])['cf'].mean().unstack()
+    climatology = seasonal.groupby(level=['zone', 'tech']).mean()
+    factors = seasonal / climatology.reindex(seasonal.index.droplevel('year')).values
+    return factors.fillna(1.0), sorted(data['year'].unique())
+
+
+def _apply_climate_year(scenario, factors, year, zones):
+    """
+    Scale pVREProfile and pVREgenProfile by the factors of weather ``year`` (capped at 1).
+    Returns {param: DataFrame} for the files that changed and the list of zones without data.
+    """
+    year_factors = factors.xs(year, level='year')
+    available = set(year_factors.index.get_level_values('zone'))
+    out, no_data = {}, set()
+
+    def factor_table(zone_series, tech_series, season_series):
+        resource = tech_series.astype(str).str.lower().map(CLIMATE_TECH_MAP)
+        keys = pd.MultiIndex.from_arrays([zone_series.astype(str), resource])
+        stacked = year_factors.stack()
+        values = [stacked.get((z, r, q), np.nan) if isinstance(r, str) else np.nan
+                  for (z, r), q in zip(keys, season_series.astype(str))]
+        ok = pd.Series(values, index=zone_series.index)
+        if zones is not None:
+            ok[~zone_series.astype(str).isin(zones)] = np.nan
+        no_data.update(set(zone_series[resource.notna() & ~zone_series.astype(str).isin(available)].astype(str)))
+        return ok
+
+    path = scenario.get('pVREProfile')
+    if path is not None and os.path.exists(str(path)):
+        df = pd.read_csv(path)
+        hours = list(df.columns[4:])
+        factor = factor_table(df.iloc[:, 0], df.iloc[:, 1], df.iloc[:, 2])
+        mask = factor.notna()
+        if mask.any():
+            df[hours] = df[hours].astype(float)
+            df.loc[mask, hours] = df.loc[mask, hours].mul(factor[mask], axis=0).clip(upper=1).round(4)
+            out['pVREProfile'] = df
+
+    path = scenario.get('pVREgenProfile')
+    if path is not None and os.path.exists(str(path)):
+        df = pd.read_csv(path)
+        gen = pd.read_csv(scenario['pGenDataInput'])
+        g_col = 'g' if 'g' in gen.columns else gen.columns[0]
+        z_col = 'z' if 'z' in gen.columns else gen.columns[1]
+        info = gen.drop_duplicates(subset=[g_col]).set_index(gen.drop_duplicates(subset=[g_col])[g_col].astype(str))
+        g = df.iloc[:, 0].astype(str)
+        hours = list(df.columns[3:])
+        factor = factor_table(g.map(info[z_col]).fillna(''), g.map(info['tech']).fillna(''), df.iloc[:, 1])
+        mask = factor.notna()
+        if mask.any():
+            df[hours] = df[hours].astype(float)
+            df.loc[mask, hours] = df.loc[mask, hours].mul(factor[mask], axis=0).clip(upper=1).round(4)
+            out['pVREgenProfile'] = df
+    return out, sorted(z for z in no_data if z)
+
+
+def create_scenarios_montecarlo(samples, s, zone_mapping, fuel_mapping=None, event_config=None,
+                                seed=MONTECARLO_SEED):
     """
     Generate new scenarios for Monte Carlo analysis by modifying baseline input files
     based on provided uncertainty samples.
 
-    This function creates new input files (under a `montecarlo/` subdirectory) for each
-    scenario sample, applies parameter-specific transformations (e.g., scaling demand or
-    fuel prices), and updates the scenario dictionary accordingly.
+    For every parent scenario in ``s`` and every sample, a scenario named
+    ``<parent>_MC<k>`` is created. Its modified input files are written under a
+    ``montecarlo/`` subdirectory next to the parent's files.
+
+    Sample values are relative changes: a value of 0.2 multiplies the affected
+    inputs by 1.2. Supported features:
+
+    - ``fossilfuel``: pFuelPrice of fossil fuels (see FOSSIL_FUELS, variants like
+      'Gas_Moz' included), or the fuels listed in the 'fuels' column.
+    - ``fuel``: pFuelPrice of every fuel, or the fuels listed in the 'fuels' column.
+    - ``demand``: pDemandForecast (energy and peak) of the selected zones.
+    - ``hydro``: pAvailabilityDefault and pAvailability of ROR / ReservoirHydro
+      plants in the selected zones, capped at 1.
+
+    Event features (see ``define_samples``), drawn with a random generator seeded by
+    ``seed`` and the sample number:
+
+    - ``thermal_outage``: random seasonal outages of thermal plants, re-centred on
+      the input availability, written to pAvailability (see ``_draw_thermal_outages``).
+    - ``interco_outage``: random seasonal outages of corridors, written to pTransferOutage.
+
+    Zones can be given as model zones or countries; fuel prices are defined by
+    country, so zones are mapped to their country through zcmap.
 
     Parameters
     ----------
     samples : dict
-        Dictionary of samples where keys are scenario names and values are dicts
-        mapping uncertain variable names (e.g., 'fossilfuel', 'demand') to sample values.
+        Output of ``define_samples``: sample name -> {feature: value}.
     s : dict
-        Dictionary of scenarios where 'baseline' must be defined. Each scenario is a
-        dictionary of parameter file paths.
+        Dictionary of scenarios (name -> pd.Series of parameter file paths).
+    zone_mapping : dict
+        Feature -> list of zones (['ALL'] for all zones).
+    fuel_mapping : dict, optional
+        Feature -> list of fuels (['ALL'] for the feature's default set).
 
     Returns
     -------
-    dict
-        Updated dictionary of scenarios, including new scenarios generated from samples.
+    tuple
+        (s, scenarios_montecarlo, mc_mapping, mc_events) where ``mc_mapping`` is a DataFrame
+        indexed by Monte Carlo scenario with columns 'parent', 'sample', one column per
+        continuous feature and the number of outages per event feature. It is the explicit
+        link to the parent scenario used to load the fixed investment plan, so parent names
+        may contain any character. ``mc_events`` lists every drawn outage (scenario, type,
+        element, zone, season, depth).
     """
+    fuel_mapping = fuel_mapping or {}
 
-    def save_new_dataframe(df, s, param, val, name='baseline'):
-        """
-        Helper function to save a modified DataFrame to a new file and update the scenario path.
+    def _read_zcmap(scenario):
+        path = scenario.get('zcmap') if hasattr(scenario, 'get') else None
+        if path is None or not os.path.exists(str(path)):
+            return pd.DataFrame(columns=['z', 'c'])
+        df = pd.read_csv(path)
+        df.columns = [c.strip() for c in df.columns]
+        zone_col = 'z' if 'z' in df.columns else df.columns[0]
+        country_col = 'c' if 'c' in df.columns else df.columns[1]
+        return df.rename(columns={zone_col: 'z', country_col: 'c'})[['z', 'c']].astype(str)
 
-        Parameters
-        ----------
-        df : pd.DataFrame
-            The modified DataFrame to save.
-        scenario_dict : dict
-            The main scenario dictionary.
-        param : str
-            The name of the parameter being modified (e.g., 'pFuelPrice').
-        val : float
-            The value used for this Monte Carlo sample (used in naming).
-        """
-        path_file = _generate_montecarlo_filepath(s[name][param], param, val)
-        df.to_csv(path_file, index=True)
+    def _check_names(requested, available, feature, what):
+        if 'ALL' in requested:
+            return
+        unknown = sorted(set(requested) - set(available))
+        if unknown:
+            logger.warning("Monte Carlo '%s': %s %s not found in the inputs; they are ignored.",
+                           feature, what, unknown)
+        if not set(requested) & set(available):
+            raise ValueError(
+                f"Monte Carlo feature '{feature}': none of the {what} {requested} exist in the inputs."
+            )
 
-        s[name_scenario][param] = path_file
-        return s
+    def _selected_zones(feature, zcmap):
+        """Model zones targeted by a feature (None = all). Countries expand to their zones."""
+        zones_req = zone_mapping.get(feature, ['ALL'])
+        if 'ALL' in zones_req:
+            return None
+        return set(zcmap.loc[zcmap['z'].isin(zones_req) | zcmap['c'].isin(zones_req), 'z']) | set(zones_req)
 
-    list_initial_scenarios = list(s.keys()).copy()
+    def _selected_countries(feature, zcmap):
+        """Countries targeted by a feature (None = all); fuel prices are defined by country."""
+        zones_req = zone_mapping.get(feature, ['ALL'])
+        if 'ALL' in zones_req:
+            return None
+        return set(zcmap.loc[zcmap['z'].isin(zones_req) | zcmap['c'].isin(zones_req), 'c']) | set(zones_req)
+
+    def _mask(series, selection):
+        if selection is None:
+            return pd.Series(True, index=series.index)
+        return series.astype(str).isin(selection)
+
+    def _scale_fuel_price(scenario, feature, val, zcmap):
+        df = pd.read_csv(scenario['pFuelPrice'])
+        country_col, fuel_col = df.columns[0], df.columns[1]
+        year_cols = df.columns[2:]
+
+        fuels_req = fuel_mapping.get(feature, ['ALL'])
+        all_fuels = df[fuel_col].astype(str)
+        if 'ALL' not in fuels_req:
+            fuel_mask = all_fuels.isin(fuels_req)
+        elif feature == 'fossilfuel':
+            base = all_fuels.str.split('_').str[0].str.lower()
+            fuel_mask = base.isin(FOSSIL_FUELS) | all_fuels.str.lower().isin(FOSSIL_FUELS)
+        else:  # 'fuel': every fuel
+            fuel_mask = pd.Series(True, index=df.index)
+
+        mask = fuel_mask & _mask(df[country_col], _selected_countries(feature, zcmap))
+        df[year_cols] = df[year_cols].astype(float)
+        df.loc[mask, year_cols] = df.loc[mask, year_cols] * (1 + val)
+        return df, int(mask.sum()), sorted(df.loc[mask, fuel_col].astype(str).unique())
+
+    def _scale_demand(scenario, feature, val, zcmap):
+        df = pd.read_csv(scenario['pDemandForecast'])
+        value_cols = list(df.columns[2:])
+        mask = _mask(df[df.columns[0]], _selected_zones(feature, zcmap))
+        df[value_cols] = df[value_cols].astype(float)
+        df.loc[mask, value_cols] = df.loc[mask, value_cols] * (1 + val)
+        return df, int(mask.sum())
+
+    def _scale_hydro_default(scenario, feature, val, zcmap):
+        df = pd.read_csv(scenario['pAvailabilityDefault'])
+        zone_col, tech_col = df.columns[0], df.columns[1]
+        value_cols = list(df.columns[3:])
+        mask = (df[tech_col].astype(str).str.lower().isin(HYDRO_TECHS)
+                & _mask(df[zone_col], _selected_zones(feature, zcmap)))
+        df[value_cols] = df[value_cols].astype(float)
+        df.loc[mask, value_cols] = (df.loc[mask, value_cols] * (1 + val)).clip(upper=1)
+        return df, int(mask.sum())
+
+    def _scale_hydro_custom(scenario, feature, val, zcmap):
+        df = pd.read_csv(scenario['pAvailability'])
+        gen_col = df.columns[0]
+        value_cols = list(df.columns[1:])
+        gen = pd.read_csv(scenario['pGenDataInput'])
+        g_col = 'g' if 'g' in gen.columns else gen.columns[0]
+        z_col = 'z' if 'z' in gen.columns else gen.columns[1]
+        hydro = gen.loc[gen['tech'].astype(str).str.lower().isin(HYDRO_TECHS), [g_col, z_col]]
+        hydro = hydro.loc[_mask(hydro[z_col], _selected_zones(feature, zcmap)), g_col].astype(str)
+        mask = df[gen_col].astype(str).isin(set(hydro))
+        df[value_cols] = df[value_cols].astype(float)
+        df.loc[mask, value_cols] = (df.loc[mask, value_cols] * (1 + val)).clip(upper=1)
+        return df, int(mask.sum())
+
+    def _has_custom_availability(scenario):
+        return 'pAvailability' in scenario.index and os.path.exists(str(scenario['pAvailability']))
+
+    def _validate(parent, scenario, zcmap):
+        """Check zones/fuels once per parent scenario and log what each feature changes."""
+        known_zones = set(zcmap['z']) | set(zcmap['c'])
+        for feature in zone_mapping:
+            _check_names(zone_mapping[feature], known_zones, feature, 'zones (zcmap)')
+            if feature in ('fossilfuel', 'fuel'):
+                fuels = pd.read_csv(scenario['pFuelPrice']).iloc[:, 1].astype(str).unique()
+                _check_names(fuel_mapping.get(feature, ['ALL']), fuels, feature, 'fuels (pFuelPrice)')
+                _, n, scaled = _scale_fuel_price(scenario, feature, 0.0, zcmap)
+                if n == 0:
+                    raise ValueError(f"Monte Carlo '{feature}': no pFuelPrice row matches the selected zones/fuels.")
+                logger.info("Monte Carlo [%s] '%s': %d pFuelPrice row(s), fuels: %s",
+                            parent, feature, n, ", ".join(scaled))
+            elif feature == 'demand':
+                _, n = _scale_demand(scenario, feature, 0.0, zcmap)
+                if n == 0:
+                    raise ValueError("Monte Carlo 'demand': no pDemandForecast row for the selected zones.")
+                logger.info("Monte Carlo [%s] 'demand': %d pDemandForecast row(s).", parent, n)
+            elif feature == 'hydro':
+                _, n_def = _scale_hydro_default(scenario, feature, 0.0, zcmap)
+                n_cus = _scale_hydro_custom(scenario, feature, 0.0, zcmap)[1] if _has_custom_availability(scenario) else 0
+                if n_def + n_cus == 0:
+                    logger.warning("Monte Carlo [%s] 'hydro': no hydro availability in the selected zones; "
+                                   "the feature has no effect.", parent)
+                logger.info("Monte Carlo [%s] 'hydro': %d pAvailabilityDefault row(s), %d pAvailability plant(s).",
+                            parent, n_def, n_cus)
+
+    def _save(df, scenario_name, param):
+        path_file = _generate_montecarlo_filepath(scenarios_montecarlo[scenario_name][param], param, scenario_name)
+        df.to_csv(path_file, index=False)
+        scenarios_montecarlo[scenario_name][param] = path_file
+
+    def _save_new(df, scenario_name, param, base_param):
+        """Save an input the configuration may not define, next to ``base_param``'s file."""
+        path_file = _generate_montecarlo_filepath(scenarios_montecarlo[scenario_name][base_param], param, scenario_name)
+        df.to_csv(path_file, index=False)
+        scenarios_montecarlo[scenario_name][param] = path_file
+
+    def _save_availability(availability, scenario_name):
+        """Merge plant availabilities (g x seasons) into the custom availability file."""
+        current = scenarios_montecarlo[scenario_name]
+        if _has_custom_availability(current):
+            custom = pd.read_csv(current['pAvailability'])
+            gen_col = custom.columns[0]
+            custom[gen_col] = custom[gen_col].astype(str)
+            custom = custom.loc[~custom[gen_col].isin(availability.index)]
+            columns = list(custom.columns[1:])
+        else:
+            gen_col, custom, columns = 'g', pd.DataFrame(columns=['g']), list(availability.columns)
+        new = availability.reindex(columns=columns).reset_index()
+        new.columns = [gen_col] + columns
+        merged = pd.concat([custom, new], ignore_index=True)
+        if 'pAvailability' in current.index:
+            _save(merged, scenario_name, 'pAvailability')
+        else:
+            _save_new(merged, scenario_name, 'pAvailability', base_param='pAvailabilityDefault')
+
+    event_config = event_config or {}
     scenarios_montecarlo = {}
-    for name in list_initial_scenarios:
+    mapping_rows = []
+    event_rows = []
+    first_parent = next(iter(s), None)
 
-        for name_scenario, sample in samples.items():
-            name_scenario = name_scenario.replace('.', 'p')
-            name_scenario = name + '_' + name_scenario
-            # Put in the scenario dir
-            scenarios_montecarlo[name_scenario] = s[name].copy()
-            for key, val in sample.items():
-                affected_zones = zone_mapping.get(key)
-                if key == 'fossilfuel':
-                    param = 'pFuelPrice'
-                    price_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
-                    price_df.columns = price_df.columns.astype(int)
-                    tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
-                    idx = pd.IndexSlice
-                    if 'ALL' in affected_zones:
-                        price_df.loc[idx[:, tech_list], :] *= (1 + val)
-                    else:
-                        price_df.loc[idx[affected_zones, tech_list], :] *= (1 + val)
-                    save_new_dataframe(price_df, scenarios_montecarlo, param, val, name=name_scenario)
+    climate_factors, climate_order = None, []
+    if 'climate_year' in event_config and first_parent is not None:
+        seasons = _read_csv_list(s[first_parent].get('pHours'), 'q')
+        climate_factors, years = _climate_factors(event_config['climate_year'], seasons)
+        climate_order = list(np.random.default_rng([seed, 2]).permutation(years))
+        logger.info("Monte Carlo 'climate_year': %d weather years (%s-%s), %d zone(s) in %s.", len(years),
+                    years[0], years[-1], climate_factors.index.get_level_values('zone').nunique(),
+                    event_config['climate_year']['file'])
+    for parent in list(s.keys()):
+        zcmap = _read_zcmap(s[parent])
+        _validate(parent, s[parent], zcmap)
+        for sample_name, sample in samples.items():
+            name_scenario = f"{parent}_MC{sample_name.split('_')[-1]}"
+            scenarios_montecarlo[name_scenario] = s[parent].copy()
+            current = scenarios_montecarlo[name_scenario]
+            for feature, val in sample.items():
+                if feature in ('fossilfuel', 'fuel'):
+                    _save(_scale_fuel_price(current, feature, val, zcmap)[0], name_scenario, 'pFuelPrice')
+                elif feature == 'demand':
+                    _save(_scale_demand(current, feature, val, zcmap)[0], name_scenario, 'pDemandForecast')
+                elif feature == 'hydro':
+                    _save(_scale_hydro_default(current, feature, val, zcmap)[0], name_scenario, 'pAvailabilityDefault')
+                    if _has_custom_availability(current):
+                        _save(_scale_hydro_custom(current, feature, val, zcmap)[0], name_scenario, 'pAvailability')
 
-                if key == 'demand':
-                    param = 'pDemandForecast'
-                    demand_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
-                    demand_df.columns = demand_df.columns.astype(int)
+            # Random outages, after the continuous features so they apply on top of them
+            # (e.g. thermal outages on the hydro-scaled custom availability file).
+            sample_events = []
+            sample_index = int(sample_name.split('_')[-1])
+            model_zones = set(zcmap['z']) or None  # input files may contain zones outside the model
 
-                    cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
-                    idx = pd.IndexSlice
-                    if 'ALL' in affected_zones:
-                        demand_df.loc[:, cols] *= (1 + val)
-                    else:
-                        demand_df.loc[idx[affected_zones, :], cols] *= (1 + val)
+            def _event_zones(feature):
+                selected = _selected_zones(feature, zcmap)
+                return model_zones if selected is None else selected
 
-                    save_new_dataframe(demand_df, scenarios_montecarlo, param, val, name=name_scenario)
+            if 'thermal_outage' in event_config:
+                cfg = event_config['thermal_outage']
+                rng = np.random.default_rng([seed, sample_index, 0])
+                availability, events = _draw_thermal_outages(current, cfg, rng, _event_zones('thermal_outage'))
+                if not availability.empty:
+                    _save_availability(availability, name_scenario)
+                sample_events += events
+            if 'interco_outage' in event_config:
+                cfg = event_config['interco_outage']
+                rng = np.random.default_rng([seed, sample_index, 1])
+                outage, events = _draw_interco_outages(current, cfg, rng, _event_zones('interco_outage'))
+                if not outage.empty:
+                    _save_new(outage, name_scenario, 'pTransferOutage', base_param='pTransferLimit')
+                sample_events += events
+            climate = {}
+            if 'climate_year' in event_config:
+                # Years are shuffled once and used in turn: every weather year is drawn
+                # before any repeats, and a sample uses the same year in every parent.
+                year = climate_order[(sample_index - 1) % len(climate_order)]
+                changed, no_data = _apply_climate_year(current, climate_factors, year,
+                                                       _event_zones('climate_year'))
+                for param, df in changed.items():
+                    _save(df, name_scenario, param)
+                if no_data and parent == first_parent and sample_index == 1:
+                    logger.warning("Monte Carlo 'climate_year': no climate data for zone(s) %s; "
+                                   "their VRE profiles are not changed.", no_data)
+                climate = {'climate_year': int(year)}
+            for event in sample_events:
+                event_rows.append({'scenario': name_scenario, 'parent': parent, 'sample': sample_name, **event})
 
-                if key == 'hydro':
-                    # First handling default values
-                    param = 'pAvailabilityDefault'
-                    availability_default = pd.read_csv(s[name][param], index_col=[0, 1, 2]).copy()
-                    # availability_default.columns = availability_default.columns.astype(float)
-                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'f']]
-                    tech_list = ['ROR', 'ReservoirHydro']
-                    if 'ALL' in affected_zones:
-                        mask = availability_default.index.get_level_values('tech').isin(tech_list)
+            counts = {f'n_{feature}': sum(e['type'] == feature for e in sample_events)
+                      for feature in event_config if feature != 'climate_year'}
+            mapping_rows.append({'scenario': name_scenario, 'parent': parent, 'sample': sample_name,
+                                 **sample, **climate, **counts})
 
-                    else:
-                        mask = (availability_default.index.get_level_values('zone').isin(affected_zones)) & \
-                               (availability_default.index.get_level_values('tech').isin(tech_list))
-
-                    availability_default.loc[mask, cols] *= (1 + val)
-
-                    save_new_dataframe(availability_default, scenarios_montecarlo, param, val, name=name_scenario)
-
-                    # Then handling custom values
-                    param = 'pAvailability'
-                    param_to_merge = 'pGenDataInput'
-                    availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
-
-                    gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
-                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'f']]
-                    availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
-                    availability_custom.set_index(['gen', 'zone', 'tech', 'f'], inplace=True)
-
-                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'f']]
-                    if 'ALL' in affected_zones:
-                        mask = availability_custom.index.get_level_values('tech').isin(tech_list)
-
-                    else:
-                        mask = (availability_custom.index.get_level_values('zone').isin(affected_zones)) & \
-                               (availability_custom.index.get_level_values('tech').isin(tech_list))
-
-                    availability_custom.loc[mask, cols] *= (1 + val)
-                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'f'], axis=0)
-
-                    save_new_dataframe(availability_custom, scenarios_montecarlo, param, val, name=name_scenario)
-
-    return s, scenarios_montecarlo
+    mc_mapping = pd.DataFrame(mapping_rows).set_index('scenario') if mapping_rows else pd.DataFrame(
+        columns=['parent', 'sample'])
+    mc_events = pd.DataFrame(event_rows, columns=['scenario', 'parent', 'sample', 'type', 'element',
+                                                  'zone', 'season', 'depth'])
+    return s, scenarios_montecarlo, mc_mapping, mc_events
 
 def perform_sensitivity(sensitivity, s):
 

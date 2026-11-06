@@ -1,6 +1,7 @@
 metadata,paramNames,file
 modeltype type (MIP or RMIP),modeltype,RMIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
+"Solve mode: 2 = solve, 1 = solve and save PA_p.gdx (required for Monte Carlo), 0 = reuse PA_p.gdx",solvemode,1
 ,GENERAL,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
 Planning horizon years (Unit: year),y,y.csv

@@ -199,6 +199,8 @@ Parameters
   pEnergyTechFuelCountry(c,tech,f,y)      'Annual energy generation by technology, fuel, and country [GWh]'
   
   pEnergyBalance(z,*,y)                   'Annual supply-demand balance by zone [GWh]'
+  pAdequacy(z,*,y)                        'Adequacy indicators by zone: LOLE [h], EENS [GWh], EENS share [%], peak unmet demand [MW]'
+  pAdequacySystem(*,y)                    'System adequacy indicators: LOLE [h] (hours with unmet demand in any zone), EENS [GWh]'
   pEnergyBalanceCountry(c,*,y)            'Annual supply-demand balance by country [GWh]'
   pEnergyBalanceH2(z,*,y)                 'Annual hydrogen supply-demand balance by zone [mmBTU]'
   pEnergyBalanceCountryH2(c,*,y)          'Annual hydrogen supply-demand balance by country [mmBTU]'
@@ -972,6 +974,28 @@ pEnergyBalance(z, "Net interchange Ratio: GWh", y) $ pEnergyBalance(z, "Demand: 
 
 pEnergyBalanceCountry(c,dshdr,y) = sum(z$(zcmap(z,c)), pEnergyBalance(z,dshdr,y));
 
+* ---------------------------------------------------------
+* Adequacy indicators (as in ENTSO-E adequacy assessments)
+* ---------------------------------------------------------
+* LOLE: hours with unmet demand (> 0.01 MW) weighted by pHours. With representative days
+* each modelled hour stands for pHours(q,d,t) hours, so LOLE moves in steps of these weights.
+* EENS: expected energy not served.
+* ---------------------------------------------------------
+pAdequacy(z, "LOLE: h", y) =
+  sum((q, d, t)$(vUSE.l(z, q, d, t, y) > 0.01), pHours(q, d, t));
+
+pAdequacy(z, "EENS: GWh", y) = pEnergyBalance(z, "Unmet demand: GWh", y);
+
+pAdequacy(z, "EENS share of demand: %", y)$pEnergyBalance(z, "Demand: GWh", y) =
+  100 * pEnergyBalance(z, "Unmet demand: GWh", y) / pEnergyBalance(z, "Demand: GWh", y);
+
+pAdequacy(z, "Peak unmet demand: MW", y) = smax((q, d, t), vUSE.l(z, q, d, t, y));
+
+pAdequacySystem("LOLE: h", y) =
+  sum((q, d, t)$(smax(z, vUSE.l(z, q, d, t, y)) > 0.01), pHours(q, d, t));
+
+pAdequacySystem("EENS: GWh", y) = sum(z, pAdequacy(z, "EENS: GWh", y));
+
 
 *--- H2 Demand-Supply Balance
 pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$fEnableH2Production+1e-6; 
@@ -1470,6 +1494,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pGenCostsPerMWh,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelComplete,
+      pAdequacy, pAdequacySystem,
       pEnergyBalance,
       pUtilizationPlant, pUtilizationTechFuel,
 * 4. ENERGY DISPATCH
@@ -1492,8 +1517,30 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pWeightYear, pRR
 ;
 $elseIfI.reportshort %REPORTSHORT% == 1
-*  Limited reporting is used
-    execute_unload 'epmresults', pCosts, pCostsFull, pEnergyBalance
+* Limited reporting (used by the Monte Carlo runs): yearly and NPV results only, no hourly
+* outputs. Keeps the mappings required by the Python postprocessing (pGeneratorTechFuel,
+* pZoneCountry), the investment plan (to check it matches the parent run) and the
+* costs / energy balance used in the Monte Carlo charts.
+    execute_unload 'epmresults',
+      pSettings, pGeneratorTechFuel, pZoneCountry,
+      pDemandEnergyZone, pDemandPeakZone,
+* 1. CAPACITY
+      pCapacityPlant, pCapacityTechFuel, pNewCapacityTechFuel,
+      pTransmissionCapacity, pNewTransmissionCapacity,
+* 2. COSTS
+      pCosts, pCostsSystem,
+      pNetPresentCost, pNetPresentCostSystem, pNetPresentCostSystemPerMWh, pNetPresentCostPerMWh,
+      pFuelCosts, pFuelConsumption,
+* 3. ENERGY BALANCE
+      pEnergyTechFuel, pEnergyBalance, pAdequacy, pAdequacySystem,
+* 4. EMISSIONS
+      pEmissionsZone, pEmissionsIntensityZone,
+* 5. METRICS
+      pCostsPerMWh, pCostsSystemPerMWh,
+* 6. SOLVER PARAMETERS
+      pSolverParameters,
+* 7. YEAR WEIGHTS AND DISCOUNT FACTORS
+      pWeightYear, pRR
     ;
 $elseIfI.reportshort %REPORTSHORT% == 2
 * Extensive reporting is used
@@ -1517,6 +1564,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelComplete, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
       pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
+      pAdequacy, pAdequacySystem,
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatchFuel, pDispatchTechFuel, pDispatch,
 * 5. RESERVES

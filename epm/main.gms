@@ -225,6 +225,8 @@ Parameter
    pHours(q<,d<,t<)                                      'Hours mapping'
    pDays(q)                                              'Number of days represented by each period'
    pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
+* Optional, used by the Monte Carlo interconnection outages. Empty file = no outage.
+   pTransferOutage(z,z2,q,y)                             'Share of transfer capacity unavailable (0-1)'
    pMinImport(z2,z,y)                                    'Minimum import requirements'
 * Optional contracted transfer volumes, only used when fApplyContractedTrade is
 * switched on in pSettings (see base.gms). Empty files are the normal case.
@@ -299,7 +301,7 @@ $load pPlanningReserveMargin
 $load zext, pTransmissionHeader
 * pNewTransmissionStage keeps every row of pNewTransmission.csv as its own stage
 $load pExtTransferLimit, pNewTransmission=pNewTransmissionStage, pMinImport
-$load pContractedTradeFlag, pContractedTradeEnergy
+$load pContractedTradeFlag, pContractedTradeEnergy, pTransferOutage
 $load pTradePrice, pMaxAnnualExternalTradeShare, pMaxAnnualInternalTradeShare
 
 * Load Hydrogen model-related symbols
@@ -818,33 +820,32 @@ if (fEnableCapacityExpansion = 0,
 * Load a previously saved solution from the specified path (if LOADSOLPATH is defined)
 * This solution contains the .l (level) values of capacity-related variables from a previous run
 $ifthen set LOADSOLPATH
-  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vRetire.l, vCapStor.l, vRetireStor.l
+  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vBuild.l, vRetire.l, vBuildStor.l, vRetireStor.l, vNewTransmissionLine.l
 ;
 
-* --- Fix capacity and retirement variables to values from the previous solution ---
+* --- Fix the investment plan to the decisions of the previous solution ---
+* The build and retirement decisions are fixed, while the capacities (vCap, vCapStor) are
+* left free: the capacity recursions (e.g. eCapacityEvolutionExist:
+* vCap(y) = vCap(y-1) + vBuild - vRetire) rebuild the same capacity path.
+* Fixing both capacities and decisions would leave equations with only fixed variables,
+* which GAMS rejects at generation for any rounding noise ("Equation infeasible due to rhs value").
+* Levels are rounded to 6 decimals to turn solver noise into exact zeros.
+* Only decisions that were free (lo < up) are fixed: with PA.HoldFixed = 1, variables already
+* fixed by their bounds (e.g. committed plants and lines, vBuild.lo = vBuild.up = Capacity)
+* are not written to PA_p.gdx, so their loaded level would be 0. They keep the bounds set
+* above from the inputs, which are identical to the parent run.
 
-* Step 1: Handle the first model year
-* Fix vCap (generation capacity) for each generator g in the first year y to its rounded value
-  vCap.fx(g,y)$(sStartYear(y)) = round(vCap.l(g,y),1);
+* Generation and storage builds and retirements
+  vBuild.fx(g,y)$(vBuild.lo(g,y) < vBuild.up(g,y))                = round(vBuild.l(g,y),6);
+  vRetire.fx(g,y)$(vRetire.lo(g,y) < vRetire.up(g,y))             = round(vRetire.l(g,y),6);
+  vBuildStor.fx(g,y)$(vBuildStor.lo(g,y) < vBuildStor.up(g,y))    = round(vBuildStor.l(g,y),6);
+  vRetireStor.fx(g,y)$(vRetireStor.lo(g,y) < vRetireStor.up(g,y)) = round(vRetireStor.l(g,y),6);
 
-* Step 2: Enforce non-decreasing capacity in all following years
-  loop(g,
-    loop(y$(not sStartYear(y)),
-        if( round(vCap.l(g,y),1) < round(vCap.l(g,y-1),1) ,
-* If the capacity in year y is less than the previous year (y-1), fix it to the previous year’s value
-          vCap.fx(g,y) = round(vCap.l(g,y-1),1) ;  
-        else
-* Otherwise take its own rounded value
-            vCap.fx(g,y) = round(vCap.l(g,y),1) ;    
-        );
-      );
-    );
-  
-* Step 3: Fix other capacity-related variables to their rounded solution values
-* Fix retirements and storage capacities from previous solution
-  vRetire.fx(g,y) = round(vRetire.l(g,y),1);
-  vCapStor.fx(g,y) = round(vCapStor.l(g,y),1);
-  vRetireStor.fx(g,y) = round(vRetireStor.l(g,y),1);
+* Transmission network: vNewTransmissionLine is the cumulative number of new lines per
+* corridor and stage; the yearly builds (vBuildTransmissionLine) stay free and follow
+* from eCumulativeTransferExpansion.
+  vNewTransmissionLine.fx(sTransStage(z,z2,ts),y)$(vNewTransmissionLine.lo(z,z2,ts,y) < vNewTransmissionLine.up(z,z2,ts,y))
+     = round(vNewTransmissionLine.l(z,z2,ts,y),6);
 
 $endIf
 

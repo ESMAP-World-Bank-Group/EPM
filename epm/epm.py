@@ -402,7 +402,7 @@ def launch_epm(scenario,
 
     # Arguments for GAMS
     if dict_montecarlo is not None:  # running in Monte-Carlo setting
-        scenario['reportshort'] = 1  # shorter report to save memory
+        scenario['reportshort'] = 1  # short report (no hourly outputs) to save memory
         scenario['solvemode'] = 2    # solve without checkpoint
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
@@ -651,17 +651,6 @@ def launch_epm_multi_scenarios(config='config.csv',
     if interco_assessment is not None:
         s = perform_interco_assessment(interco_assessment, s)
 
-    # Run montecarlo analysis if activated
-    if montecarlo:
-        assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
-        initial_scenarios = list(s.keys())
-        df_uncertainties = pd.read_csv(uncertainties)
-        distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
-        s, scenarios_montecarlo = create_scenarios_montecarlo(samples, s, zone_mapping)
-        dict_montecarlo = {key: key.split('_')[0] for key in scenarios_montecarlo.keys()}  # getting the correspondence between montecarlo scenario and initial scenario
-        mc_names = list(scenarios_montecarlo.keys())
-        logger.info("Prepared %d Monte Carlo scenario(s): %s", len(mc_names), ", ".join(mc_names))
-
     # Reduce complexity if activated
     if simple is not None:
 
@@ -704,6 +693,40 @@ def launch_epm_multi_scenarios(config='config.csv',
                 # Put in the scenario dir
                 s[k]['pGenDataInput'] = path_file
 
+    # Run montecarlo analysis if activated. Done after the `simple` reductions so the
+    # Monte Carlo runs use exactly the same inputs (years, ...) as their parent run.
+    if montecarlo:
+        if uncertainties is None:
+            raise ValueError("Monte Carlo analysis is activated, but no uncertainties file is given (--uncertainties).")
+        uncertainties_path = uncertainties
+        if not os.path.isabs(uncertainties_path) and not os.path.exists(uncertainties_path):
+            uncertainties_path = os.path.join(folder_input, uncertainties)  # relative to folder_input
+        if not os.path.exists(uncertainties_path):
+            raise FileNotFoundError(f"Uncertainties file {os.path.abspath(uncertainties)} not found.")
+        for k in s.keys():
+            if str(s[k].get('solvemode', '')).strip() != '1':
+                raise ValueError(
+                    f"Scenario '{k}': set 'solvemode,1' in the configuration. The parent runs of the "
+                    "Monte Carlo analysis must save PA_p.gdx so the samples can load their investment plan."
+                )
+        df_uncertainties = pd.read_csv(uncertainties_path)
+        distribution, samples, zone_mapping, fuel_mapping, event_config = define_samples(
+            df_uncertainties, nb_samples=montecarlo_nb_samples)
+        if 'climate_year' in event_config:
+            # Climate-year dataset: absolute, relative to folder_input, or relative to the epm folder
+            path = event_config['climate_year']['file']
+            candidates = [path, os.path.join(folder_input, path), os.path.join(working_directory, path)]
+            found = next((p for p in candidates if os.path.exists(p)), None)
+            if found is None:
+                raise FileNotFoundError(f"Climate-year dataset {path} not found (looked in {candidates}).")
+            event_config['climate_year']['file'] = os.path.abspath(found)
+        s, scenarios_montecarlo, mc_mapping, mc_events = create_scenarios_montecarlo(
+            samples, s, zone_mapping, fuel_mapping, event_config)
+        # Explicit Monte Carlo scenario -> parent scenario link (parent names may contain '_').
+        dict_montecarlo = mc_mapping['parent'].to_dict()
+        mc_names = list(scenarios_montecarlo.keys())
+        logger.info("Prepared %d Monte Carlo scenario(s): %s", len(mc_names), ", ".join(mc_names))
+
     scenario_names = list(s.keys())
     logger.info("Prepared %d scenario(s): %s", len(scenario_names), ", ".join(scenario_names))
 
@@ -740,9 +763,13 @@ def launch_epm_multi_scenarios(config='config.csv',
     df.to_csv('input_scenarios.csv')
 
     if montecarlo:
-        samples_mc = pd.DataFrame(samples)
-        samples_mc.columns = samples_mc.columns.map(lambda col: col.replace('.', 'p'))
-        samples_mc.to_csv('samples_montecarlo.csv')
+        # Sample values (features x samples) and the scenario -> parent/sample mapping
+        # used by the Monte Carlo postprocessing.
+        pd.DataFrame(samples).to_csv('samples_montecarlo.csv')
+        mc_mapping.to_csv('montecarlo_scenarios.csv')
+        mc_events.to_csv('montecarlo_events.csv', index=False)  # outages drawn in each sample
+        df_mc = pd.DataFrame(scenarios_montecarlo).copy().astype(str).map(extract_path)
+        df_mc.to_csv('input_scenarios_montecarlo.csv')
 
     # Run EPM in multiprocess
     metrics_results: List[Optional[Dict[str, Optional[float]]]] = []
@@ -759,21 +786,23 @@ def launch_epm_multi_scenarios(config='config.csv',
         # First, run initial scenarios
         # Ensure config file has extended setting to save output
         with Pool(cpu) as pool:
-            for k in s.keys():
-                assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
             metrics_results.extend(
                 pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace, gams_options) for k in s.keys()],
                 )
             )
-        # Modify config file to ensure limited output saved
+        # Each sample loads the investment plan (PA_p.gdx) of its parent scenario
+        missing_plan = sorted({p for p in dict_montecarlo.values() if not os.path.exists(os.path.join(p, 'PA_p.gdx'))})
+        if missing_plan:
+            raise RuntimeError(f"PA_p.gdx not found for parent scenario(s) {missing_plan}; Monte Carlo runs skipped.")
         with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
             metrics_results.extend(
                 pool.starmap(
                     launch_epm_multiprocess,
                     [
-                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo, debug, trace)
+                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo, debug, trace,
+                         gams_options)
                         for k in scenarios_montecarlo.keys()
                     ],
                 )

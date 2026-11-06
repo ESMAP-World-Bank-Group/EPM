@@ -1,0 +1,202 @@
+{
+  "created": "2026-11-06T17:15:53",
+  "source": "ERA5 hourly point time series (reanalysis-era5-single-levels-timeseries), Copernicus Climate Change Service",
+  "licence": "Contains modified Copernicus Climate Change Service information (ERA5 licence)",
+  "years": [
+    1994,
+    2023
+  ],
+  "time_zone": "UTC",
+  "pv_model": {
+    "performance_ratio": 0.86,
+    "gamma": -0.004,
+    "noct": 45.0
+  },
+  "wind_curve": {
+    "speed": [
+      0,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      25
+    ],
+    "power": [
+      0,
+      0,
+      0.04,
+      0.11,
+      0.21,
+      0.34,
+      0.49,
+      0.65,
+      0.79,
+      0.9,
+      0.97,
+      1.0,
+      1.0
+    ]
+  },
+  "wind_cut_out": 25.0,
+  "wind_losses": 0.9,
+  "sites": [
+    {
+      "zone": "South_Africa",
+      "lat": -29.0,
+      "lon": 24.0,
+      "note": "approximate zone centroid - refine with resource sites"
+    },
+    {
+      "zone": "Lesotho",
+      "lat": -29.6,
+      "lon": 28.2,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Eswatini",
+      "lat": -26.5,
+      "lon": 31.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Mozambique_South",
+      "lat": -25.0,
+      "lon": 33.0,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Mozambique_Central",
+      "lat": -18.5,
+      "lon": 35.0,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Mozambique_North",
+      "lat": -14.0,
+      "lon": 39.0,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Mozambique",
+      "lat": -18.7,
+      "lon": 35.5,
+      "note": "country centroid (zone name used in pVREProfile)"
+    },
+    {
+      "zone": "Mozal",
+      "lat": -25.9,
+      "lon": 32.4,
+      "note": "Maputo area"
+    },
+    {
+      "zone": "Zimbabwe_East",
+      "lat": -18.5,
+      "lon": 31.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Zimbabwe_West",
+      "lat": -19.0,
+      "lon": 27.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Botswana",
+      "lat": -22.3,
+      "lon": 24.7,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Namibia",
+      "lat": -23.0,
+      "lon": 17.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Zambia",
+      "lat": -14.5,
+      "lon": 27.8,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Angola_North",
+      "lat": -8.8,
+      "lon": 14.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Angola_Central",
+      "lat": -12.5,
+      "lon": 15.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Angola_South",
+      "lat": -15.5,
+      "lon": 15.0,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Angola_East",
+      "lat": -11.5,
+      "lon": 20.5,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Angola",
+      "lat": -12.3,
+      "lon": 17.5,
+      "note": "country centroid (zone name used in pVREProfile and data_test)"
+    },
+    {
+      "zone": "Tanzania",
+      "lat": -6.4,
+      "lon": 34.9,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "DRC",
+      "lat": -4.0,
+      "lon": 21.8,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "DRC_South",
+      "lat": -10.7,
+      "lon": 26.0,
+      "note": "Katanga area"
+    },
+    {
+      "zone": "Malawi",
+      "lat": -13.3,
+      "lon": 34.3,
+      "note": "approximate zone centroid"
+    },
+    {
+      "zone": "Congo",
+      "lat": -0.7,
+      "lon": 15.2,
+      "note": "data_test zone (outside SAPP)"
+    },
+    {
+      "zone": "CAR",
+      "lat": 6.6,
+      "lon": 20.9,
+      "note": "data_test zone (outside SAPP)"
+    },
+    {
+      "zone": "Gabon",
+      "lat": -0.8,
+      "lon": 11.6,
+      "note": "data_test zone (outside SAPP)"
+    }
+  ],
+  "failed_zones": []
+}

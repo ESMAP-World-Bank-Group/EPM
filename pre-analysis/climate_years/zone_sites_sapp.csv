@@ -1,0 +1,26 @@
+zone,lat,lon,note
+South_Africa,-29.00,24.00,approximate zone centroid - refine with resource sites
+Lesotho,-29.60,28.20,approximate zone centroid
+Eswatini,-26.50,31.50,approximate zone centroid
+Mozambique_South,-25.00,33.00,approximate zone centroid
+Mozambique_Central,-18.50,35.00,approximate zone centroid
+Mozambique_North,-14.00,39.00,approximate zone centroid
+Mozambique,-18.70,35.50,country centroid (zone name used in pVREProfile)
+Mozal,-25.90,32.40,Maputo area
+Zimbabwe_East,-18.50,31.50,approximate zone centroid
+Zimbabwe_West,-19.00,27.50,approximate zone centroid
+Botswana,-22.30,24.70,approximate zone centroid
+Namibia,-23.00,17.50,approximate zone centroid
+Zambia,-14.50,27.80,approximate zone centroid
+Angola_North,-8.80,14.50,approximate zone centroid
+Angola_Central,-12.50,15.50,approximate zone centroid
+Angola_South,-15.50,15.00,approximate zone centroid
+Angola_East,-11.50,20.50,approximate zone centroid
+Angola,-12.30,17.50,country centroid (zone name used in pVREProfile and data_test)
+Tanzania,-6.40,34.90,approximate zone centroid
+DRC,-4.00,21.80,approximate zone centroid
+DRC_South,-10.70,26.00,Katanga area
+Malawi,-13.30,34.30,approximate zone centroid
+Congo,-0.70,15.20,data_test zone (outside SAPP)
+CAR,6.60,20.90,data_test zone (outside SAPP)
+Gabon,-0.80,11.60,data_test zone (outside SAPP)

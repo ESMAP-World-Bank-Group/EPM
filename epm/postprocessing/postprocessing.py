@@ -642,179 +642,6 @@ def _get_scenario_plot_params(num_scenarios, default_rotation=45, default_fontti
         return {'rotation': default_rotation, 'fonttick': default_fonttick}
 
 
-def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
-    simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'input_scenarios.csv'), index_col=0)
-    samples_mc = pd.read_csv(os.path.join(RESULTS_FOLDER, 'samples_montecarlo.csv'), index_col=0)
-    samples_mc_substrings = set(samples_mc.columns)
-
-    def is_not_subset(col):
-        return not any(sample in col for sample in samples_mc_substrings)
-    original_scenarios = [c for c in simulations_scenarios.columns if is_not_subset(c)]
-
-    df_summary = epm_results['pNetPresentCostSystem'].copy()
-    df_summary = df_summary.loc[df_summary.attribute.isin(['NPV of system cost: $m'])]
-    df_summary_baseline = df_summary.loc[df_summary.scenario.isin(original_scenarios)]
-    df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
-    df_summary['scenario_mapping'] = df_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
-    df_summary = df_summary.groupby('scenario_mapping').value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
-    df_summary = df_summary.set_index('scenario').stack().to_frame().rename(columns={0: 'value'})
-    df_summary.index.names = ['scenario', 'error']
-    df_summary.reset_index(inplace=True)
-
-    filename = f'{folder_comparison}/NPV_montecarlo.png'
-
-    make_stacked_barplot(df_summary_baseline, filename, dict_colors=None, df_errorbars=df_summary, column_subplot=None, column_stacked=None, column_xaxis='scenario',
-                                column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                dict_scenarios=None,
-                                format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
-
-    df_cost_summary = epm_results['pCosts'].copy()
-    # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
-    df_cost_summary_baseline = df_cost_summary.loc[df_cost_summary.scenario.isin(original_scenarios)]
-    df_cost_summary['scenario_mapping'] = df_cost_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
-    df_cost_summary = df_cost_summary.groupby(['scenario', 'scenario_mapping', 'zone', 'year']).value.sum().reset_index().groupby(['scenario_mapping', 'zone', 'year']).value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
-    df_cost_summary = df_cost_summary.set_index(['scenario', 'zone', 'year']).stack().to_frame().rename(columns={0: 'value'})
-    df_cost_summary.index.names = ['scenario', 'zone', 'year', 'error']
-    df_cost_summary.reset_index(inplace=True)
-
-    costs_notrade = ["Investment costs: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
-                        "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
-                        "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
-                        # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
-                        ]
-    df_cost_summary_no_trade = epm_results['pCostsFull'].copy()
-    df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
-    df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
-    df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
-    df_cost_summary_no_trade = df_cost_summary_no_trade.groupby(['scenario', 'scenario_mapping', 'zone', 'year']).value.sum().reset_index().groupby(['scenario_mapping', 'zone', 'year']).value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
-    df_cost_summary_no_trade = df_cost_summary_no_trade.set_index(['scenario', 'zone', 'year']).stack().to_frame().rename(columns={0: 'value'})
-    df_cost_summary_no_trade.index.names = ['scenario', 'zone', 'year', 'error']
-    df_cost_summary_no_trade.reset_index(inplace=True)
-
-    demand_supply = ["Unmet demand: GWh", "Imports exchange: GWh", "Exports exchange: GWh"
-                        ]
-
-    df_demandsupply = epm_results['pEnergyBalance'].copy()
-    df_demandsupply = df_demandsupply.loc[df_demandsupply.attribute.isin(demand_supply)]
-    df_demandsupply_baseline = df_demandsupply.loc[(df_demandsupply.scenario.isin(original_scenarios))]
-    df_demandsupply['scenario_mapping'] = df_demandsupply.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
-
-    df_demandsupply = (
-        df_demandsupply
-        .groupby(['scenario_mapping', 'zone', 'year', 'attribute'])['value']
-        .describe()[['min', 'max']]
-        .reset_index()
-        .rename(columns={'scenario_mapping': 'scenario'})
-    )
-
-    # Format to the format expected by the plotting function
-    df_demandsupply = (
-        df_demandsupply
-        .set_index(['scenario', 'zone', 'year', 'attribute'])  # attribute is now part of the index!
-        .stack()  # gives 'min' and 'max' as a new level in index
-        .to_frame(name='value')
-        .reset_index()
-        .rename(columns={'level_4': 'error'})
-    )
-
-    full_index = df_demandsupply.set_index(['scenario', 'zone', 'year', 'attribute']).index.unique()
-    df_demandsupply_baseline = (
-        df_demandsupply_baseline
-        .set_index(['scenario', 'zone', 'year', 'attribute'])
-        .reindex(full_index, fill_value=0)
-        .reset_index()
-    )  # adding elements which only have error bars
-
-    years = sorted(epm_results['pCosts']['year'].unique())
-
-    n = len(years)
-    middle_index = n // 2
-    years = sorted({years[0], years[middle_index], years[-1]})
-
-    for year in years:
-
-        filename = f'{folder_comparison}/AnnualCostWithTrade_montecarlo_{year}.png'
-        df = df_cost_summary_baseline[(df_cost_summary_baseline['year'] == year)]
-        df = df.drop(columns=['year'])
-        df_errorbars = df_cost_summary[(df_cost_summary['year'] == year)]
-        df_errorbars = df_errorbars.drop(columns=['year'])
-        
-        make_stacked_barplot(df, filename, dict_colors=None, df_errorbars=df_errorbars, column_subplot='zone', column_stacked='attribute', column_xaxis='scenario',
-                                    column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                    dict_scenarios=None,
-                                    format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
-
-
-        filename = f'{folder_comparison}/AnnualCost_montecarlo_{year}.png'
-        df = df_cost_summary_baseline_notrade[(df_cost_summary_baseline_notrade['year'] == year)]
-        df = df.drop(columns=['year'])
-        df_errorbars = df_cost_summary_no_trade[(df_cost_summary_no_trade['year'] == year)]
-        df_errorbars = df_errorbars.drop(columns=['year'])
-
-        make_stacked_barplot(df, filename, dict_colors=None, df_errorbars=df_errorbars, column_subplot='zone', column_stacked='attribute', column_xaxis='scenario',
-                                    column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                    dict_scenarios=None,
-                                    format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
-
-    zones = epm_results['pCosts']['zone'].unique()
-    for zone in zones:
-        # Only interested in subset of years
-        df_cost_summary_baseline = df_cost_summary_baseline.loc[df_cost_summary_baseline.year.isin(years)]
-        df_cost_summary = df_cost_summary.loc[df_cost_summary.year.isin(years)]
-        df_cost_summary_baseline_notrade = df_cost_summary_baseline_notrade.loc[df_cost_summary_baseline_notrade.year.isin(years)]
-        df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.year.isin(years)]
-        df_demandsupply_baseline = df_demandsupply_baseline.loc[df_demandsupply_baseline.year.isin(years)]
-        df_demandsupply = df_demandsupply.loc[df_demandsupply.year.isin(years)]
-
-        filename = f'{folder_comparison}/AnnualCostWithTrade_montecarlo_{zone}.png'
-
-        # Select zone
-        df = df_cost_summary_baseline[(df_cost_summary_baseline['zone'] == zone)]
-        df = df.drop(columns=['zone'])
-        df_errorbars = df_cost_summary[(df_cost_summary['zone'] == zone)]
-        df_errorbars = df_errorbars.drop(columns=['zone'])
-
-        make_stacked_barplot(df, filename, dict_colors=None, df_errorbars=df_errorbars, 
-                                    column_subplot='year', column_stacked='attribute', column_xaxis='scenario',
-                                    column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                    dict_scenarios=None,
-                                    format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
-
-        filename = f'{folder_comparison}/AnnualCost_montecarlo_{zone}.png'
-        
-        # Select zone
-        df = df_cost_summary_baseline_notrade[(df_cost_summary_baseline_notrade['zone'] == zone)]
-        df = df.drop(columns=['zone'])
-        df_errorbars = df_cost_summary_no_trade[(df_cost_summary_no_trade['zone'] == zone)]
-        df_errorbars = df_errorbars.drop(columns=['zone'])
-
-        make_stacked_barplot(df, filename, dict_colors=None, df_errorbars=df_errorbars, 
-                                  column_subplot='year', column_stacked='attribute', column_xaxis='scenario',
-                                    column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                    dict_scenarios=None,
-                                    format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
-
-        filename = f'{folder_comparison}/DemandSupply_montecarlo_{zone}.png'
-
-        # Select zone
-        df = df_demandsupply_baseline[(df_demandsupply_baseline['zone'] == zone)]
-        df = df.drop(columns=['zone'])
-        df_errorbars = df_demandsupply[(df_demandsupply['zone'] == zone)]
-        df_errorbars = df_errorbars.drop(columns=['zone'])
-
-        make_stacked_barplot(df, filename, dict_colors=None, df_errorbars=df_errorbars,
-                                    column_subplot='attribute', column_stacked='year', column_xaxis='scenario',
-                                    column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
-                                    dict_scenarios=None,
-                                    format_y=lambda y, _: '{:.0f} GWh'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None, juxtaposed=True)
-
-
 def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                        plot_dispatch=True, scenario_reference='baseline', graphs_folder='img',
                        montecarlo=False, reduce_definition_csv=False, logger=None,
@@ -910,7 +737,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         # Only the single-country input generation reads the external border data
         keys_results = KEYS_RESULTS | {'pExtTransferLimit', 'pTradePrice'}
     if montecarlo:
-        keys_results = {'pNetPresentCostSystem', 'pCosts', 'pCostsFull', 'pEnergyBalance'}
+        # Standard keys for the parent scenarios' charts + the adequacy tables used by the
+        # Monte Carlo charts (the Monte Carlo runs only hold the short report).
+        keys_results = keys_results | {'pAdequacy', 'pAdequacySystem', 'pGeneratorTechFuel', 'pZoneCountry'}
 
     # Process results
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
@@ -974,12 +803,20 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         os.makedirs(GRAPHS_FOLDER)
         log_info(f'Created folder {GRAPHS_FOLDER}', logger=active_logger)
 
-    # Specific postprocessing for Monte Carlo simulations
+    # Specific postprocessing for Monte Carlo simulations: decision metrics across samples,
+    # then the standard charts restricted to the parent (deterministic) scenarios.
     if montecarlo:
-        postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER)
+        from .montecarlo import postprocess_montecarlo
+        try:
+            postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER, logger=active_logger)
+        except Exception as err:
+            log_warning(f'Monte Carlo charts failed: {err}\n{traceback.format_exc()}')
+        parents = list(pd.read_csv(os.path.join(RESULTS_FOLDER, 'input_scenarios.csv'), index_col=0).columns)
+        epm_results = {key: (df.loc[df['scenario'].isin(parents)].copy() if 'scenario' in df.columns else df)
+                       for key, df in epm_results.items()}
 
-    # If not Monte Carlo, we proceed with the regular postprocessing
-    else:
+    # Regular postprocessing (all scenarios, or the parent scenarios in Monte Carlo mode)
+    if True:
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':

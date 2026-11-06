@@ -100,6 +100,7 @@ $if not set pContractedTradeEnergy $set pContractedTradeEnergy %FOLDER_INPUT%/tr
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
 $if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set pTransferOutage $set pTransferOutage %FOLDER_INPUT%/trade/pTransferOutage.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
@@ -135,6 +136,10 @@ $endIf
 $ifThen not exist "%pContractedTradeEnergy%"
 $log pContractedTradeEnergy not found (%pContractedTradeEnergy%): constraint inactive
 $set pContractedTradeEnergy %FOLDER_RESOURCES%/optional_empty/pContractedTradeEnergy.csv
+$endIf
+$ifThen not exist "%pTransferOutage%"
+$log pTransferOutage not found (%pTransferOutage%): no transfer capacity outage
+$set pTransferOutage %FOLDER_RESOURCES%/optional_empty/pTransferOutage.csv
 $endIf
 
 * H2 RELATED
@@ -625,6 +630,18 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
     
+# Share of internal transfer capacity unavailable (0-1) by corridor, season and year.
+# Optional, used by the Monte Carlo interconnection outages; missing values = no outage.
+- CSVReader:
+    trace: %TRACE%
+    file: %pTransferOutage%
+    name: pTransferOutage
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+
 - CSVReader:
     trace: %TRACE%
     file: %pMinImport%

@@ -965,9 +965,11 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
 * Transfer equations
 * Limits internal flows and applies trade caps.
 * ------------------------------
-* Limits flow between zones to existing + expandable transmission capacity
+* Limits flow between zones to existing + expandable transmission capacity,
+* reduced by the share of capacity unavailable (pTransferOutage, 0 by default)
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + sum(sTransStage(z,z2,ts), vNewTransmissionLine(z,z2,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion;
+   vFlow(z,z2,q,d,t,y) =l= (pTransferLimit(z,z2,q,y) + sum(sTransStage(z,z2,ts), vNewTransmissionLine(z,z2,ts,y)*symmaxS(pNewTransmission,z,z2,ts,"CapacityPerLine"))*fAllowTransferExpansion)
+                           * (1 - pTransferOutage(z,z2,q,y));
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
