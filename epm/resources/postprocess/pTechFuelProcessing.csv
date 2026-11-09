@@ -71,3 +71,7 @@ ICE,Biogas,Biomass,green
 ST,Coke,Coal,dimgray
 ST,ChemReaction,Other,grey
 ST,Steam,Other,grey
+ICE,LNG,Gas,lightcoral
+CCGT_CCS,GasCCS,Gas,lightcoral
+OCGT_CCS,GasCCS,Gas,lightcoral
+GT,FuelOil,Diesel,saddlebrown

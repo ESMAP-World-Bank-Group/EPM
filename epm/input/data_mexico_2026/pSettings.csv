@@ -60,7 +60,7 @@ Apply max capital constraint,fApplyCapitalConstraint,0
 "Total maximum capital investments, $ billion",sMaxCapitalInvestment,200
 ,,
 PLANTS,,
-Apply min generation for all hours,fApplyMinGenShareAllHours,0
+Apply min generation for all hours,fApplyMinGenShareAllHours,1
 Apply ramp constraints,fApplyRampConstraint,0
 Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0
 Include minimum up/down time constraints (only dispatch),fApplyMUDT,0
