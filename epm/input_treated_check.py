@@ -357,7 +357,70 @@ def run_checks(gdx_path):
     if settings.get("fEnableCarbonPrice", 0) and C["pCarbonPrice"].number_records == 0:
         F.add("HIGH", "policy: carbon price on without pCarbonPrice", "pSettings", "", "carbon price = 0")
 
+    # ------------------------------------------------------------------ year coverage
+    _check_year_coverage(C, F, years, settings)
+
     return F.frame()
+
+
+# Year-indexed inputs that input_treatment.py does NOT extend to all model years
+# (only YEARLY_OUTPUT there is interpolated and held flat). A year with no value is
+# read as 0 by GAMS. For each: (setting that activates it or None, effect of the gap).
+YEAR_COVERAGE_EFFECTS = {
+    "pCarbonPrice": ("fEnableCarbonPrice", "carbon price = 0 in those years"),
+    "pSpinningReserveReqCountry": ("fApplyCountrySpinReserveConstraint", "no country spinning reserve requirement in those years"),
+    "pSpinningReserveReqSystem": ("fApplySystemSpinReserveConstraint", "no system spinning reserve requirement in those years"),
+    "pEmissionsCountry": ("fApplyCountryCo2Constraint", "country CO2 cap = 0 in those years (backstop used)"),
+    "pEmissionsTotal": ("fApplySystemCo2Constraint", "system CO2 cap = 0 in those years (backstop used)"),
+    "pMaxFuellimit": ("fApplyFuelConstraint", "no fuel limit in those years"),
+    "pMaxAnnualExternalTradeShare": ("fEnableExternalExchange", "no external imports allowed in those years"),
+    "pEnergyEfficiencyFactor": ("fEnableEnergyEfficiency", "factor reset to 1 in those years"),
+    "pLossFactorInternal": (None, "no transmission losses in those years"),
+}
+# Derived or sparse by design, plus the parameters input_treatment.py already extends to all
+# model years (YEARLY_OUTPUT there): a gap left in those is a deliberate zero, not missing data.
+YEAR_COVERAGE_SKIP = {"pAvailability", "pDemandData", "pEvolutionAvailability", "pTransferOutage",
+                      "pCapexTrajectoriesDefault", "pCapexTrajectoriesGeneric",
+                      "pTradePrice", "pDemandForecast", "pCapexTrajectories", "pExtTransferLimit",
+                      "pTransferLimit", "pFuelPrice", "pMaxGenerationByFuel"}
+
+
+def _check_year_coverage(C, F, years, settings):
+    """Flag year-indexed inputs whose data stops before the last model year."""
+    import gams.transfer as gt
+
+    last = years[-1]
+    for name, sym in C.data.items():
+        if (not isinstance(sym, gt.Parameter) or "y" not in sym.domain_names
+                or name in YEAR_COVERAGE_SKIP or sym.number_records == 0):
+            continue
+        d = sym.records.copy()
+        y_col = d.columns[sym.domain_names.index("y")]
+        d["_y"] = pd.to_numeric(d[y_col].astype(str), errors="coerce")
+        d = d.dropna(subset=["_y"])
+        if d.empty:
+            continue
+        keys = [c for c, dn in zip(d.columns, sym.domain_names) if dn not in ("y", "q", "d", "t")]
+        spans = d.groupby(keys, observed=True)["_y"].agg(["min", "max"]) if keys else \
+            pd.DataFrame({"min": [d._y.min()], "max": [d._y.max()]}, index=["all"])
+        short_end = spans[spans["max"] < last]
+        if short_end.empty:
+            continue
+        flag, effect = YEAR_COVERAGE_EFFECTS.get(name, (None, "value read as 0 in those years"))
+        active = flag is None or bool(settings.get(flag, 0))
+        if name in YEAR_COVERAGE_EFFECTS:
+            severity = ("HIGH" if flag else "MED") if active else "LOW"
+        else:
+            severity = "MED" if active else "LOW"
+        if not active:
+            effect = f"no effect while {flag} = 0 ({effect} if switched on)"
+        stop = int(short_end["max"].max()) if short_end["max"].nunique() == 1 else \
+            f"{int(short_end['max'].min())}-{int(short_end['max'].max())}"
+        examples = ", ".join("/".join(map(str, k)) if isinstance(k, tuple) else str(k) for k in short_end.index[:4])
+        more = f" (+{len(short_end) - 4} more)" if len(short_end) > 4 else ""
+        F.add(severity, "years: data stops before last model year", name,
+              f"{len(short_end)} of {len(spans)} entries end in {stop}, model runs to {last}: {examples}{more}",
+              effect + " (or 0 on purpose: check)")
 
 
 def format_report(df, title="", max_rows=25):
@@ -371,9 +434,12 @@ def format_report(df, title="", max_rows=25):
     lines.append("Findings: " + ", ".join(f"{s} {counts.get(s, 0)}" for s in SEVERITY_ORDER))
     for sev in ("HIGH", "MED"):
         for check, grp in df[df.severity == sev].groupby("check", sort=False):
-            lines.append(f"\n[{sev}] {check} ({len(grp)}) -> {grp.effect.iloc[0]}")
+            same_effect = grp.effect.nunique() == 1
+            lines.append(f"\n[{sev}] {check} ({len(grp)})" + (f" -> {grp.effect.iloc[0]}" if same_effect else ""))
             for _, r in grp.head(max_rows).iterrows():
                 lines.append(f"    {r['item']:<45} {r.detail}")
+                if not same_effect:
+                    lines.append(f"    {'':<45} -> {r.effect}")
             if len(grp) > max_rows:
                 lines.append(f"    ... {len(grp) - max_rows} more (see CSV)")
     low = df[df.severity == "LOW"].groupby("check").size()

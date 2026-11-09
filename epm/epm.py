@@ -832,6 +832,37 @@ def find_run_folder_input(results_folder):
     return None
 
 
+def run_input_check(args):
+    """Run check_inputs.py (build input_treated.gdx without solving, then check it).
+
+    The folder, config and scenario options of epm.py are passed through unchanged.
+    Returns the exit code of check_inputs: 1 if a HIGH finding is reported or a
+    scenario failed to compile, else 0.
+    """
+    import importlib.util
+    # check_inputs.py loads epm.py as 'epm_runner' unless that name is already taken.
+    # Point it at this module: a second copy would hand the multiprocessing workers
+    # functions from 'epm_runner', a module they cannot import when epm.py is the script.
+    sys.modules.setdefault("epm_runner", sys.modules[__name__])
+    spec = importlib.util.spec_from_file_location("check_inputs", os.path.join(BASE_DIR, "check_inputs.py"))
+    check_inputs = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(check_inputs)
+
+    argv = ["--folder_input", args.folder_input, "--config", args.config, "--parallel", str(args.parallel)]
+    if args.scenarios:
+        argv += ["--scenarios", args.scenarios]
+    if args.selected_scenarios:
+        argv += ["-S", *args.selected_scenarios]
+    if args.simple is not None:
+        argv += ["--simple", *args.simple]
+    for option in ("country", "modeltype", "simulation_label"):
+        value = getattr(args, option)
+        if value:
+            argv += [f"--{option}", value]
+    logger.info("Input check only (no solve): check_inputs.py %s", " ".join(argv))
+    return check_inputs.main(argv)
+
+
 def main(test_args=None):
     """Parse command-line arguments and orchestrate an EPM simulation run.
 
@@ -1050,6 +1081,16 @@ def main(test_args=None):
              "with border prices from pHourlyPrice."
     )
 
+    parser.add_argument(
+        "--check_inputs",
+        action="store_true",
+        default=False,
+        help="Check the inputs without solving: build input_treated.gdx for the selected scenarios "
+             "(GAMS compile only) and run the consistency checks of input_treated_check.py. "
+             "Uses --folder_input, --config, --scenarios, -S, --simple, --country, --modeltype, "
+             "--parallel and --simulation_label. Exit code 1 if a HIGH finding is reported."
+    )
+
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
         args = parser.parse_args(test_args)
@@ -1072,6 +1113,10 @@ def main(test_args=None):
     else:
         args.folder_input = args.folder_input or "data_test"
         folder_input = os.path.join("input", args.folder_input)
+
+    if args.check_inputs:
+        return run_input_check(args)
+
     folder = None
     results_folder = None
 
@@ -1183,4 +1228,4 @@ def main(test_args=None):
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
