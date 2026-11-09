@@ -733,8 +733,12 @@ vBuild.up(ng,y)$(not gstatusmap(ng,'committed')) = pGenData(ng,"BuildLimitperYea
 * Unlike candidates, committed generators are not optional - they must be built.
 * They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
 * Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
-vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
-vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
+* When StYr is not a model year, the build happens in the first model year on or after StYr
+* (previous model year < StYr <= y). pPrevModelYear is 0 for the first model year.
+Parameter pPrevModelYear(y) 'Previous model year (0 for the first year)';
+pPrevModelYear(y) = sum(y2$(ord(y2) = ord(y) - 1), y2.val);
+vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") <= y.val) and (pGenData(ng,"StYr") > pPrevModelYear(y))) = pGenData(ng,"Capacity");
+vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") <= y.val) and (pGenData(ng,"StYr") > pPrevModelYear(y))) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
