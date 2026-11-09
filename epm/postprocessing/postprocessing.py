@@ -217,7 +217,8 @@ RESERVE_ATTRS = [
     "Unmet country planning reserve costs: $m",
     "Unmet country CO2 backstop cost: $m",
     "Unmet system planning reserve costs: $m",
-    "Unmet system spinning reserve costs: $m"
+    "Unmet system spinning reserve costs: $m",
+    "Unmet system CO2 backstop cost: $m"
 ]
 
 MAX_FULL_SEASON_DAYS = 15

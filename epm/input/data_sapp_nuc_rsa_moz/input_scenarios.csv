@@ -1,2 +1,3 @@
-paramNames,emi_reduc,no_carbprice
-pSettings,pSettings_constr_emi.csv,pSettings_nocarbprice.csv
+paramNames,altnuccapex,noco2p,altnuccapexnoco2p
+pSettings,,pSettings_nocarbprice.csv,pSettings_nocarbprice.csv
+pGenDataInputDefault,supply/pGenDataInputDefault_nuccapexalt.csv,,supply/pGenDataInputDefault_nuccapexalt.csv

@@ -2693,11 +2693,13 @@ def make_heatmap_plot(
         "Unmet country CO2 backstop cost: $m",
         "Unmet system planning reserve costs: $m",
         "Unmet system spinning reserve costs: $m",
+        "Unmet system CO2 backstop cost: $m",
         "Unmet country spinning reserve costs: $/MWh",
         "Unmet country planning reserve costs: $/MWh",
         "Unmet country CO2 backstop cost: $/MWh",
         "Unmet system planning reserve costs: $/MWh",
-        "Unmet system spinning reserve costs: $/MWh"
+        "Unmet system spinning reserve costs: $/MWh",
+        "Unmet system CO2 backstop cost: $/MWh"
     ]
 
     def _get_dataframe(key: str):
