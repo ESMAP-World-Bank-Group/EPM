@@ -22,8 +22,8 @@ ST,Coal,0,0,1
 ST,DomesticCoal,0,0,1
 ST,ImportedCoal,0,0,1
 ST,Lignite,0,0,13
-ST,Geothermal,0,1,16
-ST,Biomass,0,1,1
+ST,Geothermal,0,0,16
+ST,Biomass,0,0,1
 STOPV,Solar,0,1,4
 Storage,Battery,0,0,11
 Storage,Water,0,0,17
@@ -33,7 +33,7 @@ Storage,Pumped,0,0,20
 CCGT,LFO,0,0,21
 OCGT,LFO,0,0,22
 Methane,Methane,0,0,23
-Geothermal,Geothermal,0,0,24
+Geothermal,Geothermal,0,1,24
 CCGT_CCS,Gas,0,0,25
 OCGT_CCS,Gas,0,0,26
 RPV,Solar,0,0,27
@@ -55,8 +55,8 @@ CCGT,Hydrogen,0,0,37
 GT,Diesel,0,0,12
 GT,Gas,0,0,2
 GT,Hydrogen,0,0,37
-GT,LicorNegro,0,1,38
-ICE,Biogas,0,1,33
+GT,LicorNegro,0,0,38
+ICE,Biogas,0,0,33
 ST,ChemReaction,0,0,39
 ST,Steam,0,0,40
 ST,Coke,0,0,41
