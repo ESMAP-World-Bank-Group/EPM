@@ -1,3 +1,4 @@
-paramNames,altnuccapex,noco2p,altnuccapexnoco2p
-pSettings,,pSettings_nocarbprice.csv,pSettings_nocarbprice.csv
-pGenDataInputDefault,supply/pGenDataInputDefault_nuccapexalt.csv,,supply/pGenDataInputDefault_nuccapexalt.csv
+paramNames,nuccom,nuccomaltcapex
+pSettings,,
+pGenDataInputDefault,,supply/pGenDataInputDefault_nuccapexalt.csv
+pGenDataInput,supply/pGenDataInput_SAPP_v5_nucSA.csv,supply/pGenDataInput_SAPP_v5_nucSA.csv
