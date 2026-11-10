@@ -162,6 +162,7 @@ The tables below list every argument you can pass to `python epm.py`. Arguments 
 |---|---|---|
 | `--debug` | `False` | Enable verbose DEBUG mode in GAMS |
 | `--trace` | `False` | Enable TRACE mode in GAMS |
+| `--check_inputs` | `False` | Check the inputs without solving: build `input_treated.gdx` and report data issues by severity. See [Debugging](run_debugging.md#check-inputs-before-a-run) |
 
 ---
 

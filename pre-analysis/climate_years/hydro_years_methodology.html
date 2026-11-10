@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAPP Hydro Years Methodology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: technical memo, one reading column with a sticky step index on wide screens */
+  --bg: #f5f7f7;
+  --surface: #ffffff;
+  --ink: #17262b;
+  --muted: #5a6b70;
+  --line: #d6dfe1;
+  --accent: #0e5a6b;
+  --accent-soft: #e2eef0;
+  --ochre: #9a6a14;
+  --ochre-soft: #f6eedd;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1719; --surface: #152124; --ink: #e3ecee; --muted: #9db0b5; --line: #2a3b3f;
+    --accent: #6cc3d4; --accent-soft: #1b3439; --ochre: #e0b25c; --ochre-soft: #2e2716;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1719; --surface: #152124; --ink: #e3ecee; --muted: #9db0b5; --line: #2a3b3f;
+  --accent: #6cc3d4; --accent-soft: #1b3439; --ochre: #e0b25c; --ochre-soft: #2e2716;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+}
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+.wrap {
+  max-width: 1080px; margin: 0 auto; padding: 40px 20px 80px;
+  display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 48px;
+}
+@media (max-width: 820px) { .wrap { grid-template-columns: 1fr; gap: 24px; padding-top: 28px; } nav.index { display: none; } }
+
+nav.index { position: sticky; top: 24px; align-self: start; font-size: 14px; }
+nav.index p { margin: 0 0 8px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+nav.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+nav.index a { display: block; padding: 4px 10px; border-left: 2px solid var(--line); color: var(--muted); text-decoration: none; }
+nav.index a:hover { color: var(--accent); border-left-color: var(--accent); }
+
+main { max-width: 70ch; }
+header.doc { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 8px; }
+.kicker { font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: 40px; margin: 0 0 10px; }
+.lede { font-size: 18px; color: var(--muted); margin: 0; }
+h2 { font-size: 28px; margin: 48px 0 12px; }
+h3 { font-size: 21px; margin: 28px 0 8px; }
+p { margin: 0 0 14px; }
+ul { margin: 0 0 14px; padding-left: 22px; }
+li { margin-bottom: 6px; }
+code, .file { font-family: var(--font-mono); font-size: 0.88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; }
+
+/* pipeline */
+.pipeline { list-style: none; padding: 0; margin: 18px 0 8px; display: grid; gap: 0; counter-reset: s; }
+.pipeline li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; margin: 0; position: relative; padding-bottom: 14px; }
+.pipeline li::before {
+  counter-increment: s; content: counter(s);
+  width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--surface);
+  display: grid; place-items: center; font-weight: 600; font-size: 14px; z-index: 1;
+}
+.pipeline li:not(:last-child)::after { content: ""; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--line); }
+.pipeline b { display: block; }
+.pipeline span { color: var(--muted); font-size: 14px; }
+
+/* step blocks */
+section.step { border-top: 1px solid var(--line); margin-top: 36px; padding-top: 4px; }
+section.step h3 { display: flex; gap: 12px; align-items: baseline; }
+section.step h3 .n { font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 2px 9px; border-radius: 99px; flex: none; }
+.output { border-left: 3px solid var(--accent); background: var(--surface); padding: 10px 14px; margin: 14px 0; font-size: 15px; }
+.output b { color: var(--accent); }
+.note { border-left: 3px solid var(--ochre); background: var(--ochre-soft); padding: 10px 14px; margin: 14px 0; font-size: 15px; }
+
+.formula {
+  font-family: var(--font-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: 12px 16px; margin: 10px 0 16px; overflow-x: auto; white-space: pre;
+}
+.formula .c { color: var(--muted); }
+
+.tbl { overflow-x: auto; margin: 12px 0 18px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; background: var(--accent-soft); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 500; white-space: nowrap; }
+
+.storage { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 12px 0 16px; }
+.storage div { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 12px; font-size: 14px; }
+.storage b { display: block; font-size: 15px; margin-bottom: 2px; }
+.storage .w { font-family: var(--font-mono); color: var(--accent); font-size: 13px; }
+
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding-left: 28px; position: relative; }
+.checklist li::before { content: ""; position: absolute; left: 2px; top: 5px; width: 14px; height: 14px; border: 2px solid var(--accent); border-radius: 3px; }
+
+footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="index" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#purpose">1. Purpose</a></li>
+      <li><a href="#overview">2. Overview</a></li>
+      <li><a href="#step1">Step 1 · Basins</a></li>
+      <li><a href="#step2">Step 2 · River points</a></li>
+      <li><a href="#step3">Step 3 · Discharge</a></li>
+      <li><a href="#step4">Step 4 · Seasonal inflow</a></li>
+      <li><a href="#step5">Step 5 · Factors</a></li>
+      <li><a href="#step6">Step 6 · Validation</a></li>
+      <li><a href="#step7">Step 7 · EPM</a></li>
+      <li><a href="#files">4. Files</a></li>
+      <li><a href="#limits">5. Limitations</a></li>
+      <li><a href="#next">6. Next steps</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="doc">
+      <p class="kicker">EPM · SAPP study · Methodology note · November 2026</p>
+      <h1>Hydrological years for SAPP hydropower</h1>
+      <p class="lede">A step-by-step method for building hydro availability by basin and by historical year. The hydro years cover the same years as the ERA5 weather years already used for solar PV and wind.</p>
+    </header>
+
+    <h2 id="purpose">1. Purpose</h2>
+    <p>The SAPP model already represents weather variability for solar PV and wind. Hourly ERA5 reanalysis data for 1994–2023 are converted into monthly capacity factors for each zone, and the Monte Carlo <code>climate_year</code> feature scales the VRE profiles to a historical weather year.</p>
+    <p>Hydropower supplies a large share of SAPP electricity, in particular from the Zambezi, Kwanza and Congo plants, but it is treated differently. Today it gets a uniform random reduction of 0 to 30% in Zambia, Zimbabwe and Mozambique, drawn independently of the weather year. A sensitivity file also applies a fixed dry year every six years.</p>
+    <p>This note sets out how to build historical hydrological years for each river basin and convert them into seasonal availability factors that EPM can use directly. Because the hydro factors cover the same years as the PV and wind series, the model can draw one historical year and apply it to all renewables together. Coincident events then appear as they actually happened, such as the 2015–16 and 2019 droughts that sharply reduced Kariba output.</p>
+
+    <h3>Why hydro needs a different source</h3>
+    <p>PV and wind output depends on the weather at the plant. Hydro output depends on river inflow at the dam, which reflects rainfall and evaporation over the whole upstream catchment, often weeks to months later. Weather at a zone centroid is therefore a poor proxy. The method uses simulated river discharge at each dam, taken from a global hydrological reanalysis driven by the same ERA5 meteorology, so hydro and VRE years stay physically consistent.</p>
+
+    <h2 id="overview">2. Overview of the approach</h2>
+    <ol class="pipeline">
+      <li><div><b>Assign hydro plants to river basins</b><span>hydro_basin_map.csv · plant → basin</span></div></li>
+      <li><div><b>Locate a representative river point for each basin</b><span>hydro_sites_sapp.csv · basin, lat, lon, upstream area</span></div></li>
+      <li><div><b>Download historical daily river discharge</b><span>GloFAS reanalysis, cached per basin</span></div></li>
+      <li><div><b>Aggregate to monthly and seasonal inflows</b><span>Q1–Q4, same season mapping as the VRE years</span></div></li>
+      <li><div><b>Convert inflows into availability factors</b><span>hydro_seasonal_factors.csv · basin, year, season, factor</span></div></li>
+      <li><div><b>Validate against observed generation and lake levels</b><span>Calibration notes in the metadata file</span></div></li>
+      <li><div><b>Integrate into EPM preprocessing and the Monte Carlo</b><span>Scaled pAvailability files per scenario</span></div></li>
+    </ol>
+
+    <h2>3. Step-by-step methodology</h2>
+
+    <section class="step" id="step1">
+      <h3><span class="n">Step 1</span>Assign hydro plants to river basins</h3>
+      <p>Start from the hydro plants in the generator input file (technologies <code>ROR</code> and <code>ReservoirHydro</code>, fuel <code>Water</code>) and assign each plant to the basin that feeds it. Plants on the same river share one hydrological signal. Small plants on minor tributaries can be grouped into a regional basin, or left at their current constant availability if they don't materially affect the results.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Basin</th><th>Main plants (existing and candidate)</th><th>Zones</th></tr></thead>
+        <tbody>
+          <tr><td>Zambezi</td><td>Kariba North &amp; South, Kafue Gorge Upper &amp; Lower, Itezhi-Tezhi, Victoria Falls, Batoka Gorge, Cahora Bassa, Mphanda Nkuwa</td><td>Zambia, Zimbabwe, Mozambique</td></tr>
+          <tr><td>Kwanza</td><td>Cambambe, Capanda, Laúca, Caculo Cabaça, Zenzo</td><td>Angola North / Central</td></tr>
+          <tr><td>Lower Congo</td><td>Inga 1, 2, 3, Zongo</td><td>DRC</td></tr>
+          <tr><td>Upper Congo / Lualaba</td><td>Nzilo, Nseke, Koni, Mwadingusha, Busanga</td><td>DRC South</td></tr>
+          <tr><td>Shire</td><td>Nkula, Tedzani, Kapichira (Lake Malawi outflow)</td><td>Malawi</td></tr>
+          <tr><td>Kunene</td><td>Ruacana, Matala, Baynes</td><td>Namibia, Angola South</td></tr>
+          <tr><td>Orange–Senqu</td><td>Gariep, Vanderkloof, Muela</td><td>South Africa, Lesotho</td></tr>
+          <tr><td>Rufiji</td><td>Julius Nyerere, Kidatu, Mtera</td><td>Tanzania</td></tr>
+          <tr><td>Usutu / Komati</td><td>Maguga, Edwaleni, Ezulwini</td><td>Eswatini</td></tr>
+          <tr><td>Other</td><td>Luapula, Lurio, Pungwe and remaining plants, grouped by region</td><td>Various</td></tr>
+        </tbody>
+      </table></div>
+      <div class="output"><b>Output.</b> A mapping file with one row per plant (<code>g, basin</code>). Zone-level default availability rows in <code>pAvailabilityDefault</code> map to the dominant basin of each zone.</div>
+    </section>
+
+    <section class="step" id="step2">
+      <h3><span class="n">Step 2</span>Locate a representative river point for each basin</h3>
+      <p>For each basin, choose the river location that best represents inflow to its main plants. This is usually the dam of the largest reservoir, or the upstream reservoir of a cascade.</p>
+      <ul>
+        <li><b>Snap to the river network.</b> Discharge grids have cells of about 5 km. The nominal dam coordinates can fall in a neighbouring cell that drains only a small tributary.</li>
+        <li><b>Check the upstream area.</b> Compare the model's upstream drainage area in the chosen cell with the published catchment area at the dam. Keep the cell that matches within about ±10%.</li>
+        <li><b>Handle cascades.</b> Where several plants share a river, such as Kariba → Cahora Bassa or the Kafue plants, add a point per reach when lateral inflows between plants are large. Otherwise use the upstream point for the whole cascade.</li>
+      </ul>
+      <div class="output"><b>Output.</b> <code>hydro_sites_sapp.csv</code> with columns <code>basin, lat, lon, upstream_area_km2, note</code>. It has the same structure as the existing <code>zone_sites_sapp.csv</code> used for PV and wind.</div>
+    </section>
+
+    <section class="step" id="step3">
+      <h3><span class="n">Step 3</span>Download historical river discharge</h3>
+      <p>The recommended source is the <b>GloFAS historical reanalysis</b> from the Copernicus Emergency Management Service (dataset <code>cems-glofas-historical</code>). It gives daily river discharge in m³/s on a global 0.05° grid from 1979 to the present. It is driven by ERA5 meteorology, the same source as the PV and wind series.</p>
+      <ul>
+        <li><b>Access.</b> Free, through the Copernicus Early Warning Data Store (EWDS) API. It uses the same <code>cdsapi</code> client as the ERA5 script but needs a separate EWDS account and key.</li>
+        <li><b>Period.</b> At least 1994–2023, to match the VRE dataset. Extending both datasets to 2024 is recommended because 2024 was a record drought on the Zambezi.</li>
+        <li><b>Fallback.</b> ERA5-Land monthly runoff summed over each catchment polygon, for example from HydroBASINS. This needs only the existing CDS key, but it ignores river routing and lake storage, so it suits slow basins such as the Zambezi above Kariba or Lake Malawi poorly.</li>
+        <li><b>Observations where available.</b> Gauge records (GRDC, river basin authorities) or utility reservoir inflow series can replace or correct the simulated series.</li>
+      </ul>
+      <p>Downloads are cached per basin so reruns skip them, as in the existing ERA5 script.</p>
+    </section>
+
+    <section class="step" id="step4">
+      <h3><span class="n">Step 4</span>Aggregate to monthly and seasonal inflows</h3>
+      <p>Daily discharge is averaged to monthly values <i>Q</i>(<i>b</i>, <i>y</i>, <i>m</i>) for basin <i>b</i>, year <i>y</i> and month <i>m</i>. Months are grouped into the model seasons (Q1–Q4 in the SAPP dataset) using the same season–month mapping as <code>climate_year</code>, so hydro and VRE seasons line up. The climatology, meaning the long-run average for each basin and season, is computed over the full reference period.</p>
+    </section>
+
+    <section class="step" id="step5">
+      <h3><span class="n">Step 5</span>Convert inflows into availability factors</h3>
+      <p>EPM limits hydro generation through seasonal availability factors, given by zone and technology in <code>pAvailabilityDefault</code> and by plant in <code>pAvailabilityCustom</code>. These factors are taken to represent an average hydrological year. Each historical year is expressed as a ratio to the climatology, and the ratio scales the existing factors. Absolute biases in the simulated discharge cancel out, and only the year-to-year variation is kept.</p>
+
+      <p><b>5a. Cap the flow at turbine capacity.</b> Water above the turbines' design flow is spilled, so wet years raise output less than dry years reduce it.</p>
+      <div class="formula">Qᵤ(b, y, m) = min( Q(b, y, m), Q_design(b) )</div>
+      <p>If the design flow isn't known, estimate it from plant capacity and head. For run-of-river plants, the flow exceeded 30% of the time (Q30) is a usual approximation. For large reservoirs, use the long-run mean flow.</p>
+
+      <p><b>5b. Account for storage.</b> Smooth the usable flow over a window <i>L</i> that reflects how long the reservoir can hold water:</p>
+      <div class="storage">
+        <div><b>Run-of-river</b><span class="w">L = 3 months</span><br>Seasonal flow used directly.</div>
+        <div><b>Seasonal reservoir</b><span class="w">L = 6–12 months</span><br>Wet-season water released in the dry season.</div>
+        <div><b>Multi-year reservoir</b><span class="w">L = 12–24 months</span><br>Kariba, Cahora Bassa, Itezhi-Tezhi, Lake Malawi outflow.</div>
+      </div>
+      <div class="formula">Q̃(b, y, s) = mean of Qᵤ over the L months ending with season s</div>
+      <p>The longer window means a single dry year has less effect than consecutive dry years, as in reality.</p>
+
+      <p><b>5c. Compute the seasonal factor and the scaled availability.</b></p>
+      <div class="formula">f(b, y, s) = Q̃(b, y, s) / mean over all years y′ of Q̃(b, y′, s)
+
+A(g, y, s) = min( A_base(g, s) × f(b(g), y, s), A_max )</div>
+      <p>Here <i>A</i>_base is the current availability of plant or zone-technology <i>g</i> in season <i>s</i>, and <i>b</i>(<i>g</i>) is its basin. <i>A</i>_max is an upper bound that keeps availability physically meaningful, for example 0.95, or 1.0 for run-of-river. A lower bound such as 0.05 can stop a plant from becoming fully unavailable unless that is intended.</p>
+      <div class="output"><b>Output.</b> <code>hydro_seasonal_factors.csv</code> (<code>basin, year, season, factor</code>) and a metadata file with the source, period, sites, design flows and storage windows. This mirrors the <code>vre_monthly_cf.csv</code> and <code>metadata.json</code> pair used for PV and wind.</div>
+    </section>
+
+    <section class="step" id="step6">
+      <h3><span class="n">Step 6</span>Validate and calibrate</h3>
+      <p>Simulated discharge must be checked before use, especially on regulated rivers.</p>
+      <ul>
+        <li><b>Known events.</b> The factors should show the main southern African droughts and floods: the 2015–16 and 2019 droughts, the 2024 El Niño drought on the Zambezi, and the 2000–01 floods in Mozambique.</li>
+        <li><b>Observed generation.</b> Compare annual factors with observed hydro generation by country, from utility annual reports, Ember, IRENA or EIA. The correlation should be high where one basin dominates (Zambia, Zimbabwe, Malawi, Mozambique).</li>
+        <li><b>Reservoir levels.</b> Compare the Kariba factors with lake levels and water allocations published by the Zambezi River Authority.</li>
+        <li><b>Range.</b> Compare the spread of factors (minimum, 10th percentile, mean) with the −30% to 0% range assumed today, and with dry-year assumptions in national plans and the SAPP Pool Plan.</li>
+      </ul>
+      <p>If simulated and observed variability differ systematically, scale the anomaly per basin with a factor <i>k</i> fitted on observed generation, and record it in the metadata file:</p>
+      <div class="formula">f′ = 1 + k · (f − 1)</div>
+    </section>
+
+    <section class="step" id="step7">
+      <h3><span class="n">Step 7</span>Integrate into EPM</h3>
+      <p>Integration needs Python changes only. The GAMS formulation and the protected input data stay unchanged, because the scaled availability files are written per scenario, as the Monte Carlo already does.</p>
+      <ul>
+        <li><b>New preprocessing script.</b> <code>pre-analysis/climate_years/fetch_hydro_years.py</code> runs Steps 3 to 5 and writes <code>hydro_seasonal_factors.csv</code> next to the VRE dataset.</li>
+        <li><b>Joint climate year.</b> Extend <code>climate_year</code> in <code>epm/preprocessing.py</code> so the drawn year scales both the VRE profiles, as today, and hydro availability in <code>pAvailabilityDefault</code> and <code>pAvailability</code>, using the plant → basin mapping. The existing hydro scaling functions can be reused.</li>
+        <li><b>Deterministic scenarios.</b> Outside the Monte Carlo, the same factors can define an average year, a dry year (for example the 10th percentile, or 2019) and a wet year, run as sensitivities through <code>input_scenarios.csv</code>.</li>
+      </ul>
+      <div class="note"><b>Avoid double counting.</b> When the joint climate year is active, remove the independent uniform <code>hydro</code> uncertainty from <code>mc_uncertainties.csv</code>. Also don't combine it with the fixed dry-year pattern in <code>pEvolutionAvailability_agg_dry.csv</code>.</div>
+    </section>
+
+    <h2 id="files">4. Files produced</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>File</th><th>Content</th><th>Location</th></tr></thead>
+      <tbody>
+        <tr><td><span class="file">hydro_sites_sapp.csv</span></td><td>Basin, lat, lon, upstream area, note</td><td>pre-analysis/climate_years/</td></tr>
+        <tr><td><span class="file">hydro_basin_map.csv</span></td><td>Plant (g) and zone → basin</td><td>pre-analysis/climate_years/</td></tr>
+        <tr><td><span class="file">raw/&lt;basin&gt;</span></td><td>Daily discharge as downloaded (cached)</td><td>pre-analysis/climate_years/output/</td></tr>
+        <tr><td><span class="file">hydro_seasonal_factors.csv</span></td><td>basin, year, season, factor</td><td>pre-analysis/climate_years/data/</td></tr>
+        <tr><td><span class="file">hydro_metadata.json</span></td><td>Source, period, sites, design flows, storage windows, calibration</td><td>pre-analysis/climate_years/data/</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="limits">5. Limitations</h2>
+    <ul>
+      <li><b>Simulated, near-natural flows.</b> GloFAS simplifies major lakes and reservoirs and does not know actual operating rules. Releases in cascades such as Kariba → Cahora Bassa are approximate. The method targets year-to-year variation, not reservoir operation.</li>
+      <li><b>Simplified storage.</b> Rolling windows stand in for reservoir dynamics. EPM doesn't carry reservoir levels between modelled years, so multi-year droughts enter only through the input factors.</li>
+      <li><b>One point per basin.</b> Lateral inflows between plants in a long cascade are not resolved unless more points are added.</li>
+      <li><b>Historical climate only.</b> The factors reproduce the observed climate and exclude climate change trends in runoff. These can be added later by scaling the climatology.</li>
+    </ul>
+
+    <h2 id="next">6. Next steps</h2>
+    <ul class="checklist">
+      <li>Confirm the basin grouping and the plants to include (Step 1).</li>
+      <li>Register on the Copernicus EWDS and set up the API key for GloFAS downloads.</li>
+      <li>Build the basin site file and check upstream areas against published catchment areas (Step 2).</li>
+      <li>Write <code>fetch_hydro_years.py</code> and produce the first set of factors (Steps 3–5).</li>
+      <li>Validate against observed generation and Kariba levels, and calibrate if needed (Step 6).</li>
+      <li>Extend <code>climate_year</code> in EPM and run a test Monte Carlo on the SAPP dataset (Step 7).</li>
+    </ul>
+
+    <footer>Electricity Planning Model (EPM). Discharge data: Copernicus Emergency Management Service (GloFAS); meteorology: Copernicus Climate Change Service (ERA5).</footer>
+  </main>
+</div>
+</body>
+</html>

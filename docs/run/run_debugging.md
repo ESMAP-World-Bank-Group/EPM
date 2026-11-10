@@ -30,6 +30,44 @@ python epm.py --folder_input your_data --config your_data/config.csv --trace
 
 ---
 
+## Check inputs before a run
+
+`--check_inputs` reviews the data without solving the model. GAMS only compiles `main.gms`, so CSV reading, input verification and input treatment run as in a normal launch and write `input_treated.gdx`. That file holds the data exactly as the model uses it, after defaults are filled. The checks of `input_treated_check.py` then run on it.
+
+```sh
+python epm.py --folder_input your_data --check_inputs
+python epm.py --folder_input your_data --check_inputs --scenarios -S baseline HighDemand
+```
+
+It accepts the same `--config`, `--scenarios`, `-S`, `--simple`, `--country`, `--modeltype`, `--parallel` and `--simulation_label` options as a normal run.
+
+Each finding has a severity and says what it does in the model:
+
+| Severity | Meaning |
+|---|---|
+| `HIGH` | Changes results materially: for example a unit built for free, a plant that can never generate, or a carbon price at zero in some years |
+| `MED` | Probably wrong: check it |
+| `LOW` | For information, or harmless |
+
+Checks cover generators, storage, fuels, demand, trade, policy settings and year coverage. The year-coverage check flags inputs whose data stops before the last model year, for example after adding years to `y.csv`. Only demand, fuel prices, capex trajectories, trade prices, transfer limits and maximum generation by fuel are extended automatically to all model years, holding the last value. Any other year-indexed input reads as 0 in the missing years. For example, the carbon price drops to 0, spinning reserve requirements and transmission losses disappear, and a CO2 cap becomes 0.
+
+Results are written to `output/input_check_<timestamp>/<scenario>/`:
+
+- `input_check.csv`: one row per finding
+- `gams_messages.txt`: warnings printed by input verification and input treatment
+- `input_treated.gdx` and the GAMS log
+- `input_check_summary.csv` at the run level, with the counts per scenario
+
+The command exits with code 1 if any `HIGH` finding is reported or a scenario fails to compile, otherwise 0.
+
+To check an existing `input_treated.gdx`, for example one written by an earlier run, without calling GAMS:
+
+```sh
+python check_inputs.py --gdx output/simulations_run_xxx/baseline/input_treated.gdx
+```
+
+---
+
 ## Common errors
 
 **Infeasible model**

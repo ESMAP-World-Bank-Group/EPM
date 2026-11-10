@@ -59,4 +59,4 @@ The selection process starts from hourly time series for load, solar PV, and win
   - `pDemandProfile.csv`: load profiles,
   - `pVREProfile.csv`: PV and wind profiles.
 
-For additional information and implementation details, refer to the [notebook on representative days](https://esmap-world-bank-group.github.io/EPM/docs/representative_days.html).
+How to run it, with examples: [Run the representative-days pipeline](../preprocessing/pre_representative_days.md).

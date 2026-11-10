@@ -446,6 +446,68 @@ def get_special_days_clustering(df_closest_days, df_tot, threshold=None):
     return df_special_days, df_tot
 
 
+def add_peak_load_special_days(df_energy_cluster, special_days, df_energy_no_special, feature='Load'):
+    """Add the day of each load series' annual peak hour as a special day of weight 1.
+
+    The ``max_Load`` special day of ``get_special_days_clustering`` is the day closest to the
+    centroid of the highest-load cluster, computed on the load summed over all zones. It rarely
+    contains the peak hour of any zone, and in a multi-country system it follows the largest
+    country. The representative profiles then peak below 1 and the model under-states each
+    zone's peak (EPM scales the profile by the forecast peak). This step forces the actual
+    peak day of every load series into the selection.
+
+    Parameters
+    ----------
+    df_energy_cluster : pd.DataFrame
+        Hourly data with ``season``, ``day``, ``hour``, the load columns and ``Cluster``
+        (first output of ``cluster_data_new``).
+    special_days : pd.DataFrame
+        Special days from ``get_special_days_clustering`` (columns ``days``, ``weight``, ``rule``).
+    df_energy_no_special : pd.DataFrame
+        Data left for the optimisation (second output of ``get_special_days_clustering``).
+    feature : str, default 'Load'
+        Prefix of the load columns (``Load`` or ``Load_<zone>``).
+
+    Returns
+    -------
+    tuple
+        - pd.DataFrame: special days including the peak days.
+        - pd.DataFrame: data left for the optimisation, without the peak days.
+        - pd.DataFrame: one row per load series (peak day, hour, value and what was done).
+    """
+    special_days = special_days.copy().reset_index(drop=True)
+    df_left = df_energy_no_special.copy()
+    columns = [c for c in df_energy_cluster.columns if c == feature or c.startswith(f'{feature}_')]
+    day_cluster = df_energy_cluster.groupby(['season', 'day'])['Cluster'].first()
+    report = []
+    for col in columns:
+        row = df_energy_cluster.loc[df_energy_cluster[col].idxmax()]
+        day = (int(row['season']), int(row['day']))
+        used = {tuple(int(v) for v in d) for d in special_days['days']}
+        entry = dict(series=col, season=day[0], day=day[1], hour=int(row['hour']), peak=float(row[col]))
+        if day in used:
+            entry['action'] = 'already a selected day'
+        else:
+            in_left = (df_left['season'] == day[0]) & (df_left['day'] == day[1])
+            if in_left.any():
+                df_left = df_left.loc[~in_left]
+                entry['action'] = 'added (weight 1, removed from optimisation pool)'
+            else:
+                # The day belongs to a cluster already represented by a special day:
+                # take one day of weight from that special day.
+                cluster = day_cluster.get(day)
+                same = [i for i, d in enumerate(special_days['days'])
+                        if int(d[0]) == day[0] and day_cluster.get((int(d[0]), int(d[1]))) == cluster]
+                if not same:
+                    raise ValueError(f'Peak day {day} of {col} is neither in the optimisation pool nor in a special-day cluster.')
+                special_days.loc[same[0], 'weight'] -= 1
+                entry['action'] = f"added (weight 1, taken from special day {special_days.loc[same[0], 'rule']})"
+            special_days = pd.concat([special_days, pd.DataFrame([{'days': day, 'weight': 1, 'rule': f'peak_{col}'}])],
+                                     ignore_index=True)
+        report.append(entry)
+    return special_days, df_left, pd.DataFrame(report)
+
+
 def add_special_days(feature, df, df_days, season, special_days, indices_to_remove, rule='min', threshold=0.07):
     """
     Identifies and adds a representative 'special day' from a given season based on extreme values
@@ -1117,6 +1179,7 @@ def run_representative_days_pipeline(
     feature_selection_scale: bool = True,
     special_day_threshold: float = 0.1,
     gams_main_file: str = 'OptimizationModelZone.gms',
+    peak_load_days: bool = False,
     verbose: bool = True,
 ) -> dict:
     """Run the full representative day pipeline (matches the notebook flow) end-to-end.
@@ -1161,6 +1224,10 @@ def run_representative_days_pipeline(
         Probability cutoff when extracting special days from clusters.
     gams_main_file : str, default 'OptimizationModelZone.gms'
         Name (or absolute path) of the GAMS model to execute.
+    peak_load_days : bool, default False
+        Add the day of each load series' annual peak hour as a special day of weight 1
+        (``add_peak_load_special_days``), so every demand profile reaches 1 and EPM keeps
+        the forecast peak of each zone.
 
     Returns
     -------
@@ -1226,6 +1293,15 @@ def run_representative_days_pipeline(
     )
     if verbose:
         print(f'[repr-days]   special days extracted: {len(special_days)}')
+    peak_days_report = None
+    if peak_load_days:
+        special_days, df_energy_no_special, peak_days_report = add_peak_load_special_days(
+            df_energy_cluster, special_days, df_energy_no_special
+        )
+        peak_days_report.to_csv(output_dir / 'peak_load_days.csv', index=False)
+        if verbose:
+            added = peak_days_report['action'].str.startswith('added').sum()
+            print(f'[repr-days]   peak-load days: {added} added, {len(peak_days_report) - added} already selected')
 
     # Step 4 - Build optimization input (compute correlations)
     if verbose:
@@ -1297,6 +1373,7 @@ def run_representative_days_pipeline(
         'df_energy_no_special': df_energy_no_special,
         'special_days': special_days,
         'repr_days': repr_days,
+        'peak_load_days': peak_days_report,
         'paths': {
             'seasonal_inputs': seasonal_inputs,
             'data_formatted': path_data_file,

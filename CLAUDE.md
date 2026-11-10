@@ -80,8 +80,9 @@ python epm.py --folder_input data_test --parallel 4
 ### Input Validation Only
 ```bash
 conda activate epm_env
-python epm.py --folder_input data_test --diagnostic
+python epm.py --folder_input data_test --check_inputs
 ```
+Builds `input_treated.gdx` without solving (GAMS compile only) and runs the checks of `input_treated_check.py`. Results go to `output/input_check_<timestamp>/`. Accepts `--scenarios`, `-S`, `--simple` and `--country`. Equivalent: `python check_inputs.py --folder_input data_test`. To check an existing file: `python check_inputs.py --gdx <path>/input_treated.gdx`. There is no `--diagnostic` option.
 
 ### Build Documentation
 Documentation is **MkDocs Material** (`mkdocs.yml`), not Jupyter Book.

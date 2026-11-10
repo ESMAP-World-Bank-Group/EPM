@@ -1,0 +1,13 @@
+zone,lat,lon,epm_zone,note
+Off_NAM_Luderitz,-26.70,14.80,Namibia,offshore Luderitz (ESMAP Namibia offshore area)
+Off_NAM_WalvisBay,-22.90,14.10,Namibia,offshore Walvis Bay
+Off_AGO_Namibe,-15.50,11.70,Angola_South,offshore Namibe - Tombua
+Off_AGO_Benguela,-12.30,13.10,Angola_Central,offshore Benguela - Lobito
+Off_AGO_Luanda,-8.90,12.85,Angola_North,offshore Luanda
+Off_MOZ_Zavora,-24.70,35.60,Mozambique_South,offshore Inhambane - Zavora (ESMAP Mozambique offshore area)
+Off_MOZ_XaiXai,-25.40,33.90,Mozambique_South,offshore Xai-Xai
+Off_ZAF_WesternCape,-32.70,17.50,South_Africa,offshore St Helena Bay (ESMAP South Africa offshore area)
+Off_ZAF_EasternCape,-34.30,26.00,South_Africa,offshore Gqeberha (ESMAP South Africa offshore area)
+Off_ZAF_KZN,-29.00,32.40,South_Africa,offshore Richards Bay
+Off_TZA_Tanga,-5.10,39.40,Tanzania,offshore Tanga (Pemba channel)
+Off_TZA_Mtwara,-10.30,40.60,Tanzania,offshore Mtwara
