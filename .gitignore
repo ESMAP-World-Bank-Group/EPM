@@ -107,6 +107,7 @@ pre-analysis/**/output/*
 # Input data: only data_test is versioned
 epm/input/*
 !epm/input/data_sapp_nuc_rsa_moz/
+!epm/input/data_sapp_nuc_rsa_moz_agg/
 !epm/input/datapackage.json
 !epm/input/validate.py
 
