@@ -52,7 +52,7 @@ Include H2 production,fEnableH2Production,0
 POLICY,,
 Apply country CO2 constraint,fApplyCountryCo2Constraint,0
 Apply system CO2 constraints,fApplySystemCo2Constraint,0
-Minimum share of RE  (%),sMinRenewableSharePct,0.313
+Minimum share of RE  (%),sMinRenewableSharePct,0.351
 RE share target year,sRenewableTargetYear,2030
 Apply fuel constraints,fApplyFuelConstraint,0
 Apply generation phase-out constraint,fApplyGenerationPhaseout,0
