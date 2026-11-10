@@ -1,4 +1,2 @@
-paramNames,nuccom,nuccomaltcapex
-pSettings,,
-pGenDataInputDefault,,supply/pGenDataInputDefault_nuccapexalt.csv
-pGenDataInput,supply/pGenDataInput_SAPP_v5_nucSA.csv,supply/pGenDataInput_SAPP_v5_nucSA.csv
+paramNames,altcapex
+pGenDataInputDefault,supply/pGenDataInputDefault_nuccapexalt.csv
