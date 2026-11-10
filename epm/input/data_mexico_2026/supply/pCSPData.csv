@@ -1,3 +1,5 @@
-﻿gen,attribute,CapacityMWh,CapexMWh,FixedOMMWh,VOMMWh,Efficiency
-CSP_Termosolar_Cand_SIBCS,Thermal Field,840,0,0,0,0.90
-CSP_Termosolar_Cand_SIBCS,Storage,3500,0,0,0,0.90
+gen,attribute,CapacityMWh,CapexMWh,FixedOMMWh,VOMMWh,Efficiency
+PLADESE_CSP_SIBC_2030_Comm,Thermal Field,360.0,0,0,0,0.9
+PLADESE_CSP_SIBC_2030_Comm,Storage,1500.0,0,0,0,0.9
+PLADESE_CSP_SIBC_2033_Comm,Thermal Field,480.0,0,0,0,0.9
+PLADESE_CSP_SIBC_2033_Comm,Storage,2000.0,0,0,0,0.9
