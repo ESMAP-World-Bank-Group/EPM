@@ -164,6 +164,20 @@ res = run_representative_days_pipeline(seasons_map=seasons_map, input_files=inpu
 
 In a notebook, run it with no cell time limit (`--ExecutePreprocessor.timeout=-1` with `nbconvert`). Otherwise save `repr_days.csv` and read it back, as `REUSE_RUNS` does in the SAPP notebook.
 
+### Example 4: a fixed, small number of days for EPM
+
+The number of days drives the size of the EPM problem. Each season has `n_representative_days` optimised days plus one day per special-day type, so the default gives 4 × (2 + 3) = 20 days for 4 seasons, and `peak_load_days=True` adds more. To get 16 days (4 per season) with the system peak day and 3 optimised days:
+
+```python
+res = run_representative_days_pipeline(seasons_map=seasons_map, input_files=input_files,
+                                       output_dir='output/my_study_16d', n_representative_days=3,
+                                       special_day_features=('Load',),     # drop the min-PV and min-wind days
+                                       year_label=2024,
+                                       gams_main_file=str(Path('gams/OptimizationModelZone.gms').resolve()))
+```
+
+Without the country peak days, some zone profiles peak below 1. Rescale each zone's profile so its maximum on the selected days is 1 before using it in EPM: EPM then keeps every forecast peak, and its energy correction keeps the forecast energy. Check afterwards that no hour becomes negative (SAPP notebook, section 10).
+
 ### Main parameters
 
 | Parameter | Default | Meaning |
@@ -171,6 +185,7 @@ In a notebook, run it with no cell time limit (`--ExecutePreprocessor.timeout=-1
 | `n_representative_days` | 2 | Days per season chosen by the MILP. Total = seasons × (N + special days) |
 | `peak_load_days` | False | Add the peak day of each load series (Example 2) |
 | `n_clusters` | 20 | Clusters used to find the special days |
+| `special_day_features` | `('PV', 'Wind', 'Load')` | Special days per season: lowest PV, lowest wind, highest load. `('Load',)` keeps the peak day only, `()` none (Example 4) |
 | `special_day_threshold` | 0.1 | Probability cutoff when extracting special days |
 | `n_bins` | 10 | Bins of the duration curves in the MILP (more = finer, slower) |
 | `feature_selection_count` | None | Keep only `n` series before the MILP |

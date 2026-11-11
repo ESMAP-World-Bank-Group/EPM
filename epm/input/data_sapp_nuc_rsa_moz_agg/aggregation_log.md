@@ -2,6 +2,11 @@
 
 Built from `data_sapp_nuc_rsa_moz` with `tools/aggregate_zones.py`: Angola (Angola_East, Angola_South, Angola_North, Angola_Central); Mozambique (Mozambique_Central, Mozambique_South, Mozambique_North); Zimbabwe (Zimbabwe_East, Zimbabwe_West) merged into one zone each. Other zones (Mozal included) are unchanged.
 
+- `pHours.csv` (pHours) taken from `pre-analysis/representative_days/output/sapp_2024/epm_16d/pHours.csv` (--override)
+- `load/pDemandProfile.csv` (pDemandProfile) taken from `pre-analysis/representative_days/output/sapp_2024/epm_16d/pDemandProfile.csv` (--override)
+- `supply/pVREgenProfile.csv` (pVREgenProfile) taken from `pre-analysis/representative_days/output/sapp_2024/epm_16d/pVREgenProfile.csv` (--override)
+- `supply/pVREProfile.csv` (pVREProfile) taken from `pre-analysis/representative_days/output/sapp_2024/epm_16d/pVREProfile.csv` (--override)
+- `trade/pTradePrice.csv` (pTradePrice) taken from `pre-analysis/representative_days/output/sapp_2024/epm_16d/pTradePrice.csv` (--override)
 - `supply/pGenDataInput_SAPP_v5.csv`: deleted 40 row(s) with a country-level zone name: ExistingSmallHydro2012_HY_AGO, LuandaOCGT_TH_AGO, MCT_Morro_Bento_TH_AGO, Caraculo_OffGrid_PV_AGO, RochaPinto_TH_AGO, New_CSP_AGO, ZhongJinHeli_TH_ZWE, ZhongXinIPP_Phase2_TH_ZWE_WE, Hwange_Rehab_TH_ZWE_WE, ZimbabweNG_TH_ZWE, ZZEE_TH_ZWB, Import_MOZ_EDM_ZWE, Import_SAPP_ZWE, Thuli_TH_ZWE, Hwange9_10_TH_ZWE, Centrachine_TH_ZWE, CloverNewEnergy_TH_ZWE, Afrochine_PV_ZWE, Karibafloating_Sunspire, Karibafloating_Sunspire_Ph2, Karibafloating_Sunspire_Ph3, NewGlovers_Phase1_PV_ZWE, NewGlovers_Phase2_PV_ZWE, Guruve_PV_ZWE, Grove_PV_ZWE, Sabi_PV_ZWE, Sunports_PV_ZWE, Mapanzure_PV_ZWE, Zimplats_Phase2_PV_ZWE, Skypower_PV_ZWE, New_OnshoreWind_ZWE, Import_MOZ_HCB_ZWE, Import_ZAM_ZWE, Export_NAM_ZWE, Import_MOZ_ZWE_new, Import_BWA_ZWE_new, Import_ZAM_ZWE_new, GowkeNorth_TH_ZWE, Chisumbanje_BIO_ZWE, Afrochine_TH_ZWE
 - `supply/pStorageDataInput.csv`: New_BESS_MOZ_CE, New_BESS_MOZ_NO, New_BESS_MOZ_SO combined into New_BESS_MOZ (zone Mozambique, Capacity 10000, CapacityMWh 40000, BuildLimitperYear 300)
 - `supply/pStorageDataInput.csv`: deleted 1 row(s) with a country-level zone name: NewPSP_MOZ
@@ -11,7 +16,7 @@ Built from `data_sapp_nuc_rsa_moz` with `tools/aggregate_zones.py`: Angola (Ango
 - `supply/pAvailabilityCustom.csv`: deleted 1 row(s) of deleted generators: ['ExistingSmallHydro2012_HY_AGO']
 - `supply/pAvailabilityDefault.csv`: deleted 2 row(s) with a country-level zone name: Angola, Mozambique
 - `supply/pCSPData.csv`: deleted 2 row(s) of deleted generators: ['New_CSP_AGO']
-- `supply/pVREProfile.csv`: deleted 248 row(s) with a country-level zone name: Angola, Mozambique, Zimbabwe
+- `supply/pVREProfile.csv`: deleted 128 row(s) with a country-level zone name: Angola, Mozambique, Zimbabwe
 - `supply/pVREProfile.csv`: merged zones = VRE-capacity-weighted mean of the sub-zone profiles (equal weights if no plant): Angola OffshoreWind: {'Angola_Central': 0.0, 'Angola_East': 0.0, 'Angola_North': 0.0, 'Angola_South': 8000.0}; Angola OnshoreWind: {'Angola_Central': 0.0, 'Angola_East': 1000.0, 'Angola_North': 106.0, 'Angola_South': 8000.0}; Angola PV: {'Angola_Central': 1228.0, 'Angola_East': 122.0, 'Angola_North': 0.0, 'Angola_South': 8081.0}; Mozambique OffshoreWind: {'Mozambique_South': 4000.0}; Mozambique OnshoreWind: {'Mozambique_Central': 4000.0, 'Mozambique_North': 0.0, 'Mozambique_South': 4180.0}; Mozambique PV: {'Mozambique_Central': 3620.0, 'Mozambique_North': 4361.0, 'Mozambique_South': 0.0}; Zimbabwe OnshoreWind: {'Zimbabwe_East': 0.0, 'Zimbabwe_West': 400.0}; Zimbabwe PV: {'Zimbabwe_East': 5106.0, 'Zimbabwe_West': 772.0}
 - `supply/pStorageDataInputDefault.csv`: deleted 3 row(s) with a country-level zone name: Zimbabwe, Mozambique
 - `constraint/pMaxGenerationByFuel.csv`: deleted 1 row(s) with a country-level zone name: Angola

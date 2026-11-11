@@ -393,7 +393,10 @@ def select_representative_series_hierarchical(path_data_file: str, n: int, metho
 # Special day identification
 # --------------------------------------------------------------------------- #
 
-def get_special_days_clustering(df_closest_days, df_tot, threshold=None):
+SPECIAL_DAY_RULES = {'PV': 'min', 'Wind': 'min', 'Load': 'max'}
+
+
+def get_special_days_clustering(df_closest_days, df_tot, threshold=None, features=('PV', 'Wind', 'Load')):
     """
     Identify special days based on clustering results.
 
@@ -408,12 +411,18 @@ def get_special_days_clustering(df_closest_days, df_tot, threshold=None):
         threshold (float, optional):
             Probability threshold for excluding large clusters. If None, a data-driven threshold is
             computed per season (75th percentile of cluster probabilities).
+        features (sequence of str, optional):
+            Special days to extract in each season, among 'PV' (lowest PV), 'Wind' (lowest wind) and
+            'Load' (highest load). Default: all three. An empty sequence extracts none.
 
     Returns:
         tuple:
             - pd.DataFrame: Special days with associated weights.
             - pd.DataFrame: Updated df_tot with special days removed.
     """
+    unknown = [f for f in features if f not in SPECIAL_DAY_RULES]
+    if unknown:
+        raise ValueError(f"special day features must be among {list(SPECIAL_DAY_RULES)}, got {unknown}")
     df_tot = df_tot.copy()
     special_days = []
     indices_to_remove = set()
@@ -424,20 +433,16 @@ def get_special_days_clustering(df_closest_days, df_tot, threshold=None):
             if pd.isna(seasonal_threshold):
                 seasonal_threshold = 1.0
 
-        # first special day is based on minimum PV production across all zones
-        add_special_days(feature='PV', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='min', threshold=seasonal_threshold)
-
-        # second special day is based on minimum Wind production across all zones
-        add_special_days(feature='Wind', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='min', threshold=seasonal_threshold)
-
-        # third special day is based on maximum peak demand across all zones
-        add_special_days(feature='Load', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='max', threshold=seasonal_threshold)
-
+        # lowest PV, lowest wind and highest load across all zones, in that order
+        for feature in features:
+            add_special_days(feature=feature, df=df_season, df_days=df_tot, season=season, special_days=special_days,
+                             indices_to_remove=indices_to_remove, rule=SPECIAL_DAY_RULES[feature],
+                             threshold=seasonal_threshold)
 
     # Convert special days to DataFrame
+    if not special_days:
+        df_tot = df_tot.drop(columns=['Cluster'])
+        return pd.DataFrame(columns=['days', 'weight', 'rule']), df_tot
     df_special_days = pd.DataFrame(special_days)
     df_special_days = df_special_days.drop_duplicates()
     df_tot = df_tot.drop(index=indices_to_remove)  # we remove the days corresponding to clusters which have been included as special days
@@ -725,7 +730,7 @@ def format_optim_repr_days(df_energy, folder_process_data, data_dir=None):
 # --------------------------------------------------------------------------- #
 
 def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=4,
-                           main_file='OptimizationModelZone.gms', nbr_bins=10):
+                           main_file='OptimizationModelZone.gms', nbr_bins=10, time_limit=None):
     """Launch the representative days optimization through GAMS.
 
     Parameters
@@ -740,6 +745,9 @@ def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=4,
         Name (or absolute path) of the GAMS model to run.
     nbr_bins: int
         Number of bins to use in the GAMS settings helper.
+    time_limit: float, optional
+        Solver time limit in seconds for each season (GAMS ``reslim``). When it is reached the
+        best selection found so far is kept. None: no limit.
     """
 
     def generate_bins_file(n_bins, save_dir="gams"):
@@ -800,6 +808,8 @@ def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=4,
                    f"--data {path_data_file}",
                    f"--settings {path_setting_file}",
                    f"--N {nbr_days}"]
+        if time_limit:
+            command.append(f"reslim={float(time_limit):g}")
 
     # Print the command
     cwd = Path(os.getcwd()) / folder_process_data
@@ -1178,8 +1188,10 @@ def run_representative_days_pipeline(
     feature_selection_metric: str = 'euclidean',
     feature_selection_scale: bool = True,
     special_day_threshold: float = 0.1,
+    special_day_features: tuple = ('PV', 'Wind', 'Load'),
     gams_main_file: str = 'OptimizationModelZone.gms',
     peak_load_days: bool = False,
+    time_limit: float = None,
     verbose: bool = True,
 ) -> dict:
     """Run the full representative day pipeline (matches the notebook flow) end-to-end.
@@ -1222,12 +1234,20 @@ def run_representative_days_pipeline(
         Whether to scale features before feature selection.
     special_day_threshold : float, default 0.1
         Probability cutoff when extracting special days from clusters.
+    special_day_features : tuple, default ('PV', 'Wind', 'Load')
+        Special days extracted in each season: 'PV' (lowest PV), 'Wind' (lowest wind),
+        'Load' (highest load, system-wide). Use ('Load',) to keep only the peak-load day,
+        or () for none. Each one adds a day per season on top of ``n_representative_days``.
     gams_main_file : str, default 'OptimizationModelZone.gms'
         Name (or absolute path) of the GAMS model to execute.
     peak_load_days : bool, default False
         Add the day of each load series' annual peak hour as a special day of weight 1
         (``add_peak_load_special_days``), so every demand profile reaches 1 and EPM keeps
         the forecast peak of each zone.
+    time_limit : float, optional
+        Solver time limit in seconds for each season's selection MILP. The best selection found
+        when the limit is reached is kept. Useful with few days per season (e.g. 3), where proving
+        optimality can take hours. None: no limit.
 
     Returns
     -------
@@ -1289,7 +1309,7 @@ def run_representative_days_pipeline(
         print(f'[repr-days] Step 3: clustering with n_clusters={n_clusters}')
     df_energy_cluster, df_closest_days, centroids_df = cluster_data_new(df_energy, n_clusters=n_clusters)
     special_days, df_energy_no_special = get_special_days_clustering(
-        df_closest_days, df_energy_cluster, threshold=special_day_threshold
+        df_closest_days, df_energy_cluster, threshold=special_day_threshold, features=special_day_features
     )
     if verbose:
         print(f'[repr-days]   special days extracted: {len(special_days)}')
@@ -1336,6 +1356,7 @@ def run_representative_days_pipeline(
         nbr_days=n_representative_days,
         main_file=gams_main_file,
         nbr_bins=n_bins,
+        time_limit=time_limit,
     )
     repr_days = parse_repr_days(str(output_dir), special_days)
     if verbose:

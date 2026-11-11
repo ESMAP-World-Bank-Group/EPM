@@ -18,6 +18,9 @@ from their default path, cplex/, resources/ and static/).
 
 Usage (from the repository root)
     python tools/aggregate_zones.py --src data_sapp_nuc_rsa_moz --dst data_sapp_nuc_rsa_moz_agg [--force]
+        [--override pHours=path/to/pHours.csv ...]
+--override PARAM=FILE uses FILE instead of the source folder's file for that parameter (written under the
+name config.csv gives it), e.g. to build the aggregated folder with another set of representative days.
 Then check the result with
     cd epm && python epm.py --folder_input data_sapp_nuc_rsa_moz_agg --check_inputs
 """
@@ -49,9 +52,23 @@ _args.add_argument('--src', required=True, help='source folder (name in epm/inpu
 _args.add_argument('--dst', required=True, help='new folder (name in epm/input or path)')
 _args.add_argument('--force', action='store_true', help='delete --dst first if it exists')
 _args.add_argument('--no-maps', action='store_true', help='skip the map layers')
+_args.add_argument('--override', action='append', default=[], metavar='PARAM=FILE',
+                   help='use FILE (path from the repository root or absolute) for parameter PARAM; repeatable')
 ARGS = _args.parse_args()
 SRC = Path(ARGS.src) if Path(ARGS.src).is_absolute() else INPUT_DIR / ARGS.src
 DST = Path(ARGS.dst) if Path(ARGS.dst).is_absolute() else INPUT_DIR / ARGS.dst
+OVERRIDE = {}
+for item in ARGS.override:
+    param, _, path = item.partition('=')
+    path = Path(path) if Path(path).is_absolute() else REPO / path
+    if not param or not path.exists():
+        raise SystemExit(f'--override {item}: expected PARAM=FILE with an existing file')
+    OVERRIDE[param.strip()] = path
+PARAM_OF = {}                                   # relative file -> parameter, filled once config.csv is read
+
+
+def src_of(rel):
+    return OVERRIDE.get(PARAM_OF.get(rel), SRC / rel)
 
 
 def log(msg):
@@ -60,7 +77,7 @@ def log(msg):
 
 
 def read(rel):
-    return pd.read_csv(SRC / rel, encoding='utf-8-sig', keep_default_na=False, na_values=[''], dtype=str)
+    return pd.read_csv(src_of(rel), encoding='utf-8-sig', keep_default_na=False, na_values=[''], dtype=str)
 
 
 def write(df, rel):
@@ -144,6 +161,14 @@ for p in sc.index:
     for f in sc.loc[p].dropna():
         if str(f).endswith('.csv'):
             used.setdefault(f, p)
+# overrides apply to the file config.csv gives the parameter (not to scenario alternatives)
+PARAM_OF.update({f: p for p, f in zip(cfg.paramNames, cfg.file) if p in OVERRIDE})
+missing = sorted(set(OVERRIDE) - set(PARAM_OF.values()))
+if missing:
+    raise SystemExit(f'--override: {missing} not in {SRC.name}/config.csv')
+for f, p in PARAM_OF.items():
+    shown = OVERRIDE[p].relative_to(REPO) if OVERRIDE[p].is_relative_to(REPO) else OVERRIDE[p]
+    log(f'- `{f}` ({p}) taken from `{shown.as_posix()}` (--override)')
 
 if not (SRC / 'config.csv').exists():
     raise SystemExit(f'{SRC} has no config.csv')
@@ -317,11 +342,11 @@ for rel, p in used.items():
                 df = df.loc[~m]
             else:
                 (DST / rel).parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(SRC / rel, DST / rel)
+                shutil.copy2(src_of(rel), DST / rel)
                 continue
         else:
             (DST / rel).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(SRC / rel, DST / rel)
+            shutil.copy2(src_of(rel), DST / rel)
             continue
     write(df, rel)
 

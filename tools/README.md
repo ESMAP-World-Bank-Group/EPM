@@ -29,6 +29,8 @@ cd epm && python epm.py --folder_input data_sapp_nuc_rsa_moz_agg --check_inputs
 3. Sub-zones are renamed to the country. The duplicates are merged with one rule per file: demand, transfer limits, minimum imports and generation caps are summed; demand profiles are averaged weighted by energy, VRE profiles weighted by VRE capacity; defaults keep the first value; lines between merged sub-zones are dropped.
 4. Map layers are regenerated (`geojson_to_epm.csv` with whole-country rows, then `epm/postprocessing/create_geojson.py`).
 
+`--override PARAM=FILE` (repeatable) uses another file for a parameter of `config.csv`, for example the 16-day `pHours`, `pDemandProfile`, `pVREProfile`, `pVREgenProfile` and `pTradePrice` from `pre-analysis/representative_days/output/sapp_2024/epm_16d/` (section 10 of `Run_repdays_SAPP_2024.ipynb`).
+
 Only the files used by `config.csv` and `input_scenarios.csv` are converted. Every deletion and merge is listed in `<dst>/aggregation_log.md`. The zones to merge (`MAP`) and the units to combine (`MERGE_UNITS`) are set at the top of the script.
 
 ## Simple Test Script
