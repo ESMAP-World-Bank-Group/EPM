@@ -8,7 +8,7 @@ ICE,Diesel,0,0,12
 ICE,HFO,0,0,7
 ICE,Gas,0,0,2
 ImportTransmission,Import,0,0,6
-Nuclear,Uranium,0,0,9
+ST,Uranium,0,0,9
 OCGT,Diesel,0,0,12
 OCGT,Gas,0,0,2
 OCGT,Gas_Moz,0,0,21
