@@ -1,2 +1,3 @@
-paramNames,altcapex
-pGenDataInputDefault,supply/pGenDataInputDefault_nuccapexalt.csv
+paramNames,highcapex,no_nuc
+pGenDataInput,supply/pGenDataInputDefault_nuccapexalt.csv,
+pGenDataInputDefault,,supply/pGenDataInput_SAPP_v5_nucSA.csv
