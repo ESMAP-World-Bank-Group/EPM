@@ -1,5 +1,5 @@
 g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,StorageDuration,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
-BESS node GF_BESS_GF,GulhiFalhu,Storage,Battery,,3,2029,2044,15,100,4,10,10,1000,,0.9,0.1,0,,,180,0,0,,,,,,,,,,,,,
+BESS node GF_BESS_GF,Gulhifalhu,Storage,Battery,,3,2029,2044,15,100,4,10,10,1000,,0.9,0.1,0,,,180,0,0,,,,,,,,,,,,,
 BESS node HM_BESS_HM,Hulhumale,Storage,Battery,,3,2029,2054,25,100,,10,10,1000,,0.9,0.1,0,,,180,0,0,,,,,,,,,,,,,
 BESS node ML_BESS_ML,Male,Storage,Battery,,3,2029,2044,15,100,,10,10,1000,,0.9,0.1,0,,,180,0,0,,,,,,,,,,,,,
 BESS node TF_BESS_TF,Thilafushi,Storage,Battery,,3,2029,2044,15,100,,10,10,1000,,0.9,0.1,0,,,180,0,0,,,,,,,,,,,,,

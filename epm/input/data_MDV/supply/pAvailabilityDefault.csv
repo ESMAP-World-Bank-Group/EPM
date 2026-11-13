@@ -1,81 +1,81 @@
 ﻿z,tech,fuel,Q1,Q2
 Gulhifalhu,BiomassPlant,Biomass,0.8,0.8
-Hulhumale ,BiomassPlant,Biomass,0.8,0.8
+Hulhumale,BiomassPlant,Biomass,0.8,0.8
 Male,BiomassPlant,Biomass,0.8,0.8
 Thilafushi,BiomassPlant,Biomass,0.8,0.8
-Villingili ,BiomassPlant,Biomass,0.8,0.8
+Villingili,BiomassPlant,Biomass,0.8,0.8
 Gulhifalhu,CCGT,Gas,0.8,0.8
-Hulhumale ,CCGT,Gas,0.8,0.8
+Hulhumale,CCGT,Gas,0.8,0.8
 Male,CCGT,Gas,0.8,0.8
 Thilafushi,CCGT,Gas,0.8,0.8
-Villingili ,CCGT,Gas,0.8,0.8
+Villingili,CCGT,Gas,0.8,0.8
 Gulhifalhu,CSPPlant,CSP,1,1
-Hulhumale ,CSPPlant,CSP,1,1
+Hulhumale,CSPPlant,CSP,1,1
 Male,CSPPlant,CSP,1,1
 Thilafushi,CSPPlant,CSP,1,1
-Villingili ,CSPPlant,CSP,1,1
+Villingili,CSPPlant,CSP,1,1
 Gulhifalhu,OCGT,Gas,0.8,0.8
 Gulhifalhu,OCGT,Diesel,0.8,0.8
 Gulhifalhu,OCGT,HFO,0.8,0.8
-Hulhumale ,OCGT,Gas,0.8,0.8
-Hulhumale ,OCGT,Diesel,0.8,0.8
-Hulhumale ,OCGT,HFO,0.8,0.8
+Hulhumale,OCGT,Gas,0.8,0.8
+Hulhumale,OCGT,Diesel,0.8,0.8
+Hulhumale,OCGT,HFO,0.8,0.8
 Male,OCGT,Gas,0.8,0.8
 Male,OCGT,Diesel,0.8,0.8
 Male,OCGT,HFO,0.8,0.8
 Thilafushi,OCGT,Gas,0.8,0.8
 Thilafushi,OCGT,Diesel,0.8,0.8
 Thilafushi,OCGT,HFO,0.8,0.8
-Villingili ,OCGT,Gas,0.8,0.8
-Villingili ,OCGT,Diesel,0.8,0.8
-Villingili ,OCGT,HFO,0.8,0.8
+Villingili,OCGT,Gas,0.8,0.8
+Villingili,OCGT,Diesel,0.8,0.8
+Villingili,OCGT,HFO,0.8,0.8
 Gulhifalhu,OffshoreWind,Wind,1,1
-Hulhumale ,OffshoreWind,Wind,1,1
+Hulhumale,OffshoreWind,Wind,1,1
 Male,OffshoreWind,Wind,1,1
 Thilafushi,OffshoreWind,Wind,1,1
-Villingili ,OffshoreWind,Wind,1,1
+Villingili,OffshoreWind,Wind,1,1
 Gulhifalhu,OnshoreWind,Wind,1,1
-Hulhumale ,OnshoreWind,Wind,1,1
+Hulhumale,OnshoreWind,Wind,1,1
 Male,OnshoreWind,Wind,1,1
 Thilafushi,OnshoreWind,Wind,1,1
-Villingili ,OnshoreWind,Wind,1,1
+Villingili,OnshoreWind,Wind,1,1
 Gulhifalhu,PV,Solar,1,1
-Hulhumale ,PV,Solar,1,1
+Hulhumale,PV,Solar,1,1
 Male,PV,Solar,1,1
 Thilafushi,PV,Solar,1,1
-Villingili ,PV,Solar,1,1
+Villingili,PV,Solar,1,1
 Gulhifalhu,ReservoirHydro,Water,0.8,0.8
-Hulhumale ,ReservoirHydro,Water,0.8,0.8
+Hulhumale,ReservoirHydro,Water,0.8,0.8
 Male,ReservoirHydro,Water,0.8,0.8
 Thilafushi,ReservoirHydro,Water,0.8,0.8
-Villingili ,ReservoirHydro,Water,0.8,0.8
+Villingili,ReservoirHydro,Water,0.8,0.8
 Gulhifalhu,ROR,Water,1,1
-Hulhumale ,ROR,Water,1,1
+Hulhumale,ROR,Water,1,1
 Male,ROR,Water,1,1
 Thilafushi,ROR,Water,1,1
-Villingili ,ROR,Water,1,1
+Villingili,ROR,Water,1,1
 Gulhifalhu,ST,Coal,0.65,0.65
 Gulhifalhu,ST,Lignite,0.65,0.65
-Hulhumale ,ST,Coal,0.65,0.65
-Hulhumale ,ST,Lignite,0.65,0.65
+Hulhumale,ST,Coal,0.65,0.65
+Hulhumale,ST,Lignite,0.65,0.65
 Male,ST,Coal,0.65,0.65
 Male,ST,Lignite,0.65,0.65
 Thilafushi,ST,Coal,0.65,0.65
 Thilafushi,ST,Lignite,0.65,0.65
-Villingili ,ST,Coal,0.65,0.65
-Villingili ,ST,Lignite,0.65,0.65
+Villingili,ST,Coal,0.65,0.65
+Villingili,ST,Lignite,0.65,0.65
 Gulhifalhu,Storage,Battery,1,1
 Gulhifalhu,Storage,Water,0.8,0.8
-Hulhumale ,Storage,Battery,1,1
-Hulhumale ,Storage,Water,0.8,0.8
+Hulhumale,Storage,Battery,1,1
+Hulhumale,Storage,Water,0.8,0.8
 Male,Storage,Battery,1,1
 Male,Storage,Water,0.8,0.8
 Thilafushi,Storage,Battery,1,1
 Thilafushi,Storage,Water,0.8,0.8
-Villingili ,Storage,Battery,1,1
-Villingili ,Storage,Water,0.8,0.8
+Villingili,Storage,Battery,1,1
+Villingili,Storage,Water,0.8,0.8
 Gulhifalhu,Wave,Water,0.268075,0.359725
-Hulhumale ,Wave,Water,0.268075,0.359725
+Hulhumale,Wave,Water,0.268075,0.359725
 Male,Wave,Water,0.268075,0.359725
 Thilafushi,Wave,Water,0.268075,0.359725
-Villingili ,Wave,Water,0.268075,0.359725
+Villingili,Wave,Water,0.268075,0.359725
