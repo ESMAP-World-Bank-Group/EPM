@@ -1,87 +1,89 @@
-﻿g,z,tech,fuel,StYr,RetrYr,Capacity,Status,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life,BuildLimitperYear,DescreteCap,fuel2,HeatRate2,MinUtilization,RETech,UnitSize
-NewGas_ZAF,,CCGT,Gas,2030,2078,10000,3,,,,,,,,,0,1.245080501,,2000,0,7,7.1,0.05,0,0
-SACCGTNG_TH_ZAF,,CCGT,LNG,2031,2081,1875,3,,,,,,,,,,1.245080501,,938,0,7,7.1,0.05,0,0
-SACCGTNG2027_TH_ZAF,,CCGT,Gas,2027,2057,1000,3,,,,,,,,,0,1.245080501,,1000,0,7,7.1,0.05,0,0
-SACCGTNG2028_TH_ZAF,,CCGT,Gas,2028,2058,4000,3,,,,,,,,,0,1.245080501,,4000,0,7,7.1,0.05,0,0
-SACCGTNGcan_TH_ZAF,,CCGT,LNG,2031,2061,3750,3,,,,,,,,,,1.245080501,,1875,0,7,7.1,0.05,0,0
-SACCGTNG2029_TH_ZAF,,CCGT,Gas,2029,2059,3000,2,,,,,,,,,0,1.245080501,,1500,0,7,7.1,0.05,0,0
-SACCGTNG2030_TH_ZAF,,CCGT,Gas,2030,2060,3000,2,,,,,,,,,0,1.245080501,,1500,0,7,7.1,0.05,0,0
-ExistingCSP(CSP)_REN_ZAF,,CSPPlant,CSP,2005,2045,0,1,,0,1,1,0,0.8,22000,3,0,0,30,,0,,0,0,0,0
-New_CSP_ZAF,,CSPPlant,CSP,2030,2060,0,3,,0,1,1,0,0.8,22000,3,0,1.865,30,2000,0,,0,0,0,0
-New_CSP_ZAF_2024,,CSPPlant,CSP,2024,2054,0,2,,0,1,1,0,0.8,22000,3,0,1.865,30,100,0,,0,0,0,0
-SACSP_REN_ZAF,,CSPPlant,CSP,2019,2059,0,1,,0,1,1,0,0.8,22000,3,0,0,30,0,0,,0,0,0,0
-GenericDieselCan_ZAF,,ICE,HFO,2024,2054,0,3,,10.42,,,,,,,,0.933810376,,2000,0,,0,0.06,0,0
-Acacia_TH_ZAF,,OCGT,HFO,1976,2026,171,1,,11.26101378,,,,,,,,0,,,0,,0,0,0,0
-Ankerlig(Atlantis)_TH_ZAF,,OCGT,HFO,2007,2057,1327,1,,9.39286647,,,,,,,,0,,,0,,0,0,0,0
-Avon_TH_ZAF,,OCGT,HFO,2015,2065,837,1,,13.62107811,,,,,,,,0,,,0,,0,0,0,0
-Dedisa_TH_ZAF,,OCGT,HFO,2015,2065,335,1,,13.62107811,,,,,,,,0,,,0,,0,0,0,0
-Gourikwa_TH_ZAF,,OCGT,HFO,2007,2057,740,1,,9.39286647,,,,,,,,0,,,0,,0,0,0,0
-JohannesburgLandfillGas_TH_ZAF,,OCGT,Gas,2000,2050,18,1,,10,0.33,0.33,,,,,,0,,,0,7,10.7,0.2,0,18
-PortRexGas_TH_ZAF,,OCGT,HFO,1976,2026,171,1,,11.26101378,,,,,,,,0,,,0,,0,0,0,0
-SAOCGTNG_TH_ZAF,,OCGT,Gas,2031,2061,700,3,,,,,,,,,,1.016815742,,700,0,7,9.7,0.05,0,0
-Sasolburg_TH_ZAF,,OCGT,Gas,2012,2062,175,1,,9.990938997,,,,,,,,0,,,0,7,10.690939,0.05,0,0
-Secunda(SasolSynthetic)_TH_ZAF,,OCGT,Gas,2010,2060,150,1,,11.49796803,,,,,,,,0,,,0,7,12.19796803,0.05,0,0
-New_OffshoreWind_ZAF,,OffshoreWind,Wind,2030,2060,20200,3,,,,,,,,,,3.4,30,1515,0,,0,0,1,0
-ExistingWind_REN_ZAF,,OnshoreWind,Wind,2015,2045,3442,1,,,,,,,,,,,,,0,,0,0,1,0
-New_OnshoreWind_ZAF,,OnshoreWind,Wind,2026,2056,40000,3,,,,,,,,,,,,2000,0,,0,0,1,0
-SA_WindEskom28_REN_ZAF,,OnshoreWind,Wind,2025,2060,70,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPrivate25_REN_ZAF,,OnshoreWind,Wind,2025,2055,1117,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPrivate26_REN_ZAF,,OnshoreWind,Wind,2026,2056,964,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPrivate27_REN_ZAF,,OnshoreWind,Wind,2027,2057,2847,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPrivate28_REN_ZAF,,OnshoreWind,Wind,2028,2058,700,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPrivate29_REN_ZAF,,OnshoreWind,Wind,2029,2059,784,2,,,,,,,,,,,,1500,0,,0,0,1,0
-SA_WindPublicProcurement25_REN_ZAF,,OnshoreWind,Wind,2025,2055,784,2,,,,,,,,,,,,1500,0,,0,0,1,0
-ExistingSolarPV(PV)_REN_ZAF,,PV,Solar,2017,2060,2290,1,,0,,,,,,,,0,,,0,,0,0,1,0
-New_PV_ZAF,,PV,Solar,2026,2056,30000,3,,0,,,,,,,,,,1500,0,,0,0,1,0
-SA_SolarPrivate25_REN_ZAF,,PV,Solar,2025,2055,1209,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPrivate26_REN_ZAF,,PV,Solar,2026,2056,3328,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPrivate27_REN_ZAF,,PV,Solar,2027,2057,2426,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPrivate29_REN_ZAF,,PV,Solar,2026,2056,24,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPublicProcurement25_REN_ZAF,,PV,Solar,2025,2055,150,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPublicProcurement26_REN_ZAF,,PV,Solar,2026,2056,225,2,,0,,,,,,,,,,500,0,,0,0,1,0
-SA_SolarPublicProcurement27_REN_ZAF,,PV,Solar,2027,2057,360,2,,0,,,,,,,,,,500,0,,0,0,1,0
-Gariep_HY_ZAF,,ReservoirHydro,Water,1971,2060,360,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
-Vanderkloof_HY_ZAF,,ReservoirHydro,Water,1977,2060,240,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
-ExistingHydro1985_HY_ZAF,,ROR,Water,1985,2060,44,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
-ExistingHydro2015_HY_ZAF,,ROR,Water,2015,2060,19,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
-Arnot1_TH_ZAF,,ST,Coal,1975,2033,1050,1,0.3,13.3,,,,,,,,0,,,0,,0,0.05,0,372
-Arnot2_TH_ZAF,,ST,Coal,1975,2033,1050,1,0.3,13.3,,,,,,,,0,,,0,,0,0.05,0,372
-Athlone_TH_ZAF,,ST,Coal,1962,2019,180,1,,10.10657267,,,,,,,,0,,,0,,0,0.05,0,180
-Bloemfontein_TH_ZAF,,ST,Coal,1965,2015,103,1,,14,,,,,,,,0,,,0,,0,0.05,0,103
-Camden_TH_ZAF,,ST,Coal,1967,2030,1484,1,0.3,13.6,,,,,,,,0,,,0,,0,0.05,0,185.125
-Duvha_TH_ZAF,,ST,Coal,1980,2032,2875,1,0.3,12.3,,,,,,,,0,,,0,,0,0.05,0,479.1666667
-Duynefontein_NU_ZAF,,ST,Uranium,2032,2072,2500,3,,9.2886066,0.1,0.1,0,0,100000,2.3,0,6.295957066,50,2500,0,,0,0.6,0,0
-Grootvlei_TH_ZAF,,ST,Coal,1969,2030,570,1,0.3,13.1,,,,,,,,0,,,0,,0,0.05,0,186.6666667
-Hendrina_TH_ZAF,,ST,Coal,1976,2030,1011,1,0.3,13.8,,,,,,,,0,,,0,,0,0.05,0,163.8
-KelvinA_TH_ZAF,,ST,Coal,1957,2012,180,1,,14.8,,,,,,,,0,,,0,,0,0.05,0,180
-KelvinB_TH_ZAF,,ST,Coal,1964,2026,420,1,,14.3,,,,,,,,0,,,0,,0,0.05,0,420
-Kendal_TH_ZAF,,ST,Coal,1985,2042,3840,1,0.3,11.3,,,,,,,,0,,,0,,0,0.05,0,640
-Koeberg_NU_ZAF,,ST,Uranium,1985,2045,1860,1,,10.53119469,0.1,0.1,0,0,100000,2.3,0,0,50,,0,,0,0.6,0,1800
-KomatiI_TH_ZAF,,ST,Coal,1966,2022,500,1,,11.31,,,,,,,,0,,,0,,0,0.05,0,500
-KomatiII_TH_ZAF,,ST,Coal,1966,2022,500,1,,11.31,,,,,,,,0,,,0,,0,0.05,0,500
-Kriel_TH_ZAF,,ST,Coal,1979,2032,2640,1,0.3,13.9,,,,,,,,0,,,0,,0,0.05,0,950
-Kusile_I_TH_ZAF,,ST,Coal,2020,2070,1440,1,0.3,11.8,,,,,,,,0,,0,0,,0,0.05,0,800
-Kusile_II_TH_ZAF,,ST,Coal,2023,2073,1440,1,0.3,11.8,,,,,,,,0,,0,0,,0,0.05,0,800
-Kusile_III_TH_ZAF,,ST,Coal,2024,2074,1440,2,0.3,11.8,,,,,,,,4.073488372,,800,0,,0,0.05,0,800
-Lethabo_TH_ZAF,,ST,Coal,1990,2038,3558,1,0.3,11.06,,,,,,,,0,,,0,,0,0.05,0,593
-MajubaI_TH_ZAF,,ST,Coal,1990,2051,1825,1,0.3,12.7,,,,,,,,0,,,0,,0,0.05,0,621.8
-MajubaII_TH_ZAF,,ST,Coal,1985,2051,1981,1,0.3,12.7,,,,,,,,0,,,0,,0,0.05,0,669.5
-Matimba_TH_ZAF,,ST,Coal,1987,2039,3690,1,0.3,11.4,,,,,,,,0,,,0,,0,0.05,0,615
-Matla_TH_ZAF,,ST,Coal,1979,2031,3450,1,0.3,11.3,,,,,,,,0,,,0,,0,0.05,0,575
-Medupi_TH_ZAF,,ST,Coal,2015,2065,4356,1,0.3,9.21,,,,,,,,0,,0,0,,0,0.05,0,800
-MkuzeBiomass_BIO_ZAF,,ST,Biomass,2000,2055,16,1,,10,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,16.5
-NgodwanaEnergyProject_BIO_ZAF,,ST,Biomass,2000,2055,25,1,,10,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,25
-PretoriaWest_TH_ZAF,,ST,Coal,1952,2019,180,1,,13.09693531,,,,,,,,0,,,0,,0,0.05,0,180
-Rooiwal_TH_ZAF,,ST,Coal,1963,2019,300,1,,12.32541227,,,,,,,,0,,,0,,0,0.05,0,300
-SAGenericBiomass_BIO_ZAF,,ST,Biomass,2024,2074,500,3,,10,0.33,0.33,,0.8,48000,,,4.423148479,,500,0,,0,0,0,500
-SANuclear_NU_ZAF,,ST,Uranium,2035,2073,8000,3,,9.2886066,0.1,0.1,0,0,100000,2.3,0,6.295957066,50,2000,0,,0,0.6,0,0
-Secunda(SasolChemical)_TH_ZAF,,ST,Coal,2010,2060,130,1,,12.08277112,,,,,,,,0,,,0,,0,0.05,0,130
-Tutuka_TH_ZAF,,ST,Coal,1985,2040,3510,1,,12.8,,,,,,,,0,,,0,,0,0.05,0,610
-DrakensbergPH_HY_ZAF,,Storage,Water,1985,2060,1000,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
-Ingula_HY_ZAF,,Storage,Water,2017,2060,1324,1,,0,1,1,0,0.8,46500,0.55,0,0,50,0,0,,0,0,0,0
-New_BESS_2029_ZAF,,Storage,Battery,2029,2049,2615,2,,,,,,,,,,,,,,,,,,
-New_BESS_2028_ZAF,,Storage,Battery,2028,2048,615,2,,,,,,,,,,,,,,,,,,
-Komati_BESS,,Storage,Battery,2025,2045,513,2,,,,,,,,,,,,,,,,,,
-New_BESS_ZAF,,Storage,Battery,2027,2047,15000,3,,,,,,,,,,,,1000,0,,0,0,0,0
-PalmietPH_HY_ZAF,,Storage,Water,1988,2060,400,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
-SreenbrasPH_HY_ZAF,,Storage,Water,1988,2060,180,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
+﻿g,z,tech,fuel,StYr,RetrYr,Capacity,Status,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life,BuildLimitperYear,DescreteCap,fuel2,HeatRate2,MinUtilization,RETech,UnitSize,minDT,StUpCost,InitialOn,fuel2,HeatRate2
+FPV Site 10_GF,GulhiFalhu,FPV,Solar,2029,2054,40,3,,,,,,,,,,,25,,,,,,,,,,,,
+DG1_GF,GulhiFalhu,ICE,Diesel,2020,2035,0.26,1,,,,,,,,,,,15,,,,,,HoursOff,minUT,,,,,
+DG2_GF,GulhiFalhu,ICE,Diesel,2020,2045,0.26,1,,,,,,,,,,,25,,,,,,,,,,,,
+DG3_GF,GulhiFalhu,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG4_GF,GulhiFalhu,ICE,Diesel,2020,2035,0.1,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG5_GF,GulhiFalhu,ICE,Diesel,2020,2035,0.54,1,,,,,,,,,,,15,,,,,,,,,,,,
+Wind Site 1_GF,Gulhifalhu,OffshoreWind,Wind,2029,2061,8,2,,,,,,,,,,2.3026,32,,,,,,,,,,,,
+RPV_generic_GU_GF,GulhiFalhu,RPV,Solar,2030,2045,1,3,,,,,,,,,,,15,,,,,,,,,,,,
+"Hulhule Power Plant (HH_A1, HH_A2, HH_A3)_HL",Hulhule,ICE,Diesel,2020,2035,0.0004,1,,,,,,,,,,,15,,,,,,,,,,,,
+FPV node HM_F1 (FPV)_HM,Hulhumale,FPV,Solar,2029,2054,65,3,,,,,,,,,,1.6486616,25,37,,,,,,,,,,,
+FPV Site 2_HM,Hulhumale,FPV,Solar,2029,2044,,3,,,,,,,,,,,15,,,,,,,,,,,,
+DGx_gap_HM,Hulhumale,ICE,Diesel,2020,2045,8.92,1,,,,,,,,,,,25,,,,,,,,,,,,
+HG1_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2020,2035,8.92,1,,,,,,,,,,,15,,,,,,,,,,,,
+HG2_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2020,2050,8.92,1,,,,,,,,,,,30,,,,,,,,,,,,
+HG3_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2025,2040,1.5,1,,,,,,,,,,,15,,,,,,,,,,,,
+HG4_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2020,2052,8.92,1,,,,,,,,,,,32,,,,,,,,,,,,
+HG5_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2020,2045,8.92,1,,,,,,,,,,,25,,,,,,,,,,,,
+HG6_Hulhumale Phase I_HM,Hulhumale,ICE,Diesel,2028,2043,50,2,,,,,,,,,,,15,,,,,,,,,,,,
+Hulhumale 50 MW Powerhouse_HM,Hulhumale,ICE,Diesel,2020,2035,8.92,1,,,,,,,,,,,15,,,,,,,,,,,,
+Wind Site 2_HM,Hulhumale,OffshoreWind,Wind,2029,2061,8,2,,,,,,,,,,2.590425,32,,,,,,,,,,,,
+Existing Grid Connected Solar_HM,Hulhumale,PV,Solar,2025,2050,1.54,1,,,,,,,,,,,25,,,,,,,,,,,,
+ASPIRE P2 5MW_HM,Hulhumale,RPV,Solar,2023,2038,3,1,,,,,,,,,,,15,,,,,,,,,,,,
+RPV_generic_HU_HM,Hulhumale,RPV,Solar,2028,2043,5.6,2,,,,,,,,,,,15,,,,,,,,,,,,
+FPV node ML_F0/ML_F10 (FPV)_ML,Male,FPV,Solar,2035,2060,112,3,,,,,,,,,,,25,,,,,,,,,,,,
+FPV Site 1_ML,Male,FPV,Solar,2029,2054,150,3,,,,,,,,,,1.8409287,25,,,,,,,,,,,,
+FPV Site 10_ML,Male,FPV,Solar,2029,2061,150,3,,,,,,,,,,,32,,,,,,,,,,,,
+FPV Site 11_ML,Male,FPV,Solar,2029,2054,150,3,,,,,,,,,,2.0320445,25,,,,,,,,,,,,
+CG1_ML,Male,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+CG2_ML,Male,ICE,Diesel,2025,2040,2.16,1,,,,,,,,,,,15,,,,,,,,,,,,
+CG3_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+CG4_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+CG5_ML,Male,ICE,Diesel,2025,2040,8.73,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG1_ML,Male,ICE,Diesel,2025,2040,6.51,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG10_ML,Male,ICE,Diesel,2020,2045,8.73,1,,,,,,,,,,,25,,,,,,,,,,,,
+DG2_ML,Male,ICE,Diesel,2025,2040,5.79,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG3_ML,Male,ICE,Diesel,2025,2040,5.3,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG4_ML,Male,ICE,Diesel,2020,2045,1.6,1,,,,,,,,,,,25,,,,,,,,,,,,
+DG5_ML,Male,ICE,Diesel,2020,2045,1.6,1,,,,,,,,,,,25,,,,,,,,,,,,
+DG6_ML,Male,ICE,Diesel,2020,2035,2,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG7_ML,Male,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG8_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG9_ML,Male,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+DGx_gap_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+G4_ML,Male,ICE,Diesel,2025,2040,6.51,1,,,,,,,,,,,15,,,,,,,,,,,,
+G7_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE10_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE11_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE12_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE13_ML,Male,ICE,Diesel,2020,2035,1.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE14_ML,Male,ICE,Diesel,2020,2035,2,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE15_ML,Male,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE16_ML,Male,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE18_ML,Male,ICE,Diesel,2025,2040,8.97,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE19_ML,Male,ICE,Diesel,2025,2040,2.16,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE20_ML,Male,ICE,Diesel,2025,2040,2.16,1,,,,,,,,,,,15,,,,,,,,,,,,
+GE21_ML,Male,ICE,Diesel,2025,2040,4.34,1,,,,,,,,,,,15,,,,,,,,,,,,
+Modelled coastline wind farm (15 x 250 kW)_ML,Male,OffshoreWind,Wind,2029,2044,3.75,3,,,,,,,,,,,15,,,,,,,,,,,,
+Wind Site 3_ML,Male,OffshoreWind,Wind,2029,2061,8,2,,,,,,,,,,2.7826921,32,,,,,,,,,,,,
+Grid Connected Solar_ML,Male,PV,Solar,2028,2050,0.9,2,,,,,,,,,,,25,,,,,,,,,,,,
+ASPIRE P2 5MW_ML,Male,RPV,Solar,2023,2038,2.6,1,,,,,,,,,,,15,,,,,,,,,,,,
+Hirayaa School rooftop PV_ML,Male,RPV,Solar,2028,2043,5.6,2,,,,,,,,,,,15,,,,,,,,,,,,
+Modelled grid-connected rooftop PV_ML,Male,RPV,Solar,2020,2035,0.02,1,,,,,,,,,,,15,,,,,,,,,,,,
+President's Office rooftop PV_ML,Male,RPV,Solar,2020,2035,0.1,1,,,,,,,,,,,15,,,,,,,,,,,,
+RPV_generic_MA_ML,Male,RPV,Solar,2020,2035,0.13,1,,,,,,,,,,,15,,,,,,,,,,,,
+Social Centre rooftop PV_ML,Male,RPV,Solar,2029,2054,0.25,3,,,,,,,,,,,25,,,,,,,,,,,,
+Tajuddin School rooftop PV_ML,Male,RPV,Solar,2030,2045,10,3,,,,,,,,,,,15,,,,,,,,,,,,
+Wave Site 1_ML,Male,Wave,Water,2033,2058,150,3,,,,,,,,,,5.2292046,25,,,,,,,,,,,,
+Wave Site 2 (near Thilafushi)_ML,Male,Wave,Water,2030,2045,50,3,,,,,,,,,,,15,,,,,,,,,,,,
+FPV node TF_F1/TF_F1_NEW/TF_F2_NEW (FPV)_TF,Thilafushi,FPV,Solar,2028,2053,4,2,,,,,,,,,,,25,,,,,,,,,,,,
+Thilafushi Island_TF,Thilafushi,FPV,Solar,2029,2044,1.5,3,,,,,,,,,,,15,,,,,,,,,,,,
+DG1_TF,Thilafushi,ICE,Diesel,2020,2035,0.36,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG2_TF,Thilafushi,ICE,Diesel,2020,2035,0.8,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG3_TF,Thilafushi,ICE,Diesel,2020,2035,1,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG4_TF,Thilafushi,ICE,Diesel,2020,2035,0.4,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG5_TF,Thilafushi,ICE,Diesel,2020,2035,0.4,1,,,,,,,,,,,15,,,,,,,,,,,,
+Wind Site 4_TF,Thilafushi,OffshoreWind,Wind,2029,2061,13,2,,,,,,,,,,2.3026,32,,,,,,,,,,,,
+Waste to Energy_TF,Thilafushi,Waste2Energy,Waste,2029,2061,13,3,,,,,,,,,,,32,,,,,,,,,,,,
+Waste-to-energy gasification (2013 proposal)_TF,Thilafushi,Waste2Energy,Waste,2028,2048,8,2,,,,,,,,,,,32,,,,,,,,,,,,
+WTE ## Multi-donor_TF,Thilafushi,Waste2Energy,Waste,2029,2061,4,3,,,,,,,,,,,32,,,,,,,,,,,,
+WTE TF_W1_TF,Thilafushi,Waste2Energy,Waste,2029,2044,8,3,,,,,,,,,,,15,,,,,,,,,,,,
+Wave Site 5_TF,Thilafushi,Wave,Water,2026,2026,9,3,,,,,,,,,,,0,,,,,,,,,,,,
+DG1_VG,Villingili,ICE,Diesel,2020,2035,1.25,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG2_VG,Villingili,ICE,Diesel,2020,2035,1.25,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG3_VG,Villingili,ICE,Diesel,2020,2035,1.25,1,,,,,,,,,,,15,,,,,,,,,,,,
+DG4_VG,Villingili,ICE,Diesel,2020,2035,1.25,1,,,,,,,,,,,15,,,,,,,,,,,,
+Existing Grid Connected Solar_VG,Villingili,PV,Solar,2020,2035,0.29,1,,,,,,,,,,,15,,,,,,,,,,,,
+REM rooftop PV_VG,Villingili,RPV,Solar,2030,2045,3,3,,,,,,,,,,,15,,,,,,,,,,,,
+RPV_generic_VI_VG,Villingili,RPV,Solar,2020,2052,0.293,1,,,,,,,,,,,32,,,,,,,,,,,,
