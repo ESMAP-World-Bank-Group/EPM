@@ -12,7 +12,7 @@ pFuelCarbonContent,,
 pTechData,,
 LOAD,,
 pDemandData,,
-pDemandForecast,pDemandForecast_Moderate.csv,pDemandForecast_MDPhigh.csv
+pDemandForecast,load/pDemandForecast_Moderate.csv,load/pDemandForecast_MDPhigh.csv
 pDemandProfile,,
 sRelevant,,
 pEnergyEfficiencyFactor,,
