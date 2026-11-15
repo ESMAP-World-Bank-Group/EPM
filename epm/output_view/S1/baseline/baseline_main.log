@@ -1,0 +1,932 @@
+--- Job main.gms Start 11/13/26 02:28:57 50.5.0 a51bb863 LEX-LEG x86 64bit/Linux
+--- Applying:
+    /opt/gams/gams50.5_linux_x64_64_sfx/gmsprmun.txt
+    /opt/gams/gams50.5_linux_x64_64_sfx/gamsconfig.yaml
+--- GAMS Parameters defined
+    Input /Data/Mexico_2026/epm/main.gms
+    ScrDir /Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/225a/
+    SysDir /opt/gams/gams50.5_linux_x64_64_sfx/
+    LogOption 4
+    LogFile /Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/baseline_main.log
+    AppendLog 1
+    SolveLink 5
+    --BASE_FILE /Data/Mexico_2026/epm/base.gms
+    --REPORT_FILE /Data/Mexico_2026/epm/generate_report.gms
+    --READER_FILE /Data/Mexico_2026/epm/input_readers.gms
+    --DEMAND_FILE /Data/Mexico_2026/epm/generate_demand.gms
+    --HYDROGEN_FILE /Data/Mexico_2026/epm/hydrogen_module.gms
+    --FOLDER_INPUT /Data/Mexico_2026/epm/input/data_mexico_2026
+    --modeltype RMIP
+    --cplexfile /Data/Mexico_2026/epm/input/data_mexico_2026/cplex/cplex_baseline.opt
+    --pSettings /Data/Mexico_2026/epm/input/data_mexico_2026/pSettings.csv
+    --y /Data/Mexico_2026/epm/input/data_mexico_2026/y.csv
+    --zcmap /Data/Mexico_2026/epm/input/data_mexico_2026/zcmap.csv
+    --pHours /Data/Mexico_2026/epm/input/data_mexico_2026/pHours.csv
+    --pDemandProfile /Data/Mexico_2026/epm/input/data_mexico_2026/load/pDemandProfile.csv
+    --pDemandData /Data/Mexico_2026/epm/input/data_mexico_2026/load/pDemandData.csv
+    --pDemandForecast /Data/Mexico_2026/epm/input/data_mexico_2026/load/pDemandForecast.csv
+    --sRelevant /Data/Mexico_2026/epm/input/data_mexico_2026/load/sRelevant.csv
+    --pEnergyEfficiencyFactor /Data/Mexico_2026/epm/input/data_mexico_2026/load/pEnergyEfficiencyFactor.csv
+    --pGenDataInput /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pGenDataInput.csv
+    --pGenDataInputDefault /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pGenDataInputDefault.csv
+    --pAvailability /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pAvailabilityCustom.csv
+    --pAvailabilityDefault /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pAvailabilityDefault.csv
+    --pEvolutionAvailability /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pEvolutionAvailability.csv
+    --pCapexTrajectories /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pCapexTrajectoriesCustom.csv
+    --pCapexTrajectoriesDefault /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pCapexTrajectoriesDefault_decroissant_norm2025.csv
+    --pCSPData /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pCSPData.csv
+    --pFuelPrice /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pFuelPrice.csv
+    --pVREgenProfile /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pVREgenProfile.csv
+    --pVREProfile /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pVREProfile.csv
+    --pStorageDataInput /Data/Mexico_2026/epm/input/data_mexico_2026/supply/pStorageDataInput.csv
+    --pPlanningReserveMargin /Data/Mexico_2026/epm/input/data_mexico_2026/reserve/pPlanningReserveMargin.csv
+    --pSpinningReserveReqCountry /Data/Mexico_2026/epm/input/data_mexico_2026/reserve/pSpinningReserveReqCountry.csv
+    --pSpinningReserveReqSystem /Data/Mexico_2026/epm/input/data_mexico_2026/reserve/pSpinningReserveReqSystem.csv
+    --pEmissionsTotal /Data/Mexico_2026/epm/input/data_mexico_2026/constraint/pEmissionsTotal.csv
+    --pEmissionsCountry /Data/Mexico_2026/epm/input/data_mexico_2026/constraint/pEmissionsCountry.csv
+    --pMaxFuellimit /Data/Mexico_2026/epm/input/data_mexico_2026/constraint/pMaxFuellimit.csv
+    --pMaxGenerationByFuel /Data/Mexico_2026/epm/input/data_mexico_2026/constraint/pMaxGenerationByFuel.csv
+    --pCarbonPrice /Data/Mexico_2026/epm/input/data_mexico_2026/constraint/pCarbonPrice.csv
+    --zext /Data/Mexico_2026/epm/input/data_mexico_2026/trade/zext.csv
+    --pExtTransferLimit /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pExtTransferLimit.csv
+    --pLossFactorInternal /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pLossFactorInternal.csv
+    --pMaxAnnualExternalTradeShare /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pMaxAnnualExternalTradeShare.csv
+    --pMinImport /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pMinImport.csv
+    --pNewTransmission /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pNewTransmission.csv
+    --pTradePrice /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pTradePrice.csv
+    --pTransferLimit /Data/Mexico_2026/epm/input/data_mexico_2026/trade/pTransferLimit.csv
+    --pH2DataExcel /Data/Mexico_2026/epm/input/data_mexico_2026/h2/pH2DataExcel.csv
+    --pAvailabilityH2 /Data/Mexico_2026/epm/input/data_mexico_2026/h2/pAvailabilityH2.csv
+    --pCapexTrajectoryH2 /Data/Mexico_2026/epm/input/data_mexico_2026/h2/pCapexTrajectoryH2.csv
+    --pExternalH2 /Data/Mexico_2026/epm/input/data_mexico_2026/h2/pExternalH2.csv
+    --pFuelDataH2 /Data/Mexico_2026/epm/input/data_mexico_2026/h2/pFuelDataH2.csv
+Licensee: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+          The World Bank, Energy Sector Management Assistance PrograDC12370
+          /opt/gams/gams50.5_linux_x64_64_sfx/gamslice.txt
+          v:2                                                              
+          The maintenance period of the license expired on Dec 31, 2025
+          Please contact GAMS or your distributor for further information
+System information: 24 physical cores and 92 Gb physical memory detected
+GAMS 50.5.0   Copyright (C) 1987-2025 GAMS Development. All rights reserved
+--- Starting compilation
+FOLDER_INPUT is "/Data/Mexico_2026/epm/input/data_mexico_2026"
+LOG: Solving with MODELTYPE = "RMIP"
+CPLEXFILE is "/Data/Mexico_2026/epm/input/data_mexico_2026/cplex/cplex_baseline.opt"
+--- main.gms(68) 2 Mb
+--- call rm -f cplex.opt
+--- main.gms(69) 2 Mb
+--- call cp "/Data/Mexico_2026/epm/input/data_mexico_2026/cplex/cplex_baseline.opt" cplex.opt
+BASE_FILE is "/Data/Mexico_2026/epm/base.gms"
+REPORT_FILE is "/Data/Mexico_2026/epm/generate_report.gms"
+READER_FILE is "/Data/Mexico_2026/epm/input_readers.gms"
+DEMAND_FILE is "/Data/Mexico_2026/epm/generate_demand.gms"
+HYDROGEN_FILE is "/Data/Mexico_2026/epm/hydrogen_module.gms"
+--- main.gms(256) 4 Mb
+### reading using Connect and CSV Input with Python
+--- . input_readers.gms(703) 4 Mb
+--- Initialize embedded library libembconnectcclib64.so
+--- Execute embedded library libembconnectcclib64.so
+
+--- main.gms(259) 4 Mb
+--- GDXin=/Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/input.gdx
+--- GDX File ($gdxIn) /Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/input.gdx
+--- main.gms(316) 7 Mb
+--- Initialize embedded library libembpycclib64.so
+--- Execute embedded library libembpycclib64.so
+[storage_merge] Added 24 storage unit(s) to gmap.
+[storage_merge] Merged 24 storage unit(s) with 25 common header(s) into pGenDataInput.
+##########################
+### INPUT VERIFICATION ###
+##########################
+--- main.gms(339) 7 Mb
+--- Initialize embedded library libembpycclib64.so
+--- Execute embedded library libembpycclib64.so
+============================================================
+[input_verification] starting
+============================================================
+------------------------------------------------------------
+Filter inputs to allowed zones
+[input_treatment][zones] Skipped pCapexTrajectoriesDefault: missing zone columns ('z',); got ['zone', 'tech', 'fuel', 'y', 'value'].
+[input_treatment][zones] Skipped pNewTransmission: empty.
+[input_verification][zones] Zones included in verification: ['CEN', 'NES', 'NOR', 'NTE', 'OCC', 'ORI', 'PEN', 'SIBC', 'SIBCS']
+------------------------------------------------------------
+Required inputs
+[input_verification] Required inputs completed.
+------------------------------------------------------------
+Settings flags
+Warning: fAllowTransferExpansion=0 prevents internal transfer expansion.
+Warning: sMinRenewableSharePct=0.351 enforces a minimum renewable share.
+[input_verification] Settings flags completed.
+------------------------------------------------------------
+Settings required entries
+[input_verification] Settings required entries completed.
+------------------------------------------------------------
+Hours
+Success: All values pHours positive.
+Success: The sum of pHours is exactly 8760.
+[input_verification] Hours completed.
+------------------------------------------------------------
+VRE profile
+Success: All pVREProfile values are valid.
+[input_verification] VRE profile completed.
+------------------------------------------------------------
+Availability
+Success: All pAvailability values are valid.
+[input_verification] Availability completed.
+------------------------------------------------------------
+Time resolution
+Success: All dataframes have the same (q, d, t) combinations.
+[input_verification] Time resolution completed.
+------------------------------------------------------------
+Dispatch chronology
+[input_verification] Dispatch chronology completed.
+------------------------------------------------------------
+Demand forecast
+Energy/Peak Demand Ratio - Min: 4.40 & Max: 6.98
+[input_verification] Demand forecast completed.
+------------------------------------------------------------
+Fuel prices
+[input_verification] Fuel prices completed.
+------------------------------------------------------------
+Transfer limits
+Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.
+Success: All (z,z2) pairs contain all required seasons.
+[input_verification] Transfer limits completed.
+------------------------------------------------------------
+New transmission
+[input_verification] New transmission completed.
+------------------------------------------------------------
+New transmission zones
+[input_verification] New transmission zones completed.
+------------------------------------------------------------
+Interconnected mode
+Success: All transmission lines have a lossfactor specified.
+Success: No problem in duplicate values in pLossFactorInternal.
+[input_verification] Interconnected mode completed.
+------------------------------------------------------------
+Planning reserves
+Success: All countries c have planning reserve defined.
+[input_verification] Planning reserves completed.
+------------------------------------------------------------
+Fuel definitions
+Info: The following fuels are defined in pTechFuel but not in gendata.
+{'ImportedCoal', 'LFO', 'ALC', 'PV', 'Pumped', 'Lignite', 'LNG', 'Methane', 'Shale', 'DomesticCoal', 'Import', 'Battery', 'Peat', 'Waste', 'FuelOil', 'GasCCS'}
+ This may be because of spelling issues, and may cause problems after.
+Success: Fuels are well-defined everywhere.
+Fuels used: ['Biogas', 'Biomass', 'CSP', 'ChemReaction', 'Coal', 'Coke', 'Diesel', 'Gas', 'Geothermal', 'HFO', 'Hydrogen', 'LicorNegro', 'Solar', 'Steam', 'Uranium', 'Water', 'Wind']
+[input_verification] Fuel definitions completed.
+------------------------------------------------------------
+Tech definitions
+Info: The following technologies are defined in pTechFuel but not used in gendata.
+{'STOPV', 'OffshoreWind', 'CCGT_CCS', 'CSP', 'ReservoirHydro', 'Biogas', 'OCGT_CCS', 'pvwsto', 'Methane', 'ROR', 'Storage', 'ImportTransmission', 'RPV'}
+ This may indicate spelling differences or unused technologies.
+Success: Technologies are well-defined everywhere.
+Technologies used: ['BiomassPlant', 'CCGT', 'CSPPlant', 'GT', 'Geothermal', 'ICE', 'Nuclear', 'OCGT', 'OnshoreWind', 'PV', 'ST', 'STO HY', 'Wind']
+[input_verification] Tech definitions completed.
+------------------------------------------------------------
+Zone consistency
+Success: No conflict between internal and external zones
+[input_verification] Zone consistency completed.
+------------------------------------------------------------
+Single zone internal exchange
+[input_verification] Single zone internal exchange completed.
+------------------------------------------------------------
+External transfer limits
+[input_verification] External transfer limits completed.
+------------------------------------------------------------
+External transfer settings
+[input_verification] External transfer settings completed.
+------------------------------------------------------------
+Storage data
+Success: All storage generators are are well-defined in pStorageDataInput.
+[input_verification] Storage data completed.
+------------------------------------------------------------
+Storage duration consistency
+[input_verification] Storage duration consistency completed.
+------------------------------------------------------------
+Storage defaults
+[input_verification] Storage defaults completed.
+------------------------------------------------------------
+Missing storage default combinations
+[generic_defaults] pGenDataInputGeneric loaded: 23 tech-fuel combinations.
+[generic_defaults] pAvailabilityGeneric loaded: 42 tech-fuel combinations.
+[generic_defaults] pCapexTrajectoriesGeneric loaded: 40 tech-fuel combinations.
+[generic_defaults] pStorageDataInputGeneric loaded: 2 tech-fuel combinations.
+Info: 1 storage (zone, tech, fuel) combination(s) will be filled by generic defaults: [('CEN', 'Storage', 'Water')]
+------------------------------------------------------------
+Generation defaults
+Warning: The following zones are declared in pGenDataInput but are not specified in pGenDataInputDefault for fuel CSP: {'NTE', 'ORI', 'PEN', 'OCC', 'NES', 'CEN', 'NOR'}.
+[input_verification] Generation defaults completed.
+------------------------------------------------------------
+Missing generation default combinations
+[generic_defaults] pGenDataInputGeneric loaded: 23 tech-fuel combinations.
+[generic_defaults] pAvailabilityGeneric loaded: 42 tech-fuel combinations.
+[generic_defaults] pCapexTrajectoriesGeneric loaded: 40 tech-fuel combinations.
+[generic_defaults] pStorageDataInputGeneric loaded: 2 tech-fuel combinations.
+------------------------------------------------------------
+Missing availability default combinations
+[generic_defaults] pGenDataInputGeneric loaded: 23 tech-fuel combinations.
+[generic_defaults] pAvailabilityGeneric loaded: 42 tech-fuel combinations.
+[generic_defaults] pCapexTrajectoriesGeneric loaded: 40 tech-fuel combinations.
+[generic_defaults] pStorageDataInputGeneric loaded: 2 tech-fuel combinations.
+Info: 3 (zone, tech, fuel) availability combination(s) will be filled by generic defaults: [('SIBC', 'ICE', 'Diesel'), ('SIBC', 'ICE', 'Gas'), ('SIBCS', 'GT', 'Gas')]
+------------------------------------------------------------
+Warning missing build limits
+[input_verification][build_limit] Warning: pGenDataInput lacks Status/BuildLimitperYear columns; candidate/committed units may not be buildable. Consider clearing Status to exclude plants if needed. Generators present (showing 10 of 788): ['BIOMASS_Gener_CEN', 'CCGT_Gener_CEN', 'GT_Gener_CEN', 'ICE_Gener_CEN', 'WIND_Gener_CEN', 'PV_Gener_CEN', 'STO HY_Gener_CEN', 'CCGT_Gener_NES', 'GT_Gener_NES', 'ICE_Gener_NES']
+============================================================
+########################
+### INPUT TREATMENT ####
+########################
+--- main.gms(365) 7 Mb
+--- Initialize embedded library libembpycclib64.so
+--- Execute embedded library libembpycclib64.so
+============================================================
+[input_treatment] starting
+============================================================
+[input_treatment] Renaming pGenDataInput column 'uni' -> 'g'.
+Hydro availability auto-fill enabled via pSettings (EPM_FILL_HYDRO_AVAILABILITY).
+Hydro capex auto-fill enabled via pSettings (EPM_FILL_HYDRO_CAPEX).
+ROR from availability auto-fill enabled via pSettings (EPM_FILL_ROR_FROM_AVAILABILITY).
+[input_treatment][zones] Skipped pNewTransmission: empty.
+------------------------------------------------------------
+Zero capacity for invalid generator status
+[input_treatment][gen_status] All generators have valid status.
+------------------------------------------------------------
+Zero capacity for invalid transmission status
+[input_treatment][tx_status] Skipped: pNewTransmission empty.
+[input_treatment][tx_status] pNewTransmission columns: []
+------------------------------------------------------------
+Interpolate time series parameters
+------------------------------------------------------------
+Monitor hydro availability
+[input_treatment][ror_profile] Skipped: no ROR generators found.
+------------------------------------------------------------
+Monitor hydro capex
+[input_treatment][hydro_capex] No hydro capex gaps found.
+------------------------------------------------------------
+Enrich defaults with generic
+[generic_defaults] pGenDataInputGeneric loaded: 23 tech-fuel combinations.
+[generic_defaults] pAvailabilityGeneric loaded: 41 tech-fuel combinations.
+[generic_defaults] pCapexTrajectoriesGeneric loaded: 40 tech-fuel combinations.
+[generic_defaults] pStorageDataInputGeneric loaded: 2 tech-fuel combinations.
+[input_treatment] pGenDataInputDefault: 4999 -> 5017 row(s).
+[input_treatment][generic] Enriched pGenDataInputDefault with 1 (zone, tech, fuel) combination(s) from generic.
+[input_treatment] pAvailabilityDefault: 956 -> 972 row(s).
+[input_treatment][generic] Enriched pAvailabilityDefault with 4 (zone, tech, fuel) combination(s) from generic.
+[input_treatment] pCapexTrajectoriesDefault: 1890 -> 1904 row(s).
+[input_treatment][generic] Enriched pCapexTrajectoriesDefault with 2 tech-fuel combination(s) from generic.
+[input_treatment] pStorageDataInputDefault: 117 -> 139 row(s).
+[input_treatment][generic] Enriched pStorageDataInputDefault with 1 tech-fuel combination(s) from generic.
+------------------------------------------------------------
+Overwrite NaN values for pGenDataInput
+[input_treatment][defaults] Modifying pGenDataInput with pGenDataInputDefault
+[input_treatment][defaults] Missing ['HoursOn', 'HoursOff', 'minUT', 'minDT', 'StUpCost', 'InitialOn', 'MinGenCommitment']
+[input_treatment] pGenDataInput: 12424 -> 19193 row(s).
+------------------------------------------------------------
+Overwrite NaN values for pStorageDataInput
+[input_treatment][defaults] Modifying pStorageDataInput with pStorageDataInputDefault
+[input_treatment][defaults] Missing ['MinGenCommitment', 'HoursOn', 'HoursOff', 'minUT', 'minDT', 'StUpCost', 'InitialOn']
+[input_treatment] pStorageDataInput: 528 -> 558 row(s).
+------------------------------------------------------------
+Compute CapacityMWh from StorageDuration
+[input_treatment][storage] gens_with_duration: set()
+[input_treatment][storage] gens_with_capmwh: {'CFE_BAT CFV Laguna_STORAGE_Cand_OCC', 'STORAGE_Gener_SIBC', 'PLADESE_BESS_OCC_2026_Comm', 'STORAGE_Gener_SIBCS', 'CFE_BAT CFV Puerto PeNasco III y IV_STORAGE_Cand_NOR', 'STORAGE_Gener_NOR', 'STORAGE_Gener_NTE', 'PLADESE_BESS_SIBC_2027_Comm', 'PLADESE_BESS_NES_2026_Comm', 'PLADESE_BESS_SIBC_2026_Comm', 'CFE_BAT CFV Carbon II_STORAGE_Cand_NES', 'CFE_BAT CFV Rio Escondido_STORAGE_Cand_NES', 'CFE_BAT CFV Altamira_STORAGE_Cand_NES', 'PLADESE_PSH_Tula_Pachuca_CEN_2030_Comm', 'PLADESE_BESS_NTE_2027_Comm', 'STORAGE_Gener_OCC', 'PLADESE_BESS_ORI_2027_Comm', 'STORAGE_Gener_CEN', 'PLADESE_BESS_OCC_2027_Comm', 'STORAGE_Gener_PEN', 'PLADESE_BESS_NES_2027_Comm', 'STORAGE_Gener_ORI', 'STORAGE_Gener_NES', 'PLADESE_BESS_CEN_2027_Comm'}
+[input_treatment][storage] gens_to_compute: set()
+------------------------------------------------------------
+Set missing StYr for existing generators
+------------------------------------------------------------
+Prepare pAvailability
+Expanding pAvailabilityInput to pAvailability with year dimension
+[input_treatment] pAvailability: 0 -> 17612 row(s).
+------------------------------------------------------------
+Defaults for pAvailability
+------------------------------------------------------------
+Fill pAvailability with defaults
+[input_treatment] Modifying pAvailability with default values.
+[input_treatment] pAvailability: 17612 -> 22736 row(s).
+------------------------------------------------------------
+Warn missing availability
+------------------------------------------------------------
+Apply availability evolution
+pEvolutionAvailability is empty. Skipping availability evolution.
+------------------------------------------------------------
+Defaults for pCapexTrajectories
+------------------------------------------------------------
+Fill pCapexTrajectories with defaults
+[input_treatment] Modifying pCapexTrajectories with default values.
+[input_treatment] pCapexTrajectories: 0 -> 5684 row(s).
+------------------------------------------------------------
+Apply generic capex (interpolated)
+[generic_defaults] pGenDataInputGeneric loaded: 23 tech-fuel combinations.
+[generic_defaults] pAvailabilityGeneric loaded: 41 tech-fuel combinations.
+[generic_defaults] pCapexTrajectoriesGeneric loaded: 40 tech-fuel combinations.
+[generic_defaults] pStorageDataInputGeneric loaded: 2 tech-fuel combinations.
+------------------------------------------------------------
+[input_treatment] completed
+============================================================
+--- main.gms(373) 8 Mb
+--- GDX File ($gdxUnload) /Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/input_treated.gdx
+--- main.gms(381) 8 Mb
+--- . base.gms(1337) 8 Mb
+--- main.gms(383) 8 Mb
+--- . hydrogen_module.gms(255) 8 Mb
+--- main.gms(440) 8 Mb
+--- . generate_demand.gms(81) 8 Mb
+LOG: Solving in SOLVEMODE = "2"
+LOG: REPORTSHORT = "0"
+--- main.gms(975) 8 Mb
+--- . generate_report.gms(1563) 8 Mb
+--- main.gms(975) 8 Mb
+--- Starting execution: elapsed 0:00:03.667
+--- main.gms(2788) 11 Mb
+--- Generating NLP model demand
+--- main.gms(2796) 34 Mb
+---   36,352 rows  36,352 columns  145,083 non-zeroes
+---   289,744 nl-code  36,218 nl-non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 3.520E+05, 1.424E+07] - Zero values observed as well
+--- Bound     [min, max] : [ 5.760E+02, 5.760E+02]
+--- Matrix    [min, max] : [ 3.981E-02, 1.889E+02]
+--- main.gms(2796) 31 Mb
+--- Executing CONOPT4 (Solvelink=5): elapsed 0:00:04.692
+
+CONOPT 4         50.5.0 a51bb863 Sep 18, 2025          LEG x86 64bit/Linux    
+
+ 
+ 
+    C O N O P T   version 4.37
+    Copyright (C) GAMS Software GmbH
+                  GAMS Development Corporation
+ 
+ 
+    The user model has 36352 constraints and 36352 variables
+    with 145083 Jacobian elements, 36218 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       0   0          8.6677261583E+08 (Input point)
+ 
+    The pre-triangular part of the model has 70 constraints and variables.
+    The post-triangular part of the model has 1 constraints and variables.
+ 
+    Preprocessed model has 36281 constraints and 36281 variables
+    with 108654 Jacobian elements, 36218 of which are nonlinear.
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+                      8.6677261583E+08 (Full preprocessed model)
+                      5.2137753183E+04 (After scaling)
+       1   0          2.4701168967E+04                 1.0E+00     0 T  T
+       2  S0          2.3445223613E+04                 1.0E+00     0 T  T
+       3  S0          2.1109551377E+04                 1.0E+00     0 T  T
+       4  S0          1.7100252199E+04                 1.0E+00     0 T  T
+       5  S0          1.1033609653E+04                 1.0E+00     0 T  T
+       6  S0          4.3595273823E+03                 1.0E+00     0 T  T
+       7  S0          6.1835522891E+02                 1.0E+00     0 T  T
+       8  S0          1.1740774738E+01                 1.0E+00     0 T  T
+ 
+    Iter Phase   Ninf   Infeasibility   RGmax      NSB   Step  InItr MX OK
+       9   0          4.9298523160E-01                 1.0E+00     0 T  T
+      10   0          2.4164544120E-02                 1.0E+00     0 T  T
+      11   0          1.2829219733E-03                 1.0E+00     0 T  T
+      12   0          7.1050637417E-05                 1.0E+00     0 T  T
+      13   0          4.0290548365E-06                 1.0E+00     0 T  T
+      14   0          2.3174532832E-07                 1.0E+00     0 T  T
+ 
+ ** Feasible solution. Value of objective =   -18633630.0458
+ 
+    Iter Phase   Ninf     Objective     RGmax      NSB   Step  InItr MX OK
+      15   4         -1.8633630046E+07 0.0E+00       0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model demand
+--- Executing after solve: elapsed 0:00:05.204
+--- main.gms(3271) 241 Mb
+--- Generating RMIP model PA
+--- main.gms(3285) 4593 Mb
+---   10,707,563 rows  10,410,013 columns  41,614,847 non-zeroes
+--- Range statistics (absolute non-zero finite values)
+--- RHS       [min, max] : [ 8.000E-04, 1.337E+09] - Zero values observed as well
+--- Bound     [min, max] : [ 9.650E-01, 5.813E+05] - Zero values observed as well
+--- Matrix    [min, max] : [ 7.420E-04, 3.168E+05] - Zero values observed as well
+--- Executing CPLEX (Solvelink=5): elapsed 0:01:26.117
+
+IBM ILOG CPLEX   50.5.0 a51bb863 Sep 18, 2025          LEG x86 64bit/Linux    
+
+--- GAMS/CPLEX licensed for continuous and discrete problems.
+
+Reading parameter(s) from "/Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/cplex.opt"
+>>  * ------------------------------------------------------------
+>>  * CPLEX MIP Fast Configuration
+>>  * Purpose: prioritize speed over precision (exploratory runs)
+>>  * ------------------------------------------------------------
+>> 
+>>  * --- Key parameters (adjust first) ---
+>>  startalg 4
+>>  scaind  1
+>>  lpmethod 4
+>>  threads 8
+>>  predual -1
+>> 
+Finished reading from "/Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/cplex.opt"
+
+--- GMO setup time: 0.00s
+--- Space for names approximately 1528.52 Mb
+--- Use option 'names no' to turn use of names off
+--- GMO memory 4321.08 Mb (peak 4400.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.2.0 link memory 321.09 Mb (peak 2534.63 Mb)
+--- Starting Cplex
+
+Version identifier: 22.1.2.0 | 2024-11-26 | 0edbb82fd
+CPXPARAM_Advance                                 0
+CPXPARAM_Read_Scale                              1
+CPXPARAM_Preprocessing_Dual                      -1
+CPXPARAM_LPMethod                                4
+CPXPARAM_Threads                                 8
+CPXPARAM_Parallel                                1
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Strategy_StartAlgorithm             4
+CPXPARAM_MIP_Pool_Capacity                       0
+CPXPARAM_TimeLimit                               300000
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_MIP_Tolerances_MIPGap                   0.050000000000000003
+Aggregator has done 565634 substitutions...
+Tried aggregator 1 time.
+LP Presolve eliminated 7174974 rows and 5002349 columns.
+Aggregator did 565634 substitutions.
+Reduced LP has 2966954 rows, 4842030 columns, and 13950615 nonzeros.
+Presolve time = 21.34 sec. (14808.27 ticks)
+Parallel mode: using up to 8 threads for barrier.
+
+***NOTE: Found 760 dense columns.
+
+Number of nonzeros in lower triangle of A*A' = 11915339
+Using Approximate Minimum Degree ordering
+Total time for automatic ordering = 0.99 sec. (491.62 ticks)
+Summary statistics for Cholesky factor:
+  Threads                   = 8
+  Rows in Factor            = 2967714
+  Integer space required    = 11763745
+  Total non-zeros in factor = 386754275
+  Total FP ops to factor    = 5660771476691
+ Itn      Primal Obj        Dual Obj  Prim Inf Upper Inf  Dual Inf Inf Ratio
+   0   3.3744238e+15  -3.1141718e+13  6.87e+12  2.47e+12  2.69e+11  1.00e+00
+   1   3.2067051e+15  -3.1713912e+13  6.55e+12  2.36e+12  2.68e+11  7.99e-08
+   2   2.8259562e+15  -7.8457179e+13  5.87e+12  2.11e+12  2.41e+11  1.50e-08
+   3   1.0394716e+15  -1.5602704e+14  2.39e+12  8.62e+11  7.22e+10  3.40e-10
+   4   1.8180749e+14  -1.1667605e+14  5.03e+11  1.81e+11  4.63e+10  7.74e-10
+   5   1.1956044e+14  -7.0594697e+13  3.21e+11  1.16e+11  2.94e+10  1.05e-09
+   6   6.2803878e+13  -3.0154170e+13  1.70e+11  6.13e+10  1.22e+10  2.28e-09
+   7   3.9701252e+13  -1.6431571e+13  1.12e+11  4.02e+10  5.76e+09  4.62e-09
+   8   3.7755789e+13  -1.6281269e+13  1.06e+11  3.83e+10  5.70e+09  4.75e-09
+   9   3.1618355e+13  -1.5449491e+13  9.01e+10  3.24e+10  5.36e+09  5.34e-09
+  10   3.1771513e+13  -1.5433774e+13  9.03e+10  3.25e+10  5.36e+09  5.32e-09
+  11   2.6603045e+13  -1.5087059e+13  7.63e+10  2.75e+10  5.23e+09  5.86e-09
+  12   2.4078326e+13  -1.4839255e+13  6.93e+10  2.50e+10  5.14e+09  6.22e-09
+  13   2.3239478e+13  -1.4720567e+13  6.66e+10  2.40e+10  5.10e+09  6.34e-09
+  14   1.9132512e+13  -1.3254931e+13  5.47e+10  1.97e+10  4.60e+09  7.31e-09
+  15   1.7796611e+13  -1.3254023e+13  5.22e+10  1.88e+10  4.60e+09  7.64e-09
+  16   1.6561782e+13  -1.2374052e+13  4.86e+10  1.75e+10  4.29e+09  8.21e-09
+  17   1.5577568e+13  -1.0436416e+13  4.58e+10  1.65e+10  3.60e+09  9.36e-09
+  18   1.5107397e+13  -9.3032513e+12  4.44e+10  1.60e+10  3.19e+09  1.02e-08
+  19   1.3431587e+13  -8.8783416e+12  3.98e+10  1.43e+10  3.03e+09  1.11e-08
+  20   1.2529864e+13  -7.2816881e+12  3.72e+10  1.34e+10  2.46e+09  1.31e-08
+  21   1.0588764e+13  -5.6699299e+12  3.16e+10  1.14e+10  1.88e+09  1.68e-08
+  22   1.0133504e+13  -4.9806264e+12  3.03e+10  1.09e+10  1.62e+09  1.89e-08
+  23   8.3024490e+12  -3.6955770e+12  2.51e+10  9.05e+09  1.15e+09  2.65e-08
+  24   7.4484618e+12  -3.0367770e+12  2.27e+10  8.17e+09  9.17e+08  3.28e-08
+  25   4.8779984e+12  -2.6505629e+12  1.53e+10  5.50e+09  7.81e+08  4.25e-08
+  26   4.4440311e+12  -1.9706180e+12  1.39e+10  5.02e+09  5.78e+08  5.56e-08
+  27   3.3462959e+12  -1.6439376e+12  1.06e+10  3.81e+09  4.77e+08  7.13e-08
+  28   2.6388890e+12  -1.1820140e+12  8.28e+09  2.98e+09  3.50e+08  1.00e-07
+  29   2.0926100e+12  -9.1886679e+11  6.47e+09  2.33e+09  2.80e+08  1.31e-07
+  30   1.2442202e+12  -4.8085899e+11  3.55e+09  1.28e+09  1.72e+08  2.44e-07
+  31   1.0713310e+12  -2.9367359e+11  2.91e+09  1.05e+09  1.30e+08  3.30e-07
+  32   9.7746410e+11  -2.7785526e+11  2.57e+09  9.24e+08  1.26e+08  3.52e-07
+  33   7.5795504e+11  -8.2435220e+10  1.75e+09  6.29e+08  8.28e+07  5.76e-07
+  34   6.3197005e+11   1.6701301e+10  1.28e+09  4.61e+08  6.06e+07  8.34e-07
+  35   5.6087026e+11   9.3601746e+10  1.02e+09  3.67e+08  4.31e+07  1.22e-06
+  36   5.4018439e+11   1.2792123e+11  9.45e+08  3.40e+08  3.49e+07  1.53e-06
+  37   4.5749565e+11   1.7463566e+11  6.35e+08  2.28e+08  2.48e+07  2.35e-06
+  38   4.3413270e+11   2.0481723e+11  5.40e+08  1.95e+08  1.88e+07  3.20e-06
+  39   4.0172768e+11   2.3550797e+11  4.11e+08  1.48e+08  1.27e+07  5.09e-06
+  40   3.8777759e+11   2.5524639e+11  3.54e+08  1.28e+08  8.80e+06  7.66e-06
+  41   3.6979555e+11   2.6785951e+11  2.79e+08  1.01e+08  6.46e+06  1.10e-05
+  42   3.6629911e+11   2.7303905e+11  2.61e+08  9.41e+07  5.76e+06  1.25e-05
+  43   3.5357478e+11   2.8286662e+11  2.03e+08  7.31e+07  4.20e+06  1.84e-05
+  44   3.4078953e+11   2.9107388e+11  1.42e+08  5.10e+07  2.98e+06  2.81e-05
+  45   3.3626456e+11   2.9680693e+11  1.18e+08  4.25e+07  2.23e+06  3.97e-05
+  46   3.3116958e+11   3.0066898e+11  9.15e+07  3.30e+07  1.71e+06  5.48e-05
+  47   3.2856727e+11   3.0245997e+11  7.74e+07  2.79e+07  1.49e+06  6.52e-05
+  48   3.2590049e+11   3.0541259e+11  6.25e+07  2.25e+07  1.13e+06  9.08e-05
+  49   3.2340219e+11   3.0807857e+11  4.82e+07  1.74e+07  8.16e+05  1.35e-04
+  50   3.2248064e+11   3.0935363e+11  4.27e+07  1.54e+07  6.71e+05  1.70e-04
+  51   3.2164514e+11   3.1052155e+11  3.78e+07  1.36e+07  5.39e+05  2.19e-04
+  52   3.1955023e+11   3.1241949e+11  2.51e+07  9.03e+06  3.30e+05  4.03e-04
+  53   3.1915537e+11   3.1280702e+11  2.25e+07  8.09e+06  2.91e+05  4.66e-04
+  54   3.1833337e+11   3.1357323e+11  1.70e+07  6.11e+06  2.17e+05  6.66e-04
+  55   3.1754435e+11   3.1416745e+11  1.15e+07  4.13e+06  1.61e+05  9.53e-04
+  56   3.1720178e+11   3.1481789e+11  8.84e+06  3.18e+06  1.05e+05  1.59e-03
+  57   3.1689018e+11   3.1516914e+11  6.44e+06  2.32e+06  7.55e+04  2.37e-03
+  58   3.1676481e+11   3.1537149e+11  5.41e+06  1.95e+06  5.92e+04  3.14e-03
+  59   3.1664689e+11   3.1557899e+11  4.44e+06  1.60e+06  4.26e+04  4.59e-03
+  60   3.1655383e+11   3.1564169e+11  3.64e+06  1.31e+06  3.77e+04  5.29e-03
+  61   3.1645735e+11   3.1578173e+11  2.79e+06  1.01e+06  2.71e+04  7.71e-03
+  62   3.1636482e+11   3.1592100e+11  1.94e+06  7.00e+05  1.69e+04  1.32e-02
+  63   3.1628323e+11   3.1601866e+11  1.16e+06  4.17e+05  1.01e+04  2.37e-02
+  64   3.1626546e+11   3.1604751e+11  9.66e+05  3.48e+05  8.26e+03  2.96e-02
+  65   3.1624306e+11   3.1607419e+11  7.20e+05  2.59e+05  6.56e+03  3.80e-02
+  66   3.1622628e+11   3.1610818e+11  5.25e+05  1.89e+05  4.48e+03  5.78e-02
+  67   3.1621894e+11   3.1614029e+11  4.37e+05  1.57e+05  2.54e+03  1.07e-01
+  68   3.1621139e+11   3.1615325e+11  3.50e+05  1.26e+05  1.74e+03  1.57e-01
+  69   3.1620899e+11   3.1616511e+11  3.21e+05  1.15e+05  1.02e+03  2.61e-01
+  70   3.1620087e+11   3.1616898e+11  2.25e+05  8.12e+04  7.85e+02  3.28e-01
+  71   3.1619463e+11   3.1617291e+11  1.44e+05  5.18e+04  5.74e+02  4.35e-01
+  72   3.1619111e+11   3.1617629e+11  9.10e+04  3.28e+04  4.14e+02  5.94e-01
+  73   3.1618979e+11   3.1617997e+11  6.87e+04  2.47e+04  2.53e+02  9.66e-01
+  74   3.1618928e+11   3.1618177e+11  5.99e+04  2.16e+04  1.75e+02  1.38e+00
+  75   3.1618891e+11   3.1618230e+11  5.36e+04  1.93e+04  1.51e+02  1.57e+00
+  76   3.1618850e+11   3.1618291e+11  4.66e+04  1.68e+04  1.25e+02  1.86e+00
+  77   3.1618754e+11   3.1618472e+11  2.96e+04  1.07e+04  4.89e+01  4.21e+00
+  78   3.1618696e+11   3.1618538e+11  1.84e+04  6.63e+03  2.35e+01  7.48e+00
+  79   3.1618670e+11   3.1618549e+11  1.29e+04  4.63e+03  1.99e+01  8.60e+00
+  80   3.1618665e+11   3.1618551e+11  1.17e+04  4.21e+03  1.95e+01  8.79e+00
+  81   3.1618661e+11   3.1618570e+11  1.06e+04  3.83e+03  1.39e+01  1.19e+01
+  82   3.1618641e+11   3.1618603e+11  5.62e+03  2.02e+03  4.56e+00  2.91e+01
+  83   3.1618636e+11   3.1618607e+11  4.11e+03  1.48e+03  3.56e+00  3.57e+01
+  84   3.1618630e+11   3.1618615e+11  2.16e+03  7.78e+02  1.89e+00  6.07e+01
+  85   3.1618627e+11   3.1618622e+11  1.15e+03  4.12e+02  5.74e-01  1.71e+02
+  86   3.1618626e+11   3.1618624e+11  6.20e+02  2.23e+02  1.69e-01  4.36e+02
+  87   3.1618626e+11   3.1618625e+11  3.73e+02  1.34e+02  5.95e-02  9.12e+02
+  88   3.1618626e+11   3.1618625e+11  1.69e+02  5.99e+01  1.92e-02  1.99e+03
+  89   3.1618626e+11   3.1618625e+11  1.22e+02  4.28e+01  9.33e-03  3.94e+03
+Barrier time = 2818.49 sec. (8513175.16 ticks)
+Parallel mode: deterministic, using up to 8 threads for concurrent optimization:
+ * Starting dual Simplex on 1 thread...
+ * Starting primal Simplex on 1 thread...
+
+Dual crossover.
+  Dual:  Fixing 1809624 variables.
+   1809623 DMoves:  Infeasibility  8.68951295e-01  Objective  3.16186255e+11
+   1804246 DMoves:  Infeasibility  8.58807285e-01  Objective  3.16186255e+11
+   1798717 DMoves:  Infeasibility  8.50525661e-01  Objective  3.16186255e+11
+   1792789 DMoves:  Infeasibility  8.44352259e-01  Objective  3.16186255e+11
+   1787843 DMoves:  Infeasibility  8.40207965e-01  Objective  3.16186255e+11
+   1782097 DMoves:  Infeasibility  8.34210483e-01  Objective  3.16186255e+11
+   1776884 DMoves:  Infeasibility  8.19558618e-01  Objective  3.16186255e+11
+   1772808 DMoves:  Infeasibility  8.08040372e-01  Objective  3.16186255e+11
+   1768093 DMoves:  Infeasibility  8.02564198e-01  Objective  3.16186255e+11
+   1765663 DMoves:  Infeasibility  7.94787035e-01  Objective  3.16186255e+11
+   Elapsed crossover time = 9.70 sec. (10001.67 ticks, 1734769 DMoves)
+   1722537 DMoves:  Infeasibility  7.74955722e-01  Objective  3.16186255e+11
+   1707982 DMoves:  Infeasibility  7.31265672e-01  Objective  3.16186255e+11
+   1701616 DMoves:  Infeasibility  7.12872096e-01  Objective  3.16186255e+11
+   1695038 DMoves:  Infeasibility  7.12563386e-01  Objective  3.16186255e+11
+   1687828 DMoves:  Infeasibility  7.10361293e-01  Objective  3.16186255e+11
+   Elapsed crossover time = 30.17 sec. (20310.85 ticks, 1687828 DMoves)
+   1680443 DMoves:  Infeasibility  7.04458345e-01  Objective  3.16186255e+11
+   1673094 DMoves:  Infeasibility  7.04236198e-01  Objective  3.16186255e+11
+   1665757 DMoves:  Infeasibility  7.04092336e-01  Objective  3.16186255e+11
+   1658011 DMoves:  Infeasibility  7.02915422e-01  Objective  3.16186255e+11
+   1649764 DMoves:  Infeasibility  7.01762521e-01  Objective  3.16186255e+11
+   1641543 DMoves:  Infeasibility  6.99241658e-01  Objective  3.16186255e+11
+   1632910 DMoves:  Infeasibility  6.97285904e-01  Objective  3.16186255e+11
+   1615050 DMoves:  Infeasibility  6.92332886e-01  Objective  3.16186255e+11
+   1564636 DMoves:  Infeasibility  6.88259098e-01  Objective  3.16186255e+11
+   1540266 DMoves:  Infeasibility  6.86759289e-01  Objective  3.16186255e+11
+   1515883 DMoves:  Infeasibility  6.84885181e-01  Objective  3.16186255e+11
+   1502620 DMoves:  Infeasibility  6.83673543e-01  Objective  3.16186255e+11
+   Elapsed crossover time = 42.34 sec. (30405.86 ticks, 1502620 DMoves)
+   1475604 DMoves:  Infeasibility  6.70703593e-01  Objective  3.16186255e+11
+   1451095 DMoves:  Infeasibility  6.68320845e-01  Objective  3.16186255e+11
+   1443459 DMoves:  Infeasibility  6.58598994e-01  Objective  3.16186255e+11
+   1414635 DMoves:  Infeasibility  6.47339060e-01  Objective  3.16186255e+11
+   1388604 DMoves:  Infeasibility  6.29837955e-01  Objective  3.16186255e+11
+   1366918 DMoves:  Infeasibility  6.20344818e-01  Objective  3.16186255e+11
+   1346074 DMoves:  Infeasibility  6.12274232e-01  Objective  3.16186255e+11
+   1320478 DMoves:  Infeasibility  6.04231583e-01  Objective  3.16186255e+11
+   1308406 DMoves:  Infeasibility  5.94189816e-01  Objective  3.16186255e+11
+   Elapsed crossover time = 59.52 sec. (40411.59 ticks, 1307758 DMoves)
+   1288428 DMoves:  Infeasibility  5.84219971e-01  Objective  3.16186255e+11
+   1277092 DMoves:  Infeasibility  5.78896127e-01  Objective  3.16186255e+11
+   1249861 DMoves:  Infeasibility  5.75356400e-01  Objective  3.16186255e+11
+   1225879 DMoves:  Infeasibility  5.70352147e-01  Objective  3.16186255e+11
+   1188196 DMoves:  Infeasibility  5.65822603e-01  Objective  3.16186256e+11
+   1159029 DMoves:  Infeasibility  5.59710234e-01  Objective  3.16186256e+11
+   Elapsed crossover time = 82.54 sec. (50813.82 ticks, 1159029 DMoves)
+   1145694 DMoves:  Infeasibility  5.51603129e-01  Objective  3.16186256e+11
+   1135476 DMoves:  Infeasibility  5.45898640e-01  Objective  3.16186256e+11
+   1117072 DMoves:  Infeasibility  5.39370365e-01  Objective  3.16186256e+11
+   Elapsed crossover time = 108.76 sec. (60814.17 ticks, 1099263 DMoves)
+   1098296 DMoves:  Infeasibility  5.30811697e-01  Objective  3.16186256e+11
+   1079484 DMoves:  Infeasibility  5.22418128e-01  Objective  3.16186256e+11
+   1068583 DMoves:  Infeasibility  5.13924551e-01  Objective  3.16186256e+11
+   1041061 DMoves:  Infeasibility  4.98897421e-01  Objective  3.16186256e+11
+   1017931 DMoves:  Infeasibility  4.85601885e-01  Objective  3.16186256e+11
+   987739 DMoves:  Infeasibility  4.67898394e-01  Objective  3.16186256e+11
+   Elapsed crossover time = 131.67 sec. (70814.48 ticks, 975362 DMoves)
+   964969 DMoves:  Infeasibility  4.44320112e-01  Objective  3.16186256e+11
+   942407 DMoves:  Infeasibility  4.26657945e-01  Objective  3.16186256e+11
+   Elapsed crossover time = 160.44 sec. (80817.92 ticks, 918512 DMoves)
+   915978 DMoves:  Infeasibility  4.02894459e-01  Objective  3.16186256e+11
+   885865 DMoves:  Infeasibility  3.64266859e-01  Objective  3.16186256e+11
+   Elapsed crossover time = 185.92 sec. (90817.97 ticks, 865403 DMoves)
+   858561 DMoves:  Infeasibility  2.86437852e-01  Objective  3.16186256e+11
+   818472 DMoves:  Infeasibility  1.71049602e-01  Objective  3.16186256e+11
+   785147 DMoves:  Infeasibility  4.37542942e-08  Objective  3.16186256e+11
+   758033 DMoves:  Infeasibility  4.15099427e-08  Objective  3.16186256e+11
+   732427 DMoves:  Infeasibility  4.30477455e-08  Objective  3.16186256e+11
+   704204 DMoves:  Infeasibility  4.52929388e-08  Objective  3.16186256e+11
+   678308 DMoves:  Infeasibility  4.27798773e-08  Objective  3.16186256e+11
+   659850 DMoves:  Infeasibility  4.25796013e-08  Objective  3.16186256e+11
+   638111 DMoves:  Infeasibility  1.43619082e-07  Objective  3.16186256e+11
+   Elapsed crossover time = 202.50 sec. (101101.68 ticks, 638111 DMoves)
+   612416 DMoves:  Infeasibility  1.42981497e-07  Objective  3.16186256e+11
+   590977 DMoves:  Infeasibility  1.39534389e-07  Objective  3.16186256e+11
+   567831 DMoves:  Infeasibility  4.31387706e-08  Objective  3.16186256e+11
+   543310 DMoves:  Infeasibility  4.29840186e-08  Objective  3.16186256e+11
+   522437 DMoves:  Infeasibility  4.33696916e-08  Objective  3.16186256e+11
+   497787 DMoves:  Infeasibility  4.42289756e-08  Objective  3.16186256e+11
+   467926 DMoves:  Infeasibility  4.40850988e-08  Objective  3.16186256e+11
+   440666 DMoves:  Infeasibility  4.41778288e-08  Objective  3.16186256e+11
+   415611 DMoves:  Infeasibility  4.57179820e-08  Objective  3.16186256e+11
+   389542 DMoves:  Infeasibility  4.46284818e-08  Objective  3.16186256e+11
+   363494 DMoves:  Infeasibility  4.32403378e-08  Objective  3.16186256e+11
+   Elapsed crossover time = 212.95 sec. (111101.69 ticks, 357560 DMoves)
+   340647 DMoves:  Infeasibility  4.52404530e-08  Objective  3.16186256e+11
+   320542 DMoves:  Infeasibility  4.54865131e-08  Objective  3.16186256e+11
+   295120 DMoves:  Infeasibility  4.62770920e-08  Objective  3.16186256e+11
+   267310 DMoves:  Infeasibility  4.58936748e-08  Objective  3.16186256e+11
+   245259 DMoves:  Infeasibility  4.61408548e-08  Objective  3.16186256e+11
+   218361 DMoves:  Infeasibility  4.58109156e-08  Objective  3.16186256e+11
+   194018 DMoves:  Infeasibility  4.45954399e-08  Objective  3.16186256e+11
+   168881 DMoves:  Infeasibility  4.50032467e-08  Objective  3.16186256e+11
+   145223 DMoves:  Infeasibility  4.58979741e-08  Objective  3.16186256e+11
+   119791 DMoves:  Infeasibility  4.55667925e-08  Objective  3.16186256e+11
+    92564 DMoves:  Infeasibility  4.60993036e-08  Objective  3.16186256e+11
+   Elapsed crossover time = 222.81 sec. (121753.96 ticks, 92564 DMoves)
+    62599 DMoves:  Infeasibility  4.60149673e-08  Objective  3.16186256e+11
+    32423 DMoves:  Infeasibility  4.77613957e-08  Objective  3.16186256e+11
+     3869 DMoves:  Infeasibility  4.75504256e-08  Objective  3.16186256e+11
+        0 DMoves:  Infeasibility  4.77444482e-08  Objective  3.16186256e+11
+  Dual:  Pushed 1288167, exchanged 521457.
+  Primal:  Fixing 2519774 variables.
+   2519773 PMoves:  Infeasibility  2.08170366e+03  Objective  3.16186256e+11
+   2514386 PMoves:  Infeasibility  1.10767847e+03  Objective  3.16186256e+11
+   2494589 PMoves:  Infeasibility  6.17909500e+02  Objective  3.16186256e+11
+Removing shift (5).
+
+Primal simplex solved model.
+
+Total crossover time = 249.87 sec. (152454.73 ticks)
+
+Total time on 8 threads = 3090.11 sec. (8680872.54 ticks)
+
+--- LP status (1): optimal.
+--- Cplex Time: 3090.40sec (det. 8680903.18 ticks)
+
+
+Optimal solution found
+Simplex iterations after crossover: 127
+Objective:  316186255626.141113
+
+--- Reading solution for model PA
+--- Executing after solve: elapsed 0:53:35.085
+--- main.gms(4674) 4593 Mb
+--- Initialize embedded library libembconnectcclib64.so
+--- Execute embedded library libembconnectcclib64.so
+--- main.gms(4682) 4595 Mb
+--- Initialize embedded library libembconnectcclib64.so
+--- Execute embedded library libembconnectcclib64.so
+--- main.gms(4753) 4595 Mb
+--- GDX File (execute_unload) /Data/Mexico_2026/epm/output/simulations_run_20261113_022857/baseline/epmresults.gdx
+--- main.gms(4797) 4595 Mb
+--- Initialize embedded library libembpycclib64.so
+--- Execute embedded library libembpycclib64.so
+
+============================================================
+[output_treatment] Starting output treatment for Tableau
+[output_treatment] Note: Errors here are non-fatal warnings
+============================================================
+[output_treatment] Output directory: output_csv
+[output_treatment] Extracting tech-fuel pairs from GAMS database...
+[output_treatment]   Found 63 unique (tech, fuel) pairs from pTechFuel
+[output_treatment]   Found 812 generator-techfuel mappings from pGeneratorTechFuel
+[output_treatment]   Found 9 zone-country mappings from pZoneCountry
+[output_treatment] Loading techfuel mapping from pTechFuelProcessing.csv...
+[output_treatment]   Loaded 75 Processing mappings
+============================================================
+[output_treatment] Starting output treatment
+[output_treatment] Output directory: output_csv
+============================================================
+
+[output_treatment] STEP 1: Renaming columns for wildcard domain parameters
+------------------------------------------------------------
+[output_treatment]   pEnergyTechFuelComplete.csv: z_0->z, uni_1->tech, uni_2->f, y_3->y
+
+[output_treatment] STEP 2: Merging plant files with generator techfuel mapping
+------------------------------------------------------------
+[output_treatment]   pCapacityPlant.csv: added tech, f columns
+[output_treatment]   pNewCapacityPlant.csv: added tech, f columns
+[output_treatment]   pEnergyPlant.csv: added tech, f columns
+[output_treatment]   pUtilizationPlant.csv: added tech, f columns
+[output_treatment]   pPlantAnnualLCOE.csv: added tech, f columns
+[output_treatment]   pCostsPlant.csv: added tech, f columns
+
+[output_treatment] STEP 3: Filling TechFuel combinations and adding Processing column
+------------------------------------------------------------
+[output_treatment]   pNewCapacityTechFuel.csv: 151 -> 3843 rows (+3692)
+[output_treatment]   pNewCapacityTechFuelCumulated.csv: WARNING - file not found
+[output_treatment]   pCapacityTechFuel.csv: 755 -> 3969 rows (+3214)
+[output_treatment]   pEnergyTechFuel.csv: 746 -> 3969 rows (+3223)
+[output_treatment]   pEnergyTechFuelComplete.csv: 878 -> 3969 rows (+3091)
+[output_treatment]   pUtilizationTechFuel.csv: 746 -> 3969 rows (+3223)
+[output_treatment]   pDispatchTechFuel.csv: added techfuel column (372899 rows)
+
+[output_treatment] STEP 3b: Creating pDispatchComplete
+------------------------------------------------------------
+[output_treatment]     - pDispatch.csv: found
+[output_treatment]     - pDispatchTechFuel.csv: found
+[output_treatment]     - pDispatch.csv: 72408 rows, columns: ['z', 'y', 'q', 'd', 'uni', 't', 'value']
+[output_treatment]     - pDispatchTechFuel.csv: 372899 rows, columns: ['z', 'y', 'q', 'd', 'tech', 'f', 'techfuel', 't', 'value']
+[output_treatment]     - Using existing 'techfuel' column for 'uni'
+[output_treatment]     - Selecting columns from pDispatch.csv: ['z', 'y', 'q', 'd', 'uni', 't', 'value']
+[output_treatment]     - Selecting columns from pDispatchTechFuel.csv: ['z', 'y', 'q', 'd', 'uni', 't', 'value']
+[output_treatment]   SUCCESS: pDispatchComplete.csv created (445307 rows)
+
+[output_treatment] STEP 4: Filling cost components (sumhdr)
+------------------------------------------------------------
+[output_treatment]   pCosts.csv: 509 -> 1449 rows (+940)
+[output_treatment]   pCostsPerMWh.csv: 509 -> 1449 rows (+940)
+[output_treatment]   pNetPresentCostPerMWh.csv: 81 -> 207 rows (+126)
+[output_treatment]   pCostsCountryPerMWh.csv: 76 -> 161 rows (+85)
+[output_treatment]   pNetPresentCostCountryPerMWh.csv: WARNING - file not found
+[output_treatment]   pDiscountedWeightedCosts.csv: 509 -> 1449 rows (+940)
+[output_treatment]   pNetPresentCostSystem.csv: 13 -> 23 rows (+10)
+[output_treatment]   pNetPresentCostSystemPerMWh.csv: 13 -> 23 rows (+10)
+
+[output_treatment] STEP 5: Calculating cumulative values
+------------------------------------------------------------
+[output_treatment]   pNewCapacityTechFuel.csv -> pNewCapacityTechFuelCumulated.csv (3843 rows)
+[output_treatment]   pCapexInvestmentComponent.csv -> pCapexInvestmentComponentCumulated.csv (75 rows)
+[output_treatment]   pDiscountedWeightedCosts.csv -> pDiscountedWeightedCostsCumulated.csv (1449 rows)
+
+[output_treatment] STEP 6: Aggregating plant files to TechFuel level
+------------------------------------------------------------
+[output_treatment]   pReserveSpinningPlantZone.csv -> pReserveSpinningTechFuel.csv: aggregated to tech-fuel (15876 rows)
+[output_treatment]   pReserveSpinningTechFuel.csv: 15876 -> 3969 rows (+-11907)
+
+[output_treatment] STEP 7: Merging related CSV files into consolidated files (long format)
+------------------------------------------------------------
+[output_treatment]   pTechFuelMerged.csv: merged 6 files -> long format (23562 rows)
+[output_treatment]   pPlantMerged.csv: merged 6 files -> long format (30243 rows)
+[output_treatment]   pPlantMerged.csv: added techfuel column
+[output_treatment]   pCostsMerged.csv: merged 4 files -> long format (3292 rows)
+[output_treatment]   pTransmissionMerged.csv: merged 5 files -> long format (629 rows)
+[output_treatment]   pTransmissionMerged.csv: standardized columns (z2 -> uni, dropped isExternal)
+[output_treatment]   pYearlyZoneMerged.csv: merged 4 files -> long format (252 rows)
+[output_treatment]   pYearlyZoneMerged.csv: added Costs totals
+[output_treatment]   pYearlyZoneMerged.csv: added CostsPerMWh totals
+[output_treatment]   pYearlyZoneMerged.csv: added GenCostsPerMWh totals
+[output_treatment]   pYearlyZoneMerged.csv: added CapexInvestmentComponent totals
+[output_treatment]   pYearlyZoneMerged.csv: added CapexInvestmentComponentCumulated totals
+[output_treatment]   pNetPresentCostSystemMerged.csv: merged 2 files -> long format (46 rows)
+[output_treatment]   pCapexInvestmentMerged.csv: merged 2 files -> long format (150 rows)
+
+[output_treatment] STEP 8: Adding country column to zone-based files
+------------------------------------------------------------
+[output_treatment]   pCapacityPlant.csv: added 'c' column
+[output_treatment]   pCapacityTechFuel.csv: added 'c' column
+[output_treatment]   pCapexInvestmentComponent.csv: added 'c' column
+[output_treatment]   pCapexInvestmentComponentCumulated.csv: added 'c' column
+[output_treatment]   pCapexInvestmentMerged.csv: added 'c' column
+[output_treatment]   pCongestionShare.csv: added 'c' column
+[output_treatment]   pCosts.csv: added 'c' column
+[output_treatment]   pCostsMerged.csv: added 'c' column
+[output_treatment]   pCostsPerMWh.csv: added 'c' column
+[output_treatment]   pCostsPlant.csv: added 'c' column
+[output_treatment]   pDemandEnergyZone.csv: added 'c' column
+[output_treatment]   pDemandPeakZone.csv: added 'c' column
+[output_treatment]   pDiscountedWeightedCosts.csv: added 'c' column
+[output_treatment]   pDiscountedWeightedCostsCumulated.csv: added 'c' column
+[output_treatment]   pDispatch.csv: added 'c' column
+[output_treatment]   pDispatchComplete.csv: added 'c' column
+[output_treatment]   pDispatchTechFuel.csv: added 'c' column
+[output_treatment]   pEmissionsIntensityZone.csv: added 'c' column
+[output_treatment]   pEmissionsZone.csv: added 'c' column
+[output_treatment]   pEnergyBalance.csv: added 'c' column
+[output_treatment]   pEnergyPlant.csv: added 'c' column
+[output_treatment]   pEnergyTechFuel.csv: added 'c' column
+[output_treatment]   pEnergyTechFuelComplete.csv: added 'c' column
+[output_treatment]   pFuelCosts.csv: added 'c' column
+[output_treatment]   pGenCostsPerMWh.csv: added 'c' column
+[gams_values]   pHourlyPrice.csv: translated GAMS special values in 'value' (EPS=223)
+[output_treatment]   pHourlyPrice.csv: added 'c' column
+[output_treatment]   pInterchange.csv: added 'c' column
+[output_treatment]   pInterconUtilization.csv: added 'c' column
+[output_treatment]   pNetImport.csv: added 'c' column
+[output_treatment]   pNetPresentCostPerMWh.csv: added 'c' column
+[output_treatment]   pNewCapacityPlant.csv: added 'c' column
+[output_treatment]   pNewCapacityTechFuel.csv: added 'c' column
+[output_treatment]   pNewCapacityTechFuelCumulated.csv: added 'c' column
+[output_treatment]   pNewTransmissionCapacity.csv: added 'c' column
+[output_treatment]   pPlantAnnualLCOE.csv: added 'c' column
+[output_treatment]   pPlantMerged.csv: added 'c' column
+[output_treatment]   pReserveSpinningPlantZone.csv: added 'c' column
+[output_treatment]   pReserveSpinningTechFuel.csv: added 'c' column
+[output_treatment]   pTechFuelMerged.csv: added 'c' column
+[output_treatment]   pTransmissionCapacity.csv: added 'c' column
+[output_treatment]   pTransmissionMerged.csv: added 'c' column
+[output_treatment]   pUtilizationPlant.csv: added 'c' column
+[output_treatment]   pUtilizationTechFuel.csv: added 'c' column
+[output_treatment]   pYearlyZoneMerged.csv: added 'c' column
+[output_treatment]   pZoneCountry.csv: skipped (already has 'c' column)
+[output_treatment]   Processed 44 zone-based files
+
+[output_treatment] STEP 9: Restructuring and sorting CSV files
+------------------------------------------------------------
+[output_treatment]   Loaded 28 unique Processing names for sorting
+[output_treatment]   pTechFuelMerged.csv: restructured and sorted
+[output_treatment]   pPlantMerged.csv: restructured and sorted
+[output_treatment]   pPlantMerged.csv: restructured and sorted
+[output_treatment]   pCostsMerged.csv: restructured and sorted
+[output_treatment]   pTransmissionMerged.csv: restructured and sorted
+[output_treatment]   pYearlyZoneMerged.csv: restructured and sorted
+[output_treatment]   pNetPresentCostSystemMerged.csv: restructured and sorted
+[output_treatment]   pCapexInvestmentMerged.csv: restructured and sorted
+[output_treatment]   pDispatchComplete.csv: restructured and sorted
+[output_treatment]   pDispatchComplete.csv: restructured and sorted
+[output_treatment]   pHourlyPrice.csv: restructured and sorted
+[output_treatment]   pSettings.csv: restructured and sorted
+[output_treatment]   pEnergyBalance.csv: restructured and sorted
+[output_treatment]   Restructured 11 files
+
+[output_treatment] STEP 9b: Creating summary CSV
+------------------------------------------------------------
+[output_treatment]   pNetPresentCostSystemMerged: 46 rows
+[output_treatment]   pTransmissionMerged: 629 rows
+[output_treatment]   pTechFuelMerged: 23562 rows
+[output_treatment]   pYearlyZoneMerged: 559 rows
+[output_treatment]   pSummary.csv: created (24796 rows from 4 files)
+
+[output_treatment] STEP 10: Cleaning up output files
+------------------------------------------------------------
+[output_treatment]   DELETE: pCapacityPlant.csv
+[output_treatment]   DELETE: pCapacityTechFuel.csv
+[output_treatment]   DELETE: pCapexInvestmentComponent.csv
+[output_treatment]   DELETE: pCapexInvestmentComponentCumulated.csv
+[output_treatment]   KEEP: pCapexInvestmentMerged.csv
+[output_treatment]   DELETE: pCongestionShare.csv
+[output_treatment]   DELETE: pCosts.csv
+[output_treatment]   DELETE: pCostsCountryPerMWh.csv
+[output_treatment]   KEEP: pCostsMerged.csv
+[output_treatment]   DELETE: pCostsPerMWh.csv
+[output_treatment]   DELETE: pCostsPlant.csv
+[output_treatment]   DELETE: pDemandEnergyZone.csv
+[output_treatment]   DELETE: pDemandPeakZone.csv
+[output_treatment]   DELETE: pDiscountedWeightedCosts.csv
+[output_treatment]   DELETE: pDiscountedWeightedCostsCumulated.csv
+[output_treatment]   DELETE: pDispatch.csv
+[output_treatment]   KEEP: pDispatchComplete.csv
+[output_treatment]   DELETE: pDispatchTechFuel.csv
+[output_treatment]   DELETE: pEmissionsIntensityZone.csv
+[output_treatment]   DELETE: pEmissionsZone.csv
+[output_treatment]   KEEP: pEnergyBalance.csv
+[output_treatment]   DELETE: pEnergyPlant.csv
+[output_treatment]   DELETE: pEnergyTechFuel.csv
+[output_treatment]   DELETE: pEnergyTechFuelComplete.csv
+[output_treatment]   DELETE: pFuelCosts.csv
+[output_treatment]   DELETE: pGenCostsPerMWh.csv
+[output_treatment]   DELETE: pGeneratorTechFuel.csv
+[output_treatment]   KEEP: pHourlyPrice.csv
+[output_treatment]   DELETE: pInterchange.csv
+[output_treatment]   DELETE: pInterconUtilization.csv
+[output_treatment]   DELETE: pNetImport.csv
+[output_treatment]   DELETE: pNetPresentCostPerMWh.csv
+[output_treatment]   DELETE: pNetPresentCostSystem.csv
+[output_treatment]   KEEP: pNetPresentCostSystemMerged.csv
+[output_treatment]   DELETE: pNetPresentCostSystemPerMWh.csv
+[output_treatment]   DELETE: pNewCapacityPlant.csv
+[output_treatment]   DELETE: pNewCapacityTechFuel.csv
+[output_treatment]   DELETE: pNewCapacityTechFuelCumulated.csv
+[output_treatment]   DELETE: pNewTransmissionCapacity.csv
+[output_treatment]   DELETE: pPlantAnnualLCOE.csv
+[output_treatment]   KEEP: pPlantMerged.csv
+[output_treatment]   DELETE: pReserveSpinningPlantZone.csv
+[output_treatment]   DELETE: pReserveSpinningTechFuel.csv
+[output_treatment]   KEEP: pSettings.csv
+[output_treatment]   KEEP: pSummary.csv
+[output_treatment]   KEEP: pTechFuelMerged.csv
+[output_treatment]   DELETE: pTransmissionCapacity.csv
+[output_treatment]   KEEP: pTransmissionMerged.csv
+[output_treatment]   DELETE: pUtilizationPlant.csv
+[output_treatment]   DELETE: pUtilizationTechFuel.csv
+[output_treatment]   KEEP: pYearlyZoneMerged.csv
+[output_treatment]   DELETE: pZoneCountry.csv
+[output_treatment]   Summary: 12 files kept, 40 files deleted
+
+============================================================
+[output_treatment] Output treatment complete
+============================================================
+*** Status: Normal completion
+--- Job main.gms Stop 11/13/26 03:23:38 elapsed 0:54:41.839

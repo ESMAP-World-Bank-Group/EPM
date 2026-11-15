@@ -1,0 +1,2555 @@
+country,zone,attribute,resolution,year,baseline
+MEXICO,CEN,Annual Energy Exchanges: GWh,OCC,2030,15.0
+MEXICO,CEN,Annual Energy Exchanges: GWh,OCC,2035,7.5
+MEXICO,CEN,Annual Energy Exchanges: GWh,OCC,2040,1009.7
+MEXICO,CEN,Annual Energy Exchanges: GWh,OCC,2045,1616.5
+MEXICO,CEN,Annual Energy Exchanges: GWh,OCC,2050,860.3
+MEXICO,CEN,Annual Energy Exchanges: GWh,ORI,2030,3.2
+MEXICO,CEN,Annual Energy Exchanges: GWh,ORI,2035,1.1
+MEXICO,CEN,Annual Energy Exchanges: GWh,ORI,2040,31.1
+MEXICO,CEN,Annual Energy Exchanges: GWh,ORI,2045,102.6
+MEXICO,CEN,Annual Energy Exchanges: GWh,ORI,2050,85.4
+MEXICO,CEN,Capacity: MW,Battery,2027,12.0
+MEXICO,CEN,Capacity: MW,Battery,2030,12.0
+MEXICO,CEN,Capacity: MW,Battery,2035,12.0
+MEXICO,CEN,Capacity: MW,Battery,2040,12.0
+MEXICO,CEN,Capacity: MW,Battery,2045,12.0
+MEXICO,CEN,Capacity: MW,Battery,2050,12.0
+MEXICO,CEN,Capacity: MW,Biomass,2025,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2027,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2030,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2035,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2040,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2045,3.4
+MEXICO,CEN,Capacity: MW,Biomass,2050,3.4
+MEXICO,CEN,Capacity: MW,Coal,2025,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2027,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2030,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2035,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2040,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2045,2620.0
+MEXICO,CEN,Capacity: MW,Coal,2050,2620.0
+MEXICO,CEN,Capacity: MW,Gas,2025,5046.4
+MEXICO,CEN,Capacity: MW,Gas,2027,5157.2
+MEXICO,CEN,Capacity: MW,Gas,2030,5936.1
+MEXICO,CEN,Capacity: MW,Gas,2035,5936.1
+MEXICO,CEN,Capacity: MW,Gas,2040,8923.6
+MEXICO,CEN,Capacity: MW,Gas,2045,11832.1
+MEXICO,CEN,Capacity: MW,Gas,2050,12728.1
+MEXICO,CEN,Capacity: MW,Other,2025,5.8
+MEXICO,CEN,Capacity: MW,Other,2027,5.8
+MEXICO,CEN,Capacity: MW,Other,2030,5.8
+MEXICO,CEN,Capacity: MW,Other,2035,5.8
+MEXICO,CEN,Capacity: MW,Other,2040,5.8
+MEXICO,CEN,Capacity: MW,Other,2045,5.8
+MEXICO,CEN,Capacity: MW,Other,2050,5.8
+MEXICO,CEN,Capacity: MW,PSH,2030,900.0
+MEXICO,CEN,Capacity: MW,PSH,2035,900.0
+MEXICO,CEN,Capacity: MW,PSH,2040,900.0
+MEXICO,CEN,Capacity: MW,PSH,2045,900.0
+MEXICO,CEN,Capacity: MW,PSH,2050,900.0
+MEXICO,CEN,Capacity: MW,PV,2025,638.3
+MEXICO,CEN,Capacity: MW,PV,2027,677.3
+MEXICO,CEN,Capacity: MW,PV,2030,1102.5
+MEXICO,CEN,Capacity: MW,PV,2035,1369.9
+MEXICO,CEN,Capacity: MW,PV,2040,1566.0
+MEXICO,CEN,Capacity: MW,PV,2045,3481.0
+MEXICO,CEN,Capacity: MW,PV,2050,5481.0
+MEXICO,CEN,Capacity: MW,Reservoir,2025,2027.6
+MEXICO,CEN,Capacity: MW,Reservoir,2027,2027.6
+MEXICO,CEN,Capacity: MW,Reservoir,2030,2027.6
+MEXICO,CEN,Capacity: MW,Reservoir,2035,2030.6
+MEXICO,CEN,Capacity: MW,Reservoir,2040,2180.6
+MEXICO,CEN,Capacity: MW,Reservoir,2045,2180.6
+MEXICO,CEN,Capacity: MW,Reservoir,2050,2180.6
+MEXICO,CEN,Demand: GWh,,2025,60562.4
+MEXICO,CEN,Demand: GWh,,2027,63857.0
+MEXICO,CEN,Demand: GWh,,2030,68476.1
+MEXICO,CEN,Demand: GWh,,2035,76679.8
+MEXICO,CEN,Demand: GWh,,2040,86510.8
+MEXICO,CEN,Demand: GWh,,2045,98025.6
+MEXICO,CEN,Demand: GWh,,2050,111073.0
+MEXICO,CEN,Emissions: MtCO2,,2025,9.3
+MEXICO,CEN,Emissions: MtCO2,,2027,9.6
+MEXICO,CEN,Emissions: MtCO2,,2030,10.0
+MEXICO,CEN,Emissions: MtCO2,,2035,11.9
+MEXICO,CEN,Emissions: MtCO2,,2040,19.5
+MEXICO,CEN,Emissions: MtCO2,,2045,25.2
+MEXICO,CEN,Emissions: MtCO2,,2050,25.4
+MEXICO,CEN,Energy: GWh,Battery,2030,0.0
+MEXICO,CEN,Energy: GWh,Battery,2035,0.0
+MEXICO,CEN,Energy: GWh,Battery,2040,0.9
+MEXICO,CEN,Energy: GWh,Battery,2045,1.3
+MEXICO,CEN,Energy: GWh,Battery,2050,2.3
+MEXICO,CEN,Energy: GWh,Biomass,2025,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2027,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2030,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2035,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2040,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2045,23.2
+MEXICO,CEN,Energy: GWh,Biomass,2050,23.2
+MEXICO,CEN,Energy: GWh,Coal,2025,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2027,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2030,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2035,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2040,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2045,2997.4
+MEXICO,CEN,Energy: GWh,Coal,2050,2997.4
+MEXICO,CEN,Energy: GWh,Gas,2025,12418.1
+MEXICO,CEN,Energy: GWh,Gas,2027,13243.5
+MEXICO,CEN,Energy: GWh,Gas,2030,14283.5
+MEXICO,CEN,Energy: GWh,Gas,2035,19217.7
+MEXICO,CEN,Energy: GWh,Gas,2040,39309.6
+MEXICO,CEN,Energy: GWh,Gas,2045,54335.7
+MEXICO,CEN,Energy: GWh,Gas,2050,54817.7
+MEXICO,CEN,Energy: GWh,Other,2025,20.7
+MEXICO,CEN,Energy: GWh,Other,2027,11.3
+MEXICO,CEN,Energy: GWh,Other,2030,11.3
+MEXICO,CEN,Energy: GWh,Other,2035,11.4
+MEXICO,CEN,Energy: GWh,Other,2040,11.9
+MEXICO,CEN,Energy: GWh,Other,2045,11.8
+MEXICO,CEN,Energy: GWh,Other,2050,11.4
+MEXICO,CEN,Energy: GWh,PSH,2030,3.5
+MEXICO,CEN,Energy: GWh,PSH,2035,2.2
+MEXICO,CEN,Energy: GWh,PSH,2040,51.8
+MEXICO,CEN,Energy: GWh,PSH,2045,65.5
+MEXICO,CEN,Energy: GWh,PSH,2050,74.1
+MEXICO,CEN,Energy: GWh,PV,2025,1045.2
+MEXICO,CEN,Energy: GWh,PV,2027,1124.6
+MEXICO,CEN,Energy: GWh,PV,2030,1767.7
+MEXICO,CEN,Energy: GWh,PV,2035,2172.1
+MEXICO,CEN,Energy: GWh,PV,2040,2468.7
+MEXICO,CEN,Energy: GWh,PV,2045,6371.2
+MEXICO,CEN,Energy: GWh,PV,2050,10446.9
+MEXICO,CEN,Energy: GWh,Reservoir,2025,7682.1
+MEXICO,CEN,Energy: GWh,Reservoir,2027,7682.1
+MEXICO,CEN,Energy: GWh,Reservoir,2030,7682.1
+MEXICO,CEN,Energy: GWh,Reservoir,2035,7704.5
+MEXICO,CEN,Energy: GWh,Reservoir,2040,8821.4
+MEXICO,CEN,Energy: GWh,Reservoir,2045,8821.4
+MEXICO,CEN,Energy: GWh,Reservoir,2050,8821.4
+MEXICO,CEN,Export revenues with internal zones: $/MWh,,,-0.0
+MEXICO,CEN,Export revenues with internal zones: $m,,2030,13.5
+MEXICO,CEN,Export revenues with internal zones: $m,,2035,5.0
+MEXICO,CEN,Export revenues with internal zones: $m,,2050,6.9
+MEXICO,CEN,Exports exchange: GWh,,2030,18.2
+MEXICO,CEN,Exports exchange: GWh,,2035,8.5
+MEXICO,CEN,Exports exchange: GWh,,2040,1040.9
+MEXICO,CEN,Exports exchange: GWh,,2045,1719.0
+MEXICO,CEN,Exports exchange: GWh,,2050,945.7
+MEXICO,CEN,Firm Capacity: MW,,2025,9703.2
+MEXICO,CEN,Firm Capacity: MW,,2027,9826.0
+MEXICO,CEN,Firm Capacity: MW,,2030,11504.9
+MEXICO,CEN,Firm Capacity: MW,,2035,11507.9
+MEXICO,CEN,Firm Capacity: MW,,2040,14645.4
+MEXICO,CEN,Firm Capacity: MW,,2045,17553.9
+MEXICO,CEN,Firm Capacity: MW,,2050,18449.9
+MEXICO,CEN,Fixed O&M: $/MWh,,,5.7
+MEXICO,CEN,Fixed O&M: $m,,2025,373.5
+MEXICO,CEN,Fixed O&M: $m,,2027,377.7
+MEXICO,CEN,Fixed O&M: $m,,2030,435.7
+MEXICO,CEN,Fixed O&M: $m,,2035,435.9
+MEXICO,CEN,Fixed O&M: $m,,2040,481.6
+MEXICO,CEN,Fixed O&M: $m,,2045,532.0
+MEXICO,CEN,Fixed O&M: $m,,2050,557.4
+MEXICO,CEN,Fuel costs: $/MWh,,,15.7
+MEXICO,CEN,Fuel costs: $m,,2025,737.0
+MEXICO,CEN,Fuel costs: $m,,2027,742.4
+MEXICO,CEN,Fuel costs: $m,,2030,784.3
+MEXICO,CEN,Fuel costs: $m,,2035,930.1
+MEXICO,CEN,Fuel costs: $m,,2040,1733.0
+MEXICO,CEN,Fuel costs: $m,,2045,2133.8
+MEXICO,CEN,Fuel costs: $m,,2050,2012.3
+MEXICO,CEN,Generation: GWh,,2025,24186.7
+MEXICO,CEN,Generation: GWh,,2027,25082.3
+MEXICO,CEN,Generation: GWh,,2030,26768.8
+MEXICO,CEN,Generation: GWh,,2035,32128.5
+MEXICO,CEN,Generation: GWh,,2040,53685.0
+MEXICO,CEN,Generation: GWh,,2045,72627.5
+MEXICO,CEN,Generation: GWh,,2050,77194.4
+MEXICO,CEN,Import costs with internal zones: $/MWh,,,18.3
+MEXICO,CEN,Import costs with internal zones: $m,,2025,1606.5
+MEXICO,CEN,Import costs with internal zones: $m,,2027,1623.3
+MEXICO,CEN,Import costs with internal zones: $m,,2030,1603.6
+MEXICO,CEN,Import costs with internal zones: $m,,2035,1852.1
+MEXICO,CEN,Import costs with internal zones: $m,,2040,1302.2
+MEXICO,CEN,Import costs with internal zones: $m,,2045,838.4
+MEXICO,CEN,Import costs with internal zones: $m,,2050,1059.1
+MEXICO,CEN,Imports exchange: GWh,,2025,37253.9
+MEXICO,CEN,Imports exchange: GWh,,2027,39744.8
+MEXICO,CEN,Imports exchange: GWh,,2030,42769.4
+MEXICO,CEN,Imports exchange: GWh,,2035,45663.2
+MEXICO,CEN,Imports exchange: GWh,,2040,34790.2
+MEXICO,CEN,Imports exchange: GWh,,2045,27866.2
+MEXICO,CEN,Imports exchange: GWh,,2050,35741.8
+MEXICO,CEN,Investment costs: $/MWh,,,4.4
+MEXICO,CEN,Investment costs: $m,,2025,0.9
+MEXICO,CEN,Investment costs: $m,,2027,12.1
+MEXICO,CEN,Investment costs: $m,,2030,279.6
+MEXICO,CEN,Investment costs: $m,,2035,280.3
+MEXICO,CEN,Investment costs: $m,,2040,457.3
+MEXICO,CEN,Investment costs: $m,,2045,675.5
+MEXICO,CEN,Investment costs: $m,,2050,790.4
+MEXICO,CEN,Net interchange Ratio: GWh,,2025,0.6
+MEXICO,CEN,Net interchange Ratio: GWh,,2027,0.6
+MEXICO,CEN,Net interchange Ratio: GWh,,2030,0.6
+MEXICO,CEN,Net interchange Ratio: GWh,,2035,0.6
+MEXICO,CEN,Net interchange Ratio: GWh,,2040,0.4
+MEXICO,CEN,Net interchange Ratio: GWh,,2045,0.3
+MEXICO,CEN,Net interchange Ratio: GWh,,2050,0.3
+MEXICO,CEN,Net interchange: GWh,,2025,37253.9
+MEXICO,CEN,Net interchange: GWh,,2027,39744.8
+MEXICO,CEN,Net interchange: GWh,,2030,42751.2
+MEXICO,CEN,Net interchange: GWh,,2035,45654.6
+MEXICO,CEN,Net interchange: GWh,,2040,33749.3
+MEXICO,CEN,Net interchange: GWh,,2045,26147.2
+MEXICO,CEN,Net interchange: GWh,,2050,34796.2
+MEXICO,CEN,New Capacity: MW,Battery,2027,12.0
+MEXICO,CEN,New Capacity: MW,Gas,2025,9.6
+MEXICO,CEN,New Capacity: MW,Gas,2027,110.9
+MEXICO,CEN,New Capacity: MW,Gas,2030,778.9
+MEXICO,CEN,New Capacity: MW,Gas,2040,2987.5
+MEXICO,CEN,New Capacity: MW,Gas,2045,2908.5
+MEXICO,CEN,New Capacity: MW,Gas,2050,896.0
+MEXICO,CEN,New Capacity: MW,PSH,2030,900.0
+MEXICO,CEN,New Capacity: MW,PV,2027,39.0
+MEXICO,CEN,New Capacity: MW,PV,2030,425.2
+MEXICO,CEN,New Capacity: MW,PV,2035,267.4
+MEXICO,CEN,New Capacity: MW,PV,2040,196.1
+MEXICO,CEN,New Capacity: MW,PV,2045,1915.0
+MEXICO,CEN,New Capacity: MW,PV,2050,2000.0
+MEXICO,CEN,New Capacity: MW,Reservoir,2035,3.0
+MEXICO,CEN,New Capacity: MW,Reservoir,2040,150.0
+MEXICO,CEN,Peak demand: MW,,2025,9308.6
+MEXICO,CEN,Peak demand: MW,,2027,9781.8
+MEXICO,CEN,Peak demand: MW,,2030,10485.7
+MEXICO,CEN,Peak demand: MW,,2035,11862.5
+MEXICO,CEN,Peak demand: MW,,2040,13443.4
+MEXICO,CEN,Peak demand: MW,,2045,15313.1
+MEXICO,CEN,Peak demand: MW,,2050,17442.8
+MEXICO,CEN,Planning Reserve: MW,,2025,1.0
+MEXICO,CEN,Planning Reserve: MW,,2027,1.0
+MEXICO,CEN,Planning Reserve: MW,,2030,1.1
+MEXICO,CEN,Planning Reserve: MW,,2035,1.0
+MEXICO,CEN,Planning Reserve: MW,,2040,1.1
+MEXICO,CEN,Planning Reserve: MW,,2045,1.1
+MEXICO,CEN,Planning Reserve: MW,,2050,1.1
+MEXICO,CEN,Price: $/MWh,,2025,43.9
+MEXICO,CEN,Price: $/MWh,,2027,41.4
+MEXICO,CEN,Price: $/MWh,,2030,38.0
+MEXICO,CEN,Price: $/MWh,,2035,41.3
+MEXICO,CEN,Price: $/MWh,,2040,40.1
+MEXICO,CEN,Price: $/MWh,,2045,36.4
+MEXICO,CEN,Price: $/MWh,,2050,34.5
+MEXICO,CEN,Spinning Reserve: GWh,,2025,3062.8
+MEXICO,CEN,Spinning Reserve: GWh,,2027,3727.8
+MEXICO,CEN,Spinning Reserve: GWh,,2030,5260.5
+MEXICO,CEN,Spinning Reserve: GWh,,2035,5940.2
+MEXICO,CEN,Spinning Reserve: GWh,,2040,7055.9
+MEXICO,CEN,Spinning Reserve: GWh,,2045,7840.0
+MEXICO,CEN,Spinning Reserve: GWh,,2050,8379.3
+MEXICO,CEN,Spinning reserve costs: $/MWh,,,0.4
+MEXICO,CEN,Spinning reserve costs: $m,,2025,15.3
+MEXICO,CEN,Spinning reserve costs: $m,,2027,18.6
+MEXICO,CEN,Spinning reserve costs: $m,,2030,26.3
+MEXICO,CEN,Spinning reserve costs: $m,,2035,29.7
+MEXICO,CEN,Spinning reserve costs: $m,,2040,35.3
+MEXICO,CEN,Spinning reserve costs: $m,,2045,39.2
+MEXICO,CEN,Spinning reserve costs: $m,,2050,41.9
+MEXICO,CEN,Total Demand: GWh,,2025,60562.4
+MEXICO,CEN,Total Demand: GWh,,2027,63857.0
+MEXICO,CEN,Total Demand: GWh,,2030,68476.1
+MEXICO,CEN,Total Demand: GWh,,2035,76679.8
+MEXICO,CEN,Total Demand: GWh,,2040,86510.8
+MEXICO,CEN,Total Demand: GWh,,2045,98025.6
+MEXICO,CEN,Total Demand: GWh,,2050,111073.0
+MEXICO,CEN,Trade shared benefits: $/MWh,,,-0.4
+MEXICO,CEN,Transmission Capacity: MW,OCC,2025,5131.3
+MEXICO,CEN,Transmission Capacity: MW,OCC,2027,5131.3
+MEXICO,CEN,Transmission Capacity: MW,OCC,2030,5965.0
+MEXICO,CEN,Transmission Capacity: MW,OCC,2035,5965.0
+MEXICO,CEN,Transmission Capacity: MW,OCC,2040,5965.0
+MEXICO,CEN,Transmission Capacity: MW,OCC,2045,5965.0
+MEXICO,CEN,Transmission Capacity: MW,OCC,2050,5965.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2025,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2027,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2030,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2035,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2040,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2045,3210.0
+MEXICO,CEN,Transmission Capacity: MW,ORI,2050,3210.0
+MEXICO,CEN,Variable O&M: $/MWh,,,1.6
+MEXICO,CEN,Variable O&M: $m,,2025,96.3
+MEXICO,CEN,Variable O&M: $m,,2027,97.9
+MEXICO,CEN,Variable O&M: $m,,2030,84.5
+MEXICO,CEN,Variable O&M: $m,,2035,115.9
+MEXICO,CEN,Variable O&M: $m,,2040,158.2
+MEXICO,CEN,Variable O&M: $m,,2045,196.0
+MEXICO,CEN,Variable O&M: $m,,2050,198.9
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2025,2284.7
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2027,1824.6
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2030,1159.2
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2035,2689.4
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2040,2049.3
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2045,967.8
+MEXICO,NES,Annual Energy Exchanges: GWh,NTE,2050,628.8
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2025,29500.8
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2027,26443.1
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2030,15970.8
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2035,20330.8
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2040,13401.5
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2045,4789.6
+MEXICO,NES,Annual Energy Exchanges: GWh,OCC,2050,8895.8
+MEXICO,NES,Annual Energy Exchanges: GWh,ORI,2030,7.8
+MEXICO,NES,Annual Energy Exchanges: GWh,ORI,2035,4.7
+MEXICO,NES,Annual Energy Exchanges: GWh,ORI,2040,165.6
+MEXICO,NES,Annual Energy Exchanges: GWh,ORI,2045,275.6
+MEXICO,NES,Annual Energy Exchanges: GWh,ORI,2050,1697.8
+MEXICO,NES,Annual Energy Exports External: GWh,ERCOT,2030,2.6
+MEXICO,NES,Annual Energy Exports External: GWh,ERCOT,2035,2.6
+MEXICO,NES,Annual Energy Exports External: GWh,ERCOT,2040,52.1
+MEXICO,NES,Annual Energy Exports External: GWh,ERCOT,2045,76.3
+MEXICO,NES,Annual Energy Exports External: GWh,ERCOT,2050,402.0
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2025,910.9
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2027,2266.3
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2035,2266.3
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2040,2518.7
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2045,4459.9
+MEXICO,NES,Annual Energy Imports External: GWh,ERCOT,2050,4117.4
+MEXICO,NES,Capacity: MW,Battery,2027,382.0
+MEXICO,NES,Capacity: MW,Battery,2030,382.0
+MEXICO,NES,Capacity: MW,Battery,2035,382.0
+MEXICO,NES,Capacity: MW,Battery,2040,382.0
+MEXICO,NES,Capacity: MW,Battery,2045,382.0
+MEXICO,NES,Capacity: MW,Battery,2050,425.2
+MEXICO,NES,Capacity: MW,Biomass,2025,66.7
+MEXICO,NES,Capacity: MW,Biomass,2027,136.0
+MEXICO,NES,Capacity: MW,Biomass,2030,136.0
+MEXICO,NES,Capacity: MW,Biomass,2035,136.0
+MEXICO,NES,Capacity: MW,Biomass,2040,136.0
+MEXICO,NES,Capacity: MW,Biomass,2045,136.0
+MEXICO,NES,Capacity: MW,Biomass,2050,136.0
+MEXICO,NES,Capacity: MW,Coal,2025,3107.8
+MEXICO,NES,Capacity: MW,Coal,2027,3107.8
+MEXICO,NES,Capacity: MW,Coal,2030,3107.8
+MEXICO,NES,Capacity: MW,Coal,2035,3107.8
+MEXICO,NES,Capacity: MW,Coal,2040,3107.8
+MEXICO,NES,Capacity: MW,Coal,2045,3107.8
+MEXICO,NES,Capacity: MW,Coal,2050,3107.8
+MEXICO,NES,Capacity: MW,Diesel,2025,84.5
+MEXICO,NES,Capacity: MW,Diesel,2027,84.5
+MEXICO,NES,Capacity: MW,Diesel,2030,84.5
+MEXICO,NES,Capacity: MW,Diesel,2035,84.5
+MEXICO,NES,Capacity: MW,Diesel,2040,84.5
+MEXICO,NES,Capacity: MW,Diesel,2045,84.5
+MEXICO,NES,Capacity: MW,Diesel,2050,84.5
+MEXICO,NES,Capacity: MW,Gas,2025,15732.4
+MEXICO,NES,Capacity: MW,Gas,2027,15732.4
+MEXICO,NES,Capacity: MW,Gas,2030,15732.4
+MEXICO,NES,Capacity: MW,Gas,2035,15732.4
+MEXICO,NES,Capacity: MW,Gas,2040,15732.4
+MEXICO,NES,Capacity: MW,Gas,2045,16212.6
+MEXICO,NES,Capacity: MW,Gas,2050,19775.3
+MEXICO,NES,Capacity: MW,Onshore Wind,2025,3349.3
+MEXICO,NES,Capacity: MW,Onshore Wind,2027,4147.5
+MEXICO,NES,Capacity: MW,Onshore Wind,2030,6395.0
+MEXICO,NES,Capacity: MW,Onshore Wind,2035,6395.0
+MEXICO,NES,Capacity: MW,Onshore Wind,2040,6395.0
+MEXICO,NES,Capacity: MW,Onshore Wind,2045,6395.0
+MEXICO,NES,Capacity: MW,Onshore Wind,2050,6395.0
+MEXICO,NES,Capacity: MW,PV,2025,1025.5
+MEXICO,NES,Capacity: MW,PV,2027,2063.5
+MEXICO,NES,Capacity: MW,PV,2030,2916.8
+MEXICO,NES,Capacity: MW,PV,2035,3453.5
+MEXICO,NES,Capacity: MW,PV,2040,9395.1
+MEXICO,NES,Capacity: MW,PV,2045,9602.4
+MEXICO,NES,Capacity: MW,PV,2050,10744.0
+MEXICO,NES,Capacity: MW,Reservoir,2025,117.6
+MEXICO,NES,Capacity: MW,Reservoir,2027,117.6
+MEXICO,NES,Capacity: MW,Reservoir,2030,117.6
+MEXICO,NES,Capacity: MW,Reservoir,2035,149.6
+MEXICO,NES,Capacity: MW,Reservoir,2040,149.6
+MEXICO,NES,Capacity: MW,Reservoir,2045,149.6
+MEXICO,NES,Capacity: MW,Reservoir,2050,149.6
+MEXICO,NES,Demand: GWh,,2025,64806.3
+MEXICO,NES,Demand: GWh,,2027,68732.2
+MEXICO,NES,Demand: GWh,,2030,74353.1
+MEXICO,NES,Demand: GWh,,2035,84486.5
+MEXICO,NES,Demand: GWh,,2040,96439.2
+MEXICO,NES,Demand: GWh,,2045,109275.5
+MEXICO,NES,Demand: GWh,,2050,123820.3
+MEXICO,NES,Emissions: MtCO2,,2025,34.6
+MEXICO,NES,Emissions: MtCO2,,2027,32.3
+MEXICO,NES,Emissions: MtCO2,,2030,28.1
+MEXICO,NES,Emissions: MtCO2,,2035,32.8
+MEXICO,NES,Emissions: MtCO2,,2040,29.0
+MEXICO,NES,Emissions: MtCO2,,2045,28.7
+MEXICO,NES,Emissions: MtCO2,,2050,35.3
+MEXICO,NES,Energy: GWh,Battery,2030,1.3
+MEXICO,NES,Energy: GWh,Battery,2035,1.0
+MEXICO,NES,Energy: GWh,Battery,2040,29.8
+MEXICO,NES,Energy: GWh,Battery,2045,43.7
+MEXICO,NES,Energy: GWh,Battery,2050,105.6
+MEXICO,NES,Energy: GWh,Biomass,2025,146.2
+MEXICO,NES,Energy: GWh,Biomass,2027,661.9
+MEXICO,NES,Energy: GWh,Biomass,2030,661.9
+MEXICO,NES,Energy: GWh,Biomass,2035,661.9
+MEXICO,NES,Energy: GWh,Biomass,2040,661.9
+MEXICO,NES,Energy: GWh,Biomass,2045,661.9
+MEXICO,NES,Energy: GWh,Biomass,2050,661.9
+MEXICO,NES,Energy: GWh,Coal,2025,4452.5
+MEXICO,NES,Energy: GWh,Coal,2027,4452.5
+MEXICO,NES,Energy: GWh,Coal,2030,3997.8
+MEXICO,NES,Energy: GWh,Coal,2035,4452.5
+MEXICO,NES,Energy: GWh,Coal,2040,4397.8
+MEXICO,NES,Energy: GWh,Coal,2045,4266.7
+MEXICO,NES,Energy: GWh,Coal,2050,4316.4
+MEXICO,NES,Energy: GWh,Diesel,2025,162.7
+MEXICO,NES,Energy: GWh,Diesel,2027,162.7
+MEXICO,NES,Energy: GWh,Diesel,2030,162.7
+MEXICO,NES,Energy: GWh,Diesel,2035,162.7
+MEXICO,NES,Energy: GWh,Diesel,2040,162.7
+MEXICO,NES,Energy: GWh,Diesel,2045,162.7
+MEXICO,NES,Energy: GWh,Diesel,2050,162.7
+MEXICO,NES,Energy: GWh,Gas,2025,80736.0
+MEXICO,NES,Energy: GWh,Gas,2027,74964.0
+MEXICO,NES,Energy: GWh,Gas,2030,63884.0
+MEXICO,NES,Energy: GWh,Gas,2035,75977.4
+MEXICO,NES,Energy: GWh,Gas,2040,66312.6
+MEXICO,NES,Energy: GWh,Gas,2045,65362.5
+MEXICO,NES,Energy: GWh,Gas,2050,82743.7
+MEXICO,NES,Energy: GWh,Onshore Wind,2025,8239.5
+MEXICO,NES,Energy: GWh,Onshore Wind,2027,10202.9
+MEXICO,NES,Energy: GWh,Onshore Wind,2030,16563.1
+MEXICO,NES,Energy: GWh,Onshore Wind,2035,16563.1
+MEXICO,NES,Energy: GWh,Onshore Wind,2040,16554.6
+MEXICO,NES,Energy: GWh,Onshore Wind,2045,16562.1
+MEXICO,NES,Energy: GWh,Onshore Wind,2050,16563.1
+MEXICO,NES,Energy: GWh,PV,2025,1748.9
+MEXICO,NES,Energy: GWh,PV,2027,4094.6
+MEXICO,NES,Energy: GWh,PV,2030,5525.6
+MEXICO,NES,Energy: GWh,PV,2035,6425.7
+MEXICO,NES,Energy: GWh,PV,2040,19611.6
+MEXICO,NES,Energy: GWh,PV,2045,20075.7
+MEXICO,NES,Energy: GWh,PV,2050,22657.2
+MEXICO,NES,Energy: GWh,Reservoir,2025,195.0
+MEXICO,NES,Energy: GWh,Reservoir,2027,195.0
+MEXICO,NES,Energy: GWh,Reservoir,2030,195.0
+MEXICO,NES,Energy: GWh,Reservoir,2035,433.2
+MEXICO,NES,Energy: GWh,Reservoir,2040,433.2
+MEXICO,NES,Energy: GWh,Reservoir,2045,433.2
+MEXICO,NES,Energy: GWh,Reservoir,2050,433.2
+MEXICO,NES,Excess generation: $m,,2030,2.4
+MEXICO,NES,Export revenues with external zones: $/MWh,,,0.0
+MEXICO,NES,Export revenues with external zones: $m,,2030,0.1
+MEXICO,NES,Export revenues with external zones: $m,,2035,0.1
+MEXICO,NES,Export revenues with external zones: $m,,2040,1.8
+MEXICO,NES,Export revenues with external zones: $m,,2045,2.6
+MEXICO,NES,Export revenues with external zones: $m,,2050,13.6
+MEXICO,NES,Export revenues with internal zones: $/MWh,,,-7.4
+MEXICO,NES,Exports exchange: GWh,,2025,31785.4
+MEXICO,NES,Exports exchange: GWh,,2027,28267.7
+MEXICO,NES,Exports exchange: GWh,,2030,17140.4
+MEXICO,NES,Exports exchange: GWh,,2035,23027.5
+MEXICO,NES,Exports exchange: GWh,,2040,15668.5
+MEXICO,NES,Exports exchange: GWh,,2045,6109.3
+MEXICO,NES,Exports exchange: GWh,,2050,11624.4
+MEXICO,NES,Firm Capacity: MW,,2025,19109.1
+MEXICO,NES,Firm Capacity: MW,,2027,19560.3
+MEXICO,NES,Firm Capacity: MW,,2030,19560.3
+MEXICO,NES,Firm Capacity: MW,,2035,19592.3
+MEXICO,NES,Firm Capacity: MW,,2040,19592.3
+MEXICO,NES,Firm Capacity: MW,,2045,20072.5
+MEXICO,NES,Firm Capacity: MW,,2050,23678.4
+MEXICO,NES,Fixed O&M: $/MWh,,,9.5
+MEXICO,NES,Fixed O&M: $m,,2025,698.0
+MEXICO,NES,Fixed O&M: $m,,2027,763.5
+MEXICO,NES,Fixed O&M: $m,,2030,824.7
+MEXICO,NES,Fixed O&M: $m,,2035,826.3
+MEXICO,NES,Fixed O&M: $m,,2040,883.8
+MEXICO,NES,Fixed O&M: $m,,2045,888.5
+MEXICO,NES,Fixed O&M: $m,,2050,939.0
+MEXICO,NES,Fuel costs: $/MWh,,,31.1
+MEXICO,NES,Fuel costs: $m,,2025,3136.7
+MEXICO,NES,Fuel costs: $m,,2027,2817.1
+MEXICO,NES,Fuel costs: $m,,2030,2458.7
+MEXICO,NES,Fuel costs: $m,,2035,2816.0
+MEXICO,NES,Fuel costs: $m,,2040,2751.5
+MEXICO,NES,Fuel costs: $m,,2045,2560.6
+MEXICO,NES,Fuel costs: $m,,2050,2943.9
+MEXICO,NES,Generation: GWh,,2025,95680.8
+MEXICO,NES,Generation: GWh,,2027,94733.7
+MEXICO,NES,Generation: GWh,,2030,90991.4
+MEXICO,NES,Generation: GWh,,2035,104677.4
+MEXICO,NES,Generation: GWh,,2040,108164.2
+MEXICO,NES,Generation: GWh,,2045,107568.6
+MEXICO,NES,Generation: GWh,,2050,127643.9
+MEXICO,NES,Import costs with external zones: $/MWh,,,0.9
+MEXICO,NES,Import costs with external zones: $m,,2025,30.8
+MEXICO,NES,Import costs with external zones: $m,,2027,76.7
+MEXICO,NES,Import costs with external zones: $m,,2035,76.7
+MEXICO,NES,Import costs with external zones: $m,,2040,85.3
+MEXICO,NES,Import costs with external zones: $m,,2045,151.0
+MEXICO,NES,Import costs with external zones: $m,,2050,139.4
+MEXICO,NES,Import costs with internal zones: $/MWh,,,-0.2
+MEXICO,NES,Import costs with internal zones: $m,,2035,12.2
+MEXICO,NES,Imports exchange: GWh,,2025,910.9
+MEXICO,NES,Imports exchange: GWh,,2027,2266.3
+MEXICO,NES,Imports exchange: GWh,,2030,519.1
+MEXICO,NES,Imports exchange: GWh,,2035,2853.1
+MEXICO,NES,Imports exchange: GWh,,2040,4017.2
+MEXICO,NES,Imports exchange: GWh,,2045,7954.3
+MEXICO,NES,Imports exchange: GWh,,2050,8021.9
+MEXICO,NES,Investment costs: $/MWh,,,5.8
+MEXICO,NES,Investment costs: $m,,2025,23.4
+MEXICO,NES,Investment costs: $m,,2027,210.1
+MEXICO,NES,Investment costs: $m,,2030,408.8
+MEXICO,NES,Investment costs: $m,,2035,416.3
+MEXICO,NES,Investment costs: $m,,2040,733.1
+MEXICO,NES,Investment costs: $m,,2045,759.2
+MEXICO,NES,Investment costs: $m,,2050,959.9
+MEXICO,NES,Net interchange Ratio: GWh,,2045,0.0
+MEXICO,NES,Net interchange: GWh,,2045,1845.0
+MEXICO,NES,New Capacity: MW,Battery,2027,382.0
+MEXICO,NES,New Capacity: MW,Battery,2050,43.2
+MEXICO,NES,New Capacity: MW,Biomass,2027,69.3
+MEXICO,NES,New Capacity: MW,Gas,2025,18.3
+MEXICO,NES,New Capacity: MW,Gas,2045,480.2
+MEXICO,NES,New Capacity: MW,Gas,2050,3562.7
+MEXICO,NES,New Capacity: MW,Onshore Wind,2025,195.8
+MEXICO,NES,New Capacity: MW,Onshore Wind,2027,798.1
+MEXICO,NES,New Capacity: MW,Onshore Wind,2030,2247.5
+MEXICO,NES,New Capacity: MW,PV,2027,1038.0
+MEXICO,NES,New Capacity: MW,PV,2030,853.3
+MEXICO,NES,New Capacity: MW,PV,2035,536.7
+MEXICO,NES,New Capacity: MW,PV,2040,5941.6
+MEXICO,NES,New Capacity: MW,PV,2045,207.3
+MEXICO,NES,New Capacity: MW,PV,2050,1141.7
+MEXICO,NES,New Capacity: MW,Reservoir,2035,32.0
+MEXICO,NES,Peak demand: MW,,2025,11721.5
+MEXICO,NES,Peak demand: MW,,2027,12389.6
+MEXICO,NES,Peak demand: MW,,2030,13398.1
+MEXICO,NES,Peak demand: MW,,2035,15380.4
+MEXICO,NES,Peak demand: MW,,2040,17635.1
+MEXICO,NES,Peak demand: MW,,2045,20087.7
+MEXICO,NES,Peak demand: MW,,2050,22881.5
+MEXICO,NES,Planning Reserve: MW,,2025,1.6
+MEXICO,NES,Planning Reserve: MW,,2027,1.6
+MEXICO,NES,Planning Reserve: MW,,2030,1.5
+MEXICO,NES,Planning Reserve: MW,,2035,1.3
+MEXICO,NES,Planning Reserve: MW,,2040,1.1
+MEXICO,NES,Planning Reserve: MW,,2045,1.0
+MEXICO,NES,Planning Reserve: MW,,2050,1.0
+MEXICO,NES,Price: $/MWh,,2025,42.7
+MEXICO,NES,Price: $/MWh,,2027,40.2
+MEXICO,NES,Price: $/MWh,,2030,36.5
+MEXICO,NES,Price: $/MWh,,2035,40.2
+MEXICO,NES,Price: $/MWh,,2040,39.5
+MEXICO,NES,Price: $/MWh,,2045,37.0
+MEXICO,NES,Price: $/MWh,,2050,34.5
+MEXICO,NES,Spinning Reserve: GWh,,2025,3388.7
+MEXICO,NES,Spinning Reserve: GWh,,2027,3559.7
+MEXICO,NES,Spinning Reserve: GWh,,2030,4361.7
+MEXICO,NES,Spinning Reserve: GWh,,2035,4698.4
+MEXICO,NES,Spinning Reserve: GWh,,2040,5162.3
+MEXICO,NES,Spinning Reserve: GWh,,2045,5199.9
+MEXICO,NES,Spinning Reserve: GWh,,2050,6493.5
+MEXICO,NES,Spinning reserve costs: $/MWh,,,0.3
+MEXICO,NES,Spinning reserve costs: $m,,2025,16.9
+MEXICO,NES,Spinning reserve costs: $m,,2027,17.8
+MEXICO,NES,Spinning reserve costs: $m,,2030,21.8
+MEXICO,NES,Spinning reserve costs: $m,,2035,23.5
+MEXICO,NES,Spinning reserve costs: $m,,2040,25.8
+MEXICO,NES,Spinning reserve costs: $m,,2045,26.0
+MEXICO,NES,Spinning reserve costs: $m,,2050,32.5
+MEXICO,NES,Surplus generation: GWh,,2030,2.4
+MEXICO,NES,Total Demand: GWh,,2025,64806.3
+MEXICO,NES,Total Demand: GWh,,2027,68732.2
+MEXICO,NES,Total Demand: GWh,,2030,74353.1
+MEXICO,NES,Total Demand: GWh,,2035,84486.5
+MEXICO,NES,Total Demand: GWh,,2040,96439.2
+MEXICO,NES,Total Demand: GWh,,2045,109275.5
+MEXICO,NES,Total Demand: GWh,,2050,123820.3
+MEXICO,NES,Trade shared benefits: $/MWh,,,-0.2
+MEXICO,NES,Transmission Capacity: MW,NTE,2025,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2027,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2030,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2035,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2040,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2045,947.0
+MEXICO,NES,Transmission Capacity: MW,NTE,2050,947.0
+MEXICO,NES,Transmission Capacity: MW,OCC,2025,4750.0
+MEXICO,NES,Transmission Capacity: MW,OCC,2027,4750.0
+MEXICO,NES,Transmission Capacity: MW,OCC,2030,5936.3
+MEXICO,NES,Transmission Capacity: MW,OCC,2035,5936.3
+MEXICO,NES,Transmission Capacity: MW,OCC,2040,5936.3
+MEXICO,NES,Transmission Capacity: MW,OCC,2045,5936.3
+MEXICO,NES,Transmission Capacity: MW,OCC,2050,5936.3
+MEXICO,NES,Transmission Capacity: MW,ORI,2025,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2027,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2030,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2035,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2040,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2045,1555.0
+MEXICO,NES,Transmission Capacity: MW,ORI,2050,1555.0
+MEXICO,NES,VRE curtailment: $/MWh,,,0.1
+MEXICO,NES,VRE curtailment: $m,,2040,20.5
+MEXICO,NES,VRE curtailment: $m,,2045,17.4
+MEXICO,NES,VRE curtailment: $m,,2050,15.0
+MEXICO,NES,Variable O&M: $/MWh,,,3.2
+MEXICO,NES,Variable O&M: $m,,2025,316.3
+MEXICO,NES,Variable O&M: $m,,2027,296.5
+MEXICO,NES,Variable O&M: $m,,2030,254.9
+MEXICO,NES,Variable O&M: $m,,2035,300.3
+MEXICO,NES,Variable O&M: $m,,2040,264.9
+MEXICO,NES,Variable O&M: $m,,2045,261.1
+MEXICO,NES,Variable O&M: $m,,2050,304.0
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2025,201.8
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2027,77.7
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2030,218.9
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2035,444.4
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2040,409.2
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2045,811.2
+MEXICO,NOR,Annual Energy Exchanges: GWh,NTE,2050,1004.1
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2025,7464.0
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2027,7157.1
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2030,7448.3
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2035,6795.1
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2040,1757.1
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2045,3828.2
+MEXICO,NOR,Annual Energy Exchanges: GWh,OCC,2050,4702.5
+MEXICO,NOR,Capacity: MW,Battery,2050,823.0
+MEXICO,NOR,Capacity: MW,Diesel,2025,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2027,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2030,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2035,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2040,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2045,1438.6
+MEXICO,NOR,Capacity: MW,Diesel,2050,1438.6
+MEXICO,NOR,Capacity: MW,Gas,2025,5968.2
+MEXICO,NOR,Capacity: MW,Gas,2027,5968.2
+MEXICO,NOR,Capacity: MW,Gas,2030,5968.2
+MEXICO,NOR,Capacity: MW,Gas,2035,5968.2
+MEXICO,NOR,Capacity: MW,Gas,2040,6563.2
+MEXICO,NOR,Capacity: MW,Gas,2045,7685.5
+MEXICO,NOR,Capacity: MW,Gas,2050,9579.6
+MEXICO,NOR,Capacity: MW,Onshore Wind,2025,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2027,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2030,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2035,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2040,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2045,2.0
+MEXICO,NOR,Capacity: MW,Onshore Wind,2050,2.0
+MEXICO,NOR,Capacity: MW,PV,2025,2411.0
+MEXICO,NOR,Capacity: MW,PV,2027,2411.0
+MEXICO,NOR,Capacity: MW,PV,2030,3762.9
+MEXICO,NOR,Capacity: MW,PV,2035,3993.0
+MEXICO,NOR,Capacity: MW,PV,2040,4800.3
+MEXICO,NOR,Capacity: MW,PV,2045,5516.7
+MEXICO,NOR,Capacity: MW,PV,2050,6117.8
+MEXICO,NOR,Capacity: MW,Reservoir,2025,985.4
+MEXICO,NOR,Capacity: MW,Reservoir,2027,995.4
+MEXICO,NOR,Capacity: MW,Reservoir,2030,995.4
+MEXICO,NOR,Capacity: MW,Reservoir,2035,1053.4
+MEXICO,NOR,Capacity: MW,Reservoir,2040,1053.4
+MEXICO,NOR,Capacity: MW,Reservoir,2045,1053.4
+MEXICO,NOR,Capacity: MW,Reservoir,2050,1053.4
+MEXICO,NOR,Demand: GWh,,2025,29341.5
+MEXICO,NOR,Demand: GWh,,2027,30877.3
+MEXICO,NOR,Demand: GWh,,2030,33014.0
+MEXICO,NOR,Demand: GWh,,2035,36789.2
+MEXICO,NOR,Demand: GWh,,2040,41344.2
+MEXICO,NOR,Demand: GWh,,2045,46847.2
+MEXICO,NOR,Demand: GWh,,2050,53082.7
+MEXICO,NOR,Emissions: MtCO2,,2025,14.0
+MEXICO,NOR,Emissions: MtCO2,,2027,14.2
+MEXICO,NOR,Emissions: MtCO2,,2030,13.4
+MEXICO,NOR,Emissions: MtCO2,,2035,15.0
+MEXICO,NOR,Emissions: MtCO2,,2040,12.5
+MEXICO,NOR,Emissions: MtCO2,,2045,15.2
+MEXICO,NOR,Emissions: MtCO2,,2050,18.2
+MEXICO,NOR,Energy: GWh,Battery,2050,356.8
+MEXICO,NOR,Energy: GWh,Diesel,2025,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2027,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2030,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2035,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2040,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2045,2746.0
+MEXICO,NOR,Energy: GWh,Diesel,2050,2746.0
+MEXICO,NOR,Energy: GWh,Gas,2025,27126.7
+MEXICO,NOR,Energy: GWh,Gas,2027,28157.0
+MEXICO,NOR,Energy: GWh,Gas,2030,26455.1
+MEXICO,NOR,Energy: GWh,Gas,2035,30040.7
+MEXICO,NOR,Energy: GWh,Gas,2040,23981.8
+MEXICO,NOR,Energy: GWh,Gas,2045,30631.7
+MEXICO,NOR,Energy: GWh,Gas,2050,38276.1
+MEXICO,NOR,Energy: GWh,Onshore Wind,2025,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2027,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2030,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2035,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2040,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2045,3.7
+MEXICO,NOR,Energy: GWh,Onshore Wind,2050,3.7
+MEXICO,NOR,Energy: GWh,PV,2025,5561.3
+MEXICO,NOR,Energy: GWh,PV,2027,5561.3
+MEXICO,NOR,Energy: GWh,PV,2030,8597.9
+MEXICO,NOR,Energy: GWh,PV,2035,9010.3
+MEXICO,NOR,Energy: GWh,PV,2040,10854.3
+MEXICO,NOR,Energy: GWh,PV,2045,12584.4
+MEXICO,NOR,Energy: GWh,PV,2050,14036.0
+MEXICO,NOR,Energy: GWh,Reservoir,2025,1569.5
+MEXICO,NOR,Energy: GWh,Reservoir,2027,1644.0
+MEXICO,NOR,Energy: GWh,Reservoir,2030,1644.0
+MEXICO,NOR,Energy: GWh,Reservoir,2035,2075.9
+MEXICO,NOR,Energy: GWh,Reservoir,2040,2075.9
+MEXICO,NOR,Energy: GWh,Reservoir,2045,2075.9
+MEXICO,NOR,Energy: GWh,Reservoir,2050,2075.9
+MEXICO,NOR,Excess generation: $m,,2030,0.6
+MEXICO,NOR,Export revenues with internal zones: $/MWh,,,-4.8
+MEXICO,NOR,Exports exchange: GWh,,2025,7665.8
+MEXICO,NOR,Exports exchange: GWh,,2027,7234.8
+MEXICO,NOR,Exports exchange: GWh,,2030,7667.1
+MEXICO,NOR,Exports exchange: GWh,,2035,7239.5
+MEXICO,NOR,Exports exchange: GWh,,2040,2166.3
+MEXICO,NOR,Exports exchange: GWh,,2045,4639.4
+MEXICO,NOR,Exports exchange: GWh,,2050,5706.6
+MEXICO,NOR,Firm Capacity: MW,,2025,8392.2
+MEXICO,NOR,Firm Capacity: MW,,2027,8402.2
+MEXICO,NOR,Firm Capacity: MW,,2030,8402.2
+MEXICO,NOR,Firm Capacity: MW,,2035,8460.2
+MEXICO,NOR,Firm Capacity: MW,,2040,9055.2
+MEXICO,NOR,Firm Capacity: MW,,2045,10177.5
+MEXICO,NOR,Firm Capacity: MW,,2050,12894.6
+MEXICO,NOR,Fixed O&M: $/MWh,,,9.9
+MEXICO,NOR,Fixed O&M: $m,,2025,355.6
+MEXICO,NOR,Fixed O&M: $m,,2027,356.1
+MEXICO,NOR,Fixed O&M: $m,,2030,366.3
+MEXICO,NOR,Fixed O&M: $m,,2035,369.2
+MEXICO,NOR,Fixed O&M: $m,,2040,378.9
+MEXICO,NOR,Fixed O&M: $m,,2045,396.2
+MEXICO,NOR,Fixed O&M: $m,,2050,448.0
+MEXICO,NOR,Fuel costs: $/MWh,,,37.9
+MEXICO,NOR,Fuel costs: $m,,2025,1476.7
+MEXICO,NOR,Fuel costs: $m,,2027,1397.6
+MEXICO,NOR,Fuel costs: $m,,2030,1340.1
+MEXICO,NOR,Fuel costs: $m,,2035,1462.3
+MEXICO,NOR,Fuel costs: $m,,2040,1359.6
+MEXICO,NOR,Fuel costs: $m,,2045,1561.3
+MEXICO,NOR,Fuel costs: $m,,2050,1760.6
+MEXICO,NOR,Generation: GWh,,2025,37007.3
+MEXICO,NOR,Generation: GWh,,2027,38112.1
+MEXICO,NOR,Generation: GWh,,2030,39446.7
+MEXICO,NOR,Generation: GWh,,2035,43876.7
+MEXICO,NOR,Generation: GWh,,2040,39661.7
+MEXICO,NOR,Generation: GWh,,2045,48041.7
+MEXICO,NOR,Generation: GWh,,2050,57494.5
+MEXICO,NOR,Import costs with internal zones: $/MWh,,,1.4
+MEXICO,NOR,Import costs with internal zones: $m,,2030,28.8
+MEXICO,NOR,Import costs with internal zones: $m,,2035,3.7
+MEXICO,NOR,Import costs with internal zones: $m,,2040,164.4
+MEXICO,NOR,Import costs with internal zones: $m,,2045,139.2
+MEXICO,NOR,Import costs with internal zones: $m,,2050,39.3
+MEXICO,NOR,Imports exchange: GWh,,2030,1279.8
+MEXICO,NOR,Imports exchange: GWh,,2035,157.6
+MEXICO,NOR,Imports exchange: GWh,,2040,3989.5
+MEXICO,NOR,Imports exchange: GWh,,2045,3570.8
+MEXICO,NOR,Imports exchange: GWh,,2050,1777.6
+MEXICO,NOR,Investment costs: $/MWh,,,3.6
+MEXICO,NOR,Investment costs: $m,,2025,15.2
+MEXICO,NOR,Investment costs: $m,,2027,17.6
+MEXICO,NOR,Investment costs: $m,,2030,92.6
+MEXICO,NOR,Investment costs: $m,,2035,106.3
+MEXICO,NOR,Investment costs: $m,,2040,162.8
+MEXICO,NOR,Investment costs: $m,,2045,242.5
+MEXICO,NOR,Investment costs: $m,,2050,378.7
+MEXICO,NOR,Net interchange Ratio: GWh,,2040,0.0
+MEXICO,NOR,Net interchange: GWh,,2040,1823.2
+MEXICO,NOR,New Capacity: MW,Battery,2050,823.0
+MEXICO,NOR,New Capacity: MW,Gas,2040,595.0
+MEXICO,NOR,New Capacity: MW,Gas,2045,1122.3
+MEXICO,NOR,New Capacity: MW,Gas,2050,1894.1
+MEXICO,NOR,New Capacity: MW,PV,2025,99.0
+MEXICO,NOR,New Capacity: MW,PV,2030,1351.9
+MEXICO,NOR,New Capacity: MW,PV,2035,230.1
+MEXICO,NOR,New Capacity: MW,PV,2040,807.3
+MEXICO,NOR,New Capacity: MW,PV,2045,716.4
+MEXICO,NOR,New Capacity: MW,PV,2050,601.1
+MEXICO,NOR,New Capacity: MW,Reservoir,2025,36.0
+MEXICO,NOR,New Capacity: MW,Reservoir,2027,10.0
+MEXICO,NOR,New Capacity: MW,Reservoir,2035,58.0
+MEXICO,NOR,Peak demand: MW,,2025,6210.6
+MEXICO,NOR,Peak demand: MW,,2027,6513.5
+MEXICO,NOR,Peak demand: MW,,2030,6961.8
+MEXICO,NOR,Peak demand: MW,,2035,7837.6
+MEXICO,NOR,Peak demand: MW,,2040,8847.5
+MEXICO,NOR,Peak demand: MW,,2045,10078.0
+MEXICO,NOR,Peak demand: MW,,2050,11479.6
+MEXICO,NOR,Planning Reserve: MW,,2025,1.4
+MEXICO,NOR,Planning Reserve: MW,,2027,1.3
+MEXICO,NOR,Planning Reserve: MW,,2030,1.2
+MEXICO,NOR,Planning Reserve: MW,,2035,1.1
+MEXICO,NOR,Planning Reserve: MW,,2040,1.0
+MEXICO,NOR,Planning Reserve: MW,,2045,1.0
+MEXICO,NOR,Planning Reserve: MW,,2050,1.1
+MEXICO,NOR,Price: $/MWh,,2025,42.5
+MEXICO,NOR,Price: $/MWh,,2027,40.4
+MEXICO,NOR,Price: $/MWh,,2030,35.7
+MEXICO,NOR,Price: $/MWh,,2035,41.1
+MEXICO,NOR,Price: $/MWh,,2040,40.5
+MEXICO,NOR,Price: $/MWh,,2045,37.8
+MEXICO,NOR,Price: $/MWh,,2050,35.1
+MEXICO,NOR,Spinning Reserve: GWh,,2025,1919.5
+MEXICO,NOR,Spinning Reserve: GWh,,2027,2032.7
+MEXICO,NOR,Spinning Reserve: GWh,,2030,2565.1
+MEXICO,NOR,Spinning Reserve: GWh,,2035,3114.7
+MEXICO,NOR,Spinning Reserve: GWh,,2040,4599.2
+MEXICO,NOR,Spinning Reserve: GWh,,2045,4901.6
+MEXICO,NOR,Spinning Reserve: GWh,,2050,5346.2
+MEXICO,NOR,Spinning reserve costs: $/MWh,,,0.5
+MEXICO,NOR,Spinning reserve costs: $m,,2025,9.6
+MEXICO,NOR,Spinning reserve costs: $m,,2027,10.2
+MEXICO,NOR,Spinning reserve costs: $m,,2030,12.8
+MEXICO,NOR,Spinning reserve costs: $m,,2035,15.6
+MEXICO,NOR,Spinning reserve costs: $m,,2040,23.0
+MEXICO,NOR,Spinning reserve costs: $m,,2045,24.5
+MEXICO,NOR,Spinning reserve costs: $m,,2050,26.7
+MEXICO,NOR,Surplus generation: GWh,,2030,0.6
+MEXICO,NOR,Total Demand: GWh,,2025,29341.5
+MEXICO,NOR,Total Demand: GWh,,2027,30877.3
+MEXICO,NOR,Total Demand: GWh,,2030,33014.0
+MEXICO,NOR,Total Demand: GWh,,2035,36789.2
+MEXICO,NOR,Total Demand: GWh,,2040,41344.2
+MEXICO,NOR,Total Demand: GWh,,2045,46847.2
+MEXICO,NOR,Total Demand: GWh,,2050,53082.7
+MEXICO,NOR,Trade shared benefits: $/MWh,,,-0.3
+MEXICO,NOR,Transmission Capacity: MW,NTE,2025,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2027,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2030,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2035,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2040,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2045,980.0
+MEXICO,NOR,Transmission Capacity: MW,NTE,2050,980.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2025,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2027,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2030,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2035,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2040,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2045,1380.0
+MEXICO,NOR,Transmission Capacity: MW,OCC,2050,1380.0
+MEXICO,NOR,VRE curtailment: $m,,2040,0.3
+MEXICO,NOR,VRE curtailment: $m,,2045,0.0
+MEXICO,NOR,Variable O&M: $/MWh,,,3.0
+MEXICO,NOR,Variable O&M: $m,,2025,111.9
+MEXICO,NOR,Variable O&M: $m,,2027,114.9
+MEXICO,NOR,Variable O&M: $m,,2030,109.2
+MEXICO,NOR,Variable O&M: $m,,2035,121.2
+MEXICO,NOR,Variable O&M: $m,,2040,101.7
+MEXICO,NOR,Variable O&M: $m,,2045,120.4
+MEXICO,NOR,Variable O&M: $m,,2050,138.4
+MEXICO,NTE,Annual Energy Exchanges: GWh,NES,2030,466.9
+MEXICO,NTE,Annual Energy Exchanges: GWh,NES,2035,276.5
+MEXICO,NTE,Annual Energy Exchanges: GWh,NES,2040,415.3
+MEXICO,NTE,Annual Energy Exchanges: GWh,NES,2045,491.1
+MEXICO,NTE,Annual Energy Exchanges: GWh,NES,2050,1349.1
+MEXICO,NTE,Annual Energy Exchanges: GWh,NOR,2030,26.1
+MEXICO,NTE,Annual Energy Exchanges: GWh,NOR,2035,10.7
+MEXICO,NTE,Annual Energy Exchanges: GWh,NOR,2040,396.2
+MEXICO,NTE,Annual Energy Exchanges: GWh,NOR,2045,329.8
+MEXICO,NTE,Annual Energy Exchanges: GWh,NOR,2050,294.6
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2025,54.4
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2027,53.3
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2030,445.6
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2035,877.0
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2040,457.3
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2045,474.4
+MEXICO,NTE,Annual Energy Exchanges: GWh,OCC,2050,870.9
+MEXICO,NTE,Capacity: MW,Battery,2027,32.0
+MEXICO,NTE,Capacity: MW,Battery,2030,32.0
+MEXICO,NTE,Capacity: MW,Battery,2035,32.0
+MEXICO,NTE,Capacity: MW,Battery,2040,32.0
+MEXICO,NTE,Capacity: MW,Battery,2045,32.0
+MEXICO,NTE,Capacity: MW,Battery,2050,32.0
+MEXICO,NTE,Capacity: MW,Biomass,2025,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2027,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2030,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2035,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2040,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2045,9.4
+MEXICO,NTE,Capacity: MW,Biomass,2050,9.4
+MEXICO,NTE,Capacity: MW,Coal,2025,60.8
+MEXICO,NTE,Capacity: MW,Coal,2027,60.8
+MEXICO,NTE,Capacity: MW,Coal,2030,60.8
+MEXICO,NTE,Capacity: MW,Coal,2035,60.8
+MEXICO,NTE,Capacity: MW,Coal,2040,60.8
+MEXICO,NTE,Capacity: MW,Coal,2045,60.8
+MEXICO,NTE,Capacity: MW,Coal,2050,60.8
+MEXICO,NTE,Capacity: MW,Diesel,2025,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2027,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2030,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2035,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2040,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2045,1008.9
+MEXICO,NTE,Capacity: MW,Diesel,2050,1008.9
+MEXICO,NTE,Capacity: MW,Gas,2025,4839.8
+MEXICO,NTE,Capacity: MW,Gas,2027,5183.1
+MEXICO,NTE,Capacity: MW,Gas,2030,5183.1
+MEXICO,NTE,Capacity: MW,Gas,2035,5183.1
+MEXICO,NTE,Capacity: MW,Gas,2040,6645.6
+MEXICO,NTE,Capacity: MW,Gas,2045,8339.3
+MEXICO,NTE,Capacity: MW,Gas,2050,9956.4
+MEXICO,NTE,Capacity: MW,PV,2025,2653.9
+MEXICO,NTE,Capacity: MW,PV,2027,2758.9
+MEXICO,NTE,Capacity: MW,PV,2030,4359.8
+MEXICO,NTE,Capacity: MW,PV,2035,4643.8
+MEXICO,NTE,Capacity: MW,PV,2040,4852.0
+MEXICO,NTE,Capacity: MW,PV,2045,4852.0
+MEXICO,NTE,Capacity: MW,PV,2050,5745.0
+MEXICO,NTE,Capacity: MW,Reservoir,2025,47.7
+MEXICO,NTE,Capacity: MW,Reservoir,2027,47.7
+MEXICO,NTE,Capacity: MW,Reservoir,2030,47.7
+MEXICO,NTE,Capacity: MW,Reservoir,2035,63.7
+MEXICO,NTE,Capacity: MW,Reservoir,2040,63.7
+MEXICO,NTE,Capacity: MW,Reservoir,2045,63.7
+MEXICO,NTE,Capacity: MW,Reservoir,2050,63.7
+MEXICO,NTE,Demand: GWh,,2025,32856.5
+MEXICO,NTE,Demand: GWh,,2027,34374.0
+MEXICO,NTE,Demand: GWh,,2030,36430.6
+MEXICO,NTE,Demand: GWh,,2035,40005.3
+MEXICO,NTE,Demand: GWh,,2040,44433.9
+MEXICO,NTE,Demand: GWh,,2045,50348.1
+MEXICO,NTE,Demand: GWh,,2050,57049.6
+MEXICO,NTE,Emissions: MtCO2,,2025,11.1
+MEXICO,NTE,Emissions: MtCO2,,2027,11.8
+MEXICO,NTE,Emissions: MtCO2,,2030,11.7
+MEXICO,NTE,Emissions: MtCO2,,2035,12.3
+MEXICO,NTE,Emissions: MtCO2,,2040,14.0
+MEXICO,NTE,Emissions: MtCO2,,2045,16.5
+MEXICO,NTE,Emissions: MtCO2,,2050,18.8
+MEXICO,NTE,Energy: GWh,Battery,2030,1.5
+MEXICO,NTE,Energy: GWh,Battery,2035,0.4
+MEXICO,NTE,Energy: GWh,Battery,2040,4.4
+MEXICO,NTE,Energy: GWh,Battery,2045,4.1
+MEXICO,NTE,Energy: GWh,Battery,2050,12.4
+MEXICO,NTE,Energy: GWh,Biomass,2025,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2027,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2030,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2035,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2040,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2045,56.6
+MEXICO,NTE,Energy: GWh,Biomass,2050,56.6
+MEXICO,NTE,Energy: GWh,Coal,2025,69.6
+MEXICO,NTE,Energy: GWh,Coal,2027,69.6
+MEXICO,NTE,Energy: GWh,Coal,2030,69.6
+MEXICO,NTE,Energy: GWh,Coal,2035,70.6
+MEXICO,NTE,Energy: GWh,Coal,2040,69.6
+MEXICO,NTE,Energy: GWh,Coal,2045,69.6
+MEXICO,NTE,Energy: GWh,Coal,2050,69.6
+MEXICO,NTE,Energy: GWh,Diesel,2025,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2027,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2030,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2035,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2040,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2045,1903.9
+MEXICO,NTE,Energy: GWh,Diesel,2050,1903.9
+MEXICO,NTE,Energy: GWh,Gas,2025,22300.2
+MEXICO,NTE,Energy: GWh,Gas,2027,24118.4
+MEXICO,NTE,Energy: GWh,Gas,2030,23915.1
+MEXICO,NTE,Energy: GWh,Gas,2035,25369.4
+MEXICO,NTE,Energy: GWh,Gas,2040,30070.7
+MEXICO,NTE,Energy: GWh,Gas,2045,36588.7
+MEXICO,NTE,Energy: GWh,Gas,2050,42715.2
+MEXICO,NTE,Energy: GWh,PV,2025,6046.9
+MEXICO,NTE,Energy: GWh,PV,2027,6298.8
+MEXICO,NTE,Energy: GWh,PV,2030,9859.8
+MEXICO,NTE,Energy: GWh,PV,2035,10365.3
+MEXICO,NTE,Energy: GWh,PV,2040,10736.0
+MEXICO,NTE,Energy: GWh,PV,2045,10736.0
+MEXICO,NTE,Energy: GWh,PV,2050,12878.1
+MEXICO,NTE,Energy: GWh,Reservoir,2025,112.0
+MEXICO,NTE,Energy: GWh,Reservoir,2027,112.0
+MEXICO,NTE,Energy: GWh,Reservoir,2030,112.0
+MEXICO,NTE,Energy: GWh,Reservoir,2035,231.1
+MEXICO,NTE,Energy: GWh,Reservoir,2040,231.1
+MEXICO,NTE,Energy: GWh,Reservoir,2045,231.1
+MEXICO,NTE,Energy: GWh,Reservoir,2050,231.1
+MEXICO,NTE,Export revenues with internal zones: $/MWh,,,-0.2
+MEXICO,NTE,Export revenues with internal zones: $m,,2030,6.9
+MEXICO,NTE,Export revenues with internal zones: $m,,2045,6.3
+MEXICO,NTE,Exports exchange: GWh,,2025,54.4
+MEXICO,NTE,Exports exchange: GWh,,2027,53.3
+MEXICO,NTE,Exports exchange: GWh,,2030,938.5
+MEXICO,NTE,Exports exchange: GWh,,2035,1164.3
+MEXICO,NTE,Exports exchange: GWh,,2040,1268.8
+MEXICO,NTE,Exports exchange: GWh,,2045,1295.3
+MEXICO,NTE,Exports exchange: GWh,,2050,2514.6
+MEXICO,NTE,Firm Capacity: MW,,2025,5966.7
+MEXICO,NTE,Firm Capacity: MW,,2027,6342.0
+MEXICO,NTE,Firm Capacity: MW,,2030,6342.0
+MEXICO,NTE,Firm Capacity: MW,,2035,6358.0
+MEXICO,NTE,Firm Capacity: MW,,2040,7820.4
+MEXICO,NTE,Firm Capacity: MW,,2045,9514.2
+MEXICO,NTE,Firm Capacity: MW,,2050,11131.3
+MEXICO,NTE,Fixed O&M: $/MWh,,,6.1
+MEXICO,NTE,Fixed O&M: $m,,2025,219.8
+MEXICO,NTE,Fixed O&M: $m,,2027,232.6
+MEXICO,NTE,Fixed O&M: $m,,2030,244.5
+MEXICO,NTE,Fixed O&M: $m,,2035,245.3
+MEXICO,NTE,Fixed O&M: $m,,2040,259.9
+MEXICO,NTE,Fixed O&M: $m,,2045,277.4
+MEXICO,NTE,Fixed O&M: $m,,2050,303.3
+MEXICO,NTE,Fuel costs: $/MWh,,,31.6
+MEXICO,NTE,Fuel costs: $m,,2025,1156.2
+MEXICO,NTE,Fuel costs: $m,,2027,1144.7
+MEXICO,NTE,Fuel costs: $m,,2030,1144.0
+MEXICO,NTE,Fuel costs: $m,,2035,1177.2
+MEXICO,NTE,Fuel costs: $m,,2040,1450.6
+MEXICO,NTE,Fuel costs: $m,,2045,1614.5
+MEXICO,NTE,Fuel costs: $m,,2050,1736.8
+MEXICO,NTE,Generation: GWh,,2025,30489.2
+MEXICO,NTE,Generation: GWh,,2027,32559.2
+MEXICO,NTE,Generation: GWh,,2030,35918.4
+MEXICO,NTE,Generation: GWh,,2035,37997.3
+MEXICO,NTE,Generation: GWh,,2040,43072.3
+MEXICO,NTE,Generation: GWh,,2045,49590.0
+MEXICO,NTE,Generation: GWh,,2050,57866.9
+MEXICO,NTE,Import costs with internal zones: $/MWh,,,2.0
+MEXICO,NTE,Import costs with internal zones: $m,,2025,118.1
+MEXICO,NTE,Import costs with internal zones: $m,,2027,85.0
+MEXICO,NTE,Import costs with internal zones: $m,,2030,31.4
+MEXICO,NTE,Import costs with internal zones: $m,,2035,141.9
+MEXICO,NTE,Import costs with internal zones: $m,,2040,92.6
+MEXICO,NTE,Import costs with internal zones: $m,,2045,47.8
+MEXICO,NTE,Import costs with internal zones: $m,,2050,22.3
+MEXICO,NTE,Imports exchange: GWh,,2025,2487.4
+MEXICO,NTE,Imports exchange: GWh,,2027,1917.8
+MEXICO,NTE,Imports exchange: GWh,,2030,1493.5
+MEXICO,NTE,Imports exchange: GWh,,2035,3261.7
+MEXICO,NTE,Imports exchange: GWh,,2040,2710.4
+MEXICO,NTE,Imports exchange: GWh,,2045,2123.5
+MEXICO,NTE,Imports exchange: GWh,,2050,1769.9
+MEXICO,NTE,Investment costs: $/MWh,,,3.7
+MEXICO,NTE,Investment costs: $m,,2025,2.2
+MEXICO,NTE,Investment costs: $m,,2027,35.5
+MEXICO,NTE,Investment costs: $m,,2030,123.0
+MEXICO,NTE,Investment costs: $m,,2035,126.7
+MEXICO,NTE,Investment costs: $m,,2040,188.5
+MEXICO,NTE,Investment costs: $m,,2045,260.1
+MEXICO,NTE,Investment costs: $m,,2050,365.6
+MEXICO,NTE,Net interchange Ratio: GWh,,2025,0.1
+MEXICO,NTE,Net interchange Ratio: GWh,,2027,0.1
+MEXICO,NTE,Net interchange Ratio: GWh,,2030,0.0
+MEXICO,NTE,Net interchange Ratio: GWh,,2035,0.1
+MEXICO,NTE,Net interchange Ratio: GWh,,2040,0.0
+MEXICO,NTE,Net interchange Ratio: GWh,,2045,0.0
+MEXICO,NTE,Net interchange: GWh,,2025,2433.1
+MEXICO,NTE,Net interchange: GWh,,2027,1864.5
+MEXICO,NTE,Net interchange: GWh,,2030,555.0
+MEXICO,NTE,Net interchange: GWh,,2035,2097.4
+MEXICO,NTE,Net interchange: GWh,,2040,1441.6
+MEXICO,NTE,Net interchange: GWh,,2045,828.2
+MEXICO,NTE,New Capacity: MW,Battery,2027,32.0
+MEXICO,NTE,New Capacity: MW,Gas,2027,343.4
+MEXICO,NTE,New Capacity: MW,Gas,2040,1462.4
+MEXICO,NTE,New Capacity: MW,Gas,2045,1693.8
+MEXICO,NTE,New Capacity: MW,Gas,2050,1617.1
+MEXICO,NTE,New Capacity: MW,PV,2025,32.0
+MEXICO,NTE,New Capacity: MW,PV,2027,105.0
+MEXICO,NTE,New Capacity: MW,PV,2030,1600.9
+MEXICO,NTE,New Capacity: MW,PV,2035,284.0
+MEXICO,NTE,New Capacity: MW,PV,2040,208.2
+MEXICO,NTE,New Capacity: MW,PV,2050,893.0
+MEXICO,NTE,New Capacity: MW,Reservoir,2035,16.0
+MEXICO,NTE,Peak demand: MW,,2025,5805.7
+MEXICO,NTE,Peak demand: MW,,2027,6053.2
+MEXICO,NTE,Peak demand: MW,,2030,6413.2
+MEXICO,NTE,Peak demand: MW,,2035,7114.8
+MEXICO,NTE,Peak demand: MW,,2040,7937.8
+MEXICO,NTE,Peak demand: MW,,2045,9041.8
+MEXICO,NTE,Peak demand: MW,,2050,10299.3
+MEXICO,NTE,Planning Reserve: MW,,2025,1.0
+MEXICO,NTE,Planning Reserve: MW,,2027,1.0
+MEXICO,NTE,Planning Reserve: MW,,2030,1.0
+MEXICO,NTE,Planning Reserve: MW,,2035,0.9
+MEXICO,NTE,Planning Reserve: MW,,2040,1.0
+MEXICO,NTE,Planning Reserve: MW,,2045,1.1
+MEXICO,NTE,Planning Reserve: MW,,2050,1.1
+MEXICO,NTE,Price: $/MWh,,2025,43.5
+MEXICO,NTE,Price: $/MWh,,2027,41.0
+MEXICO,NTE,Price: $/MWh,,2030,35.6
+MEXICO,NTE,Price: $/MWh,,2035,41.0
+MEXICO,NTE,Price: $/MWh,,2040,39.7
+MEXICO,NTE,Price: $/MWh,,2045,36.7
+MEXICO,NTE,Price: $/MWh,,2050,33.9
+MEXICO,NTE,Spinning Reserve: GWh,,2025,844.4
+MEXICO,NTE,Spinning Reserve: GWh,,2027,987.5
+MEXICO,NTE,Spinning Reserve: GWh,,2030,1622.9
+MEXICO,NTE,Spinning Reserve: GWh,,2035,1928.0
+MEXICO,NTE,Spinning Reserve: GWh,,2040,3020.0
+MEXICO,NTE,Spinning Reserve: GWh,,2045,3228.4
+MEXICO,NTE,Spinning Reserve: GWh,,2050,3561.8
+MEXICO,NTE,Spinning reserve costs: $/MWh,,,0.3
+MEXICO,NTE,Spinning reserve costs: $m,,2025,4.2
+MEXICO,NTE,Spinning reserve costs: $m,,2027,4.9
+MEXICO,NTE,Spinning reserve costs: $m,,2030,8.1
+MEXICO,NTE,Spinning reserve costs: $m,,2035,9.6
+MEXICO,NTE,Spinning reserve costs: $m,,2040,15.1
+MEXICO,NTE,Spinning reserve costs: $m,,2045,16.1
+MEXICO,NTE,Spinning reserve costs: $m,,2050,17.8
+MEXICO,NTE,Total Demand: GWh,,2025,32856.5
+MEXICO,NTE,Total Demand: GWh,,2027,34374.0
+MEXICO,NTE,Total Demand: GWh,,2030,36430.6
+MEXICO,NTE,Total Demand: GWh,,2035,40005.3
+MEXICO,NTE,Total Demand: GWh,,2040,44433.9
+MEXICO,NTE,Total Demand: GWh,,2045,50348.1
+MEXICO,NTE,Total Demand: GWh,,2050,57049.6
+MEXICO,NTE,Trade shared benefits: $/MWh,,,-0.2
+MEXICO,NTE,Transmission Capacity: MW,NES,2025,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2027,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2030,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2035,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2040,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2045,934.0
+MEXICO,NTE,Transmission Capacity: MW,NES,2050,934.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2025,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2027,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2030,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2035,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2040,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2045,980.0
+MEXICO,NTE,Transmission Capacity: MW,NOR,2050,980.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2025,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2027,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2030,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2035,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2040,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2045,350.0
+MEXICO,NTE,Transmission Capacity: MW,OCC,2050,350.0
+MEXICO,NTE,Variable O&M: $/MWh,,,2.9
+MEXICO,NTE,Variable O&M: $m,,2025,107.8
+MEXICO,NTE,Variable O&M: $m,,2027,109.9
+MEXICO,NTE,Variable O&M: $m,,2030,109.1
+MEXICO,NTE,Variable O&M: $m,,2035,115.1
+MEXICO,NTE,Variable O&M: $m,,2040,123.7
+MEXICO,NTE,Variable O&M: $m,,2045,137.4
+MEXICO,NTE,Variable O&M: $m,,2050,150.6
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2025,18362.7
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2027,12775.8
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2030,14652.9
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2035,17546.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2040,9449.7
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2045,11964.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,CEN,2050,21817.1
+MEXICO,OCC,Annual Energy Exchanges: GWh,NES,2030,19.8
+MEXICO,OCC,Annual Energy Exchanges: GWh,NES,2035,12.6
+MEXICO,OCC,Annual Energy Exchanges: GWh,NES,2040,268.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,NES,2045,1531.7
+MEXICO,OCC,Annual Energy Exchanges: GWh,NES,2050,1420.6
+MEXICO,OCC,Annual Energy Exchanges: GWh,NOR,2030,1253.8
+MEXICO,OCC,Annual Energy Exchanges: GWh,NOR,2035,146.9
+MEXICO,OCC,Annual Energy Exchanges: GWh,NOR,2040,3593.3
+MEXICO,OCC,Annual Energy Exchanges: GWh,NOR,2045,3240.9
+MEXICO,OCC,Annual Energy Exchanges: GWh,NOR,2050,1483.0
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2025,1.0
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2027,15.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2030,115.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2035,127.8
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2040,252.0
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2045,344.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,NTE,2050,137.0
+MEXICO,OCC,Annual Energy Exchanges: GWh,ORI,2030,6.5
+MEXICO,OCC,Annual Energy Exchanges: GWh,ORI,2035,3.9
+MEXICO,OCC,Annual Energy Exchanges: GWh,ORI,2040,88.3
+MEXICO,OCC,Annual Energy Exchanges: GWh,ORI,2045,310.4
+MEXICO,OCC,Annual Energy Exchanges: GWh,ORI,2050,599.3
+MEXICO,OCC,Capacity: MW,Battery,2027,192.0
+MEXICO,OCC,Capacity: MW,Battery,2030,192.0
+MEXICO,OCC,Capacity: MW,Battery,2035,192.0
+MEXICO,OCC,Capacity: MW,Battery,2040,192.0
+MEXICO,OCC,Capacity: MW,Battery,2045,192.0
+MEXICO,OCC,Capacity: MW,Battery,2050,216.9
+MEXICO,OCC,Capacity: MW,Biomass,2025,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2027,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2030,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2035,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2040,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2045,79.6
+MEXICO,OCC,Capacity: MW,Biomass,2050,79.6
+MEXICO,OCC,Capacity: MW,Diesel,2025,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2027,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2030,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2035,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2040,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2045,1094.9
+MEXICO,OCC,Capacity: MW,Diesel,2050,1094.9
+MEXICO,OCC,Capacity: MW,Gas,2025,7448.1
+MEXICO,OCC,Capacity: MW,Gas,2027,7479.9
+MEXICO,OCC,Capacity: MW,Gas,2030,7479.9
+MEXICO,OCC,Capacity: MW,Gas,2035,7479.9
+MEXICO,OCC,Capacity: MW,Gas,2040,8803.9
+MEXICO,OCC,Capacity: MW,Gas,2045,12206.9
+MEXICO,OCC,Capacity: MW,Gas,2050,14904.9
+MEXICO,OCC,Capacity: MW,Geothermal,2025,284.9
+MEXICO,OCC,Capacity: MW,Geothermal,2027,284.9
+MEXICO,OCC,Capacity: MW,Geothermal,2030,337.3
+MEXICO,OCC,Capacity: MW,Geothermal,2035,337.3
+MEXICO,OCC,Capacity: MW,Geothermal,2040,337.3
+MEXICO,OCC,Capacity: MW,Geothermal,2045,337.3
+MEXICO,OCC,Capacity: MW,Geothermal,2050,337.3
+MEXICO,OCC,Capacity: MW,Onshore Wind,2025,760.1
+MEXICO,OCC,Capacity: MW,Onshore Wind,2027,1608.2
+MEXICO,OCC,Capacity: MW,Onshore Wind,2030,3258.2
+MEXICO,OCC,Capacity: MW,Onshore Wind,2035,4095.4
+MEXICO,OCC,Capacity: MW,Onshore Wind,2040,5728.2
+MEXICO,OCC,Capacity: MW,Onshore Wind,2045,5728.2
+MEXICO,OCC,Capacity: MW,Onshore Wind,2050,5728.2
+MEXICO,OCC,Capacity: MW,Other,2025,18.0
+MEXICO,OCC,Capacity: MW,Other,2027,18.0
+MEXICO,OCC,Capacity: MW,Other,2030,18.0
+MEXICO,OCC,Capacity: MW,Other,2035,18.0
+MEXICO,OCC,Capacity: MW,Other,2040,18.0
+MEXICO,OCC,Capacity: MW,Other,2045,18.0
+MEXICO,OCC,Capacity: MW,Other,2050,18.0
+MEXICO,OCC,Capacity: MW,PV,2025,4980.3
+MEXICO,OCC,Capacity: MW,PV,2027,5533.3
+MEXICO,OCC,Capacity: MW,PV,2030,10227.3
+MEXICO,OCC,Capacity: MW,PV,2035,11385.5
+MEXICO,OCC,Capacity: MW,PV,2040,17052.3
+MEXICO,OCC,Capacity: MW,PV,2045,21893.8
+MEXICO,OCC,Capacity: MW,PV,2050,26735.3
+MEXICO,OCC,Capacity: MW,Reservoir,2025,3180.1
+MEXICO,OCC,Capacity: MW,Reservoir,2027,3183.1
+MEXICO,OCC,Capacity: MW,Reservoir,2030,3183.1
+MEXICO,OCC,Capacity: MW,Reservoir,2035,3191.1
+MEXICO,OCC,Capacity: MW,Reservoir,2040,3191.1
+MEXICO,OCC,Capacity: MW,Reservoir,2045,3191.1
+MEXICO,OCC,Capacity: MW,Reservoir,2050,3191.1
+MEXICO,OCC,Demand: GWh,,2025,78343.5
+MEXICO,OCC,Demand: GWh,,2027,82928.0
+MEXICO,OCC,Demand: GWh,,2030,89448.2
+MEXICO,OCC,Demand: GWh,,2035,101145.5
+MEXICO,OCC,Demand: GWh,,2040,115006.5
+MEXICO,OCC,Demand: GWh,,2045,130314.1
+MEXICO,OCC,Demand: GWh,,2050,147659.2
+MEXICO,OCC,Emissions: MtCO2,,2025,18.6
+MEXICO,OCC,Emissions: MtCO2,,2027,17.8
+MEXICO,OCC,Emissions: MtCO2,,2030,17.4
+MEXICO,OCC,Emissions: MtCO2,,2035,18.0
+MEXICO,OCC,Emissions: MtCO2,,2040,20.9
+MEXICO,OCC,Emissions: MtCO2,,2045,26.3
+MEXICO,OCC,Emissions: MtCO2,,2050,30.4
+MEXICO,OCC,Energy: GWh,Battery,2030,0.7
+MEXICO,OCC,Energy: GWh,Battery,2035,0.5
+MEXICO,OCC,Energy: GWh,Battery,2040,15.0
+MEXICO,OCC,Energy: GWh,Battery,2045,24.9
+MEXICO,OCC,Energy: GWh,Battery,2050,75.0
+MEXICO,OCC,Energy: GWh,Biomass,2025,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2027,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2030,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2035,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2040,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2045,447.9
+MEXICO,OCC,Energy: GWh,Biomass,2050,447.9
+MEXICO,OCC,Energy: GWh,Diesel,2025,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2027,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2030,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2035,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2040,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2045,2144.7
+MEXICO,OCC,Energy: GWh,Diesel,2050,2144.7
+MEXICO,OCC,Energy: GWh,Gas,2025,39068.5
+MEXICO,OCC,Energy: GWh,Gas,2027,37402.3
+MEXICO,OCC,Energy: GWh,Gas,2030,36481.0
+MEXICO,OCC,Energy: GWh,Gas,2035,37875.8
+MEXICO,OCC,Energy: GWh,Gas,2040,45848.8
+MEXICO,OCC,Energy: GWh,Gas,2045,59860.9
+MEXICO,OCC,Energy: GWh,Gas,2050,70571.4
+MEXICO,OCC,Energy: GWh,Geothermal,2025,1048.1
+MEXICO,OCC,Energy: GWh,Geothermal,2027,1048.1
+MEXICO,OCC,Energy: GWh,Geothermal,2030,1461.4
+MEXICO,OCC,Energy: GWh,Geothermal,2035,1461.4
+MEXICO,OCC,Energy: GWh,Geothermal,2040,1461.4
+MEXICO,OCC,Energy: GWh,Geothermal,2045,1461.4
+MEXICO,OCC,Energy: GWh,Geothermal,2050,1461.4
+MEXICO,OCC,Energy: GWh,Onshore Wind,2025,2014.5
+MEXICO,OCC,Energy: GWh,Onshore Wind,2027,4509.8
+MEXICO,OCC,Energy: GWh,Onshore Wind,2030,9511.4
+MEXICO,OCC,Energy: GWh,Onshore Wind,2035,12049.2
+MEXICO,OCC,Energy: GWh,Onshore Wind,2040,16998.5
+MEXICO,OCC,Energy: GWh,Onshore Wind,2045,16998.5
+MEXICO,OCC,Energy: GWh,Onshore Wind,2050,16998.5
+MEXICO,OCC,Energy: GWh,Other,2025,93.0
+MEXICO,OCC,Energy: GWh,Other,2027,93.0
+MEXICO,OCC,Energy: GWh,Other,2030,93.0
+MEXICO,OCC,Energy: GWh,Other,2035,93.0
+MEXICO,OCC,Energy: GWh,Other,2040,93.0
+MEXICO,OCC,Energy: GWh,Other,2045,93.0
+MEXICO,OCC,Energy: GWh,Other,2050,93.0
+MEXICO,OCC,Energy: GWh,PV,2025,10266.9
+MEXICO,OCC,Energy: GWh,PV,2027,11542.0
+MEXICO,OCC,Energy: GWh,PV,2030,21301.3
+MEXICO,OCC,Energy: GWh,PV,2035,23302.8
+MEXICO,OCC,Energy: GWh,PV,2040,35877.9
+MEXICO,OCC,Energy: GWh,PV,2045,47032.4
+MEXICO,OCC,Energy: GWh,PV,2050,58184.3
+MEXICO,OCC,Energy: GWh,Reservoir,2025,5525.9
+MEXICO,OCC,Energy: GWh,Reservoir,2027,5548.3
+MEXICO,OCC,Energy: GWh,Reservoir,2030,5548.3
+MEXICO,OCC,Energy: GWh,Reservoir,2035,5607.8
+MEXICO,OCC,Energy: GWh,Reservoir,2040,5607.8
+MEXICO,OCC,Energy: GWh,Reservoir,2045,5607.8
+MEXICO,OCC,Energy: GWh,Reservoir,2050,5607.8
+MEXICO,OCC,Export revenues with internal zones: $/MWh,,,-4.9
+MEXICO,OCC,Exports exchange: GWh,,2025,18363.6
+MEXICO,OCC,Exports exchange: GWh,,2027,12791.2
+MEXICO,OCC,Exports exchange: GWh,,2030,16048.5
+MEXICO,OCC,Exports exchange: GWh,,2035,17837.7
+MEXICO,OCC,Exports exchange: GWh,,2040,13651.9
+MEXICO,OCC,Exports exchange: GWh,,2045,17392.1
+MEXICO,OCC,Exports exchange: GWh,,2050,25456.9
+MEXICO,OCC,Firm Capacity: MW,,2025,12105.6
+MEXICO,OCC,Firm Capacity: MW,,2027,12332.4
+MEXICO,OCC,Firm Capacity: MW,,2030,12384.8
+MEXICO,OCC,Firm Capacity: MW,,2035,12392.8
+MEXICO,OCC,Firm Capacity: MW,,2040,13716.9
+MEXICO,OCC,Firm Capacity: MW,,2045,17119.8
+MEXICO,OCC,Firm Capacity: MW,,2050,19842.8
+MEXICO,OCC,Fixed O&M: $/MWh,,,8.3
+MEXICO,OCC,Fixed O&M: $m,,2025,684.5
+MEXICO,OCC,Fixed O&M: $m,,2027,724.9
+MEXICO,OCC,Fixed O&M: $m,,2030,809.9
+MEXICO,OCC,Fixed O&M: $m,,2035,833.4
+MEXICO,OCC,Fixed O&M: $m,,2040,945.0
+MEXICO,OCC,Fixed O&M: $m,,2045,1029.6
+MEXICO,OCC,Fixed O&M: $m,,2050,1106.1
+MEXICO,OCC,Fuel costs: $/MWh,,,18.4
+MEXICO,OCC,Fuel costs: $m,,2025,1830.7
+MEXICO,OCC,Fuel costs: $m,,2027,1661.3
+MEXICO,OCC,Fuel costs: $m,,2030,1634.3
+MEXICO,OCC,Fuel costs: $m,,2035,1663.0
+MEXICO,OCC,Fuel costs: $m,,2040,2097.9
+MEXICO,OCC,Fuel costs: $m,,2045,2469.4
+MEXICO,OCC,Fuel costs: $m,,2050,2677.0
+MEXICO,OCC,Generation: GWh,,2025,60609.5
+MEXICO,OCC,Generation: GWh,,2027,62736.0
+MEXICO,OCC,Generation: GWh,,2030,76989.6
+MEXICO,OCC,Generation: GWh,,2035,82983.1
+MEXICO,OCC,Generation: GWh,,2040,108494.9
+MEXICO,OCC,Generation: GWh,,2045,133671.4
+MEXICO,OCC,Generation: GWh,,2050,155584.0
+MEXICO,OCC,Import costs with internal zones: $/MWh,,,9.5
+MEXICO,OCC,Import costs with internal zones: $m,,2025,1566.2
+MEXICO,OCC,Import costs with internal zones: $m,,2027,1348.4
+MEXICO,OCC,Import costs with internal zones: $m,,2030,1055.3
+MEXICO,OCC,Import costs with internal zones: $m,,2035,1447.7
+MEXICO,OCC,Import costs with internal zones: $m,,2040,713.3
+MEXICO,OCC,Import costs with internal zones: $m,,2045,332.3
+MEXICO,OCC,Import costs with internal zones: $m,,2050,381.4
+MEXICO,OCC,Imports exchange: GWh,,2025,37019.1
+MEXICO,OCC,Imports exchange: GWh,,2027,33831.0
+MEXICO,OCC,Imports exchange: GWh,,2030,29301.3
+MEXICO,OCC,Imports exchange: GWh,,2035,36987.8
+MEXICO,OCC,Imports exchange: GWh,,2040,20698.9
+MEXICO,OCC,Imports exchange: GWh,,2045,14465.6
+MEXICO,OCC,Imports exchange: GWh,,2050,18110.2
+MEXICO,OCC,Investment costs: $/MWh,,,7.4
+MEXICO,OCC,Investment costs: $m,,2025,0.3
+MEXICO,OCC,Investment costs: $m,,2027,135.0
+MEXICO,OCC,Investment costs: $m,,2030,518.3
+MEXICO,OCC,Investment costs: $m,,2035,592.5
+MEXICO,OCC,Investment costs: $m,,2040,1061.1
+MEXICO,OCC,Investment costs: $m,,2045,1442.9
+MEXICO,OCC,Investment costs: $m,,2050,1759.7
+MEXICO,OCC,Net interchange Ratio: GWh,,2025,0.2
+MEXICO,OCC,Net interchange Ratio: GWh,,2027,0.3
+MEXICO,OCC,Net interchange Ratio: GWh,,2030,0.1
+MEXICO,OCC,Net interchange Ratio: GWh,,2035,0.2
+MEXICO,OCC,Net interchange Ratio: GWh,,2040,0.1
+MEXICO,OCC,Net interchange: GWh,,2025,18655.5
+MEXICO,OCC,Net interchange: GWh,,2027,21039.7
+MEXICO,OCC,Net interchange: GWh,,2030,13252.8
+MEXICO,OCC,Net interchange: GWh,,2035,19150.1
+MEXICO,OCC,Net interchange: GWh,,2040,7047.0
+MEXICO,OCC,New Capacity: MW,Battery,2027,192.0
+MEXICO,OCC,New Capacity: MW,Battery,2050,24.9
+MEXICO,OCC,New Capacity: MW,Gas,2025,2.9
+MEXICO,OCC,New Capacity: MW,Gas,2027,31.8
+MEXICO,OCC,New Capacity: MW,Gas,2040,1324.0
+MEXICO,OCC,New Capacity: MW,Gas,2045,3402.9
+MEXICO,OCC,New Capacity: MW,Gas,2050,2698.0
+MEXICO,OCC,New Capacity: MW,Geothermal,2030,52.4
+MEXICO,OCC,New Capacity: MW,Onshore Wind,2027,848.1
+MEXICO,OCC,New Capacity: MW,Onshore Wind,2030,1650.0
+MEXICO,OCC,New Capacity: MW,Onshore Wind,2035,837.2
+MEXICO,OCC,New Capacity: MW,Onshore Wind,2040,1632.8
+MEXICO,OCC,New Capacity: MW,PV,2027,553.0
+MEXICO,OCC,New Capacity: MW,PV,2030,4694.0
+MEXICO,OCC,New Capacity: MW,PV,2035,1158.2
+MEXICO,OCC,New Capacity: MW,PV,2040,5666.8
+MEXICO,OCC,New Capacity: MW,PV,2045,4841.5
+MEXICO,OCC,New Capacity: MW,PV,2050,4841.5
+MEXICO,OCC,New Capacity: MW,Reservoir,2027,3.0
+MEXICO,OCC,New Capacity: MW,Reservoir,2035,8.0
+MEXICO,OCC,Peak demand: MW,,2025,12474.4
+MEXICO,OCC,Peak demand: MW,,2027,13159.7
+MEXICO,OCC,Peak demand: MW,,2030,14189.4
+MEXICO,OCC,Peak demand: MW,,2035,16209.7
+MEXICO,OCC,Peak demand: MW,,2040,18513.7
+MEXICO,OCC,Peak demand: MW,,2045,21088.6
+MEXICO,OCC,Peak demand: MW,,2050,24021.5
+MEXICO,OCC,Planning Reserve: MW,,2025,1.0
+MEXICO,OCC,Planning Reserve: MW,,2027,0.9
+MEXICO,OCC,Planning Reserve: MW,,2030,0.9
+MEXICO,OCC,Planning Reserve: MW,,2035,0.8
+MEXICO,OCC,Planning Reserve: MW,,2040,0.7
+MEXICO,OCC,Planning Reserve: MW,,2045,0.8
+MEXICO,OCC,Planning Reserve: MW,,2050,0.8
+MEXICO,OCC,Price: $/MWh,,2025,43.1
+MEXICO,OCC,Price: $/MWh,,2027,40.6
+MEXICO,OCC,Price: $/MWh,,2030,37.2
+MEXICO,OCC,Price: $/MWh,,2035,40.5
+MEXICO,OCC,Price: $/MWh,,2040,39.6
+MEXICO,OCC,Price: $/MWh,,2045,35.9
+MEXICO,OCC,Price: $/MWh,,2050,33.1
+MEXICO,OCC,Spinning Reserve: GWh,,2025,2734.2
+MEXICO,OCC,Spinning Reserve: GWh,,2027,2886.2
+MEXICO,OCC,Spinning Reserve: GWh,,2030,5388.9
+MEXICO,OCC,Spinning Reserve: GWh,,2035,7020.4
+MEXICO,OCC,Spinning Reserve: GWh,,2040,7853.9
+MEXICO,OCC,Spinning Reserve: GWh,,2045,9598.7
+MEXICO,OCC,Spinning Reserve: GWh,,2050,10426.6
+MEXICO,OCC,Spinning reserve costs: $/MWh,,,0.3
+MEXICO,OCC,Spinning reserve costs: $m,,2025,13.7
+MEXICO,OCC,Spinning reserve costs: $m,,2027,14.4
+MEXICO,OCC,Spinning reserve costs: $m,,2030,26.9
+MEXICO,OCC,Spinning reserve costs: $m,,2035,35.1
+MEXICO,OCC,Spinning reserve costs: $m,,2040,39.3
+MEXICO,OCC,Spinning reserve costs: $m,,2045,48.0
+MEXICO,OCC,Spinning reserve costs: $m,,2050,52.1
+MEXICO,OCC,Total Demand: GWh,,2025,78343.5
+MEXICO,OCC,Total Demand: GWh,,2027,82928.0
+MEXICO,OCC,Total Demand: GWh,,2030,89448.2
+MEXICO,OCC,Total Demand: GWh,,2035,101145.5
+MEXICO,OCC,Total Demand: GWh,,2040,115006.5
+MEXICO,OCC,Total Demand: GWh,,2045,130314.1
+MEXICO,OCC,Total Demand: GWh,,2050,147659.2
+MEXICO,OCC,Trade shared benefits: $/MWh,,,-0.3
+MEXICO,OCC,Transmission Capacity: MW,CEN,2025,5131.3
+MEXICO,OCC,Transmission Capacity: MW,CEN,2027,5131.3
+MEXICO,OCC,Transmission Capacity: MW,CEN,2030,5965.0
+MEXICO,OCC,Transmission Capacity: MW,CEN,2035,5965.0
+MEXICO,OCC,Transmission Capacity: MW,CEN,2040,5965.0
+MEXICO,OCC,Transmission Capacity: MW,CEN,2045,5965.0
+MEXICO,OCC,Transmission Capacity: MW,CEN,2050,5965.0
+MEXICO,OCC,Transmission Capacity: MW,NES,2025,4750.0
+MEXICO,OCC,Transmission Capacity: MW,NES,2027,4750.0
+MEXICO,OCC,Transmission Capacity: MW,NES,2030,5936.3
+MEXICO,OCC,Transmission Capacity: MW,NES,2035,5936.3
+MEXICO,OCC,Transmission Capacity: MW,NES,2040,5936.3
+MEXICO,OCC,Transmission Capacity: MW,NES,2045,5936.3
+MEXICO,OCC,Transmission Capacity: MW,NES,2050,5936.3
+MEXICO,OCC,Transmission Capacity: MW,NOR,2025,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2027,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2030,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2035,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2040,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2045,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NOR,2050,1380.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2025,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2027,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2030,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2035,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2040,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2045,350.0
+MEXICO,OCC,Transmission Capacity: MW,NTE,2050,350.0
+MEXICO,OCC,Transmission Capacity: MW,ORI,2025,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2027,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2030,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2035,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2040,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2045,1309.1
+MEXICO,OCC,Transmission Capacity: MW,ORI,2050,1309.1
+MEXICO,OCC,VRE curtailment: $/MWh,,,0.0
+MEXICO,OCC,VRE curtailment: $m,,2040,0.5
+MEXICO,OCC,VRE curtailment: $m,,2045,9.5
+MEXICO,OCC,VRE curtailment: $m,,2050,21.0
+MEXICO,OCC,Variable O&M: $/MWh,,,1.7
+MEXICO,OCC,Variable O&M: $m,,2025,165.3
+MEXICO,OCC,Variable O&M: $m,,2027,158.8
+MEXICO,OCC,Variable O&M: $m,,2030,155.6
+MEXICO,OCC,Variable O&M: $m,,2035,161.1
+MEXICO,OCC,Variable O&M: $m,,2040,178.2
+MEXICO,OCC,Variable O&M: $m,,2045,210.9
+MEXICO,OCC,Variable O&M: $m,,2050,237.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2025,18891.3
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2027,26969.0
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2030,28116.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2035,28116.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2040,25340.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2045,15901.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,CEN,2050,13924.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,NES,2030,32.4
+MEXICO,ORI,Annual Energy Exchanges: GWh,NES,2035,297.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,NES,2040,814.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,NES,2045,1471.6
+MEXICO,ORI,Annual Energy Exchanges: GWh,NES,2050,1134.8
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2027,177.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2030,5421.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2035,8977.4
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2040,4073.2
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2045,3757.0
+MEXICO,ORI,Annual Energy Exchanges: GWh,OCC,2050,2780.7
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2025,458.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2027,1417.9
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2030,2600.2
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2035,4676.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2040,3232.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2045,2485.5
+MEXICO,ORI,Annual Energy Exchanges: GWh,PEN,2050,858.5
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2025,2102.4
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2027,2102.4
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2030,2102.4
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2035,2102.4
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2040,2099.0
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2045,2102.4
+MEXICO,ORI,Annual Energy Exports External: GWh,GUA,2050,2102.4
+MEXICO,ORI,Annual Energy Imports External: GWh,GUA,2045,2.6
+MEXICO,ORI,Capacity: MW,Battery,2027,131.0
+MEXICO,ORI,Capacity: MW,Battery,2030,131.0
+MEXICO,ORI,Capacity: MW,Battery,2035,131.0
+MEXICO,ORI,Capacity: MW,Battery,2040,131.0
+MEXICO,ORI,Capacity: MW,Battery,2045,131.0
+MEXICO,ORI,Capacity: MW,Battery,2050,131.0
+MEXICO,ORI,Capacity: MW,Biomass,2025,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2027,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2030,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2035,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2040,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2045,252.2
+MEXICO,ORI,Capacity: MW,Biomass,2050,252.2
+MEXICO,ORI,Capacity: MW,Diesel,2025,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2027,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2030,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2035,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2040,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2045,3104.7
+MEXICO,ORI,Capacity: MW,Diesel,2050,3104.7
+MEXICO,ORI,Capacity: MW,Gas,2025,6987.8
+MEXICO,ORI,Capacity: MW,Gas,2027,8176.7
+MEXICO,ORI,Capacity: MW,Gas,2030,9773.8
+MEXICO,ORI,Capacity: MW,Gas,2035,9773.8
+MEXICO,ORI,Capacity: MW,Gas,2040,9773.8
+MEXICO,ORI,Capacity: MW,Gas,2045,10273.0
+MEXICO,ORI,Capacity: MW,Gas,2050,11161.5
+MEXICO,ORI,Capacity: MW,Geothermal,2025,101.1
+MEXICO,ORI,Capacity: MW,Geothermal,2027,101.1
+MEXICO,ORI,Capacity: MW,Geothermal,2030,101.1
+MEXICO,ORI,Capacity: MW,Geothermal,2035,147.9
+MEXICO,ORI,Capacity: MW,Geothermal,2040,147.9
+MEXICO,ORI,Capacity: MW,Geothermal,2045,147.9
+MEXICO,ORI,Capacity: MW,Geothermal,2050,147.9
+MEXICO,ORI,Capacity: MW,Nuclear,2025,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2027,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2030,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2035,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2040,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2045,1529.4
+MEXICO,ORI,Capacity: MW,Nuclear,2050,1529.4
+MEXICO,ORI,Capacity: MW,Onshore Wind,2025,3057.0
+MEXICO,ORI,Capacity: MW,Onshore Wind,2027,4596.0
+MEXICO,ORI,Capacity: MW,Onshore Wind,2030,6555.9
+MEXICO,ORI,Capacity: MW,Onshore Wind,2035,7686.4
+MEXICO,ORI,Capacity: MW,Onshore Wind,2040,7686.4
+MEXICO,ORI,Capacity: MW,Onshore Wind,2045,7686.4
+MEXICO,ORI,Capacity: MW,Onshore Wind,2050,7686.4
+MEXICO,ORI,Capacity: MW,PV,2025,1346.6
+MEXICO,ORI,Capacity: MW,PV,2027,1346.6
+MEXICO,ORI,Capacity: MW,PV,2030,1800.2
+MEXICO,ORI,Capacity: MW,PV,2035,2085.5
+MEXICO,ORI,Capacity: MW,PV,2040,2294.7
+MEXICO,ORI,Capacity: MW,PV,2045,2294.7
+MEXICO,ORI,Capacity: MW,PV,2050,2294.7
+MEXICO,ORI,Capacity: MW,Reservoir,2025,6576.4
+MEXICO,ORI,Capacity: MW,Reservoir,2027,6965.4
+MEXICO,ORI,Capacity: MW,Reservoir,2030,6965.4
+MEXICO,ORI,Capacity: MW,Reservoir,2035,7489.4
+MEXICO,ORI,Capacity: MW,Reservoir,2040,7489.4
+MEXICO,ORI,Capacity: MW,Reservoir,2045,7489.4
+MEXICO,ORI,Capacity: MW,Reservoir,2050,7489.4
+MEXICO,ORI,Demand: GWh,,2025,58749.8
+MEXICO,ORI,Demand: GWh,,2027,61342.8
+MEXICO,ORI,Demand: GWh,,2030,64822.1
+MEXICO,ORI,Demand: GWh,,2035,70834.9
+MEXICO,ORI,Demand: GWh,,2040,78368.5
+MEXICO,ORI,Demand: GWh,,2045,88799.5
+MEXICO,ORI,Demand: GWh,,2050,100618.9
+MEXICO,ORI,Emissions: MtCO2,,2025,19.1
+MEXICO,ORI,Emissions: MtCO2,,2027,20.3
+MEXICO,ORI,Emissions: MtCO2,,2030,21.4
+MEXICO,ORI,Emissions: MtCO2,,2035,22.5
+MEXICO,ORI,Emissions: MtCO2,,2040,21.8
+MEXICO,ORI,Emissions: MtCO2,,2045,21.9
+MEXICO,ORI,Emissions: MtCO2,,2050,23.6
+MEXICO,ORI,Energy: GWh,Battery,2030,0.6
+MEXICO,ORI,Energy: GWh,Battery,2035,0.3
+MEXICO,ORI,Energy: GWh,Battery,2040,8.0
+MEXICO,ORI,Energy: GWh,Battery,2045,10.3
+MEXICO,ORI,Energy: GWh,Battery,2050,15.8
+MEXICO,ORI,Energy: GWh,Biomass,2025,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2027,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2030,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2035,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2040,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2045,1080.1
+MEXICO,ORI,Energy: GWh,Biomass,2050,1080.1
+MEXICO,ORI,Energy: GWh,Diesel,2025,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2027,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2030,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2035,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2040,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2045,6079.9
+MEXICO,ORI,Energy: GWh,Diesel,2050,6079.9
+MEXICO,ORI,Energy: GWh,Gas,2025,33813.0
+MEXICO,ORI,Energy: GWh,Gas,2027,36972.0
+MEXICO,ORI,Energy: GWh,Gas,2030,39855.3
+MEXICO,ORI,Energy: GWh,Gas,2035,42746.8
+MEXICO,ORI,Energy: GWh,Gas,2040,41053.4
+MEXICO,ORI,Energy: GWh,Gas,2045,41258.1
+MEXICO,ORI,Energy: GWh,Gas,2050,45740.9
+MEXICO,ORI,Energy: GWh,Geothermal,2025,371.9
+MEXICO,ORI,Energy: GWh,Geothermal,2027,371.9
+MEXICO,ORI,Energy: GWh,Geothermal,2030,371.9
+MEXICO,ORI,Energy: GWh,Geothermal,2035,740.9
+MEXICO,ORI,Energy: GWh,Geothermal,2040,740.9
+MEXICO,ORI,Energy: GWh,Geothermal,2045,740.9
+MEXICO,ORI,Energy: GWh,Geothermal,2050,740.9
+MEXICO,ORI,Energy: GWh,Nuclear,2025,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2027,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2030,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2035,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2040,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2045,10410.1
+MEXICO,ORI,Energy: GWh,Nuclear,2050,10410.1
+MEXICO,ORI,Energy: GWh,Onshore Wind,2025,10174.2
+MEXICO,ORI,Energy: GWh,Onshore Wind,2027,15926.6
+MEXICO,ORI,Energy: GWh,Onshore Wind,2030,23395.0
+MEXICO,ORI,Energy: GWh,Onshore Wind,2035,27702.9
+MEXICO,ORI,Energy: GWh,Onshore Wind,2040,27699.1
+MEXICO,ORI,Energy: GWh,Onshore Wind,2045,27699.6
+MEXICO,ORI,Energy: GWh,Onshore Wind,2050,27702.9
+MEXICO,ORI,Energy: GWh,PV,2025,2574.8
+MEXICO,ORI,Energy: GWh,PV,2027,2574.8
+MEXICO,ORI,Energy: GWh,PV,2030,3289.4
+MEXICO,ORI,Energy: GWh,PV,2035,3738.9
+MEXICO,ORI,Energy: GWh,PV,2040,4068.5
+MEXICO,ORI,Energy: GWh,PV,2045,4068.5
+MEXICO,ORI,Energy: GWh,PV,2050,4068.5
+MEXICO,ORI,Energy: GWh,Reservoir,2025,15697.7
+MEXICO,ORI,Energy: GWh,Reservoir,2027,18594.2
+MEXICO,ORI,Energy: GWh,Reservoir,2030,18594.2
+MEXICO,ORI,Energy: GWh,Reservoir,2035,22495.9
+MEXICO,ORI,Energy: GWh,Reservoir,2040,22495.9
+MEXICO,ORI,Energy: GWh,Reservoir,2045,22495.9
+MEXICO,ORI,Energy: GWh,Reservoir,2050,22495.9
+MEXICO,ORI,Export revenues with external zones: $/MWh,,,1.4
+MEXICO,ORI,Export revenues with external zones: $m,,2025,100.3
+MEXICO,ORI,Export revenues with external zones: $m,,2027,100.3
+MEXICO,ORI,Export revenues with external zones: $m,,2030,100.3
+MEXICO,ORI,Export revenues with external zones: $m,,2035,100.3
+MEXICO,ORI,Export revenues with external zones: $m,,2040,100.1
+MEXICO,ORI,Export revenues with external zones: $m,,2045,100.3
+MEXICO,ORI,Export revenues with external zones: $m,,2050,100.3
+MEXICO,ORI,Export revenues with internal zones: $/MWh,,,-15.6
+MEXICO,ORI,Exports exchange: GWh,,2025,21452.1
+MEXICO,ORI,Exports exchange: GWh,,2027,30666.8
+MEXICO,ORI,Exports exchange: GWh,,2030,38273.1
+MEXICO,ORI,Exports exchange: GWh,,2035,44170.7
+MEXICO,ORI,Exports exchange: GWh,,2040,35559.9
+MEXICO,ORI,Exports exchange: GWh,,2045,25718.2
+MEXICO,ORI,Exports exchange: GWh,,2050,20801.1
+MEXICO,ORI,Firm Capacity: MW,,2025,18551.5
+MEXICO,ORI,Firm Capacity: MW,,2027,20260.4
+MEXICO,ORI,Firm Capacity: MW,,2030,21857.5
+MEXICO,ORI,Firm Capacity: MW,,2035,22428.3
+MEXICO,ORI,Firm Capacity: MW,,2040,22428.3
+MEXICO,ORI,Firm Capacity: MW,,2045,22927.5
+MEXICO,ORI,Firm Capacity: MW,,2050,23816.0
+MEXICO,ORI,Fixed O&M: $/MWh,,,20.8
+MEXICO,ORI,Fixed O&M: $m,,2025,1338.5
+MEXICO,ORI,Fixed O&M: $m,,2027,1442.2
+MEXICO,ORI,Fixed O&M: $m,,2030,1519.4
+MEXICO,ORI,Fixed O&M: $m,,2035,1585.3
+MEXICO,ORI,Fixed O&M: $m,,2040,1585.3
+MEXICO,ORI,Fixed O&M: $m,,2045,1587.9
+MEXICO,ORI,Fixed O&M: $m,,2050,1592.6
+MEXICO,ORI,Fuel costs: $/MWh,,,31.8
+MEXICO,ORI,Fuel costs: $m,,2025,2209.8
+MEXICO,ORI,Fuel costs: $m,,2027,2163.8
+MEXICO,ORI,Fuel costs: $m,,2030,2271.0
+MEXICO,ORI,Fuel costs: $m,,2035,2355.4
+MEXICO,ORI,Fuel costs: $m,,2040,2485.6
+MEXICO,ORI,Fuel costs: $m,,2045,2449.5
+MEXICO,ORI,Fuel costs: $m,,2050,2548.7
+MEXICO,ORI,Generation: GWh,,2025,80201.6
+MEXICO,ORI,Generation: GWh,,2027,92009.6
+MEXICO,ORI,Generation: GWh,,2030,103076.4
+MEXICO,ORI,Generation: GWh,,2035,114995.7
+MEXICO,ORI,Generation: GWh,,2040,113635.9
+MEXICO,ORI,Generation: GWh,,2045,113843.3
+MEXICO,ORI,Generation: GWh,,2050,118334.9
+MEXICO,ORI,Import costs with external zones: $m,,2045,0.1
+MEXICO,ORI,Import costs with internal zones: $/MWh,,,-0.4
+MEXICO,ORI,Imports exchange: GWh,,2025,0.3
+MEXICO,ORI,Imports exchange: GWh,,2030,20.0
+MEXICO,ORI,Imports exchange: GWh,,2035,10.6
+MEXICO,ORI,Imports exchange: GWh,,2040,310.9
+MEXICO,ORI,Imports exchange: GWh,,2045,706.6
+MEXICO,ORI,Imports exchange: GWh,,2050,3197.0
+MEXICO,ORI,Investment costs: $/MWh,,,9.2
+MEXICO,ORI,Investment costs: $m,,2025,5.7
+MEXICO,ORI,Investment costs: $m,,2027,340.7
+MEXICO,ORI,Investment costs: $m,,2030,605.5
+MEXICO,ORI,Investment costs: $m,,2035,838.1
+MEXICO,ORI,Investment costs: $m,,2040,838.1
+MEXICO,ORI,Investment costs: $m,,2045,854.6
+MEXICO,ORI,Investment costs: $m,,2050,883.6
+MEXICO,ORI,New Capacity: MW,Battery,2027,131.0
+MEXICO,ORI,New Capacity: MW,Gas,2027,1189.0
+MEXICO,ORI,New Capacity: MW,Gas,2030,1597.1
+MEXICO,ORI,New Capacity: MW,Gas,2045,499.2
+MEXICO,ORI,New Capacity: MW,Gas,2050,888.5
+MEXICO,ORI,New Capacity: MW,Geothermal,2035,46.8
+MEXICO,ORI,New Capacity: MW,Onshore Wind,2027,1539.0
+MEXICO,ORI,New Capacity: MW,Onshore Wind,2030,1959.9
+MEXICO,ORI,New Capacity: MW,Onshore Wind,2035,1130.5
+MEXICO,ORI,New Capacity: MW,PV,2030,453.6
+MEXICO,ORI,New Capacity: MW,PV,2035,285.3
+MEXICO,ORI,New Capacity: MW,PV,2040,209.2
+MEXICO,ORI,New Capacity: MW,Reservoir,2025,24.0
+MEXICO,ORI,New Capacity: MW,Reservoir,2027,389.0
+MEXICO,ORI,New Capacity: MW,Reservoir,2035,524.0
+MEXICO,ORI,Peak demand: MW,,2025,9457.9
+MEXICO,ORI,Peak demand: MW,,2027,9842.0
+MEXICO,ORI,Peak demand: MW,,2030,10396.6
+MEXICO,ORI,Peak demand: MW,,2035,11477.6
+MEXICO,ORI,Peak demand: MW,,2040,12755.2
+MEXICO,ORI,Peak demand: MW,,2045,14529.2
+MEXICO,ORI,Peak demand: MW,,2050,16549.9
+MEXICO,ORI,Planning Reserve: MW,,2025,2.0
+MEXICO,ORI,Planning Reserve: MW,,2027,2.1
+MEXICO,ORI,Planning Reserve: MW,,2030,2.1
+MEXICO,ORI,Planning Reserve: MW,,2035,2.0
+MEXICO,ORI,Planning Reserve: MW,,2040,1.8
+MEXICO,ORI,Planning Reserve: MW,,2045,1.6
+MEXICO,ORI,Planning Reserve: MW,,2050,1.4
+MEXICO,ORI,Price: $/MWh,,2025,43.0
+MEXICO,ORI,Price: $/MWh,,2027,40.0
+MEXICO,ORI,Price: $/MWh,,2030,35.9
+MEXICO,ORI,Price: $/MWh,,2035,39.1
+MEXICO,ORI,Price: $/MWh,,2040,38.5
+MEXICO,ORI,Price: $/MWh,,2045,35.3
+MEXICO,ORI,Price: $/MWh,,2050,33.4
+MEXICO,ORI,Spinning Reserve: GWh,,2025,10618.0
+MEXICO,ORI,Spinning Reserve: GWh,,2027,12953.7
+MEXICO,ORI,Spinning Reserve: GWh,,2030,15169.8
+MEXICO,ORI,Spinning Reserve: GWh,,2035,16449.9
+MEXICO,ORI,Spinning Reserve: GWh,,2040,18214.4
+MEXICO,ORI,Spinning Reserve: GWh,,2045,17557.1
+MEXICO,ORI,Spinning Reserve: GWh,,2050,19073.3
+MEXICO,ORI,Spinning reserve costs: $/MWh,,,1.1
+MEXICO,ORI,Spinning reserve costs: $m,,2025,53.1
+MEXICO,ORI,Spinning reserve costs: $m,,2027,64.8
+MEXICO,ORI,Spinning reserve costs: $m,,2030,75.8
+MEXICO,ORI,Spinning reserve costs: $m,,2035,82.2
+MEXICO,ORI,Spinning reserve costs: $m,,2040,91.1
+MEXICO,ORI,Spinning reserve costs: $m,,2045,87.8
+MEXICO,ORI,Spinning reserve costs: $m,,2050,95.4
+MEXICO,ORI,Total Demand: GWh,,2025,58749.8
+MEXICO,ORI,Total Demand: GWh,,2027,61342.8
+MEXICO,ORI,Total Demand: GWh,,2030,64822.1
+MEXICO,ORI,Total Demand: GWh,,2035,70834.9
+MEXICO,ORI,Total Demand: GWh,,2040,78368.5
+MEXICO,ORI,Total Demand: GWh,,2045,88799.5
+MEXICO,ORI,Total Demand: GWh,,2050,100618.9
+MEXICO,ORI,Trade shared benefits: $/MWh,,,-0.5
+MEXICO,ORI,Transmission Capacity: MW,CEN,2025,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2027,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2030,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2035,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2040,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2045,3210.0
+MEXICO,ORI,Transmission Capacity: MW,CEN,2050,3210.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2025,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2027,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2030,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2035,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2040,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2045,1555.0
+MEXICO,ORI,Transmission Capacity: MW,NES,2050,1555.0
+MEXICO,ORI,Transmission Capacity: MW,OCC,2025,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2027,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2030,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2035,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2040,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2045,1309.1
+MEXICO,ORI,Transmission Capacity: MW,OCC,2050,1309.1
+MEXICO,ORI,Transmission Capacity: MW,PEN,2025,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2027,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2030,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2035,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2040,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2045,1030.0
+MEXICO,ORI,Transmission Capacity: MW,PEN,2050,1030.0
+MEXICO,ORI,VRE curtailment: $/MWh,,,0.0
+MEXICO,ORI,VRE curtailment: $m,,2040,3.8
+MEXICO,ORI,VRE curtailment: $m,,2045,3.3
+MEXICO,ORI,Variable O&M: $/MWh,,,4.9
+MEXICO,ORI,Variable O&M: $m,,2025,353.7
+MEXICO,ORI,Variable O&M: $m,,2027,351.7
+MEXICO,ORI,Variable O&M: $m,,2030,352.6
+MEXICO,ORI,Variable O&M: $m,,2035,367.6
+MEXICO,ORI,Variable O&M: $m,,2040,361.7
+MEXICO,ORI,Variable O&M: $m,,2045,362.6
+MEXICO,ORI,Variable O&M: $m,,2050,378.8
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2025,0.3
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2030,2.5
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2035,0.9
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2040,25.9
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2045,15.4
+MEXICO,PEN,Annual Energy Exchanges: GWh,ORI,2050,814.6
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2025,240.2
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2027,481.8
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2030,473.7
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2035,425.3
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2040,452.6
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2045,463.4
+MEXICO,PEN,Annual Energy Exports External: GWh,BELIZE,2050,481.8
+MEXICO,PEN,Annual Energy Imports External: GWh,BELIZE,2030,3.9
+MEXICO,PEN,Annual Energy Imports External: GWh,BELIZE,2035,46.2
+MEXICO,PEN,Annual Energy Imports External: GWh,BELIZE,2040,8.3
+MEXICO,PEN,Annual Energy Imports External: GWh,BELIZE,2045,18.4
+MEXICO,PEN,Capacity: MW,Biomass,2027,25.3
+MEXICO,PEN,Capacity: MW,Biomass,2030,25.3
+MEXICO,PEN,Capacity: MW,Biomass,2035,25.3
+MEXICO,PEN,Capacity: MW,Biomass,2040,25.3
+MEXICO,PEN,Capacity: MW,Biomass,2045,25.3
+MEXICO,PEN,Capacity: MW,Biomass,2050,25.3
+MEXICO,PEN,Capacity: MW,Diesel,2025,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2027,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2030,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2035,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2040,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2045,502.5
+MEXICO,PEN,Capacity: MW,Diesel,2050,502.5
+MEXICO,PEN,Capacity: MW,Gas,2025,3474.6
+MEXICO,PEN,Capacity: MW,Gas,2027,3474.6
+MEXICO,PEN,Capacity: MW,Gas,2030,3474.6
+MEXICO,PEN,Capacity: MW,Gas,2035,3572.0
+MEXICO,PEN,Capacity: MW,Gas,2040,4985.5
+MEXICO,PEN,Capacity: MW,Gas,2045,6137.3
+MEXICO,PEN,Capacity: MW,Gas,2050,7458.7
+MEXICO,PEN,Capacity: MW,Onshore Wind,2025,245.2
+MEXICO,PEN,Capacity: MW,Onshore Wind,2027,320.3
+MEXICO,PEN,Capacity: MW,Onshore Wind,2030,320.3
+MEXICO,PEN,Capacity: MW,Onshore Wind,2035,320.3
+MEXICO,PEN,Capacity: MW,Onshore Wind,2040,320.3
+MEXICO,PEN,Capacity: MW,Onshore Wind,2045,320.3
+MEXICO,PEN,Capacity: MW,Onshore Wind,2050,320.3
+MEXICO,PEN,Capacity: MW,PV,2025,766.5
+MEXICO,PEN,Capacity: MW,PV,2027,766.5
+MEXICO,PEN,Capacity: MW,PV,2030,1078.9
+MEXICO,PEN,Capacity: MW,PV,2035,1275.4
+MEXICO,PEN,Capacity: MW,PV,2040,1419.5
+MEXICO,PEN,Capacity: MW,PV,2045,1419.5
+MEXICO,PEN,Capacity: MW,PV,2050,1924.2
+MEXICO,PEN,Demand: GWh,,2025,17305.1
+MEXICO,PEN,Demand: GWh,,2027,18748.3
+MEXICO,PEN,Demand: GWh,,2030,20939.6
+MEXICO,PEN,Demand: GWh,,2035,25093.9
+MEXICO,PEN,Demand: GWh,,2040,29889.9
+MEXICO,PEN,Demand: GWh,,2045,33868.3
+MEXICO,PEN,Demand: GWh,,2050,38376.3
+MEXICO,PEN,Emissions: MtCO2,,2025,7.0
+MEXICO,PEN,Emissions: MtCO2,,2027,7.2
+MEXICO,PEN,Emissions: MtCO2,,2030,7.4
+MEXICO,PEN,Emissions: MtCO2,,2035,8.1
+MEXICO,PEN,Emissions: MtCO2,,2040,10.4
+MEXICO,PEN,Emissions: MtCO2,,2045,12.1
+MEXICO,PEN,Emissions: MtCO2,,2050,14.4
+MEXICO,PEN,Energy: GWh,Biomass,2027,188.2
+MEXICO,PEN,Energy: GWh,Biomass,2030,188.2
+MEXICO,PEN,Energy: GWh,Biomass,2035,188.2
+MEXICO,PEN,Energy: GWh,Biomass,2040,188.2
+MEXICO,PEN,Energy: GWh,Biomass,2045,188.2
+MEXICO,PEN,Energy: GWh,Biomass,2050,188.2
+MEXICO,PEN,Energy: GWh,Diesel,2025,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2027,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2030,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2035,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2040,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2045,572.3
+MEXICO,PEN,Energy: GWh,Diesel,2050,572.3
+MEXICO,PEN,Energy: GWh,Gas,2025,14783.8
+MEXICO,PEN,Energy: GWh,Gas,2027,15235.5
+MEXICO,PEN,Energy: GWh,Gas,2030,15804.5
+MEXICO,PEN,Energy: GWh,Gas,2035,17563.4
+MEXICO,PEN,Energy: GWh,Gas,2040,23629.7
+MEXICO,PEN,Energy: GWh,Gas,2045,28320.8
+MEXICO,PEN,Energy: GWh,Gas,2050,34216.5
+MEXICO,PEN,Energy: GWh,Onshore Wind,2025,381.1
+MEXICO,PEN,Energy: GWh,Onshore Wind,2027,497.9
+MEXICO,PEN,Energy: GWh,Onshore Wind,2030,497.9
+MEXICO,PEN,Energy: GWh,Onshore Wind,2035,497.9
+MEXICO,PEN,Energy: GWh,Onshore Wind,2040,497.9
+MEXICO,PEN,Energy: GWh,Onshore Wind,2045,497.9
+MEXICO,PEN,Energy: GWh,Onshore Wind,2050,497.9
+MEXICO,PEN,Energy: GWh,PV,2025,1365.1
+MEXICO,PEN,Energy: GWh,PV,2027,1365.1
+MEXICO,PEN,Energy: GWh,PV,2030,1834.3
+MEXICO,PEN,Energy: GWh,PV,2035,2129.4
+MEXICO,PEN,Energy: GWh,PV,2040,2345.8
+MEXICO,PEN,Energy: GWh,PV,2045,2345.8
+MEXICO,PEN,Energy: GWh,PV,2050,3367.5
+MEXICO,PEN,Export revenues with external zones: $/MWh,,,0.8
+MEXICO,PEN,Export revenues with external zones: $m,,2025,11.5
+MEXICO,PEN,Export revenues with external zones: $m,,2027,23.0
+MEXICO,PEN,Export revenues with external zones: $m,,2030,22.6
+MEXICO,PEN,Export revenues with external zones: $m,,2035,20.3
+MEXICO,PEN,Export revenues with external zones: $m,,2040,21.6
+MEXICO,PEN,Export revenues with external zones: $m,,2045,22.1
+MEXICO,PEN,Export revenues with external zones: $m,,2050,23.0
+MEXICO,PEN,Export revenues with internal zones: $m,,2030,1.8
+MEXICO,PEN,Export revenues with internal zones: $m,,2035,0.5
+MEXICO,PEN,Export revenues with internal zones: $m,,2040,3.2
+MEXICO,PEN,Export revenues with internal zones: $m,,2045,4.4
+MEXICO,PEN,Exports exchange: GWh,,2025,240.5
+MEXICO,PEN,Exports exchange: GWh,,2027,481.8
+MEXICO,PEN,Exports exchange: GWh,,2030,476.2
+MEXICO,PEN,Exports exchange: GWh,,2035,426.2
+MEXICO,PEN,Exports exchange: GWh,,2040,478.5
+MEXICO,PEN,Exports exchange: GWh,,2045,478.8
+MEXICO,PEN,Exports exchange: GWh,,2050,1296.4
+MEXICO,PEN,Firm Capacity: MW,,2025,3977.2
+MEXICO,PEN,Firm Capacity: MW,,2027,4002.4
+MEXICO,PEN,Firm Capacity: MW,,2030,4002.4
+MEXICO,PEN,Firm Capacity: MW,,2035,4099.8
+MEXICO,PEN,Firm Capacity: MW,,2040,5513.3
+MEXICO,PEN,Firm Capacity: MW,,2045,6665.1
+MEXICO,PEN,Firm Capacity: MW,,2050,7986.6
+MEXICO,PEN,Fixed O&M: $/MWh,,,4.9
+MEXICO,PEN,Fixed O&M: $m,,2025,110.4
+MEXICO,PEN,Fixed O&M: $m,,2027,116.0
+MEXICO,PEN,Fixed O&M: $m,,2030,116.0
+MEXICO,PEN,Fixed O&M: $m,,2035,117.2
+MEXICO,PEN,Fixed O&M: $m,,2040,132.9
+MEXICO,PEN,Fixed O&M: $m,,2045,145.2
+MEXICO,PEN,Fixed O&M: $m,,2050,164.9
+MEXICO,PEN,Fuel costs: $/MWh,,,35.8
+MEXICO,PEN,Fuel costs: $m,,2025,768.8
+MEXICO,PEN,Fuel costs: $m,,2027,743.5
+MEXICO,PEN,Fuel costs: $m,,2030,765.0
+MEXICO,PEN,Fuel costs: $m,,2035,811.9
+MEXICO,PEN,Fuel costs: $m,,2040,1095.7
+MEXICO,PEN,Fuel costs: $m,,2045,1200.3
+MEXICO,PEN,Fuel costs: $m,,2050,1321.8
+MEXICO,PEN,Generation: GWh,,2025,17102.2
+MEXICO,PEN,Generation: GWh,,2027,17858.9
+MEXICO,PEN,Generation: GWh,,2030,18897.2
+MEXICO,PEN,Generation: GWh,,2035,20951.2
+MEXICO,PEN,Generation: GWh,,2040,27233.9
+MEXICO,PEN,Generation: GWh,,2045,31925.0
+MEXICO,PEN,Generation: GWh,,2050,38842.4
+MEXICO,PEN,Import costs with external zones: $/MWh,,,0.0
+MEXICO,PEN,Import costs with external zones: $m,,2030,0.2
+MEXICO,PEN,Import costs with external zones: $m,,2035,2.2
+MEXICO,PEN,Import costs with external zones: $m,,2040,0.4
+MEXICO,PEN,Import costs with external zones: $m,,2045,0.9
+MEXICO,PEN,Import costs with internal zones: $/MWh,,,4.2
+MEXICO,PEN,Import costs with internal zones: $m,,2025,22.2
+MEXICO,PEN,Import costs with internal zones: $m,,2027,63.2
+MEXICO,PEN,Import costs with internal zones: $m,,2030,97.0
+MEXICO,PEN,Import costs with internal zones: $m,,2035,218.1
+MEXICO,PEN,Import costs with internal zones: $m,,2040,131.0
+MEXICO,PEN,Import costs with internal zones: $m,,2045,79.7
+MEXICO,PEN,Import costs with internal zones: $m,,2050,7.9
+MEXICO,PEN,Imports exchange: GWh,,2025,458.5
+MEXICO,PEN,Imports exchange: GWh,,2027,1417.9
+MEXICO,PEN,Imports exchange: GWh,,2030,2604.1
+MEXICO,PEN,Imports exchange: GWh,,2035,4722.7
+MEXICO,PEN,Imports exchange: GWh,,2040,3240.8
+MEXICO,PEN,Imports exchange: GWh,,2045,2503.9
+MEXICO,PEN,Imports exchange: GWh,,2050,858.5
+MEXICO,PEN,Investment costs: $/MWh,,,2.2
+MEXICO,PEN,Investment costs: $m,,2027,11.8
+MEXICO,PEN,Investment costs: $m,,2030,11.8
+MEXICO,PEN,Investment costs: $m,,2035,16.5
+MEXICO,PEN,Investment costs: $m,,2040,79.1
+MEXICO,PEN,Investment costs: $m,,2045,128.4
+MEXICO,PEN,Investment costs: $m,,2050,206.2
+MEXICO,PEN,Net interchange Ratio: GWh,,2025,0.0
+MEXICO,PEN,Net interchange Ratio: GWh,,2027,0.0
+MEXICO,PEN,Net interchange Ratio: GWh,,2030,0.1
+MEXICO,PEN,Net interchange Ratio: GWh,,2035,0.2
+MEXICO,PEN,Net interchange Ratio: GWh,,2040,0.1
+MEXICO,PEN,Net interchange Ratio: GWh,,2045,0.1
+MEXICO,PEN,Net interchange: GWh,,2025,218.0
+MEXICO,PEN,Net interchange: GWh,,2027,936.1
+MEXICO,PEN,Net interchange: GWh,,2030,2127.9
+MEXICO,PEN,Net interchange: GWh,,2035,4296.5
+MEXICO,PEN,Net interchange: GWh,,2040,2762.3
+MEXICO,PEN,Net interchange: GWh,,2045,2025.1
+MEXICO,PEN,New Capacity: MW,Biomass,2027,25.3
+MEXICO,PEN,New Capacity: MW,Gas,2035,97.4
+MEXICO,PEN,New Capacity: MW,Gas,2040,1413.5
+MEXICO,PEN,New Capacity: MW,Gas,2045,1151.8
+MEXICO,PEN,New Capacity: MW,Gas,2050,1321.4
+MEXICO,PEN,New Capacity: MW,Onshore Wind,2027,75.2
+MEXICO,PEN,New Capacity: MW,PV,2030,312.4
+MEXICO,PEN,New Capacity: MW,PV,2035,196.5
+MEXICO,PEN,New Capacity: MW,PV,2040,144.1
+MEXICO,PEN,New Capacity: MW,PV,2050,504.7
+MEXICO,PEN,Peak demand: MW,,2025,3166.2
+MEXICO,PEN,Peak demand: MW,,2027,3418.7
+MEXICO,PEN,Peak demand: MW,,2030,3816.9
+MEXICO,PEN,Peak demand: MW,,2035,4621.2
+MEXICO,PEN,Peak demand: MW,,2040,5529.0
+MEXICO,PEN,Peak demand: MW,,2045,6298.0
+MEXICO,PEN,Peak demand: MW,,2050,7173.9
+MEXICO,PEN,Planning Reserve: MW,,2025,1.3
+MEXICO,PEN,Planning Reserve: MW,,2027,1.2
+MEXICO,PEN,Planning Reserve: MW,,2030,1.0
+MEXICO,PEN,Planning Reserve: MW,,2035,0.9
+MEXICO,PEN,Planning Reserve: MW,,2040,1.0
+MEXICO,PEN,Planning Reserve: MW,,2045,1.1
+MEXICO,PEN,Planning Reserve: MW,,2050,1.1
+MEXICO,PEN,Price: $/MWh,,2025,44.0
+MEXICO,PEN,Price: $/MWh,,2027,41.0
+MEXICO,PEN,Price: $/MWh,,2030,37.4
+MEXICO,PEN,Price: $/MWh,,2035,43.4
+MEXICO,PEN,Price: $/MWh,,2040,41.4
+MEXICO,PEN,Price: $/MWh,,2045,37.7
+MEXICO,PEN,Price: $/MWh,,2050,35.1
+MEXICO,PEN,Spinning Reserve: GWh,,2025,642.3
+MEXICO,PEN,Spinning Reserve: GWh,,2027,737.2
+MEXICO,PEN,Spinning Reserve: GWh,,2030,1574.8
+MEXICO,PEN,Spinning Reserve: GWh,,2035,1637.7
+MEXICO,PEN,Spinning Reserve: GWh,,2040,2410.2
+MEXICO,PEN,Spinning Reserve: GWh,,2045,2616.9
+MEXICO,PEN,Spinning Reserve: GWh,,2050,2805.9
+MEXICO,PEN,Spinning reserve costs: $/MWh,,,0.3
+MEXICO,PEN,Spinning reserve costs: $m,,2025,3.2
+MEXICO,PEN,Spinning reserve costs: $m,,2027,3.7
+MEXICO,PEN,Spinning reserve costs: $m,,2030,7.9
+MEXICO,PEN,Spinning reserve costs: $m,,2035,8.2
+MEXICO,PEN,Spinning reserve costs: $m,,2040,12.1
+MEXICO,PEN,Spinning reserve costs: $m,,2045,13.1
+MEXICO,PEN,Spinning reserve costs: $m,,2050,14.0
+MEXICO,PEN,Total Demand: GWh,,2025,17305.1
+MEXICO,PEN,Total Demand: GWh,,2027,18748.3
+MEXICO,PEN,Total Demand: GWh,,2030,20939.6
+MEXICO,PEN,Total Demand: GWh,,2035,25093.9
+MEXICO,PEN,Total Demand: GWh,,2040,29889.9
+MEXICO,PEN,Total Demand: GWh,,2045,33868.3
+MEXICO,PEN,Total Demand: GWh,,2050,38376.3
+MEXICO,PEN,Trade shared benefits: $/MWh,,,-0.2
+MEXICO,PEN,Transmission Capacity: MW,ORI,2025,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2027,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2030,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2035,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2040,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2045,1030.0
+MEXICO,PEN,Transmission Capacity: MW,ORI,2050,1030.0
+MEXICO,PEN,Variable O&M: $/MWh,,,2.6
+MEXICO,PEN,Variable O&M: $m,,2025,51.6
+MEXICO,PEN,Variable O&M: $m,,2027,53.6
+MEXICO,PEN,Variable O&M: $m,,2030,55.5
+MEXICO,PEN,Variable O&M: $m,,2035,60.7
+MEXICO,PEN,Variable O&M: $m,,2040,74.0
+MEXICO,PEN,Variable O&M: $m,,2045,84.5
+MEXICO,PEN,Variable O&M: $m,,2050,98.3
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2025,1631.0
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2027,802.0
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2030,3955.2
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2035,3349.5
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2040,5256.0
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2045,5256.0
+MEXICO,SIBC,Annual Energy Imports External: GWh,CAISO,2050,5256.0
+MEXICO,SIBC,Capacity: MW,Battery,2027,92.0
+MEXICO,SIBC,Capacity: MW,Battery,2030,92.0
+MEXICO,SIBC,Capacity: MW,Battery,2035,92.0
+MEXICO,SIBC,Capacity: MW,Battery,2040,92.0
+MEXICO,SIBC,Capacity: MW,Battery,2045,92.0
+MEXICO,SIBC,Capacity: MW,Battery,2050,92.0
+MEXICO,SIBC,Capacity: MW,CSP,2030,150.0
+MEXICO,SIBC,Capacity: MW,CSP,2035,350.0
+MEXICO,SIBC,Capacity: MW,CSP,2040,350.0
+MEXICO,SIBC,Capacity: MW,CSP,2045,350.0
+MEXICO,SIBC,Capacity: MW,CSP,2050,350.0
+MEXICO,SIBC,Capacity: MW,Diesel,2025,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2027,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2030,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2035,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2040,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2045,88.1
+MEXICO,SIBC,Capacity: MW,Diesel,2050,88.1
+MEXICO,SIBC,Capacity: MW,Gas,2025,3004.4
+MEXICO,SIBC,Capacity: MW,Gas,2027,3759.7
+MEXICO,SIBC,Capacity: MW,Gas,2030,3759.7
+MEXICO,SIBC,Capacity: MW,Gas,2035,3759.7
+MEXICO,SIBC,Capacity: MW,Gas,2040,5198.0
+MEXICO,SIBC,Capacity: MW,Gas,2045,6203.9
+MEXICO,SIBC,Capacity: MW,Gas,2050,7203.6
+MEXICO,SIBC,Capacity: MW,Geothermal,2025,538.1
+MEXICO,SIBC,Capacity: MW,Geothermal,2027,538.1
+MEXICO,SIBC,Capacity: MW,Geothermal,2030,538.1
+MEXICO,SIBC,Capacity: MW,Geothermal,2035,562.4
+MEXICO,SIBC,Capacity: MW,Geothermal,2040,562.4
+MEXICO,SIBC,Capacity: MW,Geothermal,2045,562.4
+MEXICO,SIBC,Capacity: MW,Geothermal,2050,562.4
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2025,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2027,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2030,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2035,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2040,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2045,39.6
+MEXICO,SIBC,Capacity: MW,Onshore Wind,2050,39.6
+MEXICO,SIBC,Capacity: MW,PV,2025,179.2
+MEXICO,SIBC,Capacity: MW,PV,2027,485.2
+MEXICO,SIBC,Capacity: MW,PV,2030,602.1
+MEXICO,SIBC,Capacity: MW,PV,2035,675.5
+MEXICO,SIBC,Capacity: MW,PV,2040,729.4
+MEXICO,SIBC,Capacity: MW,PV,2045,729.4
+MEXICO,SIBC,Capacity: MW,PV,2050,729.4
+MEXICO,SIBC,Demand: GWh,,2025,17514.8
+MEXICO,SIBC,Demand: GWh,,2027,18793.3
+MEXICO,SIBC,Demand: GWh,,2030,20688.2
+MEXICO,SIBC,Demand: GWh,,2035,24201.9
+MEXICO,SIBC,Demand: GWh,,2040,28276.5
+MEXICO,SIBC,Demand: GWh,,2045,32040.1
+MEXICO,SIBC,Demand: GWh,,2050,36304.7
+MEXICO,SIBC,Emissions: MtCO2,,2025,5.3
+MEXICO,SIBC,Emissions: MtCO2,,2027,5.8
+MEXICO,SIBC,Emissions: MtCO2,,2030,4.9
+MEXICO,SIBC,Emissions: MtCO2,,2035,6.1
+MEXICO,SIBC,Emissions: MtCO2,,2040,6.8
+MEXICO,SIBC,Emissions: MtCO2,,2045,8.3
+MEXICO,SIBC,Emissions: MtCO2,,2050,9.9
+MEXICO,SIBC,Energy: GWh,Battery,2027,0.2
+MEXICO,SIBC,Energy: GWh,Battery,2030,3.8
+MEXICO,SIBC,Energy: GWh,CSP,2030,732.9
+MEXICO,SIBC,Energy: GWh,CSP,2035,1711.0
+MEXICO,SIBC,Energy: GWh,CSP,2040,1709.0
+MEXICO,SIBC,Energy: GWh,CSP,2045,1711.2
+MEXICO,SIBC,Energy: GWh,CSP,2050,1711.3
+MEXICO,SIBC,Energy: GWh,Diesel,2025,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2027,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2030,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2035,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2040,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2045,80.4
+MEXICO,SIBC,Energy: GWh,Diesel,2050,80.4
+MEXICO,SIBC,Energy: GWh,Gas,2025,13399.7
+MEXICO,SIBC,Energy: GWh,Gas,2027,14804.2
+MEXICO,SIBC,Energy: GWh,Gas,2030,12614.5
+MEXICO,SIBC,Energy: GWh,Gas,2035,15437.8
+MEXICO,SIBC,Energy: GWh,Gas,2040,17516.1
+MEXICO,SIBC,Energy: GWh,Gas,2045,21277.5
+MEXICO,SIBC,Energy: GWh,Gas,2050,25542.1
+MEXICO,SIBC,Energy: GWh,Geothermal,2025,1979.6
+MEXICO,SIBC,Energy: GWh,Geothermal,2027,1979.6
+MEXICO,SIBC,Energy: GWh,Geothermal,2030,1979.6
+MEXICO,SIBC,Energy: GWh,Geothermal,2035,2171.5
+MEXICO,SIBC,Energy: GWh,Geothermal,2040,2171.5
+MEXICO,SIBC,Energy: GWh,Geothermal,2045,2171.5
+MEXICO,SIBC,Energy: GWh,Geothermal,2050,2171.5
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2025,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2027,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2030,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2035,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2040,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2045,91.3
+MEXICO,SIBC,Energy: GWh,Onshore Wind,2050,91.3
+MEXICO,SIBC,Energy: GWh,PV,2025,332.7
+MEXICO,SIBC,Energy: GWh,PV,2027,1035.8
+MEXICO,SIBC,Energy: GWh,PV,2030,1235.0
+MEXICO,SIBC,Energy: GWh,PV,2035,1360.3
+MEXICO,SIBC,Energy: GWh,PV,2040,1452.2
+MEXICO,SIBC,Energy: GWh,PV,2045,1452.2
+MEXICO,SIBC,Energy: GWh,PV,2050,1452.2
+MEXICO,SIBC,Firm Capacity: MW,,2025,3630.5
+MEXICO,SIBC,Firm Capacity: MW,,2027,4477.9
+MEXICO,SIBC,Firm Capacity: MW,,2030,4627.9
+MEXICO,SIBC,Firm Capacity: MW,,2035,4852.2
+MEXICO,SIBC,Firm Capacity: MW,,2040,6290.4
+MEXICO,SIBC,Firm Capacity: MW,,2045,7296.3
+MEXICO,SIBC,Firm Capacity: MW,,2050,8296.1
+MEXICO,SIBC,Fixed O&M: $/MWh,,,8.6
+MEXICO,SIBC,Fixed O&M: $m,,2025,160.7
+MEXICO,SIBC,Fixed O&M: $m,,2027,190.6
+MEXICO,SIBC,Fixed O&M: $m,,2030,200.4
+MEXICO,SIBC,Fixed O&M: $m,,2035,218.0
+MEXICO,SIBC,Fixed O&M: $m,,2040,233.5
+MEXICO,SIBC,Fixed O&M: $m,,2045,243.5
+MEXICO,SIBC,Fixed O&M: $m,,2050,253.4
+MEXICO,SIBC,Fuel costs: $/MWh,,,23.5
+MEXICO,SIBC,Fuel costs: $m,,2025,501.6
+MEXICO,SIBC,Fuel costs: $m,,2027,520.0
+MEXICO,SIBC,Fuel costs: $m,,2030,451.9
+MEXICO,SIBC,Fuel costs: $m,,2035,537.2
+MEXICO,SIBC,Fuel costs: $m,,2040,663.1
+MEXICO,SIBC,Fuel costs: $m,,2045,749.0
+MEXICO,SIBC,Fuel costs: $m,,2050,833.9
+MEXICO,SIBC,Generation: GWh,,2025,15883.8
+MEXICO,SIBC,Generation: GWh,,2027,17991.5
+MEXICO,SIBC,Generation: GWh,,2030,16737.5
+MEXICO,SIBC,Generation: GWh,,2035,20852.3
+MEXICO,SIBC,Generation: GWh,,2040,23020.5
+MEXICO,SIBC,Generation: GWh,,2045,26784.1
+MEXICO,SIBC,Generation: GWh,,2050,31048.7
+MEXICO,SIBC,Import costs with external zones: $/MWh,,,4.4
+MEXICO,SIBC,Import costs with external zones: $m,,2025,48.8
+MEXICO,SIBC,Import costs with external zones: $m,,2027,24.0
+MEXICO,SIBC,Import costs with external zones: $m,,2030,118.5
+MEXICO,SIBC,Import costs with external zones: $m,,2035,100.3
+MEXICO,SIBC,Import costs with external zones: $m,,2040,157.4
+MEXICO,SIBC,Import costs with external zones: $m,,2045,157.4
+MEXICO,SIBC,Import costs with external zones: $m,,2050,157.4
+MEXICO,SIBC,Imports exchange: GWh,,2025,1631.0
+MEXICO,SIBC,Imports exchange: GWh,,2027,802.0
+MEXICO,SIBC,Imports exchange: GWh,,2030,3955.2
+MEXICO,SIBC,Imports exchange: GWh,,2035,3349.5
+MEXICO,SIBC,Imports exchange: GWh,,2040,5256.0
+MEXICO,SIBC,Imports exchange: GWh,,2045,5256.0
+MEXICO,SIBC,Imports exchange: GWh,,2050,5256.0
+MEXICO,SIBC,Investment costs: $/MWh,,,7.4
+MEXICO,SIBC,Investment costs: $m,,2025,10.6
+MEXICO,SIBC,Investment costs: $m,,2027,90.2
+MEXICO,SIBC,Investment costs: $m,,2030,129.6
+MEXICO,SIBC,Investment costs: $m,,2035,181.3
+MEXICO,SIBC,Investment costs: $m,,2040,244.2
+MEXICO,SIBC,Investment costs: $m,,2045,285.8
+MEXICO,SIBC,Investment costs: $m,,2050,326.5
+MEXICO,SIBC,Net interchange Ratio: GWh,,2025,0.1
+MEXICO,SIBC,Net interchange Ratio: GWh,,2027,0.0
+MEXICO,SIBC,Net interchange Ratio: GWh,,2030,0.2
+MEXICO,SIBC,Net interchange Ratio: GWh,,2035,0.1
+MEXICO,SIBC,Net interchange Ratio: GWh,,2040,0.2
+MEXICO,SIBC,Net interchange Ratio: GWh,,2045,0.2
+MEXICO,SIBC,Net interchange Ratio: GWh,,2050,0.1
+MEXICO,SIBC,Net interchange: GWh,,2025,1631.0
+MEXICO,SIBC,Net interchange: GWh,,2027,802.0
+MEXICO,SIBC,Net interchange: GWh,,2030,3955.2
+MEXICO,SIBC,Net interchange: GWh,,2035,3349.5
+MEXICO,SIBC,Net interchange: GWh,,2040,5256.0
+MEXICO,SIBC,Net interchange: GWh,,2045,5256.0
+MEXICO,SIBC,Net interchange: GWh,,2050,5256.0
+MEXICO,SIBC,New Capacity: MW,Battery,2027,92.0
+MEXICO,SIBC,New Capacity: MW,CSP,2030,150.0
+MEXICO,SIBC,New Capacity: MW,CSP,2035,200.0
+MEXICO,SIBC,New Capacity: MW,Gas,2025,166.9
+MEXICO,SIBC,New Capacity: MW,Gas,2027,755.4
+MEXICO,SIBC,New Capacity: MW,Gas,2040,1438.2
+MEXICO,SIBC,New Capacity: MW,Gas,2045,1005.9
+MEXICO,SIBC,New Capacity: MW,Gas,2050,999.8
+MEXICO,SIBC,New Capacity: MW,Geothermal,2035,24.3
+MEXICO,SIBC,New Capacity: MW,PV,2027,306.0
+MEXICO,SIBC,New Capacity: MW,PV,2030,116.8
+MEXICO,SIBC,New Capacity: MW,PV,2035,73.5
+MEXICO,SIBC,New Capacity: MW,PV,2040,53.9
+MEXICO,SIBC,Peak demand: MW,,2025,3857.8
+MEXICO,SIBC,Peak demand: MW,,2027,4125.4
+MEXICO,SIBC,Peak demand: MW,,2030,4539.8
+MEXICO,SIBC,Peak demand: MW,,2035,5365.4
+MEXICO,SIBC,Peak demand: MW,,2040,6296.8
+MEXICO,SIBC,Peak demand: MW,,2045,7172.5
+MEXICO,SIBC,Peak demand: MW,,2050,8170.1
+MEXICO,SIBC,Planning Reserve: MW,,2025,0.9
+MEXICO,SIBC,Planning Reserve: MW,,2027,1.1
+MEXICO,SIBC,Planning Reserve: MW,,2030,1.0
+MEXICO,SIBC,Planning Reserve: MW,,2035,0.9
+MEXICO,SIBC,Planning Reserve: MW,,2040,1.0
+MEXICO,SIBC,Planning Reserve: MW,,2045,1.0
+MEXICO,SIBC,Planning Reserve: MW,,2050,1.0
+MEXICO,SIBC,Price: $/MWh,,2025,44.4
+MEXICO,SIBC,Price: $/MWh,,2027,37.7
+MEXICO,SIBC,Price: $/MWh,,2030,38.4
+MEXICO,SIBC,Price: $/MWh,,2035,41.3
+MEXICO,SIBC,Price: $/MWh,,2040,42.0
+MEXICO,SIBC,Price: $/MWh,,2045,39.6
+MEXICO,SIBC,Price: $/MWh,,2050,37.1
+MEXICO,SIBC,Spinning Reserve: GWh,,2025,873.6
+MEXICO,SIBC,Spinning Reserve: GWh,,2027,1107.8
+MEXICO,SIBC,Spinning Reserve: GWh,,2030,1174.8
+MEXICO,SIBC,Spinning Reserve: GWh,,2035,1285.8
+MEXICO,SIBC,Spinning Reserve: GWh,,2040,2049.2
+MEXICO,SIBC,Spinning Reserve: GWh,,2045,2709.0
+MEXICO,SIBC,Spinning Reserve: GWh,,2050,3298.6
+MEXICO,SIBC,Spinning reserve costs: $/MWh,,,0.3
+MEXICO,SIBC,Spinning reserve costs: $m,,2025,4.4
+MEXICO,SIBC,Spinning reserve costs: $m,,2027,5.5
+MEXICO,SIBC,Spinning reserve costs: $m,,2030,5.9
+MEXICO,SIBC,Spinning reserve costs: $m,,2035,6.4
+MEXICO,SIBC,Spinning reserve costs: $m,,2040,10.2
+MEXICO,SIBC,Spinning reserve costs: $m,,2045,13.5
+MEXICO,SIBC,Spinning reserve costs: $m,,2050,16.5
+MEXICO,SIBC,Total Demand: GWh,,2025,17514.8
+MEXICO,SIBC,Total Demand: GWh,,2027,18793.3
+MEXICO,SIBC,Total Demand: GWh,,2030,20688.2
+MEXICO,SIBC,Total Demand: GWh,,2035,24201.9
+MEXICO,SIBC,Total Demand: GWh,,2040,28276.5
+MEXICO,SIBC,Total Demand: GWh,,2045,32040.1
+MEXICO,SIBC,Total Demand: GWh,,2050,36304.7
+MEXICO,SIBC,Variable O&M: $/MWh,,,2.9
+MEXICO,SIBC,Variable O&M: $m,,2025,80.6
+MEXICO,SIBC,Variable O&M: $m,,2027,70.2
+MEXICO,SIBC,Variable O&M: $m,,2030,58.9
+MEXICO,SIBC,Variable O&M: $m,,2035,74.2
+MEXICO,SIBC,Variable O&M: $m,,2040,71.2
+MEXICO,SIBC,Variable O&M: $m,,2045,80.7
+MEXICO,SIBC,Variable O&M: $m,,2050,92.0
+MEXICO,SIBCS,Capacity: MW,Battery,2030,28.9
+MEXICO,SIBCS,Capacity: MW,Battery,2035,131.5
+MEXICO,SIBCS,Capacity: MW,Battery,2040,1297.4
+MEXICO,SIBCS,Capacity: MW,Battery,2045,3121.2
+MEXICO,SIBCS,Capacity: MW,Battery,2050,4325.4
+MEXICO,SIBCS,Capacity: MW,Diesel,2025,1383.7
+MEXICO,SIBCS,Capacity: MW,Diesel,2027,1383.7
+MEXICO,SIBCS,Capacity: MW,Diesel,2030,1454.7
+MEXICO,SIBCS,Capacity: MW,Diesel,2035,1504.0
+MEXICO,SIBCS,Capacity: MW,Diesel,2040,1593.6
+MEXICO,SIBCS,Capacity: MW,Diesel,2045,1593.6
+MEXICO,SIBCS,Capacity: MW,Diesel,2050,1652.4
+MEXICO,SIBCS,Capacity: MW,Gas,2025,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2027,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2030,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2035,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2040,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2045,153.9
+MEXICO,SIBCS,Capacity: MW,Gas,2050,153.9
+MEXICO,SIBCS,Capacity: MW,Geothermal,2025,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2027,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2030,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2035,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2040,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2045,9.4
+MEXICO,SIBCS,Capacity: MW,Geothermal,2050,9.4
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2025,49.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2027,49.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2030,49.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2035,49.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2040,49.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2045,115.8
+MEXICO,SIBCS,Capacity: MW,Onshore Wind,2050,164.2
+MEXICO,SIBCS,Capacity: MW,Other,2025,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2027,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2030,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2035,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2040,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2045,43.1
+MEXICO,SIBCS,Capacity: MW,Other,2050,43.1
+MEXICO,SIBCS,Capacity: MW,PV,2025,141.6
+MEXICO,SIBCS,Capacity: MW,PV,2027,273.0
+MEXICO,SIBCS,Capacity: MW,PV,2030,351.8
+MEXICO,SIBCS,Capacity: MW,PV,2035,536.9
+MEXICO,SIBCS,Capacity: MW,PV,2040,1118.0
+MEXICO,SIBCS,Capacity: MW,PV,2045,1680.1
+MEXICO,SIBCS,Capacity: MW,PV,2050,2166.3
+MEXICO,SIBCS,Demand: GWh,,2025,3644.2
+MEXICO,SIBCS,Demand: GWh,,2027,3883.1
+MEXICO,SIBCS,Demand: GWh,,2030,4230.1
+MEXICO,SIBCS,Demand: GWh,,2035,4863.0
+MEXICO,SIBCS,Demand: GWh,,2040,5603.0
+MEXICO,SIBCS,Demand: GWh,,2045,6348.8
+MEXICO,SIBCS,Demand: GWh,,2050,7193.8
+MEXICO,SIBCS,Emissions: MtCO2,,2025,2.3
+MEXICO,SIBCS,Emissions: MtCO2,,2027,2.2
+MEXICO,SIBCS,Emissions: MtCO2,,2030,2.3
+MEXICO,SIBCS,Emissions: MtCO2,,2035,2.5
+MEXICO,SIBCS,Emissions: MtCO2,,2040,2.2
+MEXICO,SIBCS,Emissions: MtCO2,,2045,2.1
+MEXICO,SIBCS,Emissions: MtCO2,,2050,2.1
+MEXICO,SIBCS,Energy: GWh,Battery,2030,13.3
+MEXICO,SIBCS,Energy: GWh,Battery,2035,106.8
+MEXICO,SIBCS,Energy: GWh,Battery,2040,1207.7
+MEXICO,SIBCS,Energy: GWh,Battery,2045,3542.7
+MEXICO,SIBCS,Energy: GWh,Battery,2050,5377.7
+MEXICO,SIBCS,Energy: GWh,Diesel,2025,1910.7
+MEXICO,SIBCS,Energy: GWh,Diesel,2027,1893.0
+MEXICO,SIBCS,Energy: GWh,Diesel,2030,2061.3
+MEXICO,SIBCS,Energy: GWh,Diesel,2035,2285.5
+MEXICO,SIBCS,Energy: GWh,Diesel,2040,2031.1
+MEXICO,SIBCS,Energy: GWh,Diesel,2045,1934.5
+MEXICO,SIBCS,Energy: GWh,Diesel,2050,2072.7
+MEXICO,SIBCS,Energy: GWh,Gas,2025,1101.2
+MEXICO,SIBCS,Energy: GWh,Gas,2027,1054.2
+MEXICO,SIBCS,Energy: GWh,Gas,2030,1064.5
+MEXICO,SIBCS,Energy: GWh,Gas,2035,1066.8
+MEXICO,SIBCS,Energy: GWh,Gas,2040,933.3
+MEXICO,SIBCS,Energy: GWh,Gas,2045,821.7
+MEXICO,SIBCS,Energy: GWh,Gas,2050,742.0
+MEXICO,SIBCS,Energy: GWh,Geothermal,2025,34.4
+MEXICO,SIBCS,Energy: GWh,Geothermal,2027,34.4
+MEXICO,SIBCS,Energy: GWh,Geothermal,2030,34.4
+MEXICO,SIBCS,Energy: GWh,Geothermal,2035,34.4
+MEXICO,SIBCS,Energy: GWh,Geothermal,2040,34.4
+MEXICO,SIBCS,Energy: GWh,Geothermal,2045,33.6
+MEXICO,SIBCS,Energy: GWh,Geothermal,2050,33.0
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2025,59.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2027,59.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2030,59.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2035,59.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2040,59.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2045,150.8
+MEXICO,SIBCS,Energy: GWh,Onshore Wind,2050,217.7
+MEXICO,SIBCS,Energy: GWh,Other,2025,222.9
+MEXICO,SIBCS,Energy: GWh,Other,2027,222.9
+MEXICO,SIBCS,Energy: GWh,Other,2030,222.9
+MEXICO,SIBCS,Energy: GWh,Other,2035,222.9
+MEXICO,SIBCS,Energy: GWh,Other,2040,207.8
+MEXICO,SIBCS,Energy: GWh,Other,2045,197.9
+MEXICO,SIBCS,Energy: GWh,Other,2050,181.7
+MEXICO,SIBCS,Energy: GWh,PV,2025,315.2
+MEXICO,SIBCS,Energy: GWh,PV,2027,618.8
+MEXICO,SIBCS,Energy: GWh,PV,2030,791.4
+MEXICO,SIBCS,Energy: GWh,PV,2035,1212.4
+MEXICO,SIBCS,Energy: GWh,PV,2040,2556.2
+MEXICO,SIBCS,Energy: GWh,PV,2045,3862.8
+MEXICO,SIBCS,Energy: GWh,PV,2050,4992.8
+MEXICO,SIBCS,Excess generation: $/MWh,,,0.1
+MEXICO,SIBCS,Excess generation: $m,,2030,1.8
+MEXICO,SIBCS,Firm Capacity: MW,,2025,1589.9
+MEXICO,SIBCS,Firm Capacity: MW,,2027,1589.9
+MEXICO,SIBCS,Firm Capacity: MW,,2030,1689.9
+MEXICO,SIBCS,Firm Capacity: MW,,2035,1841.8
+MEXICO,SIBCS,Firm Capacity: MW,,2040,3097.3
+MEXICO,SIBCS,Firm Capacity: MW,,2045,4921.0
+MEXICO,SIBCS,Firm Capacity: MW,,2050,6184.1
+MEXICO,SIBCS,Fixed O&M: $/MWh,,,25.1
+MEXICO,SIBCS,Fixed O&M: $m,,2025,86.7
+MEXICO,SIBCS,Fixed O&M: $m,,2027,88.1
+MEXICO,SIBCS,Fixed O&M: $m,,2030,90.6
+MEXICO,SIBCS,Fixed O&M: $m,,2035,96.8
+MEXICO,SIBCS,Fixed O&M: $m,,2040,138.4
+MEXICO,SIBCS,Fixed O&M: $m,,2045,197.7
+MEXICO,SIBCS,Fixed O&M: $m,,2050,239.9
+MEXICO,SIBCS,Fuel costs: $/MWh,,,66.1
+MEXICO,SIBCS,Fuel costs: $m,,2025,347.0
+MEXICO,SIBCS,Fuel costs: $m,,2027,311.0
+MEXICO,SIBCS,Fuel costs: $m,,2030,325.5
+MEXICO,SIBCS,Fuel costs: $m,,2035,354.3
+MEXICO,SIBCS,Fuel costs: $m,,2040,329.0
+MEXICO,SIBCS,Fuel costs: $m,,2045,327.3
+MEXICO,SIBCS,Fuel costs: $m,,2050,356.4
+MEXICO,SIBCS,Generation: GWh,,2025,3644.2
+MEXICO,SIBCS,Generation: GWh,,2027,3883.1
+MEXICO,SIBCS,Generation: GWh,,2030,4247.6
+MEXICO,SIBCS,Generation: GWh,,2035,4988.6
+MEXICO,SIBCS,Generation: GWh,,2040,7030.3
+MEXICO,SIBCS,Generation: GWh,,2045,10544.1
+MEXICO,SIBCS,Generation: GWh,,2050,13617.5
+MEXICO,SIBCS,Investment costs: $/MWh,,,19.3
+MEXICO,SIBCS,Investment costs: $m,,2027,10.7
+MEXICO,SIBCS,Investment costs: $m,,2030,25.6
+MEXICO,SIBCS,Investment costs: $m,,2035,53.6
+MEXICO,SIBCS,Investment costs: $m,,2040,143.0
+MEXICO,SIBCS,Investment costs: $m,,2045,223.0
+MEXICO,SIBCS,Investment costs: $m,,2050,283.4
+MEXICO,SIBCS,New Capacity: MW,Battery,2030,28.9
+MEXICO,SIBCS,New Capacity: MW,Battery,2035,102.5
+MEXICO,SIBCS,New Capacity: MW,Battery,2040,1166.0
+MEXICO,SIBCS,New Capacity: MW,Battery,2045,1823.7
+MEXICO,SIBCS,New Capacity: MW,Battery,2050,1204.3
+MEXICO,SIBCS,New Capacity: MW,Diesel,2030,71.0
+MEXICO,SIBCS,New Capacity: MW,Diesel,2035,49.3
+MEXICO,SIBCS,New Capacity: MW,Diesel,2040,89.5
+MEXICO,SIBCS,New Capacity: MW,Diesel,2050,58.8
+MEXICO,SIBCS,New Capacity: MW,Onshore Wind,2045,66.0
+MEXICO,SIBCS,New Capacity: MW,Onshore Wind,2050,48.4
+MEXICO,SIBCS,New Capacity: MW,PV,2027,131.4
+MEXICO,SIBCS,New Capacity: MW,PV,2030,78.8
+MEXICO,SIBCS,New Capacity: MW,PV,2035,185.1
+MEXICO,SIBCS,New Capacity: MW,PV,2040,581.1
+MEXICO,SIBCS,New Capacity: MW,PV,2045,562.1
+MEXICO,SIBCS,New Capacity: MW,PV,2050,486.2
+MEXICO,SIBCS,Peak demand: MW,,2025,764.6
+MEXICO,SIBCS,Peak demand: MW,,2027,812.0
+MEXICO,SIBCS,Peak demand: MW,,2030,884.3
+MEXICO,SIBCS,Peak demand: MW,,2035,1027.0
+MEXICO,SIBCS,Peak demand: MW,,2040,1188.6
+MEXICO,SIBCS,Peak demand: MW,,2045,1353.9
+MEXICO,SIBCS,Peak demand: MW,,2050,1542.2
+MEXICO,SIBCS,Planning Reserve: MW,,2025,2.1
+MEXICO,SIBCS,Planning Reserve: MW,,2027,2.0
+MEXICO,SIBCS,Planning Reserve: MW,,2030,1.9
+MEXICO,SIBCS,Planning Reserve: MW,,2035,1.8
+MEXICO,SIBCS,Planning Reserve: MW,,2040,2.6
+MEXICO,SIBCS,Planning Reserve: MW,,2045,3.6
+MEXICO,SIBCS,Planning Reserve: MW,,2050,4.0
+MEXICO,SIBCS,Price: $/MWh,,2025,135.6
+MEXICO,SIBCS,Price: $/MWh,,2027,115.7
+MEXICO,SIBCS,Price: $/MWh,,2030,102.8
+MEXICO,SIBCS,Price: $/MWh,,2035,106.9
+MEXICO,SIBCS,Price: $/MWh,,2040,96.9
+MEXICO,SIBCS,Price: $/MWh,,2045,89.9
+MEXICO,SIBCS,Price: $/MWh,,2050,84.2
+MEXICO,SIBCS,Spinning Reserve: GWh,,2025,1220.5
+MEXICO,SIBCS,Spinning Reserve: GWh,,2027,1174.7
+MEXICO,SIBCS,Spinning Reserve: GWh,,2030,1108.7
+MEXICO,SIBCS,Spinning Reserve: GWh,,2035,1015.5
+MEXICO,SIBCS,Spinning Reserve: GWh,,2040,2497.0
+MEXICO,SIBCS,Spinning Reserve: GWh,,2045,5088.0
+MEXICO,SIBCS,Spinning Reserve: GWh,,2050,6444.8
+MEXICO,SIBCS,Spinning reserve costs: $/MWh,,,2.3
+MEXICO,SIBCS,Spinning reserve costs: $m,,2025,6.1
+MEXICO,SIBCS,Spinning reserve costs: $m,,2027,5.9
+MEXICO,SIBCS,Spinning reserve costs: $m,,2030,5.5
+MEXICO,SIBCS,Spinning reserve costs: $m,,2035,5.1
+MEXICO,SIBCS,Spinning reserve costs: $m,,2040,12.5
+MEXICO,SIBCS,Spinning reserve costs: $m,,2045,25.4
+MEXICO,SIBCS,Spinning reserve costs: $m,,2050,32.2
+MEXICO,SIBCS,Surplus generation: GWh,,2030,1.8
+MEXICO,SIBCS,Total Demand: GWh,,2025,3644.2
+MEXICO,SIBCS,Total Demand: GWh,,2027,3883.1
+MEXICO,SIBCS,Total Demand: GWh,,2030,4230.1
+MEXICO,SIBCS,Total Demand: GWh,,2035,4863.0
+MEXICO,SIBCS,Total Demand: GWh,,2040,5603.0
+MEXICO,SIBCS,Total Demand: GWh,,2045,6348.8
+MEXICO,SIBCS,Total Demand: GWh,,2050,7193.8
+MEXICO,SIBCS,VRE curtailment: $/MWh,,,0.2
+MEXICO,SIBCS,VRE curtailment: $m,,2027,1.6
+MEXICO,SIBCS,VRE curtailment: $m,,2035,1.4
+MEXICO,SIBCS,VRE curtailment: $m,,2040,2.2
+MEXICO,SIBCS,VRE curtailment: $m,,2045,1.5
+MEXICO,SIBCS,VRE curtailment: $m,,2050,1.1
+MEXICO,SIBCS,Variable O&M: $/MWh,,,5.8
+MEXICO,SIBCS,Variable O&M: $m,,2025,32.7
+MEXICO,SIBCS,Variable O&M: $m,,2027,32.3
+MEXICO,SIBCS,Variable O&M: $m,,2030,31.0
+MEXICO,SIBCS,Variable O&M: $m,,2035,32.1
+MEXICO,SIBCS,Variable O&M: $m,,2040,26.4
+MEXICO,SIBCS,Variable O&M: $m,,2045,25.6
+MEXICO,SIBCS,Variable O&M: $m,,2050,25.6
+System,System,Excess generation: $m,,,11.8
+System,System,Export revenues with external zones: $/MWh,,,0.3
+System,System,Export revenues with external zones: $m,,,1743.1
+System,System,Export revenues with internal zones: $/MWh,,,-5.2
+System,System,Export revenues with internal zones: $m,,,-35616.9
+System,System,Fixed O&M: $/MWh,,,9.9
+System,System,Fixed O&M: $m,,,67936.4
+System,System,Fuel costs: $/MWh,,,26.7
+System,System,Fuel costs: $m,,,183007.9
+System,System,Import costs with external zones: $/MWh,,,0.4
+System,System,Import costs with external zones: $m,,,2683.8
+System,System,Import costs with internal zones: $/MWh,,,5.5
+System,System,Import costs with internal zones: $m,,,37662.7
+System,System,Investment costs: $/MWh,,,6.1
+System,System,Investment costs: $m,,,41733.8
+System,System,NPV of system cost: $/MWh,,,46.2
+System,System,NPV of system cost: $m,,,316186.3
+System,System,Spinning reserve costs: $/MWh,,,0.5
+System,System,Spinning reserve costs: $m,,,3176.4
+System,System,Trade shared benefits: $/MWh,,,-0.3
+System,System,Trade shared benefits: $m,,,-2045.8
+System,System,VRE curtailment: $/MWh,,,0.0
+System,System,VRE curtailment: $m,,,180.8
+System,System,Variable O&M: $/MWh,,,2.8
+System,System,Variable O&M: $m,,,19198.4

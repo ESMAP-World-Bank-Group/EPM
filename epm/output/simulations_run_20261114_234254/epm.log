@@ -1,0 +1,44 @@
+2026-11-14 23:42:54,125 - INFO - Starting EPM workflow
+2026-11-14 23:42:54,129 - INFO - Config file: config.csv
+2026-11-14 23:42:54,129 - INFO - Folder input: data_mexico_2026
+2026-11-14 23:42:54,129 - INFO - modeltype: None
+2026-11-14 23:42:54,129 - INFO - Scenarios file: None
+2026-11-14 23:42:54,129 - INFO - Sensitivity: False
+2026-11-14 23:42:54,143 - INFO - MonteCarlo: False
+2026-11-14 23:42:54,143 - INFO - MonteCarlo samples: 10
+2026-11-14 23:42:54,143 - INFO - Monte Carlo uncertainties file: None
+2026-11-14 23:42:54,143 - INFO - Reduced output: False
+2026-11-14 23:42:54,143 - INFO - Reduced definition csv: False
+2026-11-14 23:42:54,143 - INFO - Selected scenarios: None
+2026-11-14 23:42:54,143 - INFO - Simple: None
+2026-11-14 23:42:54,143 - INFO - Simulation label: None
+2026-11-14 23:42:54,151 - INFO - Debug flag: False
+2026-11-14 23:42:54,151 - INFO - Trace flag: False
+2026-11-14 23:42:54,151 - INFO - Country filter: None
+2026-11-14 23:42:54,151 - INFO - Focus country: None
+2026-11-14 23:42:54,221 - INFO - Prepared 1 scenario(s): baseline
+2026-11-14 23:42:54,227 - INFO - Folder ready: output\simulations_run_20261114_234254
+2026-11-14 23:43:07,842 - INFO - Command to execute: gams 'C:\Users\wb623661\EPM\epm\main.gms' 'LogOption 4' 'LogFile baseline_main.log' '--BASE_FILE C:\Users\wb623661\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb623661\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb623661\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb623661\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb623661\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb623661\EPM\epm\input\data_mexico_2026' '--modeltype RMIP' '--cplexfile C:\Users\wb623661\EPM\epm\input\data_mexico_2026\cplex/cplex_baseline.opt' '--pSettings C:\Users\wb623661\EPM\epm\input\data_mexico_2026\pSettings.csv' '--y C:\Users\wb623661\EPM\epm\input\data_mexico_2026\y.csv' '--zcmap C:\Users\wb623661\EPM\epm\input\data_mexico_2026\zcmap.csv' '--pHours C:\Users\wb623661\EPM\epm\input\data_mexico_2026\pHours.csv' '--pDemandProfile C:\Users\wb623661\EPM\epm\input\data_mexico_2026\load/pDemandProfile.csv' '--pDemandData C:\Users\wb623661\EPM\epm\input\data_mexico_2026\load/pDemandData.csv' '--pDemandForecast C:\Users\wb623661\EPM\epm\input\data_mexico_2026\load/pDemandForecast.csv' '--sRelevant C:\Users\wb623661\EPM\epm\input\data_mexico_2026\load/sRelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb623661\EPM\epm\input\data_mexico_2026\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pGenDataInput.csv' '--pGenDataInputDefault C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pGenDataInputDefault.csv' '--pAvailability C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pCapexTrajectoriesDefault_decroissant_norm2025.csv' '--pCSPData C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pVREgenProfile.csv' '--pVREProfile C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb623661\EPM\epm\input\data_mexico_2026\supply/pStorageDataInput.csv' '--pPlanningReserveMargin C:\Users\wb623661\EPM\epm\input\data_mexico_2026\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb623661\EPM\epm\input\data_mexico_2026\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb623661\EPM\epm\input\data_mexico_2026\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb623661\EPM\epm\input\data_mexico_2026\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb623661\EPM\epm\input\data_mexico_2026\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb623661\EPM\epm\input\data_mexico_2026\constraint/pMaxFuellimit.csv' '--pMaxGenerationByFuel C:\Users\wb623661\EPM\epm\input\data_mexico_2026\constraint/pMaxGenerationByFuel.csv' '--pCarbonPrice C:\Users\wb623661\EPM\epm\input\data_mexico_2026\constraint/pCarbonPrice.csv' '--zext C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/zext.csv' '--pExtTransferLimit C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pLossFactorInternal.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pMaxAnnualExternalTradeShare.csv' '--pMinImport C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pNewTransmission.csv' '--pTradePrice C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb623661\EPM\epm\input\data_mexico_2026\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb623661\EPM\epm\input\data_mexico_2026\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb623661\EPM\epm\input\data_mexico_2026\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb623661\EPM\epm\input\data_mexico_2026\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb623661\EPM\epm\input\data_mexico_2026\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb623661\EPM\epm\input\data_mexico_2026\h2/pFuelDataH2.csv'
+2026-11-15 02:13:05,901 - INFO - Scenario baseline solver summary (baseline_main.log): objective 316.186 B$, elapsed 8995.485 s, peak memory 4595.0 MB
+2026-11-15 02:13:06,107 - INFO - Solver metrics table saved to output\simulations_run_20261114_234254\solver_metrics.csv
+2026-11-15 02:13:06,122 - INFO - Starting postprocessing for folder: output\simulations_run_20261114_234254
+2026-11-15 02:13:06,122 - INFO - Postprocessing started for output\simulations_run_20261114_234254
+2026-11-15 02:13:06,122 - INFO - Processing simulation results from output\simulations_run_20261114_234254
+2026-11-15 02:13:11,371 - WARNING - pNewTransmissionCapacity not in epm_results.keys().
+2026-11-15 02:13:19,437 - INFO - Loaded 48 processed result tables
+2026-11-15 02:13:20,896 - INFO - Created folder output\simulations_run_20261114_234254\img
+2026-11-15 02:13:20,896 - INFO - --------------------------------------------------
+2026-11-15 02:13:20,896 - INFO - Generating summary...
+2026-11-15 02:13:20,927 - WARNING - No pNewTransmissionCapacity in epm_results
+2026-11-15 02:13:21,041 - INFO -   Generating detailed summary by Power Plant...
+2026-11-15 02:13:21,388 - INFO -   Generating heatmap summary...
+2026-11-15 02:13:33,817 - WARNING - 9 zone(s) have no map geometry: ['CEN', 'NES', 'NOR', 'NTE', 'OCC', 'ORI', 'PEN', 'SIBC', 'SIBCS']
+  Add a row for each to the geojson_to_epm.csv that applies to this
+  folder (epm/input/<folder>/geojson_to_epm.csv, else
+  epm/resources/postprocess/geojson_to_epm.csv). A zone that matches no
+  admin area at all must first be drawn in zones_custom.geojson under an
+  ADMIN property, and that name mapped.
+2026-11-15 02:13:33,817 - WARNING - No zone has map geometry - the layers will be empty.
+2026-11-15 02:13:34,024 - INFO - Map layers written: zones.geojson, linestring_countries.geojson
+2026-11-15 02:13:34,024 - INFO - Postprocessing finished for output\simulations_run_20261114_234254
+2026-11-15 02:13:34,296 - INFO - Postprocessing completed for folder: output\simulations_run_20261114_234254
