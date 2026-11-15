@@ -1,57 +1,57 @@
-"""Étapes 3 et 4 — Sélection des jours représentatifs.
+"""Pasos 3 y 4 — Selección de los días representativos.
 
-OBJET
-    Réduire une année complète de données horaires — 8 760 heures, 9 régions,
-    trois séries — à un petit nombre de journées types pondérées, puis les
-    mettre au format d'EPM.
+OBJETO
+    Reducir un año completo de datos horarios — 8 760 horas, 9 regiones, tres
+    series — a un número pequeño de días tipo ponderados, y luego ponerlos en
+    el formato de EPM.
 
-ENTRÉES
-    input/load.csv   demande horaire par GCR, étape 1, source CENACE
-    input/pv.csv     facteur de charge solaire, étape 2, source Renewables.ninja
-    input/wind.csv   facteur de charge éolien, idem
+ENTRADAS
+    input/load.csv   demanda horaria por GCR, paso 1, fuente CENACE
+    input/pv.csv     factor de carga solar, paso 2, fuente Renewables.ninja
+    input/wind.csv   factor de carga eólico, ídem
 
-SAISONS
-    Quatre saisons calées sur les trimestres civils. Le découpage trimestriel a
-    un sens physique au Mexique, où la pointe est franchement estivale, et il
-    coïncide avec la saisonnalité que publie le PLADESE.
-    On n'utilise donc pas `representativeseasons_pipeline.py`, qui déduirait les
-    saisons par regroupement statistique : un découpage lisible et reproductible
-    vaut mieux ici qu'un découpage optimal mais opaque.
+ESTACIONES
+    Cuatro estaciones alineadas con los trimestres civiles. El corte trimestral
+    tiene sentido físico en México, donde la punta es claramente estival, y
+    coincide con la estacionalidad que publica el PLADESE.
+    No se usa entonces `representativeseasons_pipeline.py`, que deduciría las
+    estaciones por agrupamiento estadístico: un corte legible y reproducible
+    vale más aquí que un corte óptimo pero opaco.
 
-NOMBRE DE JOURNÉES
-    Trois journées optimisées par saison, auxquelles le pipeline ajoute
-    automatiquement les journées extrêmes — ensoleillement minimal, vent
-    minimal, demande maximale. Soit de l'ordre de vingt-quatre journées types.
+NÚMERO DE DÍAS
+    Tres días optimizados por estación, a los que el pipeline añade
+    automáticamente los días extremos — insolación mínima, viento mínimo,
+    demanda máxima. Es decir, del orden de veinticuatro días tipo.
 
-    Ce nombre est imposé, non choisi par le modèle : la contrainte du programme
-    d'optimisation est une égalité stricte sur le nombre de journées par saison.
-    Trois est un compromis — à une seule journée optimisée, les journées
-    extrêmes porteraient les trois quarts du poids annuel et le système serait
-    dimensionné sur des situations atypiques.
+    Este número es impuesto, no elegido por el modelo: la restricción del
+    programa de optimización es una igualdad estricta sobre el número de días
+    por estación. Tres es un compromiso — con un solo día optimizado, los días
+    extremos cargarían las tres cuartas partes del peso anual y el sistema
+    quedaría dimensionado sobre situaciones atípicas.
 
-SORTIES
-    output/epm/pHours.csv          poids de chaque journée, en heures
-    output/epm/pDemandProfile.csv  demande normalisée
-    output/epm/pVREProfile.csv     facteurs de charge solaire et éolien
-    output/representative_days_summary.csv   journées retenues et leur nature
+SALIDAS
+    output/epm/pHours.csv          peso de cada día, en horas
+    output/epm/pDemandProfile.csv  demanda normalizada
+    output/epm/pVREProfile.csv     factores de carga solar y eólico
+    output/representative_days_summary.csv   días retenidos y su naturaleza
 
-AVERTISSEMENT
-    `pDemandProfile` sort normalisé par le maximum NATIONAL, toutes zones
-    confondues. EPM attend un maximum de 1 pour CHAQUE zone. La correction est
-    faite à l'étape 5 par `check_outputs.py`, et non ici : la même série
-    normalisée sert aussi à repérer la journée de pointe du système, et il faut
-    alors conserver les tailles relatives des régions.
+ADVERTENCIA
+    `pDemandProfile` sale normalizado por el máximo NACIONAL, todas las zonas
+    juntas. EPM espera un máximo de 1 para CADA zona. La corrección se hace en
+    el paso 5 por `check_outputs.py`, y no aquí: la misma serie normalizada
+    sirve también para identificar el día de punta del sistema, y hay que
+    conservar entonces los tamaños relativos de las regiones.
 """
 
 import sys
 from pathlib import Path
 
-# .absolute() et non .resolve() : resolve() remonte la jonction jusqu au
-# chemin reel, qui contient des espaces ("OneDrive - WBG"). Or le pipeline
-# lance GAMS via subprocess sans proteger les chemins par des guillemets :
-# le moindre espace casse la commande, GAMS n ecrit pas Results.gdx, et
-# l erreur est masquee par stdout=DEVNULL. Toute la chaine doit donc etre
-# lancee depuis un chemin sans espaces.
+# .absolute() y no .resolve() : resolve() remonta la junction hasta la ruta
+# real, que contiene espacios ("OneDrive - WBG"). Ahora bien, el pipeline
+# lanza GAMS por subprocess sin proteger las rutas con comillas: el menor
+# espacio rompe el comando, GAMS no escribe Results.gdx, y el error queda
+# oculto por stdout=DEVNULL. Toda la cadena debe entonces lanzarse desde
+# una ruta sin espacios.
 ICI = Path(__file__).absolute().parent
 sys.path.insert(0, str(ICI.parent))
 
@@ -59,7 +59,7 @@ from representative_days.representativedays_pipeline import (  # noqa: E402
     run_representative_days_pipeline,
 )
 
-SAISONS = {m: (m - 1) // 3 + 1 for m in range(1, 13)}  # trimestres civils
+SAISONS = {m: (m - 1) // 3 + 1 for m in range(1, 13)}  # trimestres civiles
 ENTREES = {
     "Load": str(ICI / "input" / "load.csv"),
     "PV": str(ICI / "input" / "pv.csv"),
@@ -74,9 +74,9 @@ SORTIE = SORTIE.parent / (SORTIE.name + SUFFIXE)
 
 
 def main():
-    print("ÉTAPES 3 ET 4 — JOURS REPRÉSENTATIFS")
-    print(f"   saisons    : 4 trimestres civils")
-    print(f"   journées   : {N_JOURS} optimisées par saison, plus les extrêmes")
+    print("PASOS 3 Y 4 — DÍAS REPRESENTATIVOS")
+    print(f"   estaciones : 4 trimestres civiles")
+    print(f"   días       : {N_JOURS} optimizados por estación, más los extremos")
     print(f"   clusters   : {N_CLUSTERS}   bins : {N_BINS}")
     for k, v in ENTREES.items():
         print(f"   {k:<10} : {Path(v).name}")
@@ -96,14 +96,14 @@ def main():
     )
 
     print()
-    print("JOURNÉES RETENUES")
+    print("DÍAS RETENIDOS")
     rd = res.get("repr_days")
     if rd is not None:
         print(rd.to_string(index=False))
     sd = res.get("special_days")
     if sd is not None and len(sd):
         print()
-        print("JOURNÉES EXTRÊMES")
+        print("DÍAS EXTREMOS")
         print(sd.to_string(index=False))
     return res
 

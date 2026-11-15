@@ -1,82 +1,84 @@
-"""Étape 2 — Profils horaires solaire et éolien par GCR.
+"""Paso 2 — Perfiles horarios solar y eólico por GCR.
 
-OBJET
-    Produire, pour chacune des 9 régions de contrôle, un facteur de charge
-    horaire du photovoltaïque et de l'éolien sur l'année 2025, au format attendu
-    par `representativedays_pipeline.py`.
+OBJETO
+    Producir, para cada una de las 9 regiones de control, un factor de carga
+    horario del fotovoltaico y del eólico sobre el año 2025, en el formato que
+    espera `representativedays_pipeline.py`.
 
-CHAÎNE EN TROIS TEMPS
-    1. localiser  — un point par GCR, barycentre des capacités installées
-    2. télécharger — Renewables.ninja, via `pipelines/vre_pipeline.py` inchangé
-    3. corriger    — remise à l'heure locale de chaque zone
+CADENA EN TRES TIEMPOS
+    1. localizar   — un punto por GCR, baricentro de las capacidades instaladas
+    2. descargar   — Renewables.ninja, vía `pipelines/vre_pipeline.py` sin tocar
+    3. corregir    — reajuste a la hora local de cada zona
 
-1. LOCALISATION — barycentre pondéré par la capacité installée
-    Source : Global Energy Monitor, *Global Integrated Power Tracker*,
-    septembre 2025, onglet `Power facilities`, filtré sur le Mexique, les
-    centrales solaires et éoliennes en opération, géolocalisées.
-    Le solaire est filtré à 5 MW minimum : le PLADESE compte la génération
-    distribuée à part, et elle fausserait le barycentre.
+1. LOCALIZACIÓN — baricentro ponderado por la capacidad instalada
+    Fuente: Global Energy Monitor, *Global Integrated Power Tracker*,
+    septiembre de 2025, pestaña `Power facilities`, filtrada sobre México, las
+    centrales solares y eólicas en operación, geolocalizadas.
+    El solar se filtra a 5 MW como mínimo: el PLADESE cuenta la generación
+    distribuida aparte, y falsearía el baricentro.
 
-    Chaque centrale est rattachée à sa GCR par son État. La correspondance vient
-    du PLADESE **T 4.9**, *Requerimientos de capacidad de particulares*, qui
-    publie pour chaque projet sa GCR et son État — 21 États ainsi couverts.
-    Les autres n'appartiennent sans ambiguïté qu'à une seule GCR, sauf trois
-    cas tranchés et documentés dans ETAT_GCR ci-dessous.
+    Cada central se asigna a su GCR por su Estado. La correspondencia viene
+    del PLADESE **T 4.9**, *Requerimientos de capacidad de particulares*, que
+    publica para cada proyecto su GCR y su Estado — 21 Estados así cubiertos.
+    Los demás no pertenecen sin ambigüedad más que a una sola GCR, salvo tres
+    casos resueltos y documentados en ETAT_GCR más abajo.
 
-    Le barycentre remplace le choix d'un point par l'analyste : il est
-    reproductible et vérifiable. La fonction `gap_rninja_coordinates` du
-    pipeline, qui retient la plus grosse centrale d'un PAYS, ne convient pas ici.
+    El baricentro reemplaza la elección de un punto por el analista: es
+    reproducible y verificable. La función `gap_rninja_coordinates` del
+    pipeline, que retiene la central más grande de un PAÍS, no sirve aquí.
 
-    Trois zones n'ont aucun parc éolien recensé — CEN, NOR, NTE. Elles
-    reçoivent le barycentre solaire de leur propre GCR, qui marque le centre du
-    développement renouvelable régional. Ces trois zones ne portent aucune
-    capacité éolienne existante dans le modèle ; le profil n'y sert qu'aux
-    candidats.
+    Tres zonas no tienen ningún parque eólico registrado — CEN, NOR, NTE.
+    Reciben el baricentro solar de su propia GCR, que marca el centro del
+    desarrollo renovable regional. Estas tres zonas no llevan ninguna capacidad
+    eólica existente en el modelo; el perfil sólo sirve ahí para los
+    candidatos.
 
-2. TÉLÉCHARGEMENT — Renewables.ninja, réanalyse MERRA-2
-    Pfenninger S. et Staffell I. (2016), *Long-term patterns of European PV
+2. DESCARGA — Renewables.ninja, reanálisis MERRA-2
+    Pfenninger S. e Staffell I. (2016), *Long-term patterns of European PV
     output using 30 years of validated hourly reanalysis and satellite data*,
-    Energy 114, 1251-1265, et l'article compagnon sur l'éolien.
-    Sorties sous licence CC-BY : la citation est une condition d'usage.
+    Energy 114, 1251-1265, y el artículo compañero sobre el eólico.
+    Salidas bajo licencia CC-BY: la cita es una condición de uso.
 
-    Année 2025, la même que la demande horaire du CENACE préparée à l'étape 1.
-    La corrélation entre demande et renouvelables est l'un des critères que la
-    sélection des jours représentatifs doit préserver : les deux séries doivent
-    porter sur la même année.
+    Año 2025, el mismo que la demanda horaria del CENACE preparada en el
+    paso 1. La correlación entre demanda y renovables es uno de los criterios
+    que la selección de los días representativos debe preservar: las dos series
+    deben cubrir el mismo año.
 
-    Photovoltaïque — suiveur à un axe, configuration dominante des grandes
-    centrales mexicaines ; inclinaison égale à la latitude plafonnée à 30°,
-    azimut plein sud, pertes système 10 %.
+    Fotovoltaico — seguidor de un eje, configuración dominante de las grandes
+    centrales mexicanas; inclinación igual a la latitud con tope de 30°,
+    acimut al sur, pérdidas de sistema 10 %.
 
-    Éolien — Gamesa G80 de 2 MW, moyeu à 100 m, soit 398 W/m² de puissance
-    spécifique. C'est un CALIBRAGE, pas une description du parc. La machine par
-    défaut du pipeline, une Gamesa G114 à 196 W/m², donne un facteur de charge
-    national de 49 % contre 30,4 % observé : Renewables.ninja restitue une
-    machine neuve, parfaitement disponible, sur un site parfaitement choisi,
-    quand l'observé intègre vieillissement, indisponibilités, sillages et
-    écrêtements. Cinq courbes ont été comparées sur les deux gisements
-    principaux ; la G80 est celle qui ramène le national au niveau observé.
+    Eólico — Vestas V90 de 2 MW, buje a 100 m, es decir 314 W/m² de potencia
+    específica. Es una CALIBRACIÓN, no una descripción del parque. La máquina
+    por defecto del pipeline, una Gamesa G114 a 196 W/m², da un factor de carga
+    nacional de 49 % contra 30,4 % observado: Renewables.ninja restituye una
+    máquina nueva, perfectamente disponible, en un sitio perfectamente elegido,
+    mientras que lo observado integra envejecimiento, indisponibilidades,
+    estelas y recortes. Se compararon cinco curvas sobre los dos yacimientos
+    principales; la V90 es la que devuelve el nacional al nivel observado.
 
-3. CORRECTION HORAIRE
-    Renewables.ninja renvoie les horodatages en UTC : son paramètre `local_time`
-    est sans effet sur le format JSON, ce qui a été vérifié en comparant les deux
-    réponses, strictement identiques. Sans correction, le pic solaire tomberait
-    six à huit heures trop tard par rapport à la demande.
+3. CORRECCIÓN HORARIA
+    Renewables.ninja devuelve las marcas de tiempo en UTC: su parámetro
+    `local_time` no tiene efecto sobre el formato JSON, lo que se verificó
+    comparando las dos respuestas, estrictamente idénticas. Sin corrección, el
+    pico solar caería de seis a ocho horas demasiado tarde respecto a la
+    demanda.
 
-    On applique un décalage circulaire du décalage horaire standard de chaque
-    zone. Le Mexique a supprimé l'heure d'été en 2022, les décalages sont donc
-    fixes, à une exception non modélisée : la Basse-Californie l'observe encore,
-    étant alignée sur la Californie — une heure sur huit mois, zone SIBC seule.
+    Se aplica un desplazamiento circular del huso horario estándar de cada
+    zona. México suprimió el horario de verano en 2022, los husos son por tanto
+    fijos, con una excepción no modelada: Baja California todavía lo observa,
+    por estar alineada con California — una hora durante ocho meses, zona SIBC
+    únicamente.
 
-CONTRÔLES
-    facteur de charge national pondéré, contre le PLADESE 2024, T 2.1 et T 2.2
-        éolien   7 512 MW   19 987 GWh   ->  30,4 %
-        solaire  7 961 MW   18 640 GWh   ->  26,7 %
-    heure du pic solaire, qui doit tomber entre 11 h et 14 h dans chaque zone.
+CONTROLES
+    factor de carga nacional ponderado, contra el PLADESE 2024, T 2.1 y T 2.2
+        eólico   7 512 MW   19 987 GWh   ->  30,4 %
+        solar    7 961 MW   18 640 GWh   ->  26,7 %
+    hora del pico solar, que debe caer entre las 11 h y las 14 h en cada zona.
 
-SORTIE
-    input/pv.csv et input/wind.csv — `zone, month, day, hour, value`,
-    78 840 lignes chacun, valeurs dans [0, 1].
+SALIDA
+    input/pv.csv e input/wind.csv — `zone, month, day, hour, value`,
+    78 840 líneas cada uno, valores en [0, 1].
 """
 
 import sys
@@ -96,13 +98,13 @@ ANNEE = 2025
 GEM = ICI.parent / "dataset" / "Global-Integrated-Power-September-2025.xlsx"
 SEUIL_SOLAIRE_MW = 5.0
 
-# Décalage horaire standard par rapport à UTC.
+# Huso horario estándar respecto a UTC.
 FUSEAU = {"CEN": -6, "ORI": -6, "OCC": -6, "NTE": -6, "NES": -6, "PEN": -6,
           "NOR": -7, "SIBCS": -7, "SIBC": -8}
 ZONES = list(FUSEAU)
 
-# État -> GCR. Les 21 premiers viennent du PLADESE T 4.9 ; les suivants sont
-# sans ambiguïté ; les trois derniers sont tranchés et justifiés.
+# Estado -> GCR. Los 21 primeros vienen del PLADESE T 4.9; los siguientes no
+# tienen ambigüedad; los tres últimos están resueltos y justificados.
 ETAT_GCR = {
     "estado de mexico": "CEN", "mexico": "CEN", "state of mexico": "CEN",
     "coahuila": "NES", "coahuila de zaragoza": "NES", "tamaulipas": "NES",
@@ -117,12 +119,12 @@ ETAT_GCR = {
     "aguascalientes": "OCC", "baja california": "SIBC",
     "baja california sur": "SIBCS", "lower california south": "SIBCS",
     "ciudad de mexico": "CEN", "distrito federal": "CEN",
-    "hidalgo": "CEN",    # T 4.9 le cite en Central et en Occidental ; majorité en Central
-    "tlaxcala": "ORI",   # enclavé dans Puebla, même région de transmission
-    "guerrero": "ORI",   # rattaché à Oriental par Ixtapa - Lázaro Cárdenas
+    "hidalgo": "CEN",    # T 4.9 lo cita en Central y en Occidental; mayoría en Central
+    "tlaxcala": "ORI",   # enclavado en Puebla, misma región de transmisión
+    "guerrero": "ORI",   # ligado a Oriental por Ixtapa - Lázaro Cárdenas
 }
 
-# Capacité installée par GCR, pGenDataInput Status 1 (MW), pour la pondération.
+# Capacidad instalada por GCR, pGenDataInput Status 1 (MW), para la ponderación.
 CAPACITE = {
     "pv":   {"CEN": 120, "ORI": 828, "OCC": 2357, "NOR": 1784, "NTE": 1134,
              "NES": 1431, "PEN": 352, "SIBC": 41, "SIBCS": 91},
@@ -143,9 +145,9 @@ def _sans_accent(s):
 
 
 def barycentres(verbeux: bool = True) -> dict:
-    """Calcule, par GCR et par technologie, le barycentre des capacités GEM."""
+    """Calcula, por GCR y por tecnología, el baricentro de las capacidades GEM."""
     if not GEM.exists():
-        raise FileNotFoundError(f"Fichier GEM introuvable : {GEM}")
+        raise FileNotFoundError(f"Archivo GEM no encontrado : {GEM}")
     d = pd.read_excel(GEM, sheet_name="Power facilities")
     col = [c for c in d.columns if "Subnational" in c][0]
     v = d[(d["Country/area"] == "Mexico") & d["Type"].isin(["solar", "wind"])
@@ -163,7 +165,7 @@ def barycentres(verbeux: bool = True) -> dict:
                 pts[(tech, z)] = ((k.Latitude * w).sum() / w.sum(),
                                   (k.Longitude * w).sum() / w.sum(),
                                   w.sum(), len(k))
-    # zones sans parc eolien : on reprend le barycentre solaire de la meme GCR
+    # zonas sin parque eólico : se retoma el baricentro solar de la misma GCR
     reprises = []
     for z in ZONES:
         if ("wind", z) not in pts and ("solar", z) in pts:
@@ -172,9 +174,9 @@ def barycentres(verbeux: bool = True) -> dict:
             reprises.append(z)
 
     if verbeux:
-        print("1. LOCALISATION — barycentres pondérés par la capacité (GEM 09/2025)")
+        print("1. LOCALIZACIÓN — baricentros ponderados por la capacidad (GEM 09/2025)")
         print(f"   {'GCR':<7}{'lat PV':>9}{'lon PV':>10}{'MW':>8}"
-              f"{'lat vent':>11}{'lon vent':>10}{'MW':>8}")
+              f"{'lat viento':>11}{'lon viento':>10}{'MW':>8}")
         print("   " + "-" * 64)
         for z in ZONES:
             p, e = pts.get(("solar", z)), pts.get(("wind", z))
@@ -182,14 +184,14 @@ def barycentres(verbeux: bool = True) -> dict:
                   f"{e[0]:>11.2f}{e[1]:>10.2f}{e[2]:>8.0f}")
         print("   " + "-" * 64)
         if reprises:
-            print(f"   éolien repris du barycentre solaire, aucun parc recensé : "
+            print(f"   eólico tomado del baricentro solar, ningún parque registrado : "
                   f"{', '.join(reprises)}")
         print()
     return pts
 
 
 def _long(df: pd.DataFrame) -> pd.DataFrame:
-    """Format long, ramené à l'heure locale par décalage circulaire."""
+    """Formato largo, llevado a la hora local por desplazamiento circular."""
     d = df.reset_index()
     val = [c for c in d.columns if c not in ("zone", "month", "day", "hour")]
     d = d.rename(columns={val[0]: "value"})[["zone", "month", "day", "hour", "value"]]
@@ -201,8 +203,8 @@ def _long(df: pd.DataFrame) -> pd.DataFrame:
         g["value"] = np.roll(g["value"].to_numpy(), FUSEAU[zone])
         blocs.append(g)
     out = pd.concat(blocs, ignore_index=True)
-    # Le pipeline des jours représentatifs attend des heures de 0 à 23,
-    # convention que Renewables.ninja respecte déjà.
+    # El pipeline de días representativos espera horas de 0 a 23,
+    # convención que Renewables.ninja ya respeta.
     out["hour"] = out["hour"].astype(int)
     return out.sort_values(["zone", "month", "day", "hour"]).reset_index(drop=True)
 
@@ -211,21 +213,21 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
     jeton = load_api_token("renewables_ninja")
     if not jeton:
         raise RuntimeError(
-            "Jeton Renewables.ninja introuvable. Attendu dans config/api_tokens.ini, "
-            "section [api_tokens], clé renewables_ninja."
+            "Token de Renewables.ninja no encontrado. Se espera en config/api_tokens.ini, "
+            "sección [api_tokens], clave renewables_ninja."
         )
     if verbeux:
-        print("ÉTAPE 2 — PROFILS SOLAIRE ET ÉOLIEN")
-        print(f"   Renewables.ninja, réanalyse MERRA-2, année {ANNEE}, 9 GCR")
+        print("PASO 2 — PERFILES SOLAR Y EÓLICO")
+        print(f"   Renewables.ninja, reanálisis MERRA-2, año {ANNEE}, 9 GCR")
         print()
     pts = barycentres(verbeux)
 
     if verbeux:
-        print("2. TÉLÉCHARGEMENT")
+        print("2. DESCARGA")
     if seulement == "wind":
         pv = pd.read_csv(ICI / "input" / "pv.csv")
         if verbeux:
-            print(f"   solaire  repris de input/pv.csv, {len(pv)} lignes")
+            print(f"   solar    tomado de input/pv.csv, {len(pv)} líneas")
         blocs = None
     else:
         blocs = []
@@ -233,14 +235,14 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
         lat, lon, _, _ = pts[("solar", z)]
         tilt = min(abs(lat), TILT_MAX)
         if verbeux:
-            print(f"   solaire  {z:<6}{lat:7.2f}{lon:9.2f}   inclinaison {tilt:.0f}°")
+            print(f"   solar    {z:<6}{lat:7.2f}{lon:9.2f}   inclinación {tilt:.0f}°")
         df = get_renewables_ninja(
             {z: (lat, lon)}, "solar", ANNEE, ANNEE + 1, api_token=jeton,
             export_csv=False, tracking=1, tilt=tilt, azim=180,
             system_loss=0.1, capacity=1,
         )
         if df.empty:
-            raise RuntimeError(f"Réponse solaire vide pour {z} : limite d'API ?")
+            raise RuntimeError(f"Respuesta solar vacía para {z} : ¿límite de la API?")
         blocs.append(_long(df))
         time.sleep(3)
     if blocs is not None:
@@ -248,10 +250,10 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
     (ICI / "input").mkdir(parents=True, exist_ok=True)
     pv.to_csv(ICI / "input" / "pv.csv", index=False)
     if verbeux:
-        print(f"   sortie : input/pv.csv — {len(pv)} lignes, {pv.zone.nunique()} zones")
+        print(f"   salida : input/pv.csv — {len(pv)} líneas, {pv.zone.nunique()} zonas")
 
     if verbeux:
-        print(f"   éolien   9 zones, {TURBINE.replace('+', ' ')}, moyeu {HAUTEUR} m")
+        print(f"   eólico   9 zonas, {TURBINE.replace('+', ' ')}, buje {HAUTEUR} m")
     df = get_renewables_ninja(
         {z: (pts[("wind", z)][0], pts[("wind", z)][1]) for z in ZONES}, "wind",
         ANNEE, ANNEE + 1, api_token=jeton, export_csv=False,
@@ -259,14 +261,14 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
     )
     wind = _long(df) if not df.empty else pd.DataFrame(columns=["zone"])
 
-    # Reprise zone par zone de ce qui manque : la limite de l'API est une
-    # fenetre glissante, les requetes se liberent au fil des minutes.
+    # Reintento zona por zona de lo que falta : el límite de la API es una
+    # ventana deslizante, las solicitudes se liberan con los minutos.
     for essai in range(1, 9):
         manquantes = [z for z in ZONES if z not in set(wind.zone)]
         if not manquantes:
             break
         if verbeux:
-            print(f"   reprise {essai} — zones manquantes : {', '.join(manquantes)}")
+            print(f"   reintento {essai} — zonas faltantes : {', '.join(manquantes)}")
         time.sleep(70)
         for z in manquantes:
             lat, lon = pts[("wind", z)][0], pts[("wind", z)][1]
@@ -277,19 +279,19 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
             if not d1.empty:
                 wind = pd.concat([wind, _long(d1)], ignore_index=True)
                 if verbeux:
-                    print(f"      {z} recupere")
+                    print(f"      {z} recuperada")
             time.sleep(8)
 
     manquantes = [z for z in ZONES if z not in set(wind.zone)]
     if manquantes:
         raise RuntimeError(
-            "Zones toujours absentes apres reprises : " + ", ".join(manquantes)
+            "Zonas todavía ausentes después de los reintentos : " + ", ".join(manquantes)
         )
     wind = wind.sort_values(["zone", "month", "day", "hour"]).reset_index(drop=True)
 
     wind.to_csv(ICI / "input" / "wind.csv", index=False)
     if verbeux:
-        print(f"   sortie : input/wind.csv — {len(wind)} lignes, {wind.zone.nunique()} zones")
+        print(f"   salida : input/wind.csv — {len(wind)} líneas, {wind.zone.nunique()} zonas")
     sorties = {"pv": pv, "wind": wind}
 
     if verbeux:
@@ -299,8 +301,8 @@ def preparer(verbeux: bool = True, seulement: str = None) -> dict:
 
 def _controler(sorties: dict) -> None:
     print()
-    print("3. CONTRÔLES")
-    print(f"   {'GCR':<7}{'FC PV':>8}{'FC vent':>10}{'pic PV':>9}{'1ere h':>8}{'der. h':>8}")
+    print("3. CONTROLES")
+    print(f"   {'GCR':<7}{'FC PV':>8}{'FC viento':>10}{'pico PV':>9}{'1a h':>8}{'últ. h':>8}")
     print("   " + "-" * 50)
     ok = True
     for z in ZONES:
@@ -314,20 +316,20 @@ def _controler(sorties: dict) -> None:
               f"{g.idxmax():>9.0f}{nz.index.min():>8.0f}{nz.index.max():>8.0f}"
               f"{'' if bon else '   <<<'}")
     print("   " + "-" * 50)
-    print(f"   fuseaux : {'tous corrects' if ok else 'ANOMALIE'}")
+    print(f"   husos horarios : {'todos correctos' if ok else 'ANOMALÍA'}")
     print()
-    print("   national pondéré par la capacité installée, contre PLADESE 2024")
-    for tech, nom in (("pv", "solaire"), ("wind", "éolien")):
+    print("   nacional ponderado por la capacidad instalada, contra PLADESE 2024")
+    for tech, nom in (("pv", "solar"), ("wind", "eólico")):
         s, c = sorties[tech], CAPACITE[tech]
         fc = sum(s.loc[s.zone == z, "value"].mean() * c.get(z, 0) for z in ZONES)
         fc /= sum(c.values())
-        print(f"      {nom:<9}{100 * fc:>7.1f}%   observé {100 * CIBLE[tech]:>5.1f}%"
-              f"   écart {100 * (fc - CIBLE[tech]) / CIBLE[tech]:>+6.1f} %")
+        print(f"      {nom:<9}{100 * fc:>7.1f}%   observado {100 * CIBLE[tech]:>5.1f}%"
+              f"   desviación {100 * (fc - CIBLE[tech]) / CIBLE[tech]:>+6.1f} %")
 
 
 if __name__ == "__main__":
     try:
         preparer(seulement="wind" if "--wind" in sys.argv else None)
     except Exception as exc:  # pragma: no cover
-        print(f"ÉCHEC : {exc}", file=sys.stderr)
+        print(f"FALLO : {exc}", file=sys.stderr)
         raise
