@@ -43,6 +43,7 @@ ADVERTENCIA
     conservar entonces los tamaños relativos de las regiones.
 """
 
+import shutil
 import sys
 from pathlib import Path
 
@@ -73,6 +74,25 @@ SUFFIXE = f"_n{N_JOURS}_b{N_BINS}" if ("--n" in sys.argv or "--bins" in sys.argv
 SORTIE = SORTIE.parent / (SORTIE.name + SUFFIXE)
 
 
+def preparar_opciones_cplex():
+    """Pone cplex.opt donde GAMS lo busca de verdad.
+
+    El modelo declara `RepresentativeDays.optfile=1`, asi que GAMS busca
+    `cplex.opt` en su directorio de trabajo, que el pipeline fija en la carpeta
+    de salida. El archivo, en cambio, vive en `gams/`. Sin esta copia GAMS
+    escribe cuatro veces «Cannot open parameter file», resuelve con las opciones
+    por defecto y nadie se entera, porque el pipeline manda stdout a DEVNULL.
+    """
+    origen = ICI / "gams" / "cplex.opt"
+    if not origen.is_file():
+        print(f"   aviso : no encuentro {origen}, GAMS usara sus opciones por defecto")
+        return
+    SORTIE.mkdir(parents=True, exist_ok=True)
+    destino = SORTIE / "cplex.opt"
+    shutil.copy2(origen, destino)
+    print(f"   opciones del solver : {destino.relative_to(ICI)}")
+
+
 def main():
     print("PASOS 3 Y 4 — DÍAS REPRESENTATIVOS")
     print(f"   estaciones : 4 trimestres civiles")
@@ -80,6 +100,7 @@ def main():
     print(f"   clusters   : {N_CLUSTERS}   bins : {N_BINS}")
     for k, v in ENTREES.items():
         print(f"   {k:<10} : {Path(v).name}")
+    preparar_opciones_cplex()
     print()
 
     res = run_representative_days_pipeline(
