@@ -1,0 +1,22 @@
+* ------------------------------------------------------------
+* CPLEX RMIP Fast Configuration
+* Purpose: continuous relaxation solved quickly
+* ------------------------------------------------------------
+
+* --- Key parameters (adjust first) ---
+lpmethod=4
+threads=8
+baralg=0
+barcrossalg=1
+barcolnz=0
+barepcomp=1e-4
+parallelmode=0
+memoryemphasis=0
+predual=-1
+scaind=0
+solutiontype=2
+
+* --- Supporting parameters ---
+names=no
+bardisplay=2
+iis=0

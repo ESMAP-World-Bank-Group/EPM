@@ -107,6 +107,8 @@ epm/input/*
 !epm/input/data_pan_arab/**
 !epm/input/data_mexico_2026/
 !epm/input/data_mexico_2026/**
+!epm/input/data_mexico_2026_lab/
+!epm/input/data_mexico_2026_lab/**
 
 !epm/input/datapackage.json
 !epm/input/validate.py
