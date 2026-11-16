@@ -1,6 +1,6 @@
 # Greater Malé representative days
 
-**Status:** 13 Nov 2026. In `epm/input/data_MDV`: `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv`.
+**Status:** 13 Nov 2026. In `epm/input/data_MDV`: `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv`. Representative weeks, proposed as an alternative: [REPWEEKS.md](REPWEEKS.md).
 
 ## What they are
 
