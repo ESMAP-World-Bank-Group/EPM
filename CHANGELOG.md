@@ -22,8 +22,16 @@ Versions follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
   string concatenation but mapped `EPS` to `NaN` — and `load_yearly_zone` drops
   `NaN` rows, so stored zeros disappeared from the charts instead of showing as
   zero.
+- Spinning reserve with unit commitment (dispatch mode, `fApplyMinGenCommitment`):
+  units that were switched off could still hold spinning reserve, and with
+  relaxed commitment (RMIP) a partly committed unit could hold reserve on its
+  uncommitted capacity. New `eSpinningReserveLimOnline` (reserve ≤ committed
+  capacity × `ResLimShare`) and `eJointResCapOnline` (output + reserve ≤
+  committed capacity) apply to units with a minimum-generation commitment.
 
 ### Added
+- `pReserveSpinningPriceCountry(c,q,d,t,y)`: marginal cost of the country
+  spinning reserve requirement (USD/MW-h), scaled like `pHourlyPrice`.
 - `epm/gams_values.py`: single definition of GAMS special-value handling
   (`GAMS_SPECIAL_VALUES`, `coerce_value_column`, `read_output_csv`), shared by
   `epm/output_treatment.py` and `dashboard/data_loader.py`. Duplicating this

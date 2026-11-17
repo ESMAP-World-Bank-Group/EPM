@@ -439,7 +439,9 @@ Equations
    eDispatchRampDownLimit(g,AT,y)  'Dispatch ramp-down limit across chronological slots'
    eSpinningReserveLim(g,q,d,t,y) 'Reserve capability vs capacity'
    eSpinningReserveLimVRE(g,f,q,d,t,y) 'Reserve limit adjusted for VRE profile'
+   eSpinningReserveLimOnline(g,q,d,t,y) 'Reserve only from committed units (unit commitment)'
    eJointResCap(g,q,d,t,y)        'Joint dispatch-reserve envelope'
+   eJointResCapOnline(g,q,d,t,y)  'Output + reserve within committed capacity (unit commitment)'
    eSpinningReserveReqCountry(c,q,d,t,y) 'Country spinning reserve requirement'
    eSpinningReserveReqSystem(q,d,t,y) 'System spinning reserve requirement'
    ePlanningReserveReqSystem(y)   'System planning reserve requirement'
@@ -908,6 +910,20 @@ eSpinningReserveLim(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySys
 eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) and FD(q,d,t))..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
+* With unit commitment, only units that are online can hold spinning reserve: an offline unit cannot respond
+* within the reserve time frame. Applies to units with a minimum-generation commitment.
+eSpinningReserveLimOnline(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)
+      and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and FD(q,d,t))..
+   vSpinningReserve(g,q,d,t,y) =l= pGenData(g,"Capacity")*pGenData(g,"ResLimShare")
+                                    * sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+
+* With unit commitment, output + reserve must fit within the committed capacity (tightens the relaxed formulation;
+* with integer commitment it is implied by eJointResCap and eSpinningReserveLimOnline).
+eJointResCapOnline(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)
+      and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and FD(q,d,t))..
+   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y)
+      =l= pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
 eSpinningReserveReqCountry(c,q,d,t,y)$((fApplyCountrySpinReserveConstraint) and FD(q,d,t))..
@@ -1252,7 +1268,9 @@ Model PA /
    
    eSpinningReserveLim
    eSpinningReserveLimVRE
+   eSpinningReserveLimOnline
    eJointResCap
+   eJointResCapOnline
    eSpinningReserveReqCountry
    eSpinningReserveReqSystem
    ePlanningReserveReqCountry
