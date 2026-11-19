@@ -1,0 +1,4 @@
+scenario,Objective (Billion USD),Time,Peak Memory (Mb)
+baseline,,1.02 min,297.0
+Scn01_Moderate,,50.37 s,297.0
+Scn02_MDPhigh,6.81,50.50 s,297.0

@@ -1,0 +1,2544 @@
+c,z,attribute,y,uni,value
+GMR,Gulhifalhu,Costs,2025.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Fixed O&M: $m,0.08743616928
+GMR,Gulhifalhu,Costs,2025.0,Fuel costs: $m,1.866055072428872
+GMR,Gulhifalhu,Costs,2025.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Spinning reserve costs: $m,0.0011933320452499
+GMR,Gulhifalhu,Costs,2025.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Unmet country planning reserve costs: $m,95.71593712488271
+GMR,Gulhifalhu,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Unmet demand costs: $m,9493.932720000008
+GMR,Gulhifalhu,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Unmet system planning reserve costs: $m,95.71593712488271
+GMR,Gulhifalhu,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2025.0,Variable O&M: $m,0.0991627621401599
+GMR,Gulhifalhu,Costs,2026.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Fixed O&M: $m,0.08743616928
+GMR,Gulhifalhu,Costs,2026.0,Fuel costs: $m,1.877807106173354
+GMR,Gulhifalhu,Costs,2026.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Spinning reserve costs: $m,0.00119820001995
+GMR,Gulhifalhu,Costs,2026.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Unmet country planning reserve costs: $m,99.5629505053624
+GMR,Gulhifalhu,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Unmet demand costs: $m,9860.362719999992
+GMR,Gulhifalhu,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Unmet system planning reserve costs: $m,99.5629505053624
+GMR,Gulhifalhu,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2026.0,Variable O&M: $m,0.0991627621401598
+GMR,Gulhifalhu,Costs,2027.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Fixed O&M: $m,0.08743616928
+GMR,Gulhifalhu,Costs,2027.0,Fuel costs: $m,1.8895591399178435
+GMR,Gulhifalhu,Costs,2027.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Spinning reserve costs: $m,0.001262166575775
+GMR,Gulhifalhu,Costs,2027.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Unmet country planning reserve costs: $m,106.55108057608504
+GMR,Gulhifalhu,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Unmet demand costs: $m,10511.84272
+GMR,Gulhifalhu,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Unmet system planning reserve costs: $m,106.55108057608504
+GMR,Gulhifalhu,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2027.0,Variable O&M: $m,0.0991627621401593
+GMR,Gulhifalhu,Costs,2028.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Fixed O&M: $m,0.08743616928
+GMR,Gulhifalhu,Costs,2028.0,Fuel costs: $m,1.9021506046440824
+GMR,Gulhifalhu,Costs,2028.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Spinning reserve costs: $m,0.00133708002765
+GMR,Gulhifalhu,Costs,2028.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Unmet country planning reserve costs: $m,110.36361949586652
+GMR,Gulhifalhu,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Unmet demand costs: $m,10948.882719999989
+GMR,Gulhifalhu,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Unmet system planning reserve costs: $m,110.36361949586652
+GMR,Gulhifalhu,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2028.0,Variable O&M: $m,0.0991627621401596
+GMR,Gulhifalhu,Costs,2029.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Fixed O&M: $m,0.54167635112
+GMR,Gulhifalhu,Costs,2029.0,Fuel costs: $m,1.9139026383885764
+GMR,Gulhifalhu,Costs,2029.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Spinning reserve costs: $m,0.003594251117025
+GMR,Gulhifalhu,Costs,2029.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Unmet country planning reserve costs: $m,114.4341458635284
+GMR,Gulhifalhu,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Unmet demand costs: $m,11381.765594399998
+GMR,Gulhifalhu,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Unmet system planning reserve costs: $m,114.4341458635284
+GMR,Gulhifalhu,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2029.0,Variable O&M: $m,0.09916276214016
+GMR,Gulhifalhu,Costs,2030.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Fixed O&M: $m,0.54167635112
+GMR,Gulhifalhu,Costs,2030.0,Fuel costs: $m,1.9264941031148088
+GMR,Gulhifalhu,Costs,2030.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Spinning reserve costs: $m,0.003645718954
+GMR,Gulhifalhu,Costs,2030.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Unmet country planning reserve costs: $m,118.592166985764
+GMR,Gulhifalhu,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Unmet demand costs: $m,11853.845594399998
+GMR,Gulhifalhu,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Unmet system planning reserve costs: $m,118.592166985764
+GMR,Gulhifalhu,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2030.0,Variable O&M: $m,0.0991627621401601
+GMR,Gulhifalhu,Costs,2035.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Fixed O&M: $m,0.54167635112
+GMR,Gulhifalhu,Costs,2035.0,Fuel costs: $m,1.986093702819032
+GMR,Gulhifalhu,Costs,2035.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Spinning reserve costs: $m,0.0037433196998499
+GMR,Gulhifalhu,Costs,2035.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Unmet country planning reserve costs: $m,142.51245183505378
+GMR,Gulhifalhu,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Unmet demand costs: $m,14513.815594399992
+GMR,Gulhifalhu,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Unmet system planning reserve costs: $m,142.51245183505378
+GMR,Gulhifalhu,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2035.0,Variable O&M: $m,0.0991627621401601
+GMR,Gulhifalhu,Costs,2040.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Fixed O&M: $m,0.4647649059199999
+GMR,Gulhifalhu,Costs,2040.0,Fuel costs: $m,0.2727140264503737
+GMR,Gulhifalhu,Costs,2040.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Spinning reserve costs: $m,0.0005938399999999
+GMR,Gulhifalhu,Costs,2040.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Unmet country planning reserve costs: $m,178.47222934000405
+GMR,Gulhifalhu,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Unmet demand costs: $m,18152.110794399985
+GMR,Gulhifalhu,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Unmet system planning reserve costs: $m,178.47222934000405
+GMR,Gulhifalhu,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2040.0,Variable O&M: $m,0.01193625840576
+GMR,Gulhifalhu,Costs,2045.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Fixed O&M: $m,0.4647649059199999
+GMR,Gulhifalhu,Costs,2045.0,Fuel costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Spinning reserve costs: $m,0.0005938399999999
+GMR,Gulhifalhu,Costs,2045.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Unmet country planning reserve costs: $m,225.8530048818569
+GMR,Gulhifalhu,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Unmet demand costs: $m,22669.110794400003
+GMR,Gulhifalhu,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Unmet system planning reserve costs: $m,225.8530048818569
+GMR,Gulhifalhu,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2045.0,Variable O&M: $m,0.01193625840576
+GMR,Gulhifalhu,Costs,2050.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Fixed O&M: $m,0.45424018184
+GMR,Gulhifalhu,Costs,2050.0,Fuel costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Unmet country planning reserve costs: $m,284.25296874499617
+GMR,Gulhifalhu,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Unmet demand costs: $m,28299.93287439999
+GMR,Gulhifalhu,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Unmet system planning reserve costs: $m,284.25296874499617
+GMR,Gulhifalhu,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,Costs,2050.0,Variable O&M: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,0.08743616928
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,1.866055072428872
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,0.0011933320452499
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,42.12715826578319
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,95.71593712488271
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,9493.932720000008
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,95.71593712488271
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,0.0991627621401599
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,0.1723616843603405
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,3.689942566889057
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.0023571267849035
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,83.04467151062536
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,192.4200233653173
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,19071.16362765061
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,192.4200233653173
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,0.1954781510791933
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,0.2524800948134919
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,5.421359622257126
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.0035136593801772
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,121.6460991000991
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,290.0535688204503
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,28703.24308166866
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,290.0535688204503
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,0.286341725549979
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,0.3280635009013706
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,7.065656516494505
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.0046694861225203
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,158.06254022224414
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,385.4564019771891
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,38167.90576816184
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,385.4564019771891
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,0.3720620788243054
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,0.7698061658329294
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,8.626463906651388
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.0076006350707528
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,192.41767335634324
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,478.7786311060792
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,47449.85329070145
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,478.7786311060792
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,0.4529303366302741
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,1.1865445289759091
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,10.10861094422588
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.0104054666758762
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,224.82817631304047
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,570.0174408658901
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,56569.602011031886
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,570.0174408658901
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,0.5292211458811878
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,2.936052357346728
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,16.52330206702537
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.0224956513506201
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,360.8905925891327
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,1030.304565474938
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,103446.365136155
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,1030.304565474938
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,0.84949731870722
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,4.05776087030349
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,17.181496438363627
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,0.0239288821622616
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,462.5643451713462
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,1461.0466813857151
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,147256.42253691237
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,1461.0466813857151
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,0.8783054375992633
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,4.895966724183862
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,17.181496438363627
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,0.0249998755998642
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,538.5408877543666
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,1868.3737157574344
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,188140.27828440187
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,1868.3737157574344
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,0.8998325398862397
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,5.50813889798456
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,17.181496438363627
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,0.0249998755998642
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,595.3149801456346
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,2251.456861508771
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,226279.64181661705
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,2251.456861508771
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,0.8998325398862397
+GMR,Gulhifalhu,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.776214041095888
+GMR,Gulhifalhu,GenCostsPerMWh,2025.0,Variable Cost: $m,129.82635153534986
+GMR,Gulhifalhu,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.77621404109589
+GMR,Gulhifalhu,GenCostsPerMWh,2026.0,Variable Cost: $m,130.60271517165003
+GMR,Gulhifalhu,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.776214041095888
+GMR,Gulhifalhu,GenCostsPerMWh,2027.0,Variable Cost: $m,131.37907880794995
+GMR,Gulhifalhu,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.77621404109589
+GMR,Gulhifalhu,GenCostsPerMWh,2028.0,Variable Cost: $m,132.21089698969985
+GMR,Gulhifalhu,GenCostsPerMWh,2029.0,Fixed O&M: $m,14.965747941996865
+GMR,Gulhifalhu,GenCostsPerMWh,2029.0,Investment costs: $m,50.91774285321096
+GMR,Gulhifalhu,GenCostsPerMWh,2029.0,Variable Cost: $m,55.618136757818085
+GMR,Gulhifalhu,GenCostsPerMWh,2030.0,Fixed O&M: $m,14.965747941996865
+GMR,Gulhifalhu,GenCostsPerMWh,2030.0,Investment costs: $m,69.57907242473046
+GMR,Gulhifalhu,GenCostsPerMWh,2030.0,Variable Cost: $m,55.96602103765386
+GMR,Gulhifalhu,GenCostsPerMWh,2035.0,Fixed O&M: $m,14.965747941996865
+GMR,Gulhifalhu,GenCostsPerMWh,2035.0,Investment costs: $m,145.3907238090284
+GMR,Gulhifalhu,GenCostsPerMWh,2035.0,Variable Cost: $m,57.61267329554337
+GMR,Gulhifalhu,GenCostsPerMWh,2040.0,Fixed O&M: $m,20.313856785307262
+GMR,Gulhifalhu,GenCostsPerMWh,2040.0,Investment costs: $m,290.8937111145559
+GMR,Gulhifalhu,GenCostsPerMWh,2040.0,Variable Cost: $m,12.441440923811326
+GMR,Gulhifalhu,GenCostsPerMWh,2045.0,Fixed O&M: $m,20.313856785307262
+GMR,Gulhifalhu,GenCostsPerMWh,2045.0,Investment costs: $m,290.8937111145559
+GMR,Gulhifalhu,GenCostsPerMWh,2045.0,Variable Cost: $m,0.5217077294746635
+GMR,Gulhifalhu,GenCostsPerMWh,2050.0,Fixed O&M: $m,21.571803790732
+GMR,Gulhifalhu,GenCostsPerMWh,2050.0,Investment costs: $m,316.06483955896283
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Excess generation: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Export revenues with internal zones: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Fixed O&M: $m,0.0243039480100251
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Fuel costs: $m,0.0758111231227693
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Generation costs: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Import costs with internal zones: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0001103087064595
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Startup costs: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Trade shared benefits: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Transmission costs: $m,2.626750086556956
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,9.93426119463791
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet demand costs: $m,998.4295516677066
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,9.93426119463791
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+GMR,Gulhifalhu,NetPresentCostPerMWh,,Variable O&M: $m,0.003970394296906
+GMR,Hulhumale,Costs,2025.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Fixed O&M: $m,2.2990013376658
+GMR,Hulhumale,Costs,2025.0,Fuel costs: $m,47.53256948381313
+GMR,Hulhumale,Costs,2025.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2025.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Spinning reserve costs: $m,9.731615552499996e-05
+GMR,Hulhumale,Costs,2025.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Unmet country planning reserve costs: $m,7.368029556627822
+GMR,Hulhumale,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Unmet demand costs: $m,339.5659198439996
+GMR,Hulhumale,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Unmet system planning reserve costs: $m,7.368029556627822
+GMR,Hulhumale,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2025.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2025.0,Variable O&M: $m,2.525895913403516
+GMR,Hulhumale,Costs,2026.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Fixed O&M: $m,2.2990013376658
+GMR,Hulhumale,Costs,2026.0,Fuel costs: $m,47.83191989891583
+GMR,Hulhumale,Costs,2026.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2026.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Spinning reserve costs: $m,0.0002087907289249
+GMR,Hulhumale,Costs,2026.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Unmet country planning reserve costs: $m,8.005060840541013
+GMR,Hulhumale,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Unmet demand costs: $m,401.58591984399953
+GMR,Hulhumale,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Unmet system planning reserve costs: $m,8.005060840541013
+GMR,Hulhumale,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2026.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2026.0,Variable O&M: $m,2.5258959134035144
+GMR,Hulhumale,Costs,2027.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Fixed O&M: $m,2.2990013376658
+GMR,Hulhumale,Costs,2027.0,Fuel costs: $m,48.13127031401851
+GMR,Hulhumale,Costs,2027.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2027.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Spinning reserve costs: $m,0.00014067273095
+GMR,Hulhumale,Costs,2027.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Unmet country planning reserve costs: $m,8.957919301779512
+GMR,Hulhumale,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Unmet demand costs: $m,492.59591984399935
+GMR,Hulhumale,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Unmet system planning reserve costs: $m,8.957919301779512
+GMR,Hulhumale,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2027.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2027.0,Variable O&M: $m,2.525895913403512
+GMR,Hulhumale,Costs,2028.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Fixed O&M: $m,4.4237867376658
+GMR,Hulhumale,Costs,2028.0,Fuel costs: $m,92.48326689801918
+GMR,Hulhumale,Costs,2028.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2028.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Spinning reserve costs: $m,0.0097406541864499
+GMR,Hulhumale,Costs,2028.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Unmet country planning reserve costs: $m,9.935022811544073
+GMR,Hulhumale,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Unmet demand costs: $m,235.72408000400048
+GMR,Hulhumale,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Unmet system planning reserve costs: $m,9.935022811544073
+GMR,Hulhumale,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2028.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2028.0,Variable O&M: $m,4.821330222203513
+GMR,Hulhumale,Costs,2029.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Fixed O&M: $m,5.3733321922258
+GMR,Hulhumale,Costs,2029.0,Fuel costs: $m,93.0546551312822
+GMR,Hulhumale,Costs,2029.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2029.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Spinning reserve costs: $m,0.1257323312136749
+GMR,Hulhumale,Costs,2029.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Unmet country planning reserve costs: $m,11.04466761865227
+GMR,Hulhumale,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Unmet demand costs: $m,273.5921022039993
+GMR,Hulhumale,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Unmet system planning reserve costs: $m,11.04466761865227
+GMR,Hulhumale,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2029.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2029.0,Variable O&M: $m,5.100212431203518
+GMR,Hulhumale,Costs,2030.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Fixed O&M: $m,5.793332192225801
+GMR,Hulhumale,Costs,2030.0,Fuel costs: $m,93.6668568097764
+GMR,Hulhumale,Costs,2030.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2030.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Spinning reserve costs: $m,0.15944219596355
+GMR,Hulhumale,Costs,2030.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Unmet country planning reserve costs: $m,12.26801419262002
+GMR,Hulhumale,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Unmet demand costs: $m,359.36290300399946
+GMR,Hulhumale,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Unmet system planning reserve costs: $m,12.26801419262002
+GMR,Hulhumale,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2030.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2030.0,Variable O&M: $m,5.311258427203529
+GMR,Hulhumale,Costs,2035.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Fixed O&M: $m,5.793332192225801
+GMR,Hulhumale,Costs,2035.0,Fuel costs: $m,96.5646114213225
+GMR,Hulhumale,Costs,2035.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2035.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Spinning reserve costs: $m,0.15856375652275
+GMR,Hulhumale,Costs,2035.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Unmet country planning reserve costs: $m,21.146580544436965
+GMR,Hulhumale,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Unmet demand costs: $m,1288.3629030039997
+GMR,Hulhumale,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Unmet system planning reserve costs: $m,21.146580544436965
+GMR,Hulhumale,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2035.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2035.0,Variable O&M: $m,5.311258427203504
+GMR,Hulhumale,Costs,2040.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Fixed O&M: $m,5.0171742015058
+GMR,Hulhumale,Costs,2040.0,Fuel costs: $m,91.44311086901357
+GMR,Hulhumale,Costs,2040.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2040.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Spinning reserve costs: $m,0.1670842872086752
+GMR,Hulhumale,Costs,2040.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Unmet country planning reserve costs: $m,28.16298238357868
+GMR,Hulhumale,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Unmet demand costs: $m,2126.938037204
+GMR,Hulhumale,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Unmet system planning reserve costs: $m,28.16298238357868
+GMR,Hulhumale,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2040.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2040.0,Variable O&M: $m,4.492247465823692
+GMR,Hulhumale,Costs,2045.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Fixed O&M: $m,4.956454639505799
+GMR,Hulhumale,Costs,2045.0,Fuel costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2045.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Spinning reserve costs: $m,0.1704679012350252
+GMR,Hulhumale,Costs,2045.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Unmet country planning reserve costs: $m,37.80133227677441
+GMR,Hulhumale,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Unmet demand costs: $m,3067.4200372039973
+GMR,Hulhumale,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Unmet system planning reserve costs: $m,37.80133227677441
+GMR,Hulhumale,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2045.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2045.0,Variable O&M: $m,4.423384436559692
+GMR,Hulhumale,Costs,2050.0,Carbon costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Excess generation: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Fixed O&M: $m,4.2342966487858
+GMR,Hulhumale,Costs,2050.0,Fuel costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Generation costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,Costs,2050.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Spinning reserve costs: $m,0.1718389543109252
+GMR,Hulhumale,Costs,2050.0,Startup costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Transmission costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Unmet country planning reserve costs: $m,50.38498815294125
+GMR,Hulhumale,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Unmet demand costs: $m,4414.462757203996
+GMR,Hulhumale,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Unmet system planning reserve costs: $m,50.38498815294125
+GMR,Hulhumale,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,Costs,2050.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,Costs,2050.0,Variable O&M: $m,3.604373475179847
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,2.2990013376658
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,47.53256948381313
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,9.731615552499996e-05
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,7.368029556627822
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,339.5659198439996
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,7.368029556627822
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,2.525895913403516
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,4.53198883448103
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,93.99103705103518
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.000300111638721
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,15.143231978355066
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,729.6206463102139
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,15.143231978355066
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,4.979262903878338
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,6.638580812608606
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,138.09407704471636
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.0004290111055048
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,23.35143987831327
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,1180.989941403939
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,23.35143987831327
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,7.293760064703639
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,10.46268326577553
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,218.04040104138736
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.0088492315588779
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,31.93968053250486
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,1384.759491355041
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,31.93968053250486
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,11.461515389180391
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,14.8446912254151
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,293.92743442762674
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.1113852476569516
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,40.946721170440895
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,1607.876679472873
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,40.946721170440895
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,15.620791359819531
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,19.301787736901645
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,365.98997233784576
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.2340520017516897
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,50.38511024368789
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,1884.3523049317723
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,50.38511024368789
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,19.707004720631016
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,38.01310862380217
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,677.8746305398867
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.7461816761575418
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,118.6843965781777
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,6045.510494554697
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,118.6843965781777
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,36.86132238223868
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,50.12204142215079
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,898.5722662832302
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,1.1494390326317507
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,186.6556583656356
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,11178.868182439031
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,186.6556583656356
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,47.70334629699235
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,59.061032383833705
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,898.5722662832302
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,1.4568787530018903
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,254.83055194144984
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,16710.97570334748
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,254.83055194144984
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,55.68094245681486
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,64.76752574931332
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,898.5722662832302
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,1.6884633428504645
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,322.73358861153673
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,22660.276030088902
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,322.73358861153673
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+GMR,Hulhumale,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,60.53849851130683
+GMR,Hulhumale,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.858461429665279
+GMR,Hulhumale,GenCostsPerMWh,2025.0,Variable Cost: $m,127.56216534244494
+GMR,Hulhumale,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.858461429665279
+GMR,Hulhumale,GenCostsPerMWh,2026.0,Variable Cost: $m,128.32498910948752
+GMR,Hulhumale,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.858461429665279
+GMR,Hulhumale,GenCostsPerMWh,2027.0,Variable Cost: $m,129.0878128765295
+GMR,Hulhumale,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.888443252809014
+GMR,Hulhumale,GenCostsPerMWh,2028.0,Investment costs: $m,5.364027514734779
+GMR,Hulhumale,GenCostsPerMWh,2028.0,Variable Cost: $m,129.5208454560817
+GMR,Hulhumale,GenCostsPerMWh,2029.0,Fixed O&M: $m,6.486257970188131
+GMR,Hulhumale,GenCostsPerMWh,2029.0,Investment costs: $m,10.792766735799969
+GMR,Hulhumale,GenCostsPerMWh,2029.0,Variable Cost: $m,118.48472591384792
+GMR,Hulhumale,GenCostsPerMWh,2030.0,Fixed O&M: $m,6.654206160381451
+GMR,Hulhumale,GenCostsPerMWh,2030.0,Investment costs: $m,13.184130117447651
+GMR,Hulhumale,GenCostsPerMWh,2030.0,Variable Cost: $m,113.686003546746
+GMR,Hulhumale,GenCostsPerMWh,2035.0,Fixed O&M: $m,6.65420616038145
+GMR,Hulhumale,GenCostsPerMWh,2035.0,Investment costs: $m,14.00177424796908
+GMR,Hulhumale,GenCostsPerMWh,2035.0,Variable Cost: $m,117.0143568929062
+GMR,Hulhumale,GenCostsPerMWh,2040.0,Fixed O&M: $m,6.770066542406045
+GMR,Hulhumale,GenCostsPerMWh,2040.0,Investment costs: $m,16.937035489417966
+GMR,Hulhumale,GenCostsPerMWh,2040.0,Variable Cost: $m,129.45310121013682
+GMR,Hulhumale,GenCostsPerMWh,2045.0,Fixed O&M: $m,6.784366853157652
+GMR,Hulhumale,GenCostsPerMWh,2045.0,Investment costs: $m,17.180738524214757
+GMR,Hulhumale,GenCostsPerMWh,2045.0,Variable Cost: $m,6.054703398468138
+GMR,Hulhumale,GenCostsPerMWh,2050.0,Fixed O&M: $m,6.9925124738983815
+GMR,Hulhumale,GenCostsPerMWh,2050.0,Investment costs: $m,20.72791454963634
+GMR,Hulhumale,GenCostsPerMWh,2050.0,Variable Cost: $m,5.952258090611276
+GMR,Hulhumale,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Excess generation: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Export revenues with internal zones: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Fixed O&M: $m,1.9914690011258789
+GMR,Hulhumale,NetPresentCostPerMWh,,Fuel costs: $m,27.62926007858892
+GMR,Hulhumale,NetPresentCostPerMWh,,Generation costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Import costs with internal zones: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0519167957695176
+GMR,Hulhumale,NetPresentCostPerMWh,,Startup costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Trade shared benefits: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Transmission costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,9.92339802866102
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet demand costs: $m,696.7571595300026
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,9.92339802866102
+GMR,Hulhumale,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+GMR,Hulhumale,NetPresentCostPerMWh,,Variable O&M: $m,1.8614350597027547
+GMR,Male,Costs,2025.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2025.0,Excess generation: $m,0.0
+GMR,Male,Costs,2025.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2025.0,Fixed O&M: $m,3.611895115680001
+GMR,Male,Costs,2025.0,Fuel costs: $m,75.98990933835438
+GMR,Male,Costs,2025.0,Generation costs: $m,0.0
+GMR,Male,Costs,2025.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2025.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2025.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2025.0,Spinning reserve costs: $m,0.0072693092400499
+GMR,Male,Costs,2025.0,Startup costs: $m,0.0
+GMR,Male,Costs,2025.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2025.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2025.0,Unmet country planning reserve costs: $m,193.48196589008617
+GMR,Male,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2025.0,Unmet demand costs: $m,18601.10049114
+GMR,Male,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2025.0,Unmet system planning reserve costs: $m,193.48196589008617
+GMR,Male,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2025.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2025.0,Variable O&M: $m,4.038128036040997
+GMR,Male,Costs,2026.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2026.0,Excess generation: $m,0.0
+GMR,Male,Costs,2026.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2026.0,Fixed O&M: $m,3.611895115680001
+GMR,Male,Costs,2026.0,Fuel costs: $m,76.46847826805939
+GMR,Male,Costs,2026.0,Generation costs: $m,0.0
+GMR,Male,Costs,2026.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2026.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2026.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2026.0,Spinning reserve costs: $m,0.0071730029618749
+GMR,Male,Costs,2026.0,Startup costs: $m,0.0
+GMR,Male,Costs,2026.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2026.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2026.0,Unmet country planning reserve costs: $m,207.34993884331448
+GMR,Male,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2026.0,Unmet demand costs: $m,19946.020491139992
+GMR,Male,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2026.0,Unmet system planning reserve costs: $m,207.34993884331448
+GMR,Male,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2026.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2026.0,Variable O&M: $m,4.038128036040988
+GMR,Male,Costs,2027.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2027.0,Excess generation: $m,0.0
+GMR,Male,Costs,2027.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2027.0,Fixed O&M: $m,3.611895115680001
+GMR,Male,Costs,2027.0,Fuel costs: $m,76.94704719776607
+GMR,Male,Costs,2027.0,Generation costs: $m,0.0
+GMR,Male,Costs,2027.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2027.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2027.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2027.0,Spinning reserve costs: $m,0.0072287708950749
+GMR,Male,Costs,2027.0,Startup costs: $m,0.0
+GMR,Male,Costs,2027.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2027.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2027.0,Unmet country planning reserve costs: $m,246.0247565458553
+GMR,Male,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2027.0,Unmet demand costs: $m,23685.92049114001
+GMR,Male,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2027.0,Unmet system planning reserve costs: $m,246.0247565458553
+GMR,Male,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2027.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2027.0,Variable O&M: $m,4.03812803604101
+GMR,Male,Costs,2028.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2028.0,Excess generation: $m,0.0
+GMR,Male,Costs,2028.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2028.0,Fixed O&M: $m,3.723102273573001
+GMR,Male,Costs,2028.0,Fuel costs: $m,77.45979962245062
+GMR,Male,Costs,2028.0,Generation costs: $m,0.0
+GMR,Male,Costs,2028.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2028.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2028.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2028.0,Spinning reserve costs: $m,0.0152290449128999
+GMR,Male,Costs,2028.0,Startup costs: $m,0.0
+GMR,Male,Costs,2028.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2028.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2028.0,Unmet country planning reserve costs: $m,281.5797192640724
+GMR,Male,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2028.0,Unmet demand costs: $m,27342.91579374004
+GMR,Male,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2028.0,Unmet system planning reserve costs: $m,281.5797192640724
+GMR,Male,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2028.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2028.0,Variable O&M: $m,4.038128036040987
+GMR,Male,Costs,2029.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2029.0,Excess generation: $m,0.0
+GMR,Male,Costs,2029.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2029.0,Fixed O&M: $m,4.117647728133001
+GMR,Male,Costs,2029.0,Fuel costs: $m,77.93836855215723
+GMR,Male,Costs,2029.0,Generation costs: $m,0.0
+GMR,Male,Costs,2029.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2029.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2029.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2029.0,Spinning reserve costs: $m,0.011418752236325
+GMR,Male,Costs,2029.0,Startup costs: $m,0.0
+GMR,Male,Costs,2029.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2029.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2029.0,Unmet country planning reserve costs: $m,307.6039302834337
+GMR,Male,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2029.0,Unmet demand costs: $m,30039.865006539992
+GMR,Male,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2029.0,Unmet system planning reserve costs: $m,307.6039302834337
+GMR,Male,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2029.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2029.0,Variable O&M: $m,4.038128036040985
+GMR,Male,Costs,2030.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2030.0,Excess generation: $m,0.0
+GMR,Male,Costs,2030.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2030.0,Fixed O&M: $m,4.117647728133001
+GMR,Male,Costs,2030.0,Fuel costs: $m,78.45112097684193
+GMR,Male,Costs,2030.0,Generation costs: $m,0.0
+GMR,Male,Costs,2030.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2030.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2030.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2030.0,Spinning reserve costs: $m,0.009603455743625
+GMR,Male,Costs,2030.0,Startup costs: $m,0.0
+GMR,Male,Costs,2030.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2030.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2030.0,Unmet country planning reserve costs: $m,324.5964410806331
+GMR,Male,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2030.0,Unmet demand costs: $m,31891.90500654
+GMR,Male,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2030.0,Unmet system planning reserve costs: $m,324.5964410806331
+GMR,Male,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2030.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2030.0,Variable O&M: $m,4.038128036041019
+GMR,Male,Costs,2035.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2035.0,Excess generation: $m,0.0
+GMR,Male,Costs,2035.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2035.0,Fixed O&M: $m,4.117647728133001
+GMR,Male,Costs,2035.0,Fuel costs: $m,80.87814912035365
+GMR,Male,Costs,2035.0,Generation costs: $m,0.0
+GMR,Male,Costs,2035.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2035.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2035.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2035.0,Spinning reserve costs: $m,0.010464144313575
+GMR,Male,Costs,2035.0,Startup costs: $m,0.0
+GMR,Male,Costs,2035.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2035.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2035.0,Unmet country planning reserve costs: $m,401.659658651534
+GMR,Male,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2035.0,Unmet demand costs: $m,40355.90500653994
+GMR,Male,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2035.0,Unmet system planning reserve costs: $m,401.659658651534
+GMR,Male,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2035.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2035.0,Variable O&M: $m,4.038128036041002
+GMR,Male,Costs,2040.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2040.0,Excess generation: $m,0.0
+GMR,Male,Costs,2040.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2040.0,Fixed O&M: $m,3.1191225609330004
+GMR,Male,Costs,2040.0,Fuel costs: $m,67.71699056783125
+GMR,Male,Costs,2040.0,Generation costs: $m,0.0
+GMR,Male,Costs,2040.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2040.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2040.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2040.0,Spinning reserve costs: $m,0.0041608271022499
+GMR,Male,Costs,2040.0,Startup costs: $m,0.0
+GMR,Male,Costs,2040.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2040.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2040.0,Unmet country planning reserve costs: $m,500.6256312683096
+GMR,Male,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2040.0,Unmet demand costs: $m,50498.138035400014
+GMR,Male,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2040.0,Unmet system planning reserve costs: $m,500.6256312683096
+GMR,Male,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2040.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2040.0,Variable O&M: $m,2.9638647795225816
+GMR,Male,Costs,2045.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2045.0,Excess generation: $m,0.0
+GMR,Male,Costs,2045.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2045.0,Fixed O&M: $m,0.988675528893
+GMR,Male,Costs,2045.0,Fuel costs: $m,0.0
+GMR,Male,Costs,2045.0,Generation costs: $m,0.0
+GMR,Male,Costs,2045.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2045.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2045.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2045.0,Spinning reserve costs: $m,0.0007772130758999
+GMR,Male,Costs,2045.0,Startup costs: $m,0.0
+GMR,Male,Costs,2045.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2045.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2045.0,Unmet country planning reserve costs: $m,619.1647601896191
+GMR,Male,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2045.0,Unmet demand costs: $m,62093.95907540005
+GMR,Male,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2045.0,Unmet system planning reserve costs: $m,619.1647601896191
+GMR,Male,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2045.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2045.0,Variable O&M: $m,0.5476906260796808
+GMR,Male,Costs,2050.0,Carbon costs: $m,0.0
+GMR,Male,Costs,2050.0,Excess generation: $m,0.0
+GMR,Male,Costs,2050.0,Export revenues with external zones: $m,0.0
+GMR,Male,Costs,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Male,Costs,2050.0,Fixed O&M: $m,0.505752612453
+GMR,Male,Costs,2050.0,Fuel costs: $m,0.0
+GMR,Male,Costs,2050.0,Generation costs: $m,0.0
+GMR,Male,Costs,2050.0,Import costs with external zones: $m,0.0
+GMR,Male,Costs,2050.0,Import costs with internal zones: $m,0.0
+GMR,Male,Costs,2050.0,NPV of system cost: $m,0.0
+GMR,Male,Costs,2050.0,Spinning reserve costs: $m,0.0
+GMR,Male,Costs,2050.0,Startup costs: $m,0.0
+GMR,Male,Costs,2050.0,Trade shared benefits: $m,0.0
+GMR,Male,Costs,2050.0,Transmission costs: $m,1.465563015236309
+GMR,Male,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2050.0,Unmet country planning reserve costs: $m,750.9454006894706
+GMR,Male,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,Costs,2050.0,Unmet demand costs: $m,74787.58451540003
+GMR,Male,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,Costs,2050.0,Unmet system planning reserve costs: $m,750.9454006894706
+GMR,Male,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,Costs,2050.0,VRE curtailment: $m,0.0
+GMR,Male,Costs,2050.0,Variable O&M: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,3.611895115680001
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,75.98990933835438
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,0.0072693092400499
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,1.465563015236309
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,193.48196589008617
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,18601.10049114
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,193.48196589008617
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,4.038128036040997
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,7.120077777857242
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,150.26266119609414
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.0142363456075658
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,2.88904365232902
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,394.87803004924086
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,37974.388204472576
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,394.87803004924086
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,7.960304707836114
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,10.42968406293011
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,220.7698112841388
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.0208601219968167
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,4.231949913737237
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,620.312339316106
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,59677.97283651268
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,620.312339316106
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,11.660471379340962
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,13.648086165485864
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,287.7292348105831
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.034024732197158
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,5.498842613178953
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,863.7213820784065
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,83314.30920718271
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,863.7213820784065
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,15.151194654345511
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,17.006070461669196
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,351.2887801986386
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.0433368427086061
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,6.6940244051050986
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,1114.5755676559545
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,107812.12971334971
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,1114.5755676559545
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,18.444329819444143
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,20.1739801750497
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,411.6451012287554
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.0507252553997625
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,7.821554397488255
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,1364.3036373017571
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,132348.14695400745
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,1364.3036373017571
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,21.55106110727307
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,33.47317058634772
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,672.8655786183151
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.0845223786375569
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,12.555034016499068
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,2661.5851518051204
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,262689.76438653545
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,2661.5851518051204
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,34.59341858957772
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,41.00116223328219
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,836.3003040552306
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,0.0945645206368464
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,16.092165347899805
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,3869.843402901809
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,384566.8480502577
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,3869.843402901809
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,41.74669611138669
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,42.78424354030546
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,836.3003040552306
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,0.0959662283424705
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,18.735315643789605
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,4986.510173341461
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,496553.61668241327
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,4986.510173341461
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,42.73445892016988
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,43.46583818681296
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,836.3003040552306
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,0.0959662283424705
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,20.7104313045066
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,5998.547189713639
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,597343.6392661534
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,5998.547189713639
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+GMR,Male,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,42.73445892016988
+GMR,Male,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.818978224312416
+GMR,Male,GenCostsPerMWh,2025.0,Variable Cost: $m,128.9299361973272
+GMR,Male,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.818978224312416
+GMR,Male,GenCostsPerMWh,2026.0,Variable Cost: $m,129.7009392557227
+GMR,Male,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.818978224312417
+GMR,Male,GenCostsPerMWh,2027.0,Variable Cost: $m,130.47194231411805
+GMR,Male,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.90514756215425
+GMR,Male,GenCostsPerMWh,2028.0,Investment costs: $m,0.779412182843009
+GMR,Male,GenCostsPerMWh,2028.0,Variable Cost: $m,129.26244123057938
+GMR,Male,GenCostsPerMWh,2029.0,Fixed O&M: $m,6.314393800736277
+GMR,Male,GenCostsPerMWh,2029.0,Investment costs: $m,3.225995998206991
+GMR,Male,GenCostsPerMWh,2029.0,Variable Cost: $m,125.71057944709084
+GMR,Male,GenCostsPerMWh,2030.0,Fixed O&M: $m,6.314393800736277
+GMR,Male,GenCostsPerMWh,2030.0,Investment costs: $m,3.579676147221288
+GMR,Male,GenCostsPerMWh,2030.0,Variable Cost: $m,126.49688292556075
+GMR,Male,GenCostsPerMWh,2035.0,Fixed O&M: $m,6.314393800736277
+GMR,Male,GenCostsPerMWh,2035.0,Investment costs: $m,5.016501752591871
+GMR,Male,GenCostsPerMWh,2035.0,Variable Cost: $m,130.21871939031888
+GMR,Male,GenCostsPerMWh,2040.0,Fixed O&M: $m,6.446706272314355
+GMR,Male,GenCostsPerMWh,2040.0,Investment costs: $m,7.744370124733888
+GMR,Male,GenCostsPerMWh,2040.0,Variable Cost: $m,146.0855431612255
+GMR,Male,GenCostsPerMWh,2045.0,Fixed O&M: $m,8.59710939135353
+GMR,Male,GenCostsPerMWh,2045.0,Investment costs: $m,32.58211901402004
+GMR,Male,GenCostsPerMWh,2045.0,Variable Cost: $m,4.762488892890857
+GMR,Male,GenCostsPerMWh,2050.0,Fixed O&M: $m,16.10908762507205
+GMR,Male,GenCostsPerMWh,2050.0,Investment costs: $m,119.34753865973288
+GMR,Male,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Excess generation: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Export revenues with internal zones: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Fixed O&M: $m,0.0719349486788678
+GMR,Male,NetPresentCostPerMWh,,Fuel costs: $m,1.3840575026708255
+GMR,Male,NetPresentCostPerMWh,,Generation costs: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Import costs with internal zones: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0001588218702018
+GMR,Male,NetPresentCostPerMWh,,Startup costs: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Trade shared benefits: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Transmission costs: $m,0.0342752808907959
+GMR,Male,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,9.927455727075596
+GMR,Male,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Unmet demand costs: $m,988.589794347862
+GMR,Male,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,9.927455727075596
+GMR,Male,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+GMR,Male,NetPresentCostPerMWh,,Variable O&M: $m,0.0707245330466042
+GMR,Thilafushi,Costs,2025.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Fixed O&M: $m,0.1198199356799999
+GMR,Thilafushi,Costs,2025.0,Fuel costs: $m,2.55718658073584
+GMR,Thilafushi,Costs,2025.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2025.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Spinning reserve costs: $m,0.0013958215529
+GMR,Thilafushi,Costs,2025.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Unmet country planning reserve costs: $m,5.072736205901935
+GMR,Thilafushi,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Unmet demand costs: $m,483.2163199999998
+GMR,Thilafushi,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Unmet system planning reserve costs: $m,5.072736205901935
+GMR,Thilafushi,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2025.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2025.0,Variable O&M: $m,0.135889711080959
+GMR,Thilafushi,Costs,2026.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Fixed O&M: $m,0.1198199356799999
+GMR,Thilafushi,Costs,2026.0,Fuel costs: $m,2.5732912195708733
+GMR,Thilafushi,Costs,2026.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2026.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Spinning reserve costs: $m,0.001316431709275
+GMR,Thilafushi,Costs,2026.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Unmet country planning reserve costs: $m,5.54368686085602
+GMR,Thilafushi,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Unmet demand costs: $m,529.12632
+GMR,Thilafushi,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Unmet system planning reserve costs: $m,5.54368686085602
+GMR,Thilafushi,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2026.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2026.0,Variable O&M: $m,0.1358897110809594
+GMR,Thilafushi,Costs,2027.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Fixed O&M: $m,0.1198199356799999
+GMR,Thilafushi,Costs,2027.0,Fuel costs: $m,2.5893958584059216
+GMR,Thilafushi,Costs,2027.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2027.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Spinning reserve costs: $m,0.0014763834166749
+GMR,Thilafushi,Costs,2027.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Unmet country planning reserve costs: $m,6.039930380048912
+GMR,Thilafushi,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Unmet demand costs: $m,575.9863200000003
+GMR,Thilafushi,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Unmet system planning reserve costs: $m,6.039930380048912
+GMR,Thilafushi,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2027.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2027.0,Variable O&M: $m,0.1358897110809598
+GMR,Thilafushi,Costs,2028.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Fixed O&M: $m,0.41981993568
+GMR,Thilafushi,Costs,2028.0,Fuel costs: $m,2.606650828586339
+GMR,Thilafushi,Costs,2028.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2028.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Spinning reserve costs: $m,0.0019228005601499
+GMR,Thilafushi,Costs,2028.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Unmet country planning reserve costs: $m,6.4951750467349445
+GMR,Thilafushi,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Unmet demand costs: $m,562.3241419999999
+GMR,Thilafushi,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Unmet system planning reserve costs: $m,6.4951750467349445
+GMR,Thilafushi,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2028.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2028.0,Variable O&M: $m,0.1805466010809601
+GMR,Thilafushi,Costs,2029.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Fixed O&M: $m,1.06095629934
+GMR,Thilafushi,Costs,2029.0,Fuel costs: $m,2.622755467421393
+GMR,Thilafushi,Costs,2029.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2029.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Spinning reserve costs: $m,0.0041845745999999
+GMR,Thilafushi,Costs,2029.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Unmet country planning reserve costs: $m,6.972710007757417
+GMR,Thilafushi,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Unmet demand costs: $m,578.6578329
+GMR,Thilafushi,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Unmet system planning reserve costs: $m,6.972710007757417
+GMR,Thilafushi,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2029.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2029.0,Variable O&M: $m,0.1805466010809607
+GMR,Thilafushi,Costs,2030.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Fixed O&M: $m,1.06095629934
+GMR,Thilafushi,Costs,2030.0,Fuel costs: $m,2.6400104376017723
+GMR,Thilafushi,Costs,2030.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2030.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Spinning reserve costs: $m,0.0044207926999999
+GMR,Thilafushi,Costs,2030.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Unmet country planning reserve costs: $m,7.468588384811163
+GMR,Thilafushi,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Unmet demand costs: $m,631.7378328999998
+GMR,Thilafushi,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Unmet system planning reserve costs: $m,7.468588384811163
+GMR,Thilafushi,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2030.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2030.0,Variable O&M: $m,0.1805466010809604
+GMR,Thilafushi,Costs,2035.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Fixed O&M: $m,1.06095629934
+GMR,Thilafushi,Costs,2035.0,Fuel costs: $m,2.7216839631223566
+GMR,Thilafushi,Costs,2035.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2035.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Spinning reserve costs: $m,0.0044766135749999
+GMR,Thilafushi,Costs,2035.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Unmet country planning reserve costs: $m,10.69165878058559
+GMR,Thilafushi,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Unmet demand costs: $m,974.5178328999996
+GMR,Thilafushi,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Unmet system planning reserve costs: $m,10.69165878058559
+GMR,Thilafushi,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2035.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2035.0,Variable O&M: $m,0.1805466010809603
+GMR,Thilafushi,Costs,2040.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Fixed O&M: $m,0.94113636366
+GMR,Thilafushi,Costs,2040.0,Fuel costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2040.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Unmet country planning reserve costs: $m,14.33955186676386
+GMR,Thilafushi,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Unmet demand costs: $m,1363.9715129
+GMR,Thilafushi,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Unmet system planning reserve costs: $m,14.33955186676386
+GMR,Thilafushi,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2040.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2040.0,Variable O&M: $m,0.0446568899999999
+GMR,Thilafushi,Costs,2045.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Fixed O&M: $m,0.94113636366
+GMR,Thilafushi,Costs,2045.0,Fuel costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2045.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Unmet country planning reserve costs: $m,18.25894751918469
+GMR,Thilafushi,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Unmet demand costs: $m,1738.2015129000006
+GMR,Thilafushi,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Unmet system planning reserve costs: $m,18.25894751918469
+GMR,Thilafushi,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2045.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2045.0,Variable O&M: $m,0.0446568899999999
+GMR,Thilafushi,Costs,2050.0,Carbon costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Excess generation: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Fixed O&M: $m,0.94113636366
+GMR,Thilafushi,Costs,2050.0,Fuel costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Generation costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,Costs,2050.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Startup costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Unmet country planning reserve costs: $m,22.794845885547627
+GMR,Thilafushi,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Unmet demand costs: $m,2174.8015129
+GMR,Thilafushi,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Unmet system planning reserve costs: $m,22.794845885547627
+GMR,Thilafushi,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,Costs,2050.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,Costs,2050.0,Variable O&M: $m,0.04465689
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,0.1198199356799999
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,2.55718658073584
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,0.0013958215529
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,33.30825034627975
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,5.072736205901935
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,483.2163199999998
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,5.072736205901935
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,0.135889711080959
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,0.2361993452345406
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,5.056587962033112
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.0026744530608776
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,65.66008300747771
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,10.45724087918711
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,997.1492340171257
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,10.45724087918711
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,0.2678774662937082
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,0.345991241040711
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,7.429270593463418
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.0040272741363824
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,96.18067985766449
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,15.991673886511302
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,1524.9297713069247
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,15.991673886511302
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,0.3923942164944153
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,0.7089007891554492
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,9.682566337418349
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.0056894216979757
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,124.97369575406708
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,21.60636923755201
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,2011.0257922990736
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,21.60636923755201
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,0.5484660936095748
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,1.5741216208888795
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,11.821450538744456
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.0091019855501483
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,152.13691829784312
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,27.29268634231952
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,2482.927237987513
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,27.29268634231952
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,0.6957037135295371
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,2.390367688561927
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,13.852540923568757
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.0125031196587043
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,177.76259994291485
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,33.03864016149477
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,2968.954346008546
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,33.03864016149477
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,0.8346071285483692
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,5.817047379149825
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,22.64304357333096
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.0269616989890736
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,285.3416821931605
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,67.5705902756696
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,6116.454830422004
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,67.5705902756696
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,1.417737057192619
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,8.088476778236828
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,22.64304357333096
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,0.0269616989890736
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,365.7310306340864
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,102.17904972700074
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,9408.395417936586
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,102.17904972700074
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,1.5255163086746493
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,9.785820960792828
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,22.64304357333096
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,0.0269616989890736
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,425.8026282679455
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,135.10915374589047
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,12543.2506205953
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,135.10915374589047
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,1.6060552352099822
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,11.054175273374454
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,22.64304357333096
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,0.0269616989890736
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,470.691620556968
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,165.82940024782332
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,15474.195576508491
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,165.82940024782332
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+GMR,Thilafushi,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,1.6662386062973686
+GMR,Thilafushi,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.77621404109589
+GMR,Thilafushi,GenCostsPerMWh,2025.0,Variable Cost: $m,129.82635153534994
+GMR,Thilafushi,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.776214041095889
+GMR,Thilafushi,GenCostsPerMWh,2026.0,Variable Cost: $m,130.60271517165003
+GMR,Thilafushi,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.776214041095886
+GMR,Thilafushi,GenCostsPerMWh,2027.0,Variable Cost: $m,131.37907880794984
+GMR,Thilafushi,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.061983390586011
+GMR,Thilafushi,GenCostsPerMWh,2028.0,Investment costs: $m,59.74763492853808
+GMR,Thilafushi,GenCostsPerMWh,2028.0,Variable Cost: $m,33.60666299090195
+GMR,Thilafushi,GenCostsPerMWh,2029.0,Fixed O&M: $m,9.063186899945917
+GMR,Thilafushi,GenCostsPerMWh,2029.0,Investment costs: $m,60.13643075100551
+GMR,Thilafushi,GenCostsPerMWh,2029.0,Variable Cost: $m,23.9471226097124
+GMR,Thilafushi,GenCostsPerMWh,2030.0,Fixed O&M: $m,9.063186899945917
+GMR,Thilafushi,GenCostsPerMWh,2030.0,Investment costs: $m,62.106636813079184
+GMR,Thilafushi,GenCostsPerMWh,2030.0,Variable Cost: $m,24.09452266737291
+GMR,Thilafushi,GenCostsPerMWh,2035.0,Fixed O&M: $m,9.06318689994592
+GMR,Thilafushi,GenCostsPerMWh,2035.0,Investment costs: $m,70.11059894025348
+GMR,Thilafushi,GenCostsPerMWh,2035.0,Variable Cost: $m,24.792216273632707
+GMR,Thilafushi,GenCostsPerMWh,2040.0,Fixed O&M: $m,9.771087482747646
+GMR,Thilafushi,GenCostsPerMWh,2040.0,Investment costs: $m,90.1487022847827
+GMR,Thilafushi,GenCostsPerMWh,2040.0,Variable Cost: $m,0.463637784858853
+GMR,Thilafushi,GenCostsPerMWh,2045.0,Fixed O&M: $m,9.771087482747646
+GMR,Thilafushi,GenCostsPerMWh,2045.0,Investment costs: $m,90.1487022847827
+GMR,Thilafushi,GenCostsPerMWh,2045.0,Variable Cost: $m,0.463637784858853
+GMR,Thilafushi,GenCostsPerMWh,2050.0,Fixed O&M: $m,9.771087482747635
+GMR,Thilafushi,GenCostsPerMWh,2050.0,Investment costs: $m,90.14870228478262
+GMR,Thilafushi,GenCostsPerMWh,2050.0,Variable Cost: $m,0.4636377848588527
+GMR,Thilafushi,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Excess generation: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Export revenues with internal zones: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Fixed O&M: $m,0.6617132916196639
+GMR,Thilafushi,NetPresentCostPerMWh,,Fuel costs: $m,1.355433808914308
+GMR,Thilafushi,NetPresentCostPerMWh,,Generation costs: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Import costs with internal zones: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0016139525694595
+GMR,Thilafushi,NetPresentCostPerMWh,,Startup costs: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Trade shared benefits: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Transmission costs: $m,28.176041529461504
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,9.926703310884326
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet demand costs: $m,926.2998493212892
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,9.926703310884326
+GMR,Thilafushi,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+GMR,Thilafushi,NetPresentCostPerMWh,,Variable O&M: $m,0.099742604538983
+GMR,Villingili,Costs,2025.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2025.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2025.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2025.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2025.0,Fuel costs: $m,4.319571926918701
+GMR,Villingili,Costs,2025.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2025.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2025.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2025.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2025.0,Spinning reserve costs: $m,0.0034385787624499
+GMR,Villingili,Costs,2025.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2025.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2025.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2025.0,Unmet country planning reserve costs: $m,4.161886338309139
+GMR,Villingili,Costs,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2025.0,Unmet demand costs: $m,377.54060534109993
+GMR,Villingili,Costs,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2025.0,Unmet system planning reserve costs: $m,4.161886338309139
+GMR,Villingili,Costs,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2025.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2025.0,Variable O&M: $m,0.2295434308800006
+GMR,Villingili,Costs,2026.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2026.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2026.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2026.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2026.0,Fuel costs: $m,4.346775708734593
+GMR,Villingili,Costs,2026.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2026.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2026.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2026.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2026.0,Spinning reserve costs: $m,0.00349793233615
+GMR,Villingili,Costs,2026.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2026.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2026.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2026.0,Unmet country planning reserve costs: $m,4.490036518360409
+GMR,Villingili,Costs,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2026.0,Unmet demand costs: $m,409.4306053410999
+GMR,Villingili,Costs,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2026.0,Unmet system planning reserve costs: $m,4.490036518360409
+GMR,Villingili,Costs,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2026.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2026.0,Variable O&M: $m,0.2295434308800005
+GMR,Villingili,Costs,2027.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2027.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2027.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2027.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2027.0,Fuel costs: $m,4.373979490550608
+GMR,Villingili,Costs,2027.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2027.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2027.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2027.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2027.0,Spinning reserve costs: $m,0.0032863641377
+GMR,Villingili,Costs,2027.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2027.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2027.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2027.0,Unmet country planning reserve costs: $m,4.8518435937131486
+GMR,Villingili,Costs,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2027.0,Unmet demand costs: $m,443.4206053411002
+GMR,Villingili,Costs,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2027.0,Unmet system planning reserve costs: $m,4.8518435937131486
+GMR,Villingili,Costs,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2027.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2027.0,Variable O&M: $m,0.2295434308800006
+GMR,Villingili,Costs,2028.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2028.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2028.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2028.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2028.0,Fuel costs: $m,4.403126399639095
+GMR,Villingili,Costs,2028.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2028.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2028.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2028.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2028.0,Spinning reserve costs: $m,0.0034233144990249
+GMR,Villingili,Costs,2028.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2028.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2028.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2028.0,Unmet country planning reserve costs: $m,5.198072705783597
+GMR,Villingili,Costs,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2028.0,Unmet demand costs: $m,480.47060534110005
+GMR,Villingili,Costs,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2028.0,Unmet system planning reserve costs: $m,5.198072705783597
+GMR,Villingili,Costs,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2028.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2028.0,Variable O&M: $m,0.2295434308800002
+GMR,Villingili,Costs,2029.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2029.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2029.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2029.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2029.0,Fuel costs: $m,4.43033018145502
+GMR,Villingili,Costs,2029.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2029.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2029.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2029.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2029.0,Spinning reserve costs: $m,0.00219013479415
+GMR,Villingili,Costs,2029.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2029.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2029.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2029.0,Unmet country planning reserve costs: $m,5.581114560483931
+GMR,Villingili,Costs,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2029.0,Unmet demand costs: $m,520.9406053411008
+GMR,Villingili,Costs,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2029.0,Unmet system planning reserve costs: $m,5.581114560483931
+GMR,Villingili,Costs,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2029.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2029.0,Variable O&M: $m,0.2295434308800005
+GMR,Villingili,Costs,2030.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2030.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2030.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2030.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2030.0,Fuel costs: $m,4.459477090543583
+GMR,Villingili,Costs,2030.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2030.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2030.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2030.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2030.0,Spinning reserve costs: $m,0.0016647799999999
+GMR,Villingili,Costs,2030.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2030.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2030.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2030.0,Unmet country planning reserve costs: $m,6.5127726464077735
+GMR,Villingili,Costs,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2030.0,Unmet demand costs: $m,617.0406053410994
+GMR,Villingili,Costs,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2030.0,Unmet system planning reserve costs: $m,6.5127726464077735
+GMR,Villingili,Costs,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2030.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2030.0,Variable O&M: $m,0.2295434308800003
+GMR,Villingili,Costs,2035.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2035.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2035.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2035.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,Costs,2035.0,Fuel costs: $m,4.597439126895899
+GMR,Villingili,Costs,2035.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2035.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2035.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2035.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2035.0,Spinning reserve costs: $m,0.0015291092499999
+GMR,Villingili,Costs,2035.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2035.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2035.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2035.0,Unmet country planning reserve costs: $m,9.27427302586442
+GMR,Villingili,Costs,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2035.0,Unmet demand costs: $m,910.9406053411008
+GMR,Villingili,Costs,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2035.0,Unmet system planning reserve costs: $m,9.27427302586442
+GMR,Villingili,Costs,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2035.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2035.0,Variable O&M: $m,0.2295434308800004
+GMR,Villingili,Costs,2040.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2040.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2040.0,Fixed O&M: $m,0.005274
+GMR,Villingili,Costs,2040.0,Fuel costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2040.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2040.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2040.0,Spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2040.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2040.0,Unmet country planning reserve costs: $m,13.6900795287572
+GMR,Villingili,Costs,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2040.0,Unmet demand costs: $m,1393.7030143481
+GMR,Villingili,Costs,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2040.0,Unmet system planning reserve costs: $m,13.6900795287572
+GMR,Villingili,Costs,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2040.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2040.0,Variable O&M: $m,0.0
+GMR,Villingili,Costs,2045.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2045.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2045.0,Fixed O&M: $m,0.005274
+GMR,Villingili,Costs,2045.0,Fuel costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2045.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2045.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2045.0,Spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2045.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2045.0,Unmet country planning reserve costs: $m,16.812480409007048
+GMR,Villingili,Costs,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2045.0,Unmet demand costs: $m,1688.7430143481
+GMR,Villingili,Costs,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2045.0,Unmet system planning reserve costs: $m,16.812480409007048
+GMR,Villingili,Costs,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2045.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2045.0,Variable O&M: $m,0.0
+GMR,Villingili,Costs,2050.0,Carbon costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Excess generation: $m,0.0
+GMR,Villingili,Costs,2050.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,Costs,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,Costs,2050.0,Fixed O&M: $m,0.005274
+GMR,Villingili,Costs,2050.0,Fuel costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Generation costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Import costs with external zones: $m,0.0
+GMR,Villingili,Costs,2050.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,Costs,2050.0,NPV of system cost: $m,0.0
+GMR,Villingili,Costs,2050.0,Spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Startup costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Trade shared benefits: $m,0.0
+GMR,Villingili,Costs,2050.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,Costs,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2050.0,Unmet country planning reserve costs: $m,21.286109564474536
+GMR,Villingili,Costs,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2050.0,Unmet demand costs: $m,2120.353014348099
+GMR,Villingili,Costs,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,Costs,2050.0,Unmet system planning reserve costs: $m,21.286109564474536
+GMR,Villingili,Costs,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,Costs,2050.0,VRE curtailment: $m,0.0
+GMR,Villingili,Costs,2050.0,Variable O&M: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Fixed O&M: $m,0.2110259575432999
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Fuel costs: $m,4.319571926918701
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Spinning reserve costs: $m,0.0034385787624499
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Transmission costs: $m,11.92414314743938
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet country planning reserve costs: $m,4.161886338309139
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet demand costs: $m,377.54060534109993
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet system planning reserve costs: $m,4.161886338309139
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2025.0,Variable O&M: $m,0.2295434308800006
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Fixed O&M: $m,0.4159924866955113
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Fuel costs: $m,8.54153371965059
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Spinning reserve costs: $m,0.0068360709880347
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Transmission costs: $m,23.505894807271503
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet country planning reserve costs: $m,8.522995330060436
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet demand costs: $m,775.2147639252869
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet system planning reserve costs: $m,8.522995330060436
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2026.0,Variable O&M: $m,0.452495720090727
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Fixed O&M: $m,0.6093571368391071
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Fuel costs: $m,12.549443570039678
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Spinning reserve costs: $m,0.0098473908234176
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Transmission costs: $m,34.43207561843388
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet country planning reserve costs: $m,12.968775602647458
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet demand costs: $m,1181.5243535910515
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet system planning reserve costs: $m,12.968775602647458
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2027.0,Variable O&M: $m,0.6628280684027331
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Fixed O&M: $m,0.7917766181066501
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Fuel costs: $m,16.35568638077436
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Spinning reserve costs: $m,0.0128066440944265
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Transmission costs: $m,44.73979336481348
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet country planning reserve costs: $m,17.462202561202794
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet demand costs: $m,1596.8628247961483
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet system planning reserve costs: $m,17.462202561202794
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2028.0,Variable O&M: $m,0.8612548120933045
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Fixed O&M: $m,0.9638704683590492
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Fuel costs: $m,19.96866645058195
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Spinning reserve costs: $m,0.0145927216636737
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Transmission costs: $m,54.46405538969989
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet country planning reserve costs: $m,22.013659190496035
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet demand costs: $m,2021.6952746504287
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet system planning reserve costs: $m,22.013659190496035
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2029.0,Variable O&M: $m,1.0484498533108249
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Fixed O&M: $m,1.126223157276407
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Fuel costs: $m,23.399562370893307
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Spinning reserve costs: $m,0.0158735191191259
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Transmission costs: $m,63.63788748864934
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet country planning reserve costs: $m,27.02425676702763
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet demand costs: $m,2496.4150798088363
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet system planning reserve costs: $m,27.02425676702763
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2030.0,Variable O&M: $m,1.2250489487990517
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Fixed O&M: $m,1.807795398612198
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Fuel costs: $m,38.248384414410616
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Spinning reserve costs: $m,0.0208122405489572
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Transmission costs: $m,102.1505191365426
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet country planning reserve costs: $m,56.97833031601968
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet demand costs: $m,5438.573652783068
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet system planning reserve costs: $m,56.97833031601968
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2035.0,Variable O&M: $m,1.966428978488941
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Fixed O&M: $m,1.8205241795979816
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Fuel costs: $m,38.248384414410616
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Spinning reserve costs: $m,0.0208122405489572
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Transmission costs: $m,130.92939789401078
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet country planning reserve costs: $m,90.01929049795159
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet demand costs: $m,8802.271117489792
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet system planning reserve costs: $m,90.01929049795159
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2040.0,Variable O&M: $m,1.966428978488941
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Fixed O&M: $m,1.8300358652202304
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Fuel costs: $m,38.248384414410616
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Spinning reserve costs: $m,0.0208122405489572
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Transmission costs: $m,152.43465025145025
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet country planning reserve costs: $m,120.34068378211768
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet demand costs: $m,11847.927668352122
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet system planning reserve costs: $m,120.34068378211768
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2045.0,Variable O&M: $m,1.966428978488941
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Carbon costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Excess generation: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Export revenues with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Export revenues with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Fixed O&M: $m,1.837143550039188
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Fuel costs: $m,38.248384414410616
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Generation costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Import costs with external zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Import costs with internal zones: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,NPV of system cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Spinning reserve costs: $m,0.0208122405489572
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Startup costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Trade shared benefits: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Transmission costs: $m,168.50462583509392
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet country planning reserve costs: $m,149.0276306547176
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet demand costs: $m,14705.493260106728
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet system planning reserve costs: $m,149.0276306547176
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,VRE curtailment: $m,0.0
+GMR,Villingili,DiscountedWeightedCostsCumulated,2050.0,Variable O&M: $m,1.966428978488941
+GMR,Villingili,GenCostsPerMWh,2025.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2025.0,Variable Cost: $m,126.6126357258795
+GMR,Villingili,GenCostsPerMWh,2026.0,Fixed O&M: $m,5.873351319906724
+GMR,Villingili,GenCostsPerMWh,2026.0,Variable Cost: $m,127.3697812907913
+GMR,Villingili,GenCostsPerMWh,2027.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2027.0,Variable Cost: $m,128.12692685570298
+GMR,Villingili,GenCostsPerMWh,2028.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2028.0,Variable Cost: $m,128.93815424668006
+GMR,Villingili,GenCostsPerMWh,2029.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2029.0,Investment costs: $m,6.740119702042017
+GMR,Villingili,GenCostsPerMWh,2029.0,Variable Cost: $m,129.6952998115917
+GMR,Villingili,GenCostsPerMWh,2030.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2030.0,Investment costs: $m,13.159281323034412
+GMR,Villingili,GenCostsPerMWh,2030.0,Variable Cost: $m,130.50652720256886
+GMR,Villingili,GenCostsPerMWh,2035.0,Fixed O&M: $m,5.873351319906721
+GMR,Villingili,GenCostsPerMWh,2035.0,Investment costs: $m,39.23712540831603
+GMR,Villingili,GenCostsPerMWh,2035.0,Variable Cost: $m,134.3463368531929
+GMR,Villingili,GenCostsPerMWh,2040.0,Fixed O&M: $m,11.799036451353256
+GMR,Villingili,GenCostsPerMWh,2040.0,Investment costs: $m,4218.153592928974
+GMR,Villingili,GenCostsPerMWh,2045.0,Fixed O&M: $m,11.799036451353256
+GMR,Villingili,GenCostsPerMWh,2045.0,Investment costs: $m,4218.153592928974
+GMR,Villingili,GenCostsPerMWh,2050.0,Fixed O&M: $m,11.799036451353256
+GMR,Villingili,GenCostsPerMWh,2050.0,Investment costs: $m,4218.153592928974
+GMR,Villingili,NetPresentCostPerMWh,,Carbon costs: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Excess generation: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Export revenues with external zones: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Export revenues with internal zones: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Fixed O&M: $m,0.1223475529362329
+GMR,Villingili,NetPresentCostPerMWh,,Fuel costs: $m,2.5472131651158483
+GMR,Villingili,NetPresentCostPerMWh,,Generation costs: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Import costs with external zones: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Import costs with internal zones: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,NPV of system cost: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Spinning reserve costs: $m,0.0013860248983977
+GMR,Villingili,NetPresentCostPerMWh,,Startup costs: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Trade shared benefits: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Transmission costs: $m,11.221838722901923
+GMR,Villingili,NetPresentCostPerMWh,,Unmet country CO2 backstop cost: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Unmet country planning reserve costs: $m,9.924736654411404
+GMR,Villingili,NetPresentCostPerMWh,,Unmet country spinning reserve costs: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Unmet demand costs: $m,979.336162955772
+GMR,Villingili,NetPresentCostPerMWh,,Unmet system CO2 backstop cost: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Unmet system planning reserve costs: $m,9.924736654411404
+GMR,Villingili,NetPresentCostPerMWh,,Unmet system spinning reserve costs: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,VRE curtailment: $m,0.0
+GMR,Villingili,NetPresentCostPerMWh,,Variable O&M: $m,0.1309575256304201

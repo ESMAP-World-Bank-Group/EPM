@@ -1,0 +1,270 @@
+c,z,y,uni,value
+GMR,Gulhifalhu,2025,Demand: GWh,1.720829999999999
+GMR,Gulhifalhu,2025,Total Demand: GWh,1.720829999999999
+GMR,Gulhifalhu,2025,Total production: GWh,1.720829999999999
+GMR,Gulhifalhu,2026,Demand: GWh,1.8310484499999984
+GMR,Gulhifalhu,2026,Total Demand: GWh,1.8310484499999984
+GMR,Gulhifalhu,2026,Total production: GWh,1.8310484499999984
+GMR,Gulhifalhu,2027,Demand: GWh,1.959044069999997
+GMR,Gulhifalhu,2027,Total Demand: GWh,1.959044069999997
+GMR,Gulhifalhu,2027,Total production: GWh,1.959044069999997
+GMR,Gulhifalhu,2028,Demand: GWh,2.0301527480000003
+GMR,Gulhifalhu,2028,Exports exchange: GWh,45.317435237
+GMR,Gulhifalhu,2028,Imports exchange: GWh,49.8395663
+GMR,Gulhifalhu,2028,Net interchange Ratio: GWh,2.2274831622669584
+GMR,Gulhifalhu,2028,Net interchange: GWh,4.522131062999996
+GMR,Gulhifalhu,2028,Total Demand: GWh,2.0301527480000003
+GMR,Gulhifalhu,2029,Demand: GWh,2.111927726999998
+GMR,Gulhifalhu,2029,Exports exchange: GWh,97.92910393846294
+GMR,Gulhifalhu,2029,Imports exchange: GWh,83.14095375311888
+GMR,Gulhifalhu,2029,Net interchange Ratio: GWh,-7.002204666516071
+GMR,Gulhifalhu,2029,Net interchange: GWh,-14.788150185344064
+GMR,Gulhifalhu,2029,Total Demand: GWh,2.111927726999998
+GMR,Gulhifalhu,2029,Total production: GWh,21.05712560000001
+GMR,Gulhifalhu,2030,Demand: GWh,2.204369008000002
+GMR,Gulhifalhu,2030,Exports exchange: GWh,97.334865836693
+GMR,Gulhifalhu,2030,Imports exchange: GWh,82.61274657336101
+GMR,Gulhifalhu,2030,Net interchange Ratio: GWh,-6.678609257299075
+GMR,Gulhifalhu,2030,Net interchange: GWh,-14.72211926333199
+GMR,Gulhifalhu,2030,Total Demand: GWh,2.204369008000002
+GMR,Gulhifalhu,2030,Total production: GWh,21.05712560000001
+GMR,Gulhifalhu,2035,Demand: GWh,2.6167993389999995
+GMR,Gulhifalhu,2035,Exports exchange: GWh,95.83917502066724
+GMR,Gulhifalhu,2035,Imports exchange: GWh,80.8949748264613
+GMR,Gulhifalhu,2035,Net interchange Ratio: GWh,-5.710869752786173
+GMR,Gulhifalhu,2035,Net interchange: GWh,-14.944200194205948
+GMR,Gulhifalhu,2035,Total Demand: GWh,2.6167993389999995
+GMR,Gulhifalhu,2035,Total production: GWh,21.605748274529105
+GMR,Gulhifalhu,2040,Demand: GWh,3.032785102999999
+GMR,Gulhifalhu,2040,Exports exchange: GWh,93.171094273
+GMR,Gulhifalhu,2040,Imports exchange: GWh,77.86528607999992
+GMR,Gulhifalhu,2040,Net interchange Ratio: GWh,-5.0467829645627535
+GMR,Gulhifalhu,2040,Net interchange: GWh,-15.30580819300009
+GMR,Gulhifalhu,2040,Total Demand: GWh,3.032785102999999
+GMR,Gulhifalhu,2040,Total production: GWh,22.231857600000005
+GMR,Gulhifalhu,2045,Demand: GWh,3.515829143000002
+GMR,Gulhifalhu,2045,Exports exchange: GWh,90.54323754849992
+GMR,Gulhifalhu,2045,Imports exchange: GWh,74.92616956999991
+GMR,Gulhifalhu,2045,Net interchange Ratio: GWh,-4.441930293909054
+GMR,Gulhifalhu,2045,Net interchange: GWh,-15.617067978500016
+GMR,Gulhifalhu,2045,Total Demand: GWh,3.515829143000002
+GMR,Gulhifalhu,2045,Total production: GWh,22.87920560000001
+GMR,Gulhifalhu,2050,Demand: GWh,4.075809574999998
+GMR,Gulhifalhu,2050,Exports exchange: GWh,84.92429761550004
+GMR,Gulhifalhu,2050,Imports exchange: GWh,71.51892799000001
+GMR,Gulhifalhu,2050,Net interchange Ratio: GWh,-3.289007834842244
+GMR,Gulhifalhu,2050,Net interchange: GWh,-13.405369625500027
+GMR,Gulhifalhu,2050,Total Demand: GWh,4.075809574999998
+GMR,Gulhifalhu,2050,Total production: GWh,21.05712560000001
+GMR,Hulhumale,2025,Demand: GWh,447.2474040000003
+GMR,Hulhumale,2025,Total Demand: GWh,447.2474040000003
+GMR,Hulhumale,2025,Total production: GWh,392.4240801559996
+GMR,Hulhumale,2025,Unmet demand: GWh,54.82332384399986
+GMR,Hulhumale,2026,Demand: GWh,475.89341540000015
+GMR,Hulhumale,2026,Surplus generation: GWh,0.0014815634718552
+GMR,Hulhumale,2026,Total Demand: GWh,475.89341540000015
+GMR,Hulhumale,2026,Total production: GWh,386.7882492211445
+GMR,Hulhumale,2026,Unmet demand: GWh,89.10664774232654
+GMR,Hulhumale,2027,Demand: GWh,509.1597512000004
+GMR,Hulhumale,2027,Surplus generation: GWh,0.0015851290741755
+GMR,Hulhumale,2027,Total Demand: GWh,509.1597512000004
+GMR,Hulhumale,2027,Total production: GWh,392.4240801559997
+GMR,Hulhumale,2027,Unmet demand: GWh,116.73725617307414
+GMR,Hulhumale,2028,Demand: GWh,527.6410488999995
+GMR,Hulhumale,2028,Surplus generation: GWh,0.0016426655031721
+GMR,Hulhumale,2028,Total Demand: GWh,527.6410488999995
+GMR,Hulhumale,2028,Total production: GWh,527.1952903969233
+GMR,Hulhumale,2028,Unmet demand: GWh,0.4474011685792339
+GMR,Hulhumale,2029,Demand: GWh,548.8945412999999
+GMR,Hulhumale,2029,Total Demand: GWh,548.8945412999999
+GMR,Hulhumale,2029,Total production: GWh,549.7202152445408
+GMR,Hulhumale,2030,Demand: GWh,572.9202282999989
+GMR,Hulhumale,2030,Total Demand: GWh,572.9202282999989
+GMR,Hulhumale,2030,Total production: GWh,575.1814077653698
+GMR,Hulhumale,2035,Demand: GWh,680.1117547999991
+GMR,Hulhumale,2035,Total Demand: GWh,680.1117547999991
+GMR,Hulhumale,2035,Total production: GWh,694.955353788231
+GMR,Hulhumale,2035,Unmet demand: GWh,1.2353595079705446
+GMR,Hulhumale,2040,Demand: GWh,788.2273462999995
+GMR,Hulhumale,2040,Total Demand: GWh,788.2273462999995
+GMR,Hulhumale,2040,Total production: GWh,720.863281070644
+GMR,Hulhumale,2040,Unmet demand: GWh,84.84421413867602
+GMR,Hulhumale,2045,Demand: GWh,913.7715271999996
+GMR,Hulhumale,2045,Total Demand: GWh,913.7715271999996
+GMR,Hulhumale,2045,Total production: GWh,738.9480848378261
+GMR,Hulhumale,2045,Unmet demand: GWh,184.1324668530911
+GMR,Hulhumale,2050,Demand: GWh,1059.311640999999
+GMR,Hulhumale,2050,Total Demand: GWh,1059.311640999999
+GMR,Hulhumale,2050,Total production: GWh,605.5502108844387
+GMR,Hulhumale,2050,Unmet demand: GWh,453.7647279916029
+GMR,Male,2025,Demand: GWh,330.6831840000001
+GMR,Male,2025,Total Demand: GWh,330.6831840000001
+GMR,Male,2025,Total production: GWh,330.68318399999987
+GMR,Male,2026,Demand: GWh,351.8633053000005
+GMR,Male,2026,Total Demand: GWh,351.8633053000005
+GMR,Male,2026,Total production: GWh,351.86330530000004
+GMR,Male,2027,Demand: GWh,376.4595751999999
+GMR,Male,2027,Imports exchange: GWh,0.0032662295338091
+GMR,Male,2027,Net interchange Ratio: GWh,8.676176006610748e-06
+GMR,Male,2027,Net interchange: GWh,0.0032662295338091
+GMR,Male,2027,Total Demand: GWh,376.4595751999999
+GMR,Male,2027,Total production: GWh,376.4564722819428
+GMR,Male,2028,Demand: GWh,390.1241695999999
+GMR,Male,2028,Imports exchange: GWh,24.61839953404998
+GMR,Male,2028,Net interchange Ratio: GWh,0.0631040100880998
+GMR,Male,2028,Net interchange: GWh,24.61839953404998
+GMR,Male,2028,Total Demand: GWh,390.1241695999999
+GMR,Male,2028,Total production: GWh,366.73669004265247
+GMR,Male,2029,Demand: GWh,405.8384531
+GMR,Male,2029,Imports exchange: GWh,73.82116808043972
+GMR,Male,2029,Net interchange Ratio: GWh,0.1818979140999483
+GMR,Male,2029,Net interchange: GWh,73.82116808043972
+GMR,Male,2029,Total Demand: GWh,405.8384531
+GMR,Male,2029,Total production: GWh,335.70834342358216
+GMR,Male,2030,Demand: GWh,423.60242580000016
+GMR,Male,2030,Imports exchange: GWh,72.37680559375832
+GMR,Male,2030,Net interchange Ratio: GWh,0.1708602245538847
+GMR,Male,2030,Net interchange: GWh,72.37680559375832
+GMR,Male,2030,Total Demand: GWh,423.60242580000016
+GMR,Male,2030,Total production: GWh,354.8444604859298
+GMR,Male,2035,Demand: GWh,502.85707319999983
+GMR,Male,2035,Imports exchange: GWh,69.3301785215912
+GMR,Male,2035,Net interchange Ratio: GWh,0.1378725332039164
+GMR,Male,2035,Net interchange: GWh,69.3301785215912
+GMR,Male,2035,Total Demand: GWh,502.85707319999983
+GMR,Male,2035,Total production: GWh,437.5246171359738
+GMR,Male,2040,Demand: GWh,582.7949502999998
+GMR,Male,2040,Imports exchange: GWh,60.09412682124992
+GMR,Male,2040,Net interchange Ratio: GWh,0.103113671095324
+GMR,Male,2040,Net interchange: GWh,60.09412682124992
+GMR,Male,2040,Total Demand: GWh,582.7949502999998
+GMR,Male,2040,Total production: GWh,448.2517996318769
+GMR,Male,2040,Unmet demand: GWh,77.57124913311111
+GMR,Male,2045,Demand: GWh,675.6190765000002
+GMR,Male,2045,Imports exchange: GWh,53.00095066710016
+GMR,Male,2045,Net interchange Ratio: GWh,0.0784479783218497
+GMR,Male,2045,Net interchange: GWh,53.00095066710016
+GMR,Male,2045,Total Demand: GWh,675.6190765000002
+GMR,Male,2045,Total production: GWh,115.00092460000002
+GMR,Male,2045,Unmet demand: GWh,510.2672487662552
+GMR,Male,2050,Demand: GWh,783.2276794999999
+GMR,Male,2050,Imports exchange: GWh,42.90567523918927
+GMR,Male,2050,Net interchange Ratio: GWh,0.0547805910876127
+GMR,Male,2050,Net interchange: GWh,42.90567523918927
+GMR,Male,2050,Total Demand: GWh,783.2276794999999
+GMR,Male,2050,Total production: GWh,31.3954846
+GMR,Male,2050,Unmet demand: GWh,711.0718034227709
+GMR,Thilafushi,2025,Demand: GWh,10.470515000000008
+GMR,Thilafushi,2025,Total Demand: GWh,10.470515000000008
+GMR,Thilafushi,2025,Total production: GWh,10.470515
+GMR,Thilafushi,2026,Demand: GWh,11.14114715999999
+GMR,Thilafushi,2026,Total Demand: GWh,11.14114715999999
+GMR,Thilafushi,2026,Total production: GWh,11.141147159999996
+GMR,Thilafushi,2027,Demand: GWh,11.919945800000006
+GMR,Thilafushi,2027,Total Demand: GWh,11.919945800000006
+GMR,Thilafushi,2027,Total production: GWh,11.9199458
+GMR,Thilafushi,2028,Demand: GWh,12.352611700000004
+GMR,Thilafushi,2028,Exports exchange: GWh,49.8395663
+GMR,Thilafushi,2028,Net interchange Ratio: GWh,-4.034739171797975
+GMR,Thilafushi,2028,Net interchange: GWh,-49.8395663
+GMR,Thilafushi,2028,Total Demand: GWh,12.352611700000004
+GMR,Thilafushi,2028,Total production: GWh,62.19217799999997
+GMR,Thilafushi,2029,Demand: GWh,12.850177499999994
+GMR,Thilafushi,2029,Exports exchange: GWh,83.14095375311888
+GMR,Thilafushi,2029,Net interchange Ratio: GWh,-6.470023760614896
+GMR,Thilafushi,2029,Net interchange: GWh,-83.14095375311888
+GMR,Thilafushi,2029,Total Demand: GWh,12.850177499999994
+GMR,Thilafushi,2029,Total production: GWh,95.99113125311888
+GMR,Thilafushi,2030,Demand: GWh,13.412643179999998
+GMR,Thilafushi,2030,Exports exchange: GWh,82.61274657336101
+GMR,Thilafushi,2030,Net interchange Ratio: GWh,-6.159318895215777
+GMR,Thilafushi,2030,Net interchange: GWh,-82.61274657336101
+GMR,Thilafushi,2030,Total Demand: GWh,13.412643179999998
+GMR,Thilafushi,2030,Total production: GWh,96.02538975336104
+GMR,Thilafushi,2035,Demand: GWh,15.922105450000002
+GMR,Thilafushi,2035,Exports exchange: GWh,80.8949748264613
+GMR,Thilafushi,2035,Net interchange Ratio: GWh,-5.080670711577361
+GMR,Thilafushi,2035,Net interchange: GWh,-80.8949748264613
+GMR,Thilafushi,2035,Total Demand: GWh,15.922105450000002
+GMR,Thilafushi,2035,Total production: GWh,96.8170802764612
+GMR,Thilafushi,2040,Demand: GWh,18.453201020000005
+GMR,Thilafushi,2040,Exports exchange: GWh,77.86528607999992
+GMR,Thilafushi,2040,Net interchange Ratio: GWh,-4.219608619426393
+GMR,Thilafushi,2040,Net interchange: GWh,-77.86528607999992
+GMR,Thilafushi,2040,Total Demand: GWh,18.453201020000005
+GMR,Thilafushi,2040,Total production: GWh,96.31848709999994
+GMR,Thilafushi,2045,Demand: GWh,21.39231753000001
+GMR,Thilafushi,2045,Exports exchange: GWh,74.92616956999991
+GMR,Thilafushi,2045,Net interchange Ratio: GWh,-3.502480246234447
+GMR,Thilafushi,2045,Net interchange: GWh,-74.92616956999991
+GMR,Thilafushi,2045,Total Demand: GWh,21.39231753000001
+GMR,Thilafushi,2045,Total production: GWh,96.31848709999991
+GMR,Thilafushi,2050,Demand: GWh,24.799559109999976
+GMR,Thilafushi,2050,Exports exchange: GWh,71.51892799000001
+GMR,Thilafushi,2050,Net interchange Ratio: GWh,-2.8838790106216563
+GMR,Thilafushi,2050,Net interchange: GWh,-71.51892799000001
+GMR,Thilafushi,2050,Total Demand: GWh,24.799559109999976
+GMR,Thilafushi,2050,Total production: GWh,96.31848710000004
+GMR,Villingili,2025,Demand: GWh,16.378490999999986
+GMR,Villingili,2025,Total Demand: GWh,16.378490999999986
+GMR,Villingili,2025,Total production: GWh,16.378490999999993
+GMR,Villingili,2026,Demand: GWh,17.42752658
+GMR,Villingili,2026,Total Demand: GWh,17.42752658
+GMR,Villingili,2026,Total production: GWh,17.427526579999995
+GMR,Villingili,2027,Demand: GWh,18.64576145000001
+GMR,Villingili,2027,Exports exchange: GWh,0.0032662295338091
+GMR,Villingili,2027,Net interchange Ratio: GWh,-0.0001751727620546
+GMR,Villingili,2027,Net interchange: GWh,-0.0032662295338091
+GMR,Villingili,2027,Total Demand: GWh,18.64576145000001
+GMR,Villingili,2027,Total production: GWh,18.64902767953382
+GMR,Villingili,2028,Demand: GWh,19.322558600000008
+GMR,Villingili,2028,Exports exchange: GWh,24.61839953404998
+GMR,Villingili,2028,Imports exchange: GWh,45.317435237
+GMR,Villingili,2028,Net interchange Ratio: GWh,1.0712367927790891
+GMR,Villingili,2028,Net interchange: GWh,20.699035702950017
+GMR,Villingili,2028,Total Demand: GWh,19.322558600000008
+GMR,Villingili,2028,Total production: GWh,0.8893946589000002
+GMR,Villingili,2029,Demand: GWh,20.10087532
+GMR,Villingili,2029,Exports exchange: GWh,73.82116808043972
+GMR,Villingili,2029,Imports exchange: GWh,97.92910393846294
+GMR,Villingili,2029,Net interchange Ratio: GWh,1.1993475644334888
+GMR,Villingili,2029,Net interchange: GWh,24.107935858023225
+GMR,Villingili,2029,Total Demand: GWh,20.10087532
+GMR,Villingili,2029,Total production: GWh,0.8893946589000002
+GMR,Villingili,2030,Demand: GWh,20.98071161000001
+GMR,Villingili,2030,Exports exchange: GWh,72.37680559375832
+GMR,Villingili,2030,Imports exchange: GWh,97.334865836693
+GMR,Villingili,2030,Net interchange Ratio: GWh,1.1895716745393397
+GMR,Villingili,2030,Net interchange: GWh,24.95806024293468
+GMR,Villingili,2030,Total Demand: GWh,20.98071161000001
+GMR,Villingili,2030,Total production: GWh,0.8893946589000002
+GMR,Villingili,2035,Demand: GWh,24.90613507000002
+GMR,Villingili,2035,Exports exchange: GWh,69.3301785215912
+GMR,Villingili,2035,Imports exchange: GWh,95.83917502066724
+GMR,Villingili,2035,Net interchange Ratio: GWh,1.0643560883521712
+GMR,Villingili,2035,Net interchange: GWh,26.508996499076048
+GMR,Villingili,2035,Total Demand: GWh,24.90613507000002
+GMR,Villingili,2035,Total production: GWh,3.189097321957404
+GMR,Villingili,2040,Demand: GWh,28.86539839
+GMR,Villingili,2040,Exports exchange: GWh,60.09412682124992
+GMR,Villingili,2040,Imports exchange: GWh,93.171094273
+GMR,Villingili,2040,Net interchange Ratio: GWh,1.1459037219873995
+GMR,Villingili,2040,Net interchange: GWh,33.076967451750086
+GMR,Villingili,2040,Total Demand: GWh,28.86539839
+GMR,Villingili,2040,Total production: GWh,0.4469856519000001
+GMR,Villingili,2045,Demand: GWh,33.46290799999999
+GMR,Villingili,2045,Exports exchange: GWh,53.00095066710016
+GMR,Villingili,2045,Imports exchange: GWh,90.54323754849992
+GMR,Villingili,2045,Net interchange Ratio: GWh,1.1219074827985596
+GMR,Villingili,2045,Net interchange: GWh,37.542286881399775
+GMR,Villingili,2045,Total Demand: GWh,33.46290799999999
+GMR,Villingili,2045,Total production: GWh,0.4469856519000001
+GMR,Villingili,2045,Unmet demand: GWh,0.0007973441252469
+GMR,Villingili,2050,Demand: GWh,38.79268169999997
+GMR,Villingili,2050,Exports exchange: GWh,42.90567523918927
+GMR,Villingili,2050,Imports exchange: GWh,84.92429761550004
+GMR,Villingili,2050,Net interchange Ratio: GWh,1.0831584859551178
+GMR,Villingili,2050,Net interchange: GWh,42.018622376310766
+GMR,Villingili,2050,Total Demand: GWh,38.79268169999997
+GMR,Villingili,2050,Total production: GWh,0.4469856519000001
+GMR,Villingili,2050,Unmet demand: GWh,0.5732885525641999
