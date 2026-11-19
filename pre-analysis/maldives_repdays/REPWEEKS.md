@@ -1,6 +1,19 @@
 # Greater Malé representative weeks (test)
 
-**Status:** 16 Nov 2026. Proposed, not yet in `epm/input/data_MDV`, which still uses the 10 days in [REPDAYS.md](REPDAYS.md).
+**Status:** 19 Nov 2026. The 2 weeks per season (28 days) are in [`epm/input/data_MDV_28days`](../../epm/input/data_MDV_28days), a copy of `data_MDV` as of 18 Nov. `epm/input/data_MDV` still uses the 10 days in [REPDAYS.md](REPDAYS.md).
+
+## Files in `data_MDV_28days`
+
+Only these files differ from `data_MDV`:
+
+| File | Change |
+|---|---|
+| `pHours.csv` | 2 weeks per season, hours `t001`..`t168`, weights in the table below |
+| `load/pDemandProfile.csv` | the same 5 zones, on the 2-week hours |
+| `supply/pVREProfile.csv` | the same zones and techs, on the 2-week hours |
+| `load/pDemandData.csv`, `supply/pVREgenProfile.csv`, `trade/pTradePrice.csv` | header only, relabelled `t001`..`t168` |
+
+Run with `python epm.py --folder_input data_MDV_28days`. Changes made later to `data_MDV` are not copied across automatically.
 
 ## Why weeks
 

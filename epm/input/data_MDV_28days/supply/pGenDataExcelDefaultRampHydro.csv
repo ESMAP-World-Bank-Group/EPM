@@ -1,0 +1,13 @@
+﻿zone,tech,fuel,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
+,CCGT,Gas,6.4,,,0,0.05,30000,2,0,,30
+,CCGT,LNG,6.4,,,0,0.05,30000,2,0,,30
+,ICE,HFO,,,,0,0.4,8000,6.4,0,,30
+,OCGT,Gas,9,,,0,0.2,20000,4,0,,30
+,OCGT,LNG,9,,,0,0.2,20000,4,0,,30
+,OnshoreWind,Wind,,,,0,0,28000,0,0,1.6,30
+,PV,Solar,,,,0,0,15000,0,0,0.8,25
+,ReservoirHydro,Water,0,0.3,0.3,0,,40000,0.55,0,,30
+,ROR,Water,0,,,0,,46500,0.55,0,,30
+,ST,Biomass,,,,0,0.01,100000,3,0,,30
+,ST ,Coal,,,,0,0.05,45000,3,0,,30
+,Storage,Battery,0,,,0,0.9,13860,0,0,0.2,20
