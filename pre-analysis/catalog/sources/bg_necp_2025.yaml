@@ -1,0 +1,46 @@
+id: bg_necp_2025
+name: "Bulgaria, Integrated Energy and Climate Plan 2021-2030, final update submitted in 2025 (English)"
+type: open_source
+category: study_document
+url: "https://commission.europa.eu/energy-climate-change-environment/implementation-eu-countries/energy-and-climate-governance-and-reporting/national-energy-and-climate-plans_en"
+date: "2025"
+access_note: >
+  Local copy: Data/NDPs/Bulgaria - NECP 2021-2030 final update (submitted 2025).pdf, 366 pages,
+  sha256 6d2da6067b0c8eb921ab7b76ec6e430b8a7e028f8ccab7fae11240df6662bdd0. Pages below are
+  those of the PDF. Used for edit 5 of the v6 input family (Bulgarian fleet, built 2026-11-21,
+  pre-analysis/pipelines/build_robg_v6.py). The plan is read for dates only; no capacity or
+  energy series of the plan enters the model.
+
+  1. COAL EXIT. Page 210: under the Recovery and Resilience Plan, "electricity production from
+  coal is to be phased out by 2038 at the latest". Page 211: the Climate Neutrality Roadmap
+  sets "the final date for coal shutdown by 2038 at the latest". Page 337: "coal is planned to
+  be shut down by 2038". Used for the retirement year 2038 of the four coal and lignite blocks
+  that v5 retired in 2029 and 2033 (3,916.2 MW).
+
+  2. KOZLODUY 5 AND 6. Page 202: after the lifetime extension programme of 2014 to 2018, "the
+  two units can operate in compliance with the safety requirements until 2047 for Unit 5 and
+  until 2051 for Unit 6". Used for the retirement years of the two units.
+
+  3. NEW NUCLEAR UNITS. Pages 90, 292 and 352: "commissioning of two new nuclear units ... in
+  2035 and 2040". The scenario of the plan runs on five year steps, so the two years are steps
+  of the projection and not commissioning dates. The model keeps unit 7 in 2036 and places
+  unit 8 on the first model year from 2037, the end of the window given by the country team
+  (see wb_bulgaria_team_comments_2026): 2040 on the five year grid, which is the year of the
+  plan, and 2038 on the two year grid.
+coverage:
+  countries: [Bulgaria]
+  years: "dates to 2051"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "Bulgaria, v6 files: RetrYr of four coal and lignite blocks, RetrYr of Kozloduy 5 and 6, StYr of Kozloduy 8"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    Official plan, but the coal date is a latest date ("by 2038 at the latest") and the model
+    takes it as the retirement year: the blocks are in service in every model year before
+    2038 and out from 2038 on, and their dispatch stays economic. The nuclear years are five
+    year steps of the scenario. The lifetime of units 5 and 6 is a safety assessment, not a
+    licence in force to those years.
+  used_in_studies: [data_blacksea]

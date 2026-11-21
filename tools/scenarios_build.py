@@ -10,6 +10,12 @@ in that order, and is named Scope_Case[_Sensitivity]_Grid.
     python tools/scenarios_build.py              # write scenarios.csv and the report
     python tools/scenarios_build.py --check      # exit 1 if scenarios.csv drifted from the yaml
     python tools/scenarios_build.py --show Int_GECO_GasHi_2y
+    python tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml
+
+A grid yaml may name its own files with the optional keys output (scenario file in the data
+folder, default scenarios.csv) and report (path from the repository root). An input version
+that must not replace the published one lives in its own yaml and its own scenario file,
+which epm.py reads with --scenarios <file>.
 
 What it guarantees.
 
@@ -190,7 +196,7 @@ def fmt(value):
     return value if value else "(default)"
 
 
-def write_report(path, spec, params, columns, meta, archive, data_folder, archive_path, out_path):
+def write_report(path, spec, params, columns, meta, archive, data_folder, archive_path, out_path, grid_path=GRID_YAML):
     missing = missing_files(columns, data_folder)
     files = sorted({v for c in columns.values() for v in c.values() if v and (".csv" in v or ".opt" in v)})
     lines = []
@@ -198,9 +204,9 @@ def write_report(path, spec, params, columns, meta, archive, data_folder, archiv
     add("# Scenario grid report")
     add("")
     add(f"Generated on {dt.date.today().isoformat()} by tools/scenarios_build.py from "
-        f"internal_analysis/scenarios/scenario_grid.yaml.")
+        f"{Path(grid_path).resolve().relative_to(ROOT).as_posix()}.")
     add("")
-    add(f"- scenarios.csv: {len(columns)} columns, {len(params)} rows, md5 {md5(out_path)}")
+    add(f"- {out_path.name}: {len(columns)} columns, {len(params)} rows, md5 {md5(out_path)}")
     add(f"- archive: {archive_path.name}, {len(archive)} columns, md5 {md5(archive_path)}")
     by_grid = {g: sum(1 for m in meta.values() if m['grid'] == g) for g in spec["grids"]}
     by_scope = {s: sum(1 for m in meta.values() if m['scope'] == s) for s in spec["scopes"]}
@@ -264,7 +270,8 @@ def main(argv=None):
     spec = load_spec(args.grid)
     data_folder = ROOT / spec["data_folder"]
     archive_path = data_folder / spec["archive"]
-    out_path = data_folder / "scenarios.csv"
+    out_path = data_folder / spec.get("output", "scenarios.csv")
+    report_path = ROOT / spec["report"] if spec.get("report") else REPORT_MD
     params, archive = read_scenarios(archive_path)
     columns, meta = build_columns(spec, params)
 
@@ -308,9 +315,9 @@ def main(argv=None):
         return 1 if drift else 0
 
     write_scenarios(out_path, params, columns)
-    missing = write_report(REPORT_MD, spec, params, columns, meta, archive, data_folder, archive_path, out_path)
+    missing = write_report(report_path, spec, params, columns, meta, archive, data_folder, archive_path, out_path, args.grid)
     print(f"wrote {out_path.relative_to(ROOT)}: {len(columns)} columns, {len(params)} rows, md5 {md5(out_path)}")
-    print(f"wrote {REPORT_MD.relative_to(ROOT)}")
+    print(f"wrote {report_path.relative_to(ROOT)}")
     if missing:
         print(f"{len(missing)} referenced files are not on disk yet (see the report):")
         for f in sorted(missing):

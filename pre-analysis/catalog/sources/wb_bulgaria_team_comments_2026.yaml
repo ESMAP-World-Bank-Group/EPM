@@ -1,0 +1,45 @@
+id: wb_bulgaria_team_comments_2026
+name: "World Bank Bulgaria country team, comments on the Black Sea inception and results decks (2026)"
+type: internal_wb
+category: study_document
+date: "2026"
+access_note: >
+  Internal review comments, not a published source. Two rounds: comments on the inception deck
+  (slides on Bulgaria, 31 July 2026) and on the results deck (slide 26, September 2026). The
+  decks sit on the team SharePoint and are not in the repository. Used for edit 5 of the v6
+  input family (Bulgarian fleet, built 2026-11-21, pre-analysis/pipelines/build_robg_v6.py)
+  and, before it, for the battery fleet of the v5 reference (4.5 GW and 14 GWh connected by
+  June 2026).
+
+  Points taken in the v6 files:
+  1. COAL. Plants and mines are supported to 2038. The four coal and lignite blocks that v5
+  retired in 2029 and 2033 retire in 2038 (confirmed by bg_necp_2025).
+  2. BATTERIES. 6.2 GW in service at the time of the results review. Bulgaria_Battery is set
+  at 6,200 MW in the fleet and storage files and the committed block Bulgaria_Battery_2026 is
+  removed. The comment gives no energy: the energy keeps the hours of the v5 fleet (14,055.6
+  MWh over 4,500 MW, 3.12 h), which gives 19,365.5 MWh.
+  3. KOZLODUY 7 AND 8. Final investment decision at the end of 2028, construction contract in
+  2029, operation between 2035 and 2037, 1.2 GW each. Unit 7 stays in 2036; unit 8 moves to
+  the first model year from 2037 (2040 on the five year grid, 2038 on the two year grid).
+  4. KOZLODUY 5 AND 6. In operation to 2047 and 2051 (same years in bg_necp_2025).
+
+  Points not taken in the v6 files: solar at 6.6 GW in 2026 (the model holds 6.1 GW of
+  existing solar), the interconnection project after 2035, and the remarks on market design.
+coverage:
+  countries: [Bulgaria]
+  years: "2025-2051"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "Bulgaria, v6 files: coal and lignite retirement, battery power, Kozloduy 5, 6 and 8"
+  - resource: pStorageDataInput
+    coverage: "Bulgaria, v6 files: Bulgaria_Battery power and energy"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    Expert comments without a document reference. The battery figure is a fleet total with no
+    energy, no list of sites and no commissioning dates: the model carries 6,200 MW from its
+    first year (2025), which overstates 2025, and the energy is an extrapolation to confirm on
+    the list of the system operator. The nuclear dates are a project schedule, not a decision.
+  used_in_studies: [data_blacksea]

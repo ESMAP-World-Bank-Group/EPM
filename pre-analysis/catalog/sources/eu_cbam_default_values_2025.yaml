@@ -1,0 +1,44 @@
+id: eu_cbam_default_values_2025
+name: "EU CBAM default emission factors for imported electricity, Commission Implementing Regulation (EU) 2025/2621, Annex III"
+type: open_source
+category: official_statistics
+url: "https://eur-lex.europa.eu/eli/reg_impl/2025/2621/oj"
+date: "2025"
+access_note: >
+  Basis of the CBAM levy in the EU price cases with CBAM of the Ext scope: an export from the
+  region to Romania, Bulgaria or Greece is paid the border price less the levy.
+
+  WHAT IS READ. Annex III of the regulation, "Default values for electricity imported into the
+  customs territory of the Union", one value per exporting country, in tCO2e per MWh, the same
+  for every year: Türkiye 0.718 and Georgia 0.440. The values are held, with the reading notes
+  of the regulation, in pre-analysis/config/cbam_emission_factors.csv. Annex III is the average
+  of the fossil fleet of the country (CO2 of the electricity sector over the gross generation
+  from fossil fuels, Regulation (EU) 2023/956, Annex IV), not the grid average of Annex II,
+  which is recorded in the same file for comparison only.
+
+  HOW IT IS USED. Levy in USD per MWh = Annex III factor of the exporter x the CO2 price of the
+  price family, from 2026. Trakia faces Bulgaria and Greece (factor of Türkiye); Georgia faces
+  Romania through the subsea cable (factor of Georgia). v5 files
+  (trade/pTradePriceExport_eu_*_cbam.csv, pre-analysis/output_prices/cbam_levy.csv): CO2 price
+  of the v5 chain. v6 files (trade/pTradePriceExport_ext_eu_central_cbam_v6.csv and
+  trade/pTradePriceExport_ext_eu_very_low_cbam_v6.csv, written by
+  tools/build_ext_inputs_v6.py): CO2 price of TYNDP 2026 [tyndp_2026_ntplus].
+
+  LIMITS. The default value is the rule for electricity: the actual emissions route needs the
+  five cumulative criteria of Annex IV point 5 of Regulation (EU) 2023/956, which no corridor
+  of the study meets today. A revision of the method (whole mix factor) is discussed and would
+  lower the levy; it is not applied.
+coverage:
+  countries: [Turkiye, Georgia]
+  years: "2026-2053"
+fills_epm_resources:
+  - resource: pTradePriceExport
+    coverage: "Ext scope, EU price cases with CBAM: levy on the export price toward Romania, Bulgaria and Greece"
+used_in:
+  - script: "blacksea_2026/EPM/tools/build_ext_inputs_v6.py"
+quality:
+  confidence: high
+  notes: >
+    Legal text; the two values carry the status "verified" in the config file. The levy itself
+    is a modelling choice: full default factor on every exported MWh, CO2 price of the scenario.
+  used_in_studies: [data_blacksea]

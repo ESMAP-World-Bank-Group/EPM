@@ -1,0 +1,95 @@
+id: hungary_zone_assumptions_v6
+name: "Modeller assumptions of the Hungarian zone, v6 input family"
+type: assumption
+category: modelled
+date: "2026"
+access_note: >
+  Not an external source. Groups the values of the Hungarian zone (edit 4 of the v6 input
+  family, built 2026-11-21) that are set by the modeller, so that they are not mistaken for
+  observed data. Every value sits in a constant of pre-analysis/pipelines/build_robg_v6.py
+  (block "Edit 4") and can be changed there; the files are then rebuilt.
+
+  1. TECHNICAL AND COST CELLS FROM ROMANIA. Hungary has no plant level data in the model
+  library. Life, heat rate, ramp rates, reserve share, capex, fixed and variable cost of every
+  Hungarian row come from the Romanian rows of the default table (pGenDataInputDefault), copied
+  as Hungarian rows; the default availability and the default capex trajectories are copied
+  the same way. Fuel prices of Hungary are the Romanian rows (see tyndp_2026_ntplus). Planning
+  reserve margin 0.1, loss factor of the line to Romania 0.025 (the Romania to Bulgaria value)
+  and the external trade share are the Romanian values.
+
+  2. COMMISSIONING AND RETIREMENT YEARS. First year of operation of the named units: typed
+  from operator information, to the year. Retirement: 2060 for every unit except coal and
+  lignite; Paks 1 to 4 in 2052, 2054, 2056 and 2057 (two extensions of 20 years on the 30 year
+  design life; the second one is not licensed yet).
+
+  3. COAL AND LIGNITE OUT FROM 2030. Matra (851.6 MW), Ajka (92.6 MW) and Hamburger Hungaria
+  (42.3 MW) carry the retirement year 2030, the phase-out year of the Hungarian energy and
+  climate plan for lignite. The model removes a plant from its retirement year on. Hamburger
+  Hungaria is an industrial hard coal unit: its exit with the lignite is a
+  simplification.
+
+  4. DUNAMENTI. The register gives one capacity for the site (760.1 MW). It is split in G3
+  (407 MW, typed, 2011) and G2 (the remainder, 353.1 MW, 1996).
+
+  5. GAS OUTSIDE THE REGISTER. 1,942 MW (Ember gas capacity minus the named units), mostly small
+  combined heat and power units, is one row Hungary_AGG_Gas_CHP with the cells of an open
+  cycle gas turbine (heat rate 9.0 MMBtu/MWh), first year 2005. No heat constraint is
+  modelled.
+
+  6. OIL TURBINES. Lorinci, Liter and Sajoszoged (412.4 MW, reserve plants) are OCGT on the
+  fuel Diesel, priced on the light oil row of TYNDP 2026 (tyndp_2026_ntplus). The pair OCGT and
+  Diesel is missing from the default availability table: it takes the row of OCGT and Gas.
+
+  7. PAKS II. Two units of 1,200 MW, committed, first year 2036 for both. Capex 5.6375 MUSD/MW:
+  EUR 12.5 billion for the two units (intergovernmental agreement of 2014) at 1.0824 USD per
+  EUR, without escalation. The other cells and the availability (0.93) are those of the
+  Romanian committed unit Cernavoda-3. TYNDP 2026 NT+ holds the two units from 2035 (4,277 MW
+  of nuclear at HU00).
+
+  8. CANDIDATES. Solar from 2026, wind from 2028, battery from 2026, biomass from 2031, CCGT
+  and OCGT from 2030. Solar, wind, battery and biomass copy the Romanian generic rows; CCGT
+  and OCGT take the default table (Romania has no plain gas candidate). No nuclear candidate
+  beyond Paks II and no imposed solar. Capex follows the default trajectories.
+
+  9. BUILD LIMIT PER YEAR. Rule v2 of the model (2026-08-30), applied to Hungary with the
+  2025 peak (7,395 MW) and the observed additions: start b0 = the larger of the best observed
+  yearly addition and a share of the peak; growth of 20 percent a year for solar, wind and
+  battery, 10 percent for gas, 5 percent for biomass; cap on a share of the annual energy
+  (wind and solar) or of the peak; mean over 2026 to 2040. Result, MW per year: solar 1,059
+  (observed 1,010 in 2025), wind 474.6 (start 148), battery 344 (start 148), biomass 55.8
+  (start 37), CCGT 843.6 (observed 843.6), OCGT 264.9 (observed 113.7). The script first
+  checks that the rule as written returns the deployed Bulgarian limits.
+
+  10. WIND AVAILABILITY. Flat 0.7331 on the existing wind row and on the candidate: the 2025
+  capacity factor (0.2140) over the mean of the profile (0.2920). Same convention as Romania
+  and Bulgaria.
+
+  11. BORDER LIMITS UNTIL 2029. The limits of Hungary with Austria, Slovakia, Croatia, Slovenia,
+  Serbia and Ukraine are the 2025 NTC of the TYNDP 2026 reference grid, not a statistic of
+  the 2025 flows (the rule of the v5 borders). The 99th percentile of the 2025 flows is above
+  that NTC on three borders: Austria to Hungary 1,482 MW against 800, Slovakia to Hungary
+  3,151 against 2,513, Hungary to Croatia 1,538 against 1,000.
+coverage:
+  countries: [Hungary]
+  years: "2024-2053"
+fills_epm_resources:
+  - resource: pGenDataInput
+    coverage: "supply/pGenDataInput_v6_s5.csv and _2y.csv, Hungary: technical and cost cells, years, Paks II, candidates, build limits"
+  - resource: pStorageDataInput
+    coverage: "supply/pStorageDataInput_v6_s5.csv and _2y.csv, Hungary: battery candidate"
+  - resource: pAvailabilityCustom
+    coverage: "supply/pAvailabilityCustom_v6.csv, Hungary: Paks II and the wind rows"
+  - resource: pExtTransferLimit
+    coverage: "trade/pExtTransferLimit_robg_v6.csv, Hungary: choice of the 2025 NTC until 2029"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: low
+  notes: >
+    Working assumptions, to be replaced by plant data when a Hungarian counterpart or the
+    national plan provides them. The points with the largest effect on results: the coal exit
+    of 2030 (firm capacity of 7,302 MW against a peak with reserve of 8,134 MW in 2030, so
+    about 0.8 GW of new firm capacity has to be built), the Paks II year, the single open
+    cycle row for 1.9 GW of combined heat and power, and the wind availability of the
+    candidate.
+  used_in_studies: [data_blacksea]

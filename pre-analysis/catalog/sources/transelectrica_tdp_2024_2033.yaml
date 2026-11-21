@@ -1,0 +1,77 @@
+id: transelectrica_tdp_2024_2033
+name: "Transelectrica, Electricity Transmission Grid Development Plan 2024-2033 (PDRET): net transfer capacity per border"
+type: open_source
+category: study_document
+url: "https://www.transelectrica.ro/"
+date: "2024"
+access_note: >
+  Basis of three Romanian border limits (edit 3) of the v6 input family, built 2026-11-21.
+  Read by the v6 scenario columns only. The v5 limit files are untouched and keep their
+  source (entsoe_borders_robg_2025).
+
+  Local copy: Data/NDPs/Romania - Transelectrica grid development plan 2024-2033 (RO).pdf,
+  134 pages, Romanian, sha256 ef817e75a0119558cba6675201704cfdd46cddaff9f35f8d9ad30a7c6b38bd55.
+  The table is an image in the PDF: it was read on the rendered page and typed into
+  pre-analysis/pipelines/build_robg_v6.py (TDP_NTC), with the total rows as a control.
+
+  TABLE 5.4.2, page 56, "Valorile NTC pentru orizonturile analizate" (NTC values for the
+  horizons analysed), MW:
+
+    row         2024   2025   2028   2030   2033
+    RO export   3115   4200   6050   6050   7350
+    RO - HU      800   1340   1700   1700   2300
+    RO - BG     1560   1560   2550   2550   2550
+    RO - RS      500    800   1300   1300   2000
+    RO - UA      255    500    500    500    500
+    RO import   3142   4200   6050   6050   7350
+    HU - RO     1000   1340   1700   1700   2300
+    BG - RO     1560   1560   2550   2550   2550
+    RS - RO      500    800   1300   1300   2000
+    UA - RO       82    500    500    500    500
+
+  The table has no Moldova row.
+
+  FROM THE TABLE TO THE MODEL FILES (pre-analysis/pipelines/build_robg_v6.py, edit 3).
+  1. Borders taken from this table: Romania with Hungary, Serbia and Bulgaria, both
+  directions. Horizons used: 2030 and 2033.
+  2. Years: the v5 cells are kept until 2029. The 2030 value holds for 2030 to 2032, the 2033
+  value from 2033 to 2053. The four quarters carry the same value.
+  3. Result, MW each way: Romania-Hungary 1,700 then 2,300 (v5 1,000 flat), Romania-Serbia
+  1,300 then 2,000 (v5 800 flat), Romania-Bulgaria 2,550 from 2030 (v5 1,400 flat).
+  4. Not taken from this table: Romania-Ukraine (500 MW each way in the table) and
+  Romania-Moldova (no row), which follow the TYNDP 2026 reference grid (tyndp_2026_ntplus).
+  The 2025 and 2028 columns are not used either: the v5 values, built on the observed 2025
+  flows, stay in place until 2029.
+  5. Since edit 4 of the v6 family (2026-11-21) Hungary is a modelled zone. The
+  Romania-Hungary values of this table (1,000 MW until 2029, 1,700 MW from 2030 to 2032,
+  2,300 MW from 2033, each way) are no longer rows of the external limit file: they are the
+  rows Romania-Hungary and Hungary-Romania of trade/pTransferLimit_robg_hvdc_v6.csv.
+coverage:
+  countries: [Romania]
+  years: "Horizons 2030 and 2033 used; held to 2053"
+  notes: >
+    Same central set as the Cernavoda life extension study (Data/Romania/Cernavoda_LTO,
+    review 1D_ntc). The 2026-2035 edition of the plan was approved by the regulator in
+    September 2026 and is not held; its NTC table should replace this one once obtained.
+fills_epm_resources:
+  - resource: pExtTransferLimit
+    coverage: "trade/pExtTransferLimit_robg_v6.csv, rows Romania-Serbia, Import and Export, years 2030 to 2053"
+  - resource: pTransferLimit
+    coverage: "trade/pTransferLimit_robg_hvdc_v6.csv, rows Romania-Bulgaria and Bulgaria-Romania, Romania-Hungary and Hungary-Romania, years 2030 to 2053"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit3_border_limits.csv"
+    description: "Per border, direction and year 2024 to 2053: v5 limit, v6 limit and its basis"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    The TSO's own planning values, read exactly (the four borders add up to the total rows
+    of the table in 2030 and 2033). They are planning NTC that assume the reinforcements of
+    the plan are delivered on time, not observed capability: the 2025 column gives 1,340 MW
+    on Romania-Hungary where the 2025 flows gave 1,000. Romania-Hungary is allocated flow
+    based in the Core region, so an NTC is a simplification on that border. The TYNDP 2026
+    reference grid is higher on Hungary and Serbia (Romania to Hungary 2,650 in 2030 and
+    3,700 from 2035; Romania to Serbia 2,650) and lower on Bulgaria (2,100 and 2,200). An
+    edition of 2024: the 2026-2035 plan may move these values.
+  used_in_studies: [data_blacksea]

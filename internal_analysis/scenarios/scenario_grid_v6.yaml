@@ -1,0 +1,205 @@
+# Black Sea RoBg scenario grid, input version v6 (in construction, started 2026-11-21).
+#
+# tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml turns this file
+# into epm/input/data_blacksea/scenarios_v6.csv. A run reads it with
+#     python epm.py --folder_input data_blacksea --scenarios scenarios_v6.csv -S Int_Base_5y --cpu 1
+#
+# The v5 grid (scenario_grid.yaml, scenarios.csv) is frozen and stays as published. This file holds
+# the v6 inputs while they are built, edit by edit, by pre-analysis/pipelines/build_robg_v6.py.
+# Same rules as the v5 grid: scenario name = Scope_Case[_Sensitivity]_Grid, each column is the
+# reference overlaid by its grid, its scope, its case and its sensitivity; a value is a file path
+# relative to the data folder; {g} is the grid token.
+#
+# State on 2026-11-21: edits 1 to 8 are in the grid. Reference: border prices, fuel and CO2, border
+# limits on TYNDP 2026 and the TSO plan; Hungary as a modelled zone; Bulgarian and Armenian fleets.
+# Project cases: line files written by pre-analysis/pipelines/build_cases_v6.py. Ext scope, its
+# case variants and its EU price cases: derived by tools/build_ext_inputs_v6.py. The other
+# sensitivities come with their v6 files.
+
+data_folder: epm/input/data_blacksea
+archive: scenarios_archive.csv
+output: scenarios_v6.csv
+report: internal_analysis/scenarios/scenario_grid_v6_report.md
+input_version: v6
+
+# Int_Base. Against the v5 reference: every zone indexed input carries Hungary (suffix _v6), and
+# six rows left to config.csv in v5 are now named because their v6 file holds the Hungarian rows
+# (demand profile, renewable profiles, availability, the three default tables).
+# Unchanged from v5: the custom capex trajectories (indexed by plant), the fuel limits (Georgia
+# and Bulgaria only) and the technology and fuel list.
+reference:
+  zcmap: zcmap_robg_v6.csv
+  pDemandProfile: load/pDemandProfile_v6.csv
+  pDemandForecast: load/pDemandForecast_v6.csv
+  pGenDataInput: supply/pGenDataInput_v6_{g}.csv
+  pGenDataInputDefault: supply/pGenDataInputDefault_v6.csv
+  pAvailability: supply/pAvailabilityCustom_v6.csv
+  pAvailabilityDefault: supply/pAvailabilityDefault_v6.csv
+  pCapexTrajectories: supply/pCapexTrajectoriesCustom_v2.csv
+  pCapexTrajectoriesDefault: supply/pCapexTrajectoriesDefault_v6.csv
+  pFuelPrice: supply/pFuelPrice_robg_v6.csv
+  pVREProfile: supply/pVREProfile_v6.csv
+  pStorageDataInput: supply/pStorageDataInput_v6_{g}.csv
+  pPlanningReserveMargin: reserve/pPlanningReserveMargin_robg_v6.csv
+  pMaxFuellimit: constraint/pMaxFuellimit_robg.csv
+  zext: trade/zext_robg_v6.csv
+  pExtTransferLimit: trade/pExtTransferLimit_robg_v6.csv
+  pLossFactorInternal: trade/pLossFactorInternal_robg_hvdc_v6.csv
+  pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_robg_v6.csv
+  pTradePrice: trade/pTradePrice_robg_v6.csv
+  pTradePriceExport: trade/pTradePriceExport_robg_v6.csv
+  # Base limits: the border limits of edit 3 plus the committed Georgia to Armenia line (CTN).
+  pTransferLimit: trade/pTransferLimit_robg_base_hvdc_v6.csv
+  # Candidate table of the forced cases: no line can be built. Against the v5 table, the mainland
+  # Azerbaijan to Nakhchivan line is no longer committed: it is segment 1 of the TRIPP row.
+  pNewTransmission: trade/pNewTransmission_none_v6.csv
+  pTechFuel: supply/pTechFuel_robg.csv
+
+# Grids, as in v5.
+grids:
+  5y:
+    token: s5
+    label: "2025, 2030, 2032, 2036, 2040 (fast lane)"
+    y: y_s5.csv
+    cplexfile: cplex/cplex_s5.opt
+  2y:
+    token: 2y
+    label: "2025, then every second year to 2040 (when there is time)"
+    y: y_2y.csv
+    cplexfile: null
+
+# Scopes. Int: Romania, Bulgaria and Hungary modelled. Ext is derived from Int by
+# tools/build_ext_inputs_v6.py: the three leave the zone map, Romania and Bulgaria come back as
+# price zones at the EU central price (TYNDP 2026), Hungary disappears with the borders only the
+# three reached. Twelve zone indexed inputs get an _ext_v6 twin; the fuel limit has no v6 source
+# and keeps its v5 Ext file. Everything else is shared with Int.
+scopes:
+  Int:
+    label: "Romania, Bulgaria and Hungary modelled"
+    cases: [Base, BSSC, GECO, Onland, EWTC, TRIPP, TCasp, BSTN, ArTur, ArAz, AllProjects, FreeExp]
+    overrides: {}
+  Ext:
+    label: "Romania and Bulgaria as price zones"
+    cases: [Base, BSSC, GECO, Onland, FreeExp]
+    overrides:
+      zcmap: zcmap_ext_v6.csv
+      pGenDataInput: supply/pGenDataInput_v6_{g}_ext.csv
+      pStorageDataInput: supply/pStorageDataInput_v6_{g}_ext.csv
+      pFuelPrice: supply/pFuelPrice_ext_v6.csv
+      pPlanningReserveMargin: reserve/pPlanningReserveMargin_ext_v6.csv
+      pMaxFuellimit: constraint/pMaxFuellimit_ext.csv
+      zext: trade/zext_ext_v6.csv
+      pExtTransferLimit: trade/pExtTransferLimit_ext_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_ext_v6.csv
+      pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_ext_v6.csv
+      pTradePrice: trade/pTradePrice_ext_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_v6.csv
+      pTransferLimit: trade/pTransferLimit_ext_v6.csv
+
+# Cases: one row of the scenario matrix each. A forced case carries its project in the line limits
+# from the start year of the project, on top of the Base, with its capex outside the objective
+# (net benefit ex post, capex_interconnectors_expost_v6.csv). The first model year at or after the
+# start year is the year the model sees. Sizes and years: internal_analysis/scenarios/cases_v6_report.md.
+# The sizes and years of the two Armenian lines come from the country team table and are not
+# written here. GECO, AllProjects and FreeExp use the zone map that holds the two hubs of the
+# Caucasus, whose renewable plants are candidates. FreeExp forces nothing: every line of the rows
+# above is a candidate sized by the model, capex inside the objective.
+cases:
+  Base:
+    label: "existing and committed lines, Georgia to Armenia 350 MW line from 2032 included"
+    Int: {}
+    Ext: {}
+  BSSC:
+    label: "Georgia to Romania subsea cable, 1,300 MW"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_bssc_hvdc_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_bssc_hvdc_v6.csv
+    Ext:
+      pExtTransferLimit: trade/pExtTransferLimit_ext_bssc_v6.csv
+  GECO:
+    label: "BSSC plus the three 1,261 MW links from the Georgian hub to Romania"
+    Int:
+      zcmap: zcmap_robg_geco_v6.csv
+      pTransferLimit: trade/pTransferLimit_robg_geco_hvdc_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_hvdc_v6.csv
+    Ext:
+      zcmap: zcmap_ext_geco_v6.csv
+      pExtTransferLimit: trade/pExtTransferLimit_ext_geco_v6.csv
+  Onland:
+    label: "Georgia to Bulgaria across Türkiye, three legs of 2,000 MW"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_onland_hvdc_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_onland_hvdc_v6.csv
+    Ext:
+      pExtTransferLimit: trade/pExtTransferLimit_ext_onland_v6.csv
+      pTransferLimit: trade/pTransferLimit_ext_onland_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_ext_onland_v6.csv
+  EWTC:
+    label: "Türkiye to Bulgaria and Türkiye to Greece, 775 MW each"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_ewtc_hvdc_v6.csv
+      pExtTransferLimit: trade/pExtTransferLimit_robg_ewtc_v6.csv
+  TRIPP:
+    label: "mainland Azerbaijan to Nakhchivan 800 MW, Nakhchivan to eastern Türkiye 1,000 MW"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_tripp_hvdc_v6.csv
+  TCasp:
+    label: "mainland Azerbaijan to Kazakhstan, 1,000 MW"
+    Int:
+      pExtTransferLimit: trade/pExtTransferLimit_robg_tcasp_v6.csv
+  BSTN:
+    label: "eastern Türkiye to Georgia reinforcement, 350 MW"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_bstn_hvdc_v6.csv
+  ArTur:
+    label: "Armenia to eastern Türkiye line, country team table"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_artur_hvdc_v6.csv
+  ArAz:
+    label: "Armenia to mainland Azerbaijan line, country team table"
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_araz_hvdc_v6.csv
+  AllProjects:
+    label: "every project of the rows above, forced together"
+    Int:
+      zcmap: zcmap_robg_geco_v6.csv
+      pTransferLimit: trade/pTransferLimit_robg_allprojects_hvdc_v6.csv
+      pExtTransferLimit: trade/pExtTransferLimit_robg_allprojects_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_onland_hvdc_v6.csv
+  FreeExp:
+    label: "every line a candidate sized by the model"
+    Int:
+      zcmap: zcmap_robg_geco_v6.csv
+      pTransferLimit: trade/pTransferLimit_robg_freeexp_hvdc_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_onland_hvdc_v6.csv
+      pNewTransmission: trade/pNewTransmission_robg_freeexp_v6.csv
+      pNewTransmissionExt: trade/pNewTransmissionExt_robg_freeexp.csv
+    Ext:
+      zcmap: zcmap_ext_geco_v6.csv
+      pLossFactorInternal: trade/pLossFactorInternal_ext_onland_v6.csv
+      pNewTransmission: trade/pNewTransmission_ext_freeexp_v6.csv
+      pNewTransmissionExt: trade/pNewTransmissionExt_ext_freeexp_v6.csv
+
+# Sensitivities. The four EU price cases of the Ext scope are in; the others come with their v6
+# files. Two more EU price cases are built and kept out of the grid until they are needed:
+# low (trade/pTradePrice[Export]_ext_eu_low_v6.csv) and high (..._ext_eu_high_v6.csv).
+sensitivities:
+  cases: [Base, BSSC, GECO, Onland]
+  Ext:
+    EUVeryLow:
+      label: "EU very low price"
+      pTradePrice: trade/pTradePrice_ext_eu_very_low_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_very_low_v6.csv
+    EUCrisis:
+      label: "EU crisis price"
+      pTradePrice: trade/pTradePrice_ext_eu_crisis_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_crisis_v6.csv
+    EUCBAM:
+      label: "EU central price, CBAM on exports"
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_central_cbam_v6.csv
+    EUVeryLowCBAM:
+      label: "EU very low price, CBAM on exports"
+      pTradePrice: trade/pTradePrice_ext_eu_very_low_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_very_low_cbam_v6.csv
+
+identical_to_archive: {}

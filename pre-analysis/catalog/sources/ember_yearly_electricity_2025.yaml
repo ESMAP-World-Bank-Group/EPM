@@ -1,0 +1,70 @@
+id: ember_yearly_electricity_2025
+name: "Ember, Yearly Electricity Data (full release, long format): Hungarian demand, capacity and generation per fuel, 2023 and 2025"
+type: open_source
+category: public_database
+url: "https://ember-energy.org/data/yearly-electricity-data/"
+date: "2026"
+access_note: >
+  Annual levels of the Hungarian zone of the v6 input family (edit 4, built 2026-11-21). Read
+  by the v6 scenario columns only.
+
+  FILE. yearly_full_release_long_format.csv, stored in
+  Data/EU/TYNDP/analysis/external/ember, sha256
+  259e1095ee8ffeaf0aff37ad557916ae1823a2da13312da50ba4cec6b4574c3b, pinned in
+  pre-analysis/pipelines/build_robg_v6.py (EMBER_SHA256): the build stops if it differs.
+
+  ROWS READ, country code HUN.
+
+    2025           capacity GW   generation TWh
+    Nuclear            2.03          16.10
+    Gas                4.18           8.15
+    Coal               1.01           1.38
+    Other Fossil       0.45           0.40
+    Bioenergy          0.62           2.39
+    Hydro              0.06           0.23
+    Solar              8.18          10.98
+    Wind               0.32           0.60
+
+  Demand 2025: 49.24 TWh. Total generation 40.24 TWh, net imports 9.00 TWh. Solar generation
+  2023: 6.93 TWh.
+
+  WHERE IT GOES (pre-analysis/pipelines/build_robg_v6.py, edit 4).
+  1. Annual demand: 49.24 TWh in 2025, then the growth of the TYNDP 2026 NT+ demand of the
+  node HU00 (tyndp_2026_ntplus).
+  2. Capacity per fuel of the 2025 fleet. The named units come from the ENTSO-E register
+  (entsoe_fleet_hu_2025); an aggregate row takes the Ember capacity minus the named units
+  for gas (1,942 MW) and biomass (386.6 MW). Hydro (60 MW), solar (8,180 MW) and wind
+  (320 MW) are one aggregate row each. Nuclear (2,030 MW) is split in four equal units.
+  3. Levels of the availability rows: nuclear 0.9054 and hydro 0.4376 (generation over
+  capacity), observed wind capacity factor 0.2140.
+  4. Level of the solar profile: 0.1633, the 2025 generation over the mean of the capacity at
+  the end of 2024 and of 2025.
+  5. Solar output behind the meter in 2023 (6.93 TWh minus the metered output), added to the
+  ENTSO-E load before the demand profile is computed.
+coverage:
+  countries: [Hungary]
+  years: "2023 (solar generation), 2025 (demand, capacity, generation)"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: "load/pDemandForecast_v6.csv, Hungary, row Energy: level of 2025"
+  - resource: pGenDataInput
+    coverage: "supply/pGenDataInput_v6_s5.csv and _2y.csv, Hungary: capacity per fuel of the 2025 fleet"
+  - resource: pAvailabilityCustom
+    coverage: "supply/pAvailabilityCustom_v6.csv, Hungary: annual level of nuclear, hydro and wind"
+  - resource: pVREProfile
+    coverage: "supply/pVREProfile_v6.csv, Hungary, PV: annual level"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit4_hungary.csv"
+    description: "Every level read or computed for the Hungarian zone, with its unit and source, 126 rows"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    A compiled statistical series (national statistics and ENTSO-E), on a gross basis that
+    includes the solar output behind the meter: the reason it is preferred to the ENTSO-E
+    load for the annual demand (INTERIM FLAG F11). The 2025 values are the first release of
+    the year and may be revised. Capacities are rounded to 10 MW. The coal capacity (1,010
+    MW) is 23.5 MW above the register units and the other fossil capacity (450 MW) 37.6 MW
+    above the oil units of the register: the fleet keeps the register values for both.
+  used_in_studies: [data_blacksea]

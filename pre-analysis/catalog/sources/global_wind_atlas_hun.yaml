@@ -1,0 +1,43 @@
+id: global_wind_atlas_hun
+name: "Global Wind Atlas 3: capacity factor raster of Hungary, IEC class 2 turbine"
+type: open_source
+category: public_database
+url: "https://globalwindatlas.info/"
+date: "2026"
+access_note: >
+  Level of the Hungarian wind profile of the v6 input family (edit 4, built 2026-11-21).
+
+  FILE. HUN_capacity-factor_IEC2.tif, country download of the atlas
+  (api/gis/country/HUN/capacity-factor_IEC2), fetched on 2026-11-21 by
+  pre-analysis/pipelines/fetch_hungary_v6.py into pre-analysis/data/gwa. 6,736,641 bytes,
+  sha256 7a9176be503b66451ace29b000448f2089258e7f14118dda999d7b8468a8eab2, in the manifest of
+  the Hungarian cache; the build stops if it differs.
+
+  WHAT IS READ. The raster holds no value outside Hungary. The level is the mean capacity
+  factor of the best 30 percent of its pixels: 0.2920. Same rule as the wind candidates of
+  the other zones of the model (pre-analysis/pipelines/vre_cf_anchoring.py).
+
+  WHERE IT GOES. supply/pVREProfile_v6.csv, Hungary, OnshoreWind: the Renewables Ninja 2023
+  hourly shape on the 28 representative days, multiplied by 0.6877 so that its weighted mean
+  is 0.2920.
+coverage:
+  countries: [Hungary]
+  years: "Long term mean of the atlas"
+fills_epm_resources:
+  - resource: pVREProfile
+    coverage: "supply/pVREProfile_v6.csv, Hungary, OnshoreWind: annual level"
+derived_files:
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit4_hungary.csv"
+    description: "Every level read or computed for the Hungarian zone, with its unit and source, 126 rows"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/fetch_hungary_v6.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    A resource estimate, before wake, availability and curtailment losses. The 2025 fleet
+    produced at 0.2140 (Ember). The model reconciles the two with a flat availability of
+    0.7331 on the wind rows, as for Romania (0.6853) and Bulgaria (0.6851), and applies it to
+    the candidate as well: new wind produces at 0.2140. Keeping the atlas level (0.2920) for
+    new sites is the alternative.
+  used_in_studies: [data_blacksea]

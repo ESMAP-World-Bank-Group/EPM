@@ -1,0 +1,127 @@
+item,value,unit,source
+"Ember release, sha256",259e1095ee8ffeaf0aff37ad557916ae1823a2da13312da50ba4cec6b4574c3b,,yearly_full_release_long_format.csv
+"capacity 2025, Bioenergy",0.62,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Bioenergy",2.39,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Coal",1.01,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Coal",1.38,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Gas",4.18,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Gas",8.15,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Hydro",0.06,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Hydro",0.23,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Nuclear",2.03,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Nuclear",16.1,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Other Fossil",0.45,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Other Fossil",0.4,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Solar",8.18,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Solar",10.98,TWh,"Ember yearly electricity data, HUN"
+"capacity 2025, Wind",0.32,GW,"Ember yearly electricity data, HUN"
+"generation 2025, Wind",0.6,TWh,"Ember yearly electricity data, HUN"
+demand 2025,49.24,TWh,"Ember yearly electricity data, HUN"
+"load 2025, sum of the hourly values",43.2103,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"load 2025, highest hour (UTC hourly mean, 0 spikes removed, 1 hours filled)",7394.7575,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"TYNDP 2026 NT+ demand of HU00, 2030",48.6231,TWh,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2030 over 2030",1,ratio,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2035",50.8083,TWh,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2035 over 2030",1.0449,ratio,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2040",51.1985,TWh,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2040 over 2030",1.053,ratio,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2050",53.6537,TWh,demand_annual.csv
+"TYNDP 2026 NT+ demand of HU00, 2050 over 2030",1.1035,ratio,demand_annual.csv
+"load 2023, sum of the hourly values (0 spikes removed, 1 hours filled)",42.0988,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+solar 2023,6.93,TWh,"Ember yearly electricity data, HUN"
+"solar 2023, metered",4.3989,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"solar 2023 behind the meter, added to the load on the Renewables Ninja shape",2.5311,TWh,computed
+"gross load 2023, highest hour",7406.1223,MW,computed
+"gross load 2023, hour of the maximum (UTC)",2023-12-08 11:00,,computed
+"gross load 2023, load factor of the year",0.6879,ratio,computed
+"demand profile, highest value of the representative days",0.9765,ratio,computed
+"demand profile, weighted mean of the representative days",0.6998,ratio,computed
+"PV profile, target capacity factor (observed 2025: Ember generation over the mean of the capacity at the end of 2024 and 2025)",0.1633,ratio,computed
+"PV profile, Renewables Ninja 2023, mean of the year",0.1447,ratio,Renewables Ninja
+"PV profile, Renewables Ninja 2023, weighted mean of the representative days",0.1326,ratio,computed
+"PV profile, factor applied",1.2314,ratio,computed
+"PV profile, hours capped at 1",0,hours,computed
+"PV profile, weighted mean written",0.1633,ratio,computed
+"OnshoreWind profile, target capacity factor (Global Wind Atlas, IEC class 2, best 30 percent of 1834645 pixels)",0.292,ratio,computed
+"OnshoreWind profile, Renewables Ninja 2023, mean of the year",0.469,ratio,Renewables Ninja
+"OnshoreWind profile, Renewables Ninja 2023, weighted mean of the representative days",0.4246,ratio,computed
+"OnshoreWind profile, factor applied",0.6877,ratio,computed
+"OnshoreWind profile, hours capped at 1",0,hours,computed
+"OnshoreWind profile, weighted mean written",0.292,ratio,computed
+"nuclear output 2025, metered",15.2099,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"nuclear availability, annual level (Ember generation over capacity)",0.9054,ratio,computed
+"hydro output 2025, metered",0.2169,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"hydro availability, annual level (Ember generation over capacity)",0.4376,ratio,computed
+"wind capacity factor 2025, observed (Ember generation over capacity)",0.214,ratio,computed
+wind availability (observed capacity factor over the profile mean),0.7331,ratio,computed
+"Hungary_Matra, out from 2030",851.6,MW,ENTSO-E unit register
+"Hungary_Ajka, out from 2030",92.6,MW,ENTSO-E unit register
+"Hungary_Hamburger_Hungaria, out from 2030",42.3,MW,ENTSO-E unit register
+Hungary_AGG_Gas_CHP (Ember Gas minus the named units),1942,MW,computed
+Hungary_AGG_Biomass (Ember Bioenergy minus the named units),386.6,MW,computed
+Hungary_AGG_Hydro (Ember Hydro minus the named units),60,MW,computed
+Hungary_AGG_PV (Ember Solar minus the named units),8180,MW,computed
+Hungary_AGG_Wind (Ember Wind minus the named units),320,MW,computed
+coal and lignite units of the register,986.5,MW,ENTSO-E unit register
+"coal and lignite, Ember minus the register units",23.5,MW,computed
+oil units of the register (Ember other fossil 0.45 GW),412.4,MW,ENTSO-E unit register
+solar units of the register,4546.3,MW,ENTSO-E unit register
+"Paks II capex (EUR 12500 m for 2 x 1200 MW, eur_usd 1.0824)",5.6375,MUSD/MW,assumption
+build limit BiomassPlant: observed or best year,0,MW,computed
+build limit BiomassPlant: seed,36.9738,MW,computed
+build limit BiomassPlant: mean of 2026 to 2040,55.8489,MW per year,computed
+build limit CCGT: observed or best year,843.6,MW,computed
+build limit CCGT: seed,73.9476,MW,computed
+build limit CCGT: mean of 2026 to 2040,843.6,MW per year,computed
+build limit OCGT: observed or best year,113.7,MW,computed
+build limit OCGT: seed,73.9476,MW,computed
+build limit OCGT: mean of 2026 to 2040,264.919,MW per year,computed
+build limit OnshoreWind: observed or best year,0,MW,computed
+build limit OnshoreWind: seed,147.8952,MW,computed
+build limit OnshoreWind: mean of 2026 to 2040,474.5659,MW per year,computed
+build limit PV: observed or best year,1010,MW,computed
+build limit PV: seed,147.8952,MW,computed
+build limit PV: mean of 2026 to 2040,1058.9728,MW per year,computed
+build limit Storage: observed or best year,0,MW,computed
+build limit Storage: seed,147.8952,MW,computed
+build limit Storage: mean of 2026 to 2040,343.9938,MW per year,computed
+"firm capacity 2025 (thermal, nuclear, hydro; operating and committed)",8288.9,MW,computed
+peak 2025 with the planning reserve margin,8134.2333,MW,computed
+"firm capacity 2030 (thermal, nuclear, hydro; operating and committed)",7302.4,MW,computed
+peak 2030 with the planning reserve margin,8134.2333,MW,computed
+"firm capacity 2036 (thermal, nuclear, hydro; operating and committed)",9702.4,MW,computed
+peak 2036 with the planning reserve margin,8512.8606,MW,computed
+"solar output of the 2025 fleet in the model, a full year",11.7024,TWh,computed
+"wind output of the 2025 fleet in the model, a full year",0.6,TWh,computed
+net imports 2025,9,TWh,"Ember yearly electricity data, HUN"
+total generation 2025,40.24,TWh,"Ember yearly electricity data, HUN"
+"day-ahead price 2025, mean of the hours",113.7685,EUR/MWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Austria",0.6706,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Austria, 99th percentile of the hours",989.2001,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Austria to Hungary",4.7636,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Austria to Hungary, 99th percentile of the hours",1482.1257,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Slovakia",0.1948,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Slovakia, 99th percentile of the hours",719.9386,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Slovakia to Hungary",14.6643,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Slovakia to Hungary, 99th percentile of the hours",3150.7972,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Croatia",4.7012,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Croatia, 99th percentile of the hours",1537.91,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Croatia to Hungary",0.2146,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Croatia to Hungary, 99th percentile of the hours",460.4925,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Slovenia",1.4448,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Slovenia, 99th percentile of the hours",664.8428,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Slovenia to Hungary",0.3857,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Slovenia to Hungary, 99th percentile of the hours",351.8633,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Serbia",1.1261,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Serbia, 99th percentile of the hours",641.8074,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Serbia to Hungary",0.5784,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Serbia to Hungary, 99th percentile of the hours",463.8162,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Ukraine",1.0188,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Ukraine, 99th percentile of the hours",804.5367,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Ukraine to Hungary",1.2654,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Ukraine to Hungary, 99th percentile of the hours",770.4775,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Romania",3.7189,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Hungary to Romania, 99th percentile of the hours",978.3528,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Romania to Hungary",0.1519,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"physical flow 2025, Romania to Hungary, 99th percentile of the hours",351.1706,MW,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"
+"net imports 2025, physical flows",9.1487,TWh,"ENTSO-E transparency platform, cache of fetch_hungary_v6.py"

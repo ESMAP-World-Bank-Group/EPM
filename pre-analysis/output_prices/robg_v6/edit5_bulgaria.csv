@@ -1,0 +1,25 @@
+grid,file,unit,field,v5,v6,basis
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Agg_Lignite_2029,RetrYr,2029,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Agg_Coal_2029,RetrYr,2029,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Agg_Lignite_2033,RetrYr,2033,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Agg_Coal_2033,RetrYr,2033,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Battery,Capacity,1382,6200,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+s5,pStorageDataInput_v6_s5.csv,Bulgaria_Battery,Capacity,1382,6200,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+s5,pStorageDataInput_v6_s5.csv,Bulgaria_Battery,CapacityMWh,3593.2,19365.5,energy per MW of the v5 fleet (operating plus committed block); to confirm on the operator list
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Battery_2026,row,"Status 2, StYr 2030, 4024 MW",removed,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+s5,pStorageDataInput_v6_s5.csv,Bulgaria_Battery_2026,row,"Status 2, StYr 2030, 3118 MW, 10462.4 MWh",removed,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Kozloduy_8,StYr,2036,2040,country team: units 7 and 8 in operation between 2035 and 2037; national plan: 2035 and 2040 (p90). Unit 8 takes the first year of the grid from 2037: a committed unit off the grid is never built
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Kozloduy_5,RetrYr,2053,2047,national plan: the unit can operate until this year (p202); same year from the country team. No effect before 2040
+s5,pGenDataInput_v6_s5.csv,Bulgaria_Kozloduy_6,RetrYr,2048,2051,national plan: the unit can operate until this year (p202); same year from the country team. No effect before 2040
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Agg_Lignite_2029,RetrYr,2029,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Agg_Coal_2029,RetrYr,2029,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Agg_Lignite_2033,RetrYr,2033,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Agg_Coal_2033,RetrYr,2033,2038,"country team: plants and mines supported to 2038; national plan: coal out by 2038 at the latest (p210, p211, p337). The name of the block keeps its v5 year"
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Battery,Capacity,1382,6200,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+2y,pStorageDataInput_v6_2y.csv,Bulgaria_Battery,Capacity,1382,6200,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+2y,pStorageDataInput_v6_2y.csv,Bulgaria_Battery,CapacityMWh,3593.2,19365.5,energy per MW of the v5 fleet (operating plus committed block); to confirm on the operator list
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Battery_2026,row,"Status 2, StYr 2026, 4024 MW",removed,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+2y,pStorageDataInput_v6_2y.csv,Bulgaria_Battery_2026,row,"Status 2, StYr 2026, 3118 MW, 10462.4 MWh",removed,country team: 6.2 GW of batteries in service. The committed block of v5 joins the operating fleet
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Kozloduy_8,StYr,2036,2038,country team: units 7 and 8 in operation between 2035 and 2037; national plan: 2035 and 2040 (p90). Unit 8 takes the first year of the grid from 2037: a committed unit off the grid is never built
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Kozloduy_5,RetrYr,2053,2047,national plan: the unit can operate until this year (p202); same year from the country team. No effect before 2040
+2y,pGenDataInput_v6_2y.csv,Bulgaria_Kozloduy_6,RetrYr,2048,2051,national plan: the unit can operate until this year (p202); same year from the country team. No effect before 2040

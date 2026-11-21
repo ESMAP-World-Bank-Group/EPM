@@ -1,0 +1,48 @@
+id: wb_armenia_team_table_2026
+name: "World Bank Armenia country team, updated input table for the Black Sea model (2026)"
+type: internal_wb
+category: study_document
+date: "2026"
+access_note: >
+  Internal working table, Official Use Only, not a published source. A workbook returned by
+  the Bank's Armenia team in 2026 on the Armenian inputs of the model: for each
+  input sheet, the rows the team received and its own rows. The workbook is kept outside the
+  repository (Data/Armenia/country_team, next to the EPM folder) and is pinned by its sha256
+  in pre-analysis/pipelines/build_robg_v6.py. Its values are not reproduced in this catalog
+  or in the provenance notes: they are in the model inputs and in
+  v6_edit6_armenia_trace.csv, both kept with the inputs and outside git.
+
+  Used for edit 6 of the v6 input family (built 2026-11-21):
+  1. DEMAND. Peak and energy, 2024 to 2053.
+  2. FLEET. A new nuclear unit as a committed project in place of the candidate, the
+  retirement year of a mothballed steam unit, the size and yearly build limit of the solar,
+  wind and hydro candidates, the existing small solar fleet and the status of three solar
+  projects.
+  3. STORAGE. Power, energy and yearly build limit of the battery candidate.
+  4. GAS. Price at the plant gate, 2024 to 2053.
+
+  Not used in edit 6: the sheets on existing and new lines (taken up with the project
+  cases), the hourly demand of 2024 (used as a control only) and the sheet on thermal plants
+  (information).
+coverage:
+  countries: [Armenia]
+  years: "2024-2053"
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: "Armenia, v6 files: peak and energy"
+  - resource: pGenDataInput
+    coverage: "Armenia, v6 files: new nuclear unit, candidates, solar fleet"
+  - resource: pStorageDataInput
+    coverage: "Armenia, v6 files: battery candidate"
+  - resource: pFuelPrice
+    coverage: "Armenia, v6 files: gas at the plant gate"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    Expert table without document references. Capacities and dates are modelling assumptions:
+    the new nuclear unit is not a Government decision, and the basis of the gas path is not
+    stated yet (interim flags F7, F8 and F12 of the v6 scenario plan). To confirm with the
+    team.
+  used_in_studies: [data_blacksea]

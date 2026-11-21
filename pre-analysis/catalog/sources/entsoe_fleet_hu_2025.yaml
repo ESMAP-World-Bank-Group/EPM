@@ -1,0 +1,81 @@
+id: entsoe_fleet_hu_2025
+name: "ENTSO-E Transparency Platform, Hungary: hourly load 2023 and 2025, generation per type, register of production units, day-ahead price and physical flows 2025 (v6 input family)"
+type: open_source
+category: public_database
+url: "https://transparency.entsoe.eu/"
+date: "2026"
+access_note: >
+  Observed basis of the Hungarian zone of the v6 input family (edit 4, built 2026-11-21). Read
+  by the v6 scenario columns only: Hungary is an external price zone in v5 and earlier.
+
+  FILES. Fetched on 2026-11-21 by pre-analysis/pipelines/fetch_hungary_v6.py (entsoe-py, token
+  read from the local configuration, never printed) into Data/EU/cache_entso_e. The manifest
+  fleet/hungary_v6_manifest.csv holds size, sha256, query and date of the 24 files of the
+  Hungarian cache; pre-analysis/pipelines/build_robg_v6.py stops if a sha256 differs.
+
+    fleet/load_HU_2023.csv, load_HU_2025.csv        Actual Total Load, bidding zone HU
+    fleet/gen_HU_hourly_2023.csv, _2025.csv         Actual Generation per Production Type
+    fleet/instcap_HU_2025.csv                       Installed Capacity per Production Type
+    fleet/instcap_units_HU_2025.csv                 Installed Capacity per Production Unit
+    fleet/da_HU_2025.csv                            Day-ahead price
+    flows/flow_<A>_<B>_2025.csv (14 files)          Physical flows with AT, SK, HR, SI, RS, UA, RO
+
+  WHAT IS READ, AND WHERE IT GOES.
+  1. Load 2025, hourly mean in UTC: sum 43.21 TWh, highest hour 7,394.8 MW (2025-01-20 10:00
+  UTC). The highest hour is the peak of the model in 2025. The sum is not used as the annual
+  demand (see ember_yearly_electricity_2025): it leaves out the solar output behind the meter.
+  2. Load 2023, hourly mean in UTC: 42.10 TWh. It is the shape of the demand profile, after
+  the solar output behind the meter is added back (2.53 TWh: Ember solar 6.93 TWh minus the
+  metered solar 4.40 TWh, spread on the Renewables Ninja shape). Gross maximum 7,406 MW
+  (2023-12-08 11:00 UTC), gross load factor 0.688.
+  3. Generation per type 2025: quarterly shape of the nuclear output (15.21 TWh metered) and of
+  the hydro output (0.217 TWh metered), for the availability rows. Generation per type 2023:
+  the metered solar output used in point 2.
+  4. Register of production units 2025: capacity of the 20 named thermal and biomass units
+  (list and register codes in HU_UNITS of the build script). Totals of the register: gas
+  2,238.0 MW, coal and lignite 986.5 MW, oil 412.4 MW, biomass 233.4 MW. The register lists
+  units above its reporting threshold only; the rest of each fuel is an aggregate set on the
+  Ember capacity.
+  5. Physical flows 2025 and day-ahead price 2025 (mean 113.77 EUR/MWh): calibration references
+  of the zone, written in the trace file. Not read by a model file. Net imports from the
+  flows: 9.15 TWh (Ember: 9.00).
+
+  CLEANING. Every series is brought to an hourly mean in UTC. An hour above 1.10 times the
+  0.999 quantile of its series counts as a metering spike and is replaced by interpolation: 0
+  hour in the two load years. One missing hour is filled by interpolation in each load year.
+coverage:
+  countries: [Hungary]
+  years: "2023 (hourly shapes), 2025 (levels, register, flows)"
+  notes: >
+    The 2023 shape year is the one of every other zone of the model (representative days of
+    the regional pipeline). The Ukrainian flow files hold 15 minute steps and gaps.
+fills_epm_resources:
+  - resource: pDemandForecast
+    coverage: "load/pDemandForecast_v6.csv, Hungary, row Peak: highest hour of the 2025 load"
+  - resource: pDemandProfile
+    coverage: "load/pDemandProfile_v6.csv, Hungary: 2023 hourly load on the 28 representative days"
+  - resource: pGenDataInput
+    coverage: "supply/pGenDataInput_v6_s5.csv and _2y.csv, Hungary: capacity of the 20 named units"
+  - resource: pAvailabilityCustom
+    coverage: "supply/pAvailabilityCustom_v6.csv, Hungary: quarterly shape of nuclear and hydro"
+derived_files:
+  - path: "blacksea_2026/Data/EU/cache_entso_e/fleet/hungary_v6_manifest.csv"
+    description: "Size, sha256, query and date of the 24 files of the Hungarian cache"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit4_hungary.csv"
+    description: "Every level read or computed for the Hungarian zone, with its unit and source, 126 rows"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/fetch_hungary_v6.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    Observed data of the TSO, read with a sha256 control. Three limits. The ENTSO-E load of
+    Hungary is net of the solar output behind the meter (2.5 TWh in 2023; in 2025 the load sums
+    to 43.2 TWh against an Ember demand of 49.2 TWh): the model demand is therefore on the
+    Ember basis and the 2023 shape is corrected, but the 2025 peak is the ENTSO-E hour as
+    published, without a correction (INTERIM FLAG F11). The named units cover 3.9 GW of the
+    16.9 GW installed (the register also lists 4.5 GW of solar units, not used): the gas
+    capacity outside it (1,942 MW, mostly small combined heat and power) is one aggregate row.
+    The metered generation covers 94 percent of the Ember nuclear output and of the Ember
+    hydro output; it gives the quarterly shape only.
+  used_in_studies: [data_blacksea]
