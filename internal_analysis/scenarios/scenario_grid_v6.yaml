@@ -22,6 +22,13 @@ output: scenarios_v6.csv
 report: internal_analysis/scenarios/scenario_grid_v6_report.md
 input_version: v6
 
+# Run register (tools/scenario_register.py --grid <this file>). The v6 scenarios keep the v5 names,
+# so the register reads its results only from the explorer runs named v6_*, and shows as twin the
+# result of the same name in the earlier runs (the v5 grid).
+register: internal_analysis/scenarios/scenario_register_v6.csv
+result_runs: "v6_*"
+twin: same_name
+
 # Int_Base. Against the v5 reference: every zone indexed input carries Hungary (suffix _v6), and
 # six rows left to config.csv in v5 are now named because their v6 file holds the Hungarian rows
 # (demand profile, renewable profiles, availability, the three default tables).

@@ -30,10 +30,18 @@ status: to run, done (a local run holds the result), published (that run is on t
 twin_status adds n/a (no archive twin) and no local result (twin in the archive only).
 
 note is free text kept across rebuilds and set with --note.
+
+Input versions. A grid file may name its own register (key register) and the explorer runs that
+hold its results (key result_runs, a file name pattern such as "v6_*"). Without result_runs the
+register reads every run whose name does not start with a version tag (v6_, v7_ ...), so the
+register of an earlier version never picks up the results of a later one that kept the scenario
+names. With twin: same_name the twin of a scenario is the result of the same name in the other
+runs, that is the previous input version, instead of the archive column.
 """
 import argparse
 import csv
 import datetime as dt
+import fnmatch
 import os
 import re
 import subprocess
@@ -51,6 +59,7 @@ COLUMNS = ["name", "scope", "case", "sens", "grid", "input_version",
            "twin", "twin_status", "twin_run", "twin_zip", "twin_date", "twin_objective_busd", "twin_published_run",
            "note"]
 DATE_RE = re.compile(r"(20\d{2})(\d{2})(\d{2})")
+VERSION_TAG_RE = re.compile(r"^v\d+_")
 
 
 # ---------------------------------------------------------------------------- local runs
@@ -64,10 +73,17 @@ def read_csv_rows(path):
         return list(csv.DictReader(fh))
 
 
-def scan_runs(folder):
-    """{scenario: {run, zip, date, objective}} over the explorer runs, most recent run first."""
+def own_run(name, pattern):
+    """Whether an explorer run holds results of this grid (see Input versions in the module text)."""
+    if pattern:
+        return fnmatch.fnmatch(name, pattern)
+    return not VERSION_TAG_RE.match(name)
+
+
+def scan_runs(folder, keep=lambda name: True):
+    """{scenario: {run, zip, date, objective}} over the explorer runs kept, most recent run first."""
     results = {}
-    runs = sorted((p for p in folder.iterdir() if p.is_dir() and not p.name.startswith("_")),
+    runs = sorted((p for p in folder.iterdir() if p.is_dir() and not p.name.startswith("_") and keep(p.name)),
                   key=lambda p: date_in(p.name), reverse=True)
     for run in runs:
         objective = {}
@@ -141,14 +157,19 @@ def status_of(result, published):
     return "published" if published else "done"
 
 
-def build_register(spec, meta, archive, results, held, previous, notes):
+def build_register(spec, meta, archive, results, held, previous, notes, other_results=None):
     rows = []
     version = spec.get("input_version", "")
+    same_name = spec.get("twin") == "same_name"
     for name, m in meta.items():
         prev = previous.get(name, {})
         res = results.get(name)
-        twin = sb.archive_twin(name, m, archive)
-        tres = results.get(twin) if twin else None
+        if same_name:
+            twin = name if name in (other_results or {}) else None
+            tres = other_results[name] if twin else None
+        else:
+            twin = sb.archive_twin(name, m, archive)
+            tres = results.get(twin) if twin else None
 
         def published_run(r, key):
             if not r:
@@ -217,23 +238,31 @@ def main(argv=None):
     archive_path = sb.ROOT / spec["data_folder"] / spec["archive"]
     params, archive = sb.read_scenarios(archive_path)
     _, meta = sb.build_columns(spec, params)
-    results, run_names = scan_runs(OUTPUT_VIEW) if OUTPUT_VIEW.is_dir() else ({}, [])
+    register = sb.ROOT / spec["register"] if spec.get("register") else REGISTER
+    pattern = spec.get("result_runs")
+    results, run_names, other_results, other_names = {}, [], {}, []
+    if OUTPUT_VIEW.is_dir():
+        results, run_names = scan_runs(OUTPUT_VIEW, lambda n: own_run(n, pattern))
+        if spec.get("twin") == "same_name":
+            other_results, other_names = scan_runs(OUTPUT_VIEW, lambda n: not own_run(n, pattern))
     print(f"local runs: {', '.join(run_names) or 'none'} ({len(results)} scenario results)")
-    held = remote_scenarios(run_names) if args.r2 else None
+    if other_names:
+        print(f"twin runs: {', '.join(other_names)}")
+    held = remote_scenarios(run_names + other_names) if args.r2 else None
     if held is None:
         print("published columns carried over from the previous register (use --r2 to refresh them)")
     else:
         behind = unpublished(results, held)
         if behind:
             print(f"local results not on the store ({len(behind)}): {', '.join(behind)}")
-    previous = previous_register(REGISTER)
+    previous = previous_register(register)
     notes = dict(args.note)
     unknown = sorted(set(notes) - set(meta))
     if unknown:
         raise SystemExit(f"--note: not scenarios of the grid: {unknown}")
-    rows = build_register(spec, meta, archive, results, held, previous, notes)
-    write_register(REGISTER, rows)
-    print(f"wrote {REGISTER.relative_to(sb.ROOT)}: {len(rows)} rows, generated {dt.date.today().isoformat()}")
+    rows = build_register(spec, meta, archive, results, held, previous, notes, other_results)
+    write_register(register, rows)
+    print(f"wrote {register.relative_to(sb.ROOT)}: {len(rows)} rows, generated {dt.date.today().isoformat()}")
     print(summary(rows))
     return 0
 
