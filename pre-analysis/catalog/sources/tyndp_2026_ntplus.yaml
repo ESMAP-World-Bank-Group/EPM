@@ -1,0 +1,280 @@
+id: tyndp_2026_ntplus
+name: "ENTSO-E and ENTSOG TYNDP 2026 scenarios, National Trends+ (NT+): hourly marginal cost of the electricity nodes around Romania, Bulgaria and Hungary, fuel and CO2 prices, and reference grid NTC"
+type: open_source
+category: public_database
+url: "https://2026-data.entsos-tyndp-scenarios.eu/"
+date: "2026"
+access_note: >
+  Basis of the border prices (edit 1), of the gas and CO2 prices (edit 2), of four border
+  limits (edit 3) and, for the Hungarian zone (edit 4), of its external border limits, of its
+  demand growth and of its oil price, in the v6 input family built 2026-11-21.
+  Read by the v6 scenario columns only. The v5 files (trade/pTradePrice_robg.csv,
+  trade/pTradePrice_eu_central.csv and their export twins) are untouched and keep their own
+  sources (entsoe_borders_robg_2025 and the EU netback pipeline on TYNDP 2024).
+
+  FILES. output/model-results/hourly-dashboards/NT+_TimeSeriesDashboard.zip (one workbook per
+  node, target year and weather scenario) and output/model-results/kpi-dashboards/
+  NT+_KPI_Dashboard.xlsx, retrieved 2026-11-01 and stored in Data/EU/TYNDP/2026/outputs. Size,
+  sha256 and server date of each file are in Data/EU/TYNDP/manifest.csv; the extraction stops
+  if a sha256 differs.
+
+  WHAT IS READ. Column "Marginal Cost" of the sheet E-Market, the wholesale node of a country
+  (AT00, BG00, GR00, HR00, HU00, MD00, MK00, RO00, RS00, SI00, SK00, UA00), 8,760 hours, for
+  the target years 2030, 2035, 2040 and 2050 and three weather scenarios per year. Real EUR
+  2024 per MWh. The hour labels are UTC+1 without daylight saving.
+
+  WEATHER SCENARIO WEIGHTS. Not published as a table. Solved from the KPI dashboard, where
+  every row gives the three scenarios and their weighted value, and checked against two
+  decimal weights: 2030 WS003 0.63, WS021 0.07, WS029 0.30; 2035 WS032 0.24, WS037 0.43,
+  WS059 0.33; 2040 WS065 0.20, WS071 0.40, WS077 0.40; 2050 WS091 0.23, WS092 0.57,
+  WS106 0.20.
+
+  READING CONTROL. The KPI dashboard publishes a "Load-Weighted Average" price per country.
+  It is rebuilt from the hours and has to match the published value within 0.05 EUR/MWh: 192
+  prices (12 nodes, 4 years, 3 scenarios and their weighted value), largest gap 0.005. That
+  KPI is not the wholesale price. It pools the wholesale node and the prosumer node
+  (<CC>00RETE, sheet Prosumer), weights each hour by every load column except the
+  electrolysers, and leaves out a node whose net annual load is not positive (the Austrian
+  prosumer node). Its weighted value sits between 5.8 EUR/MWh below (Austria 2040) and 28.2
+  above (Slovakia 2050) the time mean of the wholesale node. The border price of the model is
+  the time mean of the wholesale node, which is the quantity a trade across the border meets.
+
+  FROM THE HOURS TO THE MODEL TABLE (pre-analysis/pipelines/build_robg_v6.py, edit 1).
+  1. Each weather scenario is capped at 300 EUR/MWh. The price levels shared by several nodes
+  stop at 288 (2050). The levels from 300 appear only where a node is short and include the
+  round bands 300, 350 and 500, up to 2,830: demand response and unserved energy. An external
+  zone trades any volume at its price, so a scarcity price would be paid on the whole border
+  capacity. Inside the model horizon the cap changes three node years: Austria 2035 (53.31 to
+  53.22), Austria 2040 (107.71 to 78.93) and Slovakia 2040 (70.91 to 69.42). INTERIM FLAG F10.
+  2. The three scenarios are averaged hour by hour with the weights above.
+  3. The series moves one hour, from UTC+1 to UTC, the clock of the model tables.
+  4. The 28 representative days are read on the 2025 calendar (672 hours) and rescaled quarter
+  by quarter, so that the weighted mean of a quarter in the table equals the mean of that
+  quarter over all hours. The annual mean is then exact (largest gap 0.0005 EUR/MWh).
+  5. Years: 2024 and 2025 keep the v5 rows (observed level). 2026 to 2029 are linear, cell by
+  cell, between the 2025 row and the 2030 row. From 2030 the table follows the TYNDP years,
+  linear between 2030, 2035, 2040 and 2050, flat after 2050.
+  6. Currency: EUR 2024 to USD at 1.0824 (pre-analysis/config/price_deflators.csv). Floor
+  0.01 USD/MWh.
+
+  Capped weighted time mean of the wholesale node, EUR 2024 per MWh:
+
+    node    2030    2035    2040    2050
+    AT00   59.97   53.22   78.93   70.14
+    BG00   70.21   59.04   69.64   86.05
+    GR00   67.57   59.32   76.36   81.46
+    HR00   67.81   60.98   77.16   77.14
+    HU00   67.03   59.05   70.73   68.06
+    MD00   58.95   53.54   66.18   77.81
+    MK00   70.96   60.56   76.21   81.86
+    RO00   69.49   58.90   69.24   59.86
+    RS00   69.31   60.63   75.06   73.13
+    SI00   66.96   60.53   78.80   71.64
+    SK00   63.82   62.63   69.42   83.68
+    UA00   57.70   29.65   22.33   18.76
+
+  INT FAMILY (Romania, Bulgaria and Hungary modelled). trade/pTradePrice_robg_v6.csv: Serbia,
+  NorthMacedonia, Greece, Moldova and Ukraine on their own nodes from 2026; Hungary leaves
+  the table; Austria, Slovakia, Croatia and Slovenia join it. Import price = node price.
+  Export price = node price x 0.975 (the seller bears the 2.5 percent line loss, as in v5).
+  The 2024 and 2025 rows of the four new zones are the v5 Hungarian rows times the ratio of
+  the observed 2024 day-ahead price of the zone to the Hungarian one, by quarter and hour
+  (annual ratios: Austria 0.809, Slovakia 0.921, Croatia 0.939, Slovenia 0.905). This file
+  has no Hungary row, so it goes with the v6 zone list (zext without Hungary) only.
+
+  EXT FAMILY (Romania and Bulgaria as price zones). trade/pTradePrice_eu_central_v6.csv:
+  Bulgaria, Greece and Romania on their nodes from 2026, with the v5 netback convention
+  (pre-analysis/config/eu_price_netback.csv): import = node price + W, export = node price x
+  (1 - lambda) - W, W = 2.00 EUR/MWh, lambda = 0.025 (Romania 0.05).
+
+  Every other row of the two v5 tables (Iran, Iraq, Syria, Russia, Kazakhstan) is copied byte
+  for byte.
+
+  FUEL AND CO2 PRICES (edit 2 of the v6 plan, built 2026-11-21). Workbook
+  input/model-input/national-trends/TYNDP2026Scenarios_Fuel_CO2_Prices.xlsx, sheet NT,
+  retrieved 2026-11-01 and stored in Data/EU/TYNDP/2026/inputs (59,740 bytes, server date
+  8 June 2026, sha256 in Data/EU/TYNDP/manifest.csv; the build stops if it differs). Real EUR
+  2024. Fuels in EUR per net GJ, CO2 in EUR per tonne. Rows read by the model build:
+
+    row            unit        2030     2035     2040     2050
+    Natural Gas    EUR/net GJ  9.2340   8.4132  10.3626   9.8496
+    CO2 price      EUR/t      97.4703 197.5055 297.5408 502.7413
+
+  The workbook also holds a row "Gas" (9.6458, 9.4246, 11.7870, 14.1935), a blend of natural
+  gas, biomethane, hydrogen and synthetic methane with a natural gas share falling from 0.92
+  in 2030 to 0.27 in 2050. It is not used: the model plants burn natural gas, and hydrogen
+  has its own fuel row.
+
+  FROM THE WORKBOOK TO THE MODEL TABLE (pre-analysis/pipelines/build_robg_v6.py, edit 2).
+  1. Gas commodity line, Romania, Bulgaria and Hungary, fuels Gas and GasCCS: Natural Gas x
+  1.055056 GJ/MMBtu x 1.0824 USD/EUR x 0.90 (net to gross calorific value, the basis of the
+  v5 gas prices): 9.4907 USD/MMBtu in 2030, 8.6471 in 2035, 10.6506 in 2040, 10.1234 in 2050.
+  2. CO2 line: CO2 price x 1.0824 (105.50 USD/t in 2030, 213.78 in 2035, 322.06 in 2040,
+  544.17 in 2050) x the carbon content of the fuel (epm/resources/pFuelCarbonContent.csv: Gas
+  0.0592 t/MMBtu, DomesticCoal and ImportedCoal 0.1031; GasCCS pays a tenth of the gas
+  content; Hydrogen, Uranium, Biomass and Geothermal zero).
+  3. The model file supply/pFuelPrice_robg_v6.csv holds the sum of the two lines at four
+  decimals; supply/pFuelPrice_robg_v6_lines.csv holds the two lines (not read by the model),
+  so that a gas sensitivity moves the commodity line and a carbon sensitivity the CO2 line,
+  never both.
+  4. Years: 2024 and 2025 keep the v5 cells. 2026 to 2029 are linear, line by line, between
+  the 2025 value and the 2030 value. From 2030 linear between the TYNDP years, flat after
+  2050.
+  5. Not taken from this workbook: the commodity of lignite, hard coal, uranium, hydrogen and
+  biomass, which stays on the v5 values. Against the workbook, USD/MMBtu: Romanian lignite
+  4.40 against 3.59 (Lignite G3, published for SL, RO, HU), Bulgarian lignite 2.32 against
+  2.12 (Lignite G1, published for BG, MK, CZ), Bulgarian imported coal 3.94 to
+  3.99 against 4.69 to 4.45 (Hard coal), uranium 0.97 to 1.03 against 0.69 (Nuclear).
+  6. Hungary takes the Romanian rows (Gas, DomesticCoal, Uranium, Biomass).
+  7. Hungary, fuel Diesel (three oil fired reserve turbines, 412.4 MW): row "Light oil" of the
+  same sheet (18.2546 EUR per net GJ in 2030, 19.5023 in 2035, 20.7499 in 2040, 25.8717 in
+  2050) x 1.055056 x 1.0824 x 0.95 (net to gross for a liquid fuel): commodity 19.80
+  USD/MMBtu in 2030, 21.16 in 2035, 22.51 in 2040, 28.07 in 2050, flat at the 2030 value
+  before 2030. CO2 line: CO2 price x 0.0784 t/MMBtu. Sum written: 25.78 in 2025, 28.08 in
+  2030, 47.76 in 2040. No other zone has a Diesel row in this file.
+  Result, gas with CO2 for Romania, Bulgaria and Hungary: 15.74 USD/MMBtu in 2030, 21.30 in
+  2035, 29.72 in 2040, 42.34 in 2050 (v5: 15.81, 15.13, 16.88, 19.53).
+
+  REFERENCE GRID NTC (edit 3 of the v6 plan, built 2026-11-21). Workbook
+  ReferenceGrid_Electricity.xlsx in Line-data.zip (Data/EU/TYNDP/2026/inputs, sha256 of the
+  package 44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873 in
+  Data/EU/TYNDP/manifest.csv), sheets Year_2030, Year_2035, Year_2040 and Year_2050. One row
+  per border "A-B": the 2025 NTC in each direction, the increment of every project credited
+  by that year, and the resulting reference NTC ("Summary Direction 1" from A to B, "Summary
+  Direction 2" from B to A). Read by pre-analysis/pipelines/build_tyndp_tidy.py into
+  pre-analysis/output_tyndp/ntc.csv (metric ntc_reference). Values used, MW:
+
+    direction             2025 NTC   2030   2035   2040   2050
+    Bulgaria to Greece      1200     1200   1200   1200   1200
+    Greece to Bulgaria      1000     1000   1000   1000   1000
+    Bulgaria to Serbia       380      380    930    930    930   (project P342 from 2035)
+    Serbia to Bulgaria       380      380    730    730    730   (project P342 from 2035)
+    Romania to Moldova       315      300    600    600    600   (project P1138 from 2035)
+    Moldova to Romania        82       50    350    350    350   (project P1138 from 2035)
+    Romania to Ukraine       315      300    300    300    300
+    Ukraine to Romania        82       50     50     50     50
+
+  FROM THE WORKBOOK TO THE MODEL FILE (pre-analysis/pipelines/build_robg_v6.py, edit 3).
+  1. File trade/pExtTransferLimit_robg_v6.csv, rows Bulgaria-Greece, Bulgaria-Serbia,
+  Romania-Moldova and Romania-Ukraine. Export is out of the modelled zone, Import into it.
+  2. Years: the v5 cells are kept until 2029 (the 2025 NTC column is not used). From 2030 the
+  reference NTC of a target year holds until the next one, and 2050 holds to 2053. The four
+  quarters carry the same value.
+  3. Against v5: Bulgaria-Greece 650 MW each way (99th percentile of the 2025 flows);
+  Bulgaria-Serbia 750 each way (same rule); Moldova and Ukraine on mean flows (Romania to
+  Moldova 436 in 2030 and 547 in 2040, Moldova to Romania 35 and 37; Romania to Ukraine 347
+  and 455, Ukraine to Romania 234 and 223).
+  4. Not taken from this workbook: Romania with Hungary, Serbia and Bulgaria, which follow
+  the plan of the Romanian TSO (transelectrica_tdp_2024_2033). The grid gives there,
+  2030 / 2035: Romania to Hungary 2650 / 3700, Hungary to Romania 1450 / 3600, Romania to
+  Serbia 2650, Serbia to Romania 2250, Romania to Bulgaria 2100, Bulgaria to Romania 2200.
+  Bulgaria-NorthMacedonia is 400 each way in the grid and in v5: row unchanged.
+  5. Hungarian borders (edit 4 of the v6 plan, built 2026-11-21). Hungary becomes a modelled
+  zone, so its borders with the zones outside the model enter the same file. Same workbook
+  and sheets, read by the build script itself (the tidy table does not hold these borders).
+  MW, direction as seen from Hungary:
+
+    border      direction   2025 NTC   2030   2035 on
+    Austria     import         800      800      800
+    Austria     export         800      800      800
+    Slovakia    import        2513     2513     3650
+    Slovakia    export        1800     1800     1900
+    Croatia     import         800      800      800
+    Croatia     export        1000     1000     1000
+    Slovenia    import        1200     1200     1200
+    Slovenia    export        1200     1200     1200
+    Serbia      import         800     1300     1300
+    Serbia      export         700      950      950
+    Ukraine     import         220      220      220
+    Ukraine     export         840      840      840
+
+  Unlike the Romanian and Bulgarian rows, the years 2024 to 2029 carry the 2025 NTC column
+  of the grid: there is no v5 cell for a Hungarian border. The 99th percentile of the 2025
+  physical flows is above that NTC on Austria to Hungary (1,482 MW), Slovakia to Hungary
+  (3,151 MW) and Hungary to Croatia (1,538 MW): see hungary_zone_assumptions_v6. The line
+  between Romania and Hungary is internal to the model from v6 and follows the plan of the
+  Romanian TSO (trade/pTransferLimit_robg_hvdc_v6.csv).
+
+  DEMAND OF HUNGARY (edit 4). Package Demand.zip (Data/EU/TYNDP/2026/inputs, sha256 in
+  Data/EU/TYNDP/manifest.csv), read by pre-analysis/pipelines/build_tyndp_tidy.py into
+  pre-analysis/output_tyndp/demand_annual.csv. NT+ demand of the node HU00, mean of the
+  weather years: 48.62 TWh in 2030, 50.81 in 2035, 51.20 in 2040, 53.65 in 2050. Only the
+  growth is used: the model demand of Hungary is the Ember value of 2025 (49.24 TWh, see
+  ember_yearly_electricity_2025), flat to 2030, then multiplied by the ratio of the TYNDP
+  year to 2030 (1.0449 in 2035, 1.0530 in 2040, 1.1035 in 2050), linear between the target
+  years and flat after 2050. The peak follows the same ratios. The installed nuclear capacity
+  of HU00 in NT+ (1,917 MW in 2030, 4,277 MW from 2035) is a comparison value for Paks II,
+  which the model commissions in 2036.
+coverage:
+  countries: [Romania, Bulgaria, Hungary]
+  years: "2030, 2035, 2040, 2050 (TYNDP target years); 2026 to 2029 joined to the observed 2025 rows"
+  notes: >
+    Neighbouring nodes read: Austria, Slovakia, Croatia, Slovenia, Serbia, North Macedonia,
+    Greece, Moldova, Ukraine. Romania, Bulgaria and Hungary are read as well: Romania and
+    Bulgaria price the Ext family, Hungary is the calibration reference of the new zone.
+fills_epm_resources:
+  - resource: pTradePrice
+    coverage: "trade/pTradePrice_robg_v6.csv, rows Serbia, NorthMacedonia, Greece, Moldova, Ukraine, Austria, Slovakia, Croatia, Slovenia; trade/pTradePrice_eu_central_v6.csv, rows Bulgaria, Greece, Romania; years 2026 to 2053"
+  - resource: pTradePriceExport
+    coverage: "trade/pTradePriceExport_robg_v6.csv and trade/pTradePriceExport_eu_central_v6.csv, same rows and years"
+  - resource: pFuelPrice
+    coverage: "supply/pFuelPrice_robg_v6.csv, Romania, Bulgaria and Hungary, years 2026 to 2053: gas commodity of Gas and GasCCS, CO2 component of Gas, GasCCS, DomesticCoal and ImportedCoal; Hungary Diesel, all years"
+  - resource: pExtTransferLimit
+    coverage: "trade/pExtTransferLimit_robg_v6.csv, rows Bulgaria-Greece, Bulgaria-Serbia, Romania-Moldova, Romania-Ukraine, Import and Export, years 2030 to 2053; rows Hungary with Austria, Slovakia, Croatia, Slovenia, Serbia and Ukraine, years 2024 to 2053"
+  - resource: pDemandForecast
+    coverage: "load/pDemandForecast_v6.csv, Hungary: growth of Energy and Peak after 2030"
+derived_files:
+  - path: "EPM/pre-analysis/output_tyndp/hourly/annual_means.csv"
+    description: "Time mean of price and native demand per node, year and weather scenario, and weighted"
+  - path: "EPM/pre-analysis/output_tyndp/hourly/kpi_check.csv"
+    description: "KPI price rebuilt from the hours against the KPI dashboard, 192 rows"
+  - path: "EPM/pre-analysis/output_tyndp/hourly/kpi_components.csv"
+    description: "Load and price times load of every load column behind the KPI check"
+  - path: "EPM/pre-analysis/output_tyndp/hourly/ws_weights.csv"
+    description: "Weather scenario weights solved from the KPI dashboard"
+  - path: "EPM/pre-analysis/output_tyndp/hourly/hourly_manifest.csv"
+    description: "Rows and sha256 of the tables above and of the two source packages"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit1_tyndp_anchors.csv"
+    description: "Per node and year: native and capped mean, hours above the cap, quarter rescale factors"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit1_table_means_usd.csv"
+    description: "Weighted mean of every zone and year of the four v6 price files, USD/MWh"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit2_tyndp_fuel_rows.csv"
+    description: "Every fuel and CO2 row of sheet NT, EUR 2024 as published and USD 2024 per net MMBtu or per tonne"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit2_gas_co2_paths.csv"
+    description: "Per year 2024 to 2053: CO2 price and gas commodity of v5 and v6, gas with CO2"
+  - path: "EPM/pre-analysis/output_tyndp/ntc.csv"
+    description: "NTC per direction and target year of the TYNDP 2024 and 2026 grids: 2025 NTC, reference NTC, project increments"
+  - path: "EPM/pre-analysis/output_prices/robg_v6/edit3_border_limits.csv"
+    description: "Per border, direction and year 2024 to 2053: v5 limit, v6 limit and its basis"
+used_in:
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_tyndp26_hourly.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_tyndp_tidy.py"
+  - script: "blacksea_2026/EPM/pre-analysis/pipelines/build_robg_v6.py"
+quality:
+  confidence: medium
+  notes: >
+    Model output of a published European scenario, not an observed price: a marginal cost of
+    a dispatch model with its own fuel, CO2 and capacity assumptions. Read exactly (KPI
+    control at 0.005 EUR/MWh, and no difference on 168 series against an earlier independent
+    extraction). Points to keep in view. The 300 EUR/MWh cap is a modelling choice of this
+    study (interim flag F10): without it Austria 2040 would stand at 107.71 EUR/MWh. Ukraine
+    falls to 29.65 in 2035 and 22.33 in 2040, which is what the TYNDP run holds for UA00. The
+    quarter rescale keeps quarterly and annual means exact but the hourly spread inside a
+    quarter is the one of seven representative days (factors 0.78 to 1.38, mostly 0.95 to
+    1.15). The level is well below the v5 trajectory built on TYNDP 2024: Hungary 95.8 USD/MWh
+    in 2030 in v5 against 72.6 on HU00 here. The 2024 and 2025 rows of Austria, Slovakia,
+    Croatia and Slovenia are a ratio to Hungary, not an own back-cast: ASSUMPTION.
+    Fuel and CO2: scenario assumptions of the TYNDP, read from fixed rows with a sha256
+    control. The CO2 price is far above the v5 path after 2032 (322 USD/t in 2040 against
+    172, 544 in 2050 against 196), which carries gas with CO2 from 16.9 to 29.7 USD/MMBtu in
+    2040. The 0.90 net to gross factor on gas is a convention, not a TYNDP figure. The
+    Hungarian biomass price (15.0 USD/MMBtu, the Romanian row) is an ASSUMPTION.
+    Reference grid NTC: planning values of a draft edition, read exactly (checked against the
+    workbook and the package sha256). Three points to keep in view. Bulgaria-Serbia falls
+    from 750 MW in v5 (an observed 2025 flow statistic) to 380 MW from 2030 to 2034, the 2025
+    NTC of the grid, before the project of 2035. Ukraine to Romania is 50 MW from 2030
+    against 234 MW in v5, and Moldova to Romania 50 MW: the low Ukrainian prices of the same
+    edition reach Romania through 50 MW only. Romania-Moldova and Romania-Ukraine carry the
+    same 2025 NTC in the grid (315 and 82), which may be one limit shared by the two borders;
+    the model applies it to each border.
+  used_in_studies: [data_blacksea]

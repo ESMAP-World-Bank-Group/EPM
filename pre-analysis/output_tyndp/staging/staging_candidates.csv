@@ -1,0 +1,5 @@
+border,action,same_as,year,capacity_forward_mw,capacity_backward_mw,capex_meur,epm_from,epm_to,capacity_per_line_mw,cost_musd,musd_per_mw,freeexp_mw,freeexp_musd,freeexp_musd_per_mw
+BG00-RS00 Real 1,drop,P342,2035,490.0,270.0,272.5,,,,,,,,
+HU00-RO00 Real 1,drop,P259,2035,1410.0,740.0,145.88,,,,,,,,
+BG00-TR00 Real 1,candidate,P1066,2040,1100.0,700.0,60.0,Bulgaria,Trakia,700.0,64.8,0.093,775.0,250.0,0.323
+GR00-TR00 Real 1,candidate,P1067,2035,600.0,600.0,87.55,Trakia,Greece,600.0,94.6,0.158,775.0,250.0,0.323

@@ -1,0 +1,306 @@
+anomaly,node,year,weather,item,value,unit
+bg_peak_2050,RO00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2040,WS065,night_over_midday,0.884476,ratio
+bg_peak_2050,RO00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2040,WS071,night_over_midday,0.886858,ratio
+bg_peak_2050,RO00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2040,WS077,night_over_midday,0.882707,ratio
+bg_peak_2050,BG00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,BG00,2040,WS065,night_over_midday,1.08008,ratio
+bg_peak_2050,BG00,2040,WS065,peak,7.690519,GW
+bg_peak_2050,BG00,2040,WS065,mean,4.935401,GW
+bg_peak_2050,BG00,2040,WS065,load_factor,0.641751,share
+bg_peak_2050,BG00,2040,WS065,hour_of_peak,846.0,hour of year
+bg_peak_2050,BG00,2040,WS065,month_of_peak,2.0,month
+bg_peak_2050,BG00,2040,WS065,hours_above_7_5_gw,12.0,hours
+bg_peak_2050,BG00,2040,WS065,hours_above_10_gw,0.0,hours
+bg_peak_2050,BG00,2040,WS065,largest_hourly_step,1.291449,GW
+bg_peak_2050,BG00,2040,WS065,median_hours_between_rising_steps,0.0,hours
+bg_peak_2050,BG00,2040,WS065,winter_over_summer_mean,1.263505,ratio
+bg_peak_2050,BG00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,BG00,2040,WS071,night_over_midday,1.089815,ratio
+bg_peak_2050,BG00,2040,WS071,peak,7.049916,GW
+bg_peak_2050,BG00,2040,WS071,mean,4.768744,GW
+bg_peak_2050,BG00,2040,WS071,load_factor,0.676426,share
+bg_peak_2050,BG00,2040,WS071,hour_of_peak,918.0,hour of year
+bg_peak_2050,BG00,2040,WS071,month_of_peak,2.0,month
+bg_peak_2050,BG00,2040,WS071,hours_above_7_5_gw,0.0,hours
+bg_peak_2050,BG00,2040,WS071,hours_above_10_gw,0.0,hours
+bg_peak_2050,BG00,2040,WS071,largest_hourly_step,1.289643,GW
+bg_peak_2050,BG00,2040,WS071,median_hours_between_rising_steps,0.0,hours
+bg_peak_2050,BG00,2040,WS071,winter_over_summer_mean,1.210203,ratio
+bg_peak_2050,BG00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,BG00,2040,WS077,night_over_midday,1.077265,ratio
+bg_peak_2050,BG00,2040,WS077,peak,7.654876,GW
+bg_peak_2050,BG00,2040,WS077,mean,4.889288,GW
+bg_peak_2050,BG00,2040,WS077,load_factor,0.638715,share
+bg_peak_2050,BG00,2040,WS077,hour_of_peak,1182.0,hour of year
+bg_peak_2050,BG00,2040,WS077,month_of_peak,2.0,month
+bg_peak_2050,BG00,2040,WS077,hours_above_7_5_gw,1.0,hours
+bg_peak_2050,BG00,2040,WS077,hours_above_10_gw,0.0,hours
+bg_peak_2050,BG00,2040,WS077,largest_hourly_step,1.286704,GW
+bg_peak_2050,BG00,2040,WS077,median_hours_between_rising_steps,0.0,hours
+bg_peak_2050,BG00,2040,WS077,winter_over_summer_mean,1.258908,ratio
+bg_peak_2050,TR00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2040,WS065,night_over_midday,0.789681,ratio
+bg_peak_2050,TR00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2040,WS071,night_over_midday,0.792678,ratio
+bg_peak_2050,TR00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2040,WS077,night_over_midday,0.790737,ratio
+bg_peak_2050,MD00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2040,WS065,night_over_midday,0.7277,ratio
+bg_peak_2050,MD00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2040,WS071,night_over_midday,0.722888,ratio
+bg_peak_2050,MD00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2040,WS077,night_over_midday,0.724172,ratio
+bg_peak_2050,UA00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2040,WS065,night_over_midday,0.807723,ratio
+bg_peak_2050,UA00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2040,WS071,night_over_midday,0.802541,ratio
+bg_peak_2050,UA00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2040,WS077,night_over_midday,0.804673,ratio
+bg_peak_2050,HU00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2040,WS065,night_over_midday,0.780634,ratio
+bg_peak_2050,HU00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2040,WS071,night_over_midday,0.784571,ratio
+bg_peak_2050,HU00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2040,WS077,night_over_midday,0.776952,ratio
+bg_peak_2050,RS00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2040,WS065,night_over_midday,0.815509,ratio
+bg_peak_2050,RS00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2040,WS071,night_over_midday,0.813591,ratio
+bg_peak_2050,RS00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2040,WS077,night_over_midday,0.80912,ratio
+bg_peak_2050,MK00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2040,WS065,night_over_midday,0.746421,ratio
+bg_peak_2050,MK00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2040,WS071,night_over_midday,0.745424,ratio
+bg_peak_2050,MK00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2040,WS077,night_over_midday,0.744097,ratio
+bg_peak_2050,GR00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2040,WS065,night_over_midday,0.764908,ratio
+bg_peak_2050,GR00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2040,WS071,night_over_midday,0.772843,ratio
+bg_peak_2050,GR00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2040,WS077,night_over_midday,0.767423,ratio
+bg_peak_2050,GR03,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2040,WS065,night_over_midday,0.700836,ratio
+bg_peak_2050,GR03,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2040,WS071,night_over_midday,0.701245,ratio
+bg_peak_2050,GR03,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2040,WS077,night_over_midday,0.698979,ratio
+bg_peak_2050,SK00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2040,WS065,night_over_midday,0.794803,ratio
+bg_peak_2050,SK00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2040,WS071,night_over_midday,0.792679,ratio
+bg_peak_2050,SK00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2040,WS077,night_over_midday,0.793269,ratio
+bg_peak_2050,PL00,2040,WS065,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2040,WS065,night_over_midday,0.753136,ratio
+bg_peak_2050,PL00,2040,WS071,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2040,WS071,night_over_midday,0.75083,ratio
+bg_peak_2050,PL00,2040,WS077,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2040,WS077,night_over_midday,0.750986,ratio
+bg_peak_2050,RO00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2050,WS091,night_over_midday,0.884711,ratio
+bg_peak_2050,RO00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2050,WS092,night_over_midday,0.883694,ratio
+bg_peak_2050,RO00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RO00,2050,WS106,night_over_midday,0.883119,ratio
+bg_peak_2050,BG00,2050,WS091,steps_above_20pct_of_peak,104.0,count
+bg_peak_2050,BG00,2050,WS091,night_over_midday,2.188548,ratio
+bg_peak_2050,BG00,2050,WS091,peak,11.700945,GW
+bg_peak_2050,BG00,2050,WS091,mean,5.434548,GW
+bg_peak_2050,BG00,2050,WS091,load_factor,0.464454,share
+bg_peak_2050,BG00,2050,WS091,hour_of_peak,937.0,hour of year
+bg_peak_2050,BG00,2050,WS091,month_of_peak,2.0,month
+bg_peak_2050,BG00,2050,WS091,hours_above_7_5_gw,1840.0,hours
+bg_peak_2050,BG00,2050,WS091,hours_above_10_gw,956.0,hours
+bg_peak_2050,BG00,2050,WS091,largest_hourly_step,5.682717,GW
+bg_peak_2050,BG00,2050,WS091,median_hours_between_rising_steps,168.0,hours
+bg_peak_2050,BG00,2050,WS091,winter_over_summer_mean,1.078698,ratio
+bg_peak_2050,BG00,2050,WS092,steps_above_20pct_of_peak,104.0,count
+bg_peak_2050,BG00,2050,WS092,night_over_midday,2.206134,ratio
+bg_peak_2050,BG00,2050,WS092,peak,11.73014,GW
+bg_peak_2050,BG00,2050,WS092,mean,5.405392,GW
+bg_peak_2050,BG00,2050,WS092,load_factor,0.460812,share
+bg_peak_2050,BG00,2050,WS092,hour_of_peak,1225.0,hour of year
+bg_peak_2050,BG00,2050,WS092,month_of_peak,2.0,month
+bg_peak_2050,BG00,2050,WS092,hours_above_7_5_gw,1826.0,hours
+bg_peak_2050,BG00,2050,WS092,hours_above_10_gw,920.0,hours
+bg_peak_2050,BG00,2050,WS092,largest_hourly_step,5.682205,GW
+bg_peak_2050,BG00,2050,WS092,median_hours_between_rising_steps,168.0,hours
+bg_peak_2050,BG00,2050,WS092,winter_over_summer_mean,1.102243,ratio
+bg_peak_2050,BG00,2050,WS106,steps_above_20pct_of_peak,104.0,count
+bg_peak_2050,BG00,2050,WS106,night_over_midday,2.208812,ratio
+bg_peak_2050,BG00,2050,WS106,peak,11.395691,GW
+bg_peak_2050,BG00,2050,WS106,mean,5.376088,GW
+bg_peak_2050,BG00,2050,WS106,load_factor,0.471765,share
+bg_peak_2050,BG00,2050,WS106,hour_of_peak,265.0,hour of year
+bg_peak_2050,BG00,2050,WS106,month_of_peak,1.0,month
+bg_peak_2050,BG00,2050,WS106,hours_above_7_5_gw,1804.0,hours
+bg_peak_2050,BG00,2050,WS106,hours_above_10_gw,910.0,hours
+bg_peak_2050,BG00,2050,WS106,largest_hourly_step,5.680361,GW
+bg_peak_2050,BG00,2050,WS106,median_hours_between_rising_steps,168.0,hours
+bg_peak_2050,BG00,2050,WS106,winter_over_summer_mean,1.054485,ratio
+bg_peak_2050,TR00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2050,WS091,night_over_midday,0.791143,ratio
+bg_peak_2050,TR00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2050,WS092,night_over_midday,0.791017,ratio
+bg_peak_2050,TR00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,TR00,2050,WS106,night_over_midday,0.792435,ratio
+bg_peak_2050,MD00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2050,WS091,night_over_midday,0.732918,ratio
+bg_peak_2050,MD00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2050,WS092,night_over_midday,0.729354,ratio
+bg_peak_2050,MD00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MD00,2050,WS106,night_over_midday,0.725846,ratio
+bg_peak_2050,UA00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2050,WS091,night_over_midday,0.834071,ratio
+bg_peak_2050,UA00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2050,WS092,night_over_midday,0.829562,ratio
+bg_peak_2050,UA00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,UA00,2050,WS106,night_over_midday,0.832358,ratio
+bg_peak_2050,HU00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2050,WS091,night_over_midday,0.781738,ratio
+bg_peak_2050,HU00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2050,WS092,night_over_midday,0.786465,ratio
+bg_peak_2050,HU00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,HU00,2050,WS106,night_over_midday,0.784419,ratio
+bg_peak_2050,RS00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2050,WS091,night_over_midday,0.821364,ratio
+bg_peak_2050,RS00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2050,WS092,night_over_midday,0.827623,ratio
+bg_peak_2050,RS00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,RS00,2050,WS106,night_over_midday,0.81981,ratio
+bg_peak_2050,MK00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2050,WS091,night_over_midday,0.742643,ratio
+bg_peak_2050,MK00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2050,WS092,night_over_midday,0.756627,ratio
+bg_peak_2050,MK00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,MK00,2050,WS106,night_over_midday,0.742397,ratio
+bg_peak_2050,GR00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2050,WS091,night_over_midday,0.799341,ratio
+bg_peak_2050,GR00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2050,WS092,night_over_midday,0.802858,ratio
+bg_peak_2050,GR00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR00,2050,WS106,night_over_midday,0.805533,ratio
+bg_peak_2050,GR03,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2050,WS091,night_over_midday,0.784405,ratio
+bg_peak_2050,GR03,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2050,WS092,night_over_midday,0.782602,ratio
+bg_peak_2050,GR03,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,GR03,2050,WS106,night_over_midday,0.784335,ratio
+bg_peak_2050,SK00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2050,WS091,night_over_midday,0.807288,ratio
+bg_peak_2050,SK00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2050,WS092,night_over_midday,0.804141,ratio
+bg_peak_2050,SK00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,SK00,2050,WS106,night_over_midday,0.798785,ratio
+bg_peak_2050,PL00,2050,WS091,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2050,WS091,night_over_midday,0.757672,ratio
+bg_peak_2050,PL00,2050,WS092,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2050,WS092,night_over_midday,0.758496,ratio
+bg_peak_2050,PL00,2050,WS106,steps_above_20pct_of_peak,0.0,count
+bg_peak_2050,PL00,2050,WS106,night_over_midday,0.756635,ratio
+bg_peak_2050,BG00,2050,mean,peak_ratio_2050_over_2040,1.555092,ratio
+bg_peak_2050,GR00,2050,mean,peak_ratio_2050_over_2040,1.254737,ratio
+bg_peak_2050,GR03,2050,mean,peak_ratio_2050_over_2040,0.448555,ratio
+bg_peak_2050,HU00,2050,mean,peak_ratio_2050_over_2040,1.054346,ratio
+bg_peak_2050,MD00,2050,mean,peak_ratio_2050_over_2040,1.239466,ratio
+bg_peak_2050,MK00,2050,mean,peak_ratio_2050_over_2040,1.188517,ratio
+bg_peak_2050,PL00,2050,mean,peak_ratio_2050_over_2040,1.190969,ratio
+bg_peak_2050,RO00,2050,mean,peak_ratio_2050_over_2040,1.170058,ratio
+bg_peak_2050,RS00,2050,mean,peak_ratio_2050_over_2040,0.996942,ratio
+bg_peak_2050,SK00,2050,mean,peak_ratio_2050_over_2040,1.111517,ratio
+bg_peak_2050,TR00,2050,mean,peak_ratio_2050_over_2040,1.484439,ratio
+bg_peak_2050,UA00,2050,mean,peak_ratio_2050_over_2040,1.183925,ratio
+gr03_2050,GR00,2030,mean,market_demand,50.518735,TWh
+gr03_2050,GR00,2035,mean,market_demand,51.864022,TWh
+gr03_2050,GR00,2040,mean,market_demand,55.787847,TWh
+gr03_2050,GR00,2050,mean,market_demand,70.691821,TWh
+gr03_2050,GR03,2030,mean,market_demand,3.030292,TWh
+gr03_2050,GR03,2035,mean,market_demand,3.131366,TWh
+gr03_2050,GR03,2040,mean,market_demand,3.337015,TWh
+gr03_2050,GR03,2050,mean,market_demand,1.435381,TWh
+gr03_2050,GR03,2030,,capacity_total,1.637356,GW
+gr03_2050,GR03,2035,,capacity_total,2.241881,GW
+gr03_2050,GR03,2040,,capacity_total,3.478975,GW
+gr03_2050,GR03,2050,,capacity_total,5.289924,GW
+flat_demand_2024,UA00,2030,2009,market_run_native_demand,151.312615,TWh
+flat_demand_2024,UA00,2040,2009,market_run_native_demand,151.312615,TWh
+flat_demand_2024,UA00,0,all,weather_years_compared,35.0,count
+flat_demand_2024,UA00,0,all,weather_years_identical,35.0,count
+flat_demand_2024,UA00,0,all,energy_ratio_2040_over_2030,1.0,ratio
+flat_demand_2024,MD00,2030,2009,market_run_native_demand,6.347271,TWh
+flat_demand_2024,MD00,2040,2009,market_run_native_demand,6.347271,TWh
+flat_demand_2024,MD00,0,all,weather_years_compared,37.0,count
+flat_demand_2024,MD00,0,all,weather_years_identical,37.0,count
+flat_demand_2024,MD00,0,all,energy_ratio_2040_over_2030,1.0,ratio
+flat_demand_2024,RO00,2030,2009,market_run_native_demand,62.493017,TWh
+flat_demand_2024,RO00,2040,2009,market_run_native_demand,68.024726,TWh
+flat_demand_2024,RO00,0,all,weather_years_compared,35.0,count
+flat_demand_2024,RO00,0,all,weather_years_identical,0.0,count
+flat_demand_2024,RO00,0,all,energy_ratio_2040_over_2030,1.088497,ratio
+not_in_market_run,TR00,2030,2026,input_capacity Offshore wind,0.0,MW
+not_in_market_run,TR00,2030,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,TR00,2030,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,TR00,2035,2026,input_capacity Offshore wind,5000.0,MW
+not_in_market_run,TR00,2035,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,TR00,2035,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,TR00,2040,2026,input_capacity Offshore wind,5000.0,MW
+not_in_market_run,TR00,2040,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,TR00,2040,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,TR00,2050,2026,input_capacity Offshore wind,5000.0,MW
+not_in_market_run,TR00,2050,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,TR00,2050,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,MD00,2030,2026,input_capacity Photovoltaic,413.87,MW
+not_in_market_run,MD00,2030,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,MD00,2030,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,MD00,2035,2026,input_capacity Photovoltaic,576.87,MW
+not_in_market_run,MD00,2035,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,MD00,2035,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,MD00,2040,2026,input_capacity Photovoltaic,616.87,MW
+not_in_market_run,MD00,2040,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,MD00,2040,2026,kpi Generation [TWh],0.0,TWh
+not_in_market_run,MD00,2050,2026,input_capacity Photovoltaic,616.87,MW
+not_in_market_run,MD00,2050,2026,kpi Installed Capacity [GW],0.0,GW
+not_in_market_run,MD00,2050,2026,kpi Generation [TWh],0.0,TWh
+tr_other_res,TR00,2030,2024,sum_of_technologies,3900.0,MW
+tr_other_res,TR00,2040,2024,sum_of_technologies,5150.0,MW
+tr_other_res,TR00,2050,2024,sum_of_technologies,5150.0,MW
+tr_other_res,TR00,2030,2024,market_run_capacity,3900.0,MW
+tr_other_res,TR00,2040,2024,market_run_capacity,3900.0,MW
+tr_other_res,TR00,2030,2026,kpi_capacity,0.0,MW
+tr_other_res,TR00,2030,2026,kpi_battery,0.0,MW
+tr_other_res,TR00,2035,2026,kpi_capacity,0.0,MW
+tr_other_res,TR00,2035,2026,kpi_battery,2100.0,MW
+tr_other_res,TR00,2040,2026,kpi_capacity,0.0,MW
+tr_other_res,TR00,2040,2026,kpi_battery,2100.0,MW
+tr_other_res,TR00,2050,2026,kpi_capacity,0.0,MW
+tr_other_res,TR00,2050,2026,kpi_battery,0.0,MW
+gas_co2_factor,ALL,2030,2024,factor,51.573862,kg/net GJ
+gas_co2_factor,ALL,2030,2024,fossil_share_from_factor,0.904805,share
+gas_co2_factor,ALL,2030,2024,synthetic_share_implied,0.002199,share
+gas_co2_factor,ALL,2030,2024,biomethane_share_implied,0.092996,share
+gas_co2_factor,ALL,2040,2024,factor,43.039864,kg/net GJ
+gas_co2_factor,ALL,2040,2024,fossil_share_from_factor,0.755085,share
+gas_co2_factor,ALL,2040,2024,synthetic_share_implied,0.045167,share
+gas_co2_factor,ALL,2040,2024,biomethane_share_implied,0.199748,share
+gas_co2_factor,ALL,2030,2026,factor,52.44,kg/net GJ
+gas_co2_factor,ALL,2030,2026,fossil_share_from_factor,0.92,share
+gas_co2_factor,ALL,2030,2026,synthetic_share_implied,0.002144,share
+gas_co2_factor,ALL,2030,2026,biomethane_share_implied,0.077856,share
+gas_co2_factor,ALL,2035,2026,factor,48.45,kg/net GJ
+gas_co2_factor,ALL,2035,2026,fossil_share_from_factor,0.85,share
+gas_co2_factor,ALL,2035,2026,synthetic_share_implied,0.010074,share
+gas_co2_factor,ALL,2035,2026,biomethane_share_implied,0.139926,share
+gas_co2_factor,ALL,2040,2026,factor,41.04,kg/net GJ
+gas_co2_factor,ALL,2040,2026,fossil_share_from_factor,0.72,share
+gas_co2_factor,ALL,2040,2026,synthetic_share_implied,0.023881,share
+gas_co2_factor,ALL,2040,2026,biomethane_share_implied,0.256119,share
+gas_co2_factor,ALL,2050,2026,factor,15.39,kg/net GJ
+gas_co2_factor,ALL,2050,2026,fossil_share_from_factor,0.27,share
+gas_co2_factor,ALL,2050,2026,synthetic_share_implied,0.099068,share
+gas_co2_factor,ALL,2050,2026,biomethane_share_implied,0.630932,share
+parser,ALL,0,,border_columns_differing_between_country_files,0.0,count

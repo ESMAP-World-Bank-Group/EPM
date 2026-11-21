@@ -1,0 +1,4 @@
+# Hourly TYNDP 2026 extraction: rebuilt by pipelines/build_tyndp26_hourly.py from the raw package.
+# The parquet and the per workbook cache stay out of git, the small csv tables are tracked.
+*.parquet
+cache/

@@ -1,0 +1,16 @@
+control,edition,status,rows
+controls_capacity,2024,differs,1
+controls_capacity,2024,ok,236
+controls_capacity,2026,ok,464
+controls_capacity,2026,ok_biofuel_reclass,22
+controls_capacity,2026,ok_excl_dedicated,22
+controls_capacity,2026,only_published,3
+controls_capacity,2026,only_tidy,7
+controls_demand,2024,ok,22
+controls_demand,2026,ev_not_same_stream,60
+controls_demand,2026,ok,516
+controls_ntc,2024,no_flow_no_limit,8
+controls_ntc,2024,no_limit_in_tidy,32
+controls_ntc,2024,reaches_reference,28
+controls_ntc,2026,reaches_reference,112
+controls_closure,2026,ok,120

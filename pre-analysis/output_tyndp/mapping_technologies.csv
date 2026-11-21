@@ -1,0 +1,80 @@
+technology,family,level,rows_2024,rows_2026,tech,fuel,match,in_tech_fuel,in_plants,note
+Battery,battery,total,72,184,Storage,Battery,exact,True,True,
+Battery Residential,battery,split,0,16,Storage,Battery,class,True,True,"Behind the meter, no EPM distinction"
+Battery Utility Scale,battery,split,0,184,Storage,Battery,exact,True,True,
+DSR band 1,dsr,total,6,16,,,none,,,EPM has no demand response
+DSR band 2,dsr,total,0,8,,,none,,,EPM has no demand response
+DSR band 3,dsr,total,0,8,,,none,,,EPM has no demand response
+Electrolyser,electrolyser,total,19,0,,,none,,,"Load, not generation. EPM carries it in demand if at all"
+Electrolyser Dedicated RES Z2,electrolyser,total,0,22,,,none,,,Off grid with its dedicated wind and solar
+Electrolyser e-market Z2,electrolyser,total,0,48,,,none,,,"Load, not generation. EPM carries it in demand if at all"
+"FCR: FCR that need to be made available by thermal unit commitment (already net with generating capacities on Thermal sheet, not causing additional commitment on Thermal units apart from what highlighted in the unit-by-unit Thermal sheet)",reserves,split,6,8,,,none,,,"Reserve requirement, not a technology"
+FCR: FCR that need to be made available by thermal unit commitment additional to the FCR allocations highlighted in the unit-by-unit Thermal sheet (this will be allocated additionally on Thermal units as provided FCR),reserves,split,17,24,,,none,,,"Reserve requirement, not a technology"
+FCR: Provided by BESS,reserves,split,0,4,,,none,,,"Reserve requirement, not a technology"
+FCR: Provided by HYDRO - Reserve that should be procured by further constraining the 'Maximum generation' of either Reservoir either Pumped Storage,reserves,split,11,4,,,none,,,"Reserve requirement, not a technology"
+FCR: Total Market Node Requirement,reserves,total,29,8,,,none,,,"Reserve requirement, not a technology"
+FRR: FRR that will be procured by thermal (unit commitment of thermal units able to provide FRR take IN REAL LIFE into account this requirements),reserves,split,27,32,,,none,,,"Reserve requirement, not a technology"
+FRR: Provided by BESS,reserves,split,0,4,,,none,,,"Reserve requirement, not a technology"
+FRR: Provided by HYDRO - Reserve that should be procured by further constraining the 'Maximum generation' of either Reservoir either Pumped Storage,reserves,split,20,4,,,none,,,"Reserve requirement, not a technology"
+FRR: Total Market Node Requirement,reserves,total,29,36,,,none,,,"Reserve requirement, not a technology"
+Gas CCGT new,thermal,total,27,36,CCGT,Gas,class,True,True,
+Gas CCGT old 1,thermal,total,6,14,CCGT,Gas,class,True,True,
+Gas CCGT old 2,thermal,total,7,8,CCGT,Gas,class,True,True,
+Gas CCGT present 1,thermal,total,13,27,CCGT,Gas,class,True,True,
+Gas CCGT present 2,thermal,total,9,8,CCGT,Gas,class,True,True,
+Gas Conventional old 1,thermal,total,24,34,ST,Gas,class,True,True,
+Gas Conventional old 2,thermal,total,6,10,ST,Gas,class,True,True,
+Gas OCGT new,thermal,total,12,12,OCGT,Gas,class,True,True,
+Gas OCGT old,thermal,total,4,3,OCGT,Gas,class,True,True,
+Geothermal,other_res,total,11,9,ST,Geothermal,exact,True,True,
+Hard coal new,thermal,total,9,14,ST,ImportedCoal,class,True,True,Domestic hard coal in RO and TR also lands here
+Hard coal old 1,thermal,total,13,23,ST,ImportedCoal,class,True,True,
+Hard coal old 2,thermal,total,4,7,ST,ImportedCoal,class,True,True,
+Heavy oil old 1,thermal,total,2,8,ICE,HFO,class,True,True,EPM carries oil plants as ICE
+Heavy oil old 2,thermal,total,1,0,ICE,HFO,class,True,True,
+Hydro Pondage,hydro,total,18,16,ReservoirHydro,Water,class,True,True,"Daily storage. TR 9.1 GW in 2024, nothing in 2026"
+Hydro Pump Storage open loop,hydro,total,51,77,Storage,Water,class,True,True,Natural inflow ignored
+Hydro Pure Pump Storage closed loop,hydro,total,63,69,Storage,Water,exact,True,True,
+Hydro Reservoir,hydro,total,60,88,ReservoirHydro,Water,exact,True,True,
+Hydro Run of River,hydro,total,33,52,ROR,Water,exact,True,True,
+Hydrogen CCGT,thermal,total,4,0,CCGT,Hydrogen,exact,True,True,
+Light oil,thermal,total,3,5,ICE,Diesel,class,True,False,
+Lignite new,thermal,total,9,12,ST,DomesticCoal,class,True,True,
+Lignite old 1,thermal,total,12,19,ST,DomesticCoal,class,True,True,
+Lignite old 2,thermal,total,9,11,ST,DomesticCoal,class,True,True,
+Not Defined / Splitting not known,other_res,total,12,0,,,none,,,"2024 Other RES, no class given"
+Nuclear,thermal,total,20,27,Nuclear,Uranium,exact,True,True,
+Offshore wind,wind,total,11,25,OffshoreWind,Wind,exact,True,True,
+Offshore wind dedicated - radial,wind,split,0,3,OffshoreWind,Wind,class,True,True,"Feeds electrolysers off grid, leave out with their load"
+Offshore wind e-market - hub ready,wind,split,0,3,OffshoreWind,Wind,exact,True,True,
+Offshore wind e-market - radial,wind,split,0,22,OffshoreWind,Wind,exact,True,True,
+Onshore wind,wind,total,39,56,OnshoreWind,Wind,exact,True,True,
+Onshore wind dedicated,wind,split,0,8,OnshoreWind,Wind,class,True,True,"Feeds electrolysers off grid, leave out with their load"
+Onshore wind e-market,wind,split,0,52,OnshoreWind,Wind,exact,True,True,
+Other non-RES Gas/CCGT old 2 Price Band 1,other_non_res,total,1,3,CCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/CCGT old 2 Price Band 2,other_non_res,total,1,0,CCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/CCGT present 2 Price Band 1,other_non_res,total,3,0,CCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/CCGT present 2 Price Band 2,other_non_res,total,6,0,CCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/CCGT present 2 Price Band 3,other_non_res,total,0,4,CCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/OCGT new Price Band 1,other_non_res,total,0,4,OCGT,Gas,class,True,True,Price band offer
+Other non-RES Gas/conventional old 1 Price Band 1,other_non_res,total,9,4,ST,Gas,class,True,True,Price band offer
+Other non-RES Gas/conventional old 2 Price Band 1,other_non_res,total,0,4,ST,Gas,class,True,True,Price band offer
+Other non-RES Gas/conventional old 2 Price Band 2,other_non_res,total,0,4,ST,Gas,class,True,True,Price band offer
+Other non-RES Hard coal/old 1 Price Band 1,other_non_res,total,0,3,ST,ImportedCoal,class,True,True,Price band offer
+Other non-RES Hard coal/old 1 Price Band 3,other_non_res,total,3,0,ST,ImportedCoal,class,True,True,Price band offer
+Other non-RES Hard coal/old 1 Price Band 4,other_non_res,total,6,0,ST,ImportedCoal,class,True,True,Price band offer
+Other non-RES Heavy oil old 1 Price Band 1,other_non_res,total,3,0,ICE,HFO,class,True,True,Price band offer
+Other non-RES Hydrogen/CCGT Price Band 1,other_non_res,total,0,1,CCGT,Hydrogen,class,True,True,Price band offer
+Other non-RES Lignite/new Price Band 1,other_non_res,total,1,0,ST,DomesticCoal,class,True,True,Price band offer
+Other non-RES Shale oil/old Price Band 1,other_non_res,total,0,1,ST,Shale,class,True,False,TR 2 GW in 2030 only
+Photovoltaic,solar,total,39,56,PV,Solar,exact,True,True,
+Photovoltaic dedicated,solar,split,0,11,PV,Solar,class,True,True,"Feeds electrolysers off grid, leave out with their load"
+Photovoltaic e-market,solar,split,0,52,PV,Solar,exact,True,True,
+Rooftop,solar,split+total,15,24,PV,Solar,class,True,True,"Added to PV in 2024, part of PV in 2026"
+Simplified: Additional load (should be <= FCR + FRR needed from thermal),reserves,split,6,0,,,none,,,"Reserve requirement, not a technology"
+Simplified: Provided by HYDRO - Reserve that should be procured by further constraining the 'Maximum generation' of Pumped Storage Closed Loop units,reserves,split,8,4,,,none,,,"Reserve requirement, not a technology"
+Simplified: Provided by HYDRO - Reserve that should be procured by further constraining the 'Maximum generation' of Pumped Storage Open Loop units,reserves,split,5,4,,,none,,,"Reserve requirement, not a technology"
+Simplified: Provided by HYDRO - Reserve that should be procured by further constraining the 'Maximum generation' of Reservoir units,reserves,split,15,20,,,none,,,"Reserve requirement, not a technology"
+Small Biomass,other_res,total,33,36,BiomassPlant,Biomass,exact,True,True,
+Solar Thermal with Storage,solar,total,6,0,CSPPlant,CSP,exact,True,False,
+Waste,other_res,total,15,24,ST,Waste,exact,True,False,

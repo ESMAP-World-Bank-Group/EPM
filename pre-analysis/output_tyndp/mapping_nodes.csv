@@ -1,0 +1,17 @@
+node,zones,role,split,note
+RO00,Romania,modelled,none,"Dobrogea 2z variants split Romania, TYNDP has no split key"
+BG00,Bulgaria,modelled,none,
+TR00,WestMed+WestAna+EastMed+EastAna+SouthEast+NorthWest+CenterAna+CenterBlack+Trakia,modelled,none,Nine EPM zones. Borders with BG00 and GR00 land on Trakia
+GE00,Georgia,modelled,none,No border and no 2026 demand. GEC_GE hub has no TYNDP node
+AZ00,AzerbaijanMain+Nakhchivan,modelled,none,2026 generation only. GEC_AZ hub has no TYNDP node
+AM00,Armenia,modelled,none,In no TYNDP package
+MD00,Moldova,external,none,
+UA00,Ukraine,external,none,
+UA01,Ukraine,external,none,"Lines only, 2024 only. Summed with UA00"
+HU00,Hungary,external,none,
+RS00,Serbia,external,none,
+MK00,NorthMacedonia,external,none,
+GR00,Greece,external,none,
+GR03,Greece,external,none,"Crete. No border with a core node, demand is GR00 + GR03"
+SK00,,out_of_model,none,Kept for the borders of Ukraine only
+PL00,,out_of_model,none,Kept for the borders of Ukraine only

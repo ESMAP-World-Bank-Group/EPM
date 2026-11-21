@@ -1,0 +1,20 @@
+edition,member,issue
+2024,PEMMDB2/2040/PEMMDB_TR00_NationalTrends_2040.xlsx,"Other RES: sheet total 3900.0 differs from the technologies, 5150.0"
+2024,PEMMDB2/2050/PEMMDB_TR00_NationalTrends_2050.xlsx,"Other RES: sheet total 3900.0 differs from the technologies, 5150.0"
+2024,Solar sheets,"Assumption: Rooftop is added to Photovoltaic. The file does not say so, RO 2030 gives 7.27 + 1.03 = 8.30 GW. In 2026 Rooftop is a part of Photovoltaic."
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2030 direction 1: 2025 82.0 + projects 0.0 != reference 50.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2030 direction 2: 2025 315.0 + projects 0.0 != reference 300.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2030 direction 1: 2025 315.0 + projects 0.0 != reference 300.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2030 direction 2: 2025 82.0 + projects 0.0 != reference 50.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2035 direction 1: 2025 82.0 + projects 300.0 != reference 350.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2035 direction 2: 2025 315.0 + projects 300.0 != reference 600.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2035 direction 1: 2025 315.0 + projects 0.0 != reference 300.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2035 direction 2: 2025 82.0 + projects 0.0 != reference 50.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2040 direction 1: 2025 82.0 + projects 300.0 != reference 350.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2040 direction 2: 2025 315.0 + projects 300.0 != reference 600.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2040 direction 1: 2025 315.0 + projects 0.0 != reference 300.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2040 direction 2: 2025 82.0 + projects 0.0 != reference 50.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2050 direction 1: 2025 82.0 + projects 300.0 != reference 350.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,MD00-RO00 Year_2050 direction 2: 2025 315.0 + projects 300.0 != reference 600.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2050 direction 1: 2025 315.0 + projects 0.0 != reference 300.0
+2026,Line-data/ReferenceGrid_Electricity.xlsx,RO00-UA00 Year_2050 direction 2: 2025 82.0 + projects 0.0 != reference 50.0

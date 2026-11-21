@@ -1,0 +1,21 @@
+epm_from,epm_to,b2,current_2025,staged_2025,current_2030,staged_2030,current_2032,staged_2032,current_2036,staged_2036,current_2040,staged_2040,tyndp_2030,tyndp_2035,tyndp_2040,change_2040,status,note
+Romania,Hungary,tyndp_limit,1000.0,1000.0,1000.0,2650.0,1000.0,2650.0,1000.0,3700.0,1000.0,3700.0,2650.0,3700.0,3700.0,2700.0,raised,
+Hungary,Romania,tyndp_limit,1000.0,1000.0,1000.0,1450.0,1000.0,1450.0,1000.0,3600.0,1000.0,3600.0,1450.0,3600.0,3600.0,2600.0,raised,
+Romania,Serbia,tyndp_limit,800.0,800.0,800.0,2650.0,800.0,2650.0,800.0,2650.0,800.0,2650.0,2650.0,2650.0,2650.0,1850.0,raised,
+Serbia,Romania,tyndp_limit,800.0,800.0,800.0,2250.0,800.0,2250.0,800.0,2250.0,800.0,2250.0,2250.0,2250.0,2250.0,1450.0,raised,
+Bulgaria,Serbia,tyndp_limit,750.0,750.0,750.0,750.0,750.0,750.0,750.0,930.0,750.0,930.0,380.0,930.0,930.0,180.0,raised,
+Serbia,Bulgaria,tyndp_limit,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,380.0,730.0,730.0,0.0,unchanged,
+Bulgaria,NorthMacedonia,tyndp_limit,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,0.0,unchanged,
+NorthMacedonia,Bulgaria,tyndp_limit,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,0.0,unchanged,
+Bulgaria,Greece,tyndp_limit,650.0,650.0,650.0,1200.0,650.0,1200.0,650.0,1200.0,650.0,1200.0,1200.0,1200.0,1200.0,550.0,raised,
+Greece,Bulgaria,tyndp_limit,650.0,650.0,650.0,1000.0,650.0,1000.0,650.0,1000.0,650.0,1000.0,1000.0,1000.0,1000.0,350.0,raised,
+Trakia,Greece,tyndp_limit,100.0,100.0,100.0,166.0,100.0,166.0,100.0,166.0,100.0,166.0,166.0,166.0,166.0,66.0,raised,
+Greece,Trakia,tyndp_limit,166.0,166.0,166.0,218.0,166.0,218.0,166.0,218.0,166.0,218.0,218.0,218.0,218.0,52.0,raised,
+Romania,Bulgaria,tyndp_limit,1400.0,1400.0,1400.0,2100.0,1400.0,2100.0,1400.0,2100.0,1400.0,2100.0,2100.0,2100.0,2100.0,700.0,raised,
+Bulgaria,Romania,tyndp_limit,1400.0,1400.0,1400.0,2200.0,1400.0,2200.0,1400.0,2200.0,1400.0,2200.0,2200.0,2200.0,2200.0,800.0,raised,
+Bulgaria,Trakia,tyndp_limit,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,334.0,0.0,unchanged,
+Trakia,Bulgaria,tyndp_limit,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,0.0,unchanged,
+Romania,Ukraine,hold_europe_point,18.0,18.0,347.0,347.0,369.0,369.0,412.0,412.0,455.0,455.0,,,,0.0,held,"Held for the Europe point, current value kept"
+Ukraine,Romania,hold_europe_point,296.0,296.0,234.0,234.0,232.0,232.0,228.0,228.0,223.0,223.0,,,,0.0,held,"Held for the Europe point, current value kept"
+Romania,Moldova,hold_europe_point,373.0,373.0,436.0,436.0,458.0,458.0,503.0,503.0,547.0,547.0,,,,0.0,held,"Held for the Europe point, current value kept"
+Moldova,Romania,hold_europe_point,11.0,11.0,35.0,35.0,36.0,36.0,36.0,36.0,37.0,37.0,,,,0.0,held,"Held for the Europe point, current value kept"

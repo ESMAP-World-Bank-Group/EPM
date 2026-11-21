@@ -1,0 +1,19 @@
+table,edition,year,node,technology,metric,expected,found,rows,passed,node_from,node_to
+capacity,2026,2030,RO00,Nuclear,capacity,1300.0,1300.0,1,True,,
+capacity,2026,2030,RO00,Photovoltaic,capacity,12550.0,12550.000549949998,1,True,,
+capacity,2026,2030,RO00,Onshore wind,capacity,7380.0,7384.997888152001,1,True,,
+capacity,2026,2030,RO00,Battery,capacity,2000.0,2000.0,1,True,,
+capacity,2026,2030,RO00,Battery,storage_energy,4000.0,3999.9999997,1,True,,
+capacity,2024,2030,RO00,Nuclear,capacity,1739.0,1739.0,1,True,,
+capacity,2026,2030,GE00,Hydro Reservoir,capacity,2445.0,2445.0,1,True,,
+capacity,2026,2040,RO00,Electrolyser e-market Z2,capacity,500.0,500.0,1,True,,
+capacity,2026,2040,RO00,Small Biomass,capacity,300.002,300.002117492,1,True,,
+ntc,2026,2025,,,ntc_2025,1000.0,1000.0,1,True,HU00,RO00
+ntc,2026,2025,,,ntc_2025,315.0,315.0,1,True,RO00,UA00
+ntc,2026,2025,,,ntc_2025,82.0,82.0,1,True,UA00,RO00
+ntc,2026,2025,,,ntc_2025,334.0,334.0,1,True,BG00,TR00
+ntc,2026,2025,,,ntc_2025,200.0,200.0,1,True,TR00,BG00
+ntc,2026,2035,,,ntc_reference,3600.0,3600.0,1,True,HU00,RO00
+ntc,2024,2030,,,ntc_reference,900.0,900.0,1,True,BG00,TR00
+fuel_co2_prices,2026,2035,,CO2 price,price,197.5055,197.50551570750002,1,True,,
+fuel_co2_prices,2024,2030,,CO2 price,price,113.4,113.39999999999999,1,True,,

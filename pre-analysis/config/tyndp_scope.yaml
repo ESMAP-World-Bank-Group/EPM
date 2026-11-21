@@ -1,0 +1,36 @@
+# Scope of the tidy TYNDP tables built by pipelines/build_tyndp_tidy.py.
+# National Trends (2024) and National Trends+ (2026) are kept apart, never mixed.
+
+tyndp_root: ../Data/EU/TYNDP      # relative to EPM/, holds manifest.csv and the raw packages
+
+editions:
+  "2024": {scenario: NT, years: [2030, 2040, 2050]}
+  "2026": {scenario: NT+, years: [2030, 2035, 2040, 2050]}
+
+# Countries of the model. AM00 is in no TYNDP package and stays here so coverage.csv shows the gap.
+# UA01 has borders in the line data but no PEMMDB file, UA00 is the only Ukrainian generation node.
+core_nodes: [RO00, BG00, TR00, GE00, AZ00, AM00, MD00, UA00, UA01]
+
+# Direct TYNDP neighbours of the core nodes. Borders are kept when one end is a core node.
+neighbour_nodes: [HU00, RS00, MK00, GR00, GR03, SK00, PL00]
+
+# Values read by hand in the source files. A failed check means a parser drifted.
+spot_checks:
+  - {table: capacity, edition: "2026", year: 2030, node: RO00, technology: Nuclear, metric: capacity, expected: 1300}
+  - {table: capacity, edition: "2026", year: 2030, node: RO00, technology: Photovoltaic, metric: capacity, expected: 12550}
+  - {table: capacity, edition: "2026", year: 2030, node: RO00, technology: Onshore wind, metric: capacity, expected: 7380}
+  - {table: capacity, edition: "2026", year: 2030, node: RO00, technology: Battery, metric: capacity, expected: 2000}
+  - {table: capacity, edition: "2026", year: 2030, node: RO00, technology: Battery, metric: storage_energy, expected: 4000}
+  - {table: capacity, edition: "2024", year: 2030, node: RO00, technology: Nuclear, metric: capacity, expected: 1739}
+  - {table: capacity, edition: "2026", year: 2030, node: GE00, technology: Hydro Reservoir, metric: capacity, expected: 2445}
+  - {table: capacity, edition: "2026", year: 2040, node: RO00, technology: Electrolyser e-market Z2, metric: capacity, expected: 500}
+  - {table: capacity, edition: "2026", year: 2040, node: RO00, technology: Small Biomass, metric: capacity, expected: 300.002}
+  - {table: ntc, edition: "2026", year: 2025, node_from: HU00, node_to: RO00, metric: ntc_2025, expected: 1000}
+  - {table: ntc, edition: "2026", year: 2025, node_from: RO00, node_to: UA00, metric: ntc_2025, expected: 315}
+  - {table: ntc, edition: "2026", year: 2025, node_from: UA00, node_to: RO00, metric: ntc_2025, expected: 82}
+  - {table: ntc, edition: "2026", year: 2025, node_from: BG00, node_to: TR00, metric: ntc_2025, expected: 334}
+  - {table: ntc, edition: "2026", year: 2025, node_from: TR00, node_to: BG00, metric: ntc_2025, expected: 200}
+  - {table: ntc, edition: "2026", year: 2035, node_from: HU00, node_to: RO00, metric: ntc_reference, expected: 3600}
+  - {table: ntc, edition: "2024", year: 2030, node_from: BG00, node_to: TR00, metric: ntc_reference, expected: 900}
+  - {table: fuel_co2_prices, edition: "2026", year: 2035, technology: CO2 price, metric: price, expected: 197.5055}
+  - {table: fuel_co2_prices, edition: "2024", year: 2030, technology: CO2 price, metric: price, expected: 113.4}

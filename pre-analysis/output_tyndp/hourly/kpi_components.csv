@@ -1,0 +1,1288 @@
+node,year,ws,sheet,zone,category,load_mwh,price_load,in_kpi
+AT00,2030,003,E-Market,AT00,Battery Storage charge (load) [MW_e],831895.094,27516353.602,True
+AT00,2030,003,E-Market,AT00,EV charge (load) [MW_e],453000.909,24769069.784,True
+AT00,2030,003,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],2234974.862,43656933.855,False
+AT00,2030,003,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2030,003,E-Market,AT00,Native Demand [MW_e],79131087.899,4888141613.105,True
+AT00,2030,003,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],535935.9,11323157.611,True
+AT00,2030,003,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],12510466.607,325505707.664,True
+AT00,2030,003,Prosumer,AT00RETE,EV charge (load) [MW_e],1137485.562,81069272.708,True
+AT00,2030,003,Prosumer,AT00RETE,Fixed Demand [MW_e],-8623706.356,-362782185.782,True
+AT00,2030,003,Prosumer,AT00RETE,Native Demand [MW_e],2714130.239,289417467.571,True
+AT00,2030,021,E-Market,AT00,Battery Storage charge (load) [MW_e],823878.074,23708586.939,True
+AT00,2030,021,E-Market,AT00,EV charge (load) [MW_e],453000.909,25789595.856,True
+AT00,2030,021,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],1945501.458,24420245.814,False
+AT00,2030,021,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2030,021,E-Market,AT00,Native Demand [MW_e],78723476.709,5181002523.38,True
+AT00,2030,021,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],602268.521,11416074.239,True
+AT00,2030,021,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],14475786.046,370967976.648,True
+AT00,2030,021,Prosumer,AT00RETE,EV charge (load) [MW_e],1151036.245,79736073.278,True
+AT00,2030,021,Prosumer,AT00RETE,Fixed Demand [MW_e],-9892589.339,-417494210.97,True
+AT00,2030,021,Prosumer,AT00RETE,Native Demand [MW_e],2362598.417,244412329.81,True
+AT00,2030,029,E-Market,AT00,Battery Storage charge (load) [MW_e],820062.071,26161723.041,True
+AT00,2030,029,E-Market,AT00,EV charge (load) [MW_e],453000.909,23781703.828,True
+AT00,2030,029,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],2337092.526,39852448.357,False
+AT00,2030,029,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2030,029,E-Market,AT00,Native Demand [MW_e],79102567.703,4751556699.486,True
+AT00,2030,029,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],536483.494,9929191.64,True
+AT00,2030,029,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],13274713.539,313238586.033,True
+AT00,2030,029,Prosumer,AT00RETE,EV charge (load) [MW_e],1141874.825,77620065.802,True
+AT00,2030,029,Prosumer,AT00RETE,Fixed Demand [MW_e],-8771616.131,-358179986.064,True
+AT00,2030,029,Prosumer,AT00RETE,Native Demand [MW_e],2688270.987,281752816.888,True
+AT00,2035,032,E-Market,AT00,Battery Storage charge (load) [MW_e],2287203.664,74576943.76,True
+AT00,2035,032,E-Market,AT00,EV charge (load) [MW_e],2936088.707,164436747.371,True
+AT00,2035,032,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],13125403.958,344692216.118,False
+AT00,2035,032,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2035,032,E-Market,AT00,Native Demand [MW_e],77316462.396,5214812128.742,True
+AT00,2035,032,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],608169.177,12823845.077,True
+AT00,2035,032,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],16169242.296,393597244.514,True
+AT00,2035,032,Prosumer,AT00RETE,EV charge (load) [MW_e],7144497.492,597641891.849,True
+AT00,2035,032,Prosumer,AT00RETE,Fixed Demand [MW_e],-12357025.54,-646385516.302,True
+AT00,2035,032,Prosumer,AT00RETE,Native Demand [MW_e],4757761.087,626948688.441,True
+AT00,2035,037,E-Market,AT00,Battery Storage charge (load) [MW_e],2137964.685,55049651.478,True
+AT00,2035,037,E-Market,AT00,EV charge (load) [MW_e],2929594.97,119310464.917,True
+AT00,2035,037,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],16507741.401,489619162.053,False
+AT00,2035,037,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2035,037,E-Market,AT00,Native Demand [MW_e],77036019.748,3695294531.923,True
+AT00,2035,037,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],514597.768,7262427.82,True
+AT00,2035,037,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],15435196.949,280046640.667,True
+AT00,2035,037,Prosumer,AT00RETE,EV charge (load) [MW_e],7092425.843,508652645.999,True
+AT00,2035,037,Prosumer,AT00RETE,Fixed Demand [MW_e],-11191844.416,-493431107.344,True
+AT00,2035,037,Prosumer,AT00RETE,Native Demand [MW_e],4403469.044,485374396.304,True
+AT00,2035,059,E-Market,AT00,Battery Storage charge (load) [MW_e],2193349.759,54182481.95,True
+AT00,2035,059,E-Market,AT00,EV charge (load) [MW_e],2935871.188,131126661.815,True
+AT00,2035,059,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],14290217.727,367444263.571,False
+AT00,2035,059,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2035,059,E-Market,AT00,Native Demand [MW_e],77534141.572,4312899610.135,True
+AT00,2035,059,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],607860.925,8857426.368,True
+AT00,2035,059,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],17463891.984,324202227.877,True
+AT00,2035,059,Prosumer,AT00RETE,EV charge (load) [MW_e],7181085.381,516548266.806,True
+AT00,2035,059,Prosumer,AT00RETE,Fixed Demand [MW_e],-12228853.94,-513009419.049,True
+AT00,2035,059,Prosumer,AT00RETE,Native Demand [MW_e],4498242.925,508587078.469,True
+AT00,2040,065,E-Market,AT00,Battery Storage charge (load) [MW_e],3622927.386,126259365.119,True
+AT00,2040,065,E-Market,AT00,EV charge (load) [MW_e],1960697.845,118890060.524,True
+AT00,2040,065,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],23531852.079,660092038.049,False
+AT00,2040,065,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2040,065,E-Market,AT00,Native Demand [MW_e],87471465.232,7323438633.564,True
+AT00,2040,065,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],610643.254,13024090.616,True
+AT00,2040,065,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],14496933.131,337902837.673,True
+AT00,2040,065,Prosumer,AT00RETE,EV charge (load) [MW_e],5079332.017,423661647.969,True
+AT00,2040,065,Prosumer,AT00RETE,Fixed Demand [MW_e],-14836535.41,-752988617.861,True
+AT00,2040,065,Prosumer,AT00RETE,Native Demand [MW_e],9310717.092,1686960662.993,True
+AT00,2040,071,E-Market,AT00,Battery Storage charge (load) [MW_e],3491209.152,238861899.536,True
+AT00,2040,071,E-Market,AT00,EV charge (load) [MW_e],1949202.323,230916851.149,True
+AT00,2040,071,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],23831147.258,772145676.105,False
+AT00,2040,071,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2040,071,E-Market,AT00,Native Demand [MW_e],86754259.228,12645443996.273,True
+AT00,2040,071,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],526431.19,17769231.022,True
+AT00,2040,071,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],15397271.147,559000170.056,True
+AT00,2040,071,Prosumer,AT00RETE,EV charge (load) [MW_e],5029754.342,690155938.594,True
+AT00,2040,071,Prosumer,AT00RETE,Fixed Demand [MW_e],-13674336.208,-1074807925.716,True
+AT00,2040,071,Prosumer,AT00RETE,Native Demand [MW_e],8206174.799,2451659392.835,True
+AT00,2040,077,E-Market,AT00,Battery Storage charge (load) [MW_e],3553768.039,205380128.754,True
+AT00,2040,077,E-Market,AT00,EV charge (load) [MW_e],1947695.798,160603772.953,True
+AT00,2040,077,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],21823937.453,685821977.92,False
+AT00,2040,077,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2040,077,E-Market,AT00,Native Demand [MW_e],86901077.361,9006929522.822,True
+AT00,2040,077,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],548878.273,12511285.665,True
+AT00,2040,077,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],15158325.337,505148857.565,True
+AT00,2040,077,Prosumer,AT00RETE,EV charge (load) [MW_e],5104527.203,523482685.024,True
+AT00,2040,077,Prosumer,AT00RETE,Fixed Demand [MW_e],-14261623.579,-850568167.857,True
+AT00,2040,077,Prosumer,AT00RETE,Native Demand [MW_e],7824448.372,1515034770.679,True
+AT00,2050,091,E-Market,AT00,Battery Storage charge (load) [MW_e],3739925.456,129655884.378,True
+AT00,2050,091,E-Market,AT00,EV charge (load) [MW_e],1701323.418,85013015.655,True
+AT00,2050,091,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],30183719.235,1259953350.574,False
+AT00,2050,091,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2050,091,E-Market,AT00,Native Demand [MW_e],87977957.752,6368600245.917,True
+AT00,2050,091,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],563355.071,11179739.945,True
+AT00,2050,091,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],13468884.813,294214388.111,True
+AT00,2050,091,Prosumer,AT00RETE,EV charge (load) [MW_e],4538985.164,316016058.25,True
+AT00,2050,091,Prosumer,AT00RETE,Fixed Demand [MW_e],-16321921.716,-844441088.656,True
+AT00,2050,091,Prosumer,AT00RETE,Native Demand [MW_e],9518607.308,1317292676.976,True
+AT00,2050,092,E-Market,AT00,Battery Storage charge (load) [MW_e],3682453.454,119884125.142,True
+AT00,2050,092,E-Market,AT00,EV charge (load) [MW_e],1689631.076,80679515.605,True
+AT00,2050,092,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],32061526.491,1545007246.378,False
+AT00,2050,092,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2050,092,E-Market,AT00,Native Demand [MW_e],87511372.555,5953117921.146,True
+AT00,2050,092,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],505456.846,8592071.034,True
+AT00,2050,092,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],11231472.618,203634764.639,True
+AT00,2050,092,Prosumer,AT00RETE,EV charge (load) [MW_e],4581452.303,304911843.015,True
+AT00,2050,092,Prosumer,AT00RETE,Fixed Demand [MW_e],-14926602.557,-815036929.022,True
+AT00,2050,092,Prosumer,AT00RETE,Native Demand [MW_e],9012379.476,1087380078.552,True
+AT00,2050,106,E-Market,AT00,Battery Storage charge (load) [MW_e],3584570.438,185502573.217,True
+AT00,2050,106,E-Market,AT00,EV charge (load) [MW_e],1689928.808,114977264.188,True
+AT00,2050,106,E-Market,AT00,Electrolyzers to H2 Zone 2 [MW_e],31956351.441,1619627333.959,False
+AT00,2050,106,E-Market,AT00,Fixed Demand [MW_e],0.0,0.0,True
+AT00,2050,106,E-Market,AT00,Native Demand [MW_e],86529865.138,7680431018.012,True
+AT00,2050,106,E-Market,AT00,Pump Storage - Closed Loop (pump) [MW_e],455546.122,11689338.322,True
+AT00,2050,106,E-Market,AT00,Pump Storage - Open Loop (pump) [MW_e],11042080.214,317639486.637,True
+AT00,2050,106,Prosumer,AT00RETE,EV charge (load) [MW_e],4355557.598,390029339.488,True
+AT00,2050,106,Prosumer,AT00RETE,Fixed Demand [MW_e],-13330121.629,-872934128.53,True
+AT00,2050,106,Prosumer,AT00RETE,Native Demand [MW_e],7654038.548,1227809797.132,True
+BG00,2030,003,E-Market,BG00,Battery Storage charge (load) [MW_e],744378.471,19289073.187,True
+BG00,2030,003,E-Market,BG00,EV charge (load) [MW_e],1662.5,101004.195,True
+BG00,2030,003,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],264841.815,20826864.948,False
+BG00,2030,003,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2030,003,E-Market,BG00,Native Demand [MW_e],34171046.232,2397768644.153,True
+BG00,2030,003,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1658083.748,38992812.396,True
+BG00,2030,003,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],490979.338,16474343.946,True
+BG00,2030,021,E-Market,BG00,Battery Storage charge (load) [MW_e],743855.071,17520508.706,True
+BG00,2030,021,E-Market,BG00,EV charge (load) [MW_e],1662.5,106601.014,True
+BG00,2030,021,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],226784.78,18552393.219,False
+BG00,2030,021,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2030,021,E-Market,BG00,Native Demand [MW_e],34739625.452,2566234661.444,True
+BG00,2030,021,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1731989.994,40229916.662,True
+BG00,2030,021,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],454623.386,15838327.276,True
+BG00,2030,029,E-Market,BG00,Battery Storage charge (load) [MW_e],773515.287,24939292.191,True
+BG00,2030,029,E-Market,BG00,EV charge (load) [MW_e],1662.5,106231.233,True
+BG00,2030,029,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],264701.379,21310939.429,False
+BG00,2030,029,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2030,029,E-Market,BG00,Native Demand [MW_e],34624975.399,2556773619.902,True
+BG00,2030,029,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1622589.712,40720967.866,True
+BG00,2030,029,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],427343.163,14420824.287,True
+BG00,2035,032,E-Market,BG00,Battery Storage charge (load) [MW_e],810406.764,22310143.905,True
+BG00,2035,032,E-Market,BG00,EV charge (load) [MW_e],1183.998,75685.69,True
+BG00,2035,032,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],4385536.366,377344845.983,False
+BG00,2035,032,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2035,032,E-Market,BG00,Native Demand [MW_e],38726833.48,3039063868.439,True
+BG00,2035,032,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1886352.914,41848337.77,True
+BG00,2035,032,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],1490919.382,35209858.005,True
+BG00,2035,032,Prosumer,BG00RETE,EV charge (load) [MW_e],2872.109,326397.641,True
+BG00,2035,032,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2035,037,E-Market,BG00,Battery Storage charge (load) [MW_e],866955.13,16928480.135,True
+BG00,2035,037,E-Market,BG00,EV charge (load) [MW_e],1174.352,43265.423,True
+BG00,2035,037,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],4618341.482,227406680.681,False
+BG00,2035,037,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2035,037,E-Market,BG00,Native Demand [MW_e],37554489.172,1741477335.401,True
+BG00,2035,037,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1845556.675,29871326.415,True
+BG00,2035,037,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],1444637.455,24253382.217,True
+BG00,2035,037,Prosumer,BG00RETE,EV charge (load) [MW_e],2761.6,246065.723,True
+BG00,2035,037,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2035,059,E-Market,BG00,Battery Storage charge (load) [MW_e],857011.034,20890506.009,True
+BG00,2035,059,E-Market,BG00,EV charge (load) [MW_e],1184.146,65597.846,True
+BG00,2035,059,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],4512268.67,345476855.737,False
+BG00,2035,059,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2035,059,E-Market,BG00,Native Demand [MW_e],38890701.215,2671286782.959,True
+BG00,2035,059,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2014587.016,44779283.788,True
+BG00,2035,059,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],1714262.015,43411456.89,True
+BG00,2035,059,Prosumer,BG00RETE,EV charge (load) [MW_e],2879.469,304305.299,True
+BG00,2035,059,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,065,E-Market,BG00,Battery Storage charge (load) [MW_e],872577.826,21710754.012,True
+BG00,2040,065,E-Market,BG00,EV charge (load) [MW_e],935.4,50151.861,True
+BG00,2040,065,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],11459319.883,711814325.69,False
+BG00,2040,065,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,065,E-Market,BG00,Native Demand [MW_e],43234114.025,3148300085.664,True
+BG00,2040,065,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2142678.451,51486831.129,True
+BG00,2040,065,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],3726436.524,91996057.67,True
+BG00,2040,065,Prosumer,BG00RETE,EV charge (load) [MW_e],2343.07,240828.519,True
+BG00,2040,065,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,071,E-Market,BG00,Battery Storage charge (load) [MW_e],850935.337,21577189.508,True
+BG00,2040,071,E-Market,BG00,EV charge (load) [MW_e],919.585,45155.695,True
+BG00,2040,071,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],13902126.441,827765067.292,False
+BG00,2040,071,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,071,E-Market,BG00,Native Demand [MW_e],41774194.465,2730270325.052,True
+BG00,2040,071,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2100618.707,45232090.157,True
+BG00,2040,071,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],3607032.747,74514078.615,True
+BG00,2040,071,Prosumer,BG00RETE,EV charge (load) [MW_e],2217.814,222444.408,True
+BG00,2040,071,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,077,E-Market,BG00,Battery Storage charge (load) [MW_e],827311.594,28255592.553,True
+BG00,2040,077,E-Market,BG00,EV charge (load) [MW_e],927.216,60519.603,True
+BG00,2040,077,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],11472456.714,778071037.505,False
+BG00,2040,077,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2040,077,E-Market,BG00,Native Demand [MW_e],42830164.684,3486925573.908,True
+BG00,2040,077,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],1847519.218,43961237.438,True
+BG00,2040,077,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],3006030.361,62434696.154,True
+BG00,2040,077,Prosumer,BG00RETE,EV charge (load) [MW_e],2280.916,262465.993,True
+BG00,2040,077,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,091,E-Market,BG00,Battery Storage charge (load) [MW_e],852573.069,25046034.425,True
+BG00,2050,091,E-Market,BG00,EV charge (load) [MW_e],845.936,65958.211,True
+BG00,2050,091,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],16877880.478,1244574278.056,False
+BG00,2050,091,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,091,E-Market,BG00,Native Demand [MW_e],47606641.465,5624076522.96,True
+BG00,2050,091,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2293856.559,72945294.139,True
+BG00,2050,091,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],5090080.531,168409114.575,True
+BG00,2050,091,Prosumer,BG00RETE,EV charge (load) [MW_e],2413.497,278055.28,True
+BG00,2050,091,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,092,E-Market,BG00,Battery Storage charge (load) [MW_e],877417.776,23792256.675,True
+BG00,2050,092,E-Market,BG00,EV charge (load) [MW_e],836.086,57641.062,True
+BG00,2050,092,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],17671128.093,1153793950.214,False
+BG00,2050,092,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,092,E-Market,BG00,Native Demand [MW_e],47351238.229,4984529981.685,True
+BG00,2050,092,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2275210.294,64102502.859,True
+BG00,2050,092,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],5066722.479,153081353.716,True
+BG00,2050,092,Prosumer,BG00RETE,EV charge (load) [MW_e],2334.836,254514.491,True
+BG00,2050,092,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,106,E-Market,BG00,Battery Storage charge (load) [MW_e],863429.783,27231115.776,True
+BG00,2050,106,E-Market,BG00,EV charge (load) [MW_e],813.457,55420.028,True
+BG00,2050,106,E-Market,BG00,Electrolyzers to H2 Zone 2 [MW_e],20481903.775,1469053627.877,False
+BG00,2050,106,E-Market,BG00,Fixed Demand [MW_e],0.0,0.0,True
+BG00,2050,106,E-Market,BG00,Native Demand [MW_e],47094534.526,4639783366.921,True
+BG00,2050,106,E-Market,BG00,Pump Storage - Closed Loop (pump) [MW_e],2102114.974,59794845.358,True
+BG00,2050,106,E-Market,BG00,Pump Storage - Open Loop (pump) [MW_e],4038133.256,96038314.939,True
+BG00,2050,106,Prosumer,BG00RETE,EV charge (load) [MW_e],2173.338,241254.757,True
+BG00,2050,106,Prosumer,BG00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,003,E-Market,GR00,Battery Storage charge (load) [MW_e],3009101.993,78773892.985,True
+GR00,2030,003,E-Market,GR00,EV charge (load) [MW_e],226935.942,12136596.636,True
+GR00,2030,003,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1215615.093,88459968.586,False
+GR00,2030,003,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-193523842.708,True
+GR00,2030,003,E-Market,GR00,Native Demand [MW_e],49505902.963,3241918855.943,True
+GR00,2030,003,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],2815201.852,55905686.571,True
+GR00,2030,003,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1280964.289,18280928.334,True
+GR00,2030,003,E-Market,GR03,Battery Storage charge (load) [MW_e],160781.383,4304858.559,True
+GR00,2030,003,E-Market,GR03,EV charge (load) [MW_e],13238.832,690768.497,True
+GR00,2030,003,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,003,E-Market,GR03,Native Demand [MW_e],3012019.457,192380134.113,True
+GR00,2030,003,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],155632.234,20846358.335,True
+GR00,2030,003,Prosumer,GR00RETE,EV charge (load) [MW_e],595588.177,56884286.084,True
+GR00,2030,003,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,003,Prosumer,GR00RETE,Native Demand [MW_e],2435338.414,323549965.684,True
+GR00,2030,003,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],10481.037,1309453.555,True
+GR00,2030,003,Prosumer,GR03RETE,EV charge (load) [MW_e],36914.007,2796047.396,True
+GR00,2030,003,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,003,Prosumer,GR03RETE,Native Demand [MW_e],131445.321,15367347.984,True
+GR00,2030,021,E-Market,GR00,Battery Storage charge (load) [MW_e],3008103.371,75627434.831,True
+GR00,2030,021,E-Market,GR00,EV charge (load) [MW_e],226935.942,12755900.121,True
+GR00,2030,021,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1197401.09,92080393.765,False
+GR00,2030,021,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-205320141.027,True
+GR00,2030,021,E-Market,GR00,Native Demand [MW_e],51389279.391,3586071977.529,True
+GR00,2030,021,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],2753382.525,53938596.275,True
+GR00,2030,021,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1322454.258,20110309.026,True
+GR00,2030,021,E-Market,GR03,Battery Storage charge (load) [MW_e],156755.557,4160735.417,True
+GR00,2030,021,E-Market,GR03,EV charge (load) [MW_e],13238.832,722331.542,True
+GR00,2030,021,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,021,E-Market,GR03,Native Demand [MW_e],3033323.146,206253923.162,True
+GR00,2030,021,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],144795.045,19511879.144,True
+GR00,2030,021,Prosumer,GR00RETE,EV charge (load) [MW_e],595859.957,59949601.826,True
+GR00,2030,021,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,021,Prosumer,GR00RETE,Native Demand [MW_e],2661454.747,371406108.27,True
+GR00,2030,021,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],10540.798,1317112.402,True
+GR00,2030,021,Prosumer,GR03RETE,EV charge (load) [MW_e],36700.756,2877239.53,True
+GR00,2030,021,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,021,Prosumer,GR03RETE,Native Demand [MW_e],146040.958,17812275.437,True
+GR00,2030,029,E-Market,GR00,Battery Storage charge (load) [MW_e],3124596.528,100023123.519,True
+GR00,2030,029,E-Market,GR00,EV charge (load) [MW_e],226935.942,12710886.865,True
+GR00,2030,029,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1243771.283,97294535.396,False
+GR00,2030,029,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-209907111.832,True
+GR00,2030,029,E-Market,GR00,Native Demand [MW_e],50661021.79,3530357827.808,True
+GR00,2030,029,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],2615000.387,55552622.458,True
+GR00,2030,029,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1270247.56,22303040.467,True
+GR00,2030,029,E-Market,GR03,Battery Storage charge (load) [MW_e],160115.441,5232670.441,True
+GR00,2030,029,E-Market,GR03,EV charge (load) [MW_e],13238.832,719893.536,True
+GR00,2030,029,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,029,E-Market,GR03,Native Demand [MW_e],3045532.918,207492685.979,True
+GR00,2030,029,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],147918.825,20270945.798,True
+GR00,2030,029,Prosumer,GR00RETE,EV charge (load) [MW_e],595558.382,59199873.197,True
+GR00,2030,029,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,029,Prosumer,GR00RETE,Native Demand [MW_e],2508479.647,345574032.738,True
+GR00,2030,029,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],10099.696,1264003.723,True
+GR00,2030,029,Prosumer,GR03RETE,EV charge (load) [MW_e],36648.536,2873538.651,True
+GR00,2030,029,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2030,029,Prosumer,GR03RETE,Native Demand [MW_e],139984.251,16977364.693,True
+GR00,2035,032,E-Market,GR00,Battery Storage charge (load) [MW_e],5159515.674,182618305.023,True
+GR00,2035,032,E-Market,GR00,EV charge (load) [MW_e],1297301.942,82066899.43,True
+GR00,2035,032,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1966231.837,151228399.003,False
+GR00,2035,032,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-221960832.145,True
+GR00,2035,032,E-Market,GR00,Native Demand [MW_e],52122614.567,3976923342.387,True
+GR00,2035,032,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],4194214.551,76932842.638,True
+GR00,2035,032,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1439987.923,26947935.918,True
+GR00,2035,032,E-Market,GR03,Battery Storage charge (load) [MW_e],248233.631,8283147.21,True
+GR00,2035,032,E-Market,GR03,EV charge (load) [MW_e],76046.458,4589311.403,True
+GR00,2035,032,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,032,E-Market,GR03,Native Demand [MW_e],3143283.036,230165948.972,True
+GR00,2035,032,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],15485.735,2572383.382,True
+GR00,2035,032,Prosumer,GR00RETE,EV charge (load) [MW_e],3128141.45,403905666.12,True
+GR00,2035,032,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,032,Prosumer,GR00RETE,Native Demand [MW_e],6475764.963,1061834372.354,True
+GR00,2035,032,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],888.877,140214.802,True
+GR00,2035,032,Prosumer,GR03RETE,EV charge (load) [MW_e],198389.527,19438925.123,True
+GR00,2035,032,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,032,Prosumer,GR03RETE,Native Demand [MW_e],414151.669,61856467.546,True
+GR00,2035,037,E-Market,GR00,Battery Storage charge (load) [MW_e],5538718.531,123109020.947,True
+GR00,2035,037,E-Market,GR00,EV charge (load) [MW_e],1288491.594,46290707.63,True
+GR00,2035,037,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1769766.861,82598269.667,False
+GR00,2035,037,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-131713199.908,True
+GR00,2035,037,E-Market,GR00,Native Demand [MW_e],51195837.454,2310635218.174,True
+GR00,2035,037,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],4271834.131,60854421.647,True
+GR00,2035,037,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1459401.867,20536243.982,True
+GR00,2035,037,E-Market,GR03,Battery Storage charge (load) [MW_e],262002.818,5427584.668,True
+GR00,2035,037,E-Market,GR03,EV charge (load) [MW_e],75558.12,2727870.839,True
+GR00,2035,037,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,037,E-Market,GR03,Native Demand [MW_e],3184570.547,143244561.595,True
+GR00,2035,037,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],16795.759,2225861.414,True
+GR00,2035,037,Prosumer,GR00RETE,EV charge (load) [MW_e],3031465.932,314653972.175,True
+GR00,2035,037,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,037,Prosumer,GR00RETE,Native Demand [MW_e],5130977.892,665992437.261,True
+GR00,2035,037,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],929.639,114531.703,True
+GR00,2035,037,Prosumer,GR03RETE,EV charge (load) [MW_e],197718.438,14042345.353,True
+GR00,2035,037,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,037,Prosumer,GR03RETE,Native Demand [MW_e],321283.922,37450661.542,True
+GR00,2035,059,E-Market,GR00,Battery Storage charge (load) [MW_e],5458411.524,172250033.109,True
+GR00,2035,059,E-Market,GR00,EV charge (load) [MW_e],1301022.17,68682858.736,True
+GR00,2035,059,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],1747374.441,115016850.982,False
+GR00,2035,059,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-194626503.269,True
+GR00,2035,059,E-Market,GR00,Native Demand [MW_e],52273615.482,3473580340.807,True
+GR00,2035,059,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],4455900.193,89098822.73,True
+GR00,2035,059,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1503191.268,29510591.168,True
+GR00,2035,059,E-Market,GR03,Battery Storage charge (load) [MW_e],254093.37,7128118.125,True
+GR00,2035,059,E-Market,GR03,EV charge (load) [MW_e],76275.586,3882438.994,True
+GR00,2035,059,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,059,E-Market,GR03,Native Demand [MW_e],3066243.165,198331045.78,True
+GR00,2035,059,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],17182.711,2530609.234,True
+GR00,2035,059,Prosumer,GR00RETE,EV charge (load) [MW_e],3174630.297,376148550.308,True
+GR00,2035,059,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,059,Prosumer,GR00RETE,Native Demand [MW_e],5858946.194,854763314.506,True
+GR00,2035,059,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],959.373,131627.358,True
+GR00,2035,059,Prosumer,GR03RETE,EV charge (load) [MW_e],200562.409,17505122.493,True
+GR00,2035,059,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2035,059,Prosumer,GR03RETE,Native Demand [MW_e],368156.577,48805516.796,True
+GR00,2040,065,E-Market,GR00,Battery Storage charge (load) [MW_e],6817833.067,251180212.196,True
+GR00,2040,065,E-Market,GR00,EV charge (load) [MW_e],2371372.951,150685156.981,True
+GR00,2040,065,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],4358869.059,224007906.619,False
+GR00,2040,065,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-221688993.826,True
+GR00,2040,065,E-Market,GR00,Native Demand [MW_e],56821566.236,4369374502.768,True
+GR00,2040,065,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],5657142.244,127478426.989,True
+GR00,2040,065,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1556468.184,41032200.199,True
+GR00,2040,065,E-Market,GR03,Battery Storage charge (load) [MW_e],424188.971,9923137.913,True
+GR00,2040,065,E-Market,GR03,EV charge (load) [MW_e],140640.811,10078184.32,True
+GR00,2040,065,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,065,E-Market,GR03,Native Demand [MW_e],3352472.926,344698440.432,True
+GR00,2040,065,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,065,Prosumer,GR00RETE,EV charge (load) [MW_e],5693324.735,689291565.842,True
+GR00,2040,065,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,065,Prosumer,GR00RETE,Native Demand [MW_e],10618476.229,1468365602.696,True
+GR00,2040,065,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,065,Prosumer,GR03RETE,EV charge (load) [MW_e],350036.498,42036150.709,True
+GR00,2040,065,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,065,Prosumer,GR03RETE,Native Demand [MW_e],624748.365,88062115.63,True
+GR00,2040,071,E-Market,GR00,Battery Storage charge (load) [MW_e],6893974.485,213672591.587,True
+GR00,2040,071,E-Market,GR00,EV charge (load) [MW_e],2358948.593,131273384.372,True
+GR00,2040,071,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],6414132.158,369045759.314,False
+GR00,2040,071,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-188935325.52,True
+GR00,2040,071,E-Market,GR00,Native Demand [MW_e],54754771.308,3639714908.235,True
+GR00,2040,071,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],5863613.148,96719074.168,True
+GR00,2040,071,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1606197.127,29060092.021,True
+GR00,2040,071,E-Market,GR03,Battery Storage charge (load) [MW_e],405842.215,7061224.201,True
+GR00,2040,071,E-Market,GR03,EV charge (load) [MW_e],139800.097,9878483.937,True
+GR00,2040,071,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,071,E-Market,GR03,Native Demand [MW_e],3333622.883,340370507.984,True
+GR00,2040,071,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,071,Prosumer,GR00RETE,EV charge (load) [MW_e],5569032.189,632526483.131,True
+GR00,2040,071,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,071,Prosumer,GR00RETE,Native Demand [MW_e],9030321.736,1089528140.308,True
+GR00,2040,071,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,071,Prosumer,GR03RETE,EV charge (load) [MW_e],342848.004,41073546.744,True
+GR00,2040,071,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,071,Prosumer,GR03RETE,Native Demand [MW_e],653198.147,93429368.806,True
+GR00,2040,077,E-Market,GR00,Battery Storage charge (load) [MW_e],6727076.947,328756658.145,True
+GR00,2040,077,E-Market,GR00,EV charge (load) [MW_e],2360531.073,183201806.698,True
+GR00,2040,077,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],4677730.283,304837967.143,False
+GR00,2040,077,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-255236313.149,True
+GR00,2040,077,E-Market,GR00,Native Demand [MW_e],55787204.468,4883003856.299,True
+GR00,2040,077,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],4758404.515,111281310.311,True
+GR00,2040,077,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1318241.138,34789438.128,True
+GR00,2040,077,E-Market,GR03,Battery Storage charge (load) [MW_e],399440.615,11174449.274,True
+GR00,2040,077,E-Market,GR03,EV charge (load) [MW_e],140172.458,11032390.969,True
+GR00,2040,077,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,077,E-Market,GR03,Native Demand [MW_e],3324949.471,344685009.892,True
+GR00,2040,077,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,077,Prosumer,GR00RETE,EV charge (load) [MW_e],5555821.097,761603191.385,True
+GR00,2040,077,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,077,Prosumer,GR00RETE,Native Demand [MW_e],9977509.623,1454344323.26,True
+GR00,2040,077,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+GR00,2040,077,Prosumer,GR03RETE,EV charge (load) [MW_e],341528.117,43770890.94,True
+GR00,2040,077,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2040,077,Prosumer,GR03RETE,Native Demand [MW_e],608482.326,92259565.68,True
+GR00,2050,091,E-Market,GR00,Battery Storage charge (load) [MW_e],9453019.274,331658849.182,True
+GR00,2050,091,E-Market,GR00,EV charge (load) [MW_e],4943242.243,339742367.317,True
+GR00,2050,091,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],20443543.501,1460875412.462,False
+GR00,2050,091,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-257888482.346,True
+GR00,2050,091,E-Market,GR00,Native Demand [MW_e],71676242.608,6455907035.863,True
+GR00,2050,091,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],5717386.077,107409287.103,True
+GR00,2050,091,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1592674.896,38068872.119,True
+GR00,2050,091,E-Market,GR03,Battery Storage charge (load) [MW_e],539234.501,2784511.808,True
+GR00,2050,091,E-Market,GR03,EV charge (load) [MW_e],128291.274,4206168.429,True
+GR00,2050,091,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,091,E-Market,GR03,Native Demand [MW_e],1433297.189,83392788.375,True
+GR00,2050,091,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],179820.842,30399581.214,True
+GR00,2050,091,Prosumer,GR00RETE,EV charge (load) [MW_e],11911480.221,1476224838.367,True
+GR00,2050,091,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,091,Prosumer,GR00RETE,Native Demand [MW_e],13011616.095,1957335633.76,True
+GR00,2050,091,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],4376.763,479627.762,True
+GR00,2050,091,Prosumer,GR03RETE,EV charge (load) [MW_e],348393.891,26480672.062,True
+GR00,2050,091,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,091,Prosumer,GR03RETE,Native Demand [MW_e],621808.921,64336738.741,True
+GR00,2050,092,E-Market,GR00,Battery Storage charge (load) [MW_e],9607915.315,284157966.402,True
+GR00,2050,092,E-Market,GR00,EV charge (load) [MW_e],4883710.348,289972398.984,True
+GR00,2050,092,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],25331285.071,1730129130.955,False
+GR00,2050,092,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-225892455.375,True
+GR00,2050,092,E-Market,GR00,Native Demand [MW_e],70187273.086,5517456509.792,True
+GR00,2050,092,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],5889436.842,100444090.51,True
+GR00,2050,092,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1641416.554,36864959.553,True
+GR00,2050,092,E-Market,GR03,Battery Storage charge (load) [MW_e],504249.306,2840217.604,True
+GR00,2050,092,E-Market,GR03,EV charge (load) [MW_e],127159.561,3421586.32,True
+GR00,2050,092,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,092,E-Market,GR03,Native Demand [MW_e],1439887.719,69979762.33,True
+GR00,2050,092,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],180325.622,28203084.993,True
+GR00,2050,092,Prosumer,GR00RETE,EV charge (load) [MW_e],11706355.554,1326144629.593,True
+GR00,2050,092,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,092,Prosumer,GR00RETE,Native Demand [MW_e],11392738.064,1587857684.767,True
+GR00,2050,092,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],4216.99,430419.738,True
+GR00,2050,092,Prosumer,GR03RETE,EV charge (load) [MW_e],346059.756,24110658.214,True
+GR00,2050,092,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,092,Prosumer,GR03RETE,Native Demand [MW_e],613766.904,57381332.224,True
+GR00,2050,106,E-Market,GR00,Battery Storage charge (load) [MW_e],9593603.758,377365878.43,True
+GR00,2050,106,E-Market,GR00,EV charge (load) [MW_e],4835527.103,313319400.845,True
+GR00,2050,106,E-Market,GR00,Electrolyzers to H2 Zone 2 [MW_e],23764891.189,1626472063.069,False
+GR00,2050,106,E-Market,GR00,Fixed Demand [MW_e],-3223065.185,-234266282.454,True
+GR00,2050,106,E-Market,GR00,Native Demand [MW_e],70211946.077,5671043299.577,True
+GR00,2050,106,E-Market,GR00,Pump Storage - Closed Loop (pump) [MW_e],5210453.452,87370099.599,True
+GR00,2050,106,E-Market,GR00,Pump Storage - Open Loop (pump) [MW_e],1399472.862,27742726.904,True
+GR00,2050,106,E-Market,GR03,Battery Storage charge (load) [MW_e],565586.495,3402723.064,True
+GR00,2050,106,E-Market,GR03,EV charge (load) [MW_e],126849.643,3329054.743,True
+GR00,2050,106,E-Market,GR03,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,106,E-Market,GR03,Native Demand [MW_e],1432957.495,68936846.359,True
+GR00,2050,106,Prosumer,GR00RETE,CH4 Heat Pump (load) [MW_e],218695.971,35927005.341,True
+GR00,2050,106,Prosumer,GR00RETE,EV charge (load) [MW_e],11592093.42,1392780170.961,True
+GR00,2050,106,Prosumer,GR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,106,Prosumer,GR00RETE,Native Demand [MW_e],11478773.202,1638010549.745,True
+GR00,2050,106,Prosumer,GR03RETE,CH4 Heat Pump (load) [MW_e],5272.272,558575.229,True
+GR00,2050,106,Prosumer,GR03RETE,EV charge (load) [MW_e],348631.926,24020741.949,True
+GR00,2050,106,Prosumer,GR03RETE,Fixed Demand [MW_e],0.0,0.0,True
+GR00,2050,106,Prosumer,GR03RETE,Native Demand [MW_e],682377.641,65956747.716,True
+HR00,2030,003,E-Market,HR00,Battery Storage charge (load) [MW_e],21881.202,754933.917,True
+HR00,2030,003,E-Market,HR00,EV charge (load) [MW_e],62566.927,3633308.935,True
+HR00,2030,003,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],2192972.66,153263108.541,False
+HR00,2030,003,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,003,E-Market,HR00,Native Demand [MW_e],15420590.847,1031395527.786,True
+HR00,2030,003,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],466340.72,8471065.338,True
+HR00,2030,003,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],413925.763,50327333.047,True
+HR00,2030,003,Prosumer,HR00RETE,EV charge (load) [MW_e],160430.539,16209869.782,True
+HR00,2030,003,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,003,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],162386.444,24437294.723,True
+HR00,2030,003,Prosumer,HR00RETE,Native Demand [MW_e],770182.62,118061554.441,True
+HR00,2030,021,E-Market,HR00,Battery Storage charge (load) [MW_e],21110.059,637436.896,True
+HR00,2030,021,E-Market,HR00,EV charge (load) [MW_e],62566.927,3757820.529,True
+HR00,2030,021,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],2063003.382,150805800.587,False
+HR00,2030,021,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,021,E-Market,HR00,Native Demand [MW_e],15819235.486,1116542768.157,True
+HR00,2030,021,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],558858.447,11797539.114,True
+HR00,2030,021,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],341820.537,40283922.995,True
+HR00,2030,021,Prosumer,HR00RETE,EV charge (load) [MW_e],163088.423,16464612.537,True
+HR00,2030,021,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,021,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],131822.354,20025234.344,True
+HR00,2030,021,Prosumer,HR00RETE,Native Demand [MW_e],678239.582,104603356.626,True
+HR00,2030,029,E-Market,HR00,Battery Storage charge (load) [MW_e],22425.751,865420.232,True
+HR00,2030,029,E-Market,HR00,EV charge (load) [MW_e],62566.927,3717341.785,True
+HR00,2030,029,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],2140743.242,155343708.83,False
+HR00,2030,029,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,029,E-Market,HR00,Native Demand [MW_e],15589469.732,1087571988.326,True
+HR00,2030,029,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],497324.323,10629275.776,True
+HR00,2030,029,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],374589.693,45838791.575,True
+HR00,2030,029,Prosumer,HR00RETE,EV charge (load) [MW_e],161867.549,16383051.58,True
+HR00,2030,029,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2030,029,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],151646.118,23187361.083,True
+HR00,2030,029,Prosumer,HR00RETE,Native Demand [MW_e],783137.53,122348355.305,True
+HR00,2035,032,E-Market,HR00,Battery Storage charge (load) [MW_e],21055.938,861875.834,True
+HR00,2035,032,E-Market,HR00,EV charge (load) [MW_e],172356.849,11675695.891,True
+HR00,2035,032,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],4228660.567,343096724.657,False
+HR00,2035,032,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,032,E-Market,HR00,Native Demand [MW_e],15237531.594,1196059087.979,True
+HR00,2035,032,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],494819.7,8833877.882,True
+HR00,2035,032,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],711763.683,109231981.119,True
+HR00,2035,032,Prosumer,HR00RETE,EV charge (load) [MW_e],440759.745,48323553.961,True
+HR00,2035,032,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,032,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],259746.841,43424285.915,True
+HR00,2035,032,Prosumer,HR00RETE,Native Demand [MW_e],1128187.958,192250843.339,True
+HR00,2035,037,E-Market,HR00,Battery Storage charge (load) [MW_e],23310.325,653195.665,True
+HR00,2035,037,E-Market,HR00,EV charge (load) [MW_e],171696.1,6890811.387,True
+HR00,2035,037,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],4389931.266,220468065.621,False
+HR00,2035,037,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,037,E-Market,HR00,Native Demand [MW_e],15052147.366,699667918.836,True
+HR00,2035,037,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],461877.826,5940038.763,True
+HR00,2035,037,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],907808.238,116368135.683,True
+HR00,2035,037,Prosumer,HR00RETE,EV charge (load) [MW_e],437656.615,36915839.457,True
+HR00,2035,037,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,037,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],279110.383,37625296.301,True
+HR00,2035,037,Prosumer,HR00RETE,Native Demand [MW_e],952513.466,129800522.497,True
+HR00,2035,059,E-Market,HR00,Battery Storage charge (load) [MW_e],22754.336,871180.047,True
+HR00,2035,059,E-Market,HR00,EV charge (load) [MW_e],172256.055,10065784.856,True
+HR00,2035,059,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],4146913.08,294375263.534,False
+HR00,2035,059,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,059,E-Market,HR00,Native Demand [MW_e],15800230.398,1095326987.714,True
+HR00,2035,059,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],521765.992,10138816.311,True
+HR00,2035,059,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],795508.771,114996598.302,True
+HR00,2035,059,Prosumer,HR00RETE,EV charge (load) [MW_e],439939.418,44199837.603,True
+HR00,2035,059,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2035,059,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],248595.644,37195892.28,True
+HR00,2035,059,Prosumer,HR00RETE,Native Demand [MW_e],1041866.478,158031308.979,True
+HR00,2040,065,E-Market,HR00,Battery Storage charge (load) [MW_e],22666.488,1119701.353,True
+HR00,2040,065,E-Market,HR00,EV charge (load) [MW_e],278055.522,18853315.889,True
+HR00,2040,065,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],5854597.965,248003141.274,False
+HR00,2040,065,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,065,E-Market,HR00,Native Demand [MW_e],15300808.459,1184905801.661,True
+HR00,2040,065,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],472073.128,15049393.663,True
+HR00,2040,065,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],803059.931,134493272.73,True
+HR00,2040,065,Prosumer,HR00RETE,EV charge (load) [MW_e],699782.989,79418506.139,True
+HR00,2040,065,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,065,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],390304.282,64774861.06,True
+HR00,2040,065,Prosumer,HR00RETE,Native Demand [MW_e],1465348.113,250779755.28,True
+HR00,2040,071,E-Market,HR00,Battery Storage charge (load) [MW_e],23308.08,1180320.15,True
+HR00,2040,071,E-Market,HR00,EV charge (load) [MW_e],277994.668,17144994.472,True
+HR00,2040,071,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],10354108.269,523135381.289,False
+HR00,2040,071,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,071,E-Market,HR00,Native Demand [MW_e],14916457.421,1056449129.549,True
+HR00,2040,071,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],420551.598,9972911.395,True
+HR00,2040,071,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],997359.235,169164865.463,True
+HR00,2040,071,Prosumer,HR00RETE,EV charge (load) [MW_e],693641.739,75755025.377,True
+HR00,2040,071,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,071,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],487342.028,82910205.851,True
+HR00,2040,071,Prosumer,HR00RETE,Native Demand [MW_e],1226139.453,213262091.548,True
+HR00,2040,077,E-Market,HR00,Battery Storage charge (load) [MW_e],21199.924,1246667.163,True
+HR00,2040,077,E-Market,HR00,EV charge (load) [MW_e],277974.248,21814560.41,True
+HR00,2040,077,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],6368632.052,258549842.185,False
+HR00,2040,077,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,077,E-Market,HR00,Native Demand [MW_e],15343033.46,1316911317.294,True
+HR00,2040,077,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],377646.774,10789279.099,True
+HR00,2040,077,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],923777.635,164064783.084,True
+HR00,2040,077,Prosumer,HR00RETE,EV charge (load) [MW_e],696076.174,86295370.386,True
+HR00,2040,077,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2040,077,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],444354.26,78627404.542,True
+HR00,2040,077,Prosumer,HR00RETE,Native Demand [MW_e],1235407.15,225933138.118,True
+HR00,2050,091,E-Market,HR00,Battery Storage charge (load) [MW_e],23332.47,1190652.619,True
+HR00,2050,091,E-Market,HR00,EV charge (load) [MW_e],1693605.347,126885117.214,True
+HR00,2050,091,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],17220437.295,1185121525.206,False
+HR00,2050,091,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,091,E-Market,HR00,Native Demand [MW_e],15857318.113,1363938034.235,True
+HR00,2050,091,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],469427.103,15374801.67,True
+HR00,2050,091,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],474225.089,81332798.459,True
+HR00,2050,091,Prosumer,HR00RETE,EV charge (load) [MW_e],4074547.611,548258464.011,True
+HR00,2050,091,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,091,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],743752.649,134248680.897,True
+HR00,2050,091,Prosumer,HR00RETE,Native Demand [MW_e],1887666.011,349001738.104,True
+HR00,2050,092,E-Market,HR00,Battery Storage charge (load) [MW_e],23176.341,1069306.573,True
+HR00,2050,092,E-Market,HR00,EV charge (load) [MW_e],1689798.856,111688565.305,True
+HR00,2050,092,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],19355086.838,1235467236.96,False
+HR00,2050,092,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,092,E-Market,HR00,Native Demand [MW_e],15334450.449,1151548301.835,True
+HR00,2050,092,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],390284.74,9136980.001,True
+HR00,2050,092,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],498102.892,79716905.798,True
+HR00,2050,092,Prosumer,HR00RETE,EV charge (load) [MW_e],3997909.66,510284648.077,True
+HR00,2050,092,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,092,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],737138.599,120385050.742,True
+HR00,2050,092,Prosumer,HR00RETE,Native Demand [MW_e],1873645.576,308105652.737,True
+HR00,2050,106,E-Market,HR00,Battery Storage charge (load) [MW_e],22660.294,1105222.472,True
+HR00,2050,106,E-Market,HR00,EV charge (load) [MW_e],1686800.51,114753605.978,True
+HR00,2050,106,E-Market,HR00,Electrolyzers to H2 Zone 2 [MW_e],23815182.104,1655857594.87,False
+HR00,2050,106,E-Market,HR00,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,106,E-Market,HR00,Native Demand [MW_e],15192717.669,1159534890.204,True
+HR00,2050,106,E-Market,HR00,Pump Storage - Open Loop (pump) [MW_e],328899.338,5084432.968,True
+HR00,2050,106,Prosumer,HR00RETE,CH4 Heat Pump (load) [MW_e],535182.118,84854726.343,True
+HR00,2050,106,Prosumer,HR00RETE,EV charge (load) [MW_e],3991955.889,518666759.154,True
+HR00,2050,106,Prosumer,HR00RETE,Fixed Demand [MW_e],0.0,0.0,True
+HR00,2050,106,Prosumer,HR00RETE,H2 Heat Pump (load) [MW_e],810979.015,132185675.363,True
+HR00,2050,106,Prosumer,HR00RETE,Native Demand [MW_e],1484887.9,244273128.437,True
+HU00,2030,003,E-Market,HU00,Battery Storage charge (load) [MW_e],335264.568,8992205.966,True
+HU00,2030,003,E-Market,HU00,EV charge (load) [MW_e],583486.289,35332632.613,True
+HU00,2030,003,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],502872.726,8572866.085,False
+HU00,2030,003,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2030,003,E-Market,HU00,Native Demand [MW_e],45671326.627,3010366578.178,True
+HU00,2030,003,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],141592.337,12573515.245,True
+HU00,2030,003,Prosumer,HU00RETE,EV charge (load) [MW_e],1361476.92,138173697.391,True
+HU00,2030,003,Prosumer,HU00RETE,Fixed Demand [MW_e],-131433.581,-7113696.82,True
+HU00,2030,003,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2030,003,Prosumer,HU00RETE,Native Demand [MW_e],1548896.733,220609793.983,True
+HU00,2030,021,E-Market,HU00,Battery Storage charge (load) [MW_e],335619.778,7295005.375,True
+HU00,2030,021,E-Market,HU00,EV charge (load) [MW_e],583486.289,36624423.26,True
+HU00,2030,021,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],467941.28,5994948.952,False
+HU00,2030,021,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2030,021,E-Market,HU00,Native Demand [MW_e],46161301.915,3201325394.12,True
+HU00,2030,021,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],117012.049,9952407.739,True
+HU00,2030,021,Prosumer,HU00RETE,EV charge (load) [MW_e],1361476.92,140560037.405,True
+HU00,2030,021,Prosumer,HU00RETE,Fixed Demand [MW_e],-150118.499,-7433607.416,True
+HU00,2030,021,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2030,021,Prosumer,HU00RETE,Native Demand [MW_e],1436607.237,203476374.627,True
+HU00,2030,029,E-Market,HU00,Battery Storage charge (load) [MW_e],338247.54,10132352.051,True
+HU00,2030,029,E-Market,HU00,EV charge (load) [MW_e],583486.289,36312353.145,True
+HU00,2030,029,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],446671.925,6709267.06,False
+HU00,2030,029,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2030,029,E-Market,HU00,Native Demand [MW_e],46021637.251,3155694579.878,True
+HU00,2030,029,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],117867.327,10199351.236,True
+HU00,2030,029,Prosumer,HU00RETE,EV charge (load) [MW_e],1361476.92,140874142.732,True
+HU00,2030,029,Prosumer,HU00RETE,Fixed Demand [MW_e],-136767.374,-7260201.605,True
+HU00,2030,029,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2030,029,Prosumer,HU00RETE,Native Demand [MW_e],1608390.414,233564127.625,True
+HU00,2035,032,E-Market,HU00,Battery Storage charge (load) [MW_e],344547.297,9615453.046,True
+HU00,2035,032,E-Market,HU00,EV charge (load) [MW_e],617304.642,41650341.872,True
+HU00,2035,032,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],2256205.47,155788048.161,False
+HU00,2035,032,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2035,032,E-Market,HU00,Native Demand [MW_e],47861200.451,3572727184.538,True
+HU00,2035,032,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],619945.032,78433621.647,True
+HU00,2035,032,Prosumer,HU00RETE,EV charge (load) [MW_e],1531764.888,157770906.967,True
+HU00,2035,032,Prosumer,HU00RETE,Fixed Demand [MW_e],-263298.539,-15508759.462,True
+HU00,2035,032,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2035,032,Prosumer,HU00RETE,Native Demand [MW_e],1741663.419,270181745.738,True
+HU00,2035,037,E-Market,HU00,Battery Storage charge (load) [MW_e],354847.491,7316554.221,True
+HU00,2035,037,E-Market,HU00,EV charge (load) [MW_e],615507.367,25211444.066,True
+HU00,2035,037,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],2441206.925,108547341.591,False
+HU00,2035,037,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2035,037,E-Market,HU00,Native Demand [MW_e],47390155.88,2151146545.942,True
+HU00,2035,037,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],807014.15,88173294.08,True
+HU00,2035,037,Prosumer,HU00RETE,EV charge (load) [MW_e],1525509.837,120733623.479,True
+HU00,2035,037,Prosumer,HU00RETE,Fixed Demand [MW_e],-240673.463,-10818968.195,True
+HU00,2035,037,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2035,037,Prosumer,HU00RETE,Native Demand [MW_e],1561290.703,194118941.168,True
+HU00,2035,059,E-Market,HU00,Battery Storage charge (load) [MW_e],354337.883,8882840.099,True
+HU00,2035,059,E-Market,HU00,EV charge (load) [MW_e],617262.078,36398074.511,True
+HU00,2035,059,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],1934950.394,107577399.744,False
+HU00,2035,059,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2035,059,E-Market,HU00,Native Demand [MW_e],48840613.199,3224520176.299,True
+HU00,2035,059,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],753404.713,97720947.269,True
+HU00,2035,059,Prosumer,HU00RETE,EV charge (load) [MW_e],1529855.532,146772800.236,True
+HU00,2035,059,Prosumer,HU00RETE,Fixed Demand [MW_e],-268312.369,-13409594.631,True
+HU00,2035,059,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2035,059,Prosumer,HU00RETE,Native Demand [MW_e],1753630.839,244532473.86,True
+HU00,2040,065,E-Market,HU00,Battery Storage charge (load) [MW_e],376552.085,10154902.471,True
+HU00,2040,065,E-Market,HU00,EV charge (load) [MW_e],913926.739,48126001.746,True
+HU00,2040,065,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],3292437.22,189778259.783,False
+HU00,2040,065,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2040,065,E-Market,HU00,Native Demand [MW_e],48806215.401,3411905263.933,True
+HU00,2040,065,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],1133418.864,168667003.759,True
+HU00,2040,065,Prosumer,HU00RETE,EV charge (load) [MW_e],2582382.064,196090096.616,True
+HU00,2040,065,Prosumer,HU00RETE,Fixed Demand [MW_e],-321146.927,-17355683.914,True
+HU00,2040,065,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2040,065,Prosumer,HU00RETE,Native Demand [MW_e],1639676.221,249873680.293,True
+HU00,2040,071,E-Market,HU00,Battery Storage charge (load) [MW_e],366281.539,11099734.838,True
+HU00,2040,071,E-Market,HU00,EV charge (load) [MW_e],903026.52,45755696.722,True
+HU00,2040,071,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],3930461.12,231663459.497,False
+HU00,2040,071,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2040,071,E-Market,HU00,Native Demand [MW_e],48130372.473,3130186613.123,True
+HU00,2040,071,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],1319036.562,201179507.195,True
+HU00,2040,071,Prosumer,HU00RETE,EV charge (load) [MW_e],2555264.33,191040771.042,True
+HU00,2040,071,Prosumer,HU00RETE,Fixed Demand [MW_e],-298510.024,-16394209.735,True
+HU00,2040,071,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2040,071,Prosumer,HU00RETE,Native Demand [MW_e],1454747.746,225712476.718,True
+HU00,2040,077,E-Market,HU00,Battery Storage charge (load) [MW_e],346084.156,11709765.73,True
+HU00,2040,077,E-Market,HU00,EV charge (load) [MW_e],910106.571,57845174.032,True
+HU00,2040,077,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],3245765.904,197382228.652,False
+HU00,2040,077,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2040,077,E-Market,HU00,Native Demand [MW_e],48869772.228,3809032685.174,True
+HU00,2040,077,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],1207904.714,197010295.636,True
+HU00,2040,077,Prosumer,HU00RETE,EV charge (load) [MW_e],2565285.924,222804353.913,True
+HU00,2040,077,Prosumer,HU00RETE,Fixed Demand [MW_e],-313809.785,-17984543.642,True
+HU00,2040,077,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+HU00,2040,077,Prosumer,HU00RETE,Native Demand [MW_e],1410715.203,228602783.132,True
+HU00,2050,091,E-Market,HU00,Battery Storage charge (load) [MW_e],376738.98,8098186.509,True
+HU00,2050,091,E-Market,HU00,EV charge (load) [MW_e],968052.758,39908323.033,True
+HU00,2050,091,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],4271247.985,291114369.028,False
+HU00,2050,091,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2050,091,E-Market,HU00,Native Demand [MW_e],51387059.068,3737702045.263,True
+HU00,2050,091,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],3354229.268,482194113.795,True
+HU00,2050,091,Prosumer,HU00RETE,EV charge (load) [MW_e],3309278.942,177747645.097,True
+HU00,2050,091,Prosumer,HU00RETE,Fixed Demand [MW_e],-471780.873,-31898134.114,True
+HU00,2050,091,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],233247.681,35551894.687,True
+HU00,2050,091,Prosumer,HU00RETE,Native Demand [MW_e],2881145.008,441363013.576,True
+HU00,2050,092,E-Market,HU00,Battery Storage charge (load) [MW_e],371603.51,7787260.553,True
+HU00,2050,092,E-Market,HU00,EV charge (load) [MW_e],955935.862,35029435.252,True
+HU00,2050,092,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],4090002.474,248312519.268,False
+HU00,2050,092,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2050,092,E-Market,HU00,Native Demand [MW_e],50486626.436,3342226816.58,True
+HU00,2050,092,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],3534731.289,491984701.335,True
+HU00,2050,092,Prosumer,HU00RETE,EV charge (load) [MW_e],3178644.34,170929120.755,True
+HU00,2050,092,Prosumer,HU00RETE,Fixed Demand [MW_e],-428752.865,-28887391.767,True
+HU00,2050,092,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],233087.897,32943773.596,True
+HU00,2050,092,Prosumer,HU00RETE,Native Demand [MW_e],2728376.37,386770754.251,True
+HU00,2050,106,E-Market,HU00,Battery Storage charge (load) [MW_e],362166.143,9549537.168,True
+HU00,2050,106,E-Market,HU00,EV charge (load) [MW_e],941671.236,40750001.989,True
+HU00,2050,106,E-Market,HU00,Electrolyzers to H2 Zone 2 [MW_e],4152569.964,257023166.744,False
+HU00,2050,106,E-Market,HU00,Fixed Demand [MW_e],0.0,0.0,True
+HU00,2050,106,E-Market,HU00,Native Demand [MW_e],50008535.706,3412483656.299,True
+HU00,2050,106,Prosumer,HU00RETE,CH4 Heat Pump (load) [MW_e],3890655.487,557318906.853,True
+HU00,2050,106,Prosumer,HU00RETE,EV charge (load) [MW_e],3071229.991,181297324.802,True
+HU00,2050,106,Prosumer,HU00RETE,Fixed Demand [MW_e],-408373.578,-26235602.089,True
+HU00,2050,106,Prosumer,HU00RETE,H2 Heat Pump (load) [MW_e],264430.278,39152226.354,True
+HU00,2050,106,Prosumer,HU00RETE,Native Demand [MW_e],2228913.259,324090553.59,True
+MD00,2030,003,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2030,003,E-Market,MD00,Native Demand [MW_e],6948931.875,417910218.637,True
+MD00,2030,021,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2030,021,E-Market,MD00,Native Demand [MW_e],7009067.933,431310238.893,True
+MD00,2030,029,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2030,029,E-Market,MD00,Native Demand [MW_e],7075637.394,455820484.558,True
+MD00,2035,032,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2035,032,E-Market,MD00,Native Demand [MW_e],7835375.699,533088894.494,True
+MD00,2035,037,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2035,037,E-Market,MD00,Native Demand [MW_e],7724920.031,330172810.154,True
+MD00,2035,059,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2035,059,E-Market,MD00,Native Demand [MW_e],7981925.136,493048796.838,True
+MD00,2040,065,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2040,065,E-Market,MD00,Native Demand [MW_e],8833477.663,597455463.014,True
+MD00,2040,071,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2040,071,E-Market,MD00,Native Demand [MW_e],8644816.276,525567331.07,True
+MD00,2040,077,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2040,077,E-Market,MD00,Native Demand [MW_e],8836891.411,670054964.476,True
+MD00,2050,091,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2050,091,E-Market,MD00,Native Demand [MW_e],11145748.85,962204922.477,True
+MD00,2050,092,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2050,092,E-Market,MD00,Native Demand [MW_e],11093775.821,888224850.657,True
+MD00,2050,106,E-Market,MD00,Fixed Demand [MW_e],0.0,0.0,True
+MD00,2050,106,E-Market,MD00,Native Demand [MW_e],10840107.995,843072376.303,True
+MK00,2030,003,E-Market,MK00,Battery Storage charge (load) [MW_e],85163.651,2104355.034,True
+MK00,2030,003,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2030,003,E-Market,MK00,Native Demand [MW_e],7862893.374,559498692.839,True
+MK00,2030,021,E-Market,MK00,Battery Storage charge (load) [MW_e],83966.842,1828977.928,True
+MK00,2030,021,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2030,021,E-Market,MK00,Native Demand [MW_e],8044743.835,597385961.659,True
+MK00,2030,029,E-Market,MK00,Battery Storage charge (load) [MW_e],85646.407,2477836.617,True
+MK00,2030,029,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2030,029,E-Market,MK00,Native Demand [MW_e],8033835.598,597582412.313,True
+MK00,2035,032,E-Market,MK00,Battery Storage charge (load) [MW_e],91876.966,2817856.779,True
+MK00,2035,032,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2035,032,E-Market,MK00,Native Demand [MW_e],8421411.52,679715440.531,True
+MK00,2035,032,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],923154.947,21050959.784,True
+MK00,2035,037,E-Market,MK00,Battery Storage charge (load) [MW_e],100454.822,2143555.713,True
+MK00,2035,037,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2035,037,E-Market,MK00,Native Demand [MW_e],8173197.183,387509329.033,True
+MK00,2035,037,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],812674.221,10936079.047,True
+MK00,2035,059,E-Market,MK00,Battery Storage charge (load) [MW_e],99360.41,3035085.291,True
+MK00,2035,059,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2035,059,E-Market,MK00,Native Demand [MW_e],8543384.512,605851726.425,True
+MK00,2035,059,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],915137.098,19656696.633,True
+MK00,2040,065,E-Market,MK00,Battery Storage charge (load) [MW_e],248754.824,8965738.966,True
+MK00,2040,065,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2040,065,E-Market,MK00,Native Demand [MW_e],9019318.138,713923729.946,True
+MK00,2040,065,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],901528.126,24746820.346,True
+MK00,2040,071,E-Market,MK00,Battery Storage charge (load) [MW_e],246282.212,7464422.25,True
+MK00,2040,071,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2040,071,E-Market,MK00,Native Demand [MW_e],8606309.613,602120881.071,True
+MK00,2040,071,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],952079.966,18834535.096,True
+MK00,2040,077,E-Market,MK00,Battery Storage charge (load) [MW_e],241981.641,11213606.29,True
+MK00,2040,077,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2040,077,E-Market,MK00,Native Demand [MW_e],8829198.427,781705732.814,True
+MK00,2040,077,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],837874.938,24440391.684,True
+MK00,2050,091,E-Market,MK00,Battery Storage charge (load) [MW_e],243061.063,7878090.455,True
+MK00,2050,091,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2050,091,E-Market,MK00,Native Demand [MW_e],10662636.207,982445627.554,True
+MK00,2050,091,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],1112016.429,38312051.86,True
+MK00,2050,092,E-Market,MK00,Battery Storage charge (load) [MW_e],252293.858,7511090.26,True
+MK00,2050,092,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2050,092,E-Market,MK00,Native Demand [MW_e],10469898.349,844862406.025,True
+MK00,2050,092,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],955748.972,24130096.554,True
+MK00,2050,106,E-Market,MK00,Battery Storage charge (load) [MW_e],236157.425,8170510.691,True
+MK00,2050,106,E-Market,MK00,Fixed Demand [MW_e],0.0,0.0,True
+MK00,2050,106,E-Market,MK00,Native Demand [MW_e],10316549.494,848773360.463,True
+MK00,2050,106,E-Market,MK00,Pump Storage - Open Loop (pump) [MW_e],817971.01,18902777.501,True
+RO00,2030,003,E-Market,RO00,Battery Storage charge (load) [MW_e],1263174.684,40668812.452,True
+RO00,2030,003,E-Market,RO00,EV charge (load) [MW_e],722728.062,39414315.961,True
+RO00,2030,003,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],118512.853,2070217.316,False
+RO00,2030,003,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,003,E-Market,RO00,Native Demand [MW_e],61074017.809,4245655611.725,True
+RO00,2030,003,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],456034.72,41385041.782,True
+RO00,2030,003,Prosumer,RO00RETE,EV charge (load) [MW_e],1924885.625,191364728.42,True
+RO00,2030,003,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,003,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],103054.143,8460427.094,True
+RO00,2030,003,Prosumer,RO00RETE,Native Demand [MW_e],754114.361,111718081.157,True
+RO00,2030,021,E-Market,RO00,Battery Storage charge (load) [MW_e],1206866.754,33686211.225,True
+RO00,2030,021,E-Market,RO00,EV charge (load) [MW_e],722728.062,40552856.627,True
+RO00,2030,021,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],105121.304,1402241.608,False
+RO00,2030,021,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,021,E-Market,RO00,Native Demand [MW_e],61573244.874,4528143195.953,True
+RO00,2030,021,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],439931.183,36741560.069,True
+RO00,2030,021,Prosumer,RO00RETE,EV charge (load) [MW_e],1959223.991,190816174.569,True
+RO00,2030,021,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,021,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],109832.921,9503368.0,True
+RO00,2030,021,Prosumer,RO00RETE,Native Demand [MW_e],748267.649,111577970.31,True
+RO00,2030,029,E-Market,RO00,Battery Storage charge (load) [MW_e],1309213.521,49509495.705,True
+RO00,2030,029,E-Market,RO00,EV charge (load) [MW_e],722728.062,40983134.581,True
+RO00,2030,029,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],98185.737,1452333.157,False
+RO00,2030,029,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,029,E-Market,RO00,Native Demand [MW_e],61871814.741,4524428708.704,True
+RO00,2030,029,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],400601.197,36973836.829,True
+RO00,2030,029,Prosumer,RO00RETE,EV charge (load) [MW_e],1932040.352,189289271.62,True
+RO00,2030,029,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2030,029,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],92875.985,8155910.333,True
+RO00,2030,029,Prosumer,RO00RETE,Native Demand [MW_e],746723.437,111111965.048,True
+RO00,2035,032,E-Market,RO00,Battery Storage charge (load) [MW_e],1342041.382,45954029.326,True
+RO00,2035,032,E-Market,RO00,EV charge (load) [MW_e],1421495.279,82666726.326,True
+RO00,2035,032,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],2191423.535,148268678.86,False
+RO00,2035,032,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,032,E-Market,RO00,Native Demand [MW_e],65366038.925,5028493391.247,True
+RO00,2035,032,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],1910571.032,41760068.327,True
+RO00,2035,032,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],550339.003,58728465.57,True
+RO00,2035,032,Prosumer,RO00RETE,EV charge (load) [MW_e],3779382.081,385578124.622,True
+RO00,2035,032,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,032,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],599094.893,105260177.06,True
+RO00,2035,032,Prosumer,RO00RETE,Native Demand [MW_e],1051916.599,165526664.3,True
+RO00,2035,037,E-Market,RO00,Battery Storage charge (load) [MW_e],1386033.623,32090167.931,True
+RO00,2035,037,E-Market,RO00,EV charge (load) [MW_e],1408214.552,49304740.327,True
+RO00,2035,037,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],2521947.414,111027841.051,False
+RO00,2035,037,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,037,E-Market,RO00,Native Demand [MW_e],64579723.864,2973810051.638,True
+RO00,2035,037,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],1841710.491,29514362.274,True
+RO00,2035,037,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],930418.588,116767020.753,True
+RO00,2035,037,Prosumer,RO00RETE,EV charge (load) [MW_e],3704010.362,314918510.837,True
+RO00,2035,037,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,037,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],615265.808,91440669.046,True
+RO00,2035,037,Prosumer,RO00RETE,Native Demand [MW_e],1004103.514,129701716.47,True
+RO00,2035,059,E-Market,RO00,Battery Storage charge (load) [MW_e],1397675.985,43396729.657,True
+RO00,2035,059,E-Market,RO00,EV charge (load) [MW_e],1421419.673,70836851.65,True
+RO00,2035,059,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],1971997.887,112605128.282,False
+RO00,2035,059,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,059,E-Market,RO00,Native Demand [MW_e],66371028.96,4522752644.058,True
+RO00,2035,059,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2041580.201,45860347.8,True
+RO00,2035,059,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],627513.211,78337051.408,True
+RO00,2035,059,Prosumer,RO00RETE,EV charge (load) [MW_e],3767768.827,358144411.304,True
+RO00,2035,059,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2035,059,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],500865.839,81628908.702,True
+RO00,2035,059,Prosumer,RO00RETE,Native Demand [MW_e],1044859.35,154971738.607,True
+RO00,2040,065,E-Market,RO00,Battery Storage charge (load) [MW_e],2080828.454,57998900.879,True
+RO00,2040,065,E-Market,RO00,EV charge (load) [MW_e],2118319.683,105023640.301,True
+RO00,2040,065,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],3607596.412,223980099.583,False
+RO00,2040,065,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,065,E-Market,RO00,Native Demand [MW_e],69735896.921,4975646213.765,True
+RO00,2040,065,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2202947.826,48582129.535,True
+RO00,2040,065,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],75636.821,1540810.853,True
+RO00,2040,065,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],1430833.578,234049219.623,True
+RO00,2040,065,Prosumer,RO00RETE,EV charge (load) [MW_e],5616100.624,526608059.85,True
+RO00,2040,065,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,065,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],912187.154,161510222.906,True
+RO00,2040,065,Prosumer,RO00RETE,Native Demand [MW_e],1339300.347,205205753.779,True
+RO00,2040,071,E-Market,RO00,Battery Storage charge (load) [MW_e],2102995.21,64313441.537,True
+RO00,2040,071,E-Market,RO00,EV charge (load) [MW_e],2093858.582,98369656.97,True
+RO00,2040,071,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],4084917.106,244379200.978,False
+RO00,2040,071,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,071,E-Market,RO00,Native Demand [MW_e],68762504.921,4413899251.757,True
+RO00,2040,071,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2103985.272,40183639.53,True
+RO00,2040,071,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],69757.381,1144797.765,True
+RO00,2040,071,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],2005900.386,324996621.46,True
+RO00,2040,071,Prosumer,RO00RETE,EV charge (load) [MW_e],5507584.17,527241286.637,True
+RO00,2040,071,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,071,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],1397470.29,254140323.362,True
+RO00,2040,071,Prosumer,RO00RETE,Native Demand [MW_e],1265616.633,188146283.675,True
+RO00,2040,077,E-Market,RO00,Battery Storage charge (load) [MW_e],1959278.422,70588518.811,True
+RO00,2040,077,E-Market,RO00,EV charge (load) [MW_e],2106153.54,129140477.306,True
+RO00,2040,077,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],3639005.182,251571287.091,False
+RO00,2040,077,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,077,E-Market,RO00,Native Demand [MW_e],69789961.779,5563105979.744,True
+RO00,2040,077,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],1884681.761,38714865.583,True
+RO00,2040,077,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],61879.435,1045206.847,True
+RO00,2040,077,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],1301824.05,221632930.822,True
+RO00,2040,077,Prosumer,RO00RETE,EV charge (load) [MW_e],5546125.557,595388642.052,True
+RO00,2040,077,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2040,077,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],946853.532,182348672.071,True
+RO00,2040,077,Prosumer,RO00RETE,Native Demand [MW_e],1323968.669,216222661.16,True
+RO00,2050,091,E-Market,RO00,Battery Storage charge (load) [MW_e],3570580.167,70095198.22,True
+RO00,2050,091,E-Market,RO00,EV charge (load) [MW_e],4633059.641,202098441.746,True
+RO00,2050,091,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],4271609.023,277936250.833,False
+RO00,2050,091,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,091,E-Market,RO00,Native Demand [MW_e],79012359.526,5459009312.676,True
+RO00,2050,091,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2328423.659,35249993.313,True
+RO00,2050,091,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],81026.435,1004238.201,True
+RO00,2050,091,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],980452.427,130343066.453,True
+RO00,2050,091,Prosumer,RO00RETE,EV charge (load) [MW_e],11875890.493,1066329821.514,True
+RO00,2050,091,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,091,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],643903.623,103748235.074,True
+RO00,2050,091,Prosumer,RO00RETE,Native Demand [MW_e],1638623.907,239103931.959,True
+RO00,2050,092,E-Market,RO00,Battery Storage charge (load) [MW_e],3567358.041,65792370.861,True
+RO00,2050,092,E-Market,RO00,EV charge (load) [MW_e],4552933.096,169177722.198,True
+RO00,2050,092,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],4275013.168,242694730.756,False
+RO00,2050,092,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,092,E-Market,RO00,Native Demand [MW_e],78336246.583,4714764602.72,True
+RO00,2050,092,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2288123.561,30033667.262,True
+RO00,2050,092,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],81802.475,956964.889,True
+RO00,2050,092,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],1029325.248,140194052.654,True
+RO00,2050,092,Prosumer,RO00RETE,EV charge (load) [MW_e],11804115.537,1015640181.007,True
+RO00,2050,092,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,092,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],609686.459,91019043.446,True
+RO00,2050,092,Prosumer,RO00RETE,Native Demand [MW_e],1613365.325,221587176.234,True
+RO00,2050,106,E-Market,RO00,Battery Storage charge (load) [MW_e],3718036.263,89361883.585,True
+RO00,2050,106,E-Market,RO00,EV charge (load) [MW_e],4513960.792,188343676.366,True
+RO00,2050,106,E-Market,RO00,Electrolyzers to H2 Zone 2 [MW_e],4300814.366,244681635.784,False
+RO00,2050,106,E-Market,RO00,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,106,E-Market,RO00,Native Demand [MW_e],77659592.096,4686409449.218,True
+RO00,2050,106,E-Market,RO00,Pump Storage - Closed Loop (pump) [MW_e],2185652.642,26286044.171,True
+RO00,2050,106,E-Market,RO00,Pump Storage - Open Loop (pump) [MW_e],69859.87,478362.66,True
+RO00,2050,106,Prosumer,RO00RETE,CH4 Heat Pump (load) [MW_e],1208622.218,173870368.942,True
+RO00,2050,106,Prosumer,RO00RETE,EV charge (load) [MW_e],11527044.444,1107637374.38,True
+RO00,2050,106,Prosumer,RO00RETE,Fixed Demand [MW_e],0.0,0.0,True
+RO00,2050,106,Prosumer,RO00RETE,H2 Heat Pump (load) [MW_e],701211.909,114679947.308,True
+RO00,2050,106,Prosumer,RO00RETE,Native Demand [MW_e],1565069.008,223379954.624,True
+RS00,2030,003,E-Market,RS00,Battery Storage charge (load) [MW_e],554942.516,14478397.758,True
+RS00,2030,003,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2030,003,E-Market,RS00,Native Demand [MW_e],46973480.49,3281453689.213,True
+RS00,2030,003,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],1659470.695,48466581.244,True
+RS00,2030,021,E-Market,RS00,Battery Storage charge (load) [MW_e],551653.079,12829370.866,True
+RS00,2030,021,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2030,021,E-Market,RS00,Native Demand [MW_e],47504047.809,3489495118.589,True
+RS00,2030,021,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],1561399.377,44587949.565,True
+RS00,2030,029,E-Market,RS00,Battery Storage charge (load) [MW_e],579183.977,18510277.676,True
+RS00,2030,029,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2030,029,E-Market,RS00,Native Demand [MW_e],47569390.899,3483193422.904,True
+RS00,2030,029,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],1615785.073,50628226.837,True
+RS00,2035,032,E-Market,RS00,Battery Storage charge (load) [MW_e],589449.833,20511671.773,True
+RS00,2035,032,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2035,032,E-Market,RS00,Native Demand [MW_e],47539601.689,3836907926.16,True
+RS00,2035,032,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3607619.031,94256814.235,True
+RS00,2035,037,E-Market,RS00,Battery Storage charge (load) [MW_e],622068.587,14728663.525,True
+RS00,2035,037,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2035,037,E-Market,RS00,Native Demand [MW_e],46168652.536,2226642388.045,True
+RS00,2035,037,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3672762.422,78569151.495,True
+RS00,2035,059,E-Market,RS00,Battery Storage charge (load) [MW_e],623146.242,20291500.703,True
+RS00,2035,059,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2035,059,E-Market,RS00,Native Demand [MW_e],47958847.393,3395277661.952,True
+RS00,2035,059,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3989781.682,115198364.388,True
+RS00,2040,065,E-Market,RS00,Battery Storage charge (load) [MW_e],626900.122,25193866.354,True
+RS00,2040,065,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2040,065,E-Market,RS00,Native Demand [MW_e],47313812.069,3708933671.928,True
+RS00,2040,065,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3800003.162,147230837.434,True
+RS00,2040,071,E-Market,RS00,Battery Storage charge (load) [MW_e],620460.741,23643894.501,True
+RS00,2040,071,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2040,071,E-Market,RS00,Native Demand [MW_e],46108084.2,3292075716.461,True
+RS00,2040,071,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3857434.649,114066455.734,True
+RS00,2040,077,E-Market,RS00,Battery Storage charge (load) [MW_e],597392.51,30642189.396,True
+RS00,2040,077,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2040,077,E-Market,RS00,Native Demand [MW_e],46805227.781,4084046523.136,True
+RS00,2040,077,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3310812.699,116360473.304,True
+RS00,2050,091,E-Market,RS00,Battery Storage charge (load) [MW_e],623397.646,23733972.248,True
+RS00,2050,091,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2050,091,E-Market,RS00,Native Demand [MW_e],47783115.737,4071734195.015,True
+RS00,2050,091,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3960942.816,140008152.656,True
+RS00,2050,092,E-Market,RS00,Battery Storage charge (load) [MW_e],631379.067,19628976.384,True
+RS00,2050,092,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2050,092,E-Market,RS00,Native Demand [MW_e],46921057.665,3417180242.46,True
+RS00,2050,092,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3555243.935,98452053.172,True
+RS00,2050,106,E-Market,RS00,Battery Storage charge (load) [MW_e],618779.202,21855655.157,True
+RS00,2050,106,E-Market,RS00,Fixed Demand [MW_e],0.0,0.0,True
+RS00,2050,106,E-Market,RS00,Native Demand [MW_e],46255278.747,3409362403.627,True
+RS00,2050,106,E-Market,RS00,Pump Storage - Closed Loop (pump) [MW_e],3234355.847,70954998.019,True
+SI00,2030,003,E-Market,SI00,Battery Storage charge (load) [MW_e],35790.484,930598.102,True
+SI00,2030,003,E-Market,SI00,EV charge (load) [MW_e],198420.766,11525384.259,True
+SI00,2030,003,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],876000.0,57732735.47,False
+SI00,2030,003,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,003,E-Market,SI00,Native Demand [MW_e],14702766.39,992189728.508,True
+SI00,2030,003,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],74323.815,2461560.976,True
+SI00,2030,003,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,003,Prosumer,SI00RETE,EV charge (load) [MW_e],502171.478,44261819.742,True
+SI00,2030,003,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,003,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,003,Prosumer,SI00RETE,Native Demand [MW_e],280436.398,45172633.339,True
+SI00,2030,021,E-Market,SI00,Battery Storage charge (load) [MW_e],36999.621,774167.633,True
+SI00,2030,021,E-Market,SI00,EV charge (load) [MW_e],198420.766,11860580.482,True
+SI00,2030,021,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],876000.0,61279773.814,False
+SI00,2030,021,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,021,E-Market,SI00,Native Demand [MW_e],14749926.682,1048201017.907,True
+SI00,2030,021,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],75819.07,2039979.686,True
+SI00,2030,021,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,021,Prosumer,SI00RETE,EV charge (load) [MW_e],502821.151,44341863.208,True
+SI00,2030,021,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,021,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,021,Prosumer,SI00RETE,Native Demand [MW_e],204440.642,33311473.24,True
+SI00,2030,029,E-Market,SI00,Battery Storage charge (load) [MW_e],37814.091,1061089.191,True
+SI00,2030,029,E-Market,SI00,EV charge (load) [MW_e],198420.766,11723986.883,True
+SI00,2030,029,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],876000.0,59983128.488,False
+SI00,2030,029,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,029,E-Market,SI00,Native Demand [MW_e],14739514.558,1031969093.415,True
+SI00,2030,029,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],76157.591,2500665.904,True
+SI00,2030,029,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,029,Prosumer,SI00RETE,EV charge (load) [MW_e],503683.841,45183754.837,True
+SI00,2030,029,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2030,029,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],0.0,0.0,True
+SI00,2030,029,Prosumer,SI00RETE,Native Demand [MW_e],307142.422,50697362.069,True
+SI00,2035,032,E-Market,SI00,Battery Storage charge (load) [MW_e],54640.142,1625030.52,True
+SI00,2035,032,E-Market,SI00,EV charge (load) [MW_e],549012.236,37082513.341,True
+SI00,2035,032,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],1182294.284,91125661.384,False
+SI00,2035,032,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,032,E-Market,SI00,Native Demand [MW_e],15914033.852,1253260470.304,True
+SI00,2035,032,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],924107.68,15202174.832,True
+SI00,2035,032,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],299103.751,11955371.293,True
+SI00,2035,032,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],588.279,59520.946,True
+SI00,2035,032,Prosumer,SI00RETE,EV charge (load) [MW_e],1352179.915,133204462.375,True
+SI00,2035,032,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,032,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1103.561,177953.257,True
+SI00,2035,032,Prosumer,SI00RETE,Native Demand [MW_e],440026.681,80424334.258,True
+SI00,2035,037,E-Market,SI00,Battery Storage charge (load) [MW_e],56194.362,1244797.097,True
+SI00,2035,037,E-Market,SI00,EV charge (load) [MW_e],547368.093,22503219.724,True
+SI00,2035,037,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],1185179.918,55393292.732,False
+SI00,2035,037,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,037,E-Market,SI00,Native Demand [MW_e],15840754.936,756679464.006,True
+SI00,2035,037,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],802560.196,9924095.469,True
+SI00,2035,037,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],302079.086,7817958.463,True
+SI00,2035,037,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],1001.372,109437.917,True
+SI00,2035,037,Prosumer,SI00RETE,EV charge (load) [MW_e],1335344.548,100213551.057,True
+SI00,2035,037,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,037,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1182.322,152212.965,True
+SI00,2035,037,Prosumer,SI00RETE,Native Demand [MW_e],378688.224,56493800.551,True
+SI00,2035,059,E-Market,SI00,Battery Storage charge (load) [MW_e],56023.301,1504590.995,True
+SI00,2035,059,E-Market,SI00,EV charge (load) [MW_e],549315.211,31846962.049,True
+SI00,2035,059,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],1184241.915,80647783.867,False
+SI00,2035,059,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,059,E-Market,SI00,Native Demand [MW_e],16078760.201,1112132900.245,True
+SI00,2035,059,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],969570.519,14073264.736,True
+SI00,2035,059,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],294780.89,9198549.196,True
+SI00,2035,059,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],886.881,108907.408,True
+SI00,2035,059,Prosumer,SI00RETE,EV charge (load) [MW_e],1353800.148,122427164.249,True
+SI00,2035,059,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2035,059,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1168.294,169170.519,True
+SI00,2035,059,Prosumer,SI00RETE,Native Demand [MW_e],405141.159,65538250.285,True
+SI00,2040,065,E-Market,SI00,Battery Storage charge (load) [MW_e],93952.847,3585344.596,True
+SI00,2040,065,E-Market,SI00,EV charge (load) [MW_e],1057557.258,73615006.396,True
+SI00,2040,065,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],976375.951,27049540.887,False
+SI00,2040,065,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,065,E-Market,SI00,Native Demand [MW_e],17129680.777,1391151565.679,True
+SI00,2040,065,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1253923.24,31844504.429,True
+SI00,2040,065,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],538701.671,25879654.146,True
+SI00,2040,065,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],921.23,148308.604,True
+SI00,2040,065,Prosumer,SI00RETE,EV charge (load) [MW_e],2567436.216,281564040.558,True
+SI00,2040,065,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,065,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1024.89,181947.274,True
+SI00,2040,065,Prosumer,SI00RETE,Native Demand [MW_e],696067.309,141161624.834,True
+SI00,2040,071,E-Market,SI00,Battery Storage charge (load) [MW_e],83773.995,2945523.205,True
+SI00,2040,071,E-Market,SI00,EV charge (load) [MW_e],1057014.68,70711677.068,True
+SI00,2040,071,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],1556123.805,56504952.35,False
+SI00,2040,071,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,071,E-Market,SI00,Native Demand [MW_e],16923311.552,1279223994.572,True
+SI00,2040,071,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1091387.671,20291973.88,True
+SI00,2040,071,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],536057.333,24608298.194,True
+SI00,2040,071,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],1068.612,169201.993,True
+SI00,2040,071,Prosumer,SI00RETE,EV charge (load) [MW_e],2561163.933,269332782.499,True
+SI00,2040,071,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,071,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1440.769,269113.506,True
+SI00,2040,071,Prosumer,SI00RETE,Native Demand [MW_e],514933.739,104477807.398,True
+SI00,2040,077,E-Market,SI00,Battery Storage charge (load) [MW_e],82639.942,3341467.468,True
+SI00,2040,077,E-Market,SI00,EV charge (load) [MW_e],1057360.75,82990344.056,True
+SI00,2040,077,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],1207638.479,38817776.443,False
+SI00,2040,077,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,077,E-Market,SI00,Native Demand [MW_e],17054126.097,1493781630.333,True
+SI00,2040,077,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1154187.079,26269142.989,True
+SI00,2040,077,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],522414.656,27833603.072,True
+SI00,2040,077,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],1056.507,182098.874,True
+SI00,2040,077,Prosumer,SI00RETE,EV charge (load) [MW_e],2574847.242,301337452.558,True
+SI00,2040,077,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2040,077,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],1308.221,249597.864,True
+SI00,2040,077,Prosumer,SI00RETE,Native Demand [MW_e],486904.647,98747738.478,True
+SI00,2050,091,E-Market,SI00,Battery Storage charge (load) [MW_e],200905.232,7654832.546,True
+SI00,2050,091,E-Market,SI00,EV charge (load) [MW_e],1203094.81,78213520.944,True
+SI00,2050,091,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],4927423.401,329971634.134,False
+SI00,2050,091,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,091,E-Market,SI00,Native Demand [MW_e],13924219.224,1090709323.768,True
+SI00,2050,091,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1954944.41,41722841.145,True
+SI00,2050,091,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],681259.49,28764423.019,True
+SI00,2050,091,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],87505.428,12043590.753,True
+SI00,2050,091,Prosumer,SI00RETE,EV charge (load) [MW_e],2935194.686,311054946.241,True
+SI00,2050,091,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,091,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],118451.962,21043979.31,True
+SI00,2050,091,Prosumer,SI00RETE,Native Demand [MW_e],1558575.291,292552181.288,True
+SI00,2050,092,E-Market,SI00,Battery Storage charge (load) [MW_e],188530.383,6214301.353,True
+SI00,2050,092,E-Market,SI00,EV charge (load) [MW_e],1194823.617,72129795.822,True
+SI00,2050,092,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],4908890.413,315064970.788,False
+SI00,2050,092,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,092,E-Market,SI00,Native Demand [MW_e],13790424.635,987344035.695,True
+SI00,2050,092,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1806685.962,37868738.821,True
+SI00,2050,092,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],678153.557,26303362.818,True
+SI00,2050,092,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],113171.917,16366241.075,True
+SI00,2050,092,Prosumer,SI00RETE,EV charge (load) [MW_e],2897199.246,298534148.656,True
+SI00,2050,092,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,092,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],127348.504,20701502.512,True
+SI00,2050,092,Prosumer,SI00RETE,Native Demand [MW_e],1427957.936,236669073.775,True
+SI00,2050,106,E-Market,SI00,Battery Storage charge (load) [MW_e],175652.753,6314808.86,True
+SI00,2050,106,E-Market,SI00,EV charge (load) [MW_e],1194302.891,77581443.551,True
+SI00,2050,106,E-Market,SI00,Electrolyzers to H2 Zone 2 [MW_e],4633407.056,279714424.64,False
+SI00,2050,106,E-Market,SI00,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,106,E-Market,SI00,Native Demand [MW_e],13644007.184,1020722684.767,True
+SI00,2050,106,E-Market,SI00,Pump Storage - Open Loop (pump) [MW_e],1454665.842,21342222.882,True
+SI00,2050,106,Prosumer,SI00RETE,Battery Storage charge (load) [MW_e],648284.154,26688842.934,True
+SI00,2050,106,Prosumer,SI00RETE,CH4 Heat Pump (load) [MW_e],121201.078,18265744.146,True
+SI00,2050,106,Prosumer,SI00RETE,EV charge (load) [MW_e],2902533.799,317476423.705,True
+SI00,2050,106,Prosumer,SI00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SI00,2050,106,Prosumer,SI00RETE,H2 Heat Pump (load) [MW_e],144003.314,24618766.68,True
+SI00,2050,106,Prosumer,SI00RETE,Native Demand [MW_e],1085705.502,182196592.895,True
+SK00,2030,003,E-Market,SK00,Battery Storage charge (load) [MW_e],176788.767,6814022.739,True
+SK00,2030,003,E-Market,SK00,EV charge (load) [MW_e],241521.765,14879804.555,True
+SK00,2030,003,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],541928.02,11255412.203,False
+SK00,2030,003,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,003,E-Market,SK00,Native Demand [MW_e],31479716.99,2002984632.171,True
+SK00,2030,003,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1077033.706,23864749.632,True
+SK00,2030,003,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],499572.479,14895599.783,True
+SK00,2030,003,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],79581.361,5219269.293,True
+SK00,2030,003,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],291667.34,32848366.839,True
+SK00,2030,003,Prosumer,SK00RETE,EV charge (load) [MW_e],563554.253,72525100.77,True
+SK00,2030,003,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,003,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],126290.43,13864932.402,True
+SK00,2030,003,Prosumer,SK00RETE,Native Demand [MW_e],872190.332,139842396.935,True
+SK00,2030,021,E-Market,SK00,Battery Storage charge (load) [MW_e],168873.456,5627196.943,True
+SK00,2030,021,E-Market,SK00,EV charge (load) [MW_e],241521.765,15787230.779,True
+SK00,2030,021,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],470796.163,7041243.674,False
+SK00,2030,021,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,021,E-Market,SK00,Native Demand [MW_e],31494265.249,2143616683.123,True
+SK00,2030,021,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1242966.756,27189296.49,True
+SK00,2030,021,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],551330.616,16667237.394,True
+SK00,2030,021,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],77843.638,3830013.731,True
+SK00,2030,021,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],249948.282,25639931.025,True
+SK00,2030,021,Prosumer,SK00RETE,EV charge (load) [MW_e],563554.253,72339586.207,True
+SK00,2030,021,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,021,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],117607.337,12414859.751,True
+SK00,2030,021,Prosumer,SK00RETE,Native Demand [MW_e],816746.034,130288030.551,True
+SK00,2030,029,E-Market,SK00,Battery Storage charge (load) [MW_e],182129.964,7581401.527,True
+SK00,2030,029,E-Market,SK00,EV charge (load) [MW_e],241521.765,15377013.333,True
+SK00,2030,029,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],503771.865,9398340.807,False
+SK00,2030,029,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,029,E-Market,SK00,Native Demand [MW_e],31584405.636,2097125397.44,True
+SK00,2030,029,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1150504.685,27273456.563,True
+SK00,2030,029,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],545729.107,17469495.75,True
+SK00,2030,029,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],79731.652,5332284.482,True
+SK00,2030,029,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],244795.348,27354321.104,True
+SK00,2030,029,Prosumer,SK00RETE,EV charge (load) [MW_e],563554.253,73555297.623,True
+SK00,2030,029,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2030,029,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],105836.276,12144043.576,True
+SK00,2030,029,Prosumer,SK00RETE,Native Demand [MW_e],889710.047,145611374.51,True
+SK00,2035,032,E-Market,SK00,Battery Storage charge (load) [MW_e],262677.61,11598505.266,True
+SK00,2035,032,E-Market,SK00,EV charge (load) [MW_e],475813.431,35679332.356,True
+SK00,2035,032,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],1202871.316,32060722.572,False
+SK00,2035,032,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,032,E-Market,SK00,Native Demand [MW_e],32562081.272,2528813352.211,True
+SK00,2035,032,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1295137.702,33117380.841,True
+SK00,2035,032,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],539918.379,16839490.549,True
+SK00,2035,032,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],272094.876,17454859.977,True
+SK00,2035,032,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],497590.969,70255900.165,True
+SK00,2035,032,Prosumer,SK00RETE,EV charge (load) [MW_e],1134479.219,159531049.334,True
+SK00,2035,032,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,032,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],210312.371,36452588.57,True
+SK00,2035,032,Prosumer,SK00RETE,Native Demand [MW_e],1901662.689,342362550.088,True
+SK00,2035,037,E-Market,SK00,Battery Storage charge (load) [MW_e],258178.411,8780745.986,True
+SK00,2035,037,E-Market,SK00,EV charge (load) [MW_e],475342.673,23262279.004,True
+SK00,2035,037,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],1755556.052,53521591.821,False
+SK00,2035,037,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,037,E-Market,SK00,Native Demand [MW_e],32386124.473,1653671971.756,True
+SK00,2035,037,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1135184.969,21459617.253,True
+SK00,2035,037,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],540707.52,14487853.384,True
+SK00,2035,037,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],246298.968,13356731.599,True
+SK00,2035,037,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],977949.324,137773269.497,True
+SK00,2035,037,Prosumer,SK00RETE,EV charge (load) [MW_e],1131629.048,132835647.972,True
+SK00,2035,037,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,037,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],249139.951,37104731.707,True
+SK00,2035,037,Prosumer,SK00RETE,Native Demand [MW_e],1742644.224,267002310.094,True
+SK00,2035,059,E-Market,SK00,Battery Storage charge (load) [MW_e],273776.51,11527126.079,True
+SK00,2035,059,E-Market,SK00,EV charge (load) [MW_e],475996.507,32213614.295,True
+SK00,2035,059,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],1038833.981,21992569.192,False
+SK00,2035,059,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,059,E-Market,SK00,Native Demand [MW_e],32850918.136,2320849545.832,True
+SK00,2035,059,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1322776.282,30818947.258,True
+SK00,2035,059,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],590572.167,18895649.566,True
+SK00,2035,059,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],271745.534,16247002.471,True
+SK00,2035,059,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],726173.393,112615174.939,True
+SK00,2035,059,Prosumer,SK00RETE,EV charge (load) [MW_e],1136246.387,150651918.001,True
+SK00,2035,059,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2035,059,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],197572.276,31892077.443,True
+SK00,2035,059,Prosumer,SK00RETE,Native Demand [MW_e],1896216.042,326199503.938,True
+SK00,2040,065,E-Market,SK00,Battery Storage charge (load) [MW_e],275853.007,12966780.9,True
+SK00,2040,065,E-Market,SK00,EV charge (load) [MW_e],714093.681,45125883.786,True
+SK00,2040,065,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],1790435.893,58639910.526,False
+SK00,2040,065,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,065,E-Market,SK00,Native Demand [MW_e],33202693.394,2375020044.807,True
+SK00,2040,065,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1361516.435,30070658.548,True
+SK00,2040,065,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],636334.269,18031852.046,True
+SK00,2040,065,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],286637.899,20386015.265,True
+SK00,2040,065,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],531891.428,91849709.868,True
+SK00,2040,065,Prosumer,SK00RETE,EV charge (load) [MW_e],1778105.104,220549271.667,True
+SK00,2040,065,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,065,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],381704.564,74485085.387,True
+SK00,2040,065,Prosumer,SK00RETE,Native Demand [MW_e],3428258.373,676154406.861,True
+SK00,2040,071,E-Market,SK00,Battery Storage charge (load) [MW_e],263632.645,14417277.434,True
+SK00,2040,071,E-Market,SK00,EV charge (load) [MW_e],713419.591,46218165.616,True
+SK00,2040,071,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],2088642.557,79559932.522,False
+SK00,2040,071,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,071,E-Market,SK00,Native Demand [MW_e],32952883.076,2380409713.211,True
+SK00,2040,071,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1190529.96,19926306.78,True
+SK00,2040,071,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],583628.666,13915542.664,True
+SK00,2040,071,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],264892.382,20915714.107,True
+SK00,2040,071,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],678192.623,118275341.323,True
+SK00,2040,071,Prosumer,SK00RETE,EV charge (load) [MW_e],1749469.26,230757572.003,True
+SK00,2040,071,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,071,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],589023.927,119026199.193,True
+SK00,2040,071,Prosumer,SK00RETE,Native Demand [MW_e],3217012.886,634414323.056,True
+SK00,2040,077,E-Market,SK00,Battery Storage charge (load) [MW_e],249168.34,12142026.371,True
+SK00,2040,077,E-Market,SK00,EV charge (load) [MW_e],713254.122,50209508.181,True
+SK00,2040,077,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],1770475.445,62303342.856,False
+SK00,2040,077,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,077,E-Market,SK00,Native Demand [MW_e],33070114.263,2536052005.798,True
+SK00,2040,077,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1160354.672,18840713.929,True
+SK00,2040,077,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],506415.599,11472948.098,True
+SK00,2040,077,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],260624.803,16996777.649,True
+SK00,2040,077,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],653563.42,123778761.088,True
+SK00,2040,077,Prosumer,SK00RETE,EV charge (load) [MW_e],1769987.659,231511879.063,True
+SK00,2040,077,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2040,077,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],504068.484,100408107.538,True
+SK00,2040,077,Prosumer,SK00RETE,Native Demand [MW_e],3002116.559,577789572.6,True
+SK00,2050,091,E-Market,SK00,Battery Storage charge (load) [MW_e],275650.752,27643971.926,True
+SK00,2050,091,E-Market,SK00,EV charge (load) [MW_e],1619984.64,194837586.94,True
+SK00,2050,091,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],4661528.552,162087127.086,False
+SK00,2050,091,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,091,E-Market,SK00,Native Demand [MW_e],35270434.851,4902623925.674,True
+SK00,2050,091,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1412380.0,65252845.322,True
+SK00,2050,091,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],550901.653,25607785.66,True
+SK00,2050,091,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],287869.261,30715433.792,True
+SK00,2050,091,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],473888.881,81752137.593,True
+SK00,2050,091,Prosumer,SK00RETE,EV charge (load) [MW_e],4006956.015,759753298.564,True
+SK00,2050,091,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,091,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],453242.81,84729284.264,True
+SK00,2050,091,Prosumer,SK00RETE,Native Demand [MW_e],5397317.791,2113835248.518,True
+SK00,2050,092,E-Market,SK00,Battery Storage charge (load) [MW_e],266223.746,14378755.702,True
+SK00,2050,092,E-Market,SK00,EV charge (load) [MW_e],1613252.23,122244424.328,True
+SK00,2050,092,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],4942820.059,206585720.196,False
+SK00,2050,092,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,092,E-Market,SK00,Native Demand [MW_e],35067258.994,2956652768.621,True
+SK00,2050,092,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1294076.973,35747764.237,True
+SK00,2050,092,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],478181.585,17160596.383,True
+SK00,2050,092,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],270524.652,21238329.606,True
+SK00,2050,092,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],605795.973,108151511.453,True
+SK00,2050,092,Prosumer,SK00RETE,EV charge (load) [MW_e],3887656.192,573349699.809,True
+SK00,2050,092,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,092,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],602808.494,117332327.528,True
+SK00,2050,092,Prosumer,SK00RETE,Native Demand [MW_e],5444502.036,1136084570.946,True
+SK00,2050,106,E-Market,SK00,Battery Storage charge (load) [MW_e],261879.143,37016606.549,True
+SK00,2050,106,E-Market,SK00,EV charge (load) [MW_e],1614846.433,248583952.083,True
+SK00,2050,106,E-Market,SK00,Electrolyzers to H2 Zone 2 [MW_e],5995295.563,297674951.751,False
+SK00,2050,106,E-Market,SK00,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,106,E-Market,SK00,Native Demand [MW_e],34742729.709,5527275963.497,True
+SK00,2050,106,E-Market,SK00,Pump Storage - Closed Loop (pump) [MW_e],1162274.158,86230421.294,True
+SK00,2050,106,E-Market,SK00,Pump Storage - Open Loop (pump) [MW_e],489422.357,25944310.088,True
+SK00,2050,106,Prosumer,SK00RETE,Battery Storage charge (load) [MW_e],264397.053,42324575.243,True
+SK00,2050,106,Prosumer,SK00RETE,CH4 Heat Pump (load) [MW_e],731831.461,126793232.147,True
+SK00,2050,106,Prosumer,SK00RETE,EV charge (load) [MW_e],3897622.636,889958191.825,True
+SK00,2050,106,Prosumer,SK00RETE,Fixed Demand [MW_e],0.0,0.0,True
+SK00,2050,106,Prosumer,SK00RETE,H2 Heat Pump (load) [MW_e],657695.679,126017217.059,True
+SK00,2050,106,Prosumer,SK00RETE,Native Demand [MW_e],4686022.65,2139865074.467,True
+UA00,2030,003,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2030,003,E-Market,UA00,Native Demand [MW_e],120265675.58,7344503261.421,True
+UA00,2030,003,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3365221.497,88544762.409,True
+UA00,2030,021,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2030,021,E-Market,UA00,Native Demand [MW_e],121407318.687,7513873063.653,True
+UA00,2030,021,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3156491.034,80621850.875,True
+UA00,2030,029,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2030,029,E-Market,UA00,Native Demand [MW_e],122541425.641,8082440080.64,True
+UA00,2030,029,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3804553.923,117447050.356,True
+UA00,2035,032,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2035,032,E-Market,UA00,Native Demand [MW_e],128991000.34,4334896343.192,True
+UA00,2035,032,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3634887.596,52930500.407,True
+UA00,2035,037,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2035,037,E-Market,UA00,Native Demand [MW_e],127221217.14,3659423012.556,True
+UA00,2035,037,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3181651.379,47124419.01,True
+UA00,2035,059,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2035,059,E-Market,UA00,Native Demand [MW_e],130699528.558,4864612399.704,True
+UA00,2035,059,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3885301.227,67507254.45,True
+UA00,2040,065,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2040,065,E-Market,UA00,Native Demand [MW_e],140336143.611,2884155540.04,True
+UA00,2040,065,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3659032.699,32811235.895,True
+UA00,2040,071,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2040,071,E-Market,UA00,Native Demand [MW_e],138196122.755,2876433089.941,True
+UA00,2040,071,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],2908552.772,29331223.752,True
+UA00,2040,077,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2040,077,E-Market,UA00,Native Demand [MW_e],140975563.808,4130418172.098,True
+UA00,2040,077,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3330328.846,44581795.999,True
+UA00,2050,091,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2050,091,E-Market,UA00,Native Demand [MW_e],174211465.74,3313494376.344,True
+UA00,2050,091,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3637126.613,27619908.353,True
+UA00,2050,092,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2050,092,E-Market,UA00,Native Demand [MW_e],175453192.547,3663700345.467,True
+UA00,2050,092,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3625401.613,34724350.588,True
+UA00,2050,106,E-Market,UA00,Fixed Demand [MW_e],0.0,0.0,True
+UA00,2050,106,E-Market,UA00,Native Demand [MW_e],171909445.796,2983337828.268,True
+UA00,2050,106,E-Market,UA00,Pump Storage - Open Loop (pump) [MW_e],3206197.037,31723949.496,True

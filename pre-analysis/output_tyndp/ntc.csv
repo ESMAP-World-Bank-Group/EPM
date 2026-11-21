@@ -1,0 +1,229 @@
+edition,scenario,year,border,node_from,node_to,project,metric,value,unit,source_package,source_member,source_sha256
+2024,NT,2030,BG00-GR00,BG00,GR00,,ntc_reference,1700.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-GR00,GR00,BG00,,ntc_reference,1400.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-MK00,BG00,MK00,,ntc_reference,400.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-MK00,MK00,BG00,,ntc_reference,400.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-RO00,BG00,RO00,,ntc_reference,2190.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-RO00,RO00,BG00,,ntc_reference,2190.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-RS00,BG00,RS00,,ntc_reference,380.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-RS00,RS00,BG00,,ntc_reference,350.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-TR00,BG00,TR00,,ntc_reference,900.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,BG00-TR00,TR00,BG00,,ntc_reference,500.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,GR00-TR00,GR00,TR00,,ntc_reference,660.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,GR00-TR00,TR00,GR00,,ntc_reference,580.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-RO00,HU00,RO00,,ntc_reference,1617.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-RO00,RO00,HU00,,ntc_reference,1435.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-UA00,HU00,UA00,,ntc_reference,1000.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-UA00,UA00,HU00,,ntc_reference,1000.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-UA01,HU00,UA01,,ntc_reference,450.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,HU00-UA01,UA01,HU00,,ntc_reference,650.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,MD00-RO00,MD00,RO00,,ntc_reference,480.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,MD00-RO00,RO00,MD00,,ntc_reference,950.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,MD00-UA00,MD00,UA00,,ntc_reference,600.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,MD00-UA00,UA00,MD00,,ntc_reference,600.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,PL00-UA00,PL00,UA00,,ntc_reference,500.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,PL00-UA00,UA00,PL00,,ntc_reference,500.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-RS00,RO00,RS00,,ntc_reference,1984.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-RS00,RS00,RO00,,ntc_reference,1800.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-UA00,RO00,UA00,,ntc_reference,800.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-UA00,UA00,RO00,,ntc_reference,800.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-UA01,RO00,UA01,,ntc_reference,150.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,RO00-UA01,UA01,RO00,,ntc_reference,150.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,SK00-UA00,SK00,UA00,,ntc_reference,400.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,SK00-UA00,UA00,SK00,,ntc_reference,400.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,SK00-UA01,SK00,UA01,,ntc_reference,495.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2024,NT,2030,SK00-UA01,UA01,SK00,,ntc_reference,634.0,MW,2024/inputs/Line-data.zip,Line data/ReferenceGrid_Electricity.xlsx,5227eda1731cd28e27edded1feb9e344897e6db559730de872ba9e5e8f58de85
+2026,NT+,2025,BG00-GR00,BG00,GR00,,ntc_2025,1200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-GR00,GR00,BG00,,ntc_2025,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-MK00,BG00,MK00,,ntc_2025,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-MK00,MK00,BG00,,ntc_2025,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-RO00,BG00,RO00,,ntc_2025,1900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-RO00,RO00,BG00,,ntc_2025,1900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-RS00,BG00,RS00,,ntc_2025,380.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-RS00,RS00,BG00,,ntc_2025,380.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-TR00,BG00,TR00,,ntc_2025,334.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,BG00-TR00,TR00,BG00,,ntc_2025,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,GR00-TR00,GR00,TR00,,ntc_2025,218.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,GR00-TR00,TR00,GR00,,ntc_2025,166.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,HU00-RO00,HU00,RO00,,ntc_2025,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,HU00-RO00,RO00,HU00,,ntc_2025,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,HU00-UA00,HU00,UA00,,ntc_2025,840.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,HU00-UA00,UA00,HU00,,ntc_2025,220.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,MD00-RO00,MD00,RO00,,ntc_2025,82.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,MD00-RO00,RO00,MD00,,ntc_2025,315.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,MD00-UA00,MD00,UA00,,ntc_2025,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,MD00-UA00,UA00,MD00,,ntc_2025,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,PL00-UA00,PL00,UA00,,ntc_2025,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,PL00-UA00,UA00,PL00,,ntc_2025,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,RO00-RS00,RO00,RS00,,ntc_2025,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,RO00-RS00,RS00,RO00,,ntc_2025,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,RO00-UA00,RO00,UA00,,ntc_2025,315.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,RO00-UA00,UA00,RO00,,ntc_2025,82.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,SK00-UA00,SK00,UA00,,ntc_2025,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2025,SK00-UA00,UA00,SK00,,ntc_2025,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-GR00,BG00,GR00,,ntc_reference,1200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-GR00,GR00,BG00,,ntc_reference,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-MK00,BG00,MK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-MK00,MK00,BG00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RO00,BG00,RO00,,ntc_reference,2200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RO00,BG00,RO00,P138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RO00,RO00,BG00,,ntc_reference,2100.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RO00,RO00,BG00,P138,project_increment,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RS00,BG00,RS00,,ntc_reference,380.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-RS00,RS00,BG00,,ntc_reference,380.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-TR00,BG00,TR00,,ntc_reference,334.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,BG00-TR00,TR00,BG00,,ntc_reference,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,GR00-TR00,GR00,TR00,,ntc_reference,218.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,GR00-TR00,TR00,GR00,,ntc_reference,166.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-RO00,HU00,RO00,,ntc_reference,1450.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-RO00,HU00,RO00,P144,project_increment,450.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-RO00,RO00,HU00,,ntc_reference,2650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-RO00,RO00,HU00,P144,project_increment,1650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-UA00,HU00,UA00,,ntc_reference,840.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,HU00-UA00,UA00,HU00,,ntc_reference,220.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,MD00-RO00,MD00,RO00,,ntc_reference,50.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,MD00-RO00,RO00,MD00,,ntc_reference,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,MD00-UA00,MD00,UA00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,MD00-UA00,UA00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,PL00-UA00,PL00,UA00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,PL00-UA00,UA00,PL00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RO00,RS00,,ntc_reference,2650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RO00,RS00,P144,project_increment,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RO00,RS00,P341,project_increment,850.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RS00,RO00,,ntc_reference,2250.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RS00,RO00,P144,project_increment,800.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-RS00,RS00,RO00,P341,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-UA00,RO00,UA00,,ntc_reference,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,RO00-UA00,UA00,RO00,,ntc_reference,50.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,SK00-UA00,SK00,UA00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2030,SK00-UA00,UA00,SK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-GR00,BG00,GR00,,ntc_reference,1200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-GR00,GR00,BG00,,ntc_reference,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-MK00,BG00,MK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-MK00,MK00,BG00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RO00,BG00,RO00,,ntc_reference,2200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RO00,BG00,RO00,P138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RO00,RO00,BG00,,ntc_reference,2100.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RO00,RO00,BG00,P138,project_increment,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RS00,BG00,RS00,,ntc_reference,930.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RS00,BG00,RS00,P342,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RS00,RS00,BG00,,ntc_reference,730.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-RS00,RS00,BG00,P342,project_increment,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-TR00,BG00,TR00,,ntc_reference,334.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,BG00-TR00,TR00,BG00,,ntc_reference,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,GR00-TR00,GR00,TR00,,ntc_reference,218.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,GR00-TR00,TR00,GR00,,ntc_reference,166.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,HU00,RO00,,ntc_reference,3600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,HU00,RO00,P144,project_increment,450.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,HU00,RO00,P259,project_increment,2150.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,RO00,HU00,,ntc_reference,3700.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,RO00,HU00,P144,project_increment,1650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-RO00,RO00,HU00,P259,project_increment,1050.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-UA00,HU00,UA00,,ntc_reference,840.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,HU00-UA00,UA00,HU00,,ntc_reference,220.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-RO00,MD00,RO00,,ntc_reference,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-RO00,MD00,RO00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-RO00,RO00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-RO00,RO00,MD00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-UA00,MD00,UA00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,MD00-UA00,UA00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,PL00-UA00,PL00,UA00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,PL00-UA00,UA00,PL00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RO00,RS00,,ntc_reference,2650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RO00,RS00,P144,project_increment,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RO00,RS00,P341,project_increment,850.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RS00,RO00,,ntc_reference,2250.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RS00,RO00,P144,project_increment,800.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-RS00,RS00,RO00,P341,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-UA00,RO00,UA00,,ntc_reference,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,RO00-UA00,UA00,RO00,,ntc_reference,50.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,SK00-UA00,SK00,UA00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2035,SK00-UA00,UA00,SK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-GR00,BG00,GR00,,ntc_reference,1200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-GR00,GR00,BG00,,ntc_reference,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-MK00,BG00,MK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-MK00,MK00,BG00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RO00,BG00,RO00,,ntc_reference,2200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RO00,BG00,RO00,P138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RO00,RO00,BG00,,ntc_reference,2100.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RO00,RO00,BG00,P138,project_increment,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RS00,BG00,RS00,,ntc_reference,930.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RS00,BG00,RS00,P342,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RS00,RS00,BG00,,ntc_reference,730.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-RS00,RS00,BG00,P342,project_increment,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-TR00,BG00,TR00,,ntc_reference,334.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,BG00-TR00,TR00,BG00,,ntc_reference,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,GR00-TR00,GR00,TR00,,ntc_reference,218.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,GR00-TR00,TR00,GR00,,ntc_reference,166.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,HU00,RO00,,ntc_reference,3600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,HU00,RO00,P144,project_increment,450.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,HU00,RO00,P259,project_increment,2150.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,RO00,HU00,,ntc_reference,3700.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,RO00,HU00,P144,project_increment,1650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-RO00,RO00,HU00,P259,project_increment,1050.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-UA00,HU00,UA00,,ntc_reference,840.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,HU00-UA00,UA00,HU00,,ntc_reference,220.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-RO00,MD00,RO00,,ntc_reference,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-RO00,MD00,RO00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-RO00,RO00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-RO00,RO00,MD00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-UA00,MD00,UA00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,MD00-UA00,UA00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,PL00-UA00,PL00,UA00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,PL00-UA00,UA00,PL00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RO00,RS00,,ntc_reference,2650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RO00,RS00,P144,project_increment,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RO00,RS00,P341,project_increment,850.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RS00,RO00,,ntc_reference,2250.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RS00,RO00,P144,project_increment,800.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-RS00,RS00,RO00,P341,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-UA00,RO00,UA00,,ntc_reference,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,RO00-UA00,UA00,RO00,,ntc_reference,50.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,SK00-UA00,SK00,UA00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2040,SK00-UA00,UA00,SK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-GR00,BG00,GR00,,ntc_reference,1200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-GR00,GR00,BG00,,ntc_reference,1000.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-MK00,BG00,MK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-MK00,MK00,BG00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RO00,BG00,RO00,,ntc_reference,2200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RO00,BG00,RO00,P138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RO00,RO00,BG00,,ntc_reference,2100.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RO00,RO00,BG00,P138,project_increment,200.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RS00,BG00,RS00,,ntc_reference,930.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RS00,BG00,RS00,P341,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RS00,RS00,BG00,,ntc_reference,730.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-RS00,RS00,BG00,P341,project_increment,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-TR00,BG00,TR00,,ntc_reference,1434.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-TR00,BG00,TR00,P1066,project_increment,1100.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-TR00,TR00,BG00,,ntc_reference,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,BG00-TR00,TR00,BG00,P1066,project_increment,700.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,GR00-TR00,GR00,TR00,,ntc_reference,818.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,GR00-TR00,GR00,TR00,P1067,project_increment,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,GR00-TR00,TR00,GR00,,ntc_reference,766.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,GR00-TR00,TR00,GR00,P1067,project_increment,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,HU00,RO00,,ntc_reference,3600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,HU00,RO00,P144,project_increment,450.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,HU00,RO00,P259,project_increment,2150.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,RO00,HU00,,ntc_reference,3700.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,RO00,HU00,P144,project_increment,1650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-RO00,RO00,HU00,P259,project_increment,1050.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-UA00,HU00,UA00,,ntc_reference,840.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,HU00-UA00,UA00,HU00,,ntc_reference,220.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-RO00,MD00,RO00,,ntc_reference,350.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-RO00,MD00,RO00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-RO00,RO00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-RO00,RO00,MD00,P1138,project_increment,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-UA00,MD00,UA00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,MD00-UA00,UA00,MD00,,ntc_reference,600.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,PL00-UA00,PL00,UA00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,PL00-UA00,UA00,PL00,,ntc_reference,500.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RO00,RS00,,ntc_reference,2650.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RO00,RS00,P144,project_increment,900.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RO00,RS00,P341,project_increment,850.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RS00,RO00,,ntc_reference,2250.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RS00,RO00,P144,project_increment,800.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-RS00,RS00,RO00,P341,project_increment,550.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-UA00,RO00,UA00,,ntc_reference,300.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,RO00-UA00,UA00,RO00,,ntc_reference,50.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,SK00-UA00,SK00,UA00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873
+2026,NT+,2050,SK00-UA00,UA00,SK00,,ntc_reference,400.0,MW,2026/inputs/Line-data.zip,Line-data/ReferenceGrid_Electricity.xlsx,44914c34ca51e7ff59a5922d2959c0d8ae91f5d0f701fe14850bd50f7118f873

@@ -1,0 +1,727 @@
+domain,key,year,model_year,source,nature,item,value,unit,epm_minus_source,note
+border,BG>GR,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1200.0,MW,,
+border,BG>GR,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,BG>GR,2030,,TYNDP 2024 NT,planned_ntc,Limit,1700.0,MW,-1050.0,
+border,BG>GR,2030,,TYNDP 2026 NT+,planned_ntc,Limit,1200.0,MW,-550.0,
+border,BG>GR,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,BG>GR,2035,,TYNDP 2026 NT+,planned_ntc,Limit,1200.0,MW,-550.0,
+border,BG>GR,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,BG>GR,2040,,TYNDP 2024 NT,max_flow,Limit,1700.0,MW,-1050.0,"Maximum flow, climate year 2009"
+border,BG>GR,2040,,TYNDP 2026 NT+,planned_ntc,Limit,1200.0,MW,-550.0,
+border,BG>MK,2025,,TYNDP 2026 NT+,ntc_2025,Limit,400.0,MW,,
+border,BG>MK,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,BG>MK,2030,,TYNDP 2024 NT,planned_ntc,Limit,400.0,MW,0.0,
+border,BG>MK,2030,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,BG>MK,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,BG>MK,2035,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,BG>MK,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,BG>MK,2040,,TYNDP 2024 NT,max_flow,Limit,400.0,MW,0.0,"Maximum flow, climate year 2009"
+border,BG>MK,2040,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,BG>RO,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1900.0,MW,,
+border,BG>RO,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,BG>RO,2030,,TYNDP 2024 NT,planned_ntc,Limit,2190.0,MW,-790.0,
+border,BG>RO,2030,,TYNDP 2026 NT+,planned_ntc,Limit,2200.0,MW,-800.0,
+border,BG>RO,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,BG>RO,2035,,TYNDP 2026 NT+,planned_ntc,Limit,2200.0,MW,-800.0,
+border,BG>RO,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,BG>RO,2040,,TYNDP 2024 NT,max_flow,Limit,2190.0,MW,-790.0,"Maximum flow, climate year 2009"
+border,BG>RO,2040,,TYNDP 2026 NT+,planned_ntc,Limit,2200.0,MW,-800.0,
+border,BG>RS,2025,,TYNDP 2026 NT+,ntc_2025,Limit,380.0,MW,,
+border,BG>RS,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,BG>RS,2030,,TYNDP 2024 NT,planned_ntc,Limit,380.0,MW,370.0,
+border,BG>RS,2030,,TYNDP 2026 NT+,planned_ntc,Limit,380.0,MW,370.0,
+border,BG>RS,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,BG>RS,2035,,TYNDP 2026 NT+,planned_ntc,Limit,930.0,MW,-180.0,
+border,BG>RS,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,BG>RS,2040,,TYNDP 2024 NT,max_flow,Limit,870.0,MW,-120.0,"Maximum flow, climate year 2009"
+border,BG>RS,2040,,TYNDP 2026 NT+,planned_ntc,Limit,930.0,MW,-180.0,
+border,BG>TR,2025,,TYNDP 2026 NT+,ntc_2025,Limit,334.0,MW,,
+border,BG>TR,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,334.0,MW,0.0,
+border,BG>TR,2030,,TYNDP 2024 NT,planned_ntc,Limit,900.0,MW,-566.0,
+border,BG>TR,2030,,TYNDP 2026 NT+,planned_ntc,Limit,334.0,MW,0.0,
+border,BG>TR,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,334.0,MW,0.0,
+border,BG>TR,2035,,TYNDP 2026 NT+,planned_ntc,Limit,334.0,MW,0.0,
+border,BG>TR,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,334.0,MW,0.0,
+border,BG>TR,2040,,TYNDP 2024 NT,max_flow,Limit,900.0,MW,-566.0,"Maximum flow, climate year 2009"
+border,BG>TR,2040,,TYNDP 2026 NT+,planned_ntc,Limit,334.0,MW,0.0,
+border,GR>BG,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1000.0,MW,,
+border,GR>BG,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,GR>BG,2030,,TYNDP 2024 NT,planned_ntc,Limit,1400.0,MW,-750.0,
+border,GR>BG,2030,,TYNDP 2026 NT+,planned_ntc,Limit,1000.0,MW,-350.0,
+border,GR>BG,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,GR>BG,2035,,TYNDP 2026 NT+,planned_ntc,Limit,1000.0,MW,-350.0,
+border,GR>BG,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,650.0,MW,0.0,
+border,GR>BG,2040,,TYNDP 2024 NT,max_flow,Limit,1400.0,MW,-750.0,"Maximum flow, climate year 2009"
+border,GR>BG,2040,,TYNDP 2026 NT+,planned_ntc,Limit,1000.0,MW,-350.0,
+border,GR>TR,2025,,TYNDP 2026 NT+,ntc_2025,Limit,218.0,MW,,
+border,GR>TR,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,166.0,MW,0.0,
+border,GR>TR,2030,,TYNDP 2024 NT,planned_ntc,Limit,660.0,MW,-494.0,
+border,GR>TR,2030,,TYNDP 2026 NT+,planned_ntc,Limit,218.0,MW,-52.0,
+border,GR>TR,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,166.0,MW,0.0,
+border,GR>TR,2035,,TYNDP 2026 NT+,planned_ntc,Limit,218.0,MW,-52.0,
+border,GR>TR,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,166.0,MW,0.0,
+border,GR>TR,2040,,TYNDP 2024 NT,max_flow,Limit,660.0,MW,-494.0,"Maximum flow, climate year 2009"
+border,GR>TR,2040,,TYNDP 2026 NT+,planned_ntc,Limit,218.0,MW,-52.0,
+border,HU>RO,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1000.0,MW,,
+border,HU>RO,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,HU>RO,2030,,TYNDP 2024 NT,planned_ntc,Limit,1617.0,MW,-617.0,
+border,HU>RO,2030,,TYNDP 2026 NT+,planned_ntc,Limit,1450.0,MW,-450.0,
+border,HU>RO,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,HU>RO,2035,,TYNDP 2026 NT+,planned_ntc,Limit,3600.0,MW,-2600.0,
+border,HU>RO,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,HU>RO,2040,,TYNDP 2024 NT,max_flow,Limit,3027.0,MW,-2027.0,"Maximum flow, climate year 2009"
+border,HU>RO,2040,,TYNDP 2026 NT+,planned_ntc,Limit,3600.0,MW,-2600.0,
+border,MD>RO,2025,,TYNDP 2026 NT+,ntc_2025,Limit,82.0,MW,,
+border,MD>RO,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,35.0,MW,0.0,"Annual volume over 8,760 h"
+border,MD>RO,2030,,TYNDP 2024 NT,planned_ntc,Limit,480.0,MW,-445.0,
+border,MD>RO,2030,,TYNDP 2026 NT+,planned_ntc,Limit,50.0,MW,-15.0,
+border,MD>RO,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,36.0,MW,0.0,"Annual volume over 8,760 h"
+border,MD>RO,2035,,TYNDP 2026 NT+,planned_ntc,Limit,350.0,MW,-314.0,
+border,MD>RO,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,37.0,MW,0.0,"Annual volume over 8,760 h"
+border,MD>RO,2040,,TYNDP 2024 NT,max_flow,Limit,480.0,MW,-443.0,"Maximum flow, climate year 2009"
+border,MD>RO,2040,,TYNDP 2026 NT+,planned_ntc,Limit,350.0,MW,-313.0,
+border,MK>BG,2025,,TYNDP 2026 NT+,ntc_2025,Limit,400.0,MW,,
+border,MK>BG,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,MK>BG,2030,,TYNDP 2024 NT,planned_ntc,Limit,400.0,MW,0.0,
+border,MK>BG,2030,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,MK>BG,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,MK>BG,2035,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,MK>BG,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,400.0,MW,0.0,
+border,MK>BG,2040,,TYNDP 2024 NT,max_flow,Limit,400.0,MW,0.0,"Maximum flow, climate year 2009"
+border,MK>BG,2040,,TYNDP 2026 NT+,planned_ntc,Limit,400.0,MW,0.0,
+border,RO>BG,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1900.0,MW,,
+border,RO>BG,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,RO>BG,2030,2030.0,National plan,planned_ntc,Limit,2550.0,MW,-1150.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2030"
+border,RO>BG,2030,,TYNDP 2024 NT,planned_ntc,Limit,2190.0,MW,-790.0,
+border,RO>BG,2030,,TYNDP 2026 NT+,planned_ntc,Limit,2100.0,MW,-700.0,
+border,RO>BG,2035,2033.0,National plan,planned_ntc,Limit,2550.0,MW,-1150.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2033"
+border,RO>BG,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,RO>BG,2035,,TYNDP 2026 NT+,planned_ntc,Limit,2100.0,MW,-700.0,
+border,RO>BG,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,1400.0,MW,0.0,
+border,RO>BG,2040,,TYNDP 2024 NT,max_flow,Limit,2190.0,MW,-790.0,"Maximum flow, climate year 2009"
+border,RO>BG,2040,,TYNDP 2026 NT+,planned_ntc,Limit,2100.0,MW,-700.0,
+border,RO>HU,2025,,TYNDP 2026 NT+,ntc_2025,Limit,1000.0,MW,,
+border,RO>HU,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,RO>HU,2030,2030.0,National plan,planned_ntc,Limit,1700.0,MW,-700.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2030"
+border,RO>HU,2030,,TYNDP 2024 NT,planned_ntc,Limit,1435.0,MW,-435.0,
+border,RO>HU,2030,,TYNDP 2026 NT+,planned_ntc,Limit,2650.0,MW,-1650.0,
+border,RO>HU,2035,2033.0,National plan,planned_ntc,Limit,2300.0,MW,-1300.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2033"
+border,RO>HU,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,RO>HU,2035,,TYNDP 2026 NT+,planned_ntc,Limit,3700.0,MW,-2700.0,
+border,RO>HU,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,1000.0,MW,0.0,
+border,RO>HU,2040,,TYNDP 2024 NT,max_flow,Limit,2175.0,MW,-1175.0,"Maximum flow, climate year 2009"
+border,RO>HU,2040,,TYNDP 2026 NT+,planned_ntc,Limit,3700.0,MW,-2700.0,
+border,RO>MD,2025,,TYNDP 2026 NT+,ntc_2025,Limit,315.0,MW,,
+border,RO>MD,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,436.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>MD,2030,,TYNDP 2024 NT,planned_ntc,Limit,950.0,MW,-514.0,
+border,RO>MD,2030,,TYNDP 2026 NT+,planned_ntc,Limit,300.0,MW,136.0,
+border,RO>MD,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,503.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>MD,2035,,TYNDP 2026 NT+,planned_ntc,Limit,600.0,MW,-97.0,
+border,RO>MD,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,547.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>MD,2040,,TYNDP 2024 NT,max_flow,Limit,950.0,MW,-403.0,"Maximum flow, climate year 2009"
+border,RO>MD,2040,,TYNDP 2026 NT+,planned_ntc,Limit,600.0,MW,-53.0,
+border,RO>RS,2025,,TYNDP 2026 NT+,ntc_2025,Limit,900.0,MW,,
+border,RO>RS,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RO>RS,2030,2030.0,National plan,planned_ntc,Limit,1300.0,MW,-500.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2030"
+border,RO>RS,2030,,TYNDP 2024 NT,planned_ntc,Limit,1984.0,MW,-1184.0,
+border,RO>RS,2030,,TYNDP 2026 NT+,planned_ntc,Limit,2650.0,MW,-1850.0,
+border,RO>RS,2035,2033.0,National plan,planned_ntc,Limit,2000.0,MW,-1200.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2033"
+border,RO>RS,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RO>RS,2035,,TYNDP 2026 NT+,planned_ntc,Limit,2650.0,MW,-1850.0,
+border,RO>RS,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RO>RS,2040,,TYNDP 2024 NT,max_flow,Limit,1984.0,MW,-1184.0,"Maximum flow, climate year 2009"
+border,RO>RS,2040,,TYNDP 2026 NT+,planned_ntc,Limit,2650.0,MW,-1850.0,
+border,RO>UA,2025,,TYNDP 2026 NT+,ntc_2025,Limit,315.0,MW,,
+border,RO>UA,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,347.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>UA,2030,2030.0,National plan,planned_ntc,Limit,500.0,MW,-153.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2030"
+border,RO>UA,2030,,TYNDP 2024 NT,planned_ntc,Limit,950.0,MW,-603.0,
+border,RO>UA,2030,,TYNDP 2026 NT+,planned_ntc,Limit,300.0,MW,47.0,
+border,RO>UA,2035,2033.0,National plan,planned_ntc,Limit,500.0,MW,-88.0,"Transelectrica plan 2024-2033 Tab 5.4.2, value for 2033"
+border,RO>UA,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,412.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>UA,2035,,TYNDP 2026 NT+,planned_ntc,Limit,300.0,MW,112.0,
+border,RO>UA,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,455.0,MW,0.0,"Annual volume over 8,760 h"
+border,RO>UA,2040,,TYNDP 2024 NT,max_flow,Limit,800.0,MW,-345.0,"Maximum flow, climate year 2009"
+border,RO>UA,2040,,TYNDP 2026 NT+,planned_ntc,Limit,300.0,MW,155.0,
+border,RS>BG,2025,,TYNDP 2026 NT+,ntc_2025,Limit,380.0,MW,,
+border,RS>BG,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,RS>BG,2030,,TYNDP 2024 NT,planned_ntc,Limit,350.0,MW,400.0,
+border,RS>BG,2030,,TYNDP 2026 NT+,planned_ntc,Limit,380.0,MW,370.0,
+border,RS>BG,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,RS>BG,2035,,TYNDP 2026 NT+,planned_ntc,Limit,730.0,MW,20.0,
+border,RS>BG,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,750.0,MW,0.0,
+border,RS>BG,2040,,TYNDP 2024 NT,max_flow,Limit,620.0,MW,130.0,"Maximum flow, climate year 2009"
+border,RS>BG,2040,,TYNDP 2026 NT+,planned_ntc,Limit,730.0,MW,20.0,
+border,RS>RO,2025,,TYNDP 2026 NT+,ntc_2025,Limit,900.0,MW,,
+border,RS>RO,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RS>RO,2030,,TYNDP 2024 NT,planned_ntc,Limit,1800.0,MW,-1000.0,
+border,RS>RO,2030,,TYNDP 2026 NT+,planned_ntc,Limit,2250.0,MW,-1450.0,
+border,RS>RO,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RS>RO,2035,,TYNDP 2026 NT+,planned_ntc,Limit,2250.0,MW,-1450.0,
+border,RS>RO,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,800.0,MW,0.0,
+border,RS>RO,2040,,TYNDP 2024 NT,max_flow,Limit,1800.0,MW,-1000.0,"Maximum flow, climate year 2009"
+border,RS>RO,2040,,TYNDP 2026 NT+,planned_ntc,Limit,2250.0,MW,-1450.0,
+border,TR>BG,2025,,TYNDP 2026 NT+,ntc_2025,Limit,200.0,MW,,
+border,TR>BG,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,200.0,MW,0.0,
+border,TR>BG,2030,,TYNDP 2024 NT,planned_ntc,Limit,500.0,MW,-300.0,
+border,TR>BG,2030,,TYNDP 2026 NT+,planned_ntc,Limit,200.0,MW,0.0,
+border,TR>BG,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,200.0,MW,0.0,
+border,TR>BG,2035,,TYNDP 2026 NT+,planned_ntc,Limit,200.0,MW,0.0,
+border,TR>BG,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,200.0,MW,0.0,
+border,TR>BG,2040,,TYNDP 2024 NT,max_flow,Limit,500.0,MW,-300.0,"Maximum flow, climate year 2009"
+border,TR>BG,2040,,TYNDP 2026 NT+,planned_ntc,Limit,200.0,MW,0.0,
+border,TR>GR,2025,,TYNDP 2026 NT+,ntc_2025,Limit,166.0,MW,,
+border,TR>GR,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,100.0,MW,0.0,
+border,TR>GR,2030,,TYNDP 2024 NT,planned_ntc,Limit,580.0,MW,-480.0,
+border,TR>GR,2030,,TYNDP 2026 NT+,planned_ntc,Limit,166.0,MW,-66.0,
+border,TR>GR,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,100.0,MW,0.0,
+border,TR>GR,2035,,TYNDP 2026 NT+,planned_ntc,Limit,166.0,MW,-66.0,
+border,TR>GR,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,100.0,MW,0.0,
+border,TR>GR,2040,,TYNDP 2024 NT,max_flow,Limit,580.0,MW,-480.0,"Maximum flow, climate year 2009"
+border,TR>GR,2040,,TYNDP 2026 NT+,planned_ntc,Limit,166.0,MW,-66.0,
+border,UA>RO,2025,,TYNDP 2026 NT+,ntc_2025,Limit,82.0,MW,,
+border,UA>RO,2030,2030.0,EPM Int_Base_5y,model_limit,Limit,234.0,MW,0.0,"Annual volume over 8,760 h"
+border,UA>RO,2030,,TYNDP 2024 NT,planned_ntc,Limit,950.0,MW,-716.0,
+border,UA>RO,2030,,TYNDP 2026 NT+,planned_ntc,Limit,50.0,MW,184.0,
+border,UA>RO,2035,2036.0,EPM Int_Base_5y,model_limit,Limit,228.0,MW,0.0,"Annual volume over 8,760 h"
+border,UA>RO,2035,,TYNDP 2026 NT+,planned_ntc,Limit,50.0,MW,178.0,
+border,UA>RO,2040,2040.0,EPM Int_Base_5y,model_limit,Limit,223.0,MW,0.0,"Annual volume over 8,760 h"
+border,UA>RO,2040,,TYNDP 2024 NT,max_flow,Limit,800.0,MW,-577.0,"Maximum flow, climate year 2009"
+border,UA>RO,2040,,TYNDP 2026 NT+,planned_ntc,Limit,50.0,MW,173.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Battery,0.0001,GW,0.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Gas,0.9456,GW,0.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.3956,GW,0.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Nuclear,0.4075,GW,0.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Solar,0.887,GW,0.0,
+capacity,AM,2030,2030.0,EPM Int_Base_5y,model_result,Wind,0.004,GW,0.0,
+capacity,AM,2030,,National plan,plan,Gas,1.005,GW,-0.0594,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2030,,National plan,plan,Hydro and pumped,1.278,GW,0.1176,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2030,,National plan,plan,Nuclear,0.385,GW,0.0225,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2030,,National plan,plan,Solar,0.824,GW,0.063,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Battery,0.0002,GW,0.0,
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Gas,0.9457,GW,0.0,
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.3957,GW,0.0,
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Nuclear,0.4075,GW,0.0,
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Solar,0.8875,GW,0.0,
+capacity,AM,2035,2036.0,EPM Int_Base_5y,model_result,Wind,0.004,GW,0.0,
+capacity,AM,2035,,National plan,plan,Gas,1.005,GW,-0.0593,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2035,,National plan,plan,Hydro and pumped,1.278,GW,0.1177,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2035,,National plan,plan,Nuclear,0.385,GW,0.0225,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2035,,National plan,plan,Solar,0.824,GW,0.0635,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Battery,0.0004,GW,0.0,
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Gas,0.9523,GW,0.0,
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.3957,GW,0.0,
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Nuclear,0.0,GW,0.0,
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Solar,1.5589,GW,0.0,
+capacity,AM,2040,2040.0,EPM Int_Base_5y,model_result,Wind,0.004,GW,0.0,
+capacity,AM,2040,,National plan,plan,Gas,1.005,GW,-0.0527,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2040,,National plan,plan,Hydro and pumped,1.278,GW,0.1177,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2040,,National plan,plan,Nuclear,1.278,GW,-1.278,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AM,2040,,National plan,plan,Solar,0.824,GW,0.7349,USAID LCEDP (to 2036) and EPSO base forecast (to 2040)
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Battery,0.0002,GW,0.0,
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Gas,5.7761,GW,0.0,
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.2344,GW,0.0,
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Other,0.037,GW,0.0,
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Solar,0.2584,GW,0.0,
+capacity,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Wind,1.7645,GW,0.0,
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Battery,0.25,GW,-0.2498,"Battery: PEMMDB input, not in a market run"
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Gas,5.963,GW,-0.1869,"Natural gas: PEMMDB input, not in a market run"
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Hydro and pumped,1.554,GW,-0.3196,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Other,0.038,GW,-0.001,"Other RES: PEMMDB input, not in a market run"
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Solar,2.93,GW,-2.6716,"Solar: PEMMDB input, not in a market run"
+capacity,AZ,2030,,TYNDP 2026 NT+,input_only,Wind,2.18,GW,-0.4155,"Onshore wind: PEMMDB input, not in a market run"
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Battery,0.0004,GW,0.0,
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Gas,5.7763,GW,0.0,
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.2345,GW,0.0,
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Other,0.037,GW,0.0,
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Solar,0.2594,GW,0.0,
+capacity,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Wind,3.2286,GW,0.0,
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Battery,0.36,GW,-0.3596,"Battery: PEMMDB input, not in a market run"
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Gas,5.963,GW,-0.1867,"Natural gas: PEMMDB input, not in a market run"
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Hydro and pumped,1.554,GW,-0.3195,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Other,0.038,GW,-0.001,"Other RES: PEMMDB input, not in a market run"
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Solar,3.88,GW,-3.6206,"Solar: PEMMDB input, not in a market run"
+capacity,AZ,2035,,TYNDP 2026 NT+,input_only,Wind,3.88,GW,-0.6514,"Offshore wind: PEMMDB input, not in a market run; Onshore wind: PEMMDB input, not in a market run"
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Battery,0.0006,GW,0.0,
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Gas,5.7764,GW,0.0,
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,1.2345,GW,0.0,
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Other,0.037,GW,0.0,
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Solar,1.4592,GW,0.0,
+capacity,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Wind,3.5446,GW,0.0,
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Battery,0.44,GW,-0.4394,"Battery: PEMMDB input, not in a market run"
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Gas,5.963,GW,-0.1866,"Natural gas: PEMMDB input, not in a market run"
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Hydro and pumped,1.554,GW,-0.3195,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Other,0.038,GW,-0.001,"Other RES: PEMMDB input, not in a market run"
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Solar,4.83,GW,-3.3708,"Solar: PEMMDB input, not in a market run"
+capacity,AZ,2040,,TYNDP 2026 NT+,input_only,Wind,5.58,GW,-2.0354,"Offshore wind: PEMMDB input, not in a market run; Onshore wind: PEMMDB input, not in a market run"
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Battery,4.5001,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Coal,2.5986,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Gas,1.3571,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,3.218,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Nuclear,2.08,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Solar,9.6825,GW,0.0,
+capacity,BG,2030,2030.0,EPM Int_Base_5y,model_result,Wind,2.746,GW,0.0,
+capacity,BG,2030,,National plan,plan,Coal,2.0,GW,0.5986,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Gas,1.9,GW,-0.5429,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Hydro and pumped,2.6,GW,0.618,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Nuclear,2.0,GW,0.08,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Other,0.4,GW,-0.4,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Solar,7.0,GW,2.6825,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,National plan,plan,Wind,2.4,GW,0.346,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Battery,1.6,GW,2.9001,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Coal,2.504,GW,0.0946,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Gas,2.076,GW,-0.7189,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Hydro and pumped,3.2158,GW,0.0022,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Nuclear,2.0,GW,0.08,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Other,0.302,GW,-0.302,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Solar,3.4582,GW,6.2243,
+capacity,BG,2030,,TYNDP 2024 NT,market_run,Wind,0.948,GW,1.798,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Battery,1.12,GW,3.3801,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Coal,1.743,GW,0.8556,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Gas,1.876,GW,-0.5189,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Hydro and pumped,3.2158,GW,0.0022,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Nuclear,2.0,GW,0.08,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Other,0.123,GW,-0.123,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Solar,6.3505,GW,3.332,
+capacity,BG,2030,,TYNDP 2026 NT+,market_run,Wind,2.486,GW,0.26,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Battery,4.5002,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Coal,0.7188,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Gas,1.3571,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,3.2181,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Nuclear,4.48,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Solar,9.6825,GW,0.0,
+capacity,BG,2035,2036.0,EPM Int_Base_5y,model_result,Wind,4.1012,GW,0.0,
+capacity,BG,2035,,National plan,plan,Coal,1.0,GW,-0.2812,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Gas,2.2,GW,-0.8429,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Hydro and pumped,2.6,GW,0.6181,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Nuclear,3.3,GW,1.18,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Other,0.2,GW,-0.2,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Solar,10.1,GW,-0.4175,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,National plan,plan,Wind,4.4,GW,-0.2988,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Battery,1.12,GW,3.3802,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Coal,0.96,GW,-0.2412,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Gas,2.061,GW,-0.7039,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Hydro and pumped,3.6158,GW,-0.3977,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Nuclear,3.2,GW,1.28,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Other,0.166,GW,-0.166,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Solar,9.4505,GW,0.232,
+capacity,BG,2035,,TYNDP 2026 NT+,market_run,Wind,4.431,GW,-0.3298,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Battery,4.5002,GW,0.0,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Gas,1.3571,GW,0.0,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,3.2181,GW,0.0,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Nuclear,4.48,GW,0.0,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Solar,9.6825,GW,0.0,
+capacity,BG,2040,2040.0,EPM Int_Base_5y,model_result,Wind,4.7548,GW,0.0,
+capacity,BG,2040,,National plan,plan,Coal,0.1,GW,-0.1,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Gas,2.7,GW,-1.3429,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Hydro and pumped,4.1,GW,-0.8819,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Nuclear,4.5,GW,-0.02,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Other,0.2,GW,-0.2,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Solar,12.6,GW,-2.9175,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,National plan,plan,Wind,5.9,GW,-1.1452,"NECP final update (2025), WAM scenario, Figure 114 read from the bars (+/-0.1 GW, calibrated on the labelled WEM Figure 91) and scaled to the Figure 115 totals; no storage line"
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Battery,1.6,GW,2.9002,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Coal,1.404,GW,-1.404,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Gas,2.237,GW,-0.8799,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Hydro and pumped,3.2158,GW,0.0023,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Nuclear,4.0,GW,0.48,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Other,0.309,GW,-0.309,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Solar,4.0072,GW,5.6753,
+capacity,BG,2040,,TYNDP 2024 NT,market_run,Wind,1.811,GW,2.9438,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Battery,1.12,GW,3.3802,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Coal,0.168,GW,-0.168,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Gas,2.348,GW,-0.9909,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Hydro and pumped,4.4158,GW,-1.1977,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Nuclear,4.4,GW,0.08,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Other,0.166,GW,-0.166,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Solar,12.1505,GW,-2.468,
+capacity,BG,2040,,TYNDP 2026 NT+,market_run,Wind,6.418,GW,-1.6632,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Battery,0.0001,GW,0.0,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Coal,0.0132,GW,0.0,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Gas,1.1661,GW,0.0,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,3.903,GW,0.0,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Solar,0.0001,GW,0.0,
+capacity,GE,2030,2030.0,EPM Int_Base_5y,model_result,Wind,1.176,GW,0.0,
+capacity,GE,2030,,National plan,plan,Gas,1.457,GW,-0.2909,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2030,,National plan,plan,Hydro and pumped,5.807,GW,-1.904,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2030,,National plan,plan,Solar,0.141,GW,-0.1409,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2030,,National plan,plan,Wind,0.796,GW,0.38,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2030,,TYNDP 2024 NT,input_only,Gas,1.315,GW,-0.1489,"Natural gas: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2024 NT,input_only,Hydro and pumped,5.595,GW,-1.692,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2024 NT,input_only,Solar,0.52,GW,-0.5199,"Solar: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2024 NT,input_only,Wind,1.3,GW,-0.124,"Onshore wind: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2026 NT+,input_only,Battery,0.2,GW,-0.1999,"Battery: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2026 NT+,input_only,Gas,1.5682,GW,-0.4021,"Natural gas: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2026 NT+,input_only,Hydro and pumped,4.065,GW,-0.162,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2026 NT+,input_only,Solar,0.7,GW,-0.6999,"Solar: PEMMDB input, not in a market run"
+capacity,GE,2030,,TYNDP 2026 NT+,input_only,Wind,0.5,GW,0.676,"Onshore wind: PEMMDB input, not in a market run"
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Battery,0.0002,GW,0.0,
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Coal,0.0132,GW,0.0,
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Gas,1.1662,GW,0.0,
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,4.1858,GW,0.0,
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Solar,1.0033,GW,0.0,
+capacity,GE,2035,2036.0,EPM Int_Base_5y,model_result,Wind,1.4772,GW,0.0,
+capacity,GE,2035,,National plan,plan,Gas,1.617,GW,-0.4508,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2035,,National plan,plan,Hydro and pumped,7.354,GW,-3.1682,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2035,,National plan,plan,Solar,0.237,GW,0.7663,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2035,,National plan,plan,Wind,1.316,GW,0.1612,"GSE TYNDP 2024-2034 for the base year (existing fleet, Fig. 1.4), GSE generation pipeline on G2 timing for 2030 and 2035; 2040 not covered"
+capacity,GE,2035,,TYNDP 2026 NT+,input_only,Battery,0.2,GW,-0.1998,"Battery: PEMMDB input, not in a market run"
+capacity,GE,2035,,TYNDP 2026 NT+,input_only,Gas,1.5682,GW,-0.402,"Natural gas: PEMMDB input, not in a market run"
+capacity,GE,2035,,TYNDP 2026 NT+,input_only,Hydro and pumped,4.485,GW,-0.2992,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,GE,2035,,TYNDP 2026 NT+,input_only,Solar,1.175,GW,-0.1717,"Solar: PEMMDB input, not in a market run"
+capacity,GE,2035,,TYNDP 2026 NT+,input_only,Wind,1.1,GW,0.3772,"Onshore wind: PEMMDB input, not in a market run"
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Battery,0.0003,GW,0.0,
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Coal,0.0132,GW,0.0,
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Gas,1.1662,GW,0.0,
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,4.186,GW,0.0,
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Solar,2.0073,GW,0.0,
+capacity,GE,2040,2040.0,EPM Int_Base_5y,model_result,Wind,2.0055,GW,0.0,
+capacity,GE,2040,,TYNDP 2024 NT,input_only,Gas,1.565,GW,-0.3988,"Natural gas: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2024 NT,input_only,Hydro and pumped,7.4663,GW,-3.2803,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2024 NT,input_only,Solar,2.0,GW,0.0073,"Solar: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2024 NT,input_only,Wind,2.0,GW,0.0055,"Onshore wind: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2026 NT+,input_only,Battery,0.2,GW,-0.1997,"Battery: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2026 NT+,input_only,Gas,1.2962,GW,-0.13,"Natural gas: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2026 NT+,input_only,Hydro and pumped,4.905,GW,-0.719,"Reservoir: PEMMDB input, not in a market run; Run of river: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2026 NT+,input_only,Solar,1.65,GW,0.3573,"Solar: PEMMDB input, not in a market run"
+capacity,GE,2040,,TYNDP 2026 NT+,input_only,Wind,1.7,GW,0.3055,"Onshore wind: PEMMDB input, not in a market run"
+capacity,MD,2030,,TYNDP 2024 NT,market_run,Coal,0.76,GW,,
+capacity,MD,2030,,TYNDP 2024 NT,market_run,Gas,1.1982,GW,,
+capacity,MD,2030,,TYNDP 2024 NT,market_run,Other,0.03,GW,,
+capacity,MD,2030,,TYNDP 2024 NT,market_run,Solar,0.25,GW,,
+capacity,MD,2030,,TYNDP 2024 NT,market_run,Wind,0.31,GW,,
+capacity,MD,2030,,TYNDP 2026 NT+,input_only,Other,0.0034,GW,,"Other RES: PEMMDB input, not in a market run"
+capacity,MD,2030,,TYNDP 2026 NT+,input_only,Solar,0.4139,GW,,"Solar: PEMMDB input, not in a market run"
+capacity,MD,2030,,TYNDP 2026 NT+,market_run,Coal,0.55,GW,,
+capacity,MD,2030,,TYNDP 2026 NT+,market_run,Gas,0.78,GW,,
+capacity,MD,2030,,TYNDP 2026 NT+,market_run,Hydro and pumped,0.0645,GW,,
+capacity,MD,2030,,TYNDP 2026 NT+,market_run,Wind,0.6547,GW,,
+capacity,MD,2035,,TYNDP 2026 NT+,input_only,Other,0.0034,GW,,"Other RES: PEMMDB input, not in a market run"
+capacity,MD,2035,,TYNDP 2026 NT+,input_only,Solar,0.5769,GW,,"Solar: PEMMDB input, not in a market run"
+capacity,MD,2035,,TYNDP 2026 NT+,market_run,Coal,0.55,GW,,
+capacity,MD,2035,,TYNDP 2026 NT+,market_run,Gas,0.78,GW,,
+capacity,MD,2035,,TYNDP 2026 NT+,market_run,Hydro and pumped,0.0645,GW,,
+capacity,MD,2035,,TYNDP 2026 NT+,market_run,Wind,0.8675,GW,,
+capacity,MD,2040,,TYNDP 2024 NT,market_run,Coal,0.76,GW,,
+capacity,MD,2040,,TYNDP 2024 NT,market_run,Gas,1.1982,GW,,
+capacity,MD,2040,,TYNDP 2024 NT,market_run,Other,0.03,GW,,
+capacity,MD,2040,,TYNDP 2024 NT,market_run,Solar,0.25,GW,,
+capacity,MD,2040,,TYNDP 2024 NT,market_run,Wind,0.31,GW,,
+capacity,MD,2040,,TYNDP 2026 NT+,input_only,Other,0.0034,GW,,"Other RES: PEMMDB input, not in a market run"
+capacity,MD,2040,,TYNDP 2026 NT+,input_only,Solar,0.6169,GW,,"Solar: PEMMDB input, not in a market run"
+capacity,MD,2040,,TYNDP 2026 NT+,market_run,Coal,0.55,GW,,
+capacity,MD,2040,,TYNDP 2026 NT+,market_run,Gas,0.78,GW,,
+capacity,MD,2040,,TYNDP 2026 NT+,market_run,Hydro and pumped,0.0645,GW,,
+capacity,MD,2040,,TYNDP 2026 NT+,market_run,Wind,0.9045,GW,,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Battery,0.4931,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Coal,1.565,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Gas,5.6121,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,6.133,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Nuclear,1.357,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Other,0.115,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Solar,8.262,GW,0.0,
+capacity,RO,2030,2030.0,EPM Int_Base_5y,model_result,Wind,5.609,GW,0.0,
+capacity,RO,2030,,National plan,plan,Battery,1.2,GW,-0.7069,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Coal,0.0,GW,1.565,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Gas,5.8,GW,-0.1879,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Hydro and pumped,7.7,GW,-1.567,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Nuclear,1.8,GW,-0.443,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Other,0.1,GW,0.015,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Solar,8.2,GW,0.062,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,National plan,plan,Wind,7.3,GW,-1.691,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Battery,0.4,GW,0.0931,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Coal,0.13,GW,1.435,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Gas,5.4748,GW,0.1373,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Hydro and pumped,6.7383,GW,-0.6053,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Nuclear,1.739,GW,-0.382,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Other,0.137,GW,-0.022,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Solar,8.3,GW,-0.038,
+capacity,RO,2030,,TYNDP 2024 NT,market_run,Wind,7.0,GW,-1.391,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Battery,2.0,GW,-1.5069,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Coal,0.989,GW,0.576,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Gas,5.3014,GW,0.3107,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Hydro and pumped,6.158,GW,-0.025,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Nuclear,1.3,GW,0.057,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Other,0.15,GW,-0.035,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Solar,12.55,GW,-4.288,
+capacity,RO,2030,,TYNDP 2026 NT+,market_run,Wind,7.385,GW,-1.776,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Battery,0.4932,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Gas,5.6122,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,6.133,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Nuclear,2.797,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Other,0.115,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Solar,8.2622,GW,0.0,
+capacity,RO,2035,2036.0,EPM Int_Base_5y,model_result,Wind,10.261,GW,0.0,
+capacity,RO,2035,,National plan,plan,Battery,2.0,GW,-1.5068,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Coal,0.0,GW,0.0,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Gas,5.8,GW,-0.1878,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Hydro and pumped,7.7,GW,-1.567,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Nuclear,3.2,GW,-0.403,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Solar,14.8,GW,-6.5378,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,National plan,plan,Wind,9.1,GW,1.161,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Battery,2.0,GW,-1.5068,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Gas,5.3914,GW,0.2208,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Hydro and pumped,7.3225,GW,-1.1895,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Nuclear,3.087,GW,-0.29,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Other,0.2,GW,-0.085,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Solar,14.8,GW,-6.5378,
+capacity,RO,2035,,TYNDP 2026 NT+,market_run,Wind,9.1,GW,1.161,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Battery,0.4934,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Gas,5.6122,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,6.133,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Nuclear,2.7971,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Other,0.115,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Solar,8.2626,GW,0.0,
+capacity,RO,2040,2040.0,EPM Int_Base_5y,model_result,Wind,12.8671,GW,0.0,
+capacity,RO,2040,,National plan,plan,Battery,2.0,GW,-1.5066,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Coal,0.0,GW,0.0,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Gas,5.4,GW,0.2122,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Hydro and pumped,7.7,GW,-1.567,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Nuclear,3.2,GW,-0.4029,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Solar,21.4,GW,-13.1374,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,National plan,plan,Wind,12.8,GW,0.0671,"NECP 2025-2030 update (October 2024), Figure 31 (LEAP-RO); gas in 2035 and 2040 is the unlabelled residual of the total and includes minor other sources; PSH counted in Hydro"
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Battery,0.8,GW,-0.3066,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Gas,6.0068,GW,-0.3946,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Hydro and pumped,6.7968,GW,-0.6638,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Nuclear,3.087,GW,-0.2899,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Other,0.225,GW,-0.11,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Solar,12.8,GW,-4.5374,
+capacity,RO,2040,,TYNDP 2024 NT,market_run,Wind,9.108,GW,3.7591,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Battery,3.0,GW,-2.5066,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Gas,5.1703,GW,0.4419,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Hydro and pumped,7.3778,GW,-1.2448,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Nuclear,3.087,GW,-0.2899,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Other,0.3,GW,-0.185,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Solar,21.4,GW,-13.1374,
+capacity,RO,2040,,TYNDP 2026 NT+,market_run,Wind,12.8,GW,0.0671,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Battery,0.0042,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Coal,21.9309,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Gas,26.4562,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Hydro and pumped,33.6703,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Nuclear,3.6,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Other,5.4221,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Solar,45.7631,GW,0.0,
+capacity,TR,2030,2030.0,EPM Int_Base_5y,model_result,Wind,34.3713,GW,0.0,
+capacity,TR,2030,,National plan,plan,Battery,4.813,GW,-4.8088,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Coal,22.981,GW,-1.0501,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Gas,32.126,GW,-5.6698,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Hydro and pumped,33.81,GW,-0.1397,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Nuclear,4.693,GW,-1.093,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Other,4.452,GW,0.9701,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Solar,36.818,GW,8.9451,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,National plan,plan,Wind,22.861,GW,11.5103,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Coal,21.23,GW,0.7009,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Gas,24.93,GW,1.5262,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Hydro and pumped,46.0,GW,-12.3297,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Nuclear,4.46,GW,-0.86,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Other,6.15,GW,-0.7279,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Solar,17.5,GW,28.2631,
+capacity,TR,2030,,TYNDP 2024 NT,market_run,Wind,19.0,GW,15.3713,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Coal,20.1476,GW,1.7833,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Gas,20.9623,GW,5.4939,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Hydro and pumped,43.8114,GW,-10.1411,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Nuclear,4.456,GW,-0.856,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Other,2.1199,GW,3.3022,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Solar,47.1274,GW,-1.3643,
+capacity,TR,2030,,TYNDP 2026 NT+,market_run,Wind,21.389,GW,12.9823,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Battery,1.9727,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Coal,22.981,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Gas,26.4576,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Hydro and pumped,33.9578,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Nuclear,4.8004,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Other,5.4221,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Solar,62.9699,GW,0.0,
+capacity,TR,2035,2036.0,EPM Int_Base_5y,model_result,Wind,47.0808,GW,0.0,
+capacity,TR,2035,,National plan,plan,Battery,7.46,GW,-5.4873,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Coal,24.305,GW,-1.324,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Gas,35.495,GW,-9.0374,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Hydro and pumped,35.134,GW,-1.1762,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Nuclear,7.219,GW,-2.4186,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Other,5.053,GW,0.3691,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Solar,52.941,GW,10.0289,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,National plan,plan,Wind,29.599,GW,17.4818,"NEP (MENR) reference scenario, horizon 2035; 2040 not covered"
+capacity,TR,2035,,TYNDP 2026 NT+,input_only,Wind,5.0,GW,42.0808,"Offshore wind: PEMMDB input, not in a market run"
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Battery,2.1,GW,-0.1273,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Coal,20.4956,GW,2.4854,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Gas,18.0806,GW,8.377,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Hydro and pumped,43.8114,GW,-9.8536,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Nuclear,4.456,GW,0.3444,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Other,5.6199,GW,-0.1978,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Solar,76.3841,GW,-13.4142,
+capacity,TR,2035,,TYNDP 2026 NT+,market_run,Wind,34.281,GW,12.7998,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Battery,4.7242,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Coal,23.7808,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Gas,34.8278,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Hydro and pumped,39.132,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Nuclear,9.6,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Other,5.4223,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Solar,89.4889,GW,0.0,
+capacity,TR,2040,2040.0,EPM Int_Base_5y,model_result,Wind,57.813,GW,0.0,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Coal,3.72,GW,20.0608,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Gas,50.3,GW,-15.4722,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Hydro and pumped,47.31,GW,-8.178,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Nuclear,8.912,GW,0.688,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Other,6.15,GW,-0.7277,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Solar,22.0,GW,67.4889,
+capacity,TR,2040,,TYNDP 2024 NT,market_run,Wind,23.0,GW,34.813,
+capacity,TR,2040,,TYNDP 2026 NT+,input_only,Wind,5.0,GW,52.813,"Offshore wind: PEMMDB input, not in a market run"
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Battery,2.1,GW,2.6242,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Coal,20.4956,GW,3.2852,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Gas,17.2561,GW,17.5717,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Hydro and pumped,43.8114,GW,-4.6794,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Nuclear,4.456,GW,5.144,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Other,0.1199,GW,5.3024,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Solar,100.3841,GW,-10.8952,
+capacity,TR,2040,,TYNDP 2026 NT+,market_run,Wind,34.281,GW,23.532,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Coal,19.797,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Gas,5.4,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Hydro and pumped,6.953,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Nuclear,13.835,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Other,6.529,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Solar,2.5,GW,,
+capacity,UA,2030,,TYNDP 2024 NT,market_run,Wind,2.5,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Coal,3.4119,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Gas,2.885,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Hydro and pumped,6.0483,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Nuclear,9.88,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Other,2.39,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Solar,9.8,GW,,
+capacity,UA,2030,,TYNDP 2026 NT+,market_run,Wind,3.6,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Coal,0.9247,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Gas,1.985,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Hydro and pumped,6.3723,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Nuclear,12.08,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Other,3.2,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Solar,18.8,GW,,
+capacity,UA,2035,,TYNDP 2026 NT+,market_run,Wind,6.2,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Coal,19.797,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Gas,5.4,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Hydro and pumped,6.953,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Nuclear,13.835,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Other,6.529,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Solar,2.5,GW,,
+capacity,UA,2040,,TYNDP 2024 NT,market_run,Wind,2.5,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Gas,0.5,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Hydro and pumped,6.3723,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Nuclear,14.48,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Other,3.6,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Solar,19.8,GW,,
+capacity,UA,2040,,TYNDP 2026 NT+,market_run,Wind,7.2,GW,,
+demand,AM,2030,2030.0,EPM Int_Base_5y,model_input,Total,7.075,TWh,0.0,
+demand,AM,2035,2035.0,EPM Int_Base_5y,model_input,Total,7.474,TWh,0.0,
+demand,AM,2040,2040.0,EPM Int_Base_5y,model_input,Total,7.902,TWh,0.0,
+demand,AZ,2030,2030.0,EPM Int_Base_5y,model_input,Total,28.8125,TWh,0.0,
+demand,AZ,2035,2035.0,EPM Int_Base_5y,model_input,Total,31.3084,TWh,0.0,
+demand,AZ,2040,2040.0,EPM Int_Base_5y,model_input,Total,34.2238,TWh,0.0,
+demand,BG,2030,2030.0,EPM Int_Base_5y,model_input,Total,35.8339,TWh,0.0,
+demand,BG,2030,,TYNDP 2024 NT,input_only,Total,36.8421,TWh,-1.0082,
+demand,BG,2030,,TYNDP 2026 NT+,market_run,EV,0.0056,TWh,,
+demand,BG,2030,,TYNDP 2026 NT+,market_run,Electrolyser,0.2621,TWh,,
+demand,BG,2030,,TYNDP 2026 NT+,market_run,Native plus fixed,34.347,TWh,,
+demand,BG,2030,,TYNDP 2026 NT+,market_run,Total,34.6147,TWh,1.2192,"Sum of the components, pumping and battery load excluded"
+demand,BG,2035,2035.0,EPM Int_Base_5y,model_input,Total,36.3894,TWh,0.0,
+demand,BG,2035,,TYNDP 2026 NT+,market_run,EV,0.0039,TWh,,
+demand,BG,2035,,TYNDP 2026 NT+,market_run,Electrolyser,4.5275,TWh,,
+demand,BG,2035,,TYNDP 2026 NT+,market_run,Native plus fixed,38.2768,TWh,,
+demand,BG,2035,,TYNDP 2026 NT+,market_run,Total,42.8082,TWh,-6.4188,"Sum of the components, pumping and battery load excluded"
+demand,BG,2040,2040.0,EPM Int_Base_5y,model_input,Total,39.4322,TWh,0.0,
+demand,BG,2040,,TYNDP 2024 NT,input_only,Total,40.5631,TWh,-1.1309,
+demand,BG,2040,,TYNDP 2026 NT+,market_run,EV,0.0031,TWh,,
+demand,BG,2040,,TYNDP 2026 NT+,market_run,Electrolyser,12.4417,TWh,,
+demand,BG,2040,,TYNDP 2026 NT+,market_run,Native plus fixed,42.4886,TWh,,
+demand,BG,2040,,TYNDP 2026 NT+,market_run,Total,54.9333,TWh,-15.5011,"Sum of the components, pumping and battery load excluded"
+demand,GE,2030,2030.0,EPM Int_Base_5y,model_input,Total,18.8246,TWh,0.0,
+demand,GE,2030,,TYNDP 2024 NT,input_only,Total,20.7617,TWh,-1.9371,
+demand,GE,2035,2035.0,EPM Int_Base_5y,model_input,Total,21.3583,TWh,0.0,
+demand,GE,2040,2040.0,EPM Int_Base_5y,model_input,Total,24.0918,TWh,0.0,
+demand,GE,2040,,TYNDP 2024 NT,input_only,Total,25.9014,TWh,-1.8096,
+demand,MD,2030,,TYNDP 2024 NT,input_only,Total,6.367,TWh,,
+demand,MD,2030,,TYNDP 2026 NT+,market_run,Native plus fixed,6.9912,TWh,,
+demand,MD,2030,,TYNDP 2026 NT+,market_run,Total,6.9912,TWh,,"Sum of the components, pumping and battery load excluded"
+demand,MD,2035,,TYNDP 2026 NT+,market_run,Native plus fixed,7.8362,TWh,,
+demand,MD,2035,,TYNDP 2026 NT+,market_run,Total,7.8362,TWh,,"Sum of the components, pumping and battery load excluded"
+demand,MD,2040,,TYNDP 2024 NT,input_only,Total,6.367,TWh,,Equals the 2030 series in the source
+demand,MD,2040,,TYNDP 2026 NT+,market_run,Native plus fixed,8.7594,TWh,,
+demand,MD,2040,,TYNDP 2026 NT+,market_run,Total,8.7594,TWh,,"Sum of the components, pumping and battery load excluded"
+demand,RO,2030,2030.0,EPM Int_Base_5y,model_input,Total,62.0945,TWh,0.0,
+demand,RO,2030,,National plan,plan,Total,79.0,TWh,-16.9055,NECP 2024 WAM
+demand,RO,2030,,TYNDP 2024 NT,input_only,Total,62.6673,TWh,-0.5727,
+demand,RO,2030,,TYNDP 2026 NT+,market_run,EV,2.4374,TWh,,
+demand,RO,2030,,TYNDP 2026 NT+,market_run,Electrolyser,0.1115,TWh,,
+demand,RO,2030,,TYNDP 2026 NT+,market_run,Heat,0.5388,TWh,,
+demand,RO,2030,,TYNDP 2026 NT+,market_run,Native plus fixed,62.0998,TWh,,
+demand,RO,2030,,TYNDP 2026 NT+,market_run,Total,65.1874,TWh,-3.0929,"Sum of the components, pumping and battery load excluded"
+demand,RO,2035,2035.0,EPM Int_Base_5y,model_input,Total,67.5035,TWh,0.0,
+demand,RO,2035,,TYNDP 2026 NT+,market_run,EV,4.7445,TWh,,
+demand,RO,2035,,TYNDP 2026 NT+,market_run,Electrolyser,2.2611,TWh,,
+demand,RO,2035,,TYNDP 2026 NT+,market_run,Heat,1.3129,TWh,,
+demand,RO,2035,,TYNDP 2026 NT+,market_run,Native plus fixed,66.3886,TWh,,
+demand,RO,2035,,TYNDP 2026 NT+,market_run,Total,74.7071,TWh,-7.2037,"Sum of the components, pumping and battery load excluded"
+demand,RO,2040,2040.0,EPM Int_Base_5y,model_input,Total,73.3836,TWh,0.0,
+demand,RO,2040,,TYNDP 2024 NT,input_only,Total,68.2143,TWh,5.1693,
+demand,RO,2040,,TYNDP 2026 NT+,market_run,EV,7.0242,TWh,,
+demand,RO,2040,,TYNDP 2026 NT+,market_run,Electrolyser,3.8111,TWh,,
+demand,RO,2040,,TYNDP 2026 NT+,market_run,Heat,2.7294,TWh,,
+demand,RO,2040,,TYNDP 2026 NT+,market_run,Native plus fixed,70.6719,TWh,,
+demand,RO,2040,,TYNDP 2026 NT+,market_run,Total,84.2366,TWh,-10.853,"Sum of the components, pumping and battery load excluded"
+demand,TR,2030,2030.0,EPM Int_Base_5y,model_input,Total,447.7,TWh,0.0,
+demand,TR,2030,,TYNDP 2024 NT,input_only,Total,421.6489,TWh,26.0511,
+demand,TR,2030,,TYNDP 2026 NT+,market_run,Native plus fixed,412.1164,TWh,,
+demand,TR,2030,,TYNDP 2026 NT+,market_run,Total,412.1164,TWh,35.5836,"Sum of the components, pumping and battery load excluded"
+demand,TR,2035,2035.0,EPM Int_Base_5y,model_input,Total,490.2,TWh,0.0,
+demand,TR,2035,,TYNDP 2026 NT+,market_run,Native plus fixed,485.4744,TWh,,
+demand,TR,2035,,TYNDP 2026 NT+,market_run,Total,485.4744,TWh,4.7256,"Sum of the components, pumping and battery load excluded"
+demand,TR,2040,2040.0,EPM Int_Base_5y,model_input,Total,645.0406,TWh,0.0,
+demand,TR,2040,,TYNDP 2024 NT,input_only,Total,603.4869,TWh,41.5536,
+demand,TR,2040,,TYNDP 2026 NT+,market_run,Native plus fixed,581.5207,TWh,,
+demand,TR,2040,,TYNDP 2026 NT+,market_run,Total,581.5207,TWh,63.5199,"Sum of the components, pumping and battery load excluded"
+demand,UA,2030,,TYNDP 2024 NT,input_only,Total,151.7717,TWh,,
+demand,UA,2030,,TYNDP 2026 NT+,market_run,Native plus fixed,121.0283,TWh,,
+demand,UA,2030,,TYNDP 2026 NT+,market_run,Total,121.0283,TWh,,"Sum of the components, pumping and battery load excluded"
+demand,UA,2035,,TYNDP 2026 NT+,market_run,Native plus fixed,128.7938,TWh,,
+demand,UA,2035,,TYNDP 2026 NT+,market_run,Total,128.7938,TWh,,"Sum of the components, pumping and battery load excluded"
+demand,UA,2040,,TYNDP 2024 NT,input_only,Total,151.7717,TWh,,Equals the 2030 series in the source
+demand,UA,2040,,TYNDP 2026 NT+,market_run,Native plus fixed,139.7359,TWh,,
+demand,UA,2040,,TYNDP 2026 NT+,market_run,Total,139.7359,TWh,,"Sum of the components, pumping and battery load excluded"
+net_imports,AM,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,-2.427,TWh,0.0,
+net_imports,AM,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,-1.9039,TWh,0.0,
+net_imports,AM,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,-0.9633,TWh,0.0,
+net_imports,AZ,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,-2.327,TWh,0.0,
+net_imports,AZ,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,-2.7433,TWh,0.0,
+net_imports,AZ,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,-2.4437,TWh,0.0,
+net_imports,BG,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,-3.1002,TWh,0.0,
+net_imports,BG,2030,,National plan,plan,Net imports,4.5,TWh,-7.6002,ESO plan
+net_imports,BG,2030,,TYNDP 2024 NT,market_run,Net imports,4.1942,TWh,-7.2944,Climate year 2009
+net_imports,BG,2030,,TYNDP 2026 NT+,market_run,Net imports,0.9907,TWh,-4.0909,
+net_imports,BG,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,-21.6177,TWh,0.0,
+net_imports,BG,2035,,TYNDP 2026 NT+,market_run,Net imports,-4.004,TWh,-17.6137,
+net_imports,BG,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,-20.1748,TWh,0.0,
+net_imports,BG,2040,,TYNDP 2024 NT,market_run,Net imports,-3.3759,TWh,-16.7989,Climate year 2009
+net_imports,BG,2040,,TYNDP 2026 NT+,market_run,Net imports,-7.6505,TWh,-12.5243,
+net_imports,GE,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,-1.8093,TWh,0.0,
+net_imports,GE,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,-1.268,TWh,0.0,
+net_imports,GE,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,-1.9752,TWh,0.0,
+net_imports,MD,2030,,TYNDP 2024 NT,market_run,Net imports,4.4257,TWh,,Climate year 2009
+net_imports,MD,2030,,TYNDP 2026 NT+,market_run,Net imports,1.9354,TWh,,
+net_imports,MD,2035,,TYNDP 2026 NT+,market_run,Net imports,4.1722,TWh,,
+net_imports,MD,2040,,TYNDP 2024 NT,market_run,Net imports,4.4214,TWh,,Climate year 2009
+net_imports,MD,2040,,TYNDP 2026 NT+,market_run,Net imports,5.5662,TWh,,
+net_imports,RO,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,-3.9584,TWh,0.0,
+net_imports,RO,2030,,TYNDP 2024 NT,market_run,Net imports,-22.3068,TWh,18.3484,Climate year 2009
+net_imports,RO,2030,,TYNDP 2026 NT+,market_run,Net imports,-5.8836,TWh,1.9252,
+net_imports,RO,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,-10.5837,TWh,0.0,
+net_imports,RO,2035,,TYNDP 2026 NT+,market_run,Net imports,-15.6199,TWh,5.0362,
+net_imports,RO,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,-11.5551,TWh,0.0,
+net_imports,RO,2040,,TYNDP 2024 NT,market_run,Net imports,-25.3602,TWh,13.8051,Climate year 2009
+net_imports,RO,2040,,TYNDP 2026 NT+,market_run,Net imports,-19.4863,TWh,7.9312,
+net_imports,TR,2030,2030.0,EPM Int_Base_5y,model_result,Net imports,2.7414,TWh,0.0,
+net_imports,TR,2030,,TYNDP 2024 NT,market_run,Net imports,13.4237,TWh,-10.6823,Climate year 2009
+net_imports,TR,2030,,TYNDP 2026 NT+,market_run,Net imports,4.5408,TWh,-1.7994,
+net_imports,TR,2035,2036.0,EPM Int_Base_5y,model_result,Net imports,3.4758,TWh,0.0,
+net_imports,TR,2035,,TYNDP 2026 NT+,market_run,Net imports,3.9713,TWh,-0.4955,
+net_imports,TR,2040,2040.0,EPM Int_Base_5y,model_result,Net imports,3.5181,TWh,0.0,
+net_imports,TR,2040,,TYNDP 2024 NT,market_run,Net imports,12.1832,TWh,-8.6651,Climate year 2009
+net_imports,TR,2040,,TYNDP 2026 NT+,market_run,Net imports,3.904,TWh,-0.3859,
+net_imports,UA,2030,,TYNDP 2024 NT,market_run,Net imports,-0.6125,TWh,,Climate year 2009
+net_imports,UA,2030,,TYNDP 2026 NT+,market_run,Net imports,0.2865,TWh,,
+net_imports,UA,2035,,TYNDP 2026 NT+,market_run,Net imports,-7.5699,TWh,,
+net_imports,UA,2040,,TYNDP 2024 NT,market_run,Net imports,1.7296,TWh,,Climate year 2009
+net_imports,UA,2040,,TYNDP 2026 NT+,market_run,Net imports,-6.6791,TWh,,

@@ -1,0 +1,21 @@
+border,year,capacity_forward_mw,capacity_backward_mw,capex_meur,action,same_as,epm_file,note
+BG00-RS00 Real 1,2035,490.0,270.0,272.5,drop,P342,,550/350 MW in the 2026 grid from 2035
+GR00-TR00 Real 1,2035,600.0,600.0,87.55,candidate,P1067,pNewTransmissionExt,"600 MW, in the 2026 grid from 2050"
+HU00-RO00 Real 1,2035,1410.0,740.0,145.88,drop,P259,,"2,150/1,050 MW in the 2026 grid from 2035"
+BG00-GR00 Concept 1,2040,500.0,500.0,221.0,hold,,,
+BG00-GR00 Concept 2,2040,500.0,500.0,225.0,hold,,,
+BG00-MK00 Concept 1,2040,500.0,500.0,110.8,hold,,,
+BG00-MK00 Concept 2,2040,500.0,500.0,181.0,hold,,,
+BG00-RO00 Concept 1,2040,500.0,500.0,221.0,hold,,,
+BG00-RO00 Concept 2,2040,500.0,500.0,219.0,hold,,,
+BG00-RS00 Concept 1,2040,500.0,500.0,283.44,hold,,,
+BG00-RS00 Concept 2,2040,500.0,500.0,283.44,hold,,,
+BG00-TR00 Concept 1,2040,500.0,500.0,110.5,hold,,,
+BG00-TR00 Concept 2,2040,500.0,500.0,222.7,hold,,,
+BG00-TR00 Real 1,2040,1100.0,700.0,60.0,candidate,P1066,pNewTransmission,"1,100/700 MW, in the 2026 grid from 2050"
+GR00-TR00 Concept 1,2040,500.0,500.0,347.8,hold,,,
+GR00-TR00 Concept 2,2040,500.0,500.0,477.8,hold,,,
+HU00-RO00 Concept 1,2040,2000.0,2000.0,1939.0,hold,,,
+HU00-RO00 Concept 2,2040,2000.0,2000.0,2500.0,hold,,,
+RO00-RS00 Concept 1,2040,500.0,500.0,149.01,hold,,,
+RO00-RS00 Concept 2,2040,500.0,500.0,248.9,hold,,,

@@ -1,0 +1,214 @@
+# Correspondence between the tidy TYNDP tables and EPM.
+# Read by pipelines/check_tyndp_mapping.py, which fails when a tidy row is neither mapped nor excluded.
+# Editions are never mixed: 2024 is National Trends, 2026 is National Trends+ (draft).
+# This file only describes links. Nothing here writes to epm/input.
+
+epm_reference:
+  scenario: Int_Base_5y            # S5_Base_v4, Romania and Bulgaria modelled
+  zcmap: zcmap_robg.csv
+  zext: trade/zext_robg.csv
+  ext_limits: trade/pExtTransferLimit_robg.csv
+  int_limits: trade/pTransferLimit_robg_hvdc.csv
+  tech_fuel: supply/pTechFuel_robg.csv
+  plants: supply/pGenDataInput_v4_s5.csv
+
+# role: modelled = EPM capacity and demand, external = price taker with border limits only.
+# split: none = the TYNDP node is one block in EPM, values are read at country level only.
+nodes:
+  RO00: {zones: [Romania], role: modelled, split: none, note: "Dobrogea 2z variants split Romania, TYNDP has no split key"}
+  BG00: {zones: [Bulgaria], role: modelled, split: none}
+  TR00: {zones: [WestMed, WestAna, EastMed, EastAna, SouthEast, NorthWest, CenterAna, CenterBlack, Trakia], role: modelled, split: none, note: "Nine EPM zones. Borders with BG00 and GR00 land on Trakia"}
+  GE00: {zones: [Georgia], role: modelled, split: none, note: "No border and no 2026 demand. GEC_GE hub has no TYNDP node"}
+  AZ00: {zones: [AzerbaijanMain, Nakhchivan], role: modelled, split: none, note: "2026 generation only. GEC_AZ hub has no TYNDP node"}
+  AM00: {zones: [Armenia], role: modelled, split: none, note: "In no TYNDP package"}
+  MD00: {zones: [Moldova], role: external, split: none}
+  UA00: {zones: [Ukraine], role: external, split: none}
+  UA01: {zones: [Ukraine], role: external, split: none, note: "Lines only, 2024 only. Summed with UA00"}
+  HU00: {zones: [Hungary], role: external, split: none}
+  RS00: {zones: [Serbia], role: external, split: none}
+  MK00: {zones: [NorthMacedonia], role: external, split: none}
+  GR00: {zones: [Greece], role: external, split: none}
+  GR03: {zones: [Greece], role: external, split: none, note: "Crete. No border with a core node, demand is GR00 + GR03"}
+  SK00: {zones: [], role: out_of_model, split: none, note: "Kept for the borders of Ukraine only"}
+  PL00: {zones: [], role: out_of_model, split: none, note: "Kept for the borders of Ukraine only"}
+
+# EPM zones with no TYNDP node.
+zones_without_node: [iran_swap, Iraq, Syria, Iran, Russia, Kazakhstan]
+
+# One row per EPM border. a and b give the direction: value a_to_b reads node_a -> node_b.
+# Several nodes on one side are summed. file: ext = pExtTransferLimit (Export = a to b), int = pTransferLimit.
+# current_rule = how the EPM value is built today, b2 = default action at step B2.
+borders:
+  - {a: Romania, b: Hungary, nodes_a: [RO00], nodes_b: [HU00], file: ext, current_rule: p99_flow_2025, b2: tyndp_limit}
+  - {a: Romania, b: Serbia, nodes_a: [RO00], nodes_b: [RS00], file: ext, current_rule: p99_flow_2025, b2: tyndp_limit}
+  - {a: Bulgaria, b: Serbia, nodes_a: [BG00], nodes_b: [RS00], file: ext, current_rule: p99_flow_2025, b2: tyndp_limit}
+  - {a: Bulgaria, b: NorthMacedonia, nodes_a: [BG00], nodes_b: [MK00], file: ext, current_rule: p99_flow_2025, b2: tyndp_limit}
+  - {a: Bulgaria, b: Greece, nodes_a: [BG00], nodes_b: [GR00], file: ext, current_rule: p99_flow_2025, b2: tyndp_limit}
+  - {a: Trakia, b: Greece, nodes_a: [TR00], nodes_b: [GR00], file: ext, current_rule: lc_baseline, b2: tyndp_limit}
+  - {a: Romania, b: Bulgaria, nodes_a: [RO00], nodes_b: [BG00], file: int, current_rule: lc_baseline, b2: tyndp_limit}
+  - {a: Bulgaria, b: Trakia, nodes_a: [BG00], nodes_b: [TR00], file: int, current_rule: lc_baseline, b2: tyndp_limit}
+  - {a: Romania, b: Ukraine, nodes_a: [RO00], nodes_b: [UA00, UA01], file: ext, current_rule: market_mean_flow, b2: hold_europe_point}
+  - {a: Romania, b: Moldova, nodes_a: [RO00], nodes_b: [MD00], file: ext, current_rule: market_mean_flow, b2: hold_europe_point}
+
+# TYNDP borders with no EPM counterpart: both ends sit outside the modelled zones.
+excluded_borders:
+  - {nodes: [HU00, UA00], reason: "External to external"}
+  - {nodes: [HU00, UA01], reason: "External to external"}
+  - {nodes: [MD00, UA00], reason: "External to external"}
+  - {nodes: [PL00, UA00], reason: "Poland is out of the model"}
+  - {nodes: [SK00, UA00], reason: "Slovakia is out of the model"}
+  - {nodes: [SK00, UA01], reason: "Slovakia is out of the model"}
+
+# EPM cross-border links with no TYNDP limit. PEMMDB exogenous exchange capacities are memo items.
+borders_without_tyndp:
+  - {a: Georgia, b: Russia, memo: "PEMMDB 2026 GE00 Russia 350 MW both ways"}
+  - {a: Armenia, b: Georgia, memo: "PEMMDB 2026 GE00 Armenia 150 MW both ways, same as EPM"}
+  - {a: AzerbaijanMain, b: Russia, memo: "PEMMDB 2026 AZ00 Russia 50 MW both ways"}
+  - {a: AzerbaijanMain, b: Georgia}
+  - {a: EastAna, b: Georgia}
+  - {a: AzerbaijanMain, b: Iran}
+  - {a: AzerbaijanMain, b: Kazakhstan}
+  - {a: Armenia, b: Iran}
+  - {a: Armenia, b: iran_swap}
+  - {a: Nakhchivan, b: Iran}
+  - {a: EastAna, b: Nakhchivan}
+  - {a: EastAna, b: Iran}
+  - {a: EastMed, b: Syria}
+  - {a: SouthEast, b: Syria}
+  - {a: SouthEast, b: Iraq}
+
+# Rows of exchanges.csv: mapped to one of the memo items above, or left out.
+exchanges:
+  Russia: {use: memo}
+  Armenia: {use: memo}
+  EG00: {use: excluded, reason: "Greece to Egypt, no EPM link"}
+  Total hourly series: {use: excluded, reason: "Hourly total, kept for the controls only"}
+
+# Rule of step B2, confirmed at the B1 review on 2026-11-02.
+limit_rule:
+  edition: "2026"
+  metric: ntc_reference
+  floor: current_epm_value         # max(current, TYNDP): a pure relaxation, as in build_ext_limits_robg_tyndp.py
+  base_year: current_epm_value     # 2025 stays calibrated on observed flows
+  years: {2030: 2030, 2032: 2030, 2036: 2035, 2040: 2040}   # EPM year: TYNDP reference year in force
+  between_years: step              # a line enters at its reference year, no interpolation
+  after_2040: flat
+  seasons: flat
+
+# 2024 candidates of GRID.xlsx against the 2026 reference grid.
+# drop = already inside the 2026 grid by 2035. candidate = in 2026 only from 2050, after the horizon.
+# hold = concept study, kept out of the first pass.
+candidates:
+  rule_concept: hold
+  rule_real:
+    capacity: min_direction        # CapacityPerLine holds one value, the weaker direction never overstates a line
+    entry: tyndp_2024_year         # GRID.xlsx commissioning year
+    eur_usd: 1.08                  # as in the register conversions, GRID.xlsx states no price year
+    max_lines: 1
+    life: 30
+    status: 3
+  real:
+    BG00-RS00 Real 1: {action: drop, same_as: P342, note: "550/350 MW in the 2026 grid from 2035"}
+    HU00-RO00 Real 1: {action: drop, same_as: P259, note: "2,150/1,050 MW in the 2026 grid from 2035"}
+    BG00-TR00 Real 1: {action: candidate, same_as: P1066, epm: [Bulgaria, Trakia], file: pNewTransmission, note: "1,100/700 MW, in the 2026 grid from 2050"}
+    GR00-TR00 Real 1: {action: candidate, same_as: P1067, epm: [Trakia, Greece], file: pNewTransmissionExt, note: "600 MW, in the 2026 grid from 2050"}
+
+# Tidy technologies. tech and fuel are EPM labels, null when there is no EPM equivalent.
+# match: exact = same class. class = several TYNDP classes fold into one EPM pair, or the fit is approximate.
+# none = no EPM equivalent. Rows at level split are parts of a total and are never added to it.
+technologies:
+  Nuclear: {tech: Nuclear, fuel: Uranium, match: exact}
+  Gas CCGT new: {tech: CCGT, fuel: Gas, match: class}
+  Gas CCGT present 1: {tech: CCGT, fuel: Gas, match: class}
+  Gas CCGT present 2: {tech: CCGT, fuel: Gas, match: class}
+  Gas CCGT old 1: {tech: CCGT, fuel: Gas, match: class}
+  Gas CCGT old 2: {tech: CCGT, fuel: Gas, match: class}
+  Gas Conventional old 1: {tech: ST, fuel: Gas, match: class}
+  Gas Conventional old 2: {tech: ST, fuel: Gas, match: class}
+  Gas OCGT new: {tech: OCGT, fuel: Gas, match: class}
+  Gas OCGT old: {tech: OCGT, fuel: Gas, match: class}
+  Hard coal new: {tech: ST, fuel: ImportedCoal, match: class, note: "Domestic hard coal in RO and TR also lands here"}
+  Hard coal old 1: {tech: ST, fuel: ImportedCoal, match: class}
+  Hard coal old 2: {tech: ST, fuel: ImportedCoal, match: class}
+  Lignite new: {tech: ST, fuel: DomesticCoal, match: class}
+  Lignite old 1: {tech: ST, fuel: DomesticCoal, match: class}
+  Lignite old 2: {tech: ST, fuel: DomesticCoal, match: class}
+  Heavy oil old 1: {tech: ICE, fuel: HFO, match: class, note: "EPM carries oil plants as ICE"}
+  Heavy oil old 2: {tech: ICE, fuel: HFO, match: class}
+  Light oil: {tech: ICE, fuel: Diesel, match: class}
+  Hydrogen CCGT: {tech: CCGT, fuel: Hydrogen, match: exact}
+  Hydro Run of River: {tech: ROR, fuel: Water, match: exact}
+  Hydro Reservoir: {tech: ReservoirHydro, fuel: Water, match: exact}
+  Hydro Pondage: {tech: ReservoirHydro, fuel: Water, match: class, note: "Daily storage. TR 9.1 GW in 2024, nothing in 2026"}
+  Hydro Pump Storage open loop: {tech: Storage, fuel: Water, match: class, note: "Natural inflow ignored"}
+  Hydro Pure Pump Storage closed loop: {tech: Storage, fuel: Water, match: exact}
+  Battery: {tech: Storage, fuel: Battery, match: exact}
+  Battery Utility Scale: {tech: Storage, fuel: Battery, match: exact}
+  Battery Residential: {tech: Storage, fuel: Battery, match: class, note: "Behind the meter, no EPM distinction"}
+  Photovoltaic: {tech: PV, fuel: Solar, match: exact}
+  Photovoltaic e-market: {tech: PV, fuel: Solar, match: exact}
+  Photovoltaic dedicated: {tech: PV, fuel: Solar, match: class, note: "Feeds electrolysers off grid, leave out with their load"}
+  Rooftop: {tech: PV, fuel: Solar, match: class, note: "Added to PV in 2024, part of PV in 2026"}
+  Solar Thermal with Storage: {tech: CSPPlant, fuel: CSP, match: exact}
+  Onshore wind: {tech: OnshoreWind, fuel: Wind, match: exact}
+  Onshore wind e-market: {tech: OnshoreWind, fuel: Wind, match: exact}
+  Onshore wind dedicated: {tech: OnshoreWind, fuel: Wind, match: class, note: "Feeds electrolysers off grid, leave out with their load"}
+  Offshore wind: {tech: OffshoreWind, fuel: Wind, match: exact}
+  Offshore wind e-market - radial: {tech: OffshoreWind, fuel: Wind, match: exact}
+  Offshore wind e-market - hub ready: {tech: OffshoreWind, fuel: Wind, match: exact}
+  Offshore wind dedicated - radial: {tech: OffshoreWind, fuel: Wind, match: class, note: "Feeds electrolysers off grid, leave out with their load"}
+  Small Biomass: {tech: BiomassPlant, fuel: Biomass, match: exact}
+  Geothermal: {tech: ST, fuel: Geothermal, match: exact}
+  Waste: {tech: ST, fuel: Waste, match: exact}
+  Not Defined / Splitting not known: {tech: null, fuel: null, match: none, note: "2024 Other RES, no class given"}
+  DSR band 1: {tech: null, fuel: null, match: none, note: "EPM has no demand response"}
+  DSR band 2: {tech: null, fuel: null, match: none, note: "EPM has no demand response"}
+  DSR band 3: {tech: null, fuel: null, match: none, note: "EPM has no demand response"}
+  Electrolyser: {tech: null, fuel: null, match: none, note: "Load, not generation. EPM carries it in demand if at all"}
+  Electrolyser Dedicated RES Z2: {tech: null, fuel: null, match: none, note: "Off grid with its dedicated wind and solar"}
+  Electrolyser e-market Z2: {tech: null, fuel: null, match: none, note: "Load, not generation. EPM carries it in demand if at all"}
+
+# Other non-RES rows and reserves are matched by pattern, in this order.
+technology_patterns:
+  - {starts_with: "Other non-RES Gas/CCGT", tech: CCGT, fuel: Gas, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Gas/OCGT", tech: OCGT, fuel: Gas, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Gas/conventional", tech: ST, fuel: Gas, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Hard coal", tech: ST, fuel: ImportedCoal, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Lignite", tech: ST, fuel: DomesticCoal, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Heavy oil", tech: ICE, fuel: HFO, match: class, note: "Price band offer"}
+  - {starts_with: "Other non-RES Shale oil", tech: ST, fuel: Shale, match: class, note: "TR 2 GW in 2030 only"}
+  - {starts_with: "Other non-RES Hydrogen", tech: CCGT, fuel: Hydrogen, match: class, note: "Price band offer"}
+  - {starts_with: "FCR:", tech: null, fuel: null, match: none, note: "Reserve requirement, not a technology"}
+  - {starts_with: "FRR:", tech: null, fuel: null, match: none, note: "Reserve requirement, not a technology"}
+  - {starts_with: "Simplified:", tech: null, fuel: null, match: none, note: "Reserve requirement, not a technology"}
+
+# Step B2 writes to output_tyndp/<folder>/trade, one file per EPM input, named <source stem>_<suffix>.csv.
+staging:
+  folder: staging
+  suffix: tyndp26
+  freeexp_int: trade/pNewTransmission_robg_freeexp.csv     # compared with the candidates, not copied
+  freeexp_ext: trade/pNewTransmissionExt_robg_freeexp.csv
+  losses: trade/pLossFactorInternal_robg_hvdc.csv
+
+# Staged limits worked out by hand from the rule above. A failed check means the rule drifted.
+staging_spot_checks:
+  - {from: Romania, to: Hungary, year: 2030, mw: 2650}
+  - {from: Romania, to: Hungary, year: 2036, mw: 3700}
+  - {from: Hungary, to: Romania, year: 2040, mw: 3600}
+  - {from: Bulgaria, to: Serbia, year: 2032, mw: 750}
+  - {from: Bulgaria, to: Serbia, year: 2036, mw: 930}
+  - {from: Serbia, to: Bulgaria, year: 2040, mw: 750}
+  - {from: Romania, to: Bulgaria, year: 2040, mw: 2100}
+  - {from: Trakia, to: Bulgaria, year: 2040, mw: 200}
+  - {from: Trakia, to: Greece, year: 2040, mw: 166}
+  - {from: Greece, to: Trakia, year: 2040, mw: 218}
+  - {from: Romania, to: Hungary, year: 2025, mw: 1000}
+  - {from: Romania, to: Ukraine, year: 2040, mw: 455}
+
+# Values read by hand in the source files. A failed check means the mapping or a parser drifted.
+spot_checks:
+  - {a: Romania, b: Hungary, edition: "2026", year: 2035, a_to_b: 3700, b_to_a: 3600}
+  - {a: Romania, b: Bulgaria, edition: "2026", year: 2040, a_to_b: 2100, b_to_a: 2200}
+  - {a: Bulgaria, b: Trakia, edition: "2026", year: 2040, a_to_b: 334, b_to_a: 200}
+  - {a: Trakia, b: Greece, edition: "2026", year: 2030, a_to_b: 166, b_to_a: 218}
+  - {a: Romania, b: Ukraine, edition: "2024", year: 2030, a_to_b: 950, b_to_a: 950}
