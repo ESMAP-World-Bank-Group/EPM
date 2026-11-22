@@ -64,14 +64,20 @@ local batch, check that at least 18 GB of commit memory is free (Task Manager, P
 ## The three missing five-year scenarios: server
 
 Same labels as the laptop batch, so the three zips merge into the same explorer run. From the
-repository root on the server, after the refresh of "Before a batch":
+repository root on the server, after the refresh of "Before a batch" (from the `epm` folder, call
+`python ../tools/run_sequential.py` with the same arguments):
 
 ```
 python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c5 --date 20261121 -S Int_EWTC_5y Int_AllProjects_5y Int_FreeExp_5y
 ```
 
-About 25 minutes per scenario. The three files `epm/output/v6c5_<scenario>_20261121.zip` are then
-copied to `epm/output/` on the laptop.
+The three files `epm/output/v6c5_<scenario>_20261121.zip` are then copied to `epm/output/` on the
+laptop.
+
+Done on 2026-11-22, 10 minutes per scenario on the server (peak memory 5.9 GB): Int_EWTC_5y 314.845,
+Int_AllProjects_5y 307.296 (the test run gave 307.30) and Int_FreeExp_5y 312.756 BUSD. The 17
+scenarios are merged in `epm/output_view/v6_central5y_20261121`. The status file and the logs of
+these three runs stay on the server, in `epm/output/_sequential/v6c5_20261121`.
 
 ## Batch C2: the eight core cases, two-year grid, server
 
@@ -84,10 +90,12 @@ per Int scenario.
 python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c2 --date 20261122 -S Int_Base_2y Ext_Base_2y Int_BSSC_2y Int_GECO_2y Int_Onland_2y Ext_BSSC_2y Ext_GECO_2y Ext_Onland_2y
 ```
 
-The command can be relaunched after an interruption: a scenario whose zip is complete is skipped. A
-scenario that fails does not stop the others; `epm/output/_sequential/v6c2_20261122/status.csv` gives
-one row per attempt. The eight files `epm/output/v6c2_<scenario>_20261122.zip` are then copied to
-`epm/output/` on the laptop.
+Launch it inside `tmux` or `screen` so that it survives the end of the session. Every five minutes
+the script prints the minutes elapsed and the last line of the GAMS log of the running scenario
+(`--progress 0` for none). The command can be relaunched after an interruption: a scenario whose zip
+is complete is skipped. A scenario that fails does not stop the others;
+`epm/output/_sequential/v6c2_20261122/status.csv` gives one row per attempt. The eight files
+`epm/output/v6c2_<scenario>_20261122.zip` are then copied to `epm/output/` on the laptop.
 
 Dates that sit off the five-year grid move back on the two-year grid: EWTC 2034, first TRIPP segment
 2028, Kozloduy 8 in 2038.
@@ -104,7 +112,8 @@ python tools/scenario_register.py --grid internal_analysis/scenarios/scenario_gr
 ```
 
 The register flips the merged scenarios from "to run" to "done"; `--r2` after the upload
-(`tools/upload_output_view_to_r2.py`) flips them to "published".
+(`tools/upload_output_view_to_r2.py --only "<run>/*"`) flips them to "published". On 2026-11-22 the
+17 scenarios of `v6_central5y_20261121` are published.
 
 ## Reading the results
 
