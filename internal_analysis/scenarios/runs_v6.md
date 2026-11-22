@@ -52,14 +52,42 @@ with the same epm.py call and the same labels.
 Reproducibility check: the four test runs made on the same inputs gave Int_Base_5y 316.44,
 Ext_Base_5y 227.57, Int_AllProjects_5y 307.30 and Ext_FreeExp_5y 222.82 BUSD.
 
-## Batch C2: the eight core cases, two-year grid
+Outcome on the laptop (2026-11-21 and 22): 14 of the 17 scenarios solved to optimality and are merged
+in `epm/output_view/v6_central5y_20261121`. Int_EWTC_5y, Int_AllProjects_5y and Int_FreeExp_5y ended
+on `CPLEX Error 1001: Out of memory`, which epm.py prints as "no feasible solution found". The cause
+is the machine, not the model: an Int scenario needs about 15 GB of commit memory (GAMS 5.8 GB, the
+CPLEX link and the loaded model), and the other applications and sessions open that day left 7 to
+10 GB out of 51. A retry with 10 GB left failed the same way after 28 seconds of barrier. Before a
+local batch, check that at least 18 GB of commit memory is free (Task Manager, Performance, Memory,
+"Committed"); if not, close applications or use the server.
 
-Nine model years instead of five. Int_Base_2y goes first and alone, as the measure of time and memory.
+## The three missing five-year scenarios: server
+
+Same labels as the laptop batch, so the three zips merge into the same explorer run. From the
+repository root on the server, after the refresh of "Before a batch":
 
 ```
-python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c2 -S Int_Base_2y
-python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c2 -S Int_Base_2y Ext_Base_2y Int_BSSC_2y Int_GECO_2y Int_Onland_2y Ext_BSSC_2y Ext_GECO_2y Ext_Onland_2y
+python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c5 --date 20261121 -S Int_EWTC_5y Int_AllProjects_5y Int_FreeExp_5y
 ```
+
+About 25 minutes per scenario. The three files `epm/output/v6c5_<scenario>_20261121.zip` are then
+copied to `epm/output/` on the laptop.
+
+## Batch C2: the eight core cases, two-year grid, server
+
+Nine model years instead of five, so more memory than the laptop can give: this batch runs on the
+server, one scenario at a time (`--cpu 1` is set by the script). Int_Base_2y goes first, as the
+measure of time and memory; the script then carries on with the seven others. Expect about two hours
+per Int scenario.
+
+```
+python tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v6c2 --date 20261122 -S Int_Base_2y Ext_Base_2y Int_BSSC_2y Int_GECO_2y Int_Onland_2y Ext_BSSC_2y Ext_GECO_2y Ext_Onland_2y
+```
+
+The command can be relaunched after an interruption: a scenario whose zip is complete is skipped. A
+scenario that fails does not stop the others; `epm/output/_sequential/v6c2_20261122/status.csv` gives
+one row per attempt. The eight files `epm/output/v6c2_<scenario>_20261122.zip` are then copied to
+`epm/output/` on the laptop.
 
 Dates that sit off the five-year grid move back on the two-year grid: EWTC 2034, first TRIPP segment
 2028, Kozloduy 8 in 2038.
@@ -71,7 +99,7 @@ from PowerShell, list the zips one by one. A merge can be repeated as the zips a
 
 ```
 python tools/merge_runs.py --target epm/output_view/v6_central5y_20261121 epm/output/v6c5_*_20261121.zip
-python tools/merge_runs.py --target epm/output_view/v6_core2y_<date> epm/output/v6c2_*_<date>.zip
+python tools/merge_runs.py --target epm/output_view/v6_core2y_20261122 epm/output/v6c2_*_20261122.zip
 python tools/scenario_register.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml
 ```
 
