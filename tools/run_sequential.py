@@ -18,6 +18,10 @@ Windows not to sleep until it ends. That request only holds on mains power with 
 laptop with modern standby suspends the solve on battery or when the lid closes, and the run
 resumes when the machine wakes.
 
+Progress. While a scenario runs, one line every five minutes (--progress) gives the minutes elapsed
+and the last line of its GAMS log, epm/output/<label>/<scenario>/<scenario>_main.log, which can
+also be followed with tail -f.
+
 Tracking. Next to the logs (--work, default epm/output/_sequential/<prefix>_<date>) it writes
 status.csv, one row per attempt: start, end, minutes, exit code, zip size and the solver summary
 line of epm.py.
@@ -74,8 +78,36 @@ def append_status(path, row):
         w.writerow(row)
 
 
+def last_line(path):
+    """Last non-empty line of a text file, read from its tail."""
+    try:
+        with open(path, "rb") as fh:
+            fh.seek(0, 2)
+            fh.seek(max(0, fh.tell() - 4096))
+            tail = fh.read().decode("utf-8", errors="replace")
+    except OSError:
+        return ""
+    lines = [line.strip() for line in tail.splitlines() if line.strip()]
+    return lines[-1][:110] if lines else ""
+
+
+def wait_with_progress(proc, log_path, start, every):
+    """Wait for the run; every `every` seconds print the minutes elapsed and the last line of the GAMS log."""
+    due = time.time() + every
+    while True:
+        try:
+            return proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            pass
+        if every and time.time() >= due:
+            due += every
+            minutes = (dt.datetime.now() - start).total_seconds() / 60
+            print(f"{dt.datetime.now():%H:%M:%S}   running {minutes:.0f} min | {last_line(log_path)}", flush=True)
+
+
 def run_one(name, label, args, work):
     out_path = work / "logs" / (label + ".out")
+    gams_log = EPM / "output" / label / name / f"{name}_main.log"
     cmd = [sys.executable, "epm.py", "--folder_input", args.folder_input, "--scenarios", args.scenarios, "-S", name,
            "--cpu", "1", "--simulation_label", label, "--output_zip", "--no_plot_dispatch"]
     start = dt.datetime.now()
@@ -83,7 +115,12 @@ def run_one(name, label, args, work):
     with open(out_path, "w", encoding="utf-8", errors="replace") as fh:
         fh.write(" ".join(cmd) + "\n")
         fh.flush()
-        code = subprocess.run(cmd, cwd=EPM, stdout=fh, stderr=subprocess.STDOUT).returncode
+        proc = subprocess.Popen(cmd, cwd=EPM, stdout=fh, stderr=subprocess.STDOUT)
+        try:
+            code = wait_with_progress(proc, gams_log, start, args.progress * 60)
+        except BaseException:
+            proc.kill()
+            raise
     end = dt.datetime.now()
     summary = ""
     for line in out_path.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -108,6 +145,7 @@ def main(argv=None):
     ap.add_argument("--prefix", required=True, help="label prefix, for instance v6c5")
     ap.add_argument("--date", default=dt.date.today().strftime("%Y%m%d"), help="date of the labels, YYYYMMDD")
     ap.add_argument("--work", type=Path, help="folder of the logs and of status.csv")
+    ap.add_argument("--progress", type=float, default=5, help="minutes between two progress lines, 0 for none")
     ap.add_argument("--list", action="store_true", help="print the plan and stop")
     args = ap.parse_args(argv)
 
