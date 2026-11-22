@@ -179,12 +179,53 @@ Edit 6. Armenia, from the table of the country team.
     epm/input/data_blacksea/v6_edit6_armenia_trace.csv   every cell changed: v5, v6 and basis. With the inputs,
                                                          not in git. Not a model input.
 
+Edit 9. Corrections of 22 November 2026 (input version v6.1).
+
+  Twelve corrections found by the audit of the first v6 results. They are applied inside the build of the v6
+  files, after edits 5 and 6, so the files keep their names: the inputs of 21 November are the earlier version
+  of the data folder. Edits 7 and 8 are in build_ext_inputs_v6.py and build_cases_v6.py.
+  Fleet and storage cells. One row per cell in v6_corrections_20261122.csv (with the inputs): the text the cell
+  must hold after edits 5 and 6 and the text it takes, with its basis. A cell that does not hold the expected
+  text stops the build. A row whose field is `row` copies a unit under a new name.
+    A2   Armenia: the existing nuclear plant leaves one year before the new unit starts (the model keeps a
+         plant through its retirement year).
+    A4   Armenia: existing solar fleet at the level of the public statement of March 2026.
+    A5   Armenia: capex of the new nuclear unit from the note of the country team.
+    A6   Armenia: size and heat rate of Hrazdan 5.
+    R1   Romania: Cernavoda 1 returns at its net capacity, no uprate.
+    R2   Romania: batteries in service and under construction (2.0 GW and 4.0 GWh from 2028).
+    Z1   Azerbaijan: wind and solar plants in operation become existing units, the contracted ones committed.
+    TR1  Türkiye: yearly build limit of the onshore wind candidates x 0.4.
+    G1   Georgia: yearly build limit of the wind candidate from the ten year plan of the TSO.
+    GA   two year grid: the wind candidates of Türkiye, Georgia, Bulgaria, Romania and Hungary open at the first
+         step of the grid, so that both grids allow the same capacity in 2030.
+  Other files.
+    A1   no line in service between Georgia and Armenia: the pair is at 0 MW in the internal limit table
+         (written by edit 3). The committed line is added per case by build_cases_v6.py.
+    A3   Armenian gas: the central file carries the v5 border contract path plus the margin of the first year
+         of the country team row (written by edit 2). The team row moves to a fuel file of its own, read by a
+         sensitivity. No figure of the country team is written in this file.
+  Variants (five year grid, derived from the corrected fleet file by edit 9).
+    amnonuc     the committed Armenian nuclear unit is not built.
+    eunucdelay  the committed reactors of Romania, Bulgaria and Hungary start one model step later; the second
+                Bulgarian unit moves beyond the horizon.
+
+  Files.
+    supply/pGenDataInput_v6_{s5,2y}.csv, supply/pStorageDataInput_v6_{s5,2y}.csv      (written by edit 4)
+    supply/pFuelPrice_robg_v6.csv, supply/pFuelPrice_robg_armgaseu_v6.csv              (written by edit 2)
+    trade/pTransferLimit_robg_hvdc_v6.csv                                              (written by edit 3)
+    supply/pGenDataInput_v6_s5_amnonuc.csv, supply/pGenDataInput_v6_s5_eunucdelay.csv  (written by edit 9)
+    epm/input/data_blacksea/v6_corrections_20261122_trace.csv   every cell: before, after and basis. With the
+                                                                inputs, not in git. Not a model input.
+    pre-analysis/output_prices/robg_v6/edit9_corrections.csv    the same cells without their values.
+
 Usage (from EPM/):
     python pre-analysis/pipelines/build_robg_v6.py --edit 1
     python pre-analysis/pipelines/build_robg_v6.py --edit 1 --check     (compares, writes nothing)
     python pre-analysis/pipelines/build_robg_v6.py --edit 2 --edit 3
-    python pre-analysis/pipelines/build_robg_v6.py --edit 2 --edit 4 --edit 5 --edit 6    (files, then the traces)
-    python pre-analysis/pipelines/build_robg_v6.py --edit 1 --edit 2 --edit 3 --edit 4 --edit 5 --edit 6 --check
+    python pre-analysis/pipelines/build_robg_v6.py --edit 2 --edit 3 --edit 4 --edit 5 --edit 6 --edit 9
+                                                                        (files, then the traces and variants)
+    python pre-analysis/pipelines/build_robg_v6.py --edit 1 --edit 2 --edit 3 --edit 4 --edit 5 --edit 6 --edit 9 --check
 """
 from __future__ import annotations
 
@@ -912,9 +953,14 @@ def edit2_fuel_co2(check=False):
     if gap > 0.5 * 10 ** -FUEL_DECIMALS + 1e-9:
         fail("commodity plus CO2 differs from the model file by %.6f USD/MMBtu" % gap)
     # edit 6: the Armenian gas row of the country team table (no CO2 line: the row is a plant gate price)
-    out_rows, armenian = armenia_series("fuel", header, out_rows)
-    log.append("  %s: gas row of the country team table, %d cells changed (edit 6)" % (AM_ZONE, len(armenian)))
-    for row in out_rows:
+    team_rows, armenian = armenia_series("fuel", header, out_rows)
+    log.append("  %s: gas row of the country team table, %d cells changed (edit 6), kept in %s" % (
+        AM_ZONE, len(armenian), AM_FUEL_TEAM))
+    # edit 9 (correction A3): the central file carries the v5 contract path plus the margin of the first year
+    out_rows, corrected = armenia_gas_contract(header, out_rows, team_rows)
+    log.append("  %s: gas row of the central file on the v5 contract path, %d cells differ from the team row "
+               "(correction A3)" % (AM_ZONE, len(corrected)))
+    for row in out_rows + team_rows:
         if len(row.split(",")) != width:
             fail("pFuelPrice_robg_v6.csv: bad width in '%s'" % row[:40])
 
@@ -927,6 +973,7 @@ def edit2_fuel_co2(check=False):
                    others, " and ".join(FUEL_ZONES), kept, moved, len(FUEL_NEW_ROWS), FUEL_NEW_ZONE, FUEL_NEW_FROM,
                    OIL_FUEL))
     ok &= emit(SUPPLY / "pFuelPrice_robg_v6.csv", encode(header, out_rows), check, log)
+    ok &= emit(SUPPLY / AM_FUEL_TEAM, encode(header, team_rows), check, log)
     ok &= emit(SUPPLY / "pFuelPrice_robg_v6_lines.csv",
                encode(",".join(["country", "fuel", "line"] + head[2:]), line_rows), check, log)
     log.append("  check: commodity line plus CO2 line against the model file, largest gap %.6f USD/MMBtu" % gap)
@@ -1199,8 +1246,11 @@ def edit3_border_limits(check=False):
             for direction in ("Import", "Export"):
                 ext_out.append(",".join([HU_ZONE, name, q, direction] + hu_seen[(name, direction)][2]))
 
+    # edit 9 (correction A1): no line in service between Georgia and Armenia; build_cases_v6.py adds the committed one
+    int_out, unlinked = no_line_in_service(int_header, int_out)
+    log.append("  %s: %d rows set to 0 MW in every year (correction A1)" % (" and ".join(A1_PAIR), len(unlinked)))
     ok &= emit(TRADE / "pExtTransferLimit_robg_v6.csv", text_payload(ext_bom, ext_eol, ext_header, ext_out), check, log)
-    ok &= emit(TRADE / "pTransferLimit_robg_hvdc_v6.csv", text_payload(int_bom, int_eol, int_header, int_out), check, log)
+    ok &= emit(TRADE / A1_FILE_V6, text_payload(int_bom, int_eol, int_header, int_out), check, log)
     cols = ["file", "zone", "neighbour", "direction", "from", "to", "year", "v5_mw", "v6_mw", "basis"]
     ok &= emit(TRACE / "edit3_border_limits.csv",
                pd.DataFrame(trace, columns=cols).to_csv(index=False, lineterminator="\n").encode("utf-8"), check, log)
@@ -2031,14 +2081,175 @@ def armenia_series(kind, header, rows):
     return out, records
 
 
+# ── Edit 9. Corrections of 22 November 2026 ─────────────────────────────────
+CORR_TABLE = DATA / "v6_corrections_20261122.csv"                 # one row per cell, with the inputs
+CORR_COLS = ["code", "zone", "grid", "file", "unit", "field", "expected", "value", "basis"]
+CORR_CODES = ("A2", "A4", "A5", "A6", "R1", "R2", "Z1", "TR1", "G1", "GA")     # the table holds these codes, all of them
+CORR_COPY = "row"                     # field of a row that copies the unit named in `expected` under the name `unit`
+CORR_TRACE = TRACE / "edit9_corrections.csv"                      # cells and basis, no value
+CORR_TRACE_FULL = DATA / "v6_corrections_20261122_trace.csv"      # every cell with its value before and after
+CORR_TRACE_COLS = ["code", "zone", "grid", "file", "unit", "field", "before", "after", "basis"]
+A1_PAIR = ("Georgia", "Armenia")
+A1_FILE_V5, A1_FILE_V6 = "pTransferLimit_robg_hvdc.csv", "pTransferLimit_robg_hvdc_v6.csv"
+A1_BASIS = "Rule of the study: no line in service between the two countries; the committed line is added per case"
+AM_GAS = "Gas"
+AM_FUEL_TEAM = "pFuelPrice_robg_armgaseu_v6.csv"                  # the fuel file with the gas row of the country team
+A3_BASIS = "Border contract path of v5 plus the margin of the first year of the country team row"
+VARIANT_GRID = "s5"                   # the fleet variants exist on the five year grid only
+VARIANT_FLEET = "pGenDataInput_v6_%s_%s.csv"
+VARIANT_DROP = {"amnonuc": ("Armenia_Nuclear",)}
+VARIANT_DELAY = {"eunucdelay": (("Cernavoda-3", "2036", "2040"), ("Cernavoda-4", "2036", "2040"),
+                                ("Bulgaria_Kozloduy_7", "2036", "2040"), ("Hungary_Paks_5", "2036", "2040"),
+                                ("Hungary_Paks_6", "2036", "2040"), ("Bulgaria_Kozloduy_8", "2040", "2044"))}
+VARIANT_BASIS = {"amnonuc": "Sensitivity: the committed nuclear unit is not built",
+                 "eunucdelay": "Sensitivity: the committed reactors start one model step later"}
+
+
+@functools.lru_cache(maxsize=None)
+def corrections_table():
+    """The rows of CORR_TABLE, checked, in the order of the file."""
+    if not CORR_TABLE.exists():
+        fail("%s is missing" % CORR_TABLE.name)
+    with open(CORR_TABLE, newline="", encoding="utf-8-sig") as fh:
+        rows = list(csv.reader(fh))
+    if not rows or rows[0] != CORR_COLS:
+        fail("%s: unexpected header" % CORR_TABLE.name)
+    out = []
+    for n, cells in enumerate(rows[1:], 2):
+        if len(cells) != len(CORR_COLS) or any(not c or c != c.strip() for c in cells):
+            fail("%s, line %d: a cell is missing, empty or padded" % (CORR_TABLE.name, n))
+        rec = dict(zip(CORR_COLS, cells))
+        if (rec["code"] not in CORR_CODES or rec["grid"] not in ("both",) + GRID_TOKENS
+                or rec["file"] not in ("fleet", "storage")):
+            fail("%s, line %d: unknown code, grid or file" % (CORR_TABLE.name, n))
+        if (rec["field"] == CORR_COPY) != (rec["value"] == "copy") or rec["value"] == rec["expected"]:
+            fail("%s, line %d: the row changes nothing, or a copy is not written as one" % (CORR_TABLE.name, n))
+        out.append(rec)
+    if {r["code"] for r in out} != set(CORR_CODES):
+        fail("%s: codes %s, expected %s" % (CORR_TABLE.name, sorted({r["code"] for r in out}), sorted(CORR_CODES)))
+    return tuple(out)
+
+
+def corrections_fleet(token, g_header, g_rows, s_header, s_rows, hungary=False):
+    """Edit 9 on the fleet and storage rows of one year grid, after edits 5 and 6: the cells of CORR_TABLE.
+
+    A cell is changed only if it holds the text the table expects. The rows of HU_ZONE are built by edit 4 after
+    the others: they take their cells in a call of their own (hungary=True), on the Hungarian rows alone.
+    Returns (fleet rows, storage rows, records), a record being one line of CORR_TRACE_COLS."""
+    cols = {"fleet": g_header.split(","), "storage": s_header.split(",")}
+    names = {"fleet": BG_FLEET_V6 % token, "storage": BG_STORAGE_V6 % token}
+    parts = {"fleet": [r.split(",") for r in g_rows], "storage": [r.split(",") for r in s_rows]}
+    for kind in parts:
+        if any(len(p) != len(cols[kind]) for p in parts[kind]):
+            fail("%s: a row does not have the width of the header" % names[kind])
+    records, touched = [], []
+
+    def find(kind, unit, zone):
+        g, z = cols[kind].index("g"), cols[kind].index("z")
+        hits = [i for i, p in enumerate(parts[kind]) if p[g] == unit]
+        if len(hits) != 1 or parts[kind][hits[0]][z] != zone:
+            fail("%s: %d row(s) for %s, expected one, in %s" % (names[kind], len(hits), unit, zone))
+        return hits[0]
+
+    for rec in corrections_table():
+        if rec["grid"] not in ("both", token) or (rec["zone"] == HU_ZONE) != hungary:
+            continue
+        kind, unit, zone = rec["file"], rec["unit"], rec["zone"]
+        if rec["field"] == CORR_COPY:
+            g = cols[kind].index("g")
+            if any(p[g] == unit for p in parts[kind]):
+                fail("%s: %s is already in the file" % (names[kind], unit))
+            i = find(kind, rec["expected"], zone)
+            new = list(parts[kind][i])
+            new[g] = unit
+            parts[kind].insert(i + 1, new)
+            before, after = "n/a", "copy of %s" % rec["expected"]
+        else:
+            if rec["field"] not in cols[kind]:
+                fail("%s: no column %s" % (names[kind], rec["field"]))
+            i, k = find(kind, unit, zone), cols[kind].index(rec["field"])
+            if parts[kind][i][k] != rec["expected"]:
+                fail("%s, %s: %s is '%s', expected '%s'" % (names[kind], unit, rec["field"], parts[kind][i][k],
+                                                            rec["expected"]))
+            parts[kind][i][k] = rec["value"]
+            before, after = rec["expected"], rec["value"]
+        if (kind, unit, zone) not in touched:
+            touched.append((kind, unit, zone))
+        records.append((rec["code"], zone, token, names[kind], unit, rec["field"], before, after, rec["basis"]))
+
+    grid_years = [int(v) for v in text_table(DATA / GRID_YEARS[token])[3]]
+    state = {}
+    for kind, unit, zone in touched:
+        p = dict(zip(cols[kind], parts[kind][find(kind, unit, zone)]))
+        if p["Status"] == "1" and not int(p["StYr"]) < grid_years[-1]:
+            fail("%s, %s: an operating unit that starts in %s" % (names[kind], unit, p["StYr"]))
+        if p["Status"] == "2" and (int(p["StYr"]) not in grid_years or int(p["StYr"]) <= grid_years[0]):
+            fail("%s, %s: committed in %s, not a later year of %s" % (names[kind], unit, p["StYr"], GRID_YEARS[token]))
+        if p["Status"] == "3" and not (float(p["Capacity"] or 0) > 0 and float(p["BuildLimitperYear"] or 0) > 0):
+            fail("%s, %s: a candidate without a size or a yearly build limit is never built" % (names[kind], unit))
+        if not int(p["StYr"]) < int(p["RetrYr"] or 9999):
+            fail("%s, %s: retires in %s, starts in %s" % (names[kind], unit, p["RetrYr"], p["StYr"]))
+        here = tuple(p[c] for c in ("Status", "StYr", "RetrYr", "Capacity"))
+        if state.setdefault((unit, zone), here) != here:
+            fail("%s: status, years or size differ between the fleet file and the storage file" % unit)
+    return [",".join(p) for p in parts["fleet"]], [",".join(p) for p in parts["storage"]], records
+
+
+def armenia_gas_contract(header, v5_rows, team_rows):
+    """Correction A3 on the fuel rows: the Armenian gas row of the central case is the v5 row, a border contract
+    path, plus the margin between the row of the country team table and the v5 row in the first year. The team
+    row is kept in a file of its own (AM_FUEL_TEAM), read by a sensitivity. Returns (rows, records)."""
+    years = header.split(",")[2:]
+
+    def gas(rows, name):
+        hits = [p for p in (r.split(",") for r in rows) if p[:2] == [AM_ZONE, AM_GAS]]
+        if len(hits) != 1 or len(hits[0]) != len(years) + 2:
+            fail("%s: one %s %s row expected" % (name, AM_ZONE, AM_GAS))
+        return hits[0]
+
+    old, team = gas(v5_rows, AM_FUEL_V5), gas(team_rows, AM_FUEL_TEAM)
+    margin = float(team[2]) - float(old[2])
+    if not margin > 0:
+        fail("%s %s: the first year of the country team row is not above the v5 row" % (AM_ZONE, AM_GAS))
+    new = [num(float(v) + margin, FUEL_DECIMALS) for v in old[2:]]
+    if new[0] != team[2] or new == team[2:]:
+        fail("%s %s: the corrected row does not start on the country team row, or equals it" % (AM_ZONE, AM_GAS))
+    out = [",".join([AM_ZONE, AM_GAS] + new) if r.split(",")[:2] == [AM_ZONE, AM_GAS] else r for r in team_rows]
+    records = [("A3", AM_ZONE, "all", AM_FUEL_V6, "%s %s" % (AM_ZONE, AM_GAS), y, a, b, A3_BASIS)
+               for y, a, b in zip(years, team[2:], new) if a != b]
+    return out, records
+
+
+def no_line_in_service(header, rows):
+    """Correction A1 on the rows of the internal limit table: the pair A1_PAIR carries no limit, in every year.
+    The committed line of the pair is added per case by build_cases_v6.py. Returns (rows, records)."""
+    years = header.split(",")[3:]
+    out, records, seen = [], [], set()
+    for line in rows:
+        p = line.split(",")
+        if set(p[:2]) == set(A1_PAIR):
+            if tuple(p[:3]) in seen or len(p) != len(years) + 3 or len(set(p[3:])) != 1 or not float(p[3]) > 0:
+                fail("%s: the row %s is not one flat limit of the pair" % (A1_FILE_V5, ",".join(p[:3])))
+            seen.add(tuple(p[:3]))
+            records.append(("A1", " and ".join(A1_PAIR), "all", A1_FILE_V6, "%s to %s %s" % tuple(p[:3]),
+                            "%s to %s" % (years[0], years[-1]), p[3], "0.0", A1_BASIS))
+            line = ",".join(p[:3] + ["0.0"] * len(years))
+        out.append(line)
+    if seen != {(a, b, q) for a, b in (A1_PAIR, A1_PAIR[::-1]) for q in QUARTERS}:
+        fail("%s: the rows of %s are not two directions of four quarters" % (A1_FILE_V5, " and ".join(A1_PAIR)))
+    return out, records
+
+
 def v5_rows_after_edits(token):
-    """The v5 fleet and storage rows of one year grid after edits 5 and 6, as edit 4 writes them before the
-    Hungarian rows: (fleet header, fleet rows, storage header, storage rows, records of edit 5, records of edit 6)."""
+    """The v5 fleet and storage rows of one year grid after edits 5, 6 and 9, as edit 4 writes them before the
+    Hungarian rows: (fleet header, fleet rows, storage header, storage rows, records of edit 5, records of edit 6,
+    records of edit 9)."""
     _, _, g_header, g_rows = text_table(SUPPLY / (BG_FLEET_V5 % token))
     _, _, s_header, s_rows = text_table(SUPPLY / (BG_STORAGE_V5 % token))
     g_rows, s_rows, bulgarian = bulgaria_fleet(token, g_header, g_rows, s_header, s_rows)
     g_rows, s_rows, armenian = armenia_fleet(token, g_header, g_rows, s_header, s_rows)
-    return g_header, g_rows, s_header, s_rows, bulgarian, armenian
+    g_rows, s_rows, corrected = corrections_fleet(token, g_header, g_rows, s_header, s_rows)
+    return g_header, g_rows, s_header, s_rows, bulgarian, armenian, corrected
 
 
 def fleet_files_hold(token, g_header, g_new, s_header, s_new, edit):
@@ -2056,7 +2267,7 @@ def fleet_files_hold(token, g_header, g_new, s_header, s_new, edit):
         z = header.split(",").index("z")
         if any(r.split(",")[z] != HU_ZONE for r in disk[3][len(new):]):
             fail("%s: a row after the v5 block is not a %s row" % (name, HU_ZONE))
-        log.append("  holds     %s (%d rows of v5 after edits 5 and 6, %d of %s)"
+        log.append("  holds     %s (%d rows of v5 after edits 5, 6 and 9, %d of %s)"
                    % (name, len(new), len(disk[3]) - len(new), HU_ZONE))
     return ok, log
 
@@ -2389,10 +2600,14 @@ def edit4_hungary(check=False):
                 fail("%s: an operating unit starts before %d" % (r["g"], grid_years[0]))
         fleet_lines[token] = [",".join(r.get(c, "") for c in g_cols) for r in fleet]
         storage_lines[token] = [",".join(storage.get(c, "") for c in s_cols)]
+        # edit 9 (corrections of 22 November 2026) last: the Hungarian rows above are built from the rows before it
+        g_out, s_out, _ = corrections_fleet(token, g_header, g_rows, s_header, s_rows)
+        hu_g, hu_s, _ = corrections_fleet(token, g_header, fleet_lines[token], s_header, storage_lines[token],
+                                          hungary=True)
         ok &= emit(SUPPLY / ("pGenDataInput_v6_%s.csv" % token),
-                   text_payload(g_bom, g_eol, g_header, g_rows + fleet_lines[token]), check, log)
+                   text_payload(g_bom, g_eol, g_header, g_out + hu_g), check, log)
         ok &= emit(SUPPLY / ("pStorageDataInput_v6_%s.csv" % token),
-                   text_payload(s_bom, s_eol, s_header, s_rows + storage_lines[token]), check, log)
+                   text_payload(s_bom, s_eol, s_header, s_out + hu_s), check, log)
     if len({tuple(v) for v in fleet_lines.values()}) != 1 or len({tuple(v) for v in storage_lines.values()}) != 1:
         fail("the Hungarian rows differ between the year grids")
 
@@ -2492,8 +2707,8 @@ def edit5_bulgaria(check=False):
     log = ["Edit 5. Bulgarian fleet"]
     ok, records = True, []
     for token in GRID_TOKENS:
-        # the rows expected in the files are the v5 rows after edits 5 and 6: edit 6 touches Armenian rows only
-        g_header, g_new, s_header, s_new, found, _ = v5_rows_after_edits(token)
+        # the rows expected in the files are the v5 rows after edits 5, 6 and 9
+        g_header, g_new, s_header, s_new, found, _, _ = v5_rows_after_edits(token)
         records += found
         held_ok, held_log = fleet_files_hold(token, g_header, g_new, s_header, s_new, "edit 5")
         ok &= held_ok
@@ -2521,7 +2736,7 @@ def edit6_armenia(check=False):
     log = ["Edit 6. Armenia, table of the country team (%s, sha256 %s)" % (AM_BOOK.name, AM_BOOK_SHA256[:12])]
     ok, records = True, []
     for token in GRID_TOKENS:
-        g_header, g_new, s_header, s_new, _, found = v5_rows_after_edits(token)
+        g_header, g_new, s_header, s_new, _, found, _ = v5_rows_after_edits(token)
         records += found
         held_ok, held_log = fleet_files_hold(token, g_header, g_new, s_header, s_new, "edit 6")
         ok &= held_ok
@@ -2536,9 +2751,12 @@ def edit6_armenia(check=False):
             ", ".join("%s %s MW from %s" % (p[k["g"]], p[k["Capacity"]], p[k["StYr"]]) for p in units if p[k["Status"]] == "3")))
         for rec in found:
             log.append("  %s, %s %s: %s to %s" % (token, rec[2], rec[3], rec[4], rec[5]))
-    for kind, folder, v5_name, v6_name in (("demand", LOAD, AM_DEMAND_V5, AM_DEMAND_V6), ("fuel", SUPPLY, AM_FUEL_V5, AM_FUEL_V6)):
+    # since the corrections of 22 November 2026 the gas row of the team is in a fuel file of its own (edit 9, A3)
+    for kind, folder, v5_name, v6_name in (("demand", LOAD, AM_DEMAND_V5, AM_DEMAND_V6),
+                                           ("fuel", SUPPLY, AM_FUEL_V5, AM_FUEL_TEAM)):
         _, _, header, rows = text_table(folder / v5_name)
         new, found = armenia_series(kind, header, rows)
+        found = [(r[0], v6_name) + r[2:] for r in found]
         records += found
         want = [r for r in new if r.split(",")[0] == AM_ZONE]
         disk = text_table(folder / v6_name) if (folder / v6_name).exists() else None
@@ -2559,8 +2777,126 @@ def edit6_armenia(check=False):
     return ok, log
 
 
+def edit9_corrections(check=False):
+    """Trace and control of the corrections of 22 November 2026, and the fleet variants of the sensitivities.
+
+    The cells are written by the edits that own the files: edit 4 (fleet and storage, corrections_fleet), edit 2
+    (fuel, armenia_gas_contract) and edit 3 (internal limits, no_line_in_service). Edit 9 controls that the
+    files hold them, derives the two fleet variants from the corrected file and writes the traces."""
+    log = ["Edit 9. Corrections of 22 November 2026 (%s, %d rows)" % (CORR_TABLE.name, len(corrections_table()))]
+    ok, records = True, []
+    for token in GRID_TOKENS:
+        g_header, g_new, s_header, s_new, _, _, found = v5_rows_after_edits(token)
+        records += found
+        held_ok, held_log = fleet_files_hold(token, g_header, g_new, s_header, s_new, "edit 9")
+        ok &= held_ok
+        log += held_log
+        # the Hungarian rows are built by edit 4: their cells are read in the file
+        asked = [r for r in corrections_table() if r["zone"] == HU_ZONE and r["grid"] in ("both", token)]
+        path = SUPPLY / (BG_FLEET_V6 % token)
+        if asked and path.exists():
+            cols = g_header.split(",")
+            on_disk = [r.split(",") for r in text_table(path)[3]]
+            for rec in asked:
+                if rec["file"] != "fleet" or rec["field"] == CORR_COPY:
+                    fail("%s: a correction of %s is a cell of the fleet file" % (CORR_TABLE.name, HU_ZONE))
+                hits = [p for p in on_disk if p[cols.index("g")] == rec["unit"] and p[cols.index("z")] == HU_ZONE]
+                if len(hits) != 1:
+                    fail("%s: %d row(s) for %s, expected one" % (path.name, len(hits), rec["unit"]))
+                if hits[0][cols.index(rec["field"])] != rec["value"]:
+                    ok = False
+                    log.append("  DIFFERS  %s: %s %s is not %s, build edit 4 (it writes this file)"
+                               % (path.name, rec["unit"], rec["field"], rec["value"]))
+                    continue
+                records.append((rec["code"], HU_ZONE, token, path.name, rec["unit"], rec["field"], rec["expected"],
+                                rec["value"], rec["basis"]))
+
+    def pair_rows(rows):
+        return [r for r in rows if set(r.split(",")[:2]) == set(A1_PAIR)]
+
+    # A1: the pair of the internal limit table
+    _, _, header, rows = text_table(TRADE / A1_FILE_V5)
+    want, found = no_line_in_service(header, rows)
+    records += found
+    disk = text_table(TRADE / A1_FILE_V6) if (TRADE / A1_FILE_V6).exists() else None
+    if disk is None or disk[2] != header or pair_rows(disk[3]) != pair_rows(want):
+        ok = False
+        log.append("  %s  %s: the rows of correction A1 are not in the file, build edit 3 (it writes this file)"
+                   % ("MISSING" if disk is None else "DIFFERS", A1_FILE_V6))
+    else:
+        log.append("  holds     %s (%d rows of %s at 0 MW)" % (A1_FILE_V6, len(found), " and ".join(A1_PAIR)))
+
+    # A3: the gas row of the central fuel file, and the team row in its own file
+    _, _, header, rows = text_table(SUPPLY / AM_FUEL_V5)
+    team_rows, _ = armenia_series("fuel", header, rows)
+    central, found = armenia_gas_contract(header, rows, team_rows)
+    records += found
+    for name, new in ((AM_FUEL_V6, central), (AM_FUEL_TEAM, team_rows)):
+        want = [r for r in new if r.split(",")[0] == AM_ZONE]
+        disk = text_table(SUPPLY / name) if (SUPPLY / name).exists() else None
+        if disk is None or disk[2] != header or [r for r in disk[3] if r.split(",")[0] == AM_ZONE] != want:
+            ok = False
+            log.append("  %s  %s: the rows of correction A3 are not in the file, build edit 2 (it writes this file)"
+                       % ("MISSING" if disk is None else "DIFFERS", name))
+        else:
+            log.append("  holds     %s (%d rows of %s)" % (name, len(want), AM_ZONE))
+
+    # the fleet variants, from the corrected file of the five year grid
+    source = SUPPLY / (BG_FLEET_V6 % VARIANT_GRID)
+    if not ok or not source.exists():
+        log.append("  the fleet variants are not built: %s does not hold the corrections yet" % source.name)
+        ok = False
+    else:
+        bom, eol, header, rows = text_table(source)
+        cols = header.split(",")
+        g, status, styr, retr = (cols.index(c) for c in ("g", "Status", "StYr", "RetrYr"))
+        grid_years = [int(v) for v in text_table(DATA / GRID_YEARS[VARIANT_GRID])[3]]
+
+        def committed(parts, unit):
+            hits = [p for p in parts if p[g] == unit]
+            if len(hits) != 1 or hits[0][status] != "2":
+                fail("%s: %s is not one committed unit" % (source.name, unit))
+            return hits[0]
+
+        for tag, units in VARIANT_DROP.items():
+            parts = [r.split(",") for r in rows]
+            for unit in units:
+                committed(parts, unit)
+                records.append((tag, "n/a", VARIANT_GRID, VARIANT_FLEET % (VARIANT_GRID, tag), unit, CORR_COPY,
+                                "in the file", "removed", VARIANT_BASIS[tag]))
+            ok &= emit(SUPPLY / (VARIANT_FLEET % (VARIANT_GRID, tag)),
+                       text_payload(bom, eol, header, [",".join(p) for p in parts if p[g] not in units]), check, log)
+        for tag, moves in VARIANT_DELAY.items():
+            parts = [r.split(",") for r in rows]
+            for unit, old, new in moves:
+                hit = committed(parts, unit)
+                if hit[styr] != old or not int(old) < int(new) < int(hit[retr]):
+                    fail("%s, %s: StYr is %s, expected %s, or the new year is not before RetrYr" % (
+                        source.name, unit, hit[styr], old))
+                if int(new) not in grid_years and int(new) <= grid_years[-1]:
+                    fail("%s, %s: %s is inside the horizon and not a year of %s" % (
+                        source.name, unit, new, GRID_YEARS[VARIANT_GRID]))
+                hit[styr] = new
+                records.append((tag, "n/a", VARIANT_GRID, VARIANT_FLEET % (VARIANT_GRID, tag), unit, "StYr", old, new,
+                                VARIANT_BASIS[tag] + ("" if int(new) in grid_years else " (beyond the horizon)")))
+            ok &= emit(SUPPLY / (VARIANT_FLEET % (VARIANT_GRID, tag)),
+                       text_payload(bom, eol, header, [",".join(p) for p in parts]), check, log)
+
+    codes = []
+    for rec in records:
+        if rec[0] not in codes:
+            codes.append(rec[0])
+    log.append("  cells per correction: %s" % ", ".join(
+        "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in codes))
+    full = pd.DataFrame(records, columns=CORR_TRACE_COLS)
+    ok &= emit(CORR_TRACE_FULL, full.to_csv(index=False, lineterminator="\n").encode("utf-8"), check, log)
+    ok &= emit(CORR_TRACE, full.drop(columns=["before", "after"]).to_csv(
+        index=False, lineterminator="\n").encode("utf-8"), check, log)
+    return ok, log
+
+
 EDITS = {1: edit1_border_prices, 2: edit2_fuel_co2, 3: edit3_border_limits, 4: edit4_hungary, 5: edit5_bulgaria,
-         6: edit6_armenia}
+         6: edit6_armenia, 9: edit9_corrections}
 
 
 def main(argv=None):

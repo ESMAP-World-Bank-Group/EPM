@@ -17,6 +17,11 @@ folder, default scenarios.csv) and report (path from the repository root). An in
 that must not replace the published one lives in its own yaml and its own scenario file,
 which epm.py reads with --scenarios <file>.
 
+A case and a sensitivity are built on every grid, and a sensitivity on the cases listed under
+sensitivities: cases. Two optional keys narrow that: grids (in a case or a sensitivity block)
+lists the grids the columns are built on, and cases (in a sensitivity block) lists the cases
+the sensitivity applies to.
+
 What it guarantees.
 
 The row list and the row order are those of scenarios_archive.csv (the pre-redesign file), so
@@ -54,6 +59,8 @@ GRID_TOKEN = "{g}"
 
 # Archive columns that the v3 EU price sensitivities were named after.
 SENS_ARCHIVE_ALIAS = {"EUVeryLow": "VeryLow", "EUCBAM": "CBAM"}
+# Keys of a sensitivity block that are not parameters.
+SENS_KEYS = ("label", "cases", "grids")
 
 
 # ---------------------------------------------------------------------------- reading
@@ -100,8 +107,18 @@ def overlay(values, layer, name, provenance):
 def build_columns(spec, params):
     """Return an ordered dict name -> column, and a dict name -> metadata for the report."""
     known = set(params)
-    sens_cases = spec["sensitivities"]["cases"]
+    sens_cases = spec["sensitivities"].get("cases", [])
     columns, meta = {}, {}
+
+    def on_grid(block, grid, what):
+        """True when the block is built on the grid: every grid unless it lists its own."""
+        grids = block.get("grids")
+        if grids is None:
+            return True
+        unknown = sorted(set(grids) - set(spec["grids"]))
+        if unknown:
+            raise SystemExit(f"{what}: unknown grids {unknown}")
+        return grid in grids
 
     def add(name, grid, scope, case, sens):
         if name in columns:
@@ -116,7 +133,7 @@ def build_columns(spec, params):
             raise SystemExit(f"case {case} has no block for scope {scope}")
         overlay(values, case_spec[scope], f"case {case}", prov)
         if sens:
-            sens_spec = {k: v for k, v in spec["sensitivities"][scope][sens].items() if k != "label"}
+            sens_spec = {k: v for k, v in spec["sensitivities"][scope][sens].items() if k not in SENS_KEYS}
             overlay(values, sens_spec, f"sensitivity {sens}", prov)
         unknown = sorted(set(values) - known)
         if unknown:
@@ -128,13 +145,17 @@ def build_columns(spec, params):
     for grid in spec["grids"]:
         for scope, sc in spec["scopes"].items():
             for case in sc["cases"]:
-                add(f"{scope}_{case}_{grid}", grid, scope, case, None)
+                if on_grid(spec["cases"][case], grid, f"case {case}"):
+                    add(f"{scope}_{case}_{grid}", grid, scope, case, None)
         for scope, sc in spec["scopes"].items():
-            for sens in spec["sensitivities"].get(scope, {}):
-                for case in sens_cases:
+            for sens, block in spec["sensitivities"].get(scope, {}).items():
+                if not on_grid(block, grid, f"sensitivity {sens}"):
+                    continue
+                for case in block.get("cases", sens_cases):
                     if case not in sc["cases"]:
                         raise SystemExit(f"sensitivity case {case} is not a case of scope {scope}")
-                    add(f"{scope}_{case}_{sens}_{grid}", grid, scope, case, sens)
+                    if on_grid(spec["cases"][case], grid, f"case {case}"):
+                        add(f"{scope}_{case}_{sens}_{grid}", grid, scope, case, sens)
     return columns, meta
 
 

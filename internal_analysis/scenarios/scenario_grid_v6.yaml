@@ -1,4 +1,4 @@
-# Black Sea RoBg scenario grid, input version v6 (in construction, started 2026-11-21).
+# Black Sea RoBg scenario grid, input version v6.1 (v6 of 2026-11-21 plus the corrections of 2026-11-22).
 #
 # tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml turns this file
 # into epm/input/data_blacksea/scenarios_v6.csv. A run reads it with
@@ -15,18 +15,25 @@
 # Project cases: line files written by pre-analysis/pipelines/build_cases_v6.py. Ext scope, its
 # case variants and its EU price cases: derived by tools/build_ext_inputs_v6.py. The other
 # sensitivities come with their v6 files.
+#
+# State on 2026-11-22, input version v6.1: twelve corrections applied inside the v6 builds (edit 9 of
+# build_robg_v6.py), so the files keep their names. The inputs of 21 November are the earlier version
+# of the data folder (epm/input/data_blacksea.dvc at f6367a3a) and their results stay in the explorer
+# runs named v6_*. The results of this version go to the explorer runs named v61_*. Added with the
+# corrections: the case NoCTN and three sensitivities of the Int scope, on the five-year grid only.
 
 data_folder: epm/input/data_blacksea
 archive: scenarios_archive.csv
 output: scenarios_v6.csv
 report: internal_analysis/scenarios/scenario_grid_v6_report.md
-input_version: v6
+input_version: v6.1
 
-# Run register (tools/scenario_register.py --grid <this file>). The v6 scenarios keep the v5 names,
-# so the register reads its results only from the explorer runs named v6_*, and shows as twin the
-# result of the same name in the earlier runs (the v5 grid).
+# Run register (tools/scenario_register.py --grid <this file>). The scenarios keep their names
+# across input versions, so the register reads its results only from the explorer runs named
+# v61_*, and shows as twin the most recent result of the same name in the other runs: the v6 runs
+# of 21 November where they exist, else the v5 grid.
 register: internal_analysis/scenarios/scenario_register_v6.csv
-result_runs: "v6_*"
+result_runs: "v61_*"
 twin: same_name
 
 # Int_Base. Against the v5 reference: every zone indexed input carries Hungary (suffix _v6), and
@@ -55,7 +62,8 @@ reference:
   pMaxAnnualExternalTradeShare: trade/pMaxAnnualExternalTradeShare_robg_v6.csv
   pTradePrice: trade/pTradePrice_robg_v6.csv
   pTradePriceExport: trade/pTradePriceExport_robg_v6.csv
-  # Base limits: the border limits of edit 3 plus the committed Georgia to Armenia line (CTN).
+  # Base limits: the border limits of edit 3 plus the committed Georgia to Armenia line (CTN). No
+  # line is in service on that pair before CTN (rule of the study, corrections of 2026-11-22).
   pTransferLimit: trade/pTransferLimit_robg_base_hvdc_v6.csv
   # Candidate table of the forced cases: no line can be built. Against the v5 table, the mainland
   # Azerbaijan to Nakhchivan line is no longer committed: it is segment 1 of the TRIPP row.
@@ -83,7 +91,7 @@ grids:
 scopes:
   Int:
     label: "Romania, Bulgaria and Hungary modelled"
-    cases: [Base, BSSC, GECO, Onland, EWTC, TRIPP, TCasp, BSTN, ArTur, ArAz, AllProjects, FreeExp]
+    cases: [Base, BSSC, GECO, Onland, EWTC, TRIPP, TCasp, BSTN, ArTur, ArAz, AllProjects, FreeExp, NoCTN]
     overrides: {}
   Ext:
     label: "Romania and Bulgaria as price zones"
@@ -111,9 +119,11 @@ scopes:
 # written here. GECO, AllProjects and FreeExp use the zone map that holds the two hubs of the
 # Caucasus, whose renewable plants are candidates. FreeExp forces nothing: every line of the rows
 # above is a candidate sized by the model, capex inside the objective.
+# NoCTN is the Base without its committed Georgia to Armenia line: the gain of that line is the
+# difference with the Base. Five-year grid only.
 cases:
   Base:
-    label: "existing and committed lines, Georgia to Armenia 350 MW line from 2032 included"
+    label: "existing and committed lines; Georgia to Armenia: no line today, committed 350 MW line from 2032"
     Int: {}
     Ext: {}
   BSSC:
@@ -186,12 +196,36 @@ cases:
       pLossFactorInternal: trade/pLossFactorInternal_ext_onland_v6.csv
       pNewTransmission: trade/pNewTransmission_ext_freeexp_v6.csv
       pNewTransmissionExt: trade/pNewTransmissionExt_ext_freeexp_v6.csv
+  NoCTN:
+    label: "the Base without the committed Georgia to Armenia line"
+    grids: [5y]
+    Int:
+      pTransferLimit: trade/pTransferLimit_robg_noctn_hvdc_v6.csv
 
 # Sensitivities. The four EU price cases of the Ext scope are in; the others come with their v6
 # files. Two more EU price cases are built and kept out of the grid until they are needed:
 # low (trade/pTradePrice[Export]_ext_eu_low_v6.csv) and high (..._ext_eu_high_v6.csv).
+# A sensitivity runs on the cases listed in `cases` below unless it lists its own, and on every
+# grid unless it lists its own (`grids`). The three Int sensitivities came with the corrections of
+# 2026-11-22 (files written by edits 2 and 9 of build_robg_v6.py), five-year grid only.
 sensitivities:
   cases: [Base, BSSC, GECO, Onland]
+  Int:
+    ArmeniaGasEU:
+      label: "Armenian gas on the price path of the country team table"
+      cases: [Base, ArTur, ArAz, TRIPP]
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_armgaseu_v6.csv
+    ArmeniaNoNewNuclear:
+      label: "the committed Armenian nuclear unit is not built"
+      cases: [Base, ArTur, ArAz, TRIPP]
+      grids: [5y]
+      pGenDataInput: supply/pGenDataInput_v6_{g}_amnonuc.csv
+    EUNuclearDelay:
+      label: "the committed reactors of Romania, Bulgaria and Hungary start one model step later"
+      cases: [Base, BSSC, GECO]
+      grids: [5y]
+      pGenDataInput: supply/pGenDataInput_v6_{g}_eunucdelay.csv
   Ext:
     EUVeryLow:
       label: "EU very low price"

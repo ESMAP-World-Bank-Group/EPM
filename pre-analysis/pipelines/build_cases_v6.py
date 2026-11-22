@@ -5,7 +5,7 @@ Project cases of the v6 input family: the line files behind the rows of the v6 s
     python pre-analysis/pipelines/build_cases_v6.py --check    # compare the files on disk with a fresh build, write nothing
     python pre-analysis/pipelines/build_cases_v6.py --force    # rewrite a file that differs from the build
 
-Order of the v6 builds: build_robg_v6.py (edits 1 to 6), this script (edit 8), then tools/build_ext_inputs_v6.py,
+Order of the v6 builds: build_robg_v6.py (edits 1 to 6 and 9), this script (edit 8), then tools/build_ext_inputs_v6.py,
 which derives the Ext scope from the files written here. Every file written here is new and carries _v6 in its name.
 The v5 files and the files of edits 1 to 6 are read and never modified. A file keeps the column order, the line
 ending and the byte order mark of the file it starts from.
@@ -14,7 +14,8 @@ A project is a list of capacity steps on a pair of zones. A case is the set of p
 limits of edit 3: its capacity sits in the limit files from the start year of the project, and its capex stays
 outside the objective (net benefit ex post, as in v5). The first model year at or after the start year is the year
 the model sees.
-  Base         CTN, the committed Georgia to Armenia line. It is in every case.
+  Base         CTN, the committed Georgia to Armenia line. It is in every case but NoCTN.
+  NoCTN        the limits of edit 3 alone: no line between Georgia and Armenia (a sensitivity on the Base)
   BSSC         Georgia to Romania subsea cable
   GECO         BSSC plus the three links from the Georgian hub to Romania; the hub links of the Caucasus are in
                the limits of edit 3 already and wake up with the zone map that holds the two hubs
@@ -46,7 +47,8 @@ Country team table. The size, the start year and the capex of the two Armenian l
 read at build time in the line sheet of the workbook of the Armenia country team (Official Use Only, outside git,
 guarded by its checksum in build_robg_v6.py). No figure of that workbook is written in this file or in the report:
 they reach the input files only, which are not in git. The size and the year of CTN are a decision of this study
-(350 MW from 2032, so that the pair reaches the total the team gives).
+(350 MW from 2032). Since the corrections of 22 November 2026 the limits of edit 3 hold no line in service between
+Georgia and Armenia (rule of the study), so the pair carries CTN alone.
 """
 import argparse
 import sys
@@ -117,7 +119,8 @@ PROJECTS = {
     "ArTur": {"int": [("Armenia", "EastAna", TEAM, TEAM)]},
     "ArAz": {"int": [("Armenia", "AzerbaijanMain", TEAM, TEAM)]},
 }
-COMMITTED = "CTN"                                   # in every case
+COMMITTED = "CTN"                                   # in every case but NO_COMMITTED
+NO_COMMITTED = "noctn"                              # sensitivity on the Base: the limits of edit 3 alone
 CASES = {"base": (), "bssc": ("BSSC",), "geco": ("BSSC", "GEC"), "onland": ("Onland",), "ewtc": ("EWTC",),
          "tripp": ("TRIPP",), "tcasp": ("TCasp",), "bstn": ("BSTN",), "artur": ("ArTur",), "araz": ("ArAz",),
          "allprojects": tuple(p for p in PROJECTS if p != COMMITTED)}
@@ -283,13 +286,16 @@ def build_limits(log, out, team):
         fail("unexpected pExtTransferLimit header %s" % ext.header[:5])
     hidden = team_pairs()
 
-    # CTN brings the pair to the total the country team gives
+    # no line in service on the pair of CTN (rule of the study, correction A1 of build_robg_v6.py): CTN alone
     ctn = steps(COMMITTED, "int", team)
     if len(ctn) != 1:
         fail("%s is one step" % COMMITTED)
-    today = {float(r[-1]) for r in src.rows if {r[0], r[1]} == set(ctn[0][:2])}
-    if len(today) != 1 or abs(today.pop() + ctn[0][3] - team[COMMITTED]["mw"]) > TOL:
-        fail("%s: the existing limit plus the new line is not the total of the %s" % (COMMITTED, TEAM))
+    today = {float(c) for r in src.rows if {r[0], r[1]} == set(ctn[0][:2]) for c in r[3:]}
+    if today != {0.0}:
+        fail("%s: %s holds a limit on the pair before the new line, build edit 3 of build_robg_v6.py" % (COMMITTED, INT_SRC))
+    if ctn[0][3] > team[COMMITTED]["mw"] + TOL:
+        fail("%s is larger than the total of the %s" % (COMMITTED, TEAM))
+    ctn_note = "at" if abs(ctn[0][3] - team[COMMITTED]["mw"]) <= TOL else "below"
 
     tables = {}
     for token, projects in CASES.items():
@@ -308,7 +314,11 @@ def build_limits(log, out, team):
     log.append("  %s: %d rows, %s plus %s" % (INT_OUT % "base", len(base_t.rows), INT_SRC, COMMITTED))
     for line in describe(base_t, d0, 3, set()):
         log.append("    " + line)
+    log.append("  the pair of %s carries the new line alone, %s the total of the %s" % (COMMITTED, ctn_note, TEAM))
     log.append("  external limits of the Base: %s, unchanged (%d rows)" % (EXT_SRC, len(ext.rows)))
+    out[INT_OUT % NO_COMMITTED] = src.copy()
+    log.append("  case %s: %s, the %d rows of %s (no %s); loss factors and external limits of the Base"
+               % (NO_COMMITTED, INT_OUT % NO_COMMITTED, len(src.rows), INT_SRC, COMMITTED))
 
     deltas = {}
     for token in CASES:

@@ -6,9 +6,11 @@ Figures of the country team table are not printed.
 Sources: 19 files, never modified; the 6 a file is built from are reproduced byte for byte
 Line limits
   trade/pTransferLimit_robg_base_hvdc_v6.csv: 232 rows, trade/pTransferLimit_robg_hvdc_v6.csv plus CTN
-    Armenia to Georgia: 150 MW from 2024, 500 MW from 2032
-    Georgia to Armenia: 150 MW from 2024, 500 MW from 2032
+    Armenia to Georgia: 0 MW from 2024, 350 MW from 2032
+    Georgia to Armenia: 0 MW from 2024, 350 MW from 2032
+  the pair of CTN carries the new line alone, below the total of the country team table
   external limits of the Base: trade/pExtTransferLimit_robg_v6.csv, unchanged (184 rows)
+  case noctn: trade/pTransferLimit_robg_noctn_hvdc_v6.csv, the 232 rows of trade/pTransferLimit_robg_hvdc_v6.csv (no CTN); loss factors and external limits of the Base
   case bssc: BSSC
     trade/pTransferLimit_robg_bssc_hvdc_v6.csv: 240 rows, 8 of the Base changed or added
       Georgia to Romania: 0 MW from 2024, 1300 MW from 2031
@@ -132,25 +134,26 @@ Ex post capex
     BSTN, EastAna to Georgia: 350 MW, 850 MUSD
     sum of the rows printed: 25810 MUSD
 Files
-  epm/input/data_blacksea/trade/pTransferLimit_robg_base_hvdc_v6.csv: 49101 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_bssc_hvdc_v6.csv: 50765 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_geco_hvdc_v6.csv: 52397 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_onland_hvdc_v6.csv: 52653 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_ewtc_hvdc_v6.csv: 49185 bytes, written
-  epm/input/data_blacksea/trade/pExtTransferLimit_robg_ewtc_v6.csv: 24720 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_tripp_hvdc_v6.csv: 50813 bytes, written
-  epm/input/data_blacksea/trade/pExtTransferLimit_robg_tcasp_v6.csv: 25176 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_bstn_hvdc_v6.csv: 49277 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_artur_hvdc_v6.csv: 50565 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_araz_hvdc_v6.csv: 50621 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_allprojects_hvdc_v6.csv: 60729 bytes, written
-  epm/input/data_blacksea/trade/pExtTransferLimit_robg_allprojects_v6.csv: 25176 bytes, written
-  epm/input/data_blacksea/trade/pTransferLimit_robg_freeexp_hvdc_v6.csv: 51317 bytes, written
-  epm/input/data_blacksea/trade/pLossFactorInternal_robg_bssc_hvdc_v6.csv: 12464 bytes, written
-  epm/input/data_blacksea/trade/pLossFactorInternal_robg_geco_hvdc_v6.csv: 12794 bytes, written
-  epm/input/data_blacksea/trade/pLossFactorInternal_robg_onland_hvdc_v6.csv: 12866 bytes, written
-  epm/input/data_blacksea/trade/pLossFactorInternal_robg_geco_onland_hvdc_v6.csv: 13528 bytes, written
-  epm/input/data_blacksea/trade/pNewTransmission_none_v6.csv: 285 bytes, written
-  epm/input/data_blacksea/trade/pNewTransmission_robg_freeexp_v6.csv: 579 bytes, written
-  epm/input/data_blacksea/capex_interconnectors_expost_v6.csv: 1665 bytes, written
-  21 files, 0 problem(s)
+  epm/input/data_blacksea/trade/pTransferLimit_robg_base_hvdc_v6.csv: 48973 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_noctn_hvdc_v6.csv: 48621 bytes, written
+  epm/input/data_blacksea/trade/pTransferLimit_robg_bssc_hvdc_v6.csv: 50637 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_geco_hvdc_v6.csv: 52269 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_onland_hvdc_v6.csv: 52525 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_ewtc_hvdc_v6.csv: 49057 bytes, rewritten
+  epm/input/data_blacksea/trade/pExtTransferLimit_robg_ewtc_v6.csv: 24720 bytes, unchanged
+  epm/input/data_blacksea/trade/pTransferLimit_robg_tripp_hvdc_v6.csv: 50685 bytes, rewritten
+  epm/input/data_blacksea/trade/pExtTransferLimit_robg_tcasp_v6.csv: 25176 bytes, unchanged
+  epm/input/data_blacksea/trade/pTransferLimit_robg_bstn_hvdc_v6.csv: 49149 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_artur_hvdc_v6.csv: 50437 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_araz_hvdc_v6.csv: 50493 bytes, rewritten
+  epm/input/data_blacksea/trade/pTransferLimit_robg_allprojects_hvdc_v6.csv: 60601 bytes, rewritten
+  epm/input/data_blacksea/trade/pExtTransferLimit_robg_allprojects_v6.csv: 25176 bytes, unchanged
+  epm/input/data_blacksea/trade/pTransferLimit_robg_freeexp_hvdc_v6.csv: 51189 bytes, rewritten
+  epm/input/data_blacksea/trade/pLossFactorInternal_robg_bssc_hvdc_v6.csv: 12464 bytes, unchanged
+  epm/input/data_blacksea/trade/pLossFactorInternal_robg_geco_hvdc_v6.csv: 12794 bytes, unchanged
+  epm/input/data_blacksea/trade/pLossFactorInternal_robg_onland_hvdc_v6.csv: 12866 bytes, unchanged
+  epm/input/data_blacksea/trade/pLossFactorInternal_robg_geco_onland_hvdc_v6.csv: 13528 bytes, unchanged
+  epm/input/data_blacksea/trade/pNewTransmission_none_v6.csv: 285 bytes, unchanged
+  epm/input/data_blacksea/trade/pNewTransmission_robg_freeexp_v6.csv: 579 bytes, unchanged
+  epm/input/data_blacksea/capex_interconnectors_expost_v6.csv: 1665 bytes, unchanged
+  22 files, 0 problem(s)

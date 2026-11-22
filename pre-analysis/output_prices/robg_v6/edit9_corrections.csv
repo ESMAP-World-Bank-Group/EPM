@@ -1,0 +1,140 @@
+code,zone,grid,file,unit,field,basis
+A2,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_ANPP,RetrYr,"Modelling assumption: the model keeps a plant through its retirement year, so the existing plant leaves one year before the new unit starts"
+A4,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_SmallPV_Exist,Capacity,"Public statement of March 2026: more than 1,150 MW of solar connected; the named plant keeps its size"
+A4,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_SmallPV_Exist,BuildLimitperYear,"Public statement of March 2026: more than 1,150 MW of solar connected; the named plant keeps its size"
+A5,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_Nuclear,Capex,Country team note: cost of the new unit over its size
+A6,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_Hrazdan_U5,Capacity,Country team table: size and heat rate of the unit
+A6,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_Hrazdan_U5,BuildLimitperYear,Country team table: size and heat rate of the unit
+A6,Armenia,s5,pGenDataInput_v6_s5.csv,Armenia_Hrazdan_U5,HeatRate,Country team table: size and heat rate of the unit
+R1,Romania,s5,pGenDataInput_v6_s5.csv,Cernavoda-1_refurbished,Capacity,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R1,Romania,s5,pGenDataInput_v6_s5.csv,Cernavoda-1_refurbished,BuildLimitperYear,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R1,Romania,s5,pGenDataInput_v6_s5.csv,Cernavoda-1_refurbished,UnitSize,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R2,Romania,s5,pGenDataInput_v6_s5.csv,Romania_Battery_2028,row,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,s5,pGenDataInput_v6_s5.csv,Romania_Battery_2026,Capacity,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,s5,pGenDataInput_v6_s5.csv,Romania_Battery_2028,Capacity,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,s5,pStorageDataInput_v6_s5.csv,Romania_Battery_2028,row,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,s5,pStorageDataInput_v6_s5.csv,Romania_Battery_2026,Capacity,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,s5,pStorageDataInput_v6_s5.csv,Romania_Battery_2028,Capacity,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,s5,pStorageDataInput_v6_s5.csv,Romania_Battery_2026,CapacityMWh,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,s5,pStorageDataInput_v6_s5.csv,Romania_Battery_2028,CapacityMWh,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Gobustan_PV,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Gobustan_PV,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Khizi-Absheron_OnshoreWind,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Khizi-Absheron_OnshoreWind,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Khizi-Absheron_OnshoreWind_1,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Khizi-Absheron_OnshoreWind_1,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Bilasuvar_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Neftchala_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Jabrayil_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Shafag_Solar_Plant_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,s5,pGenDataInput_v6_s5.csv,Azerbaijan_Shafag_Solar_Plant_PV,StYr,"Contracted and under construction: committed unit, start year on the model grid"
+TR1,NorthWest,s5,pGenDataInput_v6_s5.csv,NorthWest_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,Trakia,s5,pGenDataInput_v6_s5.csv,Trakia_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,EastAna,s5,pGenDataInput_v6_s5.csv,EastAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,EastMed,s5,pGenDataInput_v6_s5.csv,EastMed_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,SouthEast,s5,pGenDataInput_v6_s5.csv,SouthEast_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,WestMed,s5,pGenDataInput_v6_s5.csv,WestMed_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,CenterBlack,s5,pGenDataInput_v6_s5.csv,CenterBlack_Agg_Oshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,WestAna,s5,pGenDataInput_v6_s5.csv,WestAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+TR1,CenterAna,s5,pGenDataInput_v6_s5.csv,CenterAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+G1,Georgia,s5,pGenDataInput_v6_s5.csv,Georgia_Wind_Cand,BuildLimitperYear,"TSO ten year plan: 1,291 MW of wind in 2034"
+A2,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_ANPP,RetrYr,"Modelling assumption: the model keeps a plant through its retirement year, so the existing plant leaves one year before the new unit starts"
+A4,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_SmallPV_Exist,Capacity,"Public statement of March 2026: more than 1,150 MW of solar connected; the named plant keeps its size"
+A4,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_SmallPV_Exist,BuildLimitperYear,"Public statement of March 2026: more than 1,150 MW of solar connected; the named plant keeps its size"
+A5,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_Nuclear,Capex,Country team note: cost of the new unit over its size
+A6,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_Hrazdan_U5,Capacity,Country team table: size and heat rate of the unit
+A6,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_Hrazdan_U5,BuildLimitperYear,Country team table: size and heat rate of the unit
+A6,Armenia,2y,pGenDataInput_v6_2y.csv,Armenia_Hrazdan_U5,HeatRate,Country team table: size and heat rate of the unit
+R1,Romania,2y,pGenDataInput_v6_2y.csv,Cernavoda-1_refurbished,Capacity,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R1,Romania,2y,pGenDataInput_v6_2y.csv,Cernavoda-1_refurbished,BuildLimitperYear,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R1,Romania,2y,pGenDataInput_v6_2y.csv,Cernavoda-1_refurbished,UnitSize,"Net capacity after refurbishment, no uprate announced by the operator (review of the Cernavoda study)"
+R2,Romania,2y,pGenDataInput_v6_2y.csv,Romania_Battery_2028,row,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pGenDataInput_v6_2y.csv,Romania_Battery_2026,Capacity,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,2y,pGenDataInput_v6_2y.csv,Romania_Battery_2028,Capacity,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pGenDataInput_v6_2y.csv,Romania_Battery_2028,StYr,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2028,row,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2026,Capacity,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2028,Capacity,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2028,StYr,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2026,CapacityMWh,"TSO: 1,162 MW and 2,312 MWh of batteries in service on 1 October 2026, less the aggregate row"
+R2,Romania,2y,pStorageDataInput_v6_2y.csv,Romania_Battery_2028,CapacityMWh,"Batteries under construction: fleet of 2,000 MW and 4,000 MWh from 2028, less the rows in service"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Gobustan_PV,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Gobustan_PV,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Khizi-Absheron_OnshoreWind,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Khizi-Absheron_OnshoreWind,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Khizi-Absheron_OnshoreWind_1,Status,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Khizi-Absheron_OnshoreWind_1,StYr,In operation: existing unit from 2026
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Bilasuvar_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Bilasuvar_PV,StYr,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Neftchala_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Neftchala_PV,StYr,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Jabrayil_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Jabrayil_PV,StYr,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Shafag_Solar_Plant_PV,Status,"Contracted and under construction: committed unit, start year on the model grid"
+Z1,AzerbaijanMain,2y,pGenDataInput_v6_2y.csv,Azerbaijan_Shafag_Solar_Plant_PV,StYr,"Contracted and under construction: committed unit, start year on the model grid"
+TR1,NorthWest,2y,pGenDataInput_v6_2y.csv,NorthWest_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,NorthWest,2y,pGenDataInput_v6_2y.csv,NorthWest_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,Trakia,2y,pGenDataInput_v6_2y.csv,Trakia_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,Trakia,2y,pGenDataInput_v6_2y.csv,Trakia_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,EastAna,2y,pGenDataInput_v6_2y.csv,EastAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,EastAna,2y,pGenDataInput_v6_2y.csv,EastAna_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,EastMed,2y,pGenDataInput_v6_2y.csv,EastMed_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,EastMed,2y,pGenDataInput_v6_2y.csv,EastMed_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,SouthEast,2y,pGenDataInput_v6_2y.csv,SouthEast_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,SouthEast,2y,pGenDataInput_v6_2y.csv,SouthEast_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,WestMed,2y,pGenDataInput_v6_2y.csv,WestMed_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,WestMed,2y,pGenDataInput_v6_2y.csv,WestMed_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,CenterBlack,2y,pGenDataInput_v6_2y.csv,CenterBlack_Agg_Oshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,CenterBlack,2y,pGenDataInput_v6_2y.csv,CenterBlack_Agg_Oshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,WestAna,2y,pGenDataInput_v6_2y.csv,WestAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,WestAna,2y,pGenDataInput_v6_2y.csv,WestAna_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+TR1,CenterAna,2y,pGenDataInput_v6_2y.csv,CenterAna_Agg_Onshore_Cand,BuildLimitperYear,Observed record of 2.1 GW in 2025 and government pace of 2 to 2.5 GW a year: build limit x 0.4
+GA,CenterAna,2y,pGenDataInput_v6_2y.csv,CenterAna_Agg_Onshore_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+G1,Georgia,2y,pGenDataInput_v6_2y.csv,Georgia_Wind_Cand,BuildLimitperYear,"TSO ten year plan: 1,291 MW of wind in 2034"
+GA,Georgia,2y,pGenDataInput_v6_2y.csv,Georgia_Wind_Cand,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+GA,Bulgaria,2y,pGenDataInput_v6_2y.csv,Generic_Wind_Bulgaria,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+GA,Romania,2y,pGenDataInput_v6_2y.csv,Generic Onshore WindHigh2_2026,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+GA,Hungary,2y,pGenDataInput_v6_2y.csv,Generic_Wind_Hungary,StYr,Same 2030 build ceiling on both year grids: the candidate opens at the first step of the two year grid
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Armenia to Georgia Q1,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Armenia to Georgia Q2,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Armenia to Georgia Q3,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Armenia to Georgia Q4,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Georgia to Armenia Q1,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Georgia to Armenia Q2,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Georgia to Armenia Q3,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A1,Georgia and Armenia,all,pTransferLimit_robg_hvdc_v6.csv,Georgia to Armenia Q4,2024 to 2053,Rule of the study: no line in service between the two countries; the committed line is added per case
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2026,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2027,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2028,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2029,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2030,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2031,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2032,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2033,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2034,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2035,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2036,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2037,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2038,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2039,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2040,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2041,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2042,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2043,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2044,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2045,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2046,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2047,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2048,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2049,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2050,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2051,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2052,Border contract path of v5 plus the margin of the first year of the country team row
+A3,Armenia,all,pFuelPrice_robg_v6.csv,Armenia Gas,2053,Border contract path of v5 plus the margin of the first year of the country team row
+amnonuc,n/a,s5,pGenDataInput_v6_s5_amnonuc.csv,Armenia_Nuclear,row,Sensitivity: the committed nuclear unit is not built
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Cernavoda-3,StYr,Sensitivity: the committed reactors start one model step later
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Cernavoda-4,StYr,Sensitivity: the committed reactors start one model step later
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Bulgaria_Kozloduy_7,StYr,Sensitivity: the committed reactors start one model step later
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Hungary_Paks_5,StYr,Sensitivity: the committed reactors start one model step later
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Hungary_Paks_6,StYr,Sensitivity: the committed reactors start one model step later
+eunucdelay,n/a,s5,pGenDataInput_v6_s5_eunucdelay.csv,Bulgaria_Kozloduy_8,StYr,Sensitivity: the committed reactors start one model step later (beyond the horizon)

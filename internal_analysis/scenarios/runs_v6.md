@@ -1,15 +1,17 @@
 # Runs of the v6 scenario grid
 
-Input version v6 (2026-11-21): edits 1 to 8 of the round 9 plan. The scenario names are the columns of
+Input version v6 (2026-11-21): edits 1 to 8 of the round 9 plan. Input version v6.1 (2026-11-22):
+the same files with twelve corrections and twelve more scenario columns. The scenario names are the columns of
 `epm/input/data_blacksea/scenarios_v6.csv`, built by
 `tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml`. The v5 grid, its
 scenario file and its runs are untouched (`server_runs.md`, `scenario_register.csv`).
 
 The v6 scenarios keep the v5 names. Three things keep the two versions apart:
 
-- the run labels and the explorer runs of v6 start with `v6`;
-- `scenario_register_v6.csv` reads its results only from the explorer runs named `v6_*`
-  (keys `register` and `result_runs` of the grid file) and shows the v5 result of the same name as twin;
+- the run labels and the explorer runs of v6 start with `v6`, those of v6.1 with `v61`;
+- `scenario_register_v6.csv` reads its results only from the explorer runs named `v61_*`
+  (keys `register` and `result_runs` of the grid file) and shows as twin the most recent earlier
+  result of the same name: the run of 2026-11-21 where it exists, else the v5 run;
 - `scenario_register.csv` (v5) ignores every run whose name starts with a version tag.
 
 ## Before a batch
@@ -20,8 +22,75 @@ dvc pull -r r2
 dvc status
 ```
 
-`epm/input/data_blacksea.dvc` must read `f6367a3a887b0e81f5da434db10b494e.dir` (428 files). No builder
-that writes into the input folder and no `dvc add` while a GAMS run is alive.
+`epm/input/data_blacksea.dvc` must read `f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input
+version v6.1 of 2026-11-22). The runs of 2026-11-21 below were made on
+`f6367a3a887b0e81f5da434db10b494e.dir` (428 files, input version v6). No builder that writes into the
+input folder and no `dvc add` while a GAMS run is alive.
+
+## Input version v6.1: corrections of 22 November 2026
+
+Twelve corrections are applied in place in the v6 files (same file names), through
+`pre-analysis/pipelines/build_robg_v6.py` (edit 9) and the table `v6_corrections_20261122.csv` kept
+with the inputs. The state of 2026-11-21 stays available at git `345f095c` with the DVC version
+`f6367a3a`. Every result of 2026-11-21 below is the "before corrections" reference.
+
+| Code | Zone | Correction |
+|---|---|---|
+| A1 | Georgia, Armenia | no line in service on the pair (150 MW before); the Base keeps the committed 350 MW line from 2032 |
+| A2 | Armenia | modelling assumption: the existing nuclear plant leaves the model one year earlier, in 2035 |
+| A3 | Armenia | central gas price path revised; the path of 2026-11-21 becomes a sensitivity |
+| A4 | Armenia | distributed solar in service raised to the level connected in March 2026 |
+| A5 | Armenia | capex of the new nuclear unit |
+| A6 | Armenia | size and heat rate of one gas unit |
+| R1 | Romania | Cernavoda 1 after refurbishment at 650 MW (707 before) |
+| R2 | Romania | batteries: 2,000 MW and 4,000 MWh from 2028 (two committed rows) |
+| Z1 | Azerbaijan | three units in operation become existing, four solar units under construction become committed |
+| TR1 | Türkiye | yearly build limit of onshore wind x 0.4 (2,180 MW a year) |
+| G1 | Georgia | yearly build limit of wind 140 MW (256 before) |
+| GA | two-year grid | wind candidates open in 2026, so the 2030 ceiling is the same on both grids |
+
+Four new files and twelve new scenario columns (78 in all), on the five-year grid only:
+
+- `Int_NoCTN_5y`: the Base without the committed Georgia to Armenia line;
+- `ArmeniaGasEU` (the gas price path of 2026-11-21) and `ArmeniaNoNewNuclear`, each on Base, ArTur,
+  ArAz and TRIPP;
+- `EUNuclearDelay` (the six committed reactors of Romania, Bulgaria and Hungary one model step
+  later) on Base, BSSC and GECO.
+
+Checks before the runs: the four builders in `--check` mode (0 difference), the read-only acceptance
+script of the corrections (140 passed, 0 failed) and a cell by cell comparison of the folder with a
+dry-run copy. Known limits: Türkiye wind in 2030 has the same ceiling on both grids (28.8 GW with the
+existing fleet), but 43 other candidates of the Int files (38 of the Ext files) with a start year
+between 2027 and 2030 still have a lower 2030 ceiling on the two-year grid.
+
+## Batch V61: the rerun on the corrected inputs, server
+
+Labels `v61c5_<scenario>_20261122` (five-year grid) and `v61c2_<scenario>_20261122` (two-year grid),
+never the labels of 2026-11-21. From the `epm` folder of the server, inside `tmux`, after the refresh
+of "Before a batch". Int_Base_5y goes first and is the test of the corrected inputs (316.44 BUSD
+before corrections). The first call runs lots 1 to 3 (45 five-year scenarios, about 7 hours), the
+second lot 4 (the eight core cases on the two-year grid, about 16 hours).
+
+```
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61c5 --date 20261122 -S Int_Base_5y Ext_Base_5y Int_BSSC_5y Int_GECO_5y Int_Onland_5y Ext_BSSC_5y Ext_GECO_5y Ext_Onland_5y Int_EWTC_5y Int_TRIPP_5y Int_TCasp_5y Int_BSTN_5y Int_ArTur_5y Int_ArAz_5y Int_AllProjects_5y Int_FreeExp_5y Ext_FreeExp_5y Int_NoCTN_5y Int_Base_ArmeniaGasEU_5y Int_ArTur_ArmeniaGasEU_5y Int_ArAz_ArmeniaGasEU_5y Int_TRIPP_ArmeniaGasEU_5y Int_Base_ArmeniaNoNewNuclear_5y Int_ArTur_ArmeniaNoNewNuclear_5y Int_ArAz_ArmeniaNoNewNuclear_5y Int_TRIPP_ArmeniaNoNewNuclear_5y Int_Base_EUNuclearDelay_5y Int_BSSC_EUNuclearDelay_5y Int_GECO_EUNuclearDelay_5y Ext_Base_EUVeryLow_5y Ext_BSSC_EUVeryLow_5y Ext_GECO_EUVeryLow_5y Ext_Onland_EUVeryLow_5y Ext_Base_EUCrisis_5y Ext_BSSC_EUCrisis_5y Ext_GECO_EUCrisis_5y Ext_Onland_EUCrisis_5y Ext_Base_EUCBAM_5y Ext_BSSC_EUCBAM_5y Ext_GECO_EUCBAM_5y Ext_Onland_EUCBAM_5y Ext_Base_EUVeryLowCBAM_5y Ext_BSSC_EUVeryLowCBAM_5y Ext_GECO_EUVeryLowCBAM_5y Ext_Onland_EUVeryLowCBAM_5y
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61c2 --date 20261122 -S Int_Base_2y Ext_Base_2y Int_BSSC_2y Int_GECO_2y Int_Onland_2y Ext_BSSC_2y Ext_GECO_2y Ext_Onland_2y
+```
+
+| Lot | Scenarios | Content |
+|---|---|---|
+| 1 | 18 | the 17 central cases of 2026-11-21 and Int_NoCTN_5y |
+| 2 | 11 | ArmeniaGasEU and ArmeniaNoNewNuclear on four cases, EUNuclearDelay on three |
+| 3 | 16 | the four EU price cases of the Ext scope on Base, BSSC, GECO and Onland |
+| 4 | 8 | the core cases on the two-year grid, Int_Base_2y first |
+
+Both calls can be relaunched: a scenario whose zip is complete is skipped, and a scenario that fails
+does not stop the others. The zips `epm/output/v61c5_*_20261122.zip` and `v61c2_*_20261122.zip` are
+then copied to `epm/output/` on the laptop and merged into the explorer runs
+`v61_central5y_20261122` (lot 1), `v61_sens5y_20261122` (lots 2 and 3, with the two Bases) and
+`v61_core2y_20261122` (lot 4). The register reads the runs named `v61_*`.
+
+To read in the runs without the new Armenian nuclear unit: unserved energy and unmet reserve in
+Armenia after 2035, when the existing plant has left.
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 
@@ -81,6 +150,9 @@ these three runs stay on the server, in `epm/output/_sequential/v6c5_20261121`.
 
 ## Batch C2: the eight core cases, two-year grid, server
 
+Not launched: replaced on 2026-11-22 by lot 4 of batch V61, on the corrected inputs. The paragraph
+is kept for the method.
+
 Nine model years instead of five, so more memory than the laptop can give: this batch runs on the
 server, one scenario at a time (`--cpu 1` is set by the script). Int_Base_2y goes first, as the
 measure of time and memory; the script then carries on with the seven others. Expect about two hours
@@ -107,7 +179,8 @@ from PowerShell, list the zips one by one. A merge can be repeated as the zips a
 
 ```
 python tools/merge_runs.py --target epm/output_view/v6_central5y_20261121 epm/output/v6c5_*_20261121.zip
-python tools/merge_runs.py --target epm/output_view/v6_core2y_20261122 epm/output/v6c2_*_20261122.zip
+python tools/merge_runs.py --target epm/output_view/v61_central5y_20261122 epm/output/v61c5_*_20261122.zip
+python tools/merge_runs.py --target epm/output_view/v61_core2y_20261122 epm/output/v61c2_*_20261122.zip
 python tools/scenario_register.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml
 ```
 
