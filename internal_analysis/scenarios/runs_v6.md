@@ -13,7 +13,8 @@ The v6 scenarios keep the v5 names. Three things keep the two versions apart:
 - the run labels and the explorer runs of v6 start with `v6`, those of v6.1 with `v61`;
 - `scenario_register_v6.csv` reads its results only from the explorer runs named `v61_*`
   (keys `register` and `result_runs` of the grid file) and shows as twin the most recent earlier
-  result of the same name: the run of 2026-11-21 where it exists, else the v5 run;
+  result of the same name held in `epm/output_view`: the v5 run since 2026-11-23, when the run of
+  2026-11-21 left the explorer (see "After a batch");
 - `scenario_register.csv` (v5) ignores every run whose name starts with a version tag.
 
 ## Before a batch
@@ -90,11 +91,39 @@ python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61c2 --
 Both calls can be relaunched: a scenario whose zip is complete is skipped, and a scenario that fails
 does not stop the others. The zips `epm/output/v61c5_*_20261122.zip` and `v61c2_*_20261122.zip` are
 then copied to `epm/output/` on the laptop and merged into the explorer runs
-`v61_central5y_20261122` (lot 1), `v61_sens5y_20261122` (lots 2 and 3, with the two Bases) and
-`v61_core2y_20261122` (lot 4). The register reads the runs named `v61_*`.
+`v61_central5y_20261122` (lot 1), `v61_sens5y_20261122` (lots 2 and 3: every sensitivity has its own
+Base row, the two central Bases stay in the central run) and `v61_core2y_20261122` (lot 4). The
+register reads the runs named `v61_*`.
 
 To read in the runs without the new Armenian nuclear unit: unserved energy and unmet reserve in
 Armenia after 2035, when the existing plant has left.
+
+Outcome (2026-11-23): 53 of 53 scenarios solved to optimality on the server. The zips were copied to
+`epm/output/` on the laptop with an md5 check, merged and published the same day: 18 scenarios in
+`v61_central5y_20261122`, 27 in `v61_sens5y_20261122`, 8 in `v61_core2y_20261122`. The merged runs
+give back the values read in the zips. Objective of the central scenarios against the run of
+2026-11-21, which they replace in the explorer:
+
+| Scenario | v6.1, BUSD | v6 of 21 Nov, BUSD | Difference |
+|---|---|---|---|
+| Int_Base_5y | 322.84 | 316.44 | +6.40 |
+| Int_BSSC_5y | 321.22 | 314.74 | +6.48 |
+| Int_GECO_5y | 318.72 | 312.23 | +6.49 |
+| Int_Onland_5y | 319.41 | 313.07 | +6.34 |
+| Int_EWTC_5y | 321.30 | 314.85 | +6.45 |
+| Int_TRIPP_5y | 322.07 | 315.73 | +6.34 |
+| Int_TCasp_5y | 322.50 | 316.09 | +6.41 |
+| Int_BSTN_5y | 322.52 | 316.14 | +6.38 |
+| Int_ArTur_5y | 322.45 | 316.08 | +6.37 |
+| Int_ArAz_5y | 322.81 | 316.40 | +6.41 |
+| Int_AllProjects_5y | 313.78 | 307.30 | +6.48 |
+| Int_FreeExp_5y | 319.10 | 312.76 | +6.34 |
+| Int_NoCTN_5y | 322.92 | n/a | n/a |
+| Ext_Base_5y | 233.25 | 227.57 | +5.68 |
+| Ext_BSSC_5y | 231.33 | 225.58 | +5.75 |
+| Ext_GECO_5y | 227.65 | 221.91 | +5.74 |
+| Ext_Onland_5y | 229.49 | 223.77 | +5.72 |
+| Ext_FreeExp_5y | 228.62 | 222.82 | +5.80 |
 
 ## Batch SA: first lot of sensitivities, server
 
@@ -208,18 +237,34 @@ Dates that sit off the five-year grid move back on the two-year grid: EWTC 2034,
 ## After a batch
 
 One explorer run per grid, never two grids in one folder. The merge tool does not expand `*` itself:
-from PowerShell, list the zips one by one. A merge can be repeated as the zips arrive.
+from PowerShell, list the zips one by one. A merge can be repeated as the zips arrive. The label
+`v61c5` feeds two explorer runs: a name made of a scope and a case goes to the central run, a name
+that also carries a sensitivity goes to the sensitivity run. From Git Bash:
 
 ```
-python tools/merge_runs.py --target epm/output_view/v6_central5y_20261121 epm/output/v6c5_*_20261121.zip
-python tools/merge_runs.py --target epm/output_view/v61_central5y_20261122 epm/output/v61c5_*_20261122.zip
+ALL=$(ls epm/output/v61c5_*_20261122.zip)
+CENTRAL=$(echo "$ALL" | grep -E '/v61c5_(Int|Ext)_[A-Za-z]+_5y_20261122\.zip$')
+SENS=$(echo "$ALL" | grep -v -E '/v61c5_(Int|Ext)_[A-Za-z]+_5y_20261122\.zip$')
+python tools/merge_runs.py --target epm/output_view/v61_central5y_20261122 $CENTRAL
+python tools/merge_runs.py --target epm/output_view/v61_sens5y_20261122 $SENS
 python tools/merge_runs.py --target epm/output_view/v61_core2y_20261122 epm/output/v61c2_*_20261122.zip
+python tools/merge_runs.py --target epm/output_view/v61_sensA5y_20261123 epm/output/v61s5_*_20261123.zip
 python tools/scenario_register.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml
 ```
 
 The register flips the merged scenarios from "to run" to "done"; `--r2` after the upload
-(`tools/upload_output_view_to_r2.py --only "<run>/*"`) flips them to "published". On 2026-11-22 the
-17 scenarios of `v6_central5y_20261121` are published.
+(`tools/upload_output_view_to_r2.py --only "<run>/*"`) flips them to "published". On 2026-11-23 the
+53 scenarios of batch V61 are published in the three runs `v61_*_20261122`.
+
+The run of 2026-11-21, `v6_central5y_20261121`, was removed from `epm/output_view` on 2026-11-23,
+replaced by `v61_central5y_20261122`. The upload rewrites the list of runs the explorer shows from
+the folders present, so the run left the explorer with that upload. The upload tool never deletes:
+the csv files of the removed run stay on the store until they are deleted there. Its 17 zips
+`epm/output/v6c5_*_20261121.zip` are kept and rebuild it:
+
+```
+python tools/merge_runs.py --target epm/output_view/v6_central5y_20261121 epm/output/v6c5_*_20261121.zip
+```
 
 ## Reading the results
 
