@@ -1,7 +1,9 @@
 # Runs of the v6 scenario grid
 
 Input version v6 (2026-11-21): edits 1 to 8 of the round 9 plan. Input version v6.1 (2026-11-22):
-the same files with twelve corrections and twelve more scenario columns. The scenario names are the columns of
+the same files with twelve corrections and twelve more scenario columns. On 2026-11-23 the first lot of
+sensitivity files joined the folder (eight new files, 26 more scenario columns): no file of v6.1 changed apart
+from the scenario file, so the runs of 2026-11-22 stay valid. The scenario names are the columns of
 `epm/input/data_blacksea/scenarios_v6.csv`, built by
 `tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml`. The v5 grid, its
 scenario file and its runs are untouched (`server_runs.md`, `scenario_register.csv`).
@@ -22,8 +24,10 @@ dvc pull -r r2
 dvc status
 ```
 
-`epm/input/data_blacksea.dvc` must read `f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input
-version v6.1 of 2026-11-22). The runs of 2026-11-21 below were made on
+`epm/input/data_blacksea.dvc` must read `5f6099489e82de80ff3e7629e1718d54.dir` (442 files, input
+version v6.1 with the sensitivity files of 2026-11-23). Batch V61 ran on
+`f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input version v6.1 of 2026-11-22): the same 434
+files, the scenario file with 78 columns. The runs of 2026-11-21 below were made on
 `f6367a3a887b0e81f5da434db10b494e.dir` (428 files, input version v6). No builder that writes into the
 input folder and no `dvc add` while a GAMS run is alive.
 
@@ -91,6 +95,35 @@ then copied to `epm/output/` on the laptop and merged into the explorer runs
 
 To read in the runs without the new Armenian nuclear unit: unserved energy and unmet reserve in
 Armenia after 2035, when the existing plant has left.
+
+## Batch SA: first lot of sensitivities, server
+
+Labels `v61s5_<scenario>_20261123`, five-year grid, 26 scenarios (18 Int, 8 Ext), about 4 hours. The
+files come from `pre-analysis/pipelines/build_sens_v6.py` (`--check` mode, 0 difference) and, for the
+two EU price cases, from `tools/build_ext_inputs_v6.py`. The first seven scenarios of the call read
+every new file once: they are the test of the lot. From the `epm` folder of the server, inside `tmux`,
+after the refresh of "Before a batch".
+
+```
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61s5 --date 20261123 -S Int_Base_ArmeniaGasContract_5y Int_Base_ArmeniaDemandLow_5y Int_GECO_CaucasusREHubs_5y Int_Base_EUCarbonLow_5y Int_Base_TurkiyeCarbonPrice_5y Ext_Base_EULow_5y Ext_Base_EUHigh_5y Int_ArTur_ArmeniaGasContract_5y Int_ArAz_ArmeniaGasContract_5y Int_TRIPP_ArmeniaGasContract_5y Int_ArTur_ArmeniaDemandLow_5y Int_ArAz_ArmeniaDemandLow_5y Int_TRIPP_ArmeniaDemandLow_5y Int_FreeExp_CaucasusREHubs_5y Int_BSSC_EUCarbonLow_5y Int_GECO_EUCarbonLow_5y Int_Onland_EUCarbonLow_5y Int_BSSC_TurkiyeCarbonPrice_5y Int_GECO_TurkiyeCarbonPrice_5y Int_Onland_TurkiyeCarbonPrice_5y Ext_BSSC_EULow_5y Ext_GECO_EULow_5y Ext_Onland_EULow_5y Ext_BSSC_EUHigh_5y Ext_GECO_EUHigh_5y Ext_Onland_EUHigh_5y
+```
+
+| Sensitivity | Cases | What moves against the central |
+|---|---|---|
+| ArmeniaGasContract | Base, ArTur, ArAz, TRIPP | Armenian gas on the border contract path, without the margin of correction A3 |
+| ArmeniaDemandLow | Base, ArTur, ArAz, TRIPP | Armenian peak and energy on the forecast in use before the country team update |
+| CaucasusREHubs | GECO, FreeExp | the five solar and wind candidates of the two GEC hubs become 14 committed steps (2032, 2036, 2040); the steps replace the candidates |
+| EUCarbonLow | Base, BSSC, GECO, Onland | CO2 of Romania, Bulgaria and Hungary on the TYNDP 2024 path (132 USD/t in 2030, 172 in 2040, against 106 and 322); prices of the nine neighbours priced on TYNDP 2026 scaled by the cost of gas with CO2 (factor 1.10 in 2030, 0.80 in 2036, 0.70 in 2040) |
+| TurkiyeCarbonPrice | Base, BSSC, GECO, Onland | from 2030 the central CO2 price on Turkish gas, imported coal, lignite and fuel oil |
+| EULow, EUHigh | Ext Base, BSSC, GECO, Onland | the low and the high EU price case |
+
+To keep in mind when reading. EUCarbonLow is above the central from 2026 to 2031 and below it from
+2032: it is a lower path for the long run only. Its border price rule is a rule of this study: it
+keeps the hourly shape and scales the level, hours set by renewables included. CaucasusREHubs forces
+the hub capacity in, with its capex in the objective: its difference with the central reads as the
+cost or the gain of the full build, not as a project gain. TurkiyeCarbonPrice has no price path in
+Turkish law: an upper bound. The zips are merged into the explorer run `v61_sensA5y_20261123`, with
+the central cases they compare to.
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 

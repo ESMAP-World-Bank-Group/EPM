@@ -202,12 +202,13 @@ cases:
     Int:
       pTransferLimit: trade/pTransferLimit_robg_noctn_hvdc_v6.csv
 
-# Sensitivities. The four EU price cases of the Ext scope are in; the others come with their v6
-# files. Two more EU price cases are built and kept out of the grid until they are needed:
-# low (trade/pTradePrice[Export]_ext_eu_low_v6.csv) and high (..._ext_eu_high_v6.csv).
-# A sensitivity runs on the cases listed in `cases` below unless it lists its own, and on every
-# grid unless it lists its own (`grids`). The three Int sensitivities came with the corrections of
-# 2026-11-22 (files written by edits 2 and 9 of build_robg_v6.py), five-year grid only.
+# Sensitivities. A sensitivity runs on the cases listed in `cases` below unless it lists its own,
+# and on every grid unless it lists its own (`grids`).
+# Int, five-year grid only. The first three came with the corrections of 2026-11-22 (files written
+# by edits 2 and 9 of build_robg_v6.py). The next five are the first lot of 2026-11-23 (files
+# written by pre-analysis/pipelines/build_sens_v6.py, which states the rule of each one).
+# Ext: six EU price cases, files of tools/build_ext_inputs_v6.py. The low and the high case joined
+# the grid on 2026-11-23, five-year grid only.
 sensitivities:
   cases: [Base, BSSC, GECO, Onland]
   Int:
@@ -226,6 +227,31 @@ sensitivities:
       cases: [Base, BSSC, GECO]
       grids: [5y]
       pGenDataInput: supply/pGenDataInput_v6_{g}_eunucdelay.csv
+    ArmeniaGasContract:
+      label: "Armenian gas on the border contract path, without the margin of the central"
+      cases: [Base, ArTur, ArAz, TRIPP]
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_armgascontract_v6.csv
+    ArmeniaDemandLow:
+      label: "Armenian demand on the forecast in use before the country team update"
+      cases: [Base, ArTur, ArAz, TRIPP]
+      grids: [5y]
+      pDemandForecast: load/pDemandForecast_v6_amdemlow.csv
+    CaucasusREHubs:
+      label: "the solar and wind candidates of the two GEC hubs are committed in full, in three steps to 2040"
+      cases: [GECO, FreeExp]
+      grids: [5y]
+      pGenDataInput: supply/pGenDataInput_v6_{g}_gechubs.csv
+    EUCarbonLow:
+      label: "EU carbon price on the TYNDP 2024 path, above the central to 2031 and below it after (172 against 322 USD/t in 2040); border prices scaled with the cost of gas"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_eucarbonlow_v6.csv
+      pTradePrice: trade/pTradePrice_robg_eucarbonlow_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_robg_eucarbonlow_v6.csv
+    TurkiyeCarbonPrice:
+      label: "a Turkish carbon price at the EU level from 2030, on every fuel with carbon (upper bound)"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_trcarbon_v6.csv
   Ext:
     EUVeryLow:
       label: "EU very low price"
@@ -242,5 +268,15 @@ sensitivities:
       label: "EU very low price, CBAM on exports"
       pTradePrice: trade/pTradePrice_ext_eu_very_low_v6.csv
       pTradePriceExport: trade/pTradePriceExport_ext_eu_very_low_cbam_v6.csv
+    EULow:
+      label: "EU low price"
+      grids: [5y]
+      pTradePrice: trade/pTradePrice_ext_eu_low_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_low_v6.csv
+    EUHigh:
+      label: "EU high price"
+      grids: [5y]
+      pTradePrice: trade/pTradePrice_ext_eu_high_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_ext_eu_high_v6.csv
 
 identical_to_archive: {}

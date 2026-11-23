@@ -1,0 +1,54 @@
+sensitivity,file,zone,row,cells,first,last,basis
+ArmeniaGasContract,pFuelPrice_robg_armgascontract_v6.csv,Armenia,Gas,30,2024,2053,"Border contract path of v5, without the margin of correction A3"
+ArmeniaDemandLow,pDemandForecast_v6_amdemlow.csv,Armenia,Peak,30,2024,2053,"Forecast of v5, before the country team update"
+ArmeniaDemandLow,pDemandForecast_v6_amdemlow.csv,Armenia,Energy,30,2024,2053,"Forecast of v5, before the country team update"
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_PV_Hub,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_PV_Hub_2032,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_PV_Hub_2036,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_PV_Hub_2040,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OnshoreWind_Hub,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OnshoreWind_Hub_2032,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OnshoreWind_Hub_2036,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OnshoreWind_Hub_2040,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OffshoreWind_Hub,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OffshoreWind_Hub_2036,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_AZ,GEC_AZ_OffshoreWind_Hub_2040,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_PV_Hub,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_PV_Hub_2032,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_PV_Hub_2036,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_PV_Hub_2040,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_OnshoreWind_Hub,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_OnshoreWind_Hub_2032,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_OnshoreWind_Hub_2036,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+CaucasusREHubs,pGenDataInput_v6_s5_gechubs.csv,GEC_GE,GEC_GE_OnshoreWind_Hub_2040,1,row,row,Hub candidates committed in the steps of the October hub file; the steps replace the candidates
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Romania,DomesticCoal,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Romania,Gas,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Romania,GasCCS,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Bulgaria,Gas,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Bulgaria,DomesticCoal,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Bulgaria,ImportedCoal,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Hungary,Gas,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Hungary,DomesticCoal,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pFuelPrice_robg_eucarbonlow_v6.csv,Hungary,Diesel,28,2026,2053,"CO2 line on the path of v5 (TYNDP 2024), commodity line of v6"
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Serbia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,NorthMacedonia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Greece,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Moldova,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Ukraine,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Austria,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Slovakia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Croatia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePrice_robg_eucarbonlow_v6.csv,Slovenia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Serbia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,NorthMacedonia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Greece,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Moldova,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Ukraine,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Austria,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Slovakia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Croatia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+EUCarbonLow,pTradePriceExport_robg_eucarbonlow_v6.csv,Slovenia,all quarters and days,28,2026,2053,Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)
+TurkiyeCarbonPrice,pFuelPrice_robg_trcarbon_v6.csv,Turkiye,ImportedCoal,24,2030,2053,"CO2 price of the central from 2030 on the carbon content of the fuel (assumption, upper bound)"
+TurkiyeCarbonPrice,pFuelPrice_robg_trcarbon_v6.csv,Turkiye,DomesticCoal,24,2030,2053,"CO2 price of the central from 2030 on the carbon content of the fuel (assumption, upper bound)"
+TurkiyeCarbonPrice,pFuelPrice_robg_trcarbon_v6.csv,Turkiye,Gas,24,2030,2053,"CO2 price of the central from 2030 on the carbon content of the fuel (assumption, upper bound)"
+TurkiyeCarbonPrice,pFuelPrice_robg_trcarbon_v6.csv,Turkiye,HFO,24,2030,2053,"CO2 price of the central from 2030 on the carbon content of the fuel (assumption, upper bound)"
