@@ -206,7 +206,9 @@ cases:
 # and on every grid unless it lists its own (`grids`).
 # Int, five-year grid only. The first three came with the corrections of 2026-11-22 (files written
 # by edits 2 and 9 of build_robg_v6.py). The next five are the first lot of 2026-11-23 (files
-# written by pre-analysis/pipelines/build_sens_v6.py, which states the rule of each one).
+# written by pre-analysis/pipelines/build_sens_v6.py, which states the rule of each one). The last
+# seven are part 1 of the second lot, of 2026-11-24: four gas price cases and three demand cases,
+# written by the same script. Their levels are interim assumptions until the country teams answer.
 # Ext: six EU price cases, files of tools/build_ext_inputs_v6.py. The low and the high case joined
 # the grid on 2026-11-23, five-year grid only.
 sensitivities:
@@ -252,6 +254,38 @@ sensitivities:
       label: "a Turkish carbon price at the EU level from 2030, on every fuel with carbon (upper bound)"
       grids: [5y]
       pFuelPrice: supply/pFuelPrice_robg_trcarbon_v6.csv
+    WorldGasHigh:
+      label: "TTF at 23.2 USD/MMBtu from 2030 (mean of 2021 to 2023): EU gas in full, border prices scaled with the cost of gas, Turkish gas plus 40 percent of the move (15.5 in 2030, 15.0 in 2040); Caucasus on contract"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_worldgashigh_v6.csv
+      pTradePrice: trade/pTradePrice_robg_worldgashigh_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_robg_worldgashigh_v6.csv
+    WorldGasLow:
+      label: "TTF at 5.2 USD/MMBtu from 2030 (mean of 2016 to 2020): EU gas in full, border prices scaled with the cost of gas, Turkish gas at 8.3 in 2030 and 7.8 in 2040; Caucasus on contract"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_worldgaslow_v6.csv
+      pTradePrice: trade/pTradePrice_robg_worldgaslow_v6.csv
+      pTradePriceExport: trade/pTradePriceExport_robg_worldgaslow_v6.csv
+    TurkiyeGasHigh:
+      label: "Turkish gas alone at its level of the world gas high case from 2030 (15.5 in 2030, 15.0 in 2040, against 10.0)"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_trgashigh_v6.csv
+    CaucasusGasNetback:
+      label: "Azerbaijani gas at its export netback from 2030 (6.5 against 4.7 to 5.0 USD/MMBtu) and Georgian gas at the netback plus transport (7.0 against 5.7 to 6.1); derived levels"
+      grids: [5y]
+      pFuelPrice: supply/pFuelPrice_robg_caucasusnetback_v6.csv
+    EUDataCentres:
+      label: "data centre load on top of the central in Romania and Bulgaria, flat: 4.3, 9.5 and 14.6 TWh in 2030, 2035 and 2040"
+      grids: [5y]
+      pDemandForecast: load/pDemandForecast_v6_eudatacentres.csv
+    TurkiyeDemandLow:
+      label: "Turkish demand grows 2.5 percent a year from 2025 (TEIAS high case): 413, 467 and 528 TWh in 2030, 2035 and 2040, against 448, 490 and 645"
+      grids: [5y]
+      pDemandForecast: load/pDemandForecast_v6_trdemlow.csv
+    GeorgiaDemandHigh:
+      label: "Georgian demand grows 5 percent a year from 2025 (case L3 of the GSE ten year plan): 20.1, 25.7 and 32.8 TWh in 2030, 2035 and 2040, against 18.8, 21.4 and 24.1"
+      grids: [5y]
+      pDemandForecast: load/pDemandForecast_v6_gedemhigh.csv
   Ext:
     EUVeryLow:
       label: "EU very low price"

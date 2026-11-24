@@ -3,7 +3,9 @@
 Input version v6 (2026-11-21): edits 1 to 8 of the round 9 plan. Input version v6.1 (2026-11-22):
 the same files with twelve corrections and twelve more scenario columns. On 2026-11-23 the first lot of
 sensitivity files joined the folder (eight new files, 26 more scenario columns): no file of v6.1 changed apart
-from the scenario file, so the runs of 2026-11-22 stay valid. The scenario names are the columns of
+from the scenario file, so the runs of 2026-11-22 stay valid. On 2026-11-24 part 1 of the second lot joined
+the same way (eleven new files, 28 more scenario columns, 132 in all): the earlier runs stay valid.
+The scenario names are the columns of
 `epm/input/data_blacksea/scenarios_v6.csv`, built by
 `tools/scenarios_build.py --grid internal_analysis/scenarios/scenario_grid_v6.yaml`. The v5 grid, its
 scenario file and its runs are untouched (`server_runs.md`, `scenario_register.csv`).
@@ -25,8 +27,9 @@ dvc pull -r r2
 dvc status
 ```
 
-`epm/input/data_blacksea.dvc` must read `5f6099489e82de80ff3e7629e1718d54.dir` (442 files, input
-version v6.1 with the sensitivity files of 2026-11-23). Batch V61 ran on
+`epm/input/data_blacksea.dvc` must read `99426d94ea4039d630d1f7503ba576e6.dir` (454 files, input
+version v6.1 with the sensitivity files of 2026-11-23 and of 2026-11-24). Batch SA ran on
+`5f6099489e82de80ff3e7629e1718d54.dir` (442 files, the sensitivity files of 2026-11-23). Batch V61 ran on
 `f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input version v6.1 of 2026-11-22): the same 434
 files, the scenario file with 78 columns. The runs of 2026-11-21 below were made on
 `f6367a3a887b0e81f5da434db10b494e.dir` (428 files, input version v6). No builder that writes into the
@@ -206,6 +209,49 @@ more. Four sensitivities need a label when they are quoted:
   central GECO case. The forced build costs 0.85 BUSD in GECO and 1.66 BUSD in FreeExp against the
   free choice. Under FreeExp the model then builds the cable from the Georgian hub to Romania
   (1.29 GW in 2040), which the central FreeExp case does not build.
+
+## Batch SB1: second lot of sensitivities, part 1 (gas prices and demand), server
+
+Labels `v61s5_<scenario>_20261124`, five-year grid, 28 scenarios (all Int: seven sensitivities on Base,
+BSSC, GECO and Onland), about 5 hours. The files come from `pre-analysis/pipelines/build_sens_v6.py`
+(`--check` mode, 0 difference; the files of the first lot are unchanged). The first seven scenarios of
+the call are the seven Base runs: they read every new file once and are the test of the lot. From the
+`epm` folder of the server, inside `tmux`, after the refresh of "Before a batch".
+
+```
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61s5 --date 20261124 -S Int_Base_WorldGasHigh_5y Int_Base_WorldGasLow_5y Int_Base_TurkiyeGasHigh_5y Int_Base_CaucasusGasNetback_5y Int_Base_EUDataCentres_5y Int_Base_TurkiyeDemandLow_5y Int_Base_GeorgiaDemandHigh_5y Int_BSSC_WorldGasHigh_5y Int_GECO_WorldGasHigh_5y Int_Onland_WorldGasHigh_5y Int_BSSC_WorldGasLow_5y Int_GECO_WorldGasLow_5y Int_Onland_WorldGasLow_5y Int_BSSC_TurkiyeGasHigh_5y Int_GECO_TurkiyeGasHigh_5y Int_Onland_TurkiyeGasHigh_5y Int_BSSC_CaucasusGasNetback_5y Int_GECO_CaucasusGasNetback_5y Int_Onland_CaucasusGasNetback_5y Int_BSSC_EUDataCentres_5y Int_GECO_EUDataCentres_5y Int_Onland_EUDataCentres_5y Int_BSSC_TurkiyeDemandLow_5y Int_GECO_TurkiyeDemandLow_5y Int_Onland_TurkiyeDemandLow_5y Int_BSSC_GeorgiaDemandHigh_5y Int_GECO_GeorgiaDemandHigh_5y Int_Onland_GeorgiaDemandHigh_5y
+```
+
+A gas price case starts in 2030 and a demand case grows from 2025: the 2025 model year is the one of
+the central in the four gas cases. Values on the model years 2030, 2032, 2036 and 2040.
+
+| Sensitivity | What moves against the central |
+|---|---|
+| WorldGasHigh | TTF at 23.2 USD/MMBtu from 2030 (mean of 2021 to 2023, World Bank Pink Sheet). Gas of Romania, Bulgaria and Hungary with CO2: 29.4, 32.0, 37.1 and 42.3 USD/MMBtu, against 15.7, 18.0, 23.0 and 29.7. Turkish gas takes 40 percent of the move: 15.5, 15.6, 15.7 and 15.0, against 10.0. Prices of the nine neighbours priced on TYNDP 2026 scaled by the cost of gas with CO2: factor 1.87, 1.78, 1.62 and 1.42. The Caucasus stays on contract |
+| WorldGasLow | TTF at 5.2 USD/MMBtu from 2030 (mean of 2016 to 2020). Gas with CO2: 11.4, 14.0, 19.1 and 24.3. Turkish gas: 8.3, 8.4, 8.5 and 7.8. Border price factor 0.73, 0.78, 0.83 and 0.82 |
+| TurkiyeGasHigh | the Turkish gas row of WorldGasHigh alone; the EU and the Caucasus on the central |
+| CaucasusGasNetback | Azerbaijani gas at 6.5 USD/MMBtu from 2030, its export netback through TANAP (central 4.7 to 5.0). Georgian gas at 7.0, the netback plus about 0.5 of transport (central 5.7 to 6.1) |
+| EUDataCentres | data centre load on top of the central, flat. Romania: 2.9, 4.0, 6.1 and 8.3 TWh, and 331 to 947 MW on the peak. Bulgaria: 1.4, 2.4, 4.4 and 6.3 TWh, and 160 to 719 MW on the peak |
+| TurkiyeDemandLow | the Turkish total grows 2.5 percent a year from 2025 (TEIAS high case): 412.8, 433.7, 478.7 and 528.4 TWh, against 447.7, 464.7, 521.2 and 645.0. One ratio per year on the peak and energy of the nine zones |
+| GeorgiaDemandHigh | Georgian demand grows 5 percent a year from 2025 (case L3 of the GSE ten year plan): 20.1, 22.2, 27.0 and 32.8 TWh, against 18.8, 19.7, 21.9 and 24.1. The same ratio on the peak |
+
+To keep in mind when reading. The levels of this lot are interim assumptions (flags F1, F2 and F9 of
+the round 9 plan). The border price rule of the two world gas cases is the rule of EUCarbonLow, a
+rule of this study: it keeps the hourly shape and scales the level, hours set by renewables included,
+so it overstates the move in the hours that gas does not set. The neighbours outside TYNDP (Iraq,
+Syria, Iran, Russia, Kazakhstan) keep their central prices. The 40 percent share of the TTF in the
+Turkish gas price is the hub indexed share assumed for the Turkish import contracts. The two netback
+levels are derived, not published. The data centre load is flat, so the load factor of the two
+countries rises (Romania 0.716 to 0.737 in 2040, Bulgaria 0.580 to 0.616); the national forecast of
+the Romanian system operator already holds a data centre path, so part of the Romanian addition may
+count twice. TurkiyeDemandLow is not a constant share of the central: 92 percent of it in 2030 and
+2036, 82 percent in 2040, because the central slows between 2030 and 2035 and speeds up after. The
+plan text quotes 414, 468 and 530 TWh for 2030, 2035 and 2040; the rule applied to the 2025 total of
+the demand file gives 412.8, 467.0 and 528.4. The zips are to be merged into the explorer run
+`v61_sensB5y_20261124`; the central cases they compare to stay in `v61_central5y_20261122`.
+
+Still to build in the second lot: TurkiyeDry2021, GeorgiaDry2020, CaucasusRESigned, TurkiyeREPlan,
+DobrogeaConstraint (GECO only) and EUREPlan (Hungarian plan figures to source).
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 

@@ -1,5 +1,5 @@
 """
-Sensitivity files of the v6 input family, first lot (23 November 2026).
+Sensitivity files of the v6 input family: first lot (23 November 2026) and second lot, part 1 (24 November 2026).
 
     python pre-analysis/pipelines/build_sens_v6.py            # write the files and the traces, print the checks
     python pre-analysis/pipelines/build_sens_v6.py --check    # compare the files on disk with a fresh build, write nothing
@@ -29,6 +29,28 @@ Each sensitivity moves one assumption of the Int scope against the central, on t
 
 The two EU price cases of the Ext scope that join the grid with this lot (low and high) are files of
 tools/build_ext_inputs_v6.py.
+
+Second lot, part 1: gas prices and demand. A gas price case starts in 2030 and a demand case grows from 2025; the
+years before stay on the central.
+  WorldGasHigh         pFuelPrice: the commodity line of the gas fuels of Romania, Bulgaria and Hungary goes to a
+                       TTF of 23.2 USD/MMBtu, the mean of 2021 to 2023 in the World Bank Pink Sheet; their CO2 line
+                       stays. The Turkish gas row takes 40 percent of the move of the TTF on top of its central
+                       level, the hub indexed share of the Turkish import contracts (interim assumption). The
+                       Caucasus stays on contract. pTradePrice and pTradePriceExport: the rows of the nine
+                       neighbours priced on TYNDP 2026 are scaled by the cost of gas with CO2 in the case over the
+                       same cost in the central, the rule of EUCarbonLow.
+  WorldGasLow          The same with a TTF of 5.2 USD/MMBtu, the mean of 2016 to 2020.
+  TurkiyeGasHigh       pFuelPrice: the Turkish gas row of WorldGasHigh alone.
+  CaucasusGasNetback   pFuelPrice: Azerbaijani gas at 6.5 USD/MMBtu, its export netback through TANAP; Georgian gas
+                       at 7.0, the same netback plus about 0.5 of transport (derived, not published).
+  EUDataCentres        pDemandForecast: data centre load on top of the central in Romania and Bulgaria, 4.3, 9.5 and
+                       14.6 TWh in 2030, 2035 and 2040 for the two, linear between these years. A flat load: the
+                       energy row takes the energy and the peak row takes the energy over 8,760 hours.
+  TurkiyeDemandLow     pDemandForecast: the Turkish total grows 2.5 percent a year from its 2025 level, the high
+                       case of the TEIAS ten year demand report. One ratio per year on the peak and energy rows of
+                       every Turkish zone, so the split between zones and the load factors stay those of the central.
+  GeorgiaDemandHigh    pDemandForecast: Georgian demand grows 5 percent a year from its 2025 level, case L3 of the
+                       GSE ten year plan 2024 to 2034. One ratio per year on the peak and energy rows.
 
 Armenian figures are official use only: they stay in the files of the data folder (DVC). The log of this script and
 the trace it keeps in git hold no Armenian value.
@@ -82,6 +104,41 @@ BASIS = {
     "EUCarbonLow prices": "Row scaled by the cost of gas with CO2 on the low path over the central path (rule of the study)",
     "TurkiyeCarbonPrice": "CO2 price of the central from 2030 on the carbon content of the fuel (assumption, upper bound)",
 }
+# ── Second lot, part 1: gas prices and demand ───────────────────────────────
+GAS_FROM = 2030                                     # first year of a gas price case
+TTF_CASES = {"WorldGasHigh": 23.2, "WorldGasLow": 5.2}     # USD/MMBtu, Pink Sheet means of 2021 to 2023, 2016 to 2020
+TR_PASS = 0.40                                      # share of a TTF move in the Turkish gas price (interim)
+NETBACK = {"Azerbaijan": 6.5, "Georgia": 7.0}       # USD/MMBtu from GAS_FROM
+ZCMAP = "zcmap_robg_v6.csv"
+DEMAND_V6 = robg.AM_DEMAND_V6                       # central demand forecast, every zone
+DEMAND_DECIMALS = 4
+HOURS_YEAR = 8760.0
+DC_GWH = {"Romania": {2025: 0.0, 2030: 2900.0, 2035: 5600.0, 2040: 8300.0},        # on top of the central
+          "Bulgaria": {2025: 0.0, 2030: 1400.0, 2035: 3900.0, 2040: 6300.0}}       # held after the last year
+GROWTH_FROM = 2025
+GROWTH = {"TurkiyeDemandLow": ("Turkiye", 0.025, -1), "GeorgiaDemandHigh": ("Georgia", 0.05, 1)}   # rate, direction
+LOTB_FUEL = {"WorldGasHigh": "pFuelPrice_robg_worldgashigh_v6.csv", "WorldGasLow": "pFuelPrice_robg_worldgaslow_v6.csv",
+             "TurkiyeGasHigh": "pFuelPrice_robg_trgashigh_v6.csv",
+             "CaucasusGasNetback": "pFuelPrice_robg_caucasusnetback_v6.csv"}
+LOTB_PRICE = {"WorldGasHigh": ("pTradePrice_robg_worldgashigh_v6.csv", "pTradePriceExport_robg_worldgashigh_v6.csv"),
+              "WorldGasLow": ("pTradePrice_robg_worldgaslow_v6.csv", "pTradePriceExport_robg_worldgaslow_v6.csv")}
+LOTB_DEMAND = {"EUDataCentres": "pDemandForecast_v6_eudatacentres.csv",
+               "TurkiyeDemandLow": "pDemandForecast_v6_trdemlow.csv",
+               "GeorgiaDemandHigh": "pDemandForecast_v6_gedemhigh.csv"}
+LOTB_TRACE_FULL = DATA / "v6_sensitivities_20261124_trace.csv"    # every cell with its value before and after
+LOTB_TRACE_ROWS = TRACE / "sens_v6_lotb_rows.csv"                 # rows and basis, no value
+LOTB_TRACE_PATHS = TRACE / "sens_v6_lotb_paths.csv"               # gas paths, border factors, demand totals
+BASIS.update({
+    "WorldGasHigh": "TTF at 23.2 USD/MMBtu from 2030, mean of 2021 to 2023 (World Bank Pink Sheet); CO2 line kept",
+    "WorldGasLow": "TTF at 5.2 USD/MMBtu from 2030, mean of 2016 to 2020 (World Bank Pink Sheet); CO2 line kept",
+    "WorldGas Turkiye": "Central Turkish gas plus 40 percent of the move of the TTF (interim assumption)",
+    "WorldGas prices": "Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)",
+    "TurkiyeGasHigh": "Turkish gas row of the world gas high case alone (interim assumption)",
+    "CaucasusGasNetback": "Export netback through TANAP; Georgia at the netback plus about 0.5 of transport (derived)",
+    "EUDataCentres": "Data centre load on top of the central, flat: energy, and energy over 8,760 hours on the peak",
+    "TurkiyeDemandLow": "2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year",
+    "GeorgiaDemandHigh": "5 percent a year from 2025 (case L3 of the GSE ten year plan), one ratio per year",
+})
 PATH_TOL = 1e-3          # USD per tonne: the two CO2 paths in the years the central keeps from v5
 MARGIN_TOL = 1.5e-4      # USD/MMBtu: spread of the Armenian margin over the years, rounding only
 LINE_TOL = 1.5e-6        # USD/MMBtu: a Turkish adder against the CO2 line of the same content
@@ -309,8 +366,9 @@ def border_factors(years, low, central, lines, carbon):
     return {y: 1.0 if y <= robg.BLEND_FROM else (com[y] + low[y] * k) / (com[y] + central[y] * k) for y in years}
 
 
-def scaled_prices(name, out_name, factors, records):
+def scaled_prices(name, out_name, factors, records, sens="EUCarbonLow", basis=None):
     """A border price table of the Int scope with the rows of the TYNDP priced neighbours scaled year by year."""
+    basis = basis or BASIS["EUCarbonLow prices"]
     table = robg.Lines(TRADE / name)
     out, scaled, seen, top = [], 0, set(), (0.0, 0.0)
     for line in table.rows:
@@ -326,8 +384,7 @@ def scaled_prices(name, out_name, factors, records):
         scaled += 1
         if (zone, y) not in seen:
             seen.add((zone, y))
-            records.append(("EUCarbonLow", out_name, zone, "all quarters and days", str(y), "1",
-                            "%.6f" % factors[y], BASIS["EUCarbonLow prices"]))
+            records.append((sens, out_name, zone, "all quarters and days", str(y), "1", "%.6f" % factors[y], basis))
         if values.max() > top[0]:
             top = (float(values.max()), float(before.max()))
     if {zone for zone, _ in seen} != set(robg.INT_NODES):
@@ -384,6 +441,283 @@ def turkiye_carbon_fuel(years, central, lines, carbon, records):
     if set(TR_FUELS) - set(adders):
         fail("%s: no %s row for %s" % (FUEL_V6, TR_COUNTRY, ", ".join(sorted(set(TR_FUELS) - set(adders)))))
     return text_payload(bom, eol, header, out), adders
+
+
+# ── Second lot, part 1: gas prices ──────────────────────────────────────────
+def gas_reference(years, lines):
+    """Commodity and CO2 line of the gas row of the three EU zones by year, USD/MMBtu."""
+    ref = (robg.FUEL_ZONES[0], "Gas")
+    return (dict(zip(years, (float(v) for v in lines[ref + ("commodity",)]))),
+            dict(zip(years, (float(v) for v in lines[ref + ("co2",)]))))
+
+
+def gas_case_fuel(sens, years, lines, records, ttf=None, eu=False, turkiye=False, flat=None):
+    """The central fuel file with the gas rows of one gas price case from GAS_FROM. Returns bytes and the new paths.
+
+    eu       the commodity line of the gas fuels of the three EU zones goes to `ttf`, their CO2 line stays
+    turkiye  the Turkish gas row takes TR_PASS of the move of the EU commodity line to `ttf`
+    flat     gas rows set to one level, by country
+    """
+    out_name = LOTB_FUEL[sens]
+    bom, eol, header, rows = text_table(SUPPLY / FUEL_V6)
+    if [int(c) for c in header.split(",")[2:]] != years:
+        fail("%s: the years are not those of %s" % (FUEL_V6, FUEL_V5_SUM))
+    com_ref, _ = gas_reference(years, lines)
+    live = [(i, y) for i, y in enumerate(years) if y >= GAS_FROM]
+    out, paths = [], {}
+    for line in rows:
+        p = line.split(",")
+        key = (p[0], p[1])
+        if eu and p[0] in EU_ZONES and p[1] in robg.GAS_ON_TYNDP:
+            com, co2 = lines[key + ("commodity",)], lines[key + ("co2",)]
+            for i, y in live:
+                if abs(float(com[i]) - com_ref[y]) > LINE_TOL:
+                    fail("%s: the commodity line of %s %s is not the gas line in %d" % (FUEL_LINES, p[0], p[1], y))
+                if num(float(com[i]) + float(co2[i]), robg.FUEL_DECIMALS) != p[2 + i]:
+                    fail("%s: %s %s %d is not the sum of its two lines" % (FUEL_V6, p[0], p[1], y))
+            values, basis = {i: ttf + float(co2[i]) for i, _ in live}, BASIS[sens]
+        elif turkiye and key == (TR_COUNTRY, "Gas"):
+            values = {i: float(p[2 + i]) + TR_PASS * (ttf - com_ref[y]) for i, y in live}
+            basis = BASIS["WorldGas Turkiye" if eu else sens]
+        elif flat and p[1] == "Gas" and p[0] in flat:
+            values, basis = {i: flat[p[0]] for i, _ in live}, BASIS[sens]
+        else:
+            out.append(line)
+            continue
+        if key in paths:
+            fail("%s: duplicated row %s %s" % ((FUEL_V6,) + key))
+        new, path = list(p), {}
+        for i, y in live:
+            cell = num(values[i], robg.FUEL_DECIMALS)
+            records.append((sens, out_name, p[0], p[1], str(y), p[2 + i], cell, basis))
+            new[2 + i], path[y] = cell, (float(p[2 + i]), float(cell))
+        signs = {np.sign(after - before) for before, after in path.values()}
+        if len(signs) != 1 or 0.0 in signs:
+            fail("%s: the %s %s row does not move one way in every year from %d" % ((sens,) + key + (GAS_FROM,)))
+        paths[key] = path
+        out.append(",".join(new))
+    want = set()
+    if eu:
+        want |= {(z, "Gas") for z in EU_ZONES}
+    if turkiye:
+        want.add((TR_COUNTRY, "Gas"))
+    if flat:
+        want |= {(c, "Gas") for c in flat}
+    if want - set(paths) or any(k[1] not in robg.GAS_ON_TYNDP for k in paths):
+        fail("%s: rows missing or unexpected: %s" % (sens, sorted(want ^ set(paths))))
+    return text_payload(bom, eol, header, out), paths
+
+
+def gas_border_factors(years, lines, ttf):
+    """Year factors of the border prices: cost of gas with CO2 at `ttf` over the same cost in the central."""
+    com, co2 = gas_reference(years, lines)
+    return {y: 1.0 if y < GAS_FROM else (ttf + co2[y]) / (com[y] + co2[y]) for y in years}
+
+
+# ── Second lot, part 1: demand ──────────────────────────────────────────────
+def demand_table():
+    bom, eol, header, rows = text_table(LOAD / DEMAND_V6)
+    head = header.split(",")
+    if head[:2] != ["z", "type"]:
+        fail("%s: unexpected header" % DEMAND_V6)
+    cells = keyed(DEMAND_V6, header, rows, 2)
+    if any(k[1] not in ("Peak", "Energy") for k in cells):
+        fail("%s: a row is neither Peak nor Energy" % DEMAND_V6)
+    return bom, eol, header, rows, [int(c) for c in head[2:]], cells
+
+
+def country_zones(country):
+    _, _, header, rows = text_table(DATA / ZCMAP)
+    if header.split(",") != ["z", "c"]:
+        fail("%s: unexpected header" % ZCMAP)
+    zones = [r.split(",")[0] for r in rows if r.split(",")[1] == country]
+    if not zones:
+        fail("%s: no zone for %s" % (ZCMAP, country))
+    return zones
+
+
+def between(anchors, year):
+    """Linear between the anchor years, held before the first and after the last."""
+    ks = sorted(anchors)
+    if year <= ks[0]:
+        return anchors[ks[0]]
+    if year >= ks[-1]:
+        return anchors[ks[-1]]
+    a = max(k for k in ks if k <= year)
+    b = min(k for k in ks if k > year)
+    return anchors[a] + (anchors[b] - anchors[a]) * (year - a) / (b - a)
+
+
+def eu_data_centres(records):
+    """The central demand file with a flat data centre load on Romania and Bulgaria. Returns bytes and the GWh added."""
+    out_name = LOTB_DEMAND["EUDataCentres"]
+    bom, eol, header, rows, years, cells = demand_table()
+    for zone in DC_GWH:
+        if (zone, "Energy") not in cells or (zone, "Peak") not in cells:
+            fail("%s: no Peak and Energy rows for %s" % (DEMAND_V6, zone))
+    added = {zone: {y: between(DC_GWH[zone], y) for y in years} for zone in DC_GWH}
+    out = []
+    for line in rows:
+        p = line.split(",")
+        if p[0] not in DC_GWH:
+            out.append(line)
+            continue
+        new = list(p)
+        for i, y in enumerate(years):
+            gwh = added[p[0]][y]
+            if gwh == 0:
+                continue
+            more = gwh if p[1] == "Energy" else gwh * 1000.0 / HOURS_YEAR       # GWh, or MW in every hour
+            cell = num(float(p[2 + i]) + more, DEMAND_DECIMALS)
+            records.append(("EUDataCentres", out_name, p[0], p[1], str(y), p[2 + i], cell, BASIS["EUDataCentres"]))
+            new[2 + i] = cell
+        out.append(",".join(new))
+    return text_payload(bom, eol, header, out), years, added, cells
+
+
+def demand_growth(sens, grid_years, records):
+    """The central demand file with one country on a constant growth rate from GROWTH_FROM.
+
+    Returns the bytes, the years, and by year the central total, the new total and their ratio (GWh)."""
+    country, rate, direction = GROWTH[sens]
+    out_name = LOTB_DEMAND[sens]
+    zones = country_zones(country)
+    bom, eol, header, rows, years, cells = demand_table()
+    for zone in zones:
+        if (zone, "Energy") not in cells or (zone, "Peak") not in cells:
+            fail("%s: no Peak and Energy rows for %s" % (DEMAND_V6, zone))
+    central = {y: sum(float(cells[(z, "Energy")][i]) for z in zones) for i, y in enumerate(years)}
+    path = {y: central[y] if y <= GROWTH_FROM else central[GROWTH_FROM] * (1 + rate) ** (y - GROWTH_FROM) for y in years}
+    ratio = {y: path[y] / central[y] for y in years}
+    for y in grid_years:
+        if y > GROWTH_FROM and (ratio[y] - 1) * direction <= 0:
+            fail("%s: the %s total of %d is not on the expected side of the central" % (sens, country, y))
+    out = []
+    for line in rows:
+        p = line.split(",")
+        if p[0] not in zones:
+            out.append(line)
+            continue
+        new = list(p)
+        for i, y in enumerate(years):
+            if y <= GROWTH_FROM:
+                continue
+            cell = num(float(p[2 + i]) * ratio[y], DEMAND_DECIMALS)
+            records.append((sens, out_name, p[0], p[1], str(y), p[2 + i], cell, BASIS[sens]))
+            new[2 + i] = cell
+        out.append(",".join(new))
+    return text_payload(bom, eol, header, out), years, central, path, ratio, zones
+
+
+def build_lot_b(check, log, years, lines):
+    """Second lot, part 1: four gas price cases and three demand cases. Returns True when every file is as built."""
+    log.append("Sensitivities of v6, second lot, part 1: gas prices and demand (24 November 2026)")
+    ok, records = True, []
+    show = [y for y in SHOW if y in years]
+    grid_years = [int(v) for v in text_table(DATA / robg.GRID_YEARS[robg.VARIANT_GRID])[3]]
+    com, co2 = gas_reference(years, lines)
+    trace = {"eu_gas_commodity_central": com, "eu_gas_co2_line": co2}
+    gap0 = loss_gap(*((TRADE / n).read_bytes() for n in PRICE_V6))
+    tr_rows = {}
+
+    for sens, ttf in TTF_CASES.items():
+        log.append(sens)
+        payload, paths = gas_case_fuel(sens, years, lines, records, ttf=ttf, eu=True, turkiye=True)
+        ok &= emit(SUPPLY / LOTB_FUEL[sens], payload, check, log)
+        tr_rows[sens] = {y: v[1] for y, v in paths[(TR_COUNTRY, "Gas")].items()}
+        factors = gas_border_factors(years, lines, ttf)
+        prices = []
+        for name, out_name in zip(PRICE_V6, LOTB_PRICE[sens]):
+            payload, scaled, top = scaled_prices(name, out_name, factors, records, sens, BASIS["WorldGas prices"])
+            prices.append(payload)
+            ok &= emit(TRADE / out_name, payload, check, log)
+            log.append("  %s: %d rows of %d neighbours scaled; largest cell %.3f USD/MWh (%.3f in the central row)" % (
+                out_name, scaled, len(robg.INT_NODES), top[0], top[1]))
+        gap1 = loss_gap(*prices)
+        if gap1 > gap0 * max(1.0, max(factors.values())) + 1.1 * 10 ** -robg.DECIMALS:
+            fail("%s: the scaled export prices are not the import prices less the loss: gap %.4f USD/MWh" % (sens, gap1))
+        log.append("  export against import less %.1f percent: largest gap %.4f USD/MWh (central %.4f)" % (
+            100 * robg.INT_LOSS, gap1, gap0))
+        log.append("  %d rows repriced: %s" % (len(paths), ", ".join("%s %s" % k for k in paths)))
+        log.append("  USD/MMBtu                     " + "".join("%9d" % y for y in show))
+        eu_gas = {y: v[1] for y, v in paths[(robg.FUEL_ZONES[0], "Gas")].items()}
+        for label, series in (("EU gas commodity, central", com), ("EU gas with CO2, central",
+                              {y: com[y] + co2[y] for y in years}), ("EU gas with CO2, case", eu_gas),
+                              ("Turkish gas, case", tr_rows[sens])):
+            log.append("    %-28s" % label + "".join(("%9.2f" % series[y]) if y in series else "%9s" % "central"
+                                                     for y in show))
+        log.append("    %-28s" % "border price factor" + "".join("%9.3f" % factors[y] for y in show))
+        tag = sens.lower()
+        trace["%s_eu_gas_with_co2" % tag] = {y: eu_gas.get(y, com[y] + co2[y]) for y in years}
+        trace["%s_turkiye_gas" % tag] = tr_rows[sens]
+        trace["%s_border_price_factor" % tag] = factors
+
+    log.append("TurkiyeGasHigh")
+    payload, paths = gas_case_fuel("TurkiyeGasHigh", years, lines, records, ttf=TTF_CASES["WorldGasHigh"], turkiye=True)
+    ok &= emit(SUPPLY / LOTB_FUEL["TurkiyeGasHigh"], payload, check, log)
+    alone = {y: v[1] for y, v in paths[(TR_COUNTRY, "Gas")].items()}
+    if list(paths) != [(TR_COUNTRY, "Gas")] or alone != tr_rows["WorldGasHigh"]:
+        fail("TurkiyeGasHigh: the Turkish gas row is not the one of WorldGasHigh")
+    log.append("  %s Gas alone, the row of WorldGasHigh: %s" % (TR_COUNTRY, ", ".join(
+        "%d %.2f" % (y, alone[y]) for y in show if y in alone)))
+
+    log.append("CaucasusGasNetback")
+    payload, paths = gas_case_fuel("CaucasusGasNetback", years, lines, records, flat=NETBACK)
+    ok &= emit(SUPPLY / LOTB_FUEL["CaucasusGasNetback"], payload, check, log)
+    for key, path in paths.items():
+        log.append("  %-10s gas %.1f from %d; central %s" % (key[0], NETBACK[key[0]], GAS_FROM, ", ".join(
+            "%d %.2f" % (y, path[y][0]) for y in show if y in path)))
+        trace["%s_gas_central" % key[0].lower()] = {y: v[0] for y, v in path.items()}
+        trace["%s_gas_netback" % key[0].lower()] = {y: v[1] for y, v in path.items()}
+
+    log.append("EUDataCentres")
+    payload, _, added, cells = eu_data_centres(records)
+    ok &= emit(LOAD / LOTB_DEMAND["EUDataCentres"], payload, check, log)
+    for zone in DC_GWH:
+        energy = dict(zip(years, (float(v) for v in cells[(zone, "Energy")])))
+        peak = dict(zip(years, (float(v) for v in cells[(zone, "Peak")])))
+        log.append("  %-9s TWh added, %s; load factor %s" % (zone, ", ".join(
+            "%d %.2f" % (y, added[zone][y] / 1000) for y in grid_years), ", ".join(
+            "%d %.3f to %.3f" % (y, energy[y] / peak[y] / 8.76, (energy[y] + added[zone][y]) / (
+                peak[y] + added[zone][y] * 1000 / HOURS_YEAR) / 8.76) for y in grid_years if added[zone][y])))
+        trace["datacentres_%s_gwh" % zone.lower()] = added[zone]
+
+    for sens in GROWTH:
+        log.append(sens)
+        payload, _, central, path, ratio, zones = demand_growth(sens, grid_years, records)
+        ok &= emit(LOAD / LOTB_DEMAND[sens], payload, check, log)
+        country, rate, _ = GROWTH[sens]
+        log.append("  %s, %d zones, %.1f percent a year from %d" % (country, len(zones), 100 * rate, GROWTH_FROM))
+        log.append("    TWh                         " + "".join("%9d" % y for y in show))
+        log.append("    %-28s" % "central" + "".join("%9.1f" % (central[y] / 1000) for y in show))
+        log.append("    %-28s" % "case" + "".join("%9.1f" % (path[y] / 1000) for y in show))
+        log.append("    %-28s" % "ratio" + "".join("%9.3f" % ratio[y] for y in show))
+        tag = country.lower()
+        trace["%s_demand_central_gwh" % tag] = central
+        trace["%s_demand_case_gwh" % tag] = path
+
+    ok &= emit(LOTB_TRACE_FULL, csv_bytes(TRACE_COLS, records), check, log)
+    grouped = []
+    for rec in records:               # one line per rewritten row: the cells are counted, no value is kept
+        head = (rec[0], rec[1], rec[2], rec[3], rec[7])
+        if grouped and grouped[-1][0] == head:
+            grouped[-1][1].append(rec[4])
+        else:
+            grouped.append((head, [rec[4]]))
+    ok &= emit(LOTB_TRACE_ROWS, csv_bytes(
+        ["sensitivity", "file", "zone", "row", "cells", "first", "last", "basis"],
+        [h[:4] + (len(f), f[0], f[-1], h[4]) for h, f in grouped]), check, log)
+    names = list(trace)
+    ok &= emit(LOTB_TRACE_PATHS, csv_bytes(
+        ["year"] + names, [[y] + [("%.6f" % trace[n][y]) if y in trace[n] else "" for n in names] for y in years]),
+        check, log)
+    counts = []
+    for rec in records:
+        if rec[0] not in counts:
+            counts.append(rec[0])
+    log.append("  trace records per sensitivity: %s" % ", ".join(
+        "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in counts))
+    return ok
 
 
 def build(check=False):
@@ -473,11 +807,12 @@ def build(check=False):
             counts.append(rec[0])
     log.append("  trace records per sensitivity: %s" % ", ".join(
         "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in counts))
+    ok &= build_lot_b(check, log, years, lines)
     return ok, log
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Sensitivity files of the v6 inputs of the Black Sea model, first lot")
+    ap = argparse.ArgumentParser(description="Sensitivity files of the v6 inputs of the Black Sea model")
     ap.add_argument("--check", action="store_true", help="compare the files with a fresh build, write nothing")
     args = ap.parse_args(argv)
     ok, log = build(check=args.check)

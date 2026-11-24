@@ -1,0 +1,74 @@
+sensitivity,file,zone,row,cells,first,last,basis
+WorldGasHigh,pFuelPrice_robg_worldgashigh_v6.csv,Turkiye,Gas,24,2030,2053,Central Turkish gas plus 40 percent of the move of the TTF (interim assumption)
+WorldGasHigh,pFuelPrice_robg_worldgashigh_v6.csv,Romania,Gas,24,2030,2053,"TTF at 23.2 USD/MMBtu from 2030, mean of 2021 to 2023 (World Bank Pink Sheet); CO2 line kept"
+WorldGasHigh,pFuelPrice_robg_worldgashigh_v6.csv,Romania,GasCCS,24,2030,2053,"TTF at 23.2 USD/MMBtu from 2030, mean of 2021 to 2023 (World Bank Pink Sheet); CO2 line kept"
+WorldGasHigh,pFuelPrice_robg_worldgashigh_v6.csv,Bulgaria,Gas,24,2030,2053,"TTF at 23.2 USD/MMBtu from 2030, mean of 2021 to 2023 (World Bank Pink Sheet); CO2 line kept"
+WorldGasHigh,pFuelPrice_robg_worldgashigh_v6.csv,Hungary,Gas,24,2030,2053,"TTF at 23.2 USD/MMBtu from 2030, mean of 2021 to 2023 (World Bank Pink Sheet); CO2 line kept"
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Serbia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,NorthMacedonia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Greece,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Moldova,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Ukraine,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Austria,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Slovakia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Croatia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePrice_robg_worldgashigh_v6.csv,Slovenia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Serbia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,NorthMacedonia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Greece,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Moldova,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Ukraine,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Austria,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Slovakia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Croatia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasHigh,pTradePriceExport_robg_worldgashigh_v6.csv,Slovenia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pFuelPrice_robg_worldgaslow_v6.csv,Turkiye,Gas,24,2030,2053,Central Turkish gas plus 40 percent of the move of the TTF (interim assumption)
+WorldGasLow,pFuelPrice_robg_worldgaslow_v6.csv,Romania,Gas,24,2030,2053,"TTF at 5.2 USD/MMBtu from 2030, mean of 2016 to 2020 (World Bank Pink Sheet); CO2 line kept"
+WorldGasLow,pFuelPrice_robg_worldgaslow_v6.csv,Romania,GasCCS,24,2030,2053,"TTF at 5.2 USD/MMBtu from 2030, mean of 2016 to 2020 (World Bank Pink Sheet); CO2 line kept"
+WorldGasLow,pFuelPrice_robg_worldgaslow_v6.csv,Bulgaria,Gas,24,2030,2053,"TTF at 5.2 USD/MMBtu from 2030, mean of 2016 to 2020 (World Bank Pink Sheet); CO2 line kept"
+WorldGasLow,pFuelPrice_robg_worldgaslow_v6.csv,Hungary,Gas,24,2030,2053,"TTF at 5.2 USD/MMBtu from 2030, mean of 2016 to 2020 (World Bank Pink Sheet); CO2 line kept"
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Serbia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,NorthMacedonia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Greece,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Moldova,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Ukraine,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Austria,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Slovakia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Croatia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePrice_robg_worldgaslow_v6.csv,Slovenia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Serbia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,NorthMacedonia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Greece,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Moldova,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Ukraine,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Austria,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Slovakia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Croatia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+WorldGasLow,pTradePriceExport_robg_worldgaslow_v6.csv,Slovenia,all quarters and days,24,2030,2053,Row scaled by the cost of gas with CO2 in the case over the central (rule of the study)
+TurkiyeGasHigh,pFuelPrice_robg_trgashigh_v6.csv,Turkiye,Gas,24,2030,2053,Turkish gas row of the world gas high case alone (interim assumption)
+CaucasusGasNetback,pFuelPrice_robg_caucasusnetback_v6.csv,Georgia,Gas,24,2030,2053,Export netback through TANAP; Georgia at the netback plus about 0.5 of transport (derived)
+CaucasusGasNetback,pFuelPrice_robg_caucasusnetback_v6.csv,Azerbaijan,Gas,24,2030,2053,Export netback through TANAP; Georgia at the netback plus about 0.5 of transport (derived)
+EUDataCentres,pDemandForecast_v6_eudatacentres.csv,Romania,Peak,28,2026,2053,"Data centre load on top of the central, flat: energy, and energy over 8,760 hours on the peak"
+EUDataCentres,pDemandForecast_v6_eudatacentres.csv,Romania,Energy,28,2026,2053,"Data centre load on top of the central, flat: energy, and energy over 8,760 hours on the peak"
+EUDataCentres,pDemandForecast_v6_eudatacentres.csv,Bulgaria,Energy,28,2026,2053,"Data centre load on top of the central, flat: energy, and energy over 8,760 hours on the peak"
+EUDataCentres,pDemandForecast_v6_eudatacentres.csv,Bulgaria,Peak,28,2026,2053,"Data centre load on top of the central, flat: energy, and energy over 8,760 hours on the peak"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,WestMed,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,WestMed,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,WestAna,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,WestAna,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,EastMed,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,EastMed,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,EastAna,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,EastAna,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,SouthEast,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,SouthEast,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,NorthWest,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,NorthWest,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,CenterAna,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,CenterAna,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,CenterBlack,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,CenterBlack,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,Trakia,Peak,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+TurkiyeDemandLow,pDemandForecast_v6_trdemlow.csv,Trakia,Energy,28,2026,2053,"2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year"
+GeorgiaDemandHigh,pDemandForecast_v6_gedemhigh.csv,Georgia,Peak,28,2026,2053,"5 percent a year from 2025 (case L3 of the GSE ten year plan), one ratio per year"
+GeorgiaDemandHigh,pDemandForecast_v6_gedemhigh.csv,Georgia,Energy,28,2026,2053,"5 percent a year from 2025 (case L3 of the GSE ten year plan), one ratio per year"
