@@ -151,8 +151,61 @@ To keep in mind when reading. EUCarbonLow is above the central from 2026 to 2031
 keeps the hourly shape and scales the level, hours set by renewables included. CaucasusREHubs forces
 the hub capacity in, with its capex in the objective: its difference with the central reads as the
 cost or the gain of the full build, not as a project gain. TurkiyeCarbonPrice has no price path in
-Turkish law: an upper bound. The zips are merged into the explorer run `v61_sensA5y_20261123`, with
-the central cases they compare to.
+Turkish law: an upper bound. The zips are merged into the explorer run `v61_sensA5y_20261123`; the
+central cases they compare to stay in `v61_central5y_20261122`.
+
+Outcome (2026-11-24): 26 of 26 scenarios solved to optimality on the server. The zips were copied to
+`epm/output/` on the laptop with an md5 check, merged into `v61_sensA5y_20261123` and, after a review
+of the results against the central twins, published on 2026-11-24. The merged run gives back the
+values read in the zips. Each run differs from its central twin by the intended input files only,
+and unmet demand stays below 1.5 GWh per scenario over the five model years. The register counts
+79 scenarios published and 25 to run. Gain of each case, Base minus case, against the Base of the
+same sensitivity (CaucasusREHubs has no Base of its own and is compared with the central Base):
+
+| Sensitivity | Base, BUSD | Case | Gain, BUSD | Central gain, BUSD |
+|---|---|---|---|---|
+| ArmeniaGasContract | 322.55 | ArTur | 0.51 | 0.39 |
+| ArmeniaGasContract | 322.55 | ArAz | 0.02 | 0.04 |
+| ArmeniaGasContract | 322.55 | TRIPP | 0.83 | 0.78 |
+| ArmeniaDemandLow | 322.18 | ArTur | 0.44 | 0.39 |
+| ArmeniaDemandLow | 322.18 | ArAz | 0.05 | 0.04 |
+| ArmeniaDemandLow | 322.18 | TRIPP | 0.80 | 0.78 |
+| EUCarbonLow | 325.67 | BSSC | 1.11 | 1.62 |
+| EUCarbonLow | 325.67 | GECO | 2.70 | 4.13 |
+| EUCarbonLow | 325.67 | Onland | 3.11 | 3.43 |
+| TurkiyeCarbonPrice | 489.19 | BSSC | 1.70 | 1.62 |
+| TurkiyeCarbonPrice | 489.19 | GECO | 4.19 | 4.13 |
+| TurkiyeCarbonPrice | 489.19 | Onland | 8.50 | 3.43 |
+| EULow, Ext | 233.34 | BSSC | 1.28 | 1.92 |
+| EULow, Ext | 233.34 | GECO | 3.32 | 5.60 |
+| EULow, Ext | 233.34 | Onland | 2.99 | 3.76 |
+| EUHigh, Ext | 232.86 | BSSC | 2.89 | 1.92 |
+| EUHigh, Ext | 232.86 | GECO | 8.96 | 5.60 |
+| EUHigh, Ext | 232.86 | Onland | 5.45 | 3.76 |
+| CaucasusREHubs | 322.84, central | GECO | 3.28 | 4.13 |
+| CaucasusREHubs | 322.84, central | FreeExp | 2.09 | 3.75 |
+
+Reading, from the review of 2026-11-24. The EU price cases are in order (very low, low, central,
+high, crisis) in border prices, exports and gains. Onland keeps a floor near 3.0 BUSD because the
+line also carries imports of cheap EU power into Türkiye. The two Armenian sensitivities are
+coherent: with the contract gas price Armenia turns into a net exporter, and ArTur and TRIPP gain
+more. Four sensitivities need a label when they are quoted:
+
+- EUCarbonLow is the TYNDP 2024 carbon path, not a low case in 2030 (132 USD/t against 106). Its Base
+  is 2.83 BUSD above the central Base. The project gains read as a lower carbon path because the
+  projects start in 2032.
+- TurkiyeCarbonPrice is a stress test. Its Base is 166 BUSD above the central Base, of which about
+  128 is the carbon payment itself (emissions times price, hand estimate) and about 38 a resource
+  cost. Turkish coal stays at 48 TWh a year, its floor: the fleet is kept by the no retirement rule
+  and holds a minimum generation share of 0.25. The Onland gain (8.50 against 3.43) includes avoided
+  carbon payments in Türkiye and emissions moved to the Caucasus (about 2 Mt a year, hand estimate):
+  it reads as an upper bound. BSSC and GECO do not move.
+- ArmeniaDemandLow is the forecast in use before the country team update. Its energy is lower in
+  every year and its 2030 peak slightly higher: it is not a pure low case.
+- CaucasusREHubs forces 11.3 GW into the two hubs by 2040, against 5.3 GW chosen by the model in the
+  central GECO case. The forced build costs 0.85 BUSD in GECO and 1.66 BUSD in FreeExp against the
+  free choice. Under FreeExp the model then builds the cable from the Georgian hub to Romania
+  (1.29 GW in 2040), which the central FreeExp case does not build.
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 
@@ -254,7 +307,8 @@ python tools/scenario_register.py --grid internal_analysis/scenarios/scenario_gr
 
 The register flips the merged scenarios from "to run" to "done"; `--r2` after the upload
 (`tools/upload_output_view_to_r2.py --only "<run>/*"`) flips them to "published". On 2026-11-23 the
-53 scenarios of batch V61 are published in the three runs `v61_*_20261122`.
+53 scenarios of batch V61 are published in the three runs `v61_*_20261122`. On 2026-11-24 the 26
+scenarios of batch SA are published in `v61_sensA5y_20261123`.
 
 The run of 2026-11-21, `v6_central5y_20261121`, was removed from `epm/output_view` on 2026-11-23,
 replaced by `v61_central5y_20261122`. The upload rewrites the list of runs the explorer shows from
