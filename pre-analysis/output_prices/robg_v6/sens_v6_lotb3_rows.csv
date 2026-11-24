@@ -1,0 +1,249 @@
+sensitivity,file,zone,row,cells,first,last,basis
+DobrogeaConstraint,zcmap_robg_geco_v6_2z.csv,Dobrogea,Dobrogea,1,row,row,"Romania in two zones: Dobrogea, section S6 of the transmission grid, and the rest of the country"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cernavoda-1,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cernavoda-1_refurbished,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cernavoda-2,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cernavoda-3,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cernavoda-4,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Fântânele,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Cogealac,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Deleni,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Eolica Sǎcele,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Eolica Casimcea,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Văcăreni,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Verbund Casimcea,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Pechea,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Sabloal Valea Dacilor,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,EDP Cernavodă,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Eolica Beidaud,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Eolica Baia,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Eolica Sarichioi,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Valea Nucarilor,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Salbatica,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,EDP Pestera,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Agighiol,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Facaeni,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Crucea North,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Gemenele Wind Farm,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Pantelimon,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Crucea Nord,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Generic Offshore Wind Fixed,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pGenDataInput_v6_s5_2z.csv,Dobrogea,Generic Offshore Wind Floating,1,z,z,"Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate"
+DobrogeaConstraint,pDemandForecast_v6_2z.csv,Romania,Peak,30,2024,2053,12 percent of the Romanian energy and peak in the section; the rest keeps the complement
+DobrogeaConstraint,pDemandForecast_v6_2z.csv,Dobrogea,Peak,30,2024,2053,12 percent of the Romanian energy and peak in the section; the rest keeps the complement
+DobrogeaConstraint,pDemandForecast_v6_2z.csv,Romania,Energy,30,2024,2053,12 percent of the Romanian energy and peak in the section; the rest keeps the complement
+DobrogeaConstraint,pDemandForecast_v6_2z.csv,Dobrogea,Energy,30,2024,2053,12 percent of the Romanian energy and peak in the section; the rest keeps the complement
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q1 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q2 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q3 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pDemandProfile_v6_2z.csv,Dobrogea,Q4 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q1 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q1 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q2 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q2 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q3 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q3 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,PV Q4 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OnshoreWind Q4 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q1 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q2 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q3 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d1,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d2,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d3,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d4,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d5,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d6,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pVREProfile_v6_2z.csv,Dobrogea,OffshoreWind Q4 d7,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,BiomassPlant Biomass,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,CCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,CCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,CCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ICE Diesel,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ICE Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ICE HFO,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,Nuclear Uranium,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OCGT Diesel,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OCGT HFO,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OffshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,OnshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,PV Solar,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ROR Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ReservoirHydro Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST Coal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST DomesticCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST Geothermal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST ImportedCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,ST Lignite,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pGenDataInputDefault_v6_2z.csv,Dobrogea,Storage Battery,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,BiomassPlant Biomass,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,CCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,CCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,CCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ICE HFO,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,Nuclear Uranium,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,OCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,OCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,OCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,OffshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,OnshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,PV Solar,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ROR Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ReservoirHydro Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ST DomesticCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ST Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ST Geothermal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,ST ImportedCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,Storage Battery,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pAvailabilityDefault_v6_2z.csv,Dobrogea,Storage Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,Storage Battery,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,BiomassPlant Biomass,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ST Coal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,CSPPlant CSP,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT Diesel,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ICE Diesel,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,CCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,CCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,CCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT GasCCS,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT Hydrogen,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ICE Gas,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT HFO,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ICE HFO,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ST Lignite,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OCGT LNG,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,CCGT LNG,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,PV Solar,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ROR Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ReservoirHydro Water,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OnshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,OffshoreWind Wind,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ST DomesticCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ST ImportedCoal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,ST Geothermal,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pCapexTrajectoriesDefault_v6_2z.csv,Dobrogea,Nuclear Uranium,1,row,row,Row of Romania copied for the new zone
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Georgia Dobrogea Q1,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Georgia Dobrogea Q2,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Georgia Dobrogea Q3,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Georgia Dobrogea Q4,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Georgia Q1,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Georgia Q2,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Georgia Q3,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Georgia Q4,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,GEC_GE Dobrogea Q1,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,GEC_GE Dobrogea Q2,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,GEC_GE Dobrogea Q3,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,GEC_GE Dobrogea Q4,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea GEC_GE Q1,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea GEC_GE Q2,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea GEC_GE Q3,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea GEC_GE Q4,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Romania Q1,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Romania Q2,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Romania Q3,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Dobrogea Romania Q4,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Romania Dobrogea Q1,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Romania Dobrogea Q2,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Romania Dobrogea Q3,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pTransferLimit_robg_geco_hvdc_v6_2z32.csv,Dobrogea,Romania Dobrogea Q4,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,Georgia Dobrogea,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,Dobrogea Georgia,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,GEC_GE Dobrogea,1,z2,z2,The Black Sea cables land in the section
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,Dobrogea GEC_GE,1,z,z,The Black Sea cables land in the section
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,Dobrogea Romania,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"
+DobrogeaConstraint,pLossFactorInternal_robg_geco_hvdc_v6_2z.csv,Dobrogea,Romania Dobrogea,1,row,row,"Exit of the section at its admissible export of today, the planned reinforcements not built"

@@ -27,10 +27,12 @@ dvc pull -r r2
 dvc status
 ```
 
-`epm/input/data_blacksea.dvc` must read `df2a16d0e06648c338393ec953c5c2bc.dir` (460 files, input
-version v6.1 with the sensitivity files of 2026-11-23 and of 2026-11-24, parts 1 and 2). Batch SB1 can
-run on it or on `99426d94ea4039d630d1f7503ba576e6.dir` (454 files, part 1 alone): the files and the
-columns of part 1 are the same in both. Batch SA ran on
+`epm/input/data_blacksea.dvc` must read `0eefcd223dc72312d30946711644d187.dir` (471 files, input
+version v6.1 with the sensitivity files of 2026-11-23, of 2026-11-24, parts 1 and 2, and of 2026-11-25,
+part 3). Batch SB3 needs this version. Batch SB2 can run on it or on
+`df2a16d0e06648c338393ec953c5c2bc.dir` (460 files, parts 1 and 2), and batch SB1 on either or on
+`99426d94ea4039d630d1f7503ba576e6.dir` (454 files, part 1 alone): the files and the columns of the
+earlier parts are the same in each. Batch SA ran on
 `5f6099489e82de80ff3e7629e1718d54.dir` (442 files, the sensitivity files of 2026-11-23). Batch V61 ran on
 `f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input version v6.1 of 2026-11-22): the same 434
 files, the scenario file with 78 columns. The runs of 2026-11-21 below were made on
@@ -293,13 +295,45 @@ To keep in mind when reading.
   Hungarian figure is a press figure of the 2024 plan update, not read in the plan table. Offshore
   wind stays free on top, and Hungarian wind has no floor.
 
+## Batch SB3: second lot of sensitivities, part 3 (exit of Dobrogea), server
+
+Label `v61s5_Int_GECO_DobrogeaConstraint_5y_20261124`, five-year grid, one scenario, 10 to 35 minutes
+(the October run of the same split took 34 minutes). Same builder, `--check` mode, 0 difference. To
+launch once batch SB2 has ended, after the refresh of "Before a batch". The date of the label is the
+one of batches SB1 and SB2, so that the zip merges into the same explorer run. The scenario was not
+test run on the laptop. Its ten files follow the pattern of the October split, which solved to
+optimal: same tables, same number of rows for the new zone in each, same 29 units. A failure stops
+this run alone.
+
+```
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61s5 --date 20261124 -S Int_GECO_DobrogeaConstraint_5y
+```
+
+| Sensitivity | What moves against the GECO case |
+|---|---|
+| DobrogeaConstraint | Romania in two zones of the same country: Dobrogea (section S6 of the transmission grid) and the rest. In Dobrogea: the five Cernavoda rows (1,300 MW in service to 2032, 2,740 MW from 2036), 22 wind farms (2,740 MW existing, 423 MW candidate), the two offshore wind candidates, and 12 percent of the Romanian demand (peak 1,189 MW in 2030 and 1,405 MW in 2040). The Black Sea cables land in Dobrogea: 2,561 MW in 2032, 3,822 MW in 2036 and 5,083 MW in 2040. One link joins Dobrogea to the rest: 3,200 MW in every year, both directions, loss 2 percent. This is the admissible export of the section today; the planned reinforcements (4,700 MW with them) are not built |
+
+To keep in mind when reading.
+
+- The twin is `Int_GECO_5y` in `v61_central5y_20261122`, where Romania is one zone with no limit
+  inside. The gap between the two runs therefore holds the zone split and the 3.2 GW limit together.
+  A second run with the exit at 4.7 GW from 2030 would isolate the value of the reinforcements; it is
+  not built.
+- Romania is the sum of the two zones in every table by zone. Tables by country need no change.
+- To read: the flow on the exit and the hours at the limit, the price gap between the two zones, the
+  curtailment in Dobrogea, the dispatch of Cernavoda, the flows on the cables, and the cost against
+  the twin.
+- Rules of the October split, kept. The demand share is a population share. Dobrogea takes the
+  national wind profile, a low case for the local resource. The generic onshore wind and solar
+  candidates and the batteries stay in the rest of Romania. The links with Bulgaria, Hungary and the
+  external zones stay on the rest.
+- Dobrogea has no geometry on the maps: the postprocessing warns and skips its lines.
+
 Not built in the second lot.
 
 - TurkiyeREPlan. The plan as a floor changes nothing: the central builds more than the plan in every
   model year (solar 52.3 GW in 2030 against 36.8, and 67.7 GW in 2036 against 52.9 in 2035; wind 26.1
   against 22.9, and 36.0 against 29.6). A case held at the plan would be a different question.
-- DobrogeaConstraint (GECO only). It needs the two zone split of Romania rebuilt on the v6 files, with
-  Hungary.
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 

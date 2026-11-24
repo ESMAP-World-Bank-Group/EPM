@@ -1,5 +1,6 @@
 """
-Sensitivity files of the v6 input family: first lot (23 November 2026) and second lot, parts 1 and 2 (24 November 2026).
+Sensitivity files of the v6 input family: first lot (23 November 2026), second lot, parts 1 and 2 (24 November 2026)
+and part 3 (25 November 2026).
 
     python pre-analysis/pipelines/build_sens_v6.py            # write the files and the traces, print the checks
     python pre-analysis/pipelines/build_sens_v6.py --check    # compare the files on disk with a fresh build, write nothing
@@ -70,6 +71,19 @@ Second lot, part 2: water years and solar and wind build cases.
                        of its generic candidate, whose potential goes down by as much.
 The Turkish plan as a floor is not built: the central builds more solar and wind than the plan in every model year.
 
+Second lot, part 3: the exit of Dobrogea, on the files of the GECO case.
+  DobrogeaConstraint   Romania in two zones, with the rules of the October split (build_dobrogea_2z.py) on the v6
+                       files. Dobrogea is section S6 of the Romanian transmission grid; its country stays Romania.
+                       pGenDataInput: the five Cernavoda rows, the 22 named wind farms of the section (3,163 MW) and
+                       the two offshore wind candidates move to the new zone; every other Romanian unit stays in the
+                       rest. pDemandForecast: 12 percent of the Romanian energy and peak, the rest keeps the
+                       complement. pDemandProfile, pVREProfile and the three default tables: the Romanian rows are
+                       copied for the new zone. pTransferLimit and pLossFactorInternal: the Black Sea cables land in
+                       Dobrogea, and one link joins Dobrogea to the rest, 3,200 MW in every year with a loss of
+                       2 percent: the admissible export of the section today, the planned reinforcements (4,700 MW
+                       with them) not built. The links with Bulgaria, Hungary and the external zones stay on the
+                       rest of Romania.
+
 Armenian figures are official use only: they stay in the files of the data folder (DVC). The log of this script and
 the trace it keeps in git hold no Armenian value.
 """
@@ -79,6 +93,7 @@ import argparse
 import csv
 import io
 import sys
+from decimal import ROUND_HALF_EVEN, Decimal
 from pathlib import Path
 
 import numpy as np
@@ -215,6 +230,41 @@ BASIS.update({
     "EUREPlan": "Committed step of the national plan: the plan of the year less what is there without it",
     "EUREPlan candidate": "Potential of the generic candidate less its committed steps: the potential is held once",
     "EUREPlan availability": "Availability row of a committed step: the cells of its generic candidate",
+})
+# ── Second lot, part 3: the exit of Dobrogea ────────────────────────────────
+DOB_SENS = "DobrogeaConstraint"
+DOB_ZONE, DOB_HOST = "Dobrogea", "Romania"          # section S6 of the Romanian grid, and the rest of the country
+DOB_TAG, DOB_EXIT_TAG = "2z", "2z32"                # files of the two zone split; line limits with the exit of today
+DOB_EXIT_MW = 3200.0                                # admissible export of the section today, held in every year
+DOB_EXIT_LOSS = "0.02"
+DOB_LOAD_SHARE = Decimal("0.12")                    # share of the Romanian energy and peak, population of the section
+DOB_CENT = Decimal("0.01")                          # the demand of the new zone is kept to two decimals
+DOB_LANDINGS = ("Georgia", "GEC_GE")                # far end of the Black Sea cables, which land in the section
+DOB_NUCLEAR = "Cernavoda"                           # the rows of the nuclear plant start with this name
+DOB_OFFSHORE = "OffshoreWind"
+DOB_WIND = (                                        # wind farms of section S6, as named in the fleet
+    "Fântânele", "Cogealac", "Deleni", "Eolica Sǎcele", "Eolica Casimcea", "Văcăreni", "Verbund Casimcea", "Pechea",
+    "Sabloal Valea Dacilor", "EDP Cernavodă", "Eolica Beidaud", "Eolica Baia", "Eolica Sarichioi", "Valea Nucarilor",
+    "Salbatica", "EDP Pestera", "Agighiol", "Facaeni", "Crucea North", "Crucea Nord", "Gemenele Wind Farm",
+    "Pantelimon")
+DOB_WIND_MW = 3163.0
+DOB_UNITS = (5, 22, 2)                              # nuclear rows, wind farms, offshore candidates
+DOB_ZCMAP = "zcmap_robg_geco_v6.csv"                # the split is built on the files of the GECO case
+DOB_LIMIT = "pTransferLimit_robg_geco_hvdc_v6.csv"
+DOB_LOSS = "pLossFactorInternal_robg_geco_hvdc_v6.csv"
+DOB_COPIED = (                # zone keyed tables: folder, file, key columns, Romanian rows copied for the new zone
+    (LOAD, "pDemandProfile_v6.csv", 3, 28), (SUPPLY, "pVREProfile_v6.csv", 4, 84),
+    (SUPPLY, "pGenDataInputDefault_v6.csv", 3, 25), (SUPPLY, AVAIL_DEFAULT_V6, 3, 20),
+    (SUPPLY, "pCapexTrajectoriesDefault_v6.csv", 3, 27))
+LOTB3_TRACE_FULL = DATA / "v6_sensitivities_20261125_part3_trace.csv"     # every cell with its value before and after
+LOTB3_TRACE_ROWS = TRACE / "sens_v6_lotb3_rows.csv"                       # rows and basis, no value
+BASIS.update({
+    "Dobrogea zone": "Romania in two zones: Dobrogea, section S6 of the transmission grid, and the rest of the country",
+    "Dobrogea unit": "Unit of the section: the nuclear plant, a named wind farm of the section or an offshore candidate",
+    "Dobrogea demand": "12 percent of the Romanian energy and peak in the section; the rest keeps the complement",
+    "Dobrogea copy": "Row of Romania copied for the new zone",
+    "Dobrogea landing": "The Black Sea cables land in the section",
+    "Dobrogea exit": "Exit of the section at its admissible export of today, the planned reinforcements not built",
 })
 PATH_TOL = 1e-3        # USD per tonne: the two CO2 paths in the years the central keeps from v5
 MARGIN_TOL = 1.5e-4      # USD/MMBtu: spread of the Armenian margin over the years, rounding only
@@ -1114,6 +1164,227 @@ def build_lot_b2(check, log):
     return ok
 
 
+def split_name(name, tag=DOB_TAG):
+    """Name of the two zone twin of a central file."""
+    return "%s_%s.csv" % (name[:-len(".csv")], tag)
+
+
+def plain_rows(name, header, rows):
+    """Cells of each row of a text table that holds no quoted cell, so that a comma always ends a cell."""
+    width = len(header.split(","))
+    if '"' in header or any('"' in r for r in rows):
+        fail("%s: a quoted cell" % name)
+    parts = [r.split(",") for r in rows]
+    if any(len(p) != width for p in parts):
+        fail("%s: a row does not have the %d cells of the header" % (name, width))
+    return parts
+
+
+def dobrogea_zcmap(records):
+    """The zone list of the GECO case with the new zone, in the same country."""
+    bom, eol, header, rows = text_table(DATA / DOB_ZCMAP)
+    parts = plain_rows(DOB_ZCMAP, header, rows)
+    if header.split(",") != ["z", "c"] or any(DOB_ZONE in p for p in parts) or [
+            p for p in parts if DOB_HOST in p] != [[DOB_HOST, DOB_HOST]]:
+        fail("%s: %s is not one zone and its own country, or %s is already there" % (DOB_ZCMAP, DOB_HOST, DOB_ZONE))
+    out = []
+    for line, p in zip(rows, parts):
+        out.append(line)
+        if p[0] == DOB_HOST:
+            out.append("%s,%s" % (DOB_ZONE, DOB_HOST))
+    name = split_name(DOB_ZCMAP)
+    records.append((DOB_SENS, name, DOB_ZONE, DOB_ZONE, "row", "n/a", "zone of %s" % DOB_HOST, BASIS["Dobrogea zone"]))
+    return text_payload(bom, eol, header, out), name
+
+
+def dobrogea_fleet(grid, records):
+    """The fleet with the units of the section in the new zone. Returns bytes, file name and the figures of the log."""
+    bom, eol, header, rows, ix = fleet_table()
+    g, z, tech, status, styr, retr, cap = (ix[c] for c in ("g", "z", "tech", "Status", "StYr", "RetrYr", "Capacity"))
+    out_name = robg.VARIANT_FLEET % (robg.VARIANT_GRID, DOB_TAG)
+    parts = plain_rows(PLANT_V6, header, rows)
+    if any(p[z] == DOB_ZONE for p in parts):
+        fail("%s: %s is already a zone" % (PLANT_V6, DOB_ZONE))
+    host = [p for p in parts if p[z] == DOB_HOST]
+    nuclear = [p for p in host if p[g].startswith(DOB_NUCLEAR)]
+    wind = [p for p in host if p[g] in DOB_WIND]
+    offshore = [p for p in host if p[tech] == DOB_OFFSHORE]
+    if (len(nuclear), len(wind), len(offshore)) != DOB_UNITS or sorted(p[g] for p in wind) != sorted(DOB_WIND):
+        fail("%s: %d nuclear rows, %d wind farms of the section and %d offshore units in %s, expected %s" % (
+            PLANT_V6, len(nuclear), len(wind), len(offshore), DOB_HOST, " ".join(str(n) for n in DOB_UNITS)))
+    if any(p[tech] != "Nuclear" or p[status] not in ("1", "2") for p in nuclear) or any(
+            p[tech] != "OnshoreWind" or p[status] not in ("1", "2", "3") for p in wind) or any(
+            p[status] != "3" for p in offshore):
+        fail("%s: a unit of the section has a technology or a status the split does not expect" % PLANT_V6)
+    wind_mw = sum(float(p[cap]) for p in wind)
+    if abs(wind_mw - DOB_WIND_MW) > 0.05:
+        fail("%s: the wind farms of the section add up to %s MW, expected %s" % (
+            PLANT_V6, num(wind_mw, 1), num(DOB_WIND_MW, 1)))
+    moved = {p[g] for p in nuclear + wind + offshore}
+    if len(moved) != sum(DOB_UNITS) or sum(1 for p in parts if p[g] in moved) != len(moved):
+        fail("%s: a unit of the section shares its name with another row" % PLANT_V6)
+    out = []
+    for line, p in zip(rows, parts):
+        if p[z] != DOB_HOST or p[g] not in moved:
+            out.append(line)
+            continue
+        q = list(p)
+        q[z] = DOB_ZONE
+        records.append((DOB_SENS, out_name, DOB_ZONE, p[g], "z", DOB_HOST, DOB_ZONE, BASIS["Dobrogea unit"]))
+        out.append(",".join(q))
+    in_service = [sum(float(p[cap]) for p in nuclear if int(p[styr]) <= y and (p[retr] == "" or int(p[retr]) > y))
+                  for y in grid]
+    built = sum(float(p[cap]) for p in wind if p[status] in ("1", "2"))
+    return (text_payload(bom, eol, header, out), out_name, in_service, built, wind_mw - built,
+            sum(float(p[cap]) for p in offshore), len(host) - len(moved))
+
+
+def dobrogea_demand(records):
+    """The demand forecast with the share of the section in the new zone. Returns bytes, file name and the split."""
+    bom, eol, header, rows, years, cells = demand_table()
+    out_name = split_name(DEMAND_V6)
+    if any(k[0] == DOB_ZONE for k in cells) or any((DOB_HOST, t) not in cells for t in ("Peak", "Energy")):
+        fail("%s: no peak and energy rows for %s, or %s is already there" % (DEMAND_V6, DOB_HOST, DOB_ZONE))
+    out, split = [], {}
+    for line in rows:
+        p = line.split(",")
+        if p[0] != DOB_HOST:
+            out.append(line)
+            continue
+        if any(c == "" for c in p[2:]):
+            fail("%s: an empty cell in the %s row of %s" % (DEMAND_V6, p[1], DOB_HOST))
+        mine = [(Decimal(c) * DOB_LOAD_SHARE).quantize(DOB_CENT, rounding=ROUND_HALF_EVEN) for c in p[2:]]
+        rest = [format(Decimal(c) - m, "f") for c, m in zip(p[2:], mine)]
+        mine = [format(m, "f") for m in mine]
+        for year, before, after in zip(years, p[2:], rest):
+            records.append((DOB_SENS, out_name, DOB_HOST, p[1], str(year), before, after, BASIS["Dobrogea demand"]))
+        for year, after in zip(years, mine):
+            records.append((DOB_SENS, out_name, DOB_ZONE, p[1], str(year), "n/a", after, BASIS["Dobrogea demand"]))
+        out.append(",".join(p[:2] + rest))
+        out.append(",".join([DOB_ZONE, p[1]] + mine))
+        split[p[1]] = {y: (float(m), float(r)) for y, m, r in zip(years, mine, rest)}
+    return text_payload(bom, eol, header, out), out_name, split
+
+
+def dobrogea_copies(records):
+    """The zone keyed tables with the Romanian rows copied for the new zone: (folder, file name, bytes, rows)."""
+    done = []
+    for folder, name, keys, expected in DOB_COPIED:
+        bom, eol, header, rows = text_table(folder / name)
+        parts = plain_rows(name, header, rows)
+        mine = [k for k, p in enumerate(parts) if p[0] == DOB_HOST]
+        if header.split(",")[0] not in ("z", "zone") or any(DOB_ZONE in p or DOB_HOST in p[1:] for p in parts):
+            fail("%s: the zone is not the first column alone, or %s is already there" % (name, DOB_ZONE))
+        if len(mine) != expected:
+            fail("%s: %d rows of %s, expected %d" % (name, len(mine), DOB_HOST, expected))
+        out_name = split_name(name)
+        copies = [",".join([DOB_ZONE] + parts[k][1:]) for k in mine]
+        for k in mine:
+            records.append((DOB_SENS, out_name, DOB_ZONE, " ".join(parts[k][1:keys]), "row", "n/a",
+                            "row of %s" % DOB_HOST, BASIS["Dobrogea copy"]))
+        last = mine[-1] + 1               # the copies follow the last Romanian row, in the order of the file
+        done.append((folder, out_name, text_payload(bom, eol, header, rows[:last] + copies + rows[last:]), len(mine)))
+    return done
+
+
+def dobrogea_network(grid, records):
+    """Line limits and losses: the cables land in the section, one link joins it to the rest of Romania.
+
+    Returns the two (file name, bytes) and, for each model year, the capacity of the cables into the section in MW.
+    """
+    done, landing = [], None
+    pairs = {(a, b) for far in DOB_LANDINGS for a, b in ((far, DOB_HOST), (DOB_HOST, far))}
+    for name, keys, value, tag in ((DOB_LIMIT, 3, "%.1f" % DOB_EXIT_MW, DOB_EXIT_TAG),
+                                   (DOB_LOSS, 2, DOB_EXIT_LOSS, DOB_TAG)):
+        bom, eol, header, rows = text_table(TRADE / name)
+        head = header.split(",")
+        parts = plain_rows(name, header, rows)
+        if head[:keys] != ["z", "z2", "q"][:keys] or not all(c.isdigit() for c in head[keys:]) or any(
+                DOB_ZONE in p[:2] for p in parts):
+            fail("%s: unexpected header, or %s is already there" % (name, DOB_ZONE))
+        out_name = split_name(name, tag)
+        out, landed = [], set()
+        for line, p in zip(rows, parts):
+            if (p[0], p[1]) not in pairs:
+                out.append(line)
+                continue
+            q = [DOB_ZONE if c == DOB_HOST else c for c in p[:2]] + p[2:]
+            landed.add((p[0], p[1]))
+            records.append((DOB_SENS, out_name, DOB_ZONE, " ".join(q[:keys]), "z" if p[0] == DOB_HOST else "z2",
+                            DOB_HOST, DOB_ZONE, BASIS["Dobrogea landing"]))
+            out.append(",".join(q))
+        if landed != pairs:
+            fail("%s: no row in both directions between %s and each of %s" % (name, DOB_HOST, ", ".join(DOB_LANDINGS)))
+        tails = [[q] for q in dict.fromkeys(p[2] for p in parts)] if keys == 3 else [[]]
+        for a, b in ((DOB_ZONE, DOB_HOST), (DOB_HOST, DOB_ZONE)):
+            for tail in tails:
+                row = [a, b] + tail + [value] * (len(head) - keys)
+                records.append((DOB_SENS, out_name, DOB_ZONE, " ".join(row[:keys]), "row", "n/a",
+                                "%s in every year" % value, BASIS["Dobrogea exit"]))
+                out.append(",".join(row))
+        if keys == 3:                     # cables into the section, by quarter (the quarters must be equal)
+            cols = [head.index(str(y)) for y in grid]
+            into = [p for p in parts if p[0] in DOB_LANDINGS and p[1] == DOB_HOST]
+            per_q = {q[0]: [sum(float(p[c]) for p in into if p[2] == q[0]) for c in cols] for q in tails}
+            if len({tuple(v) for v in per_q.values()}) != 1:
+                fail("%s: the cables into %s differ between quarters" % (name, DOB_HOST))
+            landing = per_q[tails[0][0]]
+        done.append((out_name, text_payload(bom, eol, header, out)))
+    return done, landing
+
+
+def build_lot_b3(check, log):
+    """Second lot, part 3. Returns True when every file matches (check) or is written."""
+    log.append("")
+    log.append("Sensitivities of v6, second lot, part 3 (25 November 2026)")
+    log.append(DOB_SENS)
+    ok, records = True, []
+    grid = [int(v) for v in text_table(DATA / robg.GRID_YEARS[robg.VARIANT_GRID])[3]]
+
+    payload, name = dobrogea_zcmap(records)
+    ok &= emit(DATA / name, payload, check, log)
+    log.append("  %s: a zone of %s, section S6 of the transmission grid" % (DOB_ZONE, DOB_HOST))
+
+    payload, name, nuclear, wind, wind_cand, offshore, left = dobrogea_fleet(grid, records)
+    ok &= emit(SUPPLY / name, payload, check, log)
+    log.append("  %d units move to %s, %d stay in the rest of %s: %d nuclear rows (%s MW in service in %s), "
+               "%d wind farms (%s MW existing and committed, %s MW candidate), %d offshore candidates (%s MW of "
+               "potential)" % (sum(DOB_UNITS), DOB_ZONE, left, DOB_HOST, DOB_UNITS[0],
+                               ", ".join(num(v, 1) for v in nuclear), ", ".join(str(y) for y in grid), DOB_UNITS[1],
+                               num(wind, 1), num(wind_cand, 1), DOB_UNITS[2], num(offshore, 1)))
+
+    payload, name, split = dobrogea_demand(records)
+    ok &= emit(LOAD / name, payload, check, log)
+    for kind, unit in (("Energy", "GWh"), ("Peak", "MW")):
+        log.append("  %-6s %s in %s and in the rest: %s" % (kind, unit, DOB_ZONE, "; ".join(
+            "%d %.2f and %.2f" % ((y,) + split[kind][y]) for y in grid)))
+
+    for folder, name, payload, rows in dobrogea_copies(records):
+        ok &= emit(folder / name, payload, check, log)
+        log.append("  %s: %d rows of %s copied for %s" % (name, rows, DOB_HOST, DOB_ZONE))
+
+    files, landing = dobrogea_network(grid, records)
+    for name, payload in files:
+        ok &= emit(TRADE / name, payload, check, log)
+    log.append("  link %s to the rest of %s: %s MW in every year, both directions, loss %s; cables into %s: %s" % (
+        DOB_ZONE, DOB_HOST, num(DOB_EXIT_MW, 1), DOB_EXIT_LOSS, DOB_ZONE, "; ".join(
+            "%d %s MW" % (y, num(v, 1)) for y, v in zip(grid, landing))))
+
+    ok &= emit(LOTB3_TRACE_FULL, csv_bytes(TRACE_COLS, records), check, log)
+    grouped = []
+    for rec in records:               # one line per rewritten row: the cells are counted, no value is kept
+        head = (rec[0], rec[1], rec[2], rec[3], rec[7])
+        if grouped and grouped[-1][0] == head:
+            grouped[-1][1].append(rec[4])
+        else:
+            grouped.append((head, [rec[4]]))
+    ok &= emit(LOTB3_TRACE_ROWS, csv_bytes(
+        ["sensitivity", "file", "zone", "row", "cells", "first", "last", "basis"],
+        [h[:4] + (len(f), f[0], f[-1], h[4]) for h, f in grouped]), check, log)
+    log.append("  trace records: %d" % len(records))
+    return ok
+
+
 def build(check=False):
     log = ["Sensitivities of v6, first lot (23 November 2026)"]
     ok, records = True, []
@@ -1203,6 +1474,7 @@ def build(check=False):
         "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in counts))
     ok &= build_lot_b(check, log, years, lines)
     ok &= build_lot_b2(check, log)
+    ok &= build_lot_b3(check, log)
     return ok, log
 
 

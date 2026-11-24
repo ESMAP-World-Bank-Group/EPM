@@ -303,6 +303,20 @@ sensitivities:
       grids: [5y]
       pGenDataInput: supply/pGenDataInput_v6_{g}_eureplan.csv
       pAvailability: supply/pAvailabilityCustom_v6_eureplan.csv
+    DobrogeaConstraint:
+      label: "Romania in two zones, Dobrogea (section S6 of the transmission grid) and the rest; the Black Sea cables land in Dobrogea, whose exit is held at 3.2 GW in every year, the planned reinforcements not built"
+      cases: [GECO]
+      grids: [5y]
+      zcmap: zcmap_robg_geco_v6_2z.csv
+      pDemandForecast: load/pDemandForecast_v6_2z.csv
+      pDemandProfile: load/pDemandProfile_v6_2z.csv
+      pGenDataInput: supply/pGenDataInput_v6_{g}_2z.csv
+      pGenDataInputDefault: supply/pGenDataInputDefault_v6_2z.csv
+      pAvailabilityDefault: supply/pAvailabilityDefault_v6_2z.csv
+      pCapexTrajectoriesDefault: supply/pCapexTrajectoriesDefault_v6_2z.csv
+      pVREProfile: supply/pVREProfile_v6_2z.csv
+      pLossFactorInternal: trade/pLossFactorInternal_robg_geco_hvdc_v6_2z.csv
+      pTransferLimit: trade/pTransferLimit_robg_geco_hvdc_v6_2z32.csv
   Ext:
     EUVeryLow:
       label: "EU very low price"
