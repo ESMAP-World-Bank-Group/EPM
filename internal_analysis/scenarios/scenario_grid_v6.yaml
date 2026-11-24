@@ -286,6 +286,23 @@ sensitivities:
       label: "Georgian demand grows 5 percent a year from 2025 (case L3 of the GSE ten year plan): 20.1, 25.7 and 32.8 TWh in 2030, 2035 and 2040, against 18.8, 21.4 and 24.1"
       grids: [5y]
       pDemandForecast: load/pDemandForecast_v6_gedemhigh.csv
+    TurkiyeDry2021:
+      label: "Hydro output of 2021 in Türkiye and Georgia, in every model year: Turkish hydro 14 percent below the central (57 TWh on the existing fleet against 66), Georgian hydro 13 percent below (10.2 TWh against 11.7)"
+      grids: [5y]
+      pAvailability: supply/pAvailabilityCustom_v6_hydro2021.csv
+    GeorgiaDry2020:
+      label: "Hydro output of 2020 in Georgia and Türkiye, in every model year: Georgian hydro 30 percent below the central (8.2 TWh on the existing fleet against 11.7), Turkish hydro 22 percent above (81 TWh against 66)"
+      grids: [5y]
+      pAvailability: supply/pAvailabilityCustom_v6_hydro2020.csv
+    CaucasusRESigned:
+      label: "Caucasus solar and wind held to the signed projects: Azerbaijan 1.68 GW after 2025, generic and hub candidates closed; Georgia held to the GSE pipeline of 2035, 1.3 GW of wind and 0.24 GW of solar"
+      grids: [5y]
+      pGenDataInput: supply/pGenDataInput_v6_{g}_cauresigned.csv
+    EUREPlan:
+      label: "National plans of Romania, Bulgaria and Hungary as a floor on solar and onshore wind: 13.1 GW of solar steps in Romania and 5.4 GW in Bulgaria by 2040, 1.7 GW of Romanian wind and 3.8 GW of Hungarian solar in 2030"
+      grids: [5y]
+      pGenDataInput: supply/pGenDataInput_v6_{g}_eureplan.csv
+      pAvailability: supply/pAvailabilityCustom_v6_eureplan.csv
   Ext:
     EUVeryLow:
       label: "EU very low price"

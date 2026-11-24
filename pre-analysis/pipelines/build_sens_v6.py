@@ -1,5 +1,5 @@
 """
-Sensitivity files of the v6 input family: first lot (23 November 2026) and second lot, part 1 (24 November 2026).
+Sensitivity files of the v6 input family: first lot (23 November 2026) and second lot, parts 1 and 2 (24 November 2026).
 
     python pre-analysis/pipelines/build_sens_v6.py            # write the files and the traces, print the checks
     python pre-analysis/pipelines/build_sens_v6.py --check    # compare the files on disk with a fresh build, write nothing
@@ -51,6 +51,24 @@ years before stay on the central.
                        every Turkish zone, so the split between zones and the load factors stay those of the central.
   GeorgiaDemandHigh    pDemandForecast: Georgian demand grows 5 percent a year from its 2025 level, case L3 of the
                        GSE ten year plan 2024 to 2034. One ratio per year on the peak and energy rows.
+
+Second lot, part 2: water years and solar and wind build cases.
+  TurkiyeDry2021       pAvailability: the hydro output of 2021 in Türkiye and Georgia. One ratio per country on the
+                       four quarters of every run of river and reservoir unit (existing, committed, candidate): the
+                       capacity factor of the real year over that of the existing fleet in the central. The file has
+                       no year, so the case holds in every model year. Pumped storage is left as it is.
+  GeorgiaDry2020       pAvailability: the same with the hydro output of 2020, dry in Georgia and wet in Türkiye.
+  CaucasusRESigned     pGenDataInput: the generic solar and wind candidates of Azerbaijan and the candidates of the
+                       two GEC hub zones are closed (status 0), so Azerbaijan keeps its signed projects, 1.68 GW. The
+                       potential of the Georgian solar and wind candidates is held to the pipeline of the GSE ten
+                       year plan, the fleet of 2035; the plan stops there, the level is kept after.
+  EUREPlan             pGenDataInput and pAvailability: the national plans of Romania, Bulgaria (energy and climate
+                       plans) and Hungary (solar, 12 GW in 2030, kept after) as a floor, through committed steps in
+                       the model years, linear between the plan years. Solar: a step is the plan less the fleet.
+                       Onshore wind: a step is the part of the plan that the fleet and the candidates at their
+                       yearly limit do not reach, as the central builds them at that limit. A step takes the cells
+                       of its generic candidate, whose potential goes down by as much.
+The Turkish plan as a floor is not built: the central builds more solar and wind than the plan in every model year.
 
 Armenian figures are official use only: they stay in the files of the data folder (DVC). The log of this script and
 the trace it keeps in git hold no Armenian value.
@@ -139,7 +157,66 @@ BASIS.update({
     "TurkiyeDemandLow": "2.5 percent a year from the 2025 total of the central (TEIAS high case), one ratio per year",
     "GeorgiaDemandHigh": "5 percent a year from 2025 (case L3 of the GSE ten year plan), one ratio per year",
 })
-PATH_TOL = 1e-3          # USD per tonne: the two CO2 paths in the years the central keeps from v5
+# ── Second lot, part 2: hydro years ─────────────────────────────────────────
+PLANT_V6 = robg.BG_FLEET_V6 % robg.VARIANT_GRID     # fleet of the five year grid
+AVAIL_V6 = "pAvailabilityCustom_v6.csv"             # central: one row per unit that has its own availability
+AVAIL_DEFAULT_V6 = "pAvailabilityDefault_v6.csv"    # central: availability of a unit without a row of its own
+HOURS = "pHours.csv"                                # hours of each quarter
+HYDRO_TECHS, HYDRO_FUEL = ("ROR", "ReservoirHydro"), "Water"     # pumped storage does not follow the water year
+HYDRO_COUNTRIES = ("Turkiye", "Georgia")
+HYDRO_YEAR = {"TurkiyeDry2021": 2021, "GeorgiaDry2020": 2020}
+HYDRO_OBS = {                 # observed hydro output in GWh and capacity in MW; None: the existing fleet of the file
+    "Turkiye": {2020: (78094.4, 30983.9), 2021: (55926.8, 31492.6)},        # TEIAS statistics
+    "Georgia": {2020: (8248.2, None), 2021: (10182.1, None)},               # ESCO electricity balances
+}
+HYDRO_DECIMALS = 6
+LOTB2_AVAIL = {"TurkiyeDry2021": "pAvailabilityCustom_v6_hydro2021.csv",
+               "GeorgiaDry2020": "pAvailabilityCustom_v6_hydro2020.csv"}
+LOTB2_TRACE_FULL = DATA / "v6_sensitivities_20261124_part2_trace.csv"     # every cell with its value before and after
+LOTB2_TRACE_ROWS = TRACE / "sens_v6_lotb2_rows.csv"                       # rows and basis, no value
+LOTB2_TRACE_HYDRO = TRACE / "sens_v6_lotb2_hydro.csv"                     # observed year, capacity factors, ratio
+BASIS.update({
+    "TurkiyeDry2021": "Hydro output of 2021: availability times the capacity factor of 2021 over that of the central",
+    "GeorgiaDry2020": "Hydro output of 2020: availability times the capacity factor of 2020 over that of the central",
+    "hydro added row": "Unit on the default availability of its zone: row added, default times the same ratio",
+})
+
+# ── Second lot, part 2: solar and wind build cases ──────────────────────────
+RE_TECHS = ("PV", "OnshoreWind", "OffshoreWind")
+CLOSED = "0"                                        # status of a unit that is out of the model
+SIGNED_TAG = "cauresigned"
+SIGNED_COUNTRY = "Azerbaijan"
+SIGNED_OFF = ("AzerbaijanMain_PV_Generic", "AzerbaijanMain_Wind_Generic", "AzerbaijanMain_Offshore_Generic",
+              "Nakhchivan_PV_Generic", "Nakhchivan_Wind_Generic")       # generic candidates of Azerbaijan
+SIGNED_AFTER = 2025                                 # a signed project comes after this year
+SIGNED_MW = 1680.5                                  # signed solar and wind of Azerbaijan, the 1.68 GW of the matrix
+PIPELINE_ZONE = "Georgia"
+PIPELINE_YEAR = 2035                                # last year the GSE ten year plan 2024 to 2034 covers
+PIPELINE_MW = {"Georgia_Wind_Cand": 1316.0, "Georgia_PV_Cand": 237.0}   # fleet of the technology in that year
+PLAN_TAG = "eureplan"
+PLAN_AVAIL = "pAvailabilityCustom_v6_eureplan.csv"
+PLAN = {            # (zone, technology): rule, generic candidate that lends its cells, plan in GW by year
+    ("Romania", "PV"): ("fleet", "Generic Solar Fixed", {2030: 8.2, 2035: 14.8, 2040: 21.4}),
+    ("Romania", "OnshoreWind"): ("reach", "Generic Onshore WindHigh2_2027", {2030: 7.3, 2035: 9.1, 2040: 12.8}),
+    ("Bulgaria", "PV"): ("fleet", "Generic_Solar_Bulgaria", {2030: 7.0, 2035: 10.1, 2040: 12.6}),
+    ("Bulgaria", "OnshoreWind"): ("reach", "Generic_Wind_Bulgaria", {2030: 2.4, 2035: 4.4, 2040: 5.9}),
+    ("Hungary", "PV"): ("fleet", "Generic_Solar_Hungary", {2030: 12.0}),
+}
+# Rule "fleet": the central builds no solar candidate to speak of, so a step is the plan less the fleet. Rule "reach":
+# the central builds the onshore wind candidates at their yearly limit, so a step is only the part of the plan that the
+# fleet and the candidates at their limit do not reach; a full step would lift that limit and add wind beyond the plan.
+PLAN_UNBUILT = ("Blackstone 2",)                    # candidate the central leaves unbuilt (capex 3.0 against 1.3)
+PLAN_DECIMALS = 1
+PLAN_MIN_MW = 1.0                                   # no step below this size
+LOTB2_TRACE_PLANS = TRACE / "sens_v6_lotb2_plans.csv"                     # plan, fleet, reach and step by year
+BASIS.update({
+    "CaucasusRESigned": "Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects",
+    "CaucasusRESigned pipeline": "Potential of the Georgian candidate held to the GSE pipeline of 2035, less the fleet",
+    "EUREPlan": "Committed step of the national plan: the plan of the year less what is there without it",
+    "EUREPlan candidate": "Potential of the generic candidate less its committed steps: the potential is held once",
+    "EUREPlan availability": "Availability row of a committed step: the cells of its generic candidate",
+})
+PATH_TOL = 1e-3        # USD per tonne: the two CO2 paths in the years the central keeps from v5
 MARGIN_TOL = 1.5e-4      # USD/MMBtu: spread of the Armenian margin over the years, rounding only
 LINE_TOL = 1.5e-6        # USD/MMBtu: a Turkish adder against the CO2 line of the same content
 STEP_TOL = 1e-6          # MW: steps of a hub unit against its candidate
@@ -720,6 +797,323 @@ def build_lot_b(check, log, years, lines):
     return ok
 
 
+# ── Second lot, part 2 ──────────────────────────────────────────────────────
+def quarter_hours():
+    """Hours of each quarter of the model year."""
+    _, _, header, rows = text_table(DATA / HOURS)
+    if header.split(",")[:2] != ["q", "d"]:
+        fail("%s: unexpected header" % HOURS)
+    out = {}
+    for line in rows:
+        p = line.split(",")
+        out[p[0]] = out.get(p[0], 0.0) + sum(float(v) for v in p[2:] if v != "")
+    return out
+
+
+def hydro_units():
+    """Hydro units of the two countries, in the order of the fleet file, with their central availability.
+
+    Returns the units (name, country, zone, status, start year, MW, cells of the four quarters, own row or not), the
+    quarters and the hours of each quarter.
+    """
+    _, _, header, rows = text_table(SUPPLY / PLANT_V6)
+    cols = header.split(",")
+    g, z, tech, f, status, styr, cap = (cols.index(c) for c in ("g", "z", "tech", "f", "Status", "StYr", "Capacity"))
+    _, _, header_a, rows_a = text_table(SUPPLY / AVAIL_V6)
+    quarters = header_a.split(",")[1:]
+    own = keyed(AVAIL_V6, header_a, rows_a, 1)
+    _, _, header_d, rows_d = text_table(SUPPLY / AVAIL_DEFAULT_V6)
+    if header_d.split(",")[3:] != quarters:
+        fail("%s and %s: different quarters" % (AVAIL_V6, AVAIL_DEFAULT_V6))
+    default = keyed(AVAIL_DEFAULT_V6, header_d, rows_d, 3)
+    hours = quarter_hours()
+    if sorted(hours) != sorted(quarters):
+        fail("%s: the quarters are not those of %s" % (HOURS, AVAIL_V6))
+    units = []
+    for country in HYDRO_COUNTRIES:
+        zones = country_zones(country)
+        for p in (r.split(",") for r in rows):
+            if p[z] not in zones or p[f] != HYDRO_FUEL or p[tech] not in HYDRO_TECHS:
+                continue
+            cells = own.get((p[g],), default.get((p[z], p[tech], p[f])))
+            if cells is None or any(c == "" for c in cells):
+                fail("%s: no availability for %s, in its own row or in the default of %s" % (AVAIL_V6, p[g], p[z]))
+            units.append((p[g], country, p[z], p[status], p[styr], float(p[cap] or 0), cells, (p[g],) in own))
+    stray = [p[g] for p in (r.split(",") for r in rows)
+             if p[f] == HYDRO_FUEL and p[tech] in HYDRO_TECHS and p[z] in HUB_ZONES]
+    if stray:
+        fail("%s: hydro units in a hub zone, outside the zone map of the Int scope: %s" % (PLANT_V6, ", ".join(stray)))
+    return units, quarters, hours
+
+
+def hydro_year(sens, units, quarters, hours, records):
+    """Availability file of a real hydro year. Returns bytes, one summary line per country and the counts."""
+    year = HYDRO_YEAR[sens]
+    out_name = LOTB2_AVAIL[sens]
+    year_hours = 8784.0 if year % 4 == 0 else 8760.0
+    total_hours = sum(hours.values())
+    ratio, summary = {}, []
+    for country in HYDRO_COUNTRIES:
+        mine = [u for u in units if u[1] == country and u[3] == "1"]
+        fleet = sum(u[5] for u in mine)
+        if fleet <= 0:
+            fail("%s: no existing hydro unit in %s" % (PLANT_V6, country))
+        energy = sum(u[5] * sum(float(c) * hours[q] for c, q in zip(u[6], quarters)) for u in mine) / 1000.0
+        cf_central = 1000.0 * energy / (fleet * total_hours)
+        gwh, mw = HYDRO_OBS[country][year]
+        if mw is None:                # the existing units of the file that ran in the real year
+            mw = sum(u[5] for u in mine if u[4] == "" or int(u[4]) <= year)
+        cf_real = 1000.0 * gwh / (mw * year_hours)
+        ratio[country] = cf_real / cf_central
+        summary.append((sens, country, year, gwh, mw, year_hours, cf_real, cf_central, ratio[country], fleet, energy,
+                        energy * ratio[country]))
+    bom, eol, header, rows = text_table(SUPPLY / AVAIL_V6)
+    by_name = {u[0]: u for u in units}
+    out, scaled = [], 0
+    for line in rows:
+        p = line.split(",")
+        u = by_name.get(p[0])
+        if u is None:
+            out.append(line)
+            continue
+        new = [num(float(c) * ratio[u[1]], HYDRO_DECIMALS) for c in p[1:]]
+        if any(float(c) > 1.0 for c in new):
+            fail("%s: the availability of %s goes above 1" % (out_name, p[0]))
+        for q, before, after in zip(quarters, p[1:], new):
+            records.append((sens, out_name, u[2], p[0], q, before, after, BASIS[sens]))
+        out.append(",".join([p[0]] + new))
+        scaled += 1
+    added = 0
+    for u in units:                   # a unit on the default of its zone gets a row, so that the ratio reaches it
+        if u[7]:
+            continue
+        new = [num(float(c) * ratio[u[1]], HYDRO_DECIMALS) for c in u[6]]
+        records.append((sens, out_name, u[2], u[0], "row", "n/a, default of the zone", "added", BASIS["hydro added row"]))
+        for q, before, after in zip(quarters, u[6], new):
+            records.append((sens, out_name, u[2], u[0], q, before, after, BASIS["hydro added row"]))
+        out.append(",".join([u[0]] + new))
+        added += 1
+    return text_payload(bom, eol, header, out), summary, scaled, added
+
+
+def fleet_table():
+    """The fleet of the five year grid as text, with the position of the columns the build cases read."""
+    bom, eol, header, rows = text_table(SUPPLY / PLANT_V6)
+    cols = header.split(",")
+    ix = {c: cols.index(c) for c in ("g", "z", "tech", "f", "Status", "StYr", "RetrYr", "Capacity", "BuildLimitperYear")}
+    return bom, eol, header, rows, ix
+
+
+def caucasus_signed(records):
+    """The fleet with the Caucasus held to its signed projects. Returns bytes, file name and the figures of the log."""
+    bom, eol, header, rows, ix = fleet_table()
+    g, z, tech, status, styr, retr, cap = (ix[c] for c in ("g", "z", "tech", "Status", "StYr", "RetrYr", "Capacity"))
+    out_name = robg.VARIANT_FLEET % (robg.VARIANT_GRID, SIGNED_TAG)
+    parts = [r.split(",") for r in rows]
+    by_name = {p[g]: p for p in parts}
+    zones = country_zones(SIGNED_COUNTRY)
+    hubs = [p[g] for p in parts if p[z] in HUB_ZONES]
+    if not hubs or any(by_name[n][status] != "3" or by_name[n][tech] not in RE_TECHS for n in hubs):
+        fail("%s: the units of %s are not all solar and wind candidates" % (PLANT_V6, " and ".join(HUB_ZONES)))
+    for name in SIGNED_OFF:
+        p = by_name.get(name)
+        if p is None or p[status] != "3" or p[z] not in zones or p[tech] not in RE_TECHS:
+            fail("%s: %s is not a solar or wind candidate of %s" % (PLANT_V6, name, SIGNED_COUNTRY))
+    closing = set(SIGNED_OFF) | set(hubs)
+    signed = [p for p in parts if p[z] in zones and p[tech] in RE_TECHS and p[g] not in closing and (
+        p[status] in ("2", "3") or (p[status] == "1" and p[styr] != "" and int(p[styr]) > SIGNED_AFTER))]
+    total = sum(float(p[cap]) for p in signed)
+    if abs(total - SIGNED_MW) > 0.05:
+        fail("%s: the solar and wind projects of %s after %d add up to %s MW, expected %s" % (
+            PLANT_V6, SIGNED_COUNTRY, SIGNED_AFTER, num(total, 1), num(SIGNED_MW, 1)))
+    limits = {}
+    for name, pipeline in PIPELINE_MW.items():
+        c = by_name.get(name)
+        if c is None or c[status] != "3" or c[z] != PIPELINE_ZONE:
+            fail("%s: %s is not a candidate of %s" % (PLANT_V6, name, PIPELINE_ZONE))
+        same = [p for p in parts if p[z] == PIPELINE_ZONE and p[tech] == c[tech] and p[g] != name]
+        if any(p[status] not in ("0", "1", "2") for p in same):
+            fail("%s: %s is not the only %s candidate of %s" % (PLANT_V6, name, c[tech], PIPELINE_ZONE))
+        fleet = sum(float(p[cap]) for p in same if p[status] in ("1", "2")
+                    and (p[styr] == "" or int(p[styr]) <= PIPELINE_YEAR)
+                    and (p[retr] == "" or int(p[retr]) > PIPELINE_YEAR))
+        room = pipeline - fleet
+        if not 0.0 < room < float(c[cap]):
+            fail("%s: the pipeline leaves %s MW to %s, outside its potential of %s" % (
+                PLANT_V6, num(room, 1), name, c[cap]))
+        limits[name] = (num(room, PLAN_DECIMALS), fleet)
+    out = []
+    for line, p in zip(rows, parts):
+        q = list(p)
+        if p[g] in closing:
+            q[status] = CLOSED
+            records.append(("CaucasusRESigned", out_name, p[z], p[g], "Status", p[status], CLOSED,
+                            BASIS["CaucasusRESigned"]))
+        elif p[g] in limits:
+            q[cap] = limits[p[g]][0]
+            records.append(("CaucasusRESigned", out_name, p[z], p[g], "Capacity", p[cap], q[cap],
+                            BASIS["CaucasusRESigned pipeline"]))
+        else:
+            out.append(line)
+            continue
+        out.append(",".join(q))
+    closed_mw = sum(float(by_name[n][cap]) for n in closing)
+    return text_payload(bom, eol, header, out), out_name, len(closing), closed_mw, len(signed), total, limits
+
+
+def eu_plan(records):
+    """Fleet and availability files with the national plans of the EU zones as a floor on solar and wind.
+
+    Returns the two payloads, the name of the fleet file, one line per zone, technology and model year (plan, fleet,
+    reach of the candidates, step, steps to date, all in MW) and the number of availability rows added.
+    """
+    bom, eol, header, rows, ix = fleet_table()
+    g, z, tech, status, styr, retr, cap, lim = (ix[c] for c in (
+        "g", "z", "tech", "Status", "StYr", "RetrYr", "Capacity", "BuildLimitperYear"))
+    out_name = robg.VARIANT_FLEET % (robg.VARIANT_GRID, PLAN_TAG)
+    grid = [int(v) for v in text_table(DATA / robg.GRID_YEARS[robg.VARIANT_GRID])[3]]
+    weight = {y: y - grid[k - 1] for k, y in enumerate(grid) if k}       # years a model year stands for
+    parts = [r.split(",") for r in rows]
+    names = {p[g] for p in parts}
+    steps, lines = {}, []
+    for (zone, kind), (rule, donor, anchors) in PLAN.items():
+        mine = [p for p in parts if p[z] == zone and p[tech] == kind]
+        if sum(1 for p in mine if p[g] == donor and p[status] == "3") != 1 or donor in steps:
+            fail("%s: %s is not one %s candidate of %s" % (PLANT_V6, donor, kind, zone))
+        fixed = [p for p in mine if p[status] in ("1", "2")]
+        if any(p[retr] != "" and int(p[retr]) <= grid[-1] for p in fixed):
+            fail("%s: a %s unit of %s retires before the end of the grid, the plan step would have to replace it" % (
+                PLANT_V6, kind, zone))
+        if any(p[status] == "2" and int(p[styr]) not in grid for p in fixed):
+            fail("%s: a committed %s unit of %s starts off the years of the grid" % (PLANT_V6, kind, zone))
+        cands = [p for p in mine if p[status] == "3" and p[g] not in PLAN_UNBUILT] if rule == "reach" else []
+        if any(p[styr] == "" or int(p[styr]) <= grid[0] or p[lim] == "" for p in cands):
+            fail("%s: a %s candidate of %s has no start year after %d or no yearly limit" % (
+                PLANT_V6, kind, zone, grid[0]))
+        done = 0.0
+        for y in grid[1:]:
+            fleet = sum(float(p[cap]) for p in fixed if p[styr] == "" or int(p[styr]) <= y)
+            reach = sum(min(float(p[cap]), float(p[lim]) * sum(weight[t] for t in grid[1:] if int(p[styr]) <= t <= y))
+                        for p in cands)
+            plan = 1000.0 * between(anchors, y)
+            step = round(plan - fleet - reach - done, PLAN_DECIMALS)
+            if step < PLAN_MIN_MW:
+                step = 0.0
+            else:
+                name = "%s_%s_Plan_%d" % (zone, kind, y)
+                if name in names:
+                    fail("%s: %s is already a unit" % (PLANT_V6, name))
+                steps.setdefault(donor, []).append((name, y, step))
+                done += step
+            lines.append((zone, kind, y, rule, plan, fleet, reach, step, done))
+    out = []
+    for line, p in zip(rows, parts):
+        mine = steps.get(p[g])
+        if not mine:
+            out.append(line)
+            continue
+        left = float(p[cap]) - sum(s[2] for s in mine)
+        if left <= 0:
+            fail("%s: the steps of the plan take the whole potential of %s" % (out_name, p[g]))
+        q = list(p)
+        q[cap] = num(left, PLAN_DECIMALS)
+        records.append(("EUREPlan", out_name, p[z], p[g], "Capacity", p[cap], q[cap], BASIS["EUREPlan candidate"]))
+        out.append(",".join(q))
+        for name, y, mw in mine:          # a step is its candidate, committed in the year, with the size of the step
+            s = list(p)
+            s[g], s[status], s[styr], s[cap] = name, "2", str(y), num(mw, PLAN_DECIMALS)
+            records.append(("EUREPlan", out_name, p[z], name, "row", "n/a", "committed, %s MW in %d" % (s[cap], y),
+                            BASIS["EUREPlan"]))
+            out.append(",".join(s))
+    bom_a, eol_a, header_a, rows_a = text_table(SUPPLY / AVAIL_V6)
+    own = keyed(AVAIL_V6, header_a, rows_a, 1)
+    zone_of = {p[g]: p[z] for p in parts}
+    out_a, added = list(rows_a), 0
+    for donor, mine in steps.items():     # a candidate on the default of its zone leaves its steps on that default
+        cells = own.get((donor,))
+        for name, _, _ in mine if cells is not None else []:
+            if (name,) in own:
+                fail("%s: %s already has a row" % (AVAIL_V6, name))
+            out_a.append(",".join([name] + list(cells)))
+            records.append(("EUREPlan", PLAN_AVAIL, zone_of[donor], name, "row", "n/a", "added, the cells of %s" % donor,
+                            BASIS["EUREPlan availability"]))
+            added += 1
+    return (text_payload(bom, eol, header, out), text_payload(bom_a, eol_a, header_a, out_a), out_name, lines,
+            sum(len(v) for v in steps.values()), added)
+
+
+def build_lot_b2(check, log):
+    """Second lot, part 2. Returns True when every file matches (check) or is written."""
+    log.append("")
+    log.append("Sensitivities of v6, second lot, part 2 (24 November 2026)")
+    ok, records = True, []
+
+    units, quarters, hours = hydro_units()
+    table = []
+    for sens in HYDRO_YEAR:
+        log.append(sens)
+        payload, summary, scaled, added = hydro_year(sens, units, quarters, hours, records)
+        ok &= emit(SUPPLY / LOTB2_AVAIL[sens], payload, check, log)
+        log.append("  %s: %d rows of %s scaled, %d rows added for units on the default of their zone" % (
+            LOTB2_AVAIL[sens], scaled, AVAIL_V6, added))
+        for s in summary:
+            log.append("  %-8s %d: %.1f GWh on %.1f MW, capacity factor %.4f against %.4f in the central, ratio %.4f; "
+                       "existing fleet %.1f MW, %.1f GWh in the central, %.1f in the case" % (s[1:5] + s[6:]))
+            table.append([s[0], s[1], s[2], "%.1f" % s[3], "%.1f" % s[4], "%.0f" % s[5], "%.6f" % s[6], "%.6f" % s[7],
+                          "%.6f" % s[8], "%.1f" % s[9], "%.1f" % s[10], "%.1f" % s[11]])
+    others = sum(1 for u in units if not u[7])
+    log.append("  %d hydro units of %s in %s; %d without a row of their own; pumped storage is left as it is" % (
+        len(units), " and ".join(HYDRO_COUNTRIES), PLANT_V6, others))
+    ok &= emit(LOTB2_TRACE_HYDRO, csv_bytes(
+        ["sensitivity", "country", "real_year", "output_gwh", "capacity_mw", "hours", "capacity_factor_real",
+         "capacity_factor_central", "ratio", "existing_fleet_mw", "existing_central_gwh", "existing_case_gwh"], table),
+        check, log)
+
+    log.append("CaucasusRESigned")
+    payload, name, closed, closed_mw, n_signed, signed_mw, limits = caucasus_signed(records)
+    ok &= emit(SUPPLY / name, payload, check, log)
+    log.append("  %d generic and hub candidates closed (status %s), %s MW of potential; %d signed solar and wind "
+               "projects of %s after %d stay, %s MW" % (closed, CLOSED, num(closed_mw, 1), n_signed, SIGNED_COUNTRY,
+                                                        SIGNED_AFTER, num(signed_mw, 1)))
+    for cand, (room, fleet) in limits.items():
+        log.append("  %s: potential %s MW, the pipeline of %d (%s MW) less the fleet (%s MW); yearly limit kept" % (
+            cand, room, PIPELINE_YEAR, num(PIPELINE_MW[cand], 1), num(fleet, 1)))
+
+    log.append("EUREPlan")
+    fleet_bytes, avail_bytes, name, plan_lines, n_steps, n_rows = eu_plan(records)
+    ok &= emit(SUPPLY / name, fleet_bytes, check, log)
+    ok &= emit(SUPPLY / PLAN_AVAIL, avail_bytes, check, log)
+    log.append("  %d committed steps; %d availability rows added for the steps of a candidate with its own row" % (
+        n_steps, n_rows))
+    for key in PLAN:
+        mine = [p for p in plan_lines if (p[0], p[1]) == key]
+        log.append("  %-8s %-11s (%s) %s" % (key[0], key[1], mine[0][3], "; ".join(
+            "%d plan %.0f, fleet %.0f, reach %.0f, step %.0f" % (p[2], p[4], p[5], p[6], p[7]) for p in mine)))
+    ok &= emit(LOTB2_TRACE_PLANS, csv_bytes(
+        ["sensitivity", "zone", "tech", "year", "rule", "plan_mw", "fleet_mw", "candidate_reach_mw", "step_mw",
+         "steps_to_date_mw"],
+        [["EUREPlan", p[0], p[1], p[2], p[3]] + ["%.1f" % v for v in p[4:]] for p in plan_lines]), check, log)
+
+    ok &= emit(LOTB2_TRACE_FULL, csv_bytes(TRACE_COLS, records), check, log)
+    grouped = []
+    for rec in records:               # one line per rewritten row: the cells are counted, no value is kept
+        head = (rec[0], rec[1], rec[2], rec[3], rec[7])
+        if grouped and grouped[-1][0] == head:
+            grouped[-1][1].append(rec[4])
+        else:
+            grouped.append((head, [rec[4]]))
+    ok &= emit(LOTB2_TRACE_ROWS, csv_bytes(
+        ["sensitivity", "file", "zone", "row", "cells", "first", "last", "basis"],
+        [h[:4] + (len(f), f[0], f[-1], h[4]) for h, f in grouped]), check, log)
+    counts = []
+    for rec in records:
+        if rec[0] not in counts:
+            counts.append(rec[0])
+    log.append("  trace records per sensitivity: %s" % ", ".join(
+        "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in counts))
+    return ok
+
+
 def build(check=False):
     log = ["Sensitivities of v6, first lot (23 November 2026)"]
     ok, records = True, []
@@ -808,6 +1202,7 @@ def build(check=False):
     log.append("  trace records per sensitivity: %s" % ", ".join(
         "%s %d" % (c, sum(1 for r in records if r[0] == c)) for c in counts))
     ok &= build_lot_b(check, log, years, lines)
+    ok &= build_lot_b2(check, log)
     return ok, log
 
 

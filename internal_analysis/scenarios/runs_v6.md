@@ -27,8 +27,10 @@ dvc pull -r r2
 dvc status
 ```
 
-`epm/input/data_blacksea.dvc` must read `99426d94ea4039d630d1f7503ba576e6.dir` (454 files, input
-version v6.1 with the sensitivity files of 2026-11-23 and of 2026-11-24). Batch SA ran on
+`epm/input/data_blacksea.dvc` must read `df2a16d0e06648c338393ec953c5c2bc.dir` (460 files, input
+version v6.1 with the sensitivity files of 2026-11-23 and of 2026-11-24, parts 1 and 2). Batch SB1 can
+run on it or on `99426d94ea4039d630d1f7503ba576e6.dir` (454 files, part 1 alone): the files and the
+columns of part 1 are the same in both. Batch SA ran on
 `5f6099489e82de80ff3e7629e1718d54.dir` (442 files, the sensitivity files of 2026-11-23). Batch V61 ran on
 `f6bc00ed996cba4c3a1b37a884da19bc.dir` (434 files, input version v6.1 of 2026-11-22): the same 434
 files, the scenario file with 78 columns. The runs of 2026-11-21 below were made on
@@ -250,8 +252,54 @@ plan text quotes 414, 468 and 530 TWh for 2030, 2035 and 2040; the rule applied 
 the demand file gives 412.8, 467.0 and 528.4. The zips are to be merged into the explorer run
 `v61_sensB5y_20261124`; the central cases they compare to stay in `v61_central5y_20261122`.
 
-Still to build in the second lot: TurkiyeDry2021, GeorgiaDry2020, CaucasusRESigned, TurkiyeREPlan,
-DobrogeaConstraint (GECO only) and EUREPlan (Hungarian plan figures to source).
+## Batch SB2: second lot of sensitivities, part 2 (water years, solar and wind build), server
+
+Labels `v61s5_<scenario>_20261124`, five-year grid, 16 scenarios (all Int: four sensitivities on Base,
+BSSC, GECO and Onland), about 3 hours. Same builder, `--check` mode, 0 difference. The first four
+scenarios of the call are the four Base runs: they read every new file once and are the test of the
+lot. To launch once batch SB1 has ended, after the refresh of "Before a batch" (no `dvc pull` while a
+batch runs). The date of the label is the one of batch SB1, so that the zips of the whole lot merge
+into one explorer run.
+
+```
+python ../tools/run_sequential.py --scenarios scenarios_v6.csv --prefix v61s5 --date 20261124 -S Int_Base_TurkiyeDry2021_5y Int_Base_GeorgiaDry2020_5y Int_Base_CaucasusRESigned_5y Int_Base_EUREPlan_5y Int_BSSC_TurkiyeDry2021_5y Int_GECO_TurkiyeDry2021_5y Int_Onland_TurkiyeDry2021_5y Int_BSSC_GeorgiaDry2020_5y Int_GECO_GeorgiaDry2020_5y Int_Onland_GeorgiaDry2020_5y Int_BSSC_EUREPlan_5y Int_GECO_EUREPlan_5y Int_Onland_EUREPlan_5y Int_BSSC_CaucasusRESigned_5y Int_Onland_CaucasusRESigned_5y Int_GECO_CaucasusRESigned_5y
+```
+
+| Sensitivity | What moves against the central |
+|---|---|
+| TurkiyeDry2021 | the hydro output of 2021, in every model year, 2025 included (the availability file has no year). Türkiye: capacity factor 0.203 against 0.236 for the existing fleet in the central, so a ratio of 0.8605 on the four quarters of the 48 run of river and reservoir units; the existing fleet gives 57.2 TWh against 66.5. Georgia: ratio 0.8709 on 67 units, 10.2 TWh against 11.7. Pumped storage is left as it is |
+| GeorgiaDry2020 | the hydro output of 2020. Georgia: ratio 0.7036, 8.2 TWh against 11.7. Türkiye: ratio 1.2180, a wet year there, 80.9 TWh against 66.5 |
+| CaucasusRESigned | Azerbaijan: the five generic solar and wind candidates and the five candidates of the two hub zones are closed (status 0, 43.3 GW of potential). 1,680.5 MW of solar and wind come after 2025: 1,200 MW of solar and 480.5 MW of wind, of which one wind project of 240 MW stays a candidate. Georgia: the potential of the wind candidate is 1,295.3 MW and of the solar candidate 237 MW, the pipeline of the GSE ten year plan for 2035 less the fleet; the yearly limits are kept |
+| EUREPlan | the national plans as a floor, through committed steps in the model years. Romania, solar: 2,587 MW in 2032, 5,280 in 2036 and 5,280 in 2040 (plan 8.2, 14.8 and 21.4 GW in 2030, 2035 and 2040). Romania, onshore wind: 1,691 MW in 2030 (plan 7.3, 9.1 and 12.8 GW). Bulgaria, solar: 1,081, 2,360 and 2,000 MW (plan 7.0, 10.1 and 12.6 GW). Bulgaria, wind: no step (plan 2.4, 4.4 and 5.9 GW). Hungary, solar: 3,820 MW in 2030 (12 GW, kept after) |
+
+To keep in mind when reading.
+
+- Water years. One ratio per country and per year: the seasonal shape of the real year is not
+  reproduced. The ratio is the capacity factor of the real year over the one of the existing fleet in
+  the central. The existing Georgian fleet gives 11.7 TWh in the central, 8 percent above the mean
+  observed over 2021 to 2025 (10.8 TWh): the Georgian central is on the wet side, so 2020 reads 30
+  percent below it, where the plan text says 22 percent. Each case moves the two countries:
+  TurkiyeDry2021 is also a dry Georgian year, GeorgiaDry2020 is also a wet Turkish year.
+- CaucasusRESigned. In the GECO case the two hub zones hold no unit: it is the first run of that
+  kind, placed last in the call. The Georgian limit bites from 2036 (the central reaches 1.56 GW of
+  wind in 2036 and 2.12 GW in 2040).
+- EUREPlan, two rules. Solar: a step is the plan less the fleet, as the central builds few solar
+  candidates. Onshore wind: the central builds the candidates at their yearly limit in every model
+  year in Romania and in Bulgaria, and a committed step is outside that limit, so a step covers only
+  the part of the plan that the fleet and the candidates at their limit do not reach. The wind floor
+  therefore holds only if the model keeps that pace. To check in the results: Romanian onshore wind at
+  or above 7.3, 8.0, 9.8 and 12.8 GW in 2030, 2032, 2036 and 2040, Bulgarian at or above 2.4, 3.2, 4.7
+  and 5.9 GW. The plan years are 2030, 2035 and 2040; 2032 and 2036 are linear between them. The
+  Hungarian figure is a press figure of the 2024 plan update, not read in the plan table. Offshore
+  wind stays free on top, and Hungarian wind has no floor.
+
+Not built in the second lot.
+
+- TurkiyeREPlan. The plan as a floor changes nothing: the central builds more than the plan in every
+  model year (solar 52.3 GW in 2030 against 36.8, and 67.7 GW in 2036 against 52.9 in 2035; wind 26.1
+  against 22.9, and 36.0 against 29.6). A case held at the plan would be a different question.
+- DobrogeaConstraint (GECO only). It needs the two zone split of Romania rebuilt on the v6 files, with
+  Hungary.
 
 ## Batch C5: the 17 central cases, five-year grid, laptop
 

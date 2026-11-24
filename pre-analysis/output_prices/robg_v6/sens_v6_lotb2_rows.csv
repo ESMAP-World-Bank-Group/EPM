@@ -1,0 +1,259 @@
+sensitivity,file,zone,row,cells,first,last,basis
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,WestAna_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,WestMed_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,EastMed_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,EastAna_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,SouthEast_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,NorthWest_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,CenterAna_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,CenterBlack_AGG_Dam,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,WestAna_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,WestMed_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,EastMed_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,EastAna_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,SouthEast_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,NorthWest_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,CenterAna_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,CenterBlack_AGG_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,Hydro_Sto_EastMed_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,Hydro_Sto_NorthWest_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,Hydro_Sto_EastAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,Hydro_Sto_SouthEast_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,Hydro_Sto_CenterBlack_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,Hydro_Sto_WestMed_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,Hydro_Sto_WestAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,Hydro_Sto_CenterAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,ROR_CenterBlack_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,ROR_EastAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,ROR_SouthEast_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,ROR_EastMed_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,ROR_CenterAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,ROR_WestMed_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,ROR_NorthWest_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,ROR_WestAna_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,Hydro_Sto_EastMed_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,Hydro_Sto_NorthWest_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,Hydro_Sto_EastAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,Hydro_Sto_SouthEast_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,Hydro_Sto_CenterBlack_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,Hydro_Sto_WestMed_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,Hydro_Sto_WestAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,Hydro_Sto_CenterAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterBlack,ROR_CenterBlack_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastAna,ROR_EastAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,SouthEast,ROR_SouthEast_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,EastMed,ROR_EastMed_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,CenterAna,ROR_CenterAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestMed,ROR_WestMed_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,NorthWest,ROR_NorthWest_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,WestAna,ROR_WestAna_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Enguri_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Vardnili_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khrami1_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khrami2_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Jinvali_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Dzevruli_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Shaori_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khudoni_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Namakhvani_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Nenskra_Reservoir,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Vartsikhe_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Shuakhevi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Lajanuri_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Dariali_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Paravani_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Gumati_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Rioni_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khelvachauri_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Zahesi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Mestiachala2_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khadori_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Kirnati_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_OldEnergy_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Chitakhevi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Mestiachala1_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Larsi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Ortachala_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Atshesi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Satskhene_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Tetrikhevi_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Bjuja_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Racha_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Bakhvi3_ROR,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_AGG_SmallHydro,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_HydroSHP_Com,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Memuli_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Sakaura_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Gebi_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Majieti_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_PlatoBorjomi_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Dzegvi_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Mleta_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Barisakho_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Natanebi2_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Bakhvi2a_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Kvesheti_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Sakuneti_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_RioniChanchakhi_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Metekhi1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_MtkvariCascade4_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Mulkhura_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Akavreta_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Zeskho1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Jonouli2_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Lentekhi_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Stori2_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khaishura1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Bakhvi2b_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khrami7_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Tskhenistskali1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Alpana_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khobi1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Khaishura2_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_Oni1_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_AGG_SmallHydro_Cand,4,Q1,Q4,Hydro output of 2021: availability times the capacity factor of 2021 over that of the central
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_TekhuraCascade_Cand,5,row,Q4,"Unit on the default availability of its zone: row added, default times the same ratio"
+TurkiyeDry2021,pAvailabilityCustom_v6_hydro2021.csv,Georgia,Georgia_IltoAlazani_Cand,5,row,Q4,"Unit on the default availability of its zone: row added, default times the same ratio"
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,WestAna_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,WestMed_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,EastMed_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,EastAna_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,SouthEast_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,NorthWest_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,CenterAna_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,CenterBlack_AGG_Dam,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,WestAna_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,WestMed_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,EastMed_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,EastAna_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,SouthEast_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,NorthWest_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,CenterAna_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,CenterBlack_AGG_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,Hydro_Sto_EastMed_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,Hydro_Sto_NorthWest_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,Hydro_Sto_EastAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,Hydro_Sto_SouthEast_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,Hydro_Sto_CenterBlack_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,Hydro_Sto_WestMed_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,Hydro_Sto_WestAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,Hydro_Sto_CenterAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,ROR_CenterBlack_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,ROR_EastAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,ROR_SouthEast_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,ROR_EastMed_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,ROR_CenterAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,ROR_WestMed_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,ROR_NorthWest_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,ROR_WestAna_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,Hydro_Sto_EastMed_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,Hydro_Sto_NorthWest_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,Hydro_Sto_EastAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,Hydro_Sto_SouthEast_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,Hydro_Sto_CenterBlack_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,Hydro_Sto_WestMed_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,Hydro_Sto_WestAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,Hydro_Sto_CenterAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterBlack,ROR_CenterBlack_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastAna,ROR_EastAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,SouthEast,ROR_SouthEast_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,EastMed,ROR_EastMed_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,CenterAna,ROR_CenterAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestMed,ROR_WestMed_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,NorthWest,ROR_NorthWest_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,WestAna,ROR_WestAna_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Enguri_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Vardnili_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khrami1_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khrami2_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Jinvali_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Dzevruli_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Shaori_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khudoni_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Namakhvani_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Nenskra_Reservoir,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Vartsikhe_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Shuakhevi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Lajanuri_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Dariali_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Paravani_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Gumati_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Rioni_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khelvachauri_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Zahesi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Mestiachala2_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khadori_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Kirnati_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_OldEnergy_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Chitakhevi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Mestiachala1_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Larsi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Ortachala_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Atshesi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Satskhene_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Tetrikhevi_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Bjuja_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Racha_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Bakhvi3_ROR,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_AGG_SmallHydro,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_HydroSHP_Com,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Memuli_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Sakaura_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Gebi_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Majieti_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_PlatoBorjomi_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Dzegvi_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Mleta_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Barisakho_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Natanebi2_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Bakhvi2a_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Kvesheti_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Sakuneti_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_RioniChanchakhi_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Metekhi1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_MtkvariCascade4_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Mulkhura_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Akavreta_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Zeskho1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Jonouli2_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Lentekhi_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Stori2_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khaishura1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Bakhvi2b_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khrami7_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Tskhenistskali1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Alpana_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khobi1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Khaishura2_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_Oni1_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_AGG_SmallHydro_Cand,4,Q1,Q4,Hydro output of 2020: availability times the capacity factor of 2020 over that of the central
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_TekhuraCascade_Cand,5,row,Q4,"Unit on the default availability of its zone: row added, default times the same ratio"
+GeorgiaDry2020,pAvailabilityCustom_v6_hydro2020.csv,Georgia,Georgia_IltoAlazani_Cand,5,row,Q4,"Unit on the default availability of its zone: row added, default times the same ratio"
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,Georgia,Georgia_Wind_Cand,1,Capacity,Capacity,"Potential of the Georgian candidate held to the GSE pipeline of 2035, less the fleet"
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,Georgia,Georgia_PV_Cand,1,Capacity,Capacity,"Potential of the Georgian candidate held to the GSE pipeline of 2035, less the fleet"
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,AzerbaijanMain,AzerbaijanMain_PV_Generic,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,AzerbaijanMain,AzerbaijanMain_Wind_Generic,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,Nakhchivan,Nakhchivan_PV_Generic,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,Nakhchivan,Nakhchivan_Wind_Generic,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,AzerbaijanMain,AzerbaijanMain_Offshore_Generic,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,GEC_AZ,GEC_AZ_PV_Hub,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,GEC_AZ,GEC_AZ_OnshoreWind_Hub,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,GEC_AZ,GEC_AZ_OffshoreWind_Hub,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,GEC_GE,GEC_GE_PV_Hub,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+CaucasusRESigned,pGenDataInput_v6_s5_cauresigned.csv,GEC_GE,GEC_GE_OnshoreWind_Hub,1,Status,Status,Generic or hub candidate closed: Azerbaijan keeps its signed solar and wind projects
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Generic Solar Fixed,1,Capacity,Capacity,Potential of the generic candidate less its committed steps: the potential is held once
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Romania_PV_Plan_2032,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Romania_PV_Plan_2036,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Romania_PV_Plan_2040,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Generic Onshore WindHigh2_2027,1,Capacity,Capacity,Potential of the generic candidate less its committed steps: the potential is held once
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Romania,Romania_OnshoreWind_Plan_2030,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Bulgaria,Generic_Solar_Bulgaria,1,Capacity,Capacity,Potential of the generic candidate less its committed steps: the potential is held once
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Bulgaria,Bulgaria_PV_Plan_2032,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Bulgaria,Bulgaria_PV_Plan_2036,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Bulgaria,Bulgaria_PV_Plan_2040,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Hungary,Generic_Solar_Hungary,1,Capacity,Capacity,Potential of the generic candidate less its committed steps: the potential is held once
+EUREPlan,pGenDataInput_v6_s5_eureplan.csv,Hungary,Hungary_PV_Plan_2030,1,row,row,Committed step of the national plan: the plan of the year less what is there without it
+EUREPlan,pAvailabilityCustom_v6_eureplan.csv,Romania,Romania_PV_Plan_2032,1,row,row,Availability row of a committed step: the cells of its generic candidate
+EUREPlan,pAvailabilityCustom_v6_eureplan.csv,Romania,Romania_PV_Plan_2036,1,row,row,Availability row of a committed step: the cells of its generic candidate
+EUREPlan,pAvailabilityCustom_v6_eureplan.csv,Romania,Romania_PV_Plan_2040,1,row,row,Availability row of a committed step: the cells of its generic candidate
+EUREPlan,pAvailabilityCustom_v6_eureplan.csv,Romania,Romania_OnshoreWind_Plan_2030,1,row,row,Availability row of a committed step: the cells of its generic candidate

@@ -1,0 +1,5 @@
+sensitivity,country,real_year,output_gwh,capacity_mw,hours,capacity_factor_real,capacity_factor_central,ratio,existing_fleet_mw,existing_central_gwh,existing_case_gwh
+TurkiyeDry2021,Turkiye,2021,55926.8,31492.6,8760,0.202725,0.235584,0.860522,32203.0,66457.7,57188.3
+TurkiyeDry2021,Georgia,2021,10182.1,3352.5,8760,0.346704,0.398083,0.870936,3352.5,11691.0,10182.1
+GeorgiaDry2020,Turkiye,2020,78094.4,30983.9,8784,0.286940,0.235584,1.217997,32203.0,66457.7,80945.3
+GeorgiaDry2020,Georgia,2020,8248.2,3352.5,8784,0.280087,0.398083,0.703590,3352.5,11691.0,8225.7
