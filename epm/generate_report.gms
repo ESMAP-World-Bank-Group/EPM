@@ -990,6 +990,8 @@ pEnergyBalanceCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pEnergyBalanceH2(z,ds
 
 pDispatchPlant(z, y, q, d, g, t, "Generation")$zgmap(z, g) = sum(gfmap(g, f), vPwrOut.l(g, f, q, d, t, y));
 pDispatchPlant(z, y, q, d, g, t, "Reserve")$zgmap(z, g) = vSpinningReserve.l(g, q, d, t, y);
+pDispatchPlant(z, y, q, d, st, t, "Charge")$zgmap(z, st) = vStorInj.l(st, q, d, t, y);
+pDispatchPlant(z, y, q, d, st, t, "StateOfCharge")$zgmap(z, st) = vStorage.l(st, q, d, t, y);
 
 pDispatchFuel(z, y, q, d, f, t) = sum((gzmap(g, z), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
 pDispatchTechFuel(z, y, q, d, tech, f, t) =

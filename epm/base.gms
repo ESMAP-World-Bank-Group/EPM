@@ -491,9 +491,11 @@ Equations
    eStorageFixedDuration(g,y)          'Fixed storage duration when specified'
    eStorageHourTransition
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
-   eStorageSOCInitDispatch
-   eStorageSOCFinalDispatch
+   eStorageSOCInitDispatch(g,q,d,t,y) 'Dispatch: SOC balance in the first hour of the year from the initial SOC'
+   eStorageSOCFinalDispatch(g,q,d,t,y) 'Dispatch: SOC in the last hour of the year back to the initial share'
    eStateOfChargeInitRep
+   eStorInverterLimit(g,q,d,t,y)  'Storage charge and discharge share one inverter'
+   eStorEnergyHeadroom(g,q,d,t,y) 'Storage discharge + reserve backed by energy stored at the start of the hour'
 
 * ------------------------------
 * CSP-specific and storage capacity evolution
@@ -1049,12 +1051,15 @@ eChargeRampUpLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApply
 eNetChargeBalance(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
-* Anchors the first hour of the representative-day cycle to the configured capacity share (dispatch mode only).
-eStorageSOCInitDispatch(st,g,q,d,t,y)$((fDispatchMode and sFirstHour(t) and sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+* Dispatch mode: the first hour of the year starts from the configured capacity share and applies that hour's
+* charge and discharge. Only the first season is anchored; later seasons follow the chronology through eStorageDayWrap.
+eStorageSOCInitDispatch(st,q,d,t,y)$((fDispatchMode and ord(q) = 1 and sFirstHour(t) and sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare
+      + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
+      - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
-* Forces the last hour of the cycle to return to the same capacity share, ensuring the wrap-around matches the initial value (dispatch mode only).
-eStorageSOCFinalDispatch(st,q,d,t,y)$((fDispatchMode and sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
+* Dispatch mode: the last hour of the year returns to the same capacity share.
+eStorageSOCFinalDispatch(st,q,d,t,y)$((fDispatchMode and ord(q) = card(q) and sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
 
 * Representative-day mode: enforce SOC recursion on the first hour without cross-day anchoring.
@@ -1076,6 +1081,19 @@ eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour
 * Ensures SOC level can cover spinning reserve
 eSOCSupportsReserve(st,q,d,t,y)$((fEnableStorage) and FD(q,d,t))..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
+
+* Charging and discharging share one inverter: charge + discharge <= power capacity
+eStorInverterLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
+   sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorInj(st,q,d,t,y) =l= vCap(st,y);
+
+* Discharge + reserve must be backed by the energy stored at the start of the hour (no credit for charging in the
+* same hour). Start-of-hour SOC = SOC of the previous hour (t-1, or AT-1 for the first hour of a day in dispatch
+* mode); first hour of the year in dispatch mode = initial SOC. Representative-day first hours are not covered.
+eStorEnergyHeadroom(st,q,d,t,y)$(fEnableStorage and FD(q,d,t) and (fDispatchMode or not sFirstHour(t)))..
+   sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vSpinningReserve(st,q,d,t,y)
+      =l= vStorage(st,q,d,t-1,y)$(not sFirstHour(t))
+        + sum((AT,q2,d2,t2)$(mapTS(q,d,t,AT) and mapTS(q2,d2,t2,AT-1)), vStorage(st,q2,d2,t2,y))$sFirstHour(t)
+        + (vCapStor(st,y)*pStorageInitShare)$(sFirstHour(t) and sFirstDay(d) and ord(q) = 1);
 
 * In dispatch mode, the day-wrap constraint ties each day’s first hour to AT-1, preventing artificial SOC jumps.
 * In representative-day mode the wrap is skipped, avoiding cross-day links that do not exist in that chronology.
@@ -1302,6 +1320,8 @@ Model PA /
 
 
    eSOCSupportsReserve
+   eStorInverterLimit
+   eStorEnergyHeadroom
 
    eCSPStorageCapacityLimit
    eCSPStorageInjectionLimit
