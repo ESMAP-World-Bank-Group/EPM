@@ -415,6 +415,91 @@ is complete is skipped. A scenario that fails does not stop the others;
 Dates that sit off the five-year grid move back on the two-year grid: EWTC 2034, first TRIPP segment
 2028, Kozloduy 8 in 2038.
 
+## Screen S62: sensitivities on the v6.2 key cases, five-year grid, server
+
+A screen of 19 sensitivities on the four v6.2 key cases (Base, BSSC, GECO, Onland2R), to see under
+which assumptions the net value of the lines changes sign: 76 runs, 28 on the External scope and 48
+on the Internal scope. Each sensitivity has its own Base, so a gain is always read against the Base
+of the same sensitivity. No v6.2 file was changed: the screen adds 28 input files and two scenario
+files, `scenarios_v62_screen1.csv` (44 columns) and `scenarios_v62_screen2.csv` (32 columns). A
+column reads `<Scope>_<Case>_<Sensitivity>_v62_5y`.
+
+Refresh of "Before a batch" first. After `dvc pull -r r2` the pointer
+`epm/input/data_blacksea.dvc` reads `0dcbfe89701b7b1b18b3ed0cd2cdd010.dir`, 534 files, and
+`dvc status` says the folder is up to date. That pointer (commit `0ab576fa`) holds the 30 files of
+the screen and the 13 files of the first lot of missing Int five-year rows
+(`scenarios_v62_lot1.csv`).
+
+| Lot | Scope | Runs | Sensitivities | Scenario file | Time by three |
+|---|---|---|---|---|---|
+| A1 | Ext | 4 | EUCBAM | screen1 | about 20 min |
+| A2 | Ext | 24 | EU24NT, EU24DE, EU24GA, EU24NTCBAM, EU26LEV, EU26HEV | screen2 | about 1 h 10 |
+| C2 | Int | 8 | EU24NT, GeorgiaPolicy | screen2 | about 40 min |
+| B | Int | 12 | ArmeniaGasV61, NoCTN, RussiaOpen | screen1 | about 55 min |
+| C1 | Int | 12 | EUDataCentres, EUNuclearDelay, EUREPlan | screen1 | about 55 min |
+| D | Int | 16 | WorldGasHigh, WorldGasLow, CaucasusGasNetback, CaucasusRESigned | screen1 | about 1 h 10 |
+
+The times are estimates, about five hours in all: an Int run takes 10.5 to 10.7 minutes alone and
+about 13 minutes when four run side by side (free memory then falls to 5 GB of 94, hence three at a
+time); an Ext run takes 7.6 minutes alone and has not been measured side by side, lot A1 is that
+measure. The price lots go first, so that they exist if the night is cut short.
+
+One script launches the six lots one after the other, each lot being one call of
+`tools/run_parallel.py`. From the repository root, inside `tmux` or `screen`, with the conda
+environment of the model active:
+
+```
+bash tools/run_screen_v62.sh --list
+bash tools/run_screen_v62.sh
+```
+
+The first line runs nothing: it prints the six lots and 76 lines `to run`. Before anything runs, the
+script checks that every column is in its scenario file and stops if the input folder does not hold
+the screen. `run_parallel.py` refuses to start while a GAMS process is alive. Lots can be named, in
+the order wanted: `bash tools/run_screen_v62.sh A1 C2`. `SCREEN_JOBS` (default 3) sets the scenarios
+alive at the same time. The script ends with exit code 1 when a lot is incomplete: to chain another
+batch after the screen, use `;` and not `&&`, as done on 2026-11-27 for the lot of
+`scenarios_v62_lot1.csv`.
+
+Outputs: one zip per scenario, `epm/output/v62s5_<scenario>_20261127.zip`, then one zip per lot,
+`epm/output/v62s5_lot<lot>_20261127.zip`, which holds the scenario zips of the lot (six files to
+copy to the laptop, about 3 GB in all). Logs and `status.csv`, one row per attempt, are in
+`epm/output/_parallel/v62s5_20261127`. The last lines give the count of zips per lot. The same
+command can be relaunched after an interruption: a scenario whose zip is complete is skipped, a
+scenario that fails does not stop the others, and a lot that fails does not stop the next lot. Keep
+the date of the first launch (`SCREEN_DATE`, default 20261127) when relaunching on another day, or
+the finished runs start again.
+
+Checked before the transport, on the laptop: each of the 76 columns was compiled by GAMS with
+`action=c`, which reads every input file of the column, runs the domain checks and the two input
+scripts, and stops before the solve (76 of 76 without error); each new file was rebuilt or compared
+cell by cell by a second script that never read the first.
+
+Points to know when reading the runs:
+
+- The TYNDP 2024 prices (EU24NT, EU24DE, EU24GA, EU24NTCBAM) are read as EUR 2022, the convention of
+  the repository. The commodity workbook of that edition says "Currency 2021 EUR": on that reading
+  every TYNDP 2024 price and levy is 8.4 % higher.
+- The hourly tables of TYNDP 2024 are shifted by one hour, capped at 300 EUR 2024 before the scaling
+  of each quarter to the source mean and floored at 0.01 USD, as in the v6 central files. NT is flat
+  after 2040; DE and GA follow their 2050 table. Two timing tests of the independent check lean to
+  no shift for the 2024 tables without settling it: the hourly shape moves, annual and quarter
+  means do not.
+- Int EU24NT changes the nine border prices and the gas and carbon rows of Romania, Bulgaria and
+  Hungary. The Hungarian diesel row keeps the TYNDP 2026 oil price. The gas commodity is the
+  Natural Gas row of the TYNDP 2024 workbook, not the blend that the workbook names for
+  simulations, with the carbon price on all the gas: the delivered cost comes to 14.8 and 16.4 USD
+  per MMBtu in 2030 and 2040, against 14.7 and 16.9 behind the border prices. The levels are
+  coherent, but the row is not "the TYNDP 2024 gas price".
+- EUNuclearDelay moves `Bulgaria_Kozloduy_8` to 2044, after the last model year, so the unit is
+  absent on this grid.
+- CaucasusRESigned closes the five hub generators of the GEC zones, so in the GECO column the cable
+  carries mainland power only.
+- GeorgiaPolicy forces the Georgian fleet to 6,378, 9,033 and 10,542 MW in 2030, 2032 and 2036.
+  Wind and solar candidates are closed until 2036; the gas and battery candidates stay open from
+  2030 as in the Baseline. Khudoni, Namakhvani and Nenskra keep the availability rows of the
+  Baseline, which give 4,375 GWh a year against 4,200 in the plan.
+
 ## After a batch
 
 One explorer run per grid, never two grids in one folder. The merge tool does not expand `*` itself:
